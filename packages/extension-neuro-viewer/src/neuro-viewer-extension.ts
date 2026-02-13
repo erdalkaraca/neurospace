@@ -61,7 +61,10 @@ export class KNeuroViewer extends KPart {
   public isEditor = true;
 
   protected doClose() {
-    this.nv = undefined;
+    if (this.nv) {
+      this.nv.cleanup();
+      this.nv = undefined;
+    }
     this.input = undefined;
     this.error = undefined;
   }
