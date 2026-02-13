@@ -1,0 +1,24 @@
+{
+  "name": "@neurospace/neurospace-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Neurospace app entrypoint",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@kispace-io/core": "^0.8.2",
+    "@kispace-io/extension-utils": "^0.8.2",
+    "@kispace-io/extension-command-palette": "^0.8.2",
+    "@kispace-io/extension-python-runtime": "^0.8.2",
+    "@neurospace/extension-neuro-viewer": "*",
+    "lit": "^3.2.1",
+    "pace-js": "^1.2.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}

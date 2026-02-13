@@ -1,0 +1,26 @@
+{
+  "name": "@neurospace/extension-neuro-viewer",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@kispace-io/core": "^0.8.2",
+    "@niivue/niivue": "^0.67.0",
+    "@niivue/dicom-loader": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "vite build"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@neurospace/root",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Neuroimaging viewer built on Appspace",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run build -w @neurospace/extension-neuro-viewer && npm run dev -w @neurospace/neurospace-app",
+    "build": "npm run build -w @neurospace/extension-neuro-viewer && npm run build -w @neurospace/neurospace-app"
+  },
+  "license": "MIT"
+}
