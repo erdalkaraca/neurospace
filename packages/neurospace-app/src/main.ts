@@ -19,6 +19,7 @@ import '@kispace-io/extension-command-palette';
 import '@kispace-io/extension-memory-usage';
 import '@kispace-io/extension-settings-tree';
 import '@neurospace/extension-neuro-viewer';
+import '@neurospace/extension-snirf-viewer';
 
 appLoaderService.registerApp(
   {
@@ -32,6 +33,7 @@ appLoaderService.registerApp(
       '@kispace-io/extension-memory-usage',
       '@kispace-io/extension-settings-tree',
       '@neurospace/extension-neuro-viewer',
+      '@neurospace/extension-snirf-viewer',
     ],
   },
   { autoStart: true }

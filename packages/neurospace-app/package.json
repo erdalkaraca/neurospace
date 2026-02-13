@@ -16,6 +16,7 @@
     "@kispace-io/extension-settings-tree": "^0.8.2",
     "@kispace-io/extension-python-runtime": "^0.8.2",
     "@neurospace/extension-neuro-viewer": "*",
+    "@neurospace/extension-snirf-viewer": "*",
     "lit": "^3.2.1",
     "pace-js": "^1.2.4"
   },

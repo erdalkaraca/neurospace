@@ -8,8 +8,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run build -w @neurospace/extension-neuro-viewer && npm run dev -w @neurospace/neurospace-app",
-    "build": "npm run build -w @neurospace/extension-neuro-viewer && npm run build -w @neurospace/neurospace-app"
+    "dev": "npm run build -w @neurospace/extension-neuro-viewer && npm run build -w @neurospace/extension-snirf-viewer && npm run dev -w @neurospace/neurospace-app",
+    "build": "npm run build -w @neurospace/extension-neuro-viewer && npm run build -w @neurospace/extension-snirf-viewer && npm run build -w @neurospace/neurospace-app"
   },
   "license": "MIT"
 }

@@ -1,0 +1,7 @@
+{
+  "namespace": "extensions",
+  "en": {
+    "EXT_SNIRFVIEWER_NAME": "SNIRF Viewer",
+    "EXT_SNIRFVIEWER_DESC": "View fNIRS data in SNIRF format"
+  }
+}

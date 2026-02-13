@@ -4,19 +4,19 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const extensionDir = path.resolve(__dirname, '../extension-neuro-viewer');
 
 export default defineConfig({
   root: __dirname,
   base: process.env.VITE_BASE_PATH || '/',
   resolve: {
     alias: {
-      '@neurospace/extension-neuro-viewer': path.resolve(extensionDir, 'dist/index.js'),
+      '@neurospace/extension-neuro-viewer': path.resolve(__dirname, '../extension-neuro-viewer/dist/index.js'),
+      '@neurospace/extension-snirf-viewer': path.resolve(__dirname, '../extension-snirf-viewer/dist/index.js'),
     },
   },
   optimizeDeps: {
     include: ['@kispace-io/core'],
-    exclude: ['@neurospace/extension-neuro-viewer'],
+    exclude: ['@neurospace/extension-neuro-viewer', '@neurospace/extension-snirf-viewer'],
   },
   esbuild: {
     tsconfigRaw: {

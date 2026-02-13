@@ -11,7 +11,8 @@ Built on the [Appspace](https://github.com/kispace-io/core) framework, Neurospac
 ## Current Capabilities
 
 - **Neuroimaging viewer**: Displays NIfTI, DICOM, NRRD, and related formats via an editor integrated with the workspace file browser
-- **Formats**: Volumes (NIfTI .nii/.nii.gz, DICOM .dcm, NRRD, MGH/MGZ, MRtrix MIF), powered by [NiiVue](https://github.com/niivue/niivue) (WebGL2, TypeScript)
+- **SNIRF viewer**: Displays fNIRS data in SNIRF format (.snirf) with time-series charts and probe layout
+- **Formats**: Volumes (NIfTI .nii/.nii.gz, DICOM .dcm, NRRD, MGH/MGZ, MRtrix MIF), powered by [NiiVue](https://github.com/niivue/niivue) (WebGL2, TypeScript); fNIRS (SNIRF), powered by [jsfive](https://github.com/usnistgov/jsfive) (HDF5)
 
 ## Roadmap
 
@@ -27,12 +28,13 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173, connect a workspace (folder with neuroimaging files), and open a `.nii.gz` or `.dcm` file from the file browser.
+Open http://localhost:5173, connect a workspace (folder with neuroimaging or fNIRS files), and open a `.nii.gz`, `.dcm`, or `.snirf` file from the file browser.
 
 ## Project Structure
 
 - `packages/neurospace-app` – App entrypoint and shell
-- `packages/extension-neuro-viewer` – Neuroimaging editor extension
+- `packages/extension-neuro-viewer` – Neuroimaging editor extension (NIfTI, DICOM, etc.)
+- `packages/extension-snirf-viewer` – SNIRF/fNIRS viewer extension
 
 ## Dependencies
 
