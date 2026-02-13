@@ -4,6 +4,8 @@
 
 Built on the [Appspace](https://github.com/kispace-io/core) framework, Neurospace currently provides an interactive neuroimaging viewer as its foundation. Over time, it will expand into tools for spiking neural networks, cognitive architectures, and simulation workflows that bridge neuroscience and AI.
 
+![NIfTI viewer](docs/screenshots/nifti-viewer.png)
+
 ## Current Capabilities
 
 - **Neuroimaging viewer**: Displays NIfTI, DICOM, NRRD, and related formats via an editor integrated with the workspace file browser
