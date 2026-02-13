@@ -12,6 +12,8 @@
     "@kispace-io/core": "^0.8.2",
     "@kispace-io/extension-utils": "^0.8.2",
     "@kispace-io/extension-command-palette": "^0.8.2",
+    "@kispace-io/extension-memory-usage": "^0.8.2",
+    "@kispace-io/extension-settings-tree": "^0.8.2",
     "@kispace-io/extension-python-runtime": "^0.8.2",
     "@neurospace/extension-neuro-viewer": "*",
     "lit": "^3.2.1",

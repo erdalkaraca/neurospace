@@ -6,6 +6,8 @@ Built on the [Appspace](https://github.com/kispace-io/core) framework, Neurospac
 
 ![NIfTI viewer](docs/screenshots/nifti-viewer.png)
 
+![NIfTI viewer (alternate view)](docs/screenshots/nifti-viewer-2.png)
+
 ## Current Capabilities
 
 - **Neuroimaging viewer**: Displays NIfTI, DICOM, NRRD, and related formats via an editor integrated with the workspace file browser

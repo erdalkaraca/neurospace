@@ -16,6 +16,8 @@ applyAppHostConfig({
 
 import '@kispace-io/extension-utils';
 import '@kispace-io/extension-command-palette';
+import '@kispace-io/extension-memory-usage';
+import '@kispace-io/extension-settings-tree';
 import '@neurospace/extension-neuro-viewer';
 
 appLoaderService.registerApp(
@@ -27,6 +29,8 @@ appLoaderService.registerApp(
     extensions: [
       '@kispace-io/extension-utils',
       '@kispace-io/extension-command-palette',
+      '@kispace-io/extension-memory-usage',
+      '@kispace-io/extension-settings-tree',
       '@neurospace/extension-neuro-viewer',
     ],
   },
