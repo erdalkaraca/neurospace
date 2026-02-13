@@ -1,6 +1,6 @@
 import { customElement, property, state } from 'lit/decorators.js';
 import { KPart } from '@kispace-io/core';
-import { css, html } from 'lit';
+import { css, html, nothing } from 'lit';
 import { EditorInput, editorRegistry, File } from '@kispace-io/core';
 import { Niivue } from '@niivue/niivue';
 
@@ -50,6 +50,12 @@ export class KNeuroViewer extends KPart {
   @state()
   private loading = true;
 
+  @state()
+  private orientationTextVisible = true;
+
+  @state()
+  private cornerOrientationText = false;
+
   private nv?: Niivue;
 
   public isEditor = true;
@@ -58,6 +64,44 @@ export class KNeuroViewer extends KPart {
     this.nv = undefined;
     this.input = undefined;
     this.error = undefined;
+  }
+
+  private setOrientationTextVisible(visible: boolean) {
+    this.orientationTextVisible = visible;
+    this.nv?.setIsOrientationTextVisible(visible);
+    this.updateToolbar();
+  }
+
+  private setCornerOrientationText(corner: boolean) {
+    this.cornerOrientationText = corner;
+    this.nv?.setCornerOrientationText(corner);
+    this.updateToolbar();
+  }
+
+  protected renderToolbar() {
+    if (!this.nv || this.loading || this.error) return nothing;
+    return html`
+      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <wa-checkbox
+          size="small"
+          ?checked=${this.orientationTextVisible}
+          @change=${(e: Event) =>
+            this.setOrientationTextVisible((e.target as unknown as { checked: boolean }).checked)}
+          title="Show L/R, A/P orientation labels on slices"
+        >
+          Orientation labels
+        </wa-checkbox>
+        <wa-checkbox
+          size="small"
+          ?checked=${this.cornerOrientationText}
+          @change=${(e: Event) =>
+            this.setCornerOrientationText((e.target as unknown as { checked: boolean }).checked)}
+          title="Place labels in corner instead of along axes"
+        >
+          Corner labels
+        </wa-checkbox>
+      </div>
+    `;
   }
 
   protected async doInitUI() {
@@ -86,6 +130,7 @@ export class KNeuroViewer extends KPart {
 
       const browserFile = (await file.getContents({ blob: true })) as globalThis.File;
       await this.nv.loadFromFile(browserFile);
+      this.updateToolbar();
     } catch (err) {
       this.error = err instanceof Error ? err.message : 'Failed to load volume';
     } finally {
