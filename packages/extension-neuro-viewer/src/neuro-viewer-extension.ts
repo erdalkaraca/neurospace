@@ -4,6 +4,16 @@ import { css, html, nothing } from 'lit';
 import { EditorInput, editorRegistry, File } from '@kispace-io/core';
 import { Niivue } from '@niivue/niivue';
 
+interface NeuroViewerPreferences {
+  orientationTextVisible: boolean;
+  cornerOrientationText: boolean;
+}
+
+const DEFAULT_PREFERENCES: NeuroViewerPreferences = {
+  orientationTextVisible: true,
+  cornerOrientationText: false,
+};
+
 const SUPPORTED_EXTENSIONS = [
   '.nii',
   '.nii.gz',
@@ -33,7 +43,7 @@ editorRegistry.registerEditorInputHandler({
       state: {},
     } as EditorInput;
     editorInput.widgetFactory = () =>
-      html`<k-neuro-viewer .input=${editorInput}></k-neuro-viewer>`;
+      html`<k-neuro-viewer id="neuro-viewer" .input=${editorInput}></k-neuro-viewer>`;
     return editorInput;
   },
   ranking: 1000,
@@ -69,15 +79,31 @@ export class KNeuroViewer extends KPart {
     this.error = undefined;
   }
 
+  private async loadPreferences(): Promise<NeuroViewerPreferences> {
+    const stored = (await this.getDialogSetting()) as
+      | Partial<NeuroViewerPreferences>
+      | undefined;
+    return { ...DEFAULT_PREFERENCES, ...stored };
+  }
+
+  private persistPreferences() {
+    this.setDialogSetting({
+      orientationTextVisible: this.orientationTextVisible,
+      cornerOrientationText: this.cornerOrientationText,
+    }).catch(() => {});
+  }
+
   private setOrientationTextVisible(visible: boolean) {
     this.orientationTextVisible = visible;
     this.nv?.setIsOrientationTextVisible(visible);
+    this.persistPreferences();
     this.updateToolbar();
   }
 
   private setCornerOrientationText(corner: boolean) {
     this.cornerOrientationText = corner;
     this.nv?.setCornerOrientationText(corner);
+    this.persistPreferences();
     this.updateToolbar();
   }
 
@@ -108,6 +134,9 @@ export class KNeuroViewer extends KPart {
   }
 
   protected async doInitUI() {
+    const prefs = await this.loadPreferences();
+    this.orientationTextVisible = prefs.orientationTextVisible;
+    this.cornerOrientationText = prefs.cornerOrientationText;
     await this.loadVolume();
   }
 
@@ -133,6 +162,9 @@ export class KNeuroViewer extends KPart {
 
       const browserFile = (await file.getContents({ blob: true })) as globalThis.File;
       await this.nv.loadFromFile(browserFile);
+
+      this.nv.setIsOrientationTextVisible(this.orientationTextVisible);
+      this.nv.setCornerOrientationText(this.cornerOrientationText);
       this.updateToolbar();
     } catch (err) {
       this.error = err instanceof Error ? err.message : 'Failed to load volume';
