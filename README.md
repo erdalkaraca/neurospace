@@ -21,6 +21,8 @@ Built on the [Appspace](https://github.com/kispace-io/core) framework, Neurospac
 ## Roadmap
 
 - Neuroimaging visualization (current)
+- **BOLD activation map overlays**: Load anatomical + statistical map (e.g. t/z-stat from FSL/SPM); warm/cool colormaps with thresholding (cal_min/max)
+- **EEG viewer**: Extend physiological-signal architecture (time series + spatial layout) to support EEG; EEG loader (EDF, BrainVision, EEGLAB); electrode layout
 - Neuromorphic model design and simulation
 - Cognitive architecture integration
 - Data-driven and theory-driven modeling workflows
