@@ -12,10 +12,13 @@ Built on the [Appspace](https://github.com/kispace-io/core) framework, Neurospac
 
 ![SNIRF viewer](docs/screenshots/snirf-viewer.png)
 
+![OpenNeuro downloader](docs/screenshots/openneuro-downloader.png)
+
 ## Current Capabilities
 
 - **Neuroimaging viewer**: Displays NIfTI, DICOM, NRRD, and related formats via an editor integrated with the workspace file browser
 - **SNIRF viewer**: Displays fNIRS data in SNIRF format (.snirf) with time-series charts and probe layout
+- **OpenNeuro downloads**: Download BIDS datasets from [OpenNeuro](https://openneuro.org) directly into the workspace with progress tracking
 - **Formats**: Volumes (NIfTI .nii/.nii.gz, DICOM .dcm, NRRD, MGH/MGZ, MRtrix MIF), powered by [NiiVue](https://github.com/niivue/niivue) (WebGL2, TypeScript); fNIRS (SNIRF), powered by [jsfive](https://github.com/usnistgov/jsfive) (HDF5)
 
 ## Roadmap

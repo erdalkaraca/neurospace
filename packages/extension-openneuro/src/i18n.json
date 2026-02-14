@@ -1,0 +1,16 @@
+{
+  "namespace": "extensions",
+  "en": {
+    "EXT_OPENNEURO_NAME": "OpenNeuro",
+    "EXT_OPENNEURO_DESC": "Download and validate OpenNeuro datasets",
+    "CREATE_OPENNEURO_DATASET": "OpenNeuro dataset",
+    "ENTER_DATASET_ID": "Enter OpenNeuro dataset ID (e.g. ds000001)",
+    "ENTER_VALIDATE_PATH": "Enter workspace path to dataset (optional)",
+    "FETCHING_FILE_LIST": "Fetching file list...",
+    "DOWNLOADING": "Downloading...",
+    "VALIDATING": "Validating...",
+    "VALIDATE_OK": "Validation complete: {ok} files OK",
+    "VALIDATE_MISMATCH": "Validation: {mismatch} size mismatch(es), {missing} missing",
+    "VALIDATE_SUMMARY": "OK: {ok}, Size mismatch: {mismatch}, Missing: {missing}"
+  }
+}
