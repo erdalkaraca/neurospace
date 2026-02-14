@@ -7,12 +7,23 @@ import { Niivue } from '@niivue/niivue';
 interface NeuroViewerPreferences {
   orientationTextVisible: boolean;
   cornerOrientationText: boolean;
+  boldColormap: string;
 }
 
 const DEFAULT_PREFERENCES: NeuroViewerPreferences = {
   orientationTextVisible: true,
   cornerOrientationText: false,
+  boldColormap: 'hot',
 };
+
+const BOLD_COLORMAPS = [
+  { value: 'warm', label: 'Warm (red–yellow)' },
+  { value: 'hot', label: 'Hot' },
+  { value: 'plasma', label: 'Plasma' },
+  { value: 'viridis', label: 'Viridis' },
+  { value: 'inferno', label: 'Inferno' },
+  { value: 'gray', label: 'Gray' },
+] as const;
 
 const SUPPORTED_EXTENSIONS = [
   '.nii',
@@ -66,17 +77,34 @@ export class KNeuroViewer extends KPart {
   @state()
   private cornerOrientationText = false;
 
+  @state()
+  private frameIndex = 0;
+
+  @state()
+  private nFrames = 0;
+
+  @state()
+  private isPlaying = false;
+
+  @state()
+  private colormap = 'hot';
+
+  private playInterval?: ReturnType<typeof setInterval>;
+
   private nv?: Niivue;
 
   public isEditor = true;
 
   protected doClose() {
+    this.stopPlayback();
     if (this.nv) {
       this.nv.cleanup();
       this.nv = undefined;
     }
     this.input = undefined;
     this.error = undefined;
+    this.nFrames = 0;
+    this.frameIndex = 0;
   }
 
   private async loadPreferences(): Promise<NeuroViewerPreferences> {
@@ -90,6 +118,7 @@ export class KNeuroViewer extends KPart {
     this.setDialogSetting({
       orientationTextVisible: this.orientationTextVisible,
       cornerOrientationText: this.cornerOrientationText,
+      boldColormap: this.colormap,
     }).catch(() => {});
   }
 
@@ -107,10 +136,120 @@ export class KNeuroViewer extends KPart {
     this.updateToolbar();
   }
 
+  private setFrame(index: number) {
+    const vol = this.nv?.volumes?.[0];
+    if (!vol || this.nFrames <= 1) return;
+    const clamped = Math.max(0, Math.min(this.nFrames - 1, index));
+    this.frameIndex = clamped;
+    this.nv?.setFrame4D(vol.id, clamped);
+    this.updateToolbar();
+  }
+
+  private togglePlayback() {
+    if (this.nFrames <= 1) return;
+    if (this.isPlaying) {
+      this.stopPlayback();
+      return;
+    }
+    this.isPlaying = true;
+    const fps = 2;
+    this.playInterval = setInterval(() => {
+      this.setFrame((this.frameIndex + 1) % this.nFrames);
+    }, 1000 / fps);
+    this.updateToolbar();
+  }
+
+  private stopPlayback() {
+    if (this.playInterval) {
+      clearInterval(this.playInterval);
+      this.playInterval = undefined;
+    }
+    this.isPlaying = false;
+    this.updateToolbar();
+  }
+
+  private setColormap(name: string) {
+    const vol = this.nv?.volumes?.[0];
+    if (!vol || this.nFrames <= 1) return;
+    this.colormap = name;
+    this.nv?.setColormap(vol.id, name);
+    this.persistPreferences();
+    this.updateToolbar();
+  }
+
   protected renderToolbar() {
     if (!this.nv || this.loading || this.error) return nothing;
     return html`
       <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        ${this.nFrames > 1
+          ? html`
+              <span style="font-size: 0.875rem; color: var(--wa-color-text-quiet);">
+                Frame
+              </span>
+              <input
+                type="range"
+                min="0"
+                max=${this.nFrames - 1}
+                value=${this.frameIndex}
+                @input=${(e: Event) =>
+                  this.setFrame(parseInt((e.target as HTMLInputElement).value, 10))}
+                style="width: 120px; cursor: pointer;"
+                title="Scrub through BOLD time series"
+              />
+              <span style="font-size: 0.75rem; color: var(--wa-color-text-quiet); min-width: 3em;">
+                ${this.frameIndex + 1} / ${this.nFrames}
+              </span>
+              <wa-button
+                type="button"
+                size="small"
+                appearance="outlined"
+                variant="neutral"
+                title="Previous frame"
+                @click=${() => this.setFrame(this.frameIndex - 1)}
+              >
+                <wa-icon name="chevron-left" label="Previous"></wa-icon>
+              </wa-button>
+              <wa-button
+                type="button"
+                size="small"
+                appearance="outlined"
+                variant="neutral"
+                title="Next frame"
+                @click=${() => this.setFrame(this.frameIndex + 1)}
+              >
+                <wa-icon name="chevron-right" label="Next"></wa-icon>
+              </wa-button>
+              <wa-button
+                type="button"
+                size="small"
+                appearance="${this.isPlaying ? 'filled' : 'outlined'}"
+                variant="neutral"
+                title="${this.isPlaying ? 'Pause' : 'Play'} BOLD animation"
+                @click=${() => this.togglePlayback()}
+              >
+                <wa-icon
+                  name="${this.isPlaying ? 'pause' : 'play'}"
+                  label="${this.isPlaying ? 'Pause' : 'Play'}"
+                ></wa-icon>
+              </wa-button>
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.875rem; color: var(--wa-color-text-quiet);">
+                  Colormap
+                </span>
+                <select
+                  .value=${this.colormap}
+                  @change=${(e: Event) =>
+                    this.setColormap((e.target as HTMLSelectElement).value)}
+                  style="font-size: 0.875rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: var(--wa-color-surface-default); color: var(--wa-color-text-default);"
+                >
+                  ${BOLD_COLORMAPS.map(
+                    (c) =>
+                      html`<option value=${c.value} ?selected=${c.value === this.colormap}>${c.label}</option>`
+                  )}
+                </select>
+              </label>
+            `
+          : null}
         <wa-checkbox
           size="small"
           ?checked=${this.orientationTextVisible}
@@ -137,6 +276,8 @@ export class KNeuroViewer extends KPart {
     const prefs = await this.loadPreferences();
     this.orientationTextVisible = prefs.orientationTextVisible;
     this.cornerOrientationText = prefs.cornerOrientationText;
+    this.colormap =
+      BOLD_COLORMAPS.some((c) => c.value === prefs.boldColormap) ? prefs.boldColormap : 'hot';
     await this.loadVolume();
   }
 
@@ -165,6 +306,19 @@ export class KNeuroViewer extends KPart {
 
       this.nv.setIsOrientationTextVisible(this.orientationTextVisible);
       this.nv.setCornerOrientationText(this.cornerOrientationText);
+
+      const vol = this.nv.volumes?.[0];
+      const nF = vol?.nFrame4D ?? 0;
+      this.nFrames = nF > 1 ? nF : 0;
+      this.frameIndex = 0;
+
+      if (this.nFrames > 1 && vol) {
+        this.nv.setColormap(vol.id, this.colormap);
+        this.nv.opts.isColorbar = true;
+        vol.colorbarVisible = true;
+        this.nv.drawScene();
+      }
+
       this.updateToolbar();
     } catch (err) {
       this.error = err instanceof Error ? err.message : 'Failed to load volume';
