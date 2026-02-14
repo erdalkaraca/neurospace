@@ -1,5 +1,5 @@
 {
-  "name": "@neurospace/extension-neuro-viewer",
+  "name": "@kispace-io/extension-neuro-viewer",
   "version": "0.0.0",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@neurospace/root",
+  "name": "@kispace-io/neurospace",
   "version": "0.0.0",
   "private": true,
   "description": "Neuroimaging viewer built on Appspace",
@@ -8,8 +8,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run build -w @neurospace/extension-neuro-viewer && npm run build -w @neurospace/extension-snirf-viewer && npm run dev -w @neurospace/neurospace-app",
-    "build": "npm run build -w @neurospace/extension-neuro-viewer && npm run build -w @neurospace/extension-snirf-viewer && npm run build -w @neurospace/neurospace-app"
+    "dev": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run dev -w @kispace-io/neurospace-app",
+    "build": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run build -w @kispace-io/neurospace-app"
   },
   "license": "MIT"
 }

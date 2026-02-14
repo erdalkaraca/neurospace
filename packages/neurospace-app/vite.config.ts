@@ -10,13 +10,14 @@ export default defineConfig({
   base: process.env.VITE_BASE_PATH || '/',
   resolve: {
     alias: {
-      '@neurospace/extension-neuro-viewer': path.resolve(__dirname, '../extension-neuro-viewer/dist/index.js'),
-      '@neurospace/extension-snirf-viewer': path.resolve(__dirname, '../extension-snirf-viewer/dist/index.js'),
+      '@kispace-io/extension-neuro-viewer': path.resolve(__dirname, '../extension-neuro-viewer/dist/index.js'),
+      '@kispace-io/extension-snirf-viewer': path.resolve(__dirname, '../extension-snirf-viewer/dist/index.js'),
+      '@kispace-io/extension-openneuro': path.resolve(__dirname, '../extension-openneuro/dist/index.js'),
     },
   },
   optimizeDeps: {
     include: ['@kispace-io/core'],
-    exclude: ['@neurospace/extension-neuro-viewer', '@neurospace/extension-snirf-viewer'],
+    exclude: ['@kispace-io/extension-neuro-viewer', '@kispace-io/extension-snirf-viewer', '@kispace-io/extension-openneuro'],
   },
   esbuild: {
     tsconfigRaw: {
