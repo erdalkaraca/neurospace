@@ -90,11 +90,6 @@ registerAll({
       });
     },
   },
-  contribution: {
-    target: 'filebrowser.connections',
-    label: 'Download from OpenNeuro',
-    icon: 'download',
-  },
 });
 
 contributionRegistry.registerContribution('filebrowser.create', {
@@ -187,10 +182,5 @@ registerAll({
         await infoDialog('Validation Complete', msg);
       });
     },
-  },
-  contribution: {
-    target: 'filebrowser.connections',
-    label: 'Validate OpenNeuro dataset',
-    icon: 'circle-check',
   },
 });

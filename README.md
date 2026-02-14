@@ -1,5 +1,7 @@
 # Neurospace
 
+**Live**: [neuro.kispace.de](https://neuro.kispace.de/)
+
 > **Vision**: Neurospace is evolving toward an application focused on **neuromorphic cognitive modeling**—a unified platform for building, visualizing, and analyzing brain-inspired computational models.
 
 Built on the [Appspace](https://github.com/kispace-io/core) framework, Neurospace currently provides an interactive neuroimaging viewer as its foundation. Over time, it will expand into tools for spiking neural networks, cognitive architectures, and simulation workflows that bridge neuroscience and AI.
