@@ -11,5 +11,18 @@
     "dev": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run dev -w @kispace-io/neurospace-app",
     "build": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run build -w @kispace-io/neurospace-app"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kispace-io/core": "^0.8.2",
+    "@kispace-io/extension-utils": "^0.8.2",
+    "@kispace-io/extension-command-palette": "^0.8.2",
+    "@kispace-io/extension-memory-usage": "^0.8.2",
+    "@kispace-io/extension-settings-tree": "^0.8.2",
+    "@kispace-io/extension-monaco-editor": "^0.8.2",
+    "@kispace-io/extension-python-runtime": "^0.8.2",
+    "@kispace-io/extension-md-editor": "^0.8.2",
+    "@kispace-io/extension-media-viewer": "^0.8.2",
+    "@kispace-io/extension-notebook": "^0.8.2",
+    "@kispace-io/extension-ai-system": "^0.8.2"
+  }
 }
