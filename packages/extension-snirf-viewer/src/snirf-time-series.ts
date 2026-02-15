@@ -1,5 +1,11 @@
-import { customElement, property } from 'lit/decorators.js';
-import { LitElement, css, html, nothing } from 'lit';
+import {
+  customElement,
+  property,
+  LitElement,
+  css,
+  html,
+  nothing,
+} from '@kispace-io/core/externals/lit';
 import type { SnirfDataBlock, SnirfProbe } from './types.js';
 import {
   resolveToken,

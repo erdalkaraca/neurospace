@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@kispace-io/core": "*",
@@ -23,7 +24,6 @@
     "@kispace-io/extension-neuro-viewer": "*",
     "@kispace-io/extension-snirf-viewer": "*",
     "@kispace-io/extension-openneuro": "*",
-    "lit": "^3.2.1",
     "pace-js": "^1.2.4"
   },
   "devDependencies": {

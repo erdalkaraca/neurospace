@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "dev": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run dev -w @kispace-io/neurospace-app",
-    "build": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run build -w @kispace-io/neurospace-app"
+    "build": "npm run build -w @kispace-io/extension-neuro-viewer && npm run build -w @kispace-io/extension-snirf-viewer && npm run build -w @kispace-io/extension-openneuro && npm run build -w @kispace-io/neurospace-app",
+    "preview": "npm run preview -w @kispace-io/neurospace-app"
   },
   "license": "MIT",
   "dependencies": {

@@ -1,6 +1,12 @@
-import { customElement, property, state } from 'lit/decorators.js';
 import { KPart } from '@kispace-io/core';
-import { css, html, nothing } from 'lit';
+import {
+  customElement,
+  property,
+  state,
+  css,
+  html,
+  nothing,
+} from '@kispace-io/core/externals/lit';
 import { EditorInput, editorRegistry, File } from '@kispace-io/core';
 import { loadSnirf } from './snirf-loader.js';
 import type { SnirfData, SnirfDataBlock } from './types.js';
