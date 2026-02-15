@@ -1,0 +1,23 @@
+import{i as P,u as I,w as N,v as f,p as D,y as E,z,d as F,D as T,A as L,F as v}from"./main-D5lUwwMN.js";const k="https://openneuro.org/crn/graphql",C="https://s3.us-east-1.amazonaws.com/openneuro.org";async function R(s,a,t){const n=`
+    query($datasetId: ID!, $tag: String!, $tree: String) {
+      snapshot(datasetId: $datasetId, tag: $tag) {
+        files(tree: $tree) {
+          id
+          key
+          filename
+          size
+          directory
+          annexed
+        }
+      }
+    }
+  `,o={datasetId:s,tag:a};t&&(o.tree=t);const r=await fetch(k,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:n,variables:o})});if(!r.ok)throw new Error(`OpenNeuro API error: ${r.status} ${r.statusText}`);const e=await r.json();if(e.errors?.length)throw new Error(`OpenNeuro GraphQL error: ${JSON.stringify(e.errors)}`);return e.data?.snapshot?.files??[]}async function A(s){const t=await fetch(k,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:`
+    query($datasetId: ID!) {
+      dataset(id: $datasetId) {
+        id
+        latestSnapshot {
+          tag
+        }
+      }
+    }
+  `,variables:{datasetId:s}})});if(!t.ok)throw new Error(`OpenNeuro API error: ${t.status} ${t.statusText}`);const n=await t.json();if(n.errors?.length)throw new Error(`OpenNeuro GraphQL error: ${JSON.stringify(n.errors)}`);const o=n.data?.dataset?.latestSnapshot?.tag;if(!o)throw new Error(`No snapshots found for dataset ${s}`);return o}async function y(s,a,t,n=""){const o=await R(s,a,t),r=[];for(const e of o){const c=n?`${n}/${e.filename}`:e.filename;if(e.directory){const h=await y(s,a,e.key,c);r.push(...h)}else r.push({path:c,size:e.size})}return r}function q(s,a,t){const n=`${s}/${a}`;return`${C}/${n}`}async function x(s){const a=await fetch(s,{mode:"cors"});if(!a.ok)throw new Error(`Download failed: ${a.status} ${a.statusText}`);return a}async function O(s,a){const t=[],n=await s.listChildren(!1);for(const o of n){const r=o.getName(),e=a?`${a}/${r}`:r;if(o instanceof T){const c=await O(o,e);t.push(...c)}else o instanceof v&&t.push({path:e,file:o})}return t}const l=P("extensions");function m(s){if(s==null||typeof s!="string")return null;const a=s.trim().toLowerCase();return a.length>0?a:null}I({command:{id:"openneuro_download",name:"Download from OpenNeuro",description:"Download an OpenNeuro dataset to the workspace",parameters:[{name:"datasetId",description:"Dataset ID (e.g. ds000001)",required:!1}]},handler:{execute:async s=>{const a=await N.getWorkspace();if(!a){f("No workspace connected");return}let t=m(s.params?.datasetId);if(!t){const n=await D(l("ENTER_DATASET_ID"),"ds000001");t=m(n)}t&&await E.runAsync(`Download OpenNeuro ${t}`,async n=>{n.message=l("FETCHING_FILE_LIST");const o=await A(t),r=await y(t,o);if(r.length===0){f(`No files found for ${t}`);return}n.totalSteps=r.length,n.currentStep=0;for(let e=0;e<r.length;e++){const{path:c}=r[e];n.message=c,n.currentStep=e;const h=q(t,c),g=`${t}/${c}`;try{const i=await x(h),p=await a.getResource(g,{create:!0}),d=i.body;if(d&&typeof d.pipeTo=="function")await p.saveContents(d);else{const w=await i.blob();await p.saveContents(w)}}catch(i){throw f(`Download failed: ${c} - ${i instanceof Error?i.message:String(i)}`),i}}n.currentStep=r.length,z(`Downloaded ${r.length} files to ${t}`)})}}});F.registerContribution("filebrowser.create",{command:"openneuro_download",label:l("CREATE_OPENNEURO_DATASET"),icon:"database"});I({command:{id:"openneuro_validate",name:"Validate OpenNeuro dataset",description:"Validate workspace files against OpenNeuro (size check)",parameters:[{name:"datasetId",description:"Dataset ID",required:!1},{name:"path",description:"Workspace path to dataset folder",required:!1}]},handler:{execute:async s=>{const a=await N.getWorkspace();if(!a){f("No workspace connected");return}let t=m(s.params?.datasetId);if(!t){const e=await D(l("ENTER_DATASET_ID"),"ds000001");t=m(e)}if(!t)return;const o=s.params?.path?.trim()||t;let r;try{const e=await a.getResource(o);if(!e||!(e instanceof T)){f(`Path ${o} is not a directory`);return}r=e}catch{f(`Path ${o} not found`);return}await E.runAsync(`Validate OpenNeuro ${t}`,async e=>{e.message=l("FETCHING_FILE_LIST");const c=await A(t),h=await y(t,c),g=new Map(h.map(u=>[u.path,u.size]));e.message=l("VALIDATING");const i=await O(r,"");e.totalSteps=i.length,e.currentStep=0;let p=0,d=0,w=g.size;for(let u=0;u<i.length;u++){const{path:S,file:_}=i[u];e.message=S,e.currentStep=u;const $=g.get(S);if($===void 0)continue;w--,await _.size()===$?p++:d++}e.currentStep=i.length;const b=d>0||w>0?l("VALIDATE_SUMMARY",{ok:String(p),mismatch:String(d),missing:String(w)}):l("VALIDATE_OK",{ok:String(p)});await L("Validation Complete",b)})}}});
