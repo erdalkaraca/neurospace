@@ -10,7 +10,7 @@ import {
   i18n,
   File,
   Directory,
-} from '@kispace-io/core';
+} from '@eclipse-lyra/core/api';
 import {
   collectFilesRecursive,
   fetchLatestSnapshotTag,

@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "@kispace-io/core": "*",
+    "@eclipse-lyra/core": "*",
     "jsfive": "^0.4.0"
   },
   "devDependencies": {

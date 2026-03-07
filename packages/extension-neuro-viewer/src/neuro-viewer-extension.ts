@@ -1,4 +1,4 @@
-import { KPart } from '@kispace-io/core';
+import { LyraPart } from '@eclipse-lyra/core/api';
 import {
   customElement,
   property,
@@ -6,8 +6,8 @@ import {
   css,
   html,
   nothing,
-} from '@kispace-io/core/externals/lit';
-import { EditorInput, editorRegistry, File } from '@kispace-io/core';
+} from '@eclipse-lyra/core/externals/lit';
+import { EditorInput, editorRegistry, File } from '@eclipse-lyra/core/api';
 import { Niivue } from '@niivue/niivue';
 
 interface NeuroViewerPreferences {
@@ -47,27 +47,29 @@ const isSupportedNeuroFile = (file: File): boolean => {
 };
 
 editorRegistry.registerEditorInputHandler({
+  editorId: 'neuro-viewer',
+  label: 'Neuro viewer',
+  icon: 'brain',
   canHandle: (input): input is File =>
     input instanceof File && isSupportedNeuroFile(input),
   handle: async (input: File) => {
-    const editorInput = {
+    const editorInput: EditorInput = {
       title: input.getName(),
       data: input,
       key: input.getWorkspacePath(),
-      editorId: 'neuro-viewer',
       icon: 'brain',
       noOverflow: false,
       state: {},
-    } as EditorInput;
-    editorInput.widgetFactory = () =>
-      html`<k-neuro-viewer id="neuro-viewer" .input=${editorInput}></k-neuro-viewer>`;
+      widgetFactory: () =>
+        html`<k-neuro-viewer id="neuro-viewer" .input=${editorInput}></k-neuro-viewer>`,
+    };
     return editorInput;
   },
   ranking: 1000,
 });
 
 @customElement('k-neuro-viewer')
-export class KNeuroViewer extends KPart {
+export class KNeuroViewer extends LyraPart {
   @property({ attribute: false })
   public input?: EditorInput;
 

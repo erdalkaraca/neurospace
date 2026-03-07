@@ -1,4 +1,4 @@
-import { Directory, File } from '@kispace-io/core';
+import { Directory, File } from '@eclipse-lyra/core/api';
 import type { OpenNeuroFileEntry } from './types.js';
 
 const GRAPHQL_ENDPOINT = 'https://openneuro.org/crn/graphql';

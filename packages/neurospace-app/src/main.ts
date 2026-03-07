@@ -7,7 +7,7 @@ import {
   applyAppHostConfig,
   TOOLBAR_MAIN,
   type HTMLContribution,
-} from '@kispace-io/core';
+} from '@eclipse-lyra/core/api';
 import appPkg from '../package.json';
 
 applyAppHostConfig({
@@ -19,16 +19,16 @@ applyAppHostConfig({
   },
 });
 
-import '@kispace-io/extension-utils';
-import '@kispace-io/extension-command-palette';
-import '@kispace-io/extension-memory-usage';
-import '@kispace-io/extension-settings-tree';
-import '@kispace-io/extension-monaco-editor';
-import '@kispace-io/extension-python-runtime';
-import '@kispace-io/extension-md-editor';
-import '@kispace-io/extension-media-viewer';
-import '@kispace-io/extension-notebook';
-import '@kispace-io/extension-ai-system';
+import '@eclipse-lyra/extension-utils';
+import '@eclipse-lyra/extension-command-palette';
+import '@eclipse-lyra/extension-memory-usage';
+import '@eclipse-lyra/extension-settings-tree';
+import '@eclipse-lyra/extension-monaco-editor';
+import '@eclipse-lyra/extension-python-runtime';
+import '@eclipse-lyra/extension-md-editor';
+import '@eclipse-lyra/extension-media-viewer';
+import '@eclipse-lyra/extension-notebook';
+import '@eclipse-lyra/extension-ai-system';
 import '@kispace-io/extension-neuro-viewer';
 import '@kispace-io/extension-snirf-viewer';
 import '@kispace-io/extension-openneuro';
@@ -50,16 +50,16 @@ appLoaderService.registerApp(
       ],
     },
     extensions: [
-      '@kispace-io/extension-utils',
-      '@kispace-io/extension-command-palette',
-      '@kispace-io/extension-memory-usage',
-      '@kispace-io/extension-settings-tree',
-      '@kispace-io/extension-monaco-editor',
-      '@kispace-io/extension-python-runtime',
-      '@kispace-io/extension-md-editor',
-      '@kispace-io/extension-media-viewer',
-      '@kispace-io/extension-notebook',
-      '@kispace-io/extension-ai-system',
+      '@eclipse-lyra/extension-utils',
+      '@eclipse-lyra/extension-command-palette',
+      '@eclipse-lyra/extension-memory-usage',
+      '@eclipse-lyra/extension-settings-tree',
+      '@eclipse-lyra/extension-monaco-editor',
+      '@eclipse-lyra/extension-python-runtime',
+      '@eclipse-lyra/extension-md-editor',
+      '@eclipse-lyra/extension-media-viewer',
+      '@eclipse-lyra/extension-notebook',
+      '@eclipse-lyra/extension-ai-system',
       '@kispace-io/extension-neuro-viewer',
       '@kispace-io/extension-snirf-viewer',
       '@kispace-io/extension-openneuro',

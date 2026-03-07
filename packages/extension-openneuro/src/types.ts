@@ -19,5 +19,5 @@ export interface OpenNeuroSnapshot {
 
 export interface FileWithPath {
   path: string;
-  file: import('@kispace-io/core').File;
+  file: import('@eclipse-lyra/core/api').File;
 }

@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "@kispace-io/core": "*"
+    "@eclipse-lyra/core": "*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

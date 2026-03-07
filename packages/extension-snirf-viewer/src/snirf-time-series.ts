@@ -5,7 +5,7 @@ import {
   css,
   html,
   nothing,
-} from '@kispace-io/core/externals/lit';
+} from '@eclipse-lyra/core/externals/lit';
 import type { SnirfDataBlock, SnirfProbe } from './types.js';
 import {
   resolveToken,

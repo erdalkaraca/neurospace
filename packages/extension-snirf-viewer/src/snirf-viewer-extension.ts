@@ -1,4 +1,4 @@
-import { KPart } from '@kispace-io/core';
+import { LyraPart } from '@eclipse-lyra/core/api';
 import {
   customElement,
   property,
@@ -6,8 +6,8 @@ import {
   css,
   html,
   nothing,
-} from '@kispace-io/core/externals/lit';
-import { EditorInput, editorRegistry, File } from '@kispace-io/core';
+} from '@eclipse-lyra/core/externals/lit';
+import { EditorInput, editorRegistry, File } from '@eclipse-lyra/core/api';
 import { loadSnirf } from './snirf-loader.js';
 import type { SnirfData, SnirfDataBlock } from './types.js';
 import './snirf-time-series.js';
@@ -17,27 +17,29 @@ const isSnirfFile = (file: File): boolean =>
   file.getName().toLowerCase().endsWith('.snirf');
 
 editorRegistry.registerEditorInputHandler({
+  editorId: 'snirf-viewer',
+  label: 'SNIRF viewer',
+  icon: 'waveform',
   canHandle: (input): input is File =>
     input instanceof File && isSnirfFile(input),
   handle: async (input: File) => {
-    const editorInput = {
+    const editorInput: EditorInput = {
       title: input.getName(),
       data: input,
       key: input.getWorkspacePath(),
-      editorId: 'snirf-viewer',
       icon: 'waveform',
       noOverflow: false,
       state: {},
-    } as EditorInput;
-    editorInput.widgetFactory = () =>
-      html`<k-snirf-viewer id="snirf-viewer" .input=${editorInput}></k-snirf-viewer>`;
+      widgetFactory: () =>
+        html`<k-snirf-viewer id="snirf-viewer" .input=${editorInput}></k-snirf-viewer>`,
+    };
     return editorInput;
   },
   ranking: 1000,
 });
 
 @customElement('k-snirf-viewer')
-export class KSnirfViewer extends KPart {
+export class KSnirfViewer extends LyraPart {
   @property({ attribute: false })
   public input?: EditorInput;
 

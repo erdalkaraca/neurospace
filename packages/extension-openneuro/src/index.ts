@@ -3,7 +3,7 @@ import {
   i18nLazy,
   contributionRegistry,
   SYSTEM_LANGUAGE_BUNDLES,
-} from '@kispace-io/core';
+} from '@eclipse-lyra/core/api';
 import bundle from './i18n.json';
 import pkg from '../package.json';
 
