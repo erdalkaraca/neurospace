@@ -119,13 +119,8 @@ registerAll({
             const targetFile = (await workspace.getResource(targetPath, {
               create: true,
             })) as File;
-            const body = res.body;
-            if (body && typeof (body as any).pipeTo === 'function') {
-              await targetFile.saveContents(body);
-            } else {
-              const blob = await res.blob();
-              await targetFile.saveContents(blob);
-            }
+            const blob = await res.blob();
+            await targetFile.saveContents(blob);
           } catch (err) {
             toastError(`Download failed: ${relPath} - ${err instanceof Error ? err.message : String(err)}`);
             throw err;
