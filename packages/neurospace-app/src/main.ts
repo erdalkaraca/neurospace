@@ -24,17 +24,14 @@ import '@kispace-io/extension-openneuro';
 
 appLoaderService.registerApp(
   {
-    path: 'neurospace',
-    version: '0.0.0',
-    description: 'Neuromorphic cognitive modeling platform',
-    layoutId: 'standard',
+    layout: 'standard',
     contributions: {
       ui: [
         {
           target: TOOLBAR_MAIN,
           slot: 'start',
           label: 'Brand',
-          html: `<span style="margin-right: 1rem;"><span><nobr>🧠<i><b>neuro!</b></i><small>space</small></nobr></span></span>`,
+          component: `<span style="margin-right: 1rem;"><span><nobr>🧠<i><b>neuro!</b></i><small>space</small></nobr></span></span>`,
         } as HTMLContribution,
       ],
     },

@@ -309,7 +309,13 @@ export class KNeuroViewer extends LyraPart {
       this.nv = new Niivue();
       await this.nv.attachToCanvas(canvas);
 
-      const browserFile = (await file.getContents({ blob: true })) as globalThis.File;
+      const blob = (await file.getContents({ blob: true })) as Blob;
+      const browserFile =
+        blob instanceof globalThis.File
+          ? blob
+          : new globalThis.File([blob], file.getName(), {
+              type: blob.type || 'application/octet-stream',
+            });
       await this.nv.loadFromFile(browserFile);
 
       this.nv.setIsOrientationTextVisible(this.orientationTextVisible);
