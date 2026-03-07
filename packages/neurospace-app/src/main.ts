@@ -4,20 +4,9 @@ Pace.start();
 
 import {
   appLoaderService,
-  applyAppHostConfig,
   TOOLBAR_MAIN,
   type HTMLContribution,
 } from '@eclipse-lyra/core/api';
-import appPkg from '../package.json';
-
-applyAppHostConfig({
-  packageInfo: {
-    name: appPkg.name,
-    version: appPkg.version,
-    dependencies: appPkg.dependencies,
-    devDependencies: appPkg.devDependencies,
-  },
-});
 
 import '@eclipse-lyra/extension-utils';
 import '@eclipse-lyra/extension-command-palette';
@@ -35,10 +24,10 @@ import '@kispace-io/extension-openneuro';
 
 appLoaderService.registerApp(
   {
-    id: 'neurospace-app',
-    name: '🧠neuro!space',
+    path: 'neurospace',
     version: '0.0.0',
     description: 'Neuromorphic cognitive modeling platform',
+    layoutId: 'standard',
     contributions: {
       ui: [
         {
@@ -65,5 +54,5 @@ appLoaderService.registerApp(
       '@kispace-io/extension-openneuro',
     ],
   },
-  { autoStart: true }
+  { autoStart: true, hostConfig: true }
 );

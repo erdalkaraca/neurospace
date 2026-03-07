@@ -30,7 +30,7 @@ editorRegistry.registerEditorInputHandler({
       icon: 'waveform',
       noOverflow: false,
       state: {},
-      widgetFactory: () =>
+      component: () =>
         html`<k-snirf-viewer id="snirf-viewer" .input=${editorInput}></k-snirf-viewer>`,
     };
     return editorInput;

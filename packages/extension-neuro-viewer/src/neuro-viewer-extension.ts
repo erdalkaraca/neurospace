@@ -60,7 +60,7 @@ editorRegistry.registerEditorInputHandler({
       icon: 'brain',
       noOverflow: false,
       state: {},
-      widgetFactory: () =>
+      component: () =>
         html`<k-neuro-viewer id="neuro-viewer" .input=${editorInput}></k-neuro-viewer>`,
     };
     return editorInput;

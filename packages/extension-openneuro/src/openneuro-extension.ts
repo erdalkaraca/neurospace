@@ -10,6 +10,7 @@ import {
   i18n,
   File,
   Directory,
+  activeSelectionSignal,
 } from '@eclipse-lyra/core/api';
 import {
   collectFilesRecursive,
@@ -27,19 +28,62 @@ function normalizeDatasetId(raw: string | null | undefined): string | null {
   return id.length > 0 ? id : null;
 }
 
+function getTargetDirectoryFromSelection(): Directory | null {
+  const selection = activeSelectionSignal.get();
+  if (selection instanceof Directory) return selection;
+  if (selection instanceof File) return selection.getParent() ?? null;
+  return null;
+}
+
+function hasTargetDirectory(context: { params?: { path?: string } }): boolean {
+  const pathParam = context.params?.path;
+  if (pathParam != null && typeof pathParam === 'string' && pathParam.trim().length > 0) return true;
+  return getTargetDirectoryFromSelection() != null;
+}
+
 registerAll({
   command: {
     id: 'openneuro_download',
     name: 'Download from OpenNeuro',
     description: 'Download an OpenNeuro dataset to the workspace',
-    parameters: [{ name: 'datasetId', description: 'Dataset ID (e.g. ds000001)', required: false }],
+    parameters: [
+      { name: 'datasetId', description: 'Dataset ID (e.g. ds000001)', required: false },
+      { name: 'path', description: 'Workspace path to target directory', required: false },
+    ],
   },
   handler: {
+    canExecute: (context) => hasTargetDirectory(context),
     execute: async (context) => {
       const workspace = await workspaceService.getWorkspace();
       if (!workspace) {
         toastError('No workspace connected');
         return;
+      }
+      if (!hasTargetDirectory(context)) {
+        toastError('Select a target directory or provide a path');
+        return;
+      }
+      let targetDir: Directory;
+      const pathParam = (context.params?.path as string | undefined)?.trim();
+      if (pathParam) {
+        try {
+          const resource = await workspace.getResource(pathParam);
+          if (!resource || !(resource instanceof Directory)) {
+            toastError(`Path ${pathParam} is not a directory`);
+            return;
+          }
+          targetDir = resource;
+        } catch {
+          toastError(`Path ${pathParam} not found`);
+          return;
+        }
+      } else {
+        const dir = getTargetDirectoryFromSelection();
+        if (!dir) {
+          toastError('Select a target directory or provide a path');
+          return;
+        }
+        targetDir = dir;
       }
       let datasetId = normalizeDatasetId(context.params?.datasetId);
       if (!datasetId) {
@@ -47,6 +91,9 @@ registerAll({
         datasetId = normalizeDatasetId(raw);
       }
       if (!datasetId) return;
+
+      const basePath = targetDir.getWorkspacePath();
+      const prefix = basePath ? `${basePath}/` : '';
 
       await taskService.runAsync(`Download OpenNeuro ${datasetId}`, async (pm) => {
         pm.message = t('FETCHING_FILE_LIST');
@@ -65,7 +112,7 @@ registerAll({
           pm.currentStep = i;
 
           const url = buildS3Url(datasetId!, relPath);
-          const targetPath = `${datasetId}/${relPath}`;
+          const targetPath = `${prefix}${datasetId}/${relPath}`;
 
           try {
             const res = await fetchFile(url);
@@ -96,6 +143,7 @@ contributionRegistry.registerContribution('filebrowser.create', {
   command: 'openneuro_download',
   label: t('CREATE_OPENNEURO_DATASET'),
   icon: 'database',
+  disabled: () => getTargetDirectoryFromSelection() == null,
 });
 
 registerAll({

@@ -2,12 +2,14 @@ import { defineConfig } from 'vite';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { resolveDepVersionsPlugin } from '@eclipse-lyra/core/vite-plugin-resolve-deps';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   root: __dirname,
   base: process.env.VITE_BASE_PATH || '/',
+  plugins: [resolveDepVersionsPlugin()],
   resolve: {
     alias: {
       '@kispace-io/extension-neuro-viewer': path.resolve(__dirname, '../extension-neuro-viewer/dist/index.js'),
