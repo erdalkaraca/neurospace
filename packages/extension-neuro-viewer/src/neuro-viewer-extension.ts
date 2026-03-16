@@ -310,6 +310,7 @@ export class KNeuroViewer extends LyraPart {
       await this.nv.attachToCanvas(canvas);
 
       const blob = (await file.getContents({ blob: true })) as Blob;
+      // convert blob to browser file as niivue expects a File object
       const browserFile =
         blob instanceof globalThis.File
           ? blob
@@ -317,6 +318,11 @@ export class KNeuroViewer extends LyraPart {
               type: blob.type || 'application/octet-stream',
             });
       await this.nv.loadFromFile(browserFile);
+
+      // Ensure consistent 2x2 multiplanar layout with 3D view
+      this.nv.setSliceType(this.nv.sliceTypeMultiplanar);
+      this.nv.setMultiplanarLayout(2); // GRID layout
+      this.nv.opts.multiplanarShowRender = 1; // SHOW_RENDER.ALWAYS
 
       this.nv.setIsOrientationTextVisible(this.orientationTextVisible);
       this.nv.setCornerOrientationText(this.cornerOrientationText);
