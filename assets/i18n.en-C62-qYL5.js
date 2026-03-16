@@ -1,0 +1,1 @@
+const E="SNIRF Viewer",t="View fNIRS data in SNIRF format",I={EXT_SNIRFVIEWER_NAME:E,EXT_SNIRFVIEWER_DESC:t};export{t as EXT_SNIRFVIEWER_DESC,E as EXT_SNIRFVIEWER_NAME,I as default};
