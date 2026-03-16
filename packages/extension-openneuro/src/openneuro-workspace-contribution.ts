@@ -1,6 +1,8 @@
 import {
   Directory,
   File,
+  FileContentType,
+  type FileContentsOptions,
   workspaceService,
   publish,
   TOPIC_WORKSPACE_CHANGED,
@@ -95,12 +97,25 @@ export class OpenNeuroVirtualFile extends File {
     return this.parentDir;
   }
 
-  async getContents(options?: { blob?: boolean }): Promise<unknown> {
+  async getContents(options?: FileContentsOptions): Promise<unknown> {
     const url = buildS3Url(this.datasetId, this.relativePath);
     const res = await fetchFile(url);
-    const blob = await res.blob();
-    if (options?.blob) return blob;
-    return blob;
+    // Default to text, matching other backends, so editors like the
+    // dataviewer can parse CSV/TSV content.
+    if (!options || options.contentType === FileContentType.TEXT) {
+      return await res.text();
+    }
+
+    if (options.blob) {
+      return await res.blob();
+    }
+
+    if (options.uri) {
+      return url;
+    }
+
+    // Fallback: return a stream-compatible Blob.
+    return await res.blob();
   }
 
   async saveContents(_contents: unknown): Promise<void> {
