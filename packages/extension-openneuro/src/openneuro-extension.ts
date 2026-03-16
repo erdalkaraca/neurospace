@@ -1,3 +1,4 @@
+import './openneuro-workspace-contribution.js';
 import {
   registerAll,
   contributionRegistry,
@@ -139,6 +140,47 @@ contributionRegistry.registerContribution('filebrowser.create', {
   label: t.CREATE_OPENNEURO_DATASET,
   icon: 'database',
   disabled: () => getTargetDirectoryFromSelection() == null,
+});
+
+registerAll({
+  command: {
+    id: 'openneuro_mount',
+    name: 'Mount OpenNeuro dataset',
+    description: 'Add an OpenNeuro dataset as a read-only virtual folder',
+    parameters: [
+      { name: 'datasetId', description: 'Dataset ID (e.g. ds000001)', required: false },
+    ],
+  },
+  handler: {
+    execute: async (context) => {
+      let datasetId = normalizeDatasetId(context.params?.datasetId);
+      if (!datasetId) {
+        const raw = await promptDialog(t.ENTER_DATASET_ID, 'ds000001');
+        datasetId = normalizeDatasetId(raw);
+      }
+      if (!datasetId) return;
+      try {
+        await taskService.runAsync(`Mount OpenNeuro ${datasetId}`, async (pm) => {
+          pm.message = t.MOUNT_RESOLVING;
+          await workspaceService.connectFolder({
+            openneuro: true,
+            datasetId,
+            name: datasetId,
+          });
+        });
+        toastInfo(t.MOUNT_SUCCESS({ id: datasetId }));
+      } catch (err) {
+        toastError(
+          err instanceof Error ? err.message : String(err)
+        );
+      }
+    },
+  },
+  contribution: {
+    target: 'filebrowser.connections',
+    label: t.MOUNT_OPENNEURO_DATASET,
+    icon: 'database',
+  },
 });
 
 registerAll({

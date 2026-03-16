@@ -35,7 +35,7 @@ export async function fetchDatasetInfo(datasetId: string): Promise<{
   return { dataset };
 }
 
-async function fetchSnapshotFiles(
+export async function fetchSnapshotFiles(
   datasetId: string,
   tag: string,
   tree?: string
