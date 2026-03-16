@@ -26,6 +26,7 @@ import '@eclipse-lyra/extension-pglite';
 import '@kispace-io/extension-neuro-viewer';
 import '@kispace-io/extension-snirf-viewer';
 import '@kispace-io/extension-openneuro';
+import '@kispace-io/extension-bids-validator';
 
 const appRoot = document.getElementById('app-root') ?? document.body;
 appLoaderService.registerApp(
@@ -62,9 +63,12 @@ appLoaderService.registerApp(
       '@eclipse-lyra/extension-media-viewer',
       '@eclipse-lyra/extension-notebook',
       '@eclipse-lyra/extension-ai-system',
+      '@eclipse-lyra/extension-dataviewer',
+      
       '@kispace-io/extension-neuro-viewer',
       '@kispace-io/extension-snirf-viewer',
       '@kispace-io/extension-openneuro',
+      '@kispace-io/extension-bids-validator',
     ],
   },
   { autoStart: true, hostConfig: true, container: appRoot },

@@ -15,11 +15,21 @@ export default defineConfig((): UserConfig => {
       localAliasesPlugin({
         packagesRoot: path.resolve(__dirname, '..'),
         useSrcInDev: true,
-        patterns: [
-          { folderPrefix: 'extension-' },
-        ]
+        patterns: [{ folderPrefix: 'extension-' }],
       }),
     ],
+    resolve: {
+      alias: {
+        '@jsr/libs__xml': path.resolve(
+          __dirname,
+          '../extension-bids-validator/src/xml-stub.ts',
+        ),
+        'supports-hyperlinks': path.resolve(
+          __dirname,
+          '../extension-bids-validator/src/supports-hyperlinks-stub.ts',
+        ),
+      },
+    },
     optimizeDeps: {
       include: ['@eclipse-lyra/core'],
     },
