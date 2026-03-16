@@ -1,4 +1,4 @@
-import { LyraPart } from '@eclipse-lyra/core/api';
+import { LyraPart } from '@eclipse-lyra/core';
 import {
   customElement,
   property,
@@ -7,7 +7,7 @@ import {
   html,
   nothing,
 } from '@eclipse-lyra/core/externals/lit';
-import { EditorInput, editorRegistry, File } from '@eclipse-lyra/core/api';
+import { EditorInput, editorRegistry, File } from '@eclipse-lyra/core';
 import { Niivue } from '@niivue/niivue';
 
 interface NeuroViewerPreferences {

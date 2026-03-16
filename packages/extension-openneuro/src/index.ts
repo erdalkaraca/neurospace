@@ -1,20 +1,16 @@
 import {
   extensionRegistry,
-  i18nLazy,
+  i18n,
   contributionRegistry,
-  SYSTEM_LANGUAGE_BUNDLES,
-} from '@eclipse-lyra/core/api';
-import bundle from './i18n.json';
+} from '@eclipse-lyra/core';
 import pkg from '../package.json';
 
-contributionRegistry.registerContribution(SYSTEM_LANGUAGE_BUNDLES, bundle as any);
-
-const t = i18nLazy('extensions');
+const t = await i18n(import.meta.glob('./i18n*.json'), true);
 
 extensionRegistry.registerExtension({
   id: pkg.name,
-  name: t('EXT_OPENNEURO_NAME'),
-  description: t('EXT_OPENNEURO_DESC'),
+  name: t.EXT_OPENNEURO_NAME,
+  description: t.EXT_OPENNEURO_DESC,
   loader: () => import('./openneuro-extension'),
   icon: 'database',
 });

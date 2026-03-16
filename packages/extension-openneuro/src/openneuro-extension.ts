@@ -11,7 +11,7 @@ import {
   File,
   Directory,
   activeSelectionSignal,
-} from '@eclipse-lyra/core/api';
+} from '@eclipse-lyra/core';
 import {
   collectFilesRecursive,
   fetchLatestSnapshotTag,
@@ -20,7 +20,7 @@ import {
   listWorkspaceFilesRecursive,
 } from './openneuro-api.js';
 
-const t = i18n('extensions');
+const t = await i18n(import.meta.glob('./i18n*.json'));
 
 function normalizeDatasetId(raw: string | null | undefined): string | null {
   if (raw == null || typeof raw !== 'string') return null;
@@ -87,7 +87,7 @@ registerAll({
       }
       let datasetId = normalizeDatasetId(context.params?.datasetId);
       if (!datasetId) {
-        const raw = await promptDialog(t('ENTER_DATASET_ID'), 'ds000001');
+        const raw = await promptDialog(t.ENTER_DATASET_ID, 'ds000001');
         datasetId = normalizeDatasetId(raw);
       }
       if (!datasetId) return;
@@ -96,7 +96,7 @@ registerAll({
       const prefix = basePath ? `${basePath}/` : '';
 
       await taskService.runAsync(`Download OpenNeuro ${datasetId}`, async (pm) => {
-        pm.message = t('FETCHING_FILE_LIST');
+        pm.message = t.FETCHING_FILE_LIST;
         const tag = await fetchLatestSnapshotTag(datasetId!);
         const files = await collectFilesRecursive(datasetId!, tag);
         if (files.length === 0) {
@@ -136,7 +136,7 @@ registerAll({
 
 contributionRegistry.registerContribution('filebrowser.create', {
   command: 'openneuro_download',
-  label: t('CREATE_OPENNEURO_DATASET'),
+  label: t.CREATE_OPENNEURO_DATASET,
   icon: 'database',
   disabled: () => getTargetDirectoryFromSelection() == null,
 });
@@ -160,7 +160,7 @@ registerAll({
       }
       let datasetId = normalizeDatasetId(context.params?.datasetId);
       if (!datasetId) {
-        const raw = await promptDialog(t('ENTER_DATASET_ID'), 'ds000001');
+        const raw = await promptDialog(t.ENTER_DATASET_ID, 'ds000001');
         datasetId = normalizeDatasetId(raw);
       }
       if (!datasetId) return;
@@ -182,12 +182,12 @@ registerAll({
       }
 
       await taskService.runAsync(`Validate OpenNeuro ${datasetId}`, async (pm) => {
-        pm.message = t('FETCHING_FILE_LIST');
+        pm.message = t.FETCHING_FILE_LIST;
         const tag = await fetchLatestSnapshotTag(datasetId!);
         const expectedFiles = await collectFilesRecursive(datasetId!, tag);
         const expectedMap = new Map(expectedFiles.map((f) => [f.path, f.size]));
 
-        pm.message = t('VALIDATING');
+        pm.message = t.VALIDATING;
         const workspaceFiles = await listWorkspaceFilesRecursive(targetDir, '');
         pm.totalSteps = workspaceFiles.length;
         pm.currentStep = 0;
@@ -216,12 +216,12 @@ registerAll({
         pm.currentStep = workspaceFiles.length;
         const msg =
           mismatch > 0 || missing > 0
-            ? t('VALIDATE_SUMMARY', {
+            ? t.VALIDATE_SUMMARY({
                 ok: String(ok),
                 mismatch: String(mismatch),
                 missing: String(missing),
               })
-            : t('VALIDATE_OK', { ok: String(ok) });
+            : t.VALIDATE_OK({ ok: String(ok) });
         await infoDialog('Validation Complete', msg);
       });
     },

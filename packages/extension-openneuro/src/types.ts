@@ -1,3 +1,5 @@
+import type { File } from '@eclipse-lyra/core';
+
 export interface OpenNeuroFileEntry {
   id: string;
   key: string;
@@ -19,5 +21,5 @@ export interface OpenNeuroSnapshot {
 
 export interface FileWithPath {
   path: string;
-  file: import('@eclipse-lyra/core/api').File;
+  file: File;
 }

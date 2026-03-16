@@ -1,4 +1,4 @@
-import { Directory, File } from '@eclipse-lyra/core/api';
+import { Directory, File } from '@eclipse-lyra/core';
 import type { OpenNeuroFileEntry } from './types.js';
 
 const GRAPHQL_ENDPOINT = 'https://openneuro.org/crn/graphql';
