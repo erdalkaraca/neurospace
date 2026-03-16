@@ -1,43 +1,46 @@
-import { defineConfig } from 'vite';
-import { dirname } from 'path';
+import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import path from 'path';
+import { defineConfig, type UserConfig } from 'vite';
 import { resolveDepVersionsPlugin } from '@eclipse-lyra/core/vite-plugin-resolve-deps';
+import { localAliasesPlugin } from '@eclipse-lyra/core/vite-plugin-local-aliases';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig({
-  root: __dirname,
-  base: process.env.VITE_BASE_PATH || '/',
-  plugins: [resolveDepVersionsPlugin()],
-  resolve: {
-    alias: {
-      '@kispace-io/extension-neuro-viewer': path.resolve(__dirname, '../extension-neuro-viewer/dist/index.js'),
-      '@kispace-io/extension-snirf-viewer': path.resolve(__dirname, '../extension-snirf-viewer/dist/index.js'),
-      '@kispace-io/extension-openneuro': path.resolve(__dirname, '../extension-openneuro/dist/index.js'),
+export default defineConfig((): UserConfig => {
+  return {
+    root: __dirname,
+    base: process.env.VITE_BASE_PATH || '/',
+    plugins: [
+      resolveDepVersionsPlugin(),
+      localAliasesPlugin({
+        packagesRoot: path.resolve(__dirname, '..'),
+        useSrcInDev: true,
+        patterns: [
+          { folderPrefix: 'extension-' },
+        ]
+      }),
+    ],
+    optimizeDeps: {
+      include: ['@eclipse-lyra/core'],
     },
-  },
-  optimizeDeps: {
-    include: ['@eclipse-lyra/core'],
-    exclude: ['@kispace-io/extension-neuro-viewer', '@kispace-io/extension-snirf-viewer', '@kispace-io/extension-openneuro'],
-  },
-  esbuild: {
-    tsconfigRaw: {
-      compilerOptions: {
-        experimentalDecorators: true,
-        useDefineForClassFields: false,
+    esbuild: {
+      tsconfigRaw: {
+        compilerOptions: {
+          experimentalDecorators: true,
+          useDefineForClassFields: false,
+        },
       },
     },
-  },
-  worker: {
-    format: 'es',
-  },
-  build: {
-    outDir: path.resolve(__dirname, 'dist'),
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
+    worker: {
+      format: 'es',
+    },
+    build: {
+      outDir: path.resolve(__dirname, 'dist'),
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+        },
       },
     },
-  },
+  };
 });
