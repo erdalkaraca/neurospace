@@ -14,7 +14,7 @@ export default defineConfig((): UserConfig => {
       resolveDepVersionsPlugin(),
       localAliasesPlugin({
         packagesRoot: path.resolve(__dirname, '..'),
-        useSrcInDev: true,
+        alwaysUseSrc: true,
         patterns: [{ folderPrefix: 'extension-' }],
       }),
     ],
