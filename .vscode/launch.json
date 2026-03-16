@@ -15,7 +15,7 @@
         "uriFormat": "%s",
         "action": "debugWithChrome",
         "killOnServerStop": true,
-        "webRoot": "${workspaceFolder}/packages/neurospace-app"
+        "webRoot": "${workspaceFolder}/packages/app"
       }
     }
   ]

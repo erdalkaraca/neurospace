@@ -36,19 +36,19 @@ jobs:
       - name: Set package.json version from tag
         run: |
           VERSION=${GITHUB_REF_NAME}
-          npm version --no-commit-hooks --no-git-tag-version "$VERSION" --workspace=@kispace-io/neurospace-app
+          npm version --no-commit-hooks --no-git-tag-version "$VERSION" --workspace=@kispace-io/app
 
       - name: Build neuro!space app
         run: npm run build
 
       - name: Add CNAME file
-        run: echo "neuro.kispace.de" > packages/neurospace-app/dist/CNAME
+        run: echo "neuro.kispace.de" > packages/app/dist/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/neurospace-app/dist
+          publish_dir: ./packages/app/dist
 
       - name: Deployment Summary
         run: |

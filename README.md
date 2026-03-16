@@ -43,7 +43,7 @@ Open http://localhost:5173, connect a workspace (folder with neuroimaging or fNI
 
 ## Project Structure
 
-- `packages/neurospace-app` – App entrypoint and shell
+- `packages/app` – App entrypoint and shell
 - `packages/extension-neuro-viewer` – Neuroimaging editor extension (NIfTI, DICOM, etc.)
 - `packages/extension-snirf-viewer` – SNIRF/fNIRS viewer extension
 

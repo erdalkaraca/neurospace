@@ -1,5 +1,5 @@
 {
-  "name": "@kispace-io/neurospace-app",
+  "name": "@kispace-io/app",
   "version": "0.0.0",
   "private": true,
   "description": "Neurospace app entrypoint",
