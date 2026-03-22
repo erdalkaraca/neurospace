@@ -5,7 +5,7 @@ extensionRegistry.registerExtension({
   id: pkg.name,
   name: 'BIDS editor',
   description: 'BIDS editor components',
-  loader: () => import('./bids-editor-extension.js'),
+  loader: () => import('./bids-editor-extension'),
   icon: 'pencil',
 });
 

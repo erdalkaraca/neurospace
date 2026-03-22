@@ -32,6 +32,7 @@ export default defineConfig((): UserConfig => {
     },
     optimizeDeps: {
       include: ['@eclipse-lyra/core'],
+      exclude: ['@eclipse-lyra/extension-monaco-editor'],
     },
     esbuild: {
       tsconfigRaw: {

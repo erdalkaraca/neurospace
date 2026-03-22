@@ -28,10 +28,9 @@ editorRegistry.registerEditorInputHandler({
       data: input,
       key: input.getWorkspacePath(),
       icon: 'waveform',
-      noOverflow: false,
       state: {},
-      component: () =>
-        html`<k-snirf-viewer id="snirf-viewer" .input=${editorInput}></k-snirf-viewer>`,
+      component: (id: string) =>
+        html`<k-snirf-viewer id="${id}" .input=${editorInput}></k-snirf-viewer>`,
     };
     return editorInput;
   },
@@ -223,7 +222,7 @@ export class KSnirfViewer extends LyraPart {
    `;
   }
 
-  protected render() {
+  protected renderContent() {
     if (this.error) {
       return html`
         <div class="error-state">

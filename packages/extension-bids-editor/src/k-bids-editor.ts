@@ -23,10 +23,6 @@ export class KBidsEditor extends LyraPart {
   public isEditor = true;
 
   protected async doInitUI() {
-    await this.loadContents();
-  }
-
-  private async loadContents() {
     this.loading = true;
     this.error = undefined;
     this.initialContent = undefined;
@@ -62,7 +58,7 @@ export class KBidsEditor extends LyraPart {
     this.widgetRef.value?.dispose?.();
   }
 
-  protected render() {
+  protected renderContent() {
     if (this.error) {
       return html`<div class="state state-error">${this.error}</div>`;
     }
@@ -70,19 +66,16 @@ export class KBidsEditor extends LyraPart {
       return html`<div class="state state-loading"><wa-spinner></wa-spinner></div>`;
     }
     if (this.initialContent === undefined) {
-      return html`<div class="content"></div>`;
+      return html`<div class="monaco-editor-placeholder"></div>`;
     }
     return html`
-      <div class="content">
-        <lyra-monaco-widget
-          .value=${this.initialContent}
-          .uri=${this.uri}
-          language="json"
-          @content-change=${this.onContentChange}
-          autoLayout
-          ${ref(this.widgetRef)}
-        ></lyra-monaco-widget>
-      </div>
+      <lyra-monaco-widget
+        .value=${this.initialContent}
+        .uri=${this.uri}
+        language="json"
+        @content-change=${this.onContentChange}
+        ${ref(this.widgetRef)}
+      ></lyra-monaco-widget>
     `;
   }
 
@@ -90,13 +83,11 @@ export class KBidsEditor extends LyraPart {
     :host {
       display: flex;
       flex-direction: column;
+      position: relative;
       width: 100%;
       height: 100%;
-      padding: 0;
-      box-sizing: border-box;
-      overflow: hidden;
     }
-    .content {
+    .monaco-editor-placeholder {
       flex: 1;
       min-height: 0;
     }

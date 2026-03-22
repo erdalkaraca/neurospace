@@ -58,10 +58,9 @@ editorRegistry.registerEditorInputHandler({
       data: input,
       key: input.getWorkspacePath(),
       icon: 'brain',
-      noOverflow: false,
       state: {},
-      component: () =>
-        html`<k-neuro-viewer id="neuro-viewer" .input=${editorInput}></k-neuro-viewer>`,
+      component: (id: string) =>
+        html`<k-neuro-viewer id="${id}" .input=${editorInput}></k-neuro-viewer>`,
     };
     return editorInput;
   },
@@ -134,14 +133,12 @@ export class KNeuroViewer extends LyraPart {
     this.orientationTextVisible = visible;
     this.nv?.setIsOrientationTextVisible(visible);
     this.persistPreferences();
-    this.updateToolbar();
   }
 
   private setCornerOrientationText(corner: boolean) {
     this.cornerOrientationText = corner;
     this.nv?.setCornerOrientationText(corner);
     this.persistPreferences();
-    this.updateToolbar();
   }
 
   private setFrame(index: number) {
@@ -150,7 +147,6 @@ export class KNeuroViewer extends LyraPart {
     const clamped = Math.max(0, Math.min(this.nFrames - 1, index));
     this.frameIndex = clamped;
     this.nv?.setFrame4D(vol.id, clamped);
-    this.updateToolbar();
   }
 
   private togglePlayback() {
@@ -164,7 +160,6 @@ export class KNeuroViewer extends LyraPart {
     this.playInterval = setInterval(() => {
       this.setFrame((this.frameIndex + 1) % this.nFrames);
     }, 1000 / fps);
-    this.updateToolbar();
   }
 
   private stopPlayback() {
@@ -173,7 +168,6 @@ export class KNeuroViewer extends LyraPart {
       this.playInterval = undefined;
     }
     this.isPlaying = false;
-    this.updateToolbar();
   }
 
   private setColormap(name: string) {
@@ -182,7 +176,6 @@ export class KNeuroViewer extends LyraPart {
     this.colormap = name;
     this.nv?.setColormap(vol.id, name);
     this.persistPreferences();
-    this.updateToolbar();
   }
 
   protected renderToolbar() {
@@ -339,7 +332,6 @@ export class KNeuroViewer extends LyraPart {
         this.nv.drawScene();
       }
 
-      this.updateToolbar();
     } catch (err) {
       this.error = err instanceof Error ? err.message : 'Failed to load volume';
     } finally {
@@ -347,7 +339,7 @@ export class KNeuroViewer extends LyraPart {
     }
   }
 
-  protected render() {
+  protected renderContent() {
     if (this.error) {
       return html`
         <div class="error-state">

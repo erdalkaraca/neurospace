@@ -15,7 +15,11 @@
         "uriFormat": "%s",
         "action": "debugWithChrome",
         "killOnServerStop": true,
-        "webRoot": "${workspaceFolder}/packages/app"
+        "webRoot": "${workspaceFolder}",
+        "resolveSourceMapLocations": [
+          "${workspaceFolder}/**",
+          "!**/node_modules/**"
+        ]
       }
     }
   ]

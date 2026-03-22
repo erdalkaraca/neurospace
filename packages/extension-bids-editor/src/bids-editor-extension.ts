@@ -17,9 +17,8 @@ editorRegistry.registerEditorInputHandler({
       data: input,
       key: `bids-editor-${input.getWorkspacePath()}`,
       icon: 'pencil',
-      noOverflow: false,
       state: {},
-      component: () => html`<k-bids-editor .input=${editorInput}></k-bids-editor>`,
+      component: (id: string) => html`<k-bids-editor id="${id}" .input=${editorInput}></k-bids-editor>`,
     };
     return editorInput;
   },
