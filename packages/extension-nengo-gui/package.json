@@ -1,0 +1,31 @@
+{
+  "name": "@kispace-io/extension-nengo-gui",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@eclipse-lyra/core": "*",
+    "@eclipse-lyra/extension-catalog": "*",
+    "@eclipse-lyra/extension-monaco-editor": "*",
+    "@eclipse-lyra/extension-python-runtime": "*",
+    "cytoscape": "^3.33.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "scripts": {
+    "build": "vite build"
+  }
+}

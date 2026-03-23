@@ -28,6 +28,7 @@ import '@kispace-io/extension-snirf-viewer';
 import '@kispace-io/extension-openneuro';
 import '@kispace-io/extension-bids-editor';
 import '@kispace-io/extension-bids-validator';
+import '@kispace-io/extension-nengo-gui';
 
 const appRoot = document.getElementById('app-root') ?? document.body;
 appLoaderService.registerApp(
@@ -65,12 +66,14 @@ appLoaderService.registerApp(
       '@eclipse-lyra/extension-notebook',
       '@eclipse-lyra/extension-ai-system',
       '@eclipse-lyra/extension-dataviewer',
+      '@eclipse-lyra/extension-catalog',
       
       '@kispace-io/extension-neuro-viewer',
       '@kispace-io/extension-snirf-viewer',
       '@kispace-io/extension-openneuro',
       '@kispace-io/extension-bids-editor',
       '@kispace-io/extension-bids-validator',
+      '@kispace-io/extension-nengo-gui',
     ],
   },
   { autoStart: true, hostConfig: true, container: appRoot },
