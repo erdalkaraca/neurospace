@@ -20,7 +20,8 @@ def __nengo_advance(session_id, steps):
         probe_labels = {}
         for i, p in enumerate(model.all_probes):
             key = f"probe_{i}"
-            raw = obj_to_name.get(p) or p.label or key
+            target = getattr(p, "obj", None) or getattr(p, "target", None)
+            raw = obj_to_name.get(p) or (target and obj_to_name.get(target)) or p.label or key
             probe_labels[key] = _shorten_label(raw)
             arr = sim.data[p]
             if arr.ndim == 1:

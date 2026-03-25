@@ -16,6 +16,10 @@ def __nengo_init_sim():
     if model is None:
         return {"error": "No nengo.Network instance found in globals", "ok": False}
     try:
+        with model:
+            if len(model.all_probes) == 0:
+                for ens in model.all_ensembles:
+                    nengo.Probe(ens, synapse=0.01)
         obj_to_name = __nengo_build_obj_to_name(globals(), model)
         from threadpoolctl import threadpool_limits
         from nengo import Simulator

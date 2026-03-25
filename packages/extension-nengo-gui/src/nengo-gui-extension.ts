@@ -5,6 +5,7 @@ import './k-nengo-editor';
 import './nengo-catalog';
 import './nengo-viz-contributions';
 import './nengo-model-graph-panel';
+import './nengo-visualizations-panel';
 
 const isNengoFile = (file: LyraFile): boolean =>
   file.getName().toLowerCase().endsWith('.nengo.py');

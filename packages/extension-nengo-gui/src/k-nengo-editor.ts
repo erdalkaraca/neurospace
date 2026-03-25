@@ -3,7 +3,6 @@ import {
   EditorInput,
   File as LyraFile,
   activeEditorSignal,
-  contributionRegistry,
 } from '@eclipse-lyra/core';
 import {
   customElement,
@@ -21,11 +20,14 @@ import initSimScript from './py-scripts/init-sim.py?raw';
 import advanceScript from './py-scripts/advance.py?raw';
 import extractModelScript from './py-scripts/extract-model.py?raw';
 import {
-  NENGO_VIZ_SLOT,
-  type NengoVizContext,
-  type NengoVisualizationContribution,
-} from './nengo-viz-api';
-import { nengoModelSummarySignal, nengoModelLoadingSignal } from './nengo-model-signal';
+  nengoModelSummarySignal,
+  nengoModelLoadingSignal,
+  nengoSimDataSignal,
+  nengoRunRequestSignal,
+  nengoStopRequestSignal,
+  nengoViewTimeRequestSignal,
+  nengoModelSyncRequestSignal,
+} from './nengo-model-signal';
 
 @customElement('k-nengo-editor')
 export class KNengoEditor extends LyraPart {
@@ -55,9 +57,6 @@ export class KNengoEditor extends LyraPart {
 
   @state()
   private running = false;
-
-  @state()
-  private simDuration = 5.0;
 
   @state()
   private simProgress = 0;
@@ -100,11 +99,32 @@ export class KNengoEditor extends LyraPart {
 
   protected override doBeforeUI(): void {
     this.watch(activeEditorSignal, () => this.syncModelToSignal());
+    this.watch(nengoRunRequestSignal, () => {
+      if (activeEditorSignal.get() === this) this.run();
+    });
+    this.watch(nengoStopRequestSignal, () => {
+      if (activeEditorSignal.get() === this) this.stop();
+    });
+    this.watch(nengoViewTimeRequestSignal, () => {
+      const v = nengoViewTimeRequestSignal.get();
+      if (v !== undefined && activeEditorSignal.get() === this) this.viewTime = v;
+    });
+    this.watch(nengoModelSyncRequestSignal, () => {
+      if (activeEditorSignal.get() === this) this.syncModelToSignal();
+    });
   }
 
   protected override updated(changedProperties: Map<string, unknown>): void {
     super.updated?.(changedProperties);
-    if (changedProperties.has('modelStructure') || changedProperties.has('simData')) {
+    if (
+      changedProperties.has('modelStructure') ||
+      changedProperties.has('simData') ||
+      changedProperties.has('runOutput') ||
+      changedProperties.has('viewTime') ||
+      changedProperties.has('simProgress') ||
+      changedProperties.has('running') ||
+      changedProperties.has('pyenvReady')
+    ) {
       this.syncModelToSignal();
     }
   }
@@ -114,6 +134,15 @@ export class KNengoEditor extends LyraPart {
     const summary = this.getModelSummary();
     nengoModelSummarySignal.set(summary ?? undefined);
     if (summary) nengoModelLoadingSignal.set(false);
+    nengoSimDataSignal.set({
+      simData: this.simData,
+      runOutput: this.runOutput,
+      viewTime: this.viewTime,
+      simDurationTarget: this.simDurationTarget,
+      running: this.running,
+      simProgress: this.simProgress,
+      canRun: this.pyenvReady,
+    });
   }
 
   protected async doInitUI() {
@@ -184,7 +213,8 @@ export class KNengoEditor extends LyraPart {
       nengoModelLoadingSignal.set(true);
     }
     try {
-      await this.pyenv.execCode(code);
+      const wrappedCode = '__name__ = "__main__"\n' + code;
+      await this.pyenv.execCode(wrappedCode);
       const resp = await this.pyenv.runFunction('__nengo_extract_model_structure', {});
       const raw = resp && typeof resp === 'object' && 'result' in resp ? resp.result : resp;
       const data = raw as { ensembles?: string[]; nodes?: string[]; probes?: string[]; connections?: { pre: string; post: string; kind: string }[]; error?: string } | undefined;
@@ -209,8 +239,6 @@ export class KNengoEditor extends LyraPart {
     }
   }
 
-  private readonly durationFormatter = (v: number) => `${v}s`;
-
   private run = async () => {
     if (!this.pyenv || !this.pyenvReady) return;
     const code = this.widgetRef.value?.getContent?.() ?? this.initialContent ?? '';
@@ -219,13 +247,12 @@ export class KNengoEditor extends LyraPart {
     this.running = true;
     this.runOutput = undefined;
     this.simData = undefined;
-    const duration = Math.max(0.1, Math.min(10, this.simDuration));
-    this.simDurationTarget = duration;
+    this.simDurationTarget = 0;
     this.simProgress = 0;
     this.viewTime = 0;
-    let completed = false;
+    const wrappedCode = '__name__ = "__main__"\n' + code;
     try {
-      await this.pyenv.execCode(code);
+      await this.pyenv.execCode(wrappedCode);
       const initResponse = await this.pyenv.runFunction('__nengo_init_sim', {});
       const initRaw = initResponse && typeof initResponse === 'object' && 'result' in initResponse ? initResponse.result : initResponse;
       const init = initRaw as { session_id?: string; dt?: number; error?: string; ok?: boolean } | undefined;
@@ -239,15 +266,12 @@ export class KNengoEditor extends LyraPart {
 
       const sessionId = init?.session_id ?? '';
       const dt = init?.dt ?? 0.001;
-      const totalSteps = Math.round(duration / dt);
       const chunkSteps = Math.max(1, Math.round((KNengoEditor.CHUNK_DURATION_S / dt)));
 
-      for (let done = 0; done < totalSteps; ) {
-        if (!this.running) break;
-        const steps = Math.min(chunkSteps, totalSteps - done);
+      while (this.running) {
         const advanceResponse = await this.pyenv.runFunction('__nengo_advance', {
           session_id: sessionId,
-          steps,
+          steps: chunkSteps,
         });
         const dataRaw = advanceResponse && typeof advanceResponse === 'object' && 'result' in advanceResponse ? advanceResponse.result : advanceResponse;
         const data = dataRaw as {
@@ -267,8 +291,9 @@ export class KNengoEditor extends LyraPart {
           break;
         }
         if (data && typeof data === 'object' && !data.error) {
+          const trange = data.trange ?? [];
           this.simData = {
-            trange: data.trange ?? [],
+            trange,
             probes: data.probes ?? {},
             probeDims: data.probe_dims ?? {},
             probeLabels: data.probe_labels ?? {},
@@ -277,29 +302,34 @@ export class KNengoEditor extends LyraPart {
             connections: data.connections ?? [],
             probesList: data.probes_list ?? [],
           };
+          const tMax = trange.length > 0 ? trange[trange.length - 1] : 0;
+          this.simProgress = tMax;
+          this.viewTime = tMax;
+          this.simDurationTarget = tMax;
         }
-        done += steps;
-        this.simProgress = (done / totalSteps) * duration;
-        this.viewTime = this.simProgress;
-        completed = done >= totalSteps;
         await new Promise((r) => setTimeout(r, 0));
       }
     } catch (err) {
       this.runOutput = (err instanceof Error ? err.message : String(err)) + '\n';
     } finally {
       this.running = false;
-      if (this.simDurationTarget > 0 && completed) {
-        this.simProgress = this.simDurationTarget;
-        this.viewTime = this.simDurationTarget;
-      }
     }
   };
 
-  public override save() {
+  private stop = () => {
+    this.running = false;
+  };
+
+  public override async save() {
     const data = this.input?.data;
     if (!(data instanceof LyraFile)) return;
     const value = this.widgetRef.value?.getContent?.() ?? '';
-    data.saveContents(value);
+    await data.saveContents(value);
+    if (typeof this.widgetRef.value?.setContent === 'function') {
+      this.widgetRef.value.setContent(value);
+    } else {
+      this.initialContent = value;
+    }
     this.markDirty(false);
   }
 
@@ -336,90 +366,8 @@ export class KNengoEditor extends LyraPart {
     return undefined;
   }
 
-  private renderVizPanels() {
-    const data = this.simData;
-    if (!data) return html``;
-
-    const fullTrange = data.trange;
-    const viewT = this.viewTime;
-    const endIdx =
-      fullTrange.length === 0
-        ? -1
-        : (() => {
-            let i = fullTrange.length - 1;
-            while (i >= 0 && (fullTrange[i] ?? 0) > viewT) i--;
-            return i;
-          })();
-    const trimCount = Math.max(0, endIdx + 1);
-    const trange = fullTrange.slice(0, trimCount);
-
-    const simProxy = {
-      trange,
-      getProbeData: (id: string) => {
-        const raw = data?.probes?.[id] ?? [];
-        if (trimCount >= fullTrange.length || fullTrange.length === 0) return raw;
-        const nLines = Math.floor(raw.length / fullTrange.length) || 1;
-        return raw.slice(0, trimCount * nLines);
-      },
-      getSpikeData: undefined as ((id: string) => { times: number[]; neurons: number[] }) | undefined,
-    };
-
-    const contributions = contributionRegistry.getContributions<NengoVisualizationContribution>(
-      NENGO_VIZ_SLOT
-    );
-
-    const probePanels = data.probesList?.map((probeId) => {
-      const ctx: NengoVizContext = {
-        simProxy,
-        nengoObjectId: probeId,
-        nengoObjectType: 'ensemble',
-        label: data.probeLabels?.[probeId] ?? probeId,
-      };
-      const valueContrib = contributions.find((c) => c.name === 'value');
-      if (!valueContrib?.component) return html``;
-      return html`
-        <div class="viz-panel">
-          ${valueContrib.component(ctx)}
-        </div>
-      `;
-    });
-
-    return html`
-      <div class="viz-grid">
-        ${probePanels ?? []}
-      </div>
-    `;
-  }
-
   protected override renderToolbar() {
-    return html`
-      <span style="display: inline-flex; align-items: center; gap: 0.5rem; min-width: 140px;">
-        <wa-slider
-          label="Duration"
-          size="small"
-          .value=${this.simDuration}
-          min="0.1"
-          max="10"
-          step="0.1"
-          .withTooltip=${true}
-          ?disabled=${!this.pyenvReady || this.running}
-          .valueFormatter=${this.durationFormatter}
-          @input=${(e: Event) => {
-            const el = e.target as { value?: number };
-            const v = el?.value ?? this.simDuration;
-            if (typeof v === 'number' && v > 0) this.simDuration = v;
-          }}
-        ></wa-slider>
-      </span>
-      <wa-button
-        @click=${this.run}
-        ?disabled=${!this.pyenvReady || this.running}
-        title="Run"
-        appearance="plain"
-      >
-        <wa-icon name="play"></wa-icon>
-      </wa-button>
-    `;
+    return html``;
   }
 
   protected renderContent() {
@@ -437,59 +385,14 @@ export class KNengoEditor extends LyraPart {
     }
 
     return html`
-      <div class="split-layout">
-        <div class="code-pane">
-          <lyra-monaco-widget
-            .value=${this.initialContent}
-            .uri=${this.uri}
-            language="python"
-            @content-change=${this.onContentChange}
-            ${ref(this.widgetRef)}
-          ></lyra-monaco-widget>
-        </div>
-        <div class="viz-pane">
-          <div class="viz-header">
-            ${!this.pyenvReady
-              ? html`<span class="viz-status">Loading Python runtime…</span>`
-              : html`
-                  <span class="viz-status">
-                    ${this.simData
-                      ? `${this.simData.probesList.length} probe(s)`
-                      : 'Ready'}
-                  </span>
-                  ${this.simDurationTarget > 0
-                    ? html`
-                        <wa-slider
-                          class="progress-slider"
-                          size="small"
-                          .value=${this.running ? this.simProgress : this.viewTime}
-                          .min=${0}
-                          .max=${this.simDurationTarget}
-                          step=${0.01}
-                          .withTooltip=${true}
-                          .valueFormatter=${this.durationFormatter}
-                          @input=${(e: Event) => {
-                            const el = e.target as { value?: number };
-                            const v = el?.value ?? this.viewTime;
-                            if (typeof v === 'number' && v >= 0) {
-                              this.viewTime = Math.min(v, this.simDurationTarget);
-                              if (this.running) this.running = false;
-                            }
-                          }}
-                        ></wa-slider>
-                      `
-                    : ''}
-                `}
-          </div>
-          <div class="viz-content">
-            ${this.renderVizPanels()}
-            ${this.runOutput
-              ? html`<div class="output-area output-area-overlay"><pre class="output-content">${this.runOutput}</pre></div>`
-              : !this.getModelSummary() && this.pyenvReady
-                ? html`<div class="output-area"><span class="output-placeholder">Output will appear here after Run</span></div>`
-                : ''}
-          </div>
-        </div>
+      <div class="editor-container">
+        <lyra-monaco-widget
+          .value=${this.initialContent}
+          .uri=${this.uri}
+          language="python"
+          @content-change=${this.onContentChange}
+          ${ref(this.widgetRef)}
+        ></lyra-monaco-widget>
       </div>
     `;
   }
@@ -515,114 +418,16 @@ export class KNengoEditor extends LyraPart {
       flex-direction: column;
     }
 
-    .split-layout {
-      display: flex;
+    .editor-container {
       flex: 1;
       min-height: 0;
-      gap: 0;
+      overflow: hidden;
     }
 
-    .code-pane {
-      flex: 1;
-      min-width: 200px;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .code-pane lyra-monaco-widget {
+    .editor-container lyra-monaco-widget {
       display: block;
-      flex: 1;
-      min-height: 0;
+      height: 100%;
       width: 100%;
-    }
-
-    .viz-pane {
-      flex: 1;
-      min-width: 200px;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid var(--wa-color-surface-border);
-      overflow: hidden;
-    }
-
-    .viz-header {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      gap: var(--wa-space-s);
-      padding: var(--wa-space-xs, 0.25rem) var(--wa-space-s, 0.5rem);
-      background: var(--wa-color-surface-raised);
-      color: var(--wa-color-text-normal);
-      font-size: 0.875rem;
-    }
-
-    .viz-header .progress-slider {
-      flex: 1;
-      min-width: 80px;
-    }
-
-    .viz-status {
-      opacity: 0.8;
-    }
-
-    .viz-content {
-      flex: 1;
-      min-height: 0;
-      overflow: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .viz-content > .viz-grid {
-      flex: 1;
-      min-height: 0;
-      align-self: stretch;
-    }
-
-    .viz-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: var(--wa-space-m);
-      padding: var(--wa-space-m);
-      align-content: start;
-    }
-
-    .viz-panel {
-      min-height: 120px;
-      border: 1px solid var(--wa-color-surface-border);
-      border-radius: var(--wa-border-radius-m, 4px);
-      overflow: hidden;
-    }
-
-    .viz-panel-netgraph {
-      grid-column: 1 / -1;
-    }
-
-    .output-area-overlay {
-      grid-column: 1 / -1;
-      max-height: 120px;
-    }
-
-    .output-area {
-      flex: 1;
-      min-height: 0;
-      overflow: auto;
-      padding: var(--wa-space-m, 1rem);
-      font-family: monospace;
-      font-size: 0.8125rem;
-    }
-
-    .output-content {
-      margin: 0;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .output-placeholder {
-      opacity: 0.6;
-      font-style: italic;
     }
 
     .editor-placeholder {

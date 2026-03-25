@@ -21,6 +21,9 @@ export class NengoNetGraph extends LitElement {
     connections: { pre: string; post: string; kind: string }[];
   };
 
+  @property({ attribute: false })
+  onNodeContextMenu?: (evt: { nodeId: string; label: string; isEnsemble: boolean; x: number; y: number }) => void;
+
   private cy: cytoscape.Core | null = null;
   private resizeObserver?: ResizeObserver;
   private lastStructureKey = '';
@@ -32,6 +35,60 @@ export class NengoNetGraph extends LitElement {
     this.cy = null;
   }
 
+  private resolveVar(varExpr: string, fallback: string): string {
+    const match = varExpr.match(/var\((--[\w-]+)\)/);
+    const prop = match?.[1];
+    if (!prop) return fallback;
+    const val = getComputedStyle(this).getPropertyValue(prop).trim();
+    return val || fallback;
+  }
+
+  private getCytoscapeStyle(): cytoscape.StylesheetJson {
+    const surface = this.resolveVar('var(--wa-color-surface-raised)', '#e8e8e8');
+    const border = this.resolveVar('var(--wa-color-surface-border)', '#cccccc');
+    const text = this.resolveVar('var(--wa-color-text-normal)', '#333333');
+    const line = this.resolveVar('var(--wa-color-text-quiet)', '#888888');
+    return [
+      {
+        selector: 'node',
+        style: {
+          label: 'data(label)',
+          color: text,
+          'text-valign': 'center',
+          'text-halign': 'center',
+          'font-size': '10px',
+          'background-color': surface,
+          'border-width': 1,
+          'border-color': border,
+          width: 60,
+          height: 28,
+        },
+      },
+      {
+        selector: '.input-node',
+        style: { shape: 'round-rectangle' as cytoscape.Css.NodeShape },
+      },
+      {
+        selector: '.ensemble',
+        style: { shape: 'ellipse' as cytoscape.Css.NodeShape, width: 50 },
+      },
+      {
+        selector: 'edge',
+        style: {
+          'curve-style': 'bezier',
+          'target-arrow-shape': 'triangle',
+          'arrow-scale': 0.6,
+          width: 1.5,
+          'line-color': line,
+        },
+      },
+      {
+        selector: 'edge.modulatory',
+        style: { 'line-style': 'dashed', opacity: 0.8 },
+      },
+    ];
+  }
+
   private ensureCy(): void {
     if (this.cy) return;
     const container = this.renderRoot.querySelector<HTMLElement>('.cy-container');
@@ -39,51 +96,17 @@ export class NengoNetGraph extends LitElement {
 
     this.cy = cytoscape({
       container,
-      style: [
-        {
-          selector: 'node',
-          style: {
-            label: 'data(label)',
-            'text-valign': 'center',
-            'text-halign': 'center',
-            'font-size': '10px',
-            'background-color': 'var(--wa-color-surface-raised)',
-            'border-width': 1,
-            'border-color': 'var(--wa-color-surface-border)',
-            width: 60,
-            height: 28,
-          },
-        },
-        {
-          selector: '.input-node',
-          style: { shape: 'round-rectangle' as cytoscape.Css.NodeShape },
-        },
-        {
-          selector: '.ensemble',
-          style: { shape: 'ellipse' as cytoscape.Css.NodeShape, width: 50 },
-        },
-        {
-          selector: 'edge',
-          style: {
-            'curve-style': 'bezier',
-            'target-arrow-shape': 'triangle',
-            'arrow-scale': 0.6,
-            width: 1.5,
-            'line-color': 'var(--wa-color-text-quiet)',
-          },
-        },
-        {
-          selector: 'edge.modulatory',
-          style: { 'line-style': 'dashed', opacity: 0.8 },
-        },
-      ],
+      style: this.getCytoscapeStyle(),
       elements: [],
       layout: { name: 'preset' },
       minZoom: 0.2,
       maxZoom: 3,
     });
 
-    this.resizeObserver = new ResizeObserver(() => this.cy?.resize());
+    this.resizeObserver = new ResizeObserver(() => {
+      this.cy?.resize();
+      this.cy?.fit(undefined, 20);
+    });
     this.resizeObserver.observe(container);
   }
 
@@ -131,18 +154,29 @@ export class NengoNetGraph extends LitElement {
 
     this.cy.elements().remove();
     this.cy.add(elements);
+    this.cy.off('cxttap');
+    this.cy.on('cxttap', 'node', (evt: cytoscape.EventObject) => {
+      const node = evt.target;
+      const id = node.data('id') as string;
+      const label = (node.data('label') as string) ?? id;
+      const isEnsemble = node.hasClass('ensemble');
+      const pos = evt.originalEvent as MouseEvent;
+      this.onNodeContextMenu?.({ nodeId: id, label, isEnsemble, x: pos.clientX, y: pos.clientY });
+    });
+    const padding = 20;
     const layoutOpts: cytoscape.LayoutOptions =
       nodeIds.length <= 1
-        ? { name: 'preset', fit: true, padding: 20 }
+        ? { name: 'preset', fit: true, padding }
         : {
             name: 'breadthfirst',
             directed: true,
             direction: 'downward',
             fit: true,
-            padding: 20,
-            spacingFactor: 1.5,
+            padding,
+            spacingFactor: 1.2,
           };
     this.cy.layout(layoutOpts).run();
+    queueMicrotask(() => this.cy?.fit(undefined, padding));
   }
 
   render() {
@@ -161,7 +195,7 @@ export class NengoNetGraph extends LitElement {
     }
 
     return html`
-      <div class="netgraph-container">
+      <div class="netgraph-container" @contextmenu=${(e: Event) => { e.preventDefault(); e.stopPropagation(); }}>
         <div class="cy-container"></div>
       </div>
     `;
@@ -169,21 +203,23 @@ export class NengoNetGraph extends LitElement {
 
   static styles = css`
     :host {
-      display: block;
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
       min-height: 80px;
-      height: 100%;
+      overflow: hidden;
     }
     .netgraph-container {
       display: flex;
       flex-direction: column;
-      height: 100%;
+      flex: 1;
       min-height: 0;
       overflow: hidden;
     }
     .cy-container {
+      position: relative;
       flex: 1;
-      min-height: 0;
+      min-height: 200px;
       width: 100%;
     }
     .placeholder {
