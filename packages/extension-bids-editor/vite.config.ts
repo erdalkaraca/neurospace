@@ -23,7 +23,7 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'index',
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: isExternal,
       output: { format: 'es' },
     },

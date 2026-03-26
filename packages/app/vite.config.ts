@@ -34,14 +34,7 @@ export default defineConfig((): UserConfig => {
       include: ['@eclipse-lyra/core'],
       exclude: ['@eclipse-lyra/extension-monaco-editor'],
     },
-    esbuild: {
-      tsconfigRaw: {
-        compilerOptions: {
-          experimentalDecorators: true,
-          useDefineForClassFields: false,
-        },
-      },
-    },
+    // Lit legacy decorators: Oxc reads ../../tsconfig.json (repo root includes packages/**).
     worker: {
       format: 'es',
     },
