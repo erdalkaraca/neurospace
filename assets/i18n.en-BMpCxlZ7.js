@@ -1,0 +1,1 @@
+var e=`SNIRF Viewer`,t=`View fNIRS data in SNIRF format`,n={EXT_SNIRFVIEWER_NAME:e,EXT_SNIRFVIEWER_DESC:t};export{t as EXT_SNIRFVIEWER_DESC,e as EXT_SNIRFVIEWER_NAME,n as default};

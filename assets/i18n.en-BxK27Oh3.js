@@ -1,0 +1,1 @@
+var e=`Neuro Viewer`,t=`View NIfTI, DICOM, and other neuroimaging files`,n={EXT_NEUROVIEWER_NAME:e,EXT_NEUROVIEWER_DESC:t};export{t as EXT_NEUROVIEWER_DESC,e as EXT_NEUROVIEWER_NAME,n as default};

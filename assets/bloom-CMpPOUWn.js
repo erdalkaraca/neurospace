@@ -1,0 +1,1 @@
+import{l as e}from"./chunk-QY3QWFKW-DY0vlPxl.js";e();var t={name:`bloom`,setup:async(e,t)=>({bundlePath:new URL(`/assets/bloom.tar-BwHabkwt.gz`,``+import.meta.url)})};export{t as bloom};
