@@ -1,7 +1,7 @@
 import { EditorInput, File as LyraFile, editorRegistry } from '@eclipse-lyra/core';
 import { html } from '@eclipse-lyra/core/externals/lit';
 
-import './k-nengo-editor';
+import { NENGO_EDITOR_ID } from './k-nengo-editor';
 import './nengo-catalog';
 import './nengo-viz-contributions';
 import './nengo-model-graph-panel';
@@ -11,7 +11,7 @@ const isNengoFile = (file: LyraFile): boolean =>
   file.getName().toLowerCase().endsWith('.nengo.py');
 
 editorRegistry.registerEditorInputHandler({
-  editorId: 'nengo-editor',
+  editorId: NENGO_EDITOR_ID,
   label: 'Nengo Editor',
   canHandle: (input): input is LyraFile =>
     input instanceof LyraFile && isNengoFile(input),

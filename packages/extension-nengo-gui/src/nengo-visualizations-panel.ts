@@ -6,12 +6,11 @@ import {
 } from '@eclipse-lyra/core';
 import { customElement, html, css, nothing, type TemplateResult } from '@eclipse-lyra/core/externals/lit';
 import {
-  nengoSimDataSignal,
-  nengoAddedVisualizationsSignal,
-  nengoRunRequestSignal,
-  nengoStopRequestSignal,
-  nengoViewTimeRequestSignal,
-} from './nengo-model-signal';
+  KNengoEditor,
+  NENGO_COMPANION_UPDATE,
+  NENGO_EDITOR_ID,
+  getActiveNengoEditor,
+} from './k-nengo-editor';
 import {
   NENGO_VIZ_SLOT,
   type NengoVizContext,
@@ -21,10 +20,11 @@ import './viz/nengo-value-plot';
 import './viz/nengo-raster-plot';
 import './viz/nengo-time-scrubber';
 
-const NENGO_EDITOR_TAG = 'k-nengo-editor';
-
 @customElement('nengo-visualizations-panel')
 export class NengoVisualizationsPanel extends LyraPart {
+  private _companionEditor: KNengoEditor | null = null;
+  private readonly _onCompanionUpdate = () => this.requestUpdate();
+
   static override styles = css`
     :host {
       display: flex;
@@ -73,23 +73,29 @@ export class NengoVisualizationsPanel extends LyraPart {
   `;
 
   protected override doBeforeUI(): void {
-    this.watch(activeEditorSignal, () => this.handleActiveEditorChange());
-    this.watch(nengoSimDataSignal, () => this.requestUpdate());
-    this.watch(nengoAddedVisualizationsSignal, () => this.requestUpdate());
+    this.watch(activeEditorSignal, () => {
+      this.syncCompanionListener();
+      this.requestUpdate();
+    });
+    this.syncCompanionListener();
   }
 
-  private handleActiveEditorChange(): void {
-    const active = activeEditorSignal.get();
-    const isNengo = active?.tagName?.toLowerCase() === NENGO_EDITOR_TAG;
-    if (!isNengo) {
-      nengoSimDataSignal.set({
-        viewTime: 0,
-        simDurationTarget: 0,
-        running: false,
-        simProgress: 0,
-        canRun: false,
-      });
-    }
+  override disconnectedCallback(): void {
+    this.detachCompanionListener();
+    super.disconnectedCallback();
+  }
+
+  private syncCompanionListener(): void {
+    const ed = getActiveNengoEditor();
+    if (ed === this._companionEditor) return;
+    this.detachCompanionListener();
+    this._companionEditor = ed;
+    ed?.addEventListener(NENGO_COMPANION_UPDATE, this._onCompanionUpdate);
+  }
+
+  private detachCompanionListener(): void {
+    this._companionEditor?.removeEventListener(NENGO_COMPANION_UPDATE, this._onCompanionUpdate);
+    this._companionEditor = null;
   }
 
   protected override renderToolbar(): TemplateResult | typeof nothing {
@@ -97,8 +103,8 @@ export class NengoVisualizationsPanel extends LyraPart {
   }
 
   protected override renderContent(): TemplateResult {
-    const isNengo = activeEditorSignal.get()?.tagName?.toLowerCase() === NENGO_EDITOR_TAG;
-    if (!isNengo) {
+    const editor = getActiveNengoEditor();
+    if (!editor) {
       return html`
         <div class="panel-content">
           <div class="placeholder">Open a .nengo.py file and run simulation to see visualizations</div>
@@ -106,14 +112,14 @@ export class NengoVisualizationsPanel extends LyraPart {
       `;
     }
 
-    const data = nengoSimDataSignal.get();
-    const simData = data?.simData;
-    const runOutput = data?.runOutput;
-    const viewTime = data?.viewTime ?? 0;
-    const simDurationTarget = data?.simDurationTarget ?? 0;
-    const running = data?.running ?? false;
-    const simProgress = data?.simProgress ?? 0;
-    const canRun = data?.canRun ?? false;
+    const data = editor.getCompanionSimSnapshot();
+    const simData = data.simData;
+    const runOutput = data.runOutput;
+    const viewTime = data.viewTime ?? 0;
+    const simDurationTarget = data.simDurationTarget ?? 0;
+    const running = data.running ?? false;
+    const simProgress = data.simProgress ?? 0;
+    const canRun = data.canRun ?? false;
 
     const contributions = contributionRegistry.getContributions<NengoVisualizationContribution>(
       NENGO_VIZ_SLOT
@@ -159,7 +165,7 @@ export class NengoVisualizationsPanel extends LyraPart {
         `;
       }) ?? [];
 
-    const added = nengoAddedVisualizationsSignal.get();
+    const added = editor.getCompanionAddedVisualizations();
     const addedPanels = added.map((a) => {
       const valueContrib = contributions.find((c) => c.name === 'value');
       const rasterContrib = contributions.find((c) => c.name === 'raster');
@@ -187,10 +193,10 @@ export class NengoVisualizationsPanel extends LyraPart {
           .step=${0.01}
           .running=${running}
           .canRun=${canRun}
-          .onInput=${(v: number) => nengoViewTimeRequestSignal.set(v)}
-          .onReset=${() => nengoViewTimeRequestSignal.set(0)}
-          .onPlay=${() => nengoRunRequestSignal.set(nengoRunRequestSignal.get() + 1)}
-          .onStop=${() => nengoStopRequestSignal.set(nengoStopRequestSignal.get() + 1)}
+          .onInput=${(v: number) => editor.setCompanionViewTime(v)}
+          .onReset=${() => editor.setCompanionViewTime(0)}
+          .onPlay=${() => editor.runSimulation()}
+          .onStop=${() => editor.stopSimulation()}
         ></nengo-time-scrubber>
         <div class="viz-grid">
           ${probePanels}
@@ -198,7 +204,7 @@ export class NengoVisualizationsPanel extends LyraPart {
         </div>
         ${runOutput
           ? html`<div class="output-area"><pre>${runOutput}</pre></div>`
-          : !simData && isNengo
+          : !simData
             ? html`<div class="output-area"><span class="placeholder">Output will appear here after Run</span></div>`
             : ''}
       </div>
@@ -210,6 +216,7 @@ contributionRegistry.registerContribution(PANEL_BOTTOM, {
   name: 'nengo-visualizations',
   label: 'Visualizations',
   icon: 'chart-line',
+  coupledEditors: [NENGO_EDITOR_ID],
   component: (id: string) =>
     html`<nengo-visualizations-panel id="${id}"></nengo-visualizations-panel>`,
 });

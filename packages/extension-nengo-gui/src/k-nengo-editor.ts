@@ -1,9 +1,4 @@
-import {
-  LyraPart,
-  EditorInput,
-  File as LyraFile,
-  activeEditorSignal,
-} from '@eclipse-lyra/core';
+import { LyraPart, EditorInput, File as LyraFile, activeEditorSignal } from '@eclipse-lyra/core';
 import {
   customElement,
   property,
@@ -19,15 +14,13 @@ import nameFinderScript from './py-scripts/name_finder.py?raw';
 import initSimScript from './py-scripts/init-sim.py?raw';
 import advanceScript from './py-scripts/advance.py?raw';
 import extractModelScript from './py-scripts/extract-model.py?raw';
-import {
-  nengoModelSummarySignal,
-  nengoModelLoadingSignal,
-  nengoSimDataSignal,
-  nengoRunRequestSignal,
-  nengoStopRequestSignal,
-  nengoViewTimeRequestSignal,
-  nengoModelSyncRequestSignal,
-} from './nengo-model-signal';
+import type { NengoAddedVisualization, NengoModelSummary, NengoSimData } from './nengo-model-types';
+
+/** Lyra `editorId` for this editor; must match `registerEditorInputHandler` and panel `coupledEditors`. */
+export const NENGO_EDITOR_ID = 'nengo-editor';
+
+/** Fired on `KNengoEditor` when state relevant to companion panels changes. */
+export const NENGO_COMPANION_UPDATE = 'nengo-companion-update';
 
 @customElement('k-nengo-editor')
 export class KNengoEditor extends LyraPart {
@@ -87,6 +80,12 @@ export class KNengoEditor extends LyraPart {
     connections: { pre: string; post: string; kind: string }[];
   };
 
+  @state()
+  private modelExtractLoading = false;
+
+  @state()
+  private addedVisualizations: NengoAddedVisualization[] = [];
+
   private pyenv?: PyEnv;
   private extractDebounce = 0;
   private widgetRef = createRef<any>();
@@ -98,43 +97,37 @@ export class KNengoEditor extends LyraPart {
   protected override scrollMode = 'native' as const;
 
   protected override doBeforeUI(): void {
-    this.watch(activeEditorSignal, () => this.syncModelToSignal());
-    this.watch(nengoRunRequestSignal, () => {
-      if (activeEditorSignal.get() === this) this.run();
-    });
-    this.watch(nengoStopRequestSignal, () => {
-      if (activeEditorSignal.get() === this) this.stop();
-    });
-    this.watch(nengoViewTimeRequestSignal, () => {
-      const v = nengoViewTimeRequestSignal.get();
-      if (v !== undefined && activeEditorSignal.get() === this) this.viewTime = v;
-    });
-    this.watch(nengoModelSyncRequestSignal, () => {
-      if (activeEditorSignal.get() === this) this.syncModelToSignal();
-    });
+    // Companion panels bind to this element via NENGO_COMPANION_UPDATE; no global signals.
   }
 
   protected override updated(changedProperties: Map<string, unknown>): void {
     super.updated?.(changedProperties);
-    if (
-      changedProperties.has('modelStructure') ||
-      changedProperties.has('simData') ||
-      changedProperties.has('runOutput') ||
-      changedProperties.has('viewTime') ||
-      changedProperties.has('simProgress') ||
-      changedProperties.has('running') ||
-      changedProperties.has('pyenvReady')
-    ) {
-      this.syncModelToSignal();
+    const companionKeys = new Set([
+      'modelStructure',
+      'simData',
+      'runOutput',
+      'viewTime',
+      'simProgress',
+      'running',
+      'pyenvReady',
+      'modelExtractLoading',
+      'addedVisualizations',
+    ]);
+    if ([...changedProperties.keys()].some((k) => companionKeys.has(k))) {
+      this.dispatchEvent(new CustomEvent(NENGO_COMPANION_UPDATE));
     }
   }
 
-  private syncModelToSignal(): void {
-    if (activeEditorSignal.get() !== this) return;
-    const summary = this.getModelSummary();
-    nengoModelSummarySignal.set(summary ?? undefined);
-    if (summary) nengoModelLoadingSignal.set(false);
-    nengoSimDataSignal.set({
+  public getModelSummary(): NengoModelSummary | undefined {
+    return this.computeModelSummaryInternal();
+  }
+
+  public get isModelExtractLoading(): boolean {
+    return this.modelExtractLoading;
+  }
+
+  public getCompanionSimSnapshot(): NengoSimData {
+    return {
       simData: this.simData,
       runOutput: this.runOutput,
       viewTime: this.viewTime,
@@ -142,7 +135,34 @@ export class KNengoEditor extends LyraPart {
       running: this.running,
       simProgress: this.simProgress,
       canRun: this.pyenvReady,
-    });
+    };
+  }
+
+  public getCompanionAddedVisualizations(): readonly NengoAddedVisualization[] {
+    return this.addedVisualizations;
+  }
+
+  public addCompanionVisualization(entry: NengoAddedVisualization): void {
+    if (
+      this.addedVisualizations.some(
+        (a) => a.objectId === entry.objectId && a.vizType === entry.vizType
+      )
+    ) {
+      return;
+    }
+    this.addedVisualizations = [...this.addedVisualizations, entry];
+  }
+
+  public runSimulation(): void {
+    void this.run();
+  }
+
+  public stopSimulation(): void {
+    this.stop();
+  }
+
+  public setCompanionViewTime(t: number): void {
+    this.viewTime = t;
   }
 
   protected async doInitUI() {
@@ -152,6 +172,7 @@ export class KNengoEditor extends LyraPart {
     this.uri = undefined;
     this.pyenvReady = false;
     this.pyenvError = undefined;
+    this.addedVisualizations = [];
 
     try {
       const data = this.input?.data;
@@ -182,10 +203,7 @@ export class KNengoEditor extends LyraPart {
         queueMicrotask(() => this.requestUpdate());
       });
       this.pyenvReady = true;
-      if (activeEditorSignal.get() === this) {
-        nengoModelLoadingSignal.set(true);
-      }
-      this.extractModelStructure(this.initialContent ?? '');
+      void this.extractModelStructure(this.initialContent ?? '');
     } catch (err) {
       this.error = err instanceof Error ? err.message : String(err);
       this.pyenvError = err instanceof Error ? err.message : String(err);
@@ -208,10 +226,11 @@ export class KNengoEditor extends LyraPart {
   }
 
   private async extractModelStructure(code: string): Promise<void> {
-    if (!this.pyenv || !code.trim()) return;
-    if (activeEditorSignal.get() === this) {
-      nengoModelLoadingSignal.set(true);
+    if (!this.pyenv || !code.trim()) {
+      this.modelExtractLoading = false;
+      return;
     }
+    this.modelExtractLoading = true;
     try {
       const wrappedCode = '__name__ = "__main__"\n' + code;
       await this.pyenv.execCode(wrappedCode);
@@ -233,9 +252,7 @@ export class KNengoEditor extends LyraPart {
     } catch {
       this.modelStructure = undefined;
     } finally {
-      if (activeEditorSignal.get() === this) {
-        nengoModelLoadingSignal.set(false);
-      }
+      this.modelExtractLoading = false;
     }
   }
 
@@ -340,7 +357,7 @@ export class KNengoEditor extends LyraPart {
     this.pyenv = undefined;
   }
 
-  private getModelSummary(): { ensembles: string[]; nodes: string[]; probes: string[]; connections: { pre: string; post: string; kind: string }[] } | undefined {
+  private computeModelSummaryInternal(): NengoModelSummary | undefined {
     const toArray = (v: unknown): string[] => {
       if (v == null) return [];
       if (Array.isArray(v)) return v.map(String);
@@ -448,4 +465,9 @@ export class KNengoEditor extends LyraPart {
       color: var(--wa-color-danger-fill-loud);
     }
   `;
+}
+
+export function getActiveNengoEditor(): KNengoEditor | null {
+  const el = activeEditorSignal.get();
+  return el instanceof KNengoEditor ? el : null;
 }
