@@ -1,0 +1,1 @@
+var e=`BIDS validator`,t=`Validate BIDS datasets and publish results to DataView`,n={EXT_BIDS_VALIDATOR_NAME:e,EXT_BIDS_VALIDATOR_DESC:t};export{t as EXT_BIDS_VALIDATOR_DESC,e as EXT_BIDS_VALIDATOR_NAME,n as default};
