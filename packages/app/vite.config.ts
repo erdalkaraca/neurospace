@@ -44,7 +44,7 @@ export default defineConfig({
     createDocksPwaPlugin({
       basePath,
       appName: 'neuro!space',
-      appDescription: 'Neuromorphic cognitive modeling platform',
+      appDescription: 'Scientific Platform for Hybrid Cognitive Architectures',
       maximumFileSizeToCacheInBytes: 12 * 1024 * 1024,
     }),
   ],

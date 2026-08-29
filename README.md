@@ -2,9 +2,9 @@
 
 **Live**: [erdalkaraca.github.io/neurospace](https://erdalkaraca.github.io/neurospace/)
 
-> **Vision**: Neurospace is evolving toward an application focused on **neuromorphic cognitive modeling**—a unified platform for building, visualizing, and analyzing brain-inspired computational models.
+> **Vision**: Neurospace is a **scientific platform for hybrid cognitive architectures**—a unified environment for building, composing, and analyzing models that combine symbolic, connectionist, and neuromorphic approaches.
 
-Built on the [Eclipse Docks](https://github.com/eclipse-docks/core) framework, Neurospace currently provides an interactive neuroimaging viewer as its foundation. Over time, it will expand into tools for spiking neural networks, cognitive architectures, and simulation workflows that bridge neuroscience and AI.
+Built on the [Eclipse Docks](https://github.com/eclipse-docks/core) framework, Neurospace provides neuroimaging visualization and BIDS tooling as a foundation for hybrid cognitive architecture workflows that bridge neuroscience and AI.
 
 ![NIfTI viewer](docs/screenshots/nifti-viewer.png)
 
@@ -18,19 +18,16 @@ Built on the [Eclipse Docks](https://github.com/eclipse-docks/core) framework, N
 
 ## Current Capabilities
 
-- **Neuroimaging viewer**: Displays NIfTI, DICOM, NRRD, and related formats via an editor integrated with the workspace file browser
-- **SNIRF viewer**: Displays fNIRS data in SNIRF format (.snirf) with time-series charts and probe layout
-- **OpenNeuro downloads**: Download BIDS datasets from [OpenNeuro](https://openneuro.org) directly into the workspace with progress tracking
-- **Formats**: Volumes (NIfTI .nii/.nii.gz, DICOM .dcm, NRRD, MGH/MGZ, MRtrix MIF), powered by [NiiVue](https://github.com/niivue/niivue) (WebGL2, TypeScript); fNIRS (SNIRF), powered by [jsfive](https://github.com/usnistgov/jsfive) (HDF5)
+- **Neuroimaging viewer**: View NIfTI (.nii/.nii.gz), DICOM (.dcm), NRRD, MGH/MGZ, and MRtrix MIF from the workspace file browser. 4D volumes (e.g. BOLD fMRI) support frame scrubbing, playback, and colormap selection. Powered by [NiiVue](https://github.com/niivue/niivue).
+- **SNIRF viewer**: View fNIRS data in SNIRF format (.snirf) with time-series charts and probe layout. Powered by [jsfive](https://github.com/usnistgov/jsfive).
+- **OpenNeuro integration**: Browse [OpenNeuro](https://openneuro.org) datasets via lazy-loaded read-only virtual folders—inspect files on demand without downloading gigabytes—or download a full dataset into the workspace.
+- **BIDS tooling**: Edit `dataset_description.json` in a JSON editor; validate BIDS datasets and view results in DataView.
 
 ## Roadmap
 
-- Neuroimaging visualization (current)
-- **BOLD activation map overlays**: Load anatomical + statistical map (e.g. t/z-stat from FSL/SPM); warm/cool colormaps with thresholding (cal_min/max)
-- **EEG viewer**: Extend physiological-signal architecture (time series + spatial layout) to support EEG; EEG loader (EDF, BrainVision, EEGLAB); electrode layout
-- Neuromorphic model design and simulation
-- Cognitive architecture integration
-- Data-driven and theory-driven modeling workflows
+- **Nengo editor**: Edit `.nengo.py` models with in-browser Python, run simulations, and inspect live visualizations (value plots, raster plots, network graph).
+- **ACT-R models**: Edit and run ACT-R cognitive models with integrated visualization and workspace tooling.
+- **ancpBIDS tooling**: Integrate [ancpBIDS](https://github.com/ANCPLabOldenburg/ancp-bids) for querying, validating, and writing BIDS datasets from the workspace.
 
 ## Setup
 
@@ -39,13 +36,17 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173, connect a workspace (folder with neuroimaging or fNIRS files), and open a `.nii.gz`, `.dcm`, or `.snirf` file from the file browser.
+Open http://localhost:5173, connect a workspace, and open a supported file (e.g. `.nii.gz`, `.dcm`, or `.snirf`) from the file browser.
 
 ## Project Structure
 
 - `packages/app` – App entrypoint and shell
-- `packages/extension-neuro-viewer` – Neuroimaging editor extension (NIfTI, DICOM, etc.)
-- `packages/extension-snirf-viewer` – SNIRF/fNIRS viewer extension
+- `packages/extension-neuro-viewer` – Neuroimaging viewer (NIfTI, DICOM, NRRD, MGH/MGZ, MIF)
+- `packages/extension-snirf-viewer` – SNIRF/fNIRS viewer
+- `packages/extension-nengo-gui` – Nengo model editor and visualizations
+- `packages/extension-openneuro` – OpenNeuro browse and download
+- `packages/extension-bids-editor` – BIDS `dataset_description.json` editor
+- `packages/extension-bids-validator` – BIDS validation with DataView results
 
 ## Dependencies
 

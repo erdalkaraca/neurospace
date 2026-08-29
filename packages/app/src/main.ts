@@ -8,7 +8,7 @@ const appRoot = document.getElementById('app-root') ?? document.body;
 appLoaderService.registerApp(
   {
     name: 'neuro!space',
-    description: 'Neuromorphic cognitive modeling platform',
+    description: 'Scientific Platform for Hybrid Cognitive Architectures',
     layout: {
       id: 'standard',
       props: {
