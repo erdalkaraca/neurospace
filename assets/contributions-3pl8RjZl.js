@@ -1,0 +1,1 @@
+var e=`bids-editor.validate`;export{e as t};

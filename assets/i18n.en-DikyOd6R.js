@@ -1,0 +1,1 @@
+var e=`ancpBIDS`,t=`Validate and query BIDS datasets with ancpBIDS via Pyodide`,n={EXT_ANCPBIDS_NAME:e,EXT_ANCPBIDS_DESC:t};export{t as EXT_ANCPBIDS_DESC,e as EXT_ANCPBIDS_NAME,n as default};
