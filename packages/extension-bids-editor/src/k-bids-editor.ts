@@ -1,6 +1,8 @@
 import { DocksPart, EditorInput, File as DocksFile } from '@eclipse-docks/core';
 import { customElement, property, state, html, css, createRef, ref } from '@eclipse-docks/core/externals/lit';
 
+import { BIDS_EDITOR_VALIDATE_TARGET } from './contributions';
+
 @customElement('k-bids-editor')
 export class KBidsEditor extends DocksPart {
   @property({ attribute: false })
@@ -52,6 +54,20 @@ export class KBidsEditor extends DocksPart {
     const value = this.widgetRef.value?.getContent?.() ?? '';
     data.saveContents(value);
     this.markDirty(false);
+  }
+
+  protected override renderToolbar() {
+    return html`
+      <docks-command
+        icon="clipboard-list"
+        title="Validate"
+        dropdown=${BIDS_EDITOR_VALIDATE_TARGET}
+        with-caret
+        label
+        appearance="plain"
+        size="s"
+      ></docks-command>
+    `;
   }
 
   protected override doClose(): void {

@@ -56,6 +56,7 @@ appLoaderService.registerApp(
       '@kispace-io/extension-openneuro',
       '@kispace-io/extension-bids-editor',
       '@kispace-io/extension-bids-validator',
+      '@kispace-io/extension-ancpbids',
       '@kispace-io/extension-nengo-gui',
     ],
   },

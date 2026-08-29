@@ -2,13 +2,13 @@ import { File as DocksFile, contributionRegistry, registerAll, toastError } from
 import type { CommandContribution } from '@eclipse-docks/core';
 import { BIDS_EDITOR_VALIDATE_TARGET } from '@kispace-io/extension-bids-editor';
 
-import { bidsValidationService } from './bids-validation-service';
+import { ancpbidsService } from './ancpbids-service';
 
 const isDatasetDescription = (file: DocksFile): boolean =>
   file.getName() === 'dataset_description.json';
 
-function getDatasetRootFromActiveEditor(activeEditor: any) {
-  const input = activeEditor?.input;
+function getDatasetRootFromActiveEditor(activeEditor: unknown) {
+  const input = (activeEditor as { input?: { data?: unknown } } | null | undefined)?.input;
   const data = input?.data;
   if (!(data instanceof DocksFile)) return null;
   if (!isDatasetDescription(data)) return null;
@@ -17,10 +17,9 @@ function getDatasetRootFromActiveEditor(activeEditor: any) {
 
 registerAll({
   command: {
-    id: 'bids.validate',
-    name: 'Validate BIDS dataset',
-    description: 'Runs the BIDS validator and publishes results to DataView.',
-    icon: 'clipboard-list',
+    id: 'ancpbids.validate',
+    name: 'Validate BIDS dataset (ancpBIDS)',
+    description: 'Loads and validates a BIDS dataset with ancpBIDS via Pyodide.',
   },
   handler: {
     canExecute: (context) => !!getDatasetRootFromActiveEditor(context.activeEditor),
@@ -28,18 +27,18 @@ registerAll({
       const root = getDatasetRootFromActiveEditor(context.activeEditor);
       if (!root) return;
       try {
-        await bidsValidationService.runValidation(root);
+        await ancpbidsService.runValidation(root);
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
-        toastError(`BIDS validation failed: ${msg}`);
+        toastError(`ancpBIDS validation failed: ${msg}`);
       }
     },
   },
 });
 
 contributionRegistry.registerContribution<CommandContribution>(BIDS_EDITOR_VALIDATE_TARGET, {
-  label: 'BIDS Validator',
+  label: 'ancpBIDS',
   icon: 'clipboard-list',
-  command: 'bids.validate',
-  ranking: 0,
+  command: 'ancpbids.validate',
+  ranking: 10,
 });

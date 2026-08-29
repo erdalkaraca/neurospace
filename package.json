@@ -11,7 +11,8 @@
     "dev": "npm run dev -w @kispace-io/app",
     "build": "npm run build -w @kispace-io/app",
     "preview": "npm run preview -w @kispace-io/app",
-    "release": "docks release"
+    "release": "docks release",
+    "postinstall": "node scripts/patch-docks-command-log.mjs"
   },
   "devDependencies": {
     "@eclipse-docks/cli": "^0.7.132"

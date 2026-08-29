@@ -1,0 +1,29 @@
+{
+  "name": "@kispace-io/extension-ancpbids",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@eclipse-docks/core": "*",
+    "@kispace-io/extension-bids-editor": "*",
+    "@eclipse-docks/extension-dataviewer": "*",
+    "@eclipse-docks/extension-python-runtime": "*"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.0",
+    "vite": "^8.0.0",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  }
+}

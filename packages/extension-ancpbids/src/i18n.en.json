@@ -1,0 +1,4 @@
+{
+  "EXT_ANCPBIDS_NAME": "ancpBIDS",
+  "EXT_ANCPBIDS_DESC": "Validate and query BIDS datasets with ancpBIDS via Pyodide"
+}

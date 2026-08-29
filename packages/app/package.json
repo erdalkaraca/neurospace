@@ -32,6 +32,7 @@
     "@eclipse-docks/extension-utils": "*",
     "@kispace-io/extension-bids-editor": "*",
     "@kispace-io/extension-bids-validator": "*",
+    "@kispace-io/extension-ancpbids": "*",
     "@kispace-io/extension-nengo-gui": "*",
     "@kispace-io/extension-neuro-viewer": "*",
     "@kispace-io/extension-openneuro": "*",
