@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "@eclipse-lyra/core": "*",
+    "@eclipse-docks/core": "*",
     "jsfive": "^0.4.0"
   },
   "devDependencies": {

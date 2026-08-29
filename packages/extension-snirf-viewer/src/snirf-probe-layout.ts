@@ -5,7 +5,7 @@ import {
   css,
   html,
   nothing,
-} from '@eclipse-lyra/core/externals/lit';
+} from '@eclipse-docks/core/externals/lit';
 import type { SnirfDataBlock, SnirfProbe } from './types.js';
 import {
   resolveToken,

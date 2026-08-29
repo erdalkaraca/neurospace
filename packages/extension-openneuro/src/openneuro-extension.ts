@@ -12,7 +12,7 @@ import {
   File,
   Directory,
   activeSelectionSignal,
-} from '@eclipse-lyra/core';
+} from '@eclipse-docks/core';
 import {
   collectFilesRecursive,
   fetchLatestSnapshotTag,

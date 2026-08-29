@@ -10,8 +10,8 @@
     }
   },
   "dependencies": {
-    "@eclipse-lyra/core": "*",
-    "@eclipse-lyra/extension-monaco-editor": "*"
+    "@eclipse-docks/core": "*",
+    "@eclipse-docks/extension-monaco-editor": "*"
   },
   "devDependencies": {
     "typescript": "^6.0.0",

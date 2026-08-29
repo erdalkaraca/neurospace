@@ -1,5 +1,5 @@
-import { EditorInput, File as LyraFile, editorRegistry } from '@eclipse-lyra/core';
-import { html } from '@eclipse-lyra/core/externals/lit';
+import { EditorInput, File as DocksFile, editorRegistry } from '@eclipse-docks/core';
+import { html } from '@eclipse-docks/core/externals/lit';
 
 import { NENGO_EDITOR_ID } from './k-nengo-editor';
 import './nengo-catalog';
@@ -7,15 +7,15 @@ import './nengo-viz-contributions';
 import './nengo-model-graph-panel';
 import './nengo-visualizations-panel';
 
-const isNengoFile = (file: LyraFile): boolean =>
+const isNengoFile = (file: DocksFile): boolean =>
   file.getName().toLowerCase().endsWith('.nengo.py');
 
 editorRegistry.registerEditorInputHandler({
   editorId: NENGO_EDITOR_ID,
   label: 'Nengo Editor',
-  canHandle: (input): input is LyraFile =>
-    input instanceof LyraFile && isNengoFile(input),
-  handle: async (input: LyraFile) => {
+  canHandle: (input): input is DocksFile =>
+    input instanceof DocksFile && isNengoFile(input),
+  handle: async (input: DocksFile) => {
     const editorInput: EditorInput = {
       title: input.getWorkspacePath(),
       data: input,

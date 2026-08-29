@@ -1,8 +1,8 @@
-import { Directory, File as LyraFile, publish, taskService } from '@eclipse-lyra/core';
+import { Directory, File as DocksFile, publish, taskService } from '@eclipse-docks/core';
 import type { ValidationResult } from '@bids/validator/main';
 import { fileListToTree, validate } from '@bids/validator/main';
-import type { DataView, TabularData } from '@eclipse-lyra/extension-dataviewer/api';
-import { TOPIC_DATAVIEW_PUBLISH } from '@eclipse-lyra/extension-dataviewer/api';
+import type { DataView, TabularData } from '@eclipse-docks/extension-dataviewer/api';
+import { TOPIC_DATAVIEW_PUBLISH } from '@eclipse-docks/extension-dataviewer/api';
 
 type NativeFile = globalThis.File;
 
@@ -21,7 +21,7 @@ export interface BidsValidationOutput {
 
 interface WorkspaceFileEntry {
   path: string;
-  file: LyraFile;
+  file: DocksFile;
 }
 
 async function collectDatasetFiles(root: Directory): Promise<WorkspaceFileEntry[]> {
@@ -34,7 +34,7 @@ async function collectDatasetFiles(root: Directory): Promise<WorkspaceFileEntry[
         await walk(child, nextPrefix);
         continue;
       }
-      if (child instanceof LyraFile) {
+      if (child instanceof DocksFile) {
         const relPath = prefix ? `${prefix}/${child.getName()}` : child.getName();
         results.push({ path: relPath, file: child });
       }

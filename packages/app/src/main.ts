@@ -2,47 +2,30 @@ import {
   appLoaderService,
   TOOLBAR_MAIN,
   type HTMLContribution,
-} from '@eclipse-lyra/core';
-
-import '@eclipse-lyra/extension-md-editor';
-import '@eclipse-lyra/extension-media-viewer';
-import '@eclipse-lyra/extension-memory-usage';
-import '@eclipse-lyra/extension-monaco-editor';
-import '@eclipse-lyra/extension-settings-tree';
-import '@eclipse-lyra/extension-utils';
-import '@eclipse-lyra/extension-catalog';
-import '@eclipse-lyra/extension-ai-system';
-import '@eclipse-lyra/extension-command-palette';
-import '@eclipse-lyra/extension-github-service';
-import '@eclipse-lyra/extension-howto-system';
-import '@eclipse-lyra/extension-in-browser-ml';
-import '@eclipse-lyra/extension-notebook';
-import '@eclipse-lyra/extension-python-runtime';
-import '@eclipse-lyra/extension-dataviewer';
-import '@eclipse-lyra/extension-sqleditor';
-import '@eclipse-lyra/extension-duckdb';
-import '@eclipse-lyra/extension-pglite';
-
-import '@kispace-io/extension-neuro-viewer';
-import '@kispace-io/extension-snirf-viewer';
-import '@kispace-io/extension-openneuro';
-import '@kispace-io/extension-bids-editor';
-import '@kispace-io/extension-bids-validator';
-import '@kispace-io/extension-nengo-gui';
+} from '@eclipse-docks/core';
 
 const appRoot = document.getElementById('app-root') ?? document.body;
 appLoaderService.registerApp(
   {
     name: 'neuro!space',
     description: 'Neuromorphic cognitive modeling platform',
-    layout: 'standard',
+    layout: {
+      id: 'standard',
+      props: {
+        showLeftSidebar: true,
+        showAuxSidebar: true,
+        showBottomPanel: true,
+        showLeftAux: false,
+        showRightAux: false,
+      },
+    },
     metadata: {
       github: {
-          owner: 'erdalkaraca',
-          repo: 'neurospace'
+        owner: 'erdalkaraca',
+        repo: 'neurospace',
       },
-      favicon: '/logo.svg'
-  },
+      favicon: '/logo.svg',
+    },
     contributions: {
       ui: [
         {
@@ -55,19 +38,19 @@ appLoaderService.registerApp(
       ],
     },
     extensions: [
-      '@eclipse-lyra/extension-utils',
-      '@eclipse-lyra/extension-command-palette',
-      '@eclipse-lyra/extension-memory-usage',
-      '@eclipse-lyra/extension-settings-tree',
-      '@eclipse-lyra/extension-monaco-editor',
-      '@eclipse-lyra/extension-python-runtime',
-      '@eclipse-lyra/extension-md-editor',
-      '@eclipse-lyra/extension-media-viewer',
-      '@eclipse-lyra/extension-notebook',
-      '@eclipse-lyra/extension-ai-system',
-      '@eclipse-lyra/extension-dataviewer',
-      '@eclipse-lyra/extension-catalog',
-      
+      '@eclipse-docks/extension-utils',
+      '@eclipse-docks/extension-pwa',
+      '@eclipse-docks/extension-command-palette',
+      '@eclipse-docks/extension-memory-usage',
+      '@eclipse-docks/extension-settings-tree',
+      '@eclipse-docks/extension-monaco-editor',
+      '@eclipse-docks/extension-python-runtime',
+      '@eclipse-docks/extension-md-editor',
+      '@eclipse-docks/extension-media-viewer',
+      '@eclipse-docks/extension-notebook',
+      '@eclipse-docks/extension-ai-system',
+      '@eclipse-docks/extension-dataviewer',
+      '@eclipse-docks/extension-catalog',
       '@kispace-io/extension-neuro-viewer',
       '@kispace-io/extension-snirf-viewer',
       '@kispace-io/extension-openneuro',

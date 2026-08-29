@@ -1,5 +1,5 @@
-import { contributionRegistry } from '@eclipse-lyra/core';
-import { html } from '@eclipse-lyra/core/externals/lit';
+import { contributionRegistry } from '@eclipse-docks/core';
+import { html } from '@eclipse-docks/core/externals/lit';
 import type { NengoVisualizationContribution } from './nengo-viz-api';
 import { NENGO_VIZ_SLOT } from './nengo-viz-api';
 

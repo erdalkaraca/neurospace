@@ -1,4 +1,4 @@
-import { Directory, File } from '@eclipse-lyra/core';
+import { Directory, File } from '@eclipse-docks/core';
 import type { OpenNeuroFileEntry } from './types.js';
 
 const GRAPHQL_ENDPOINT = 'https://openneuro.org/crn/graphql';
@@ -45,7 +45,6 @@ export async function fetchSnapshotFiles(
       snapshot(datasetId: $datasetId, tag: $tag) {
         files(tree: $tree) {
           id
-          key
           filename
           size
           directory
@@ -118,7 +117,7 @@ export async function collectFilesRecursive(
   for (const e of entries) {
     const relPath = pathPrefix ? `${pathPrefix}/${e.filename}` : e.filename;
     if (e.directory) {
-      const sub = await collectFilesRecursive(datasetId, tag, e.key, relPath);
+      const sub = await collectFilesRecursive(datasetId, tag, e.id, relPath);
       files.push(...sub);
     } else {
       files.push({ path: relPath, size: e.size });

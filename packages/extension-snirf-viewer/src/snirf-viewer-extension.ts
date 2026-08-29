@@ -1,4 +1,4 @@
-import { LyraPart } from '@eclipse-lyra/core';
+import { DocksPart } from '@eclipse-docks/core';
 import {
   customElement,
   property,
@@ -6,8 +6,8 @@ import {
   css,
   html,
   nothing,
-} from '@eclipse-lyra/core/externals/lit';
-import { EditorInput, editorRegistry, File } from '@eclipse-lyra/core';
+} from '@eclipse-docks/core/externals/lit';
+import { EditorInput, editorRegistry, File } from '@eclipse-docks/core';
 import { loadSnirf } from './snirf-loader.js';
 import type { SnirfData, SnirfDataBlock } from './types.js';
 import './snirf-time-series.js';
@@ -19,7 +19,7 @@ const isSnirfFile = (file: File): boolean =>
 editorRegistry.registerEditorInputHandler({
   editorId: 'snirf-viewer',
   label: 'SNIRF viewer',
-  icon: 'waveform',
+  icon: 'chart-line',
   canHandle: (input): input is File =>
     input instanceof File && isSnirfFile(input),
   handle: async (input: File) => {
@@ -27,7 +27,7 @@ editorRegistry.registerEditorInputHandler({
       title: input.getName(),
       data: input,
       key: input.getWorkspacePath(),
-      icon: 'waveform',
+      icon: 'chart-line',
       state: {},
       component: (id: string) =>
         html`<k-snirf-viewer id="${id}" .input=${editorInput}></k-snirf-viewer>`,
@@ -38,7 +38,7 @@ editorRegistry.registerEditorInputHandler({
 });
 
 @customElement('k-snirf-viewer')
-export class KSnirfViewer extends LyraPart {
+export class KSnirfViewer extends DocksPart {
   @property({ attribute: false })
   public input?: EditorInput;
 

@@ -1,0 +1,4 @@
+{
+  "EXT_BIDS_VALIDATOR_NAME": "BIDS validator",
+  "EXT_BIDS_VALIDATOR_DESC": "Validate BIDS datasets and publish results to DataView"
+}

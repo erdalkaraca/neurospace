@@ -1,8 +1,8 @@
-import { LyraPart, EditorInput, File as LyraFile } from '@eclipse-lyra/core';
-import { customElement, property, state, html, css, createRef, ref } from '@eclipse-lyra/core/externals/lit';
+import { DocksPart, EditorInput, File as DocksFile } from '@eclipse-docks/core';
+import { customElement, property, state, html, css, createRef, ref } from '@eclipse-docks/core/externals/lit';
 
 @customElement('k-bids-editor')
-export class KBidsEditor extends LyraPart {
+export class KBidsEditor extends DocksPart {
   @property({ attribute: false })
   public input?: EditorInput;
 
@@ -30,7 +30,7 @@ export class KBidsEditor extends LyraPart {
 
     try {
       const data = this.input?.data;
-      if (!(data instanceof LyraFile)) throw new Error('No file input available');
+      if (!(data instanceof DocksFile)) throw new Error('No file input available');
       const raw = await data.getContents();
       const text = typeof raw === 'string' ? raw : new TextDecoder().decode(raw as ArrayBuffer);
       this.initialContent = text;
@@ -48,7 +48,7 @@ export class KBidsEditor extends LyraPart {
 
   public override save() {
     const data = this.input?.data;
-    if (!(data instanceof LyraFile)) return;
+    if (!(data instanceof DocksFile)) return;
     const value = this.widgetRef.value?.getContent?.() ?? '';
     data.saveContents(value);
     this.markDirty(false);
@@ -69,13 +69,13 @@ export class KBidsEditor extends LyraPart {
       return html`<div class="monaco-editor-placeholder"></div>`;
     }
     return html`
-      <lyra-monaco-widget
+      <docks-monaco-widget
         .value=${this.initialContent}
         .uri=${this.uri}
         language="json"
         @content-change=${this.onContentChange}
         ${ref(this.widgetRef)}
-      ></lyra-monaco-widget>
+      ></docks-monaco-widget>
     `;
   }
 

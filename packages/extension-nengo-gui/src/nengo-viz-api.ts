@@ -1,5 +1,5 @@
-import type { Contribution } from '@eclipse-lyra/core';
-import type { TemplateResult } from 'lit';
+import type { Contribution } from '@eclipse-docks/core';
+import type { TemplateResult } from '@eclipse-docks/core/externals/lit';
 
 export const NENGO_VIZ_SLOT = 'nengo-editor.visualizations';
 

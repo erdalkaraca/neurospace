@@ -1,17 +1,17 @@
-import { EditorInput, File as LyraFile, editorRegistry } from '@eclipse-lyra/core';
-import { html } from '@eclipse-lyra/core/externals/lit';
+import { EditorInput, File as DocksFile, editorRegistry } from '@eclipse-docks/core';
+import { html } from '@eclipse-docks/core/externals/lit';
 
 import './k-bids-editor';
 
-const isDatasetDescription = (file: LyraFile): boolean =>
+const isDatasetDescription = (file: DocksFile): boolean =>
   file.getName() === 'dataset_description.json';
 
 editorRegistry.registerEditorInputHandler({
   editorId: 'bids-editor',
   label: 'BIDS Editor',
-  canHandle: (input): input is LyraFile =>
-    input instanceof LyraFile && isDatasetDescription(input),
-  handle: async (input: LyraFile) => {
+  canHandle: (input): input is DocksFile =>
+    input instanceof DocksFile && isDatasetDescription(input),
+  handle: async (input: DocksFile) => {
     const editorInput: EditorInput = {
       title: input.getWorkspacePath(),
       data: input,

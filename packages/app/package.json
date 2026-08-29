@@ -10,28 +10,40 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@eclipse-lyra/core": "*",
-    "@eclipse-lyra/extension-python-runtime": "*",
-    "@eclipse-lyra/extension-utils": "*",
-    "@eclipse-lyra/extension-in-browser-ml": "*",
-    "@eclipse-lyra/extension-ai-system": "*",
-    "@eclipse-lyra/extension-command-palette": "*",
-    "@eclipse-lyra/extension-github-service": "*",
-    "@eclipse-lyra/extension-howto-system": "*",
-    "@eclipse-lyra/extension-md-editor": "*",
-    "@eclipse-lyra/extension-media-viewer": "*",
-    "@eclipse-lyra/extension-memory-usage": "*",
-    "@eclipse-lyra/extension-monaco-editor": "*",
-    "@eclipse-lyra/extension-notebook": "*",
-    "@eclipse-lyra/extension-settings-tree": "*",
-    "@eclipse-lyra/extension-sqleditor": "*",
-    "@eclipse-lyra/extension-duckdb": "*",
-    "@eclipse-lyra/extension-pglite": "*",
-    "@eclipse-lyra/extension-dataviewer": "*",
-    "@eclipse-lyra/extension-catalog": "*"
+    "@eclipse-docks/core": "^0.7.132",
+    "@eclipse-docks/extension-ai-system": "*",
+    "@eclipse-docks/extension-catalog": "*",
+    "@eclipse-docks/extension-command-palette": "*",
+    "@eclipse-docks/extension-dataviewer": "*",
+    "@eclipse-docks/extension-duckdb": "*",
+    "@eclipse-docks/extension-github-service": "*",
+    "@eclipse-docks/extension-howto-system": "*",
+    "@eclipse-docks/extension-in-browser-ml": "*",
+    "@eclipse-docks/extension-md-editor": "*",
+    "@eclipse-docks/extension-media-viewer": "*",
+    "@eclipse-docks/extension-memory-usage": "*",
+    "@eclipse-docks/extension-monaco-editor": "*",
+    "@eclipse-docks/extension-notebook": "*",
+    "@eclipse-docks/extension-pglite": "*",
+    "@eclipse-docks/extension-pwa": "*",
+    "@eclipse-docks/extension-python-runtime": "*",
+    "@eclipse-docks/extension-settings-tree": "*",
+    "@eclipse-docks/extension-sqleditor": "*",
+    "@eclipse-docks/extension-utils": "*",
+    "@kispace-io/extension-bids-editor": "*",
+    "@kispace-io/extension-bids-validator": "*",
+    "@kispace-io/extension-nengo-gui": "*",
+    "@kispace-io/extension-neuro-viewer": "*",
+    "@kispace-io/extension-openneuro": "*",
+    "@kispace-io/extension-snirf-viewer": "*"
   },
   "devDependencies": {
     "typescript": "^6.0.0",
-    "vite": "^8.0.0"
+    "vite": "^8.0.0",
+    "vite-plugin-cross-origin-isolation": "^0.1.6",
+    "vite-plugin-mkcert": "^1.17.9"
+  },
+  "marketplace": {
+    "catalogUrls": []
   }
 }

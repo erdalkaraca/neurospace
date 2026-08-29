@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "@eclipse-lyra/core": "*",
+    "@eclipse-docks/core": "*",
     "@kispace-io/extension-bids-editor": "*",
     "@bids/validator": "npm:@jsr/bids__validator@^2.4.1"
   },

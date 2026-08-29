@@ -1,15 +1,15 @@
-import { File as LyraFile, contributionRegistry, registerAll, toastError } from '@eclipse-lyra/core';
-import type { CommandContribution } from '@eclipse-lyra/core';
+import { File as DocksFile, contributionRegistry, registerAll, toastError } from '@eclipse-docks/core';
+import type { CommandContribution } from '@eclipse-docks/core';
 
 import { bidsValidationService } from './bids-validation-service';
 
-const isDatasetDescription = (file: LyraFile): boolean =>
+const isDatasetDescription = (file: DocksFile): boolean =>
   file.getName() === 'dataset_description.json';
 
 function getDatasetRootFromActiveEditor(activeEditor: any) {
   const input = activeEditor?.input;
   const data = input?.data;
-  if (!(data instanceof LyraFile)) return null;
+  if (!(data instanceof DocksFile)) return null;
   if (!isDatasetDescription(data)) return null;
   return data.getParent();
 }

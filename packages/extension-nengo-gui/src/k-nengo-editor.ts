@@ -1,4 +1,4 @@
-import { LyraPart, EditorInput, File as LyraFile, activeEditorSignal } from '@eclipse-lyra/core';
+import { DocksPart, EditorInput, File as DocksFile, activeEditorSignal } from '@eclipse-docks/core';
 import {
   customElement,
   property,
@@ -7,8 +7,8 @@ import {
   css,
   createRef,
   ref,
-} from '@eclipse-lyra/core/externals/lit';
-import { PyEnv } from '@eclipse-lyra/extension-python-runtime/api';
+} from '@eclipse-docks/core/externals/lit';
+import { PyEnv } from '@eclipse-docks/extension-python-runtime/api';
 import { ENV_NO_THREADS, FCNTL_STUB, INSTALL_NENGO } from './nengo-python-init';
 import nameFinderScript from './py-scripts/name_finder.py?raw';
 import initSimScript from './py-scripts/init-sim.py?raw';
@@ -16,14 +16,14 @@ import advanceScript from './py-scripts/advance.py?raw';
 import extractModelScript from './py-scripts/extract-model.py?raw';
 import type { NengoAddedVisualization, NengoModelSummary, NengoSimData } from './nengo-model-types';
 
-/** Lyra `editorId` for this editor; must match `registerEditorInputHandler` and panel `coupledEditors`. */
+/** Docks `editorId` for this editor; must match `registerEditorInputHandler` and panel `coupledEditors`. */
 export const NENGO_EDITOR_ID = 'nengo-editor';
 
 /** Fired on `KNengoEditor` when state relevant to companion panels changes. */
 export const NENGO_COMPANION_UPDATE = 'nengo-companion-update';
 
 @customElement('k-nengo-editor')
-export class KNengoEditor extends LyraPart {
+export class KNengoEditor extends DocksPart {
   @property({ attribute: false })
   public input?: EditorInput;
 
@@ -176,7 +176,7 @@ export class KNengoEditor extends LyraPart {
 
     try {
       const data = this.input?.data;
-      if (!(data instanceof LyraFile)) throw new Error('No file input available');
+      if (!(data instanceof DocksFile)) throw new Error('No file input available');
       const raw = await data.getContents();
       const text =
         typeof raw === 'string' ? raw : new TextDecoder().decode(raw as ArrayBuffer);
@@ -339,7 +339,7 @@ export class KNengoEditor extends LyraPart {
 
   public override async save() {
     const data = this.input?.data;
-    if (!(data instanceof LyraFile)) return;
+    if (!(data instanceof DocksFile)) return;
     const value = this.widgetRef.value?.getContent?.() ?? '';
     await data.saveContents(value);
     if (typeof this.widgetRef.value?.setContent === 'function') {
@@ -403,13 +403,13 @@ export class KNengoEditor extends LyraPart {
 
     return html`
       <div class="editor-container">
-        <lyra-monaco-widget
+        <docks-monaco-widget
           .value=${this.initialContent}
           .uri=${this.uri}
           language="python"
           @content-change=${this.onContentChange}
           ${ref(this.widgetRef)}
-        ></lyra-monaco-widget>
+        ></docks-monaco-widget>
       </div>
     `;
   }
@@ -441,7 +441,7 @@ export class KNengoEditor extends LyraPart {
       overflow: hidden;
     }
 
-    .editor-container lyra-monaco-widget {
+    .editor-container docks-monaco-widget {
       display: block;
       height: 100%;
       width: 100%;

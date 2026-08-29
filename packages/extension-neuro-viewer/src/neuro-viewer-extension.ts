@@ -1,4 +1,4 @@
-import { LyraPart } from '@eclipse-lyra/core';
+import { DocksPart } from '@eclipse-docks/core';
 import {
   customElement,
   property,
@@ -6,8 +6,8 @@ import {
   css,
   html,
   nothing,
-} from '@eclipse-lyra/core/externals/lit';
-import { EditorInput, editorRegistry, File } from '@eclipse-lyra/core';
+} from '@eclipse-docks/core/externals/lit';
+import { EditorInput, editorRegistry, File } from '@eclipse-docks/core';
 import { Niivue } from '@niivue/niivue';
 
 interface NeuroViewerPreferences {
@@ -68,7 +68,7 @@ editorRegistry.registerEditorInputHandler({
 });
 
 @customElement('k-neuro-viewer')
-export class KNeuroViewer extends LyraPart {
+export class KNeuroViewer extends DocksPart {
   @property({ attribute: false })
   public input?: EditorInput;
 

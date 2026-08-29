@@ -1,10 +1,10 @@
 import {
-  LyraPart,
+  DocksPart,
   activeEditorSignal,
   contributionRegistry,
   PANEL_BOTTOM,
-} from '@eclipse-lyra/core';
-import { customElement, html, css, nothing, type TemplateResult } from '@eclipse-lyra/core/externals/lit';
+} from '@eclipse-docks/core';
+import { customElement, html, css, nothing, type TemplateResult } from '@eclipse-docks/core/externals/lit';
 import {
   KNengoEditor,
   NENGO_COMPANION_UPDATE,
@@ -21,7 +21,7 @@ import './viz/nengo-raster-plot';
 import './viz/nengo-time-scrubber';
 
 @customElement('nengo-visualizations-panel')
-export class NengoVisualizationsPanel extends LyraPart {
+export class NengoVisualizationsPanel extends DocksPart {
   private _companionEditor: KNengoEditor | null = null;
   private readonly _onCompanionUpdate = () => this.requestUpdate();
 

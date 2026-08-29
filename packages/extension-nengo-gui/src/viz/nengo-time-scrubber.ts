@@ -5,8 +5,8 @@ import {
   css,
   html,
   type TemplateResult,
-} from '@eclipse-lyra/core/externals/lit';
-import { icon } from '@eclipse-lyra/core';
+} from '@eclipse-docks/core/externals/lit';
+import { icon } from '@eclipse-docks/core';
 
 const DEFAULT_VISIBLE_RANGE = 10;
 

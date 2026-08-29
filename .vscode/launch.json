@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug in Chrome",
+      "name": "Dev + Chrome",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npm",
@@ -10,11 +10,11 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
+      "webRoot": "${workspaceFolder}/packages/app",
       "serverReadyAction": {
         "pattern": "Local:.*(https?://[^\\s]+)",
         "uriFormat": "%s",
         "action": "debugWithChrome",
-        "webRoot": "${workspaceFolder}",
         "resolveSourceMapLocations": [
           "${workspaceFolder}/**",
           "!**/node_modules/**"
@@ -23,7 +23,3 @@
     }
   ]
 }
-
-
-
-

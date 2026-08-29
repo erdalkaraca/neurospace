@@ -1,10 +1,10 @@
 import {
-  LyraPart,
+  DocksPart,
   activeEditorSignal,
   contributionRegistry,
   SIDEBAR_AUXILIARY,
   icon,
-} from '@eclipse-lyra/core';
+} from '@eclipse-docks/core';
 import {
   customElement,
   state,
@@ -12,7 +12,7 @@ import {
   css,
   nothing,
   type TemplateResult,
-} from '@eclipse-lyra/core/externals/lit';
+} from '@eclipse-docks/core/externals/lit';
 import {
   KNengoEditor,
   NENGO_COMPANION_UPDATE,
@@ -30,7 +30,7 @@ interface ContextMenuNode {
 }
 
 @customElement('nengo-model-graph-panel')
-export class NengoModelGraphPanel extends LyraPart {
+export class NengoModelGraphPanel extends DocksPart {
   @state() private contextMenuNode?: ContextMenuNode;
 
   private _companionEditor: KNengoEditor | null = null;
@@ -104,7 +104,7 @@ export class NengoModelGraphPanel extends LyraPart {
     this.contextMenuNode = evt;
     this.requestUpdate();
     queueMicrotask(() => {
-      const menu = this.renderRoot.querySelector('lyra-contextmenu') as {
+      const menu = this.renderRoot.querySelector('docks-contextmenu') as {
         show: (pos: { x: number; y: number }) => void;
       } | null;
       menu?.show({ x: evt.x, y: evt.y });

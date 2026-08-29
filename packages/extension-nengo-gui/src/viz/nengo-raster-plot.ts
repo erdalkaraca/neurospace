@@ -4,7 +4,7 @@ import {
   LitElement,
   css,
   html,
-} from '@eclipse-lyra/core/externals/lit';
+} from '@eclipse-docks/core/externals/lit';
 import type { NengoVizContext } from '../nengo-viz-api';
 
 @customElement('nengo-raster-plot')

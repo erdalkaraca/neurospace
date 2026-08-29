@@ -10,10 +10,10 @@
     }
   },
   "dependencies": {
-    "@eclipse-lyra/core": "*",
-    "@eclipse-lyra/extension-catalog": "*",
-    "@eclipse-lyra/extension-monaco-editor": "*",
-    "@eclipse-lyra/extension-python-runtime": "*",
+    "@eclipse-docks/core": "*",
+    "@eclipse-docks/extension-catalog": "*",
+    "@eclipse-docks/extension-monaco-editor": "*",
+    "@eclipse-docks/extension-python-runtime": "*",
     "cytoscape": "^3.33.1"
   },
   "devDependencies": {

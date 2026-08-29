@@ -1,8 +1,7 @@
-import type { File } from '@eclipse-lyra/core';
+import type { File } from '@eclipse-docks/core';
 
 export interface OpenNeuroFileEntry {
   id: string;
-  key: string;
   filename: string;
   size: number;
   directory: boolean;

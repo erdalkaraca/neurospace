@@ -1,10 +1,10 @@
 # Neurospace
 
-**Live**: [neuro.kispace.de](https://neuro.kispace.de/)
+**Live**: [erdalkaraca.github.io/neurospace](https://erdalkaraca.github.io/neurospace/)
 
 > **Vision**: Neurospace is evolving toward an application focused on **neuromorphic cognitive modeling**—a unified platform for building, visualizing, and analyzing brain-inspired computational models.
 
-Built on the [Eclipse Lyra](https://github.com/eclipse-lyra/core) framework, Neurospace currently provides an interactive neuroimaging viewer as its foundation. Over time, it will expand into tools for spiking neural networks, cognitive architectures, and simulation workflows that bridge neuroscience and AI.
+Built on the [Eclipse Docks](https://github.com/eclipse-docks/core) framework, Neurospace currently provides an interactive neuroimaging viewer as its foundation. Over time, it will expand into tools for spiking neural networks, cognitive architectures, and simulation workflows that bridge neuroscience and AI.
 
 ![NIfTI viewer](docs/screenshots/nifti-viewer.png)
 
@@ -49,7 +49,7 @@ Open http://localhost:5173, connect a workspace (folder with neuroimaging or fNI
 
 ## Dependencies
 
-Uses [Eclipse Lyra](https://github.com/eclipse-lyra/core) packages from the npm registry (`@eclipse-lyra/core`, `@eclipse-lyra/extension-utils`, etc.).
+Uses [Eclipse Docks](https://github.com/eclipse-docks/core) packages from the npm registry (`@eclipse-docks/core`, `@eclipse-docks/extension-utils`, etc.).
 
 ## License
 

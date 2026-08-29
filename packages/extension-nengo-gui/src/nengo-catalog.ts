@@ -1,4 +1,4 @@
-import { registerCatalog } from '@eclipse-lyra/extension-catalog/api';
+import { registerCatalog } from '@eclipse-docks/extension-catalog/api';
 
 import introUrl from '../templates/01-intro.nengo.py?url';
 import commChannelUrl from '../templates/02-communication-channel.nengo.py?url';

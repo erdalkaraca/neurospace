@@ -8,7 +8,7 @@ import {
   TOPIC_WORKSPACE_CHANGED,
   type GetResourceOptions,
   type Resource,
-} from '@eclipse-lyra/core';
+} from '@eclipse-docks/core';
 import type { OpenNeuroFileEntry } from './types.js';
 import {
   fetchSnapshotFiles,
@@ -192,7 +192,7 @@ export class OpenNeuroVirtualDirectory extends Directory {
           new OpenNeuroVirtualDirectory(
             this.datasetId,
             this.tag,
-            e.key,
+            e.id,
             e.filename,
             this.pathPrefix ? `${this.pathPrefix}/${e.filename}` : e.filename,
             this
@@ -230,7 +230,7 @@ export class OpenNeuroVirtualDirectory extends Directory {
         current = new OpenNeuroVirtualDirectory(
           current.datasetId,
           current.tag,
-          entry.key,
+          entry.id,
           entry.filename,
           nextPrefix,
           current
