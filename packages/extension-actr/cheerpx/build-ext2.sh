@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build actr-cheerpx ext2 chunks from the i386 Debian Dockerfile.
-# Requires: docker or podman, mkfs.ext2 (e2fsprogs), split, tar
+# Requires: docker, mkfs.ext2 (e2fsprogs), split, tar
 
 set -euo pipefail
 
@@ -25,6 +25,7 @@ require() {
 
 require mkfs.ext2
 require split
+require docker
 
 split_ext2_for_github_pages() {
   local ext2="$1"
@@ -43,53 +44,38 @@ mkdir -p "$(dirname "$OUTPUT")"
 WORK_DIR="$(mktemp -d)"
 cleanup() {
   rm -rf "$WORK_DIR"
-  if command -v docker >/dev/null 2>&1; then
-    docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
-  fi
-  if command -v podman >/dev/null 2>&1; then
-    podman rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
-  fi
+  docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
 }
 trap cleanup EXIT
 
-build_with_docker() {
-  require docker
+build_docker_rootfs_image() {
+  if [[ "${ACTR_DOCKER_GHA_CACHE:-}" == "1" ]]; then
+    echo "Building i386 rootfs with Docker (BuildKit + GHA cache)..."
+    docker buildx inspect actr-cheerpx-builder >/dev/null 2>&1 \
+      || docker buildx create --use --name actr-cheerpx-builder --driver docker-container
+    docker buildx use actr-cheerpx-builder
+    docker buildx build --platform linux/i386 \
+      --cache-from "type=gha,scope=actr-cheerpx-rootfs" \
+      --cache-to "type=gha,mode=max,scope=actr-cheerpx-rootfs" \
+      -f "$SCRIPT_DIR/Dockerfile" \
+      -t "$IMAGE_TAG" \
+      --load \
+      "$SCRIPT_DIR"
+    return
+  fi
   echo "Building i386 rootfs with Docker..."
   docker build --platform linux/i386 -f "$SCRIPT_DIR/Dockerfile" -t "$IMAGE_TAG" "$SCRIPT_DIR"
+}
+
+build_with_docker() {
+  build_docker_rootfs_image
   docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
   cid="$(docker create --name "$CONTAINER_NAME" "$IMAGE_TAG")"
   docker export "$cid" | tar -xf - -C "$WORK_DIR"
   docker rm "$cid" >/dev/null
 }
 
-build_with_podman() {
-  require podman
-  echo "Building i386 rootfs with Podman..."
-  podman build --platform linux/i386 --dns=none -f "$SCRIPT_DIR/Dockerfile" -t "$IMAGE_TAG" "$SCRIPT_DIR"
-  podman rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
-  podman create --name "$CONTAINER_NAME" "$IMAGE_TAG" >/dev/null
-  podman unshare bash -c "
-    set -euo pipefail
-    mountpoint=\$(podman mount \"$CONTAINER_NAME\")
-    du -sh \"\$mountpoint\"
-    mkfs.ext2 -b 4096 -d \"\$mountpoint\" \"$OUTPUT\" \"$IMAGE_SIZE\"
-    podman umount \"$CONTAINER_NAME\"
-  "
-  podman rm "$CONTAINER_NAME" >/dev/null
-  split_ext2_for_github_pages "$OUTPUT"
-  exit 0
-}
-
-if [[ "${USE_PODMAN:-}" == "1" ]] && command -v podman >/dev/null 2>&1; then
-  build_with_podman
-elif command -v docker >/dev/null 2>&1; then
-  build_with_docker
-elif command -v podman >/dev/null 2>&1; then
-  build_with_podman
-else
-  echo "Install docker or podman to build the CheerpX ext2 image." >&2
-  exit 1
-fi
+build_with_docker
 
 ROOT_SIZE="$(du -sh "$WORK_DIR" | awk '{print $1}')"
 echo "Rootfs size: $ROOT_SIZE (allocating $IMAGE_SIZE for ext2)"

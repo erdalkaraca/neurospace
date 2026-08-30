@@ -14,8 +14,10 @@ jobs:
   release:
     permissions:
       contents: write
+      actions: write # BuildKit gha cache for ACT-R CheerpX Docker layers
     uses: eclipse-docks/core/.github/workflows/app-release.yml@main
     with:
       base_path: /neurospace/
       publish_dir: ./packages/app/dist
+      build_command: bash scripts/ci-build-with-actr-image.sh
     secrets: inherit
