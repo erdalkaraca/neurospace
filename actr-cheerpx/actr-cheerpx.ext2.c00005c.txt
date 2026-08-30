@@ -1,0 +1,1713 @@
+user::front-diagonal-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric+) "X" (common-lisp-user::back-diagonal-u1 common-lisp-user::front-diagonal-u1 common-lisp-user::front-diagonal-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::symmetric+) "Y" (common-lisp-user::back-diagonal-u1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-c2 common-lisp-user::symmetric+) "Z" (common-lisp-user::horizontal-t0 common-lisp-user::front-diagonal-u1 common-lisp-user::front-diagonal-l2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) "1" (common-lisp-user::vertical-r1 common-lisp-user::vertical-r2 common-lisp-user::left-facing+) "2" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing+) "3" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing+) "4" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::left-facing+) "5" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::back-diagonal-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "6" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "7" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-r1 common-lisp-user::vertical-r2 common-lisp-user::left-facing+) "8" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) "9" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing+) "0" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) #Y(common-lisp-user::build-rm-clean-set nil nil (26 15 0 14 285 14 540 14 541 33 526 12 14 287 15 542 19 7 289 45 290 13 0 15 543 15 544 19 3 83 13 0 15 545 15 546 19 3 83 13 0 15 547 15 548 19 3 83 13 0 15 549 15 550 19 3 83 13 0 15 551 15 552 19 3 83 13 0 15 553 15 554 19 3 83 13 0 15 555 15 556 19 3 83 13 0 15 557 15 558 19 3 83 13 0 15 559 15 560 19 3 83 13 0 15 561 15 562 19 3 83 13 0 15 563 15 564 19 3 83 13 0 15 565 15 566 19 3 83 13 0 15 567 15 568 19 3 83 13 0 15 569 15 570 19 3 83 13 0 15 571 15 572 19 3 83 13 0 15 573 15 574 19 3 83 13 0 15 575 15 576 19 3 83 13 0 15 577 15 578 19 3 83 13 0 15 579 15 580 19 3 83 13 0 15 581 15 582 19 3 83 13 0 15 583 15 584 19 3 83 13 0 15 585 15 586 19 3 83 13 0 15 587 15 588 19 3 83 13 0 15 589 15 590 19 3 83 13 0 15 591 15 592 19 3 83 13 0 15 593 15 594 19 3 83 13 0 15 595 15 596 19 3 83 13 0 15 597 15 598 19 3 83 13 0 15 599 15 600 19 3 83 13 0 15 601 15 602 19 3 83 13 0 15 603 15 604 19 3 83 13 0 15 605 15 606 19 3 83 13 0 15 607 15 608 19 3 83 13 0 15 609 15 610 19 3 83 13 0 15 611 15 612 19 3 83 13 0 15 613 15 614 19 3 83 10 0 73 43 1 29) #1# #2# 21048) common-lisp-user::all-feature-sets (defun common-lisp-user::all-feature-sets) (#2# . 26443) #Y(common-lisp-user::all-feature-sets nil nil (26 19 0 282 12 19 0 368 12 19 0 447 12 19 0 537 6 4 73 29) #1# #2# 26443))) #2# 0) #Y(si::bytecodes nil nil (15 21 15 1 15 22 15 23 19 4 4 15 21 77 15 24 15 25 1 34 12 19 5 35 29) #1# #2# 2982) #Y(si::bytecodes nil nil (15 36 15 1 15 37 15 38 19 4 4 15 36 14 39 77 15 40 19 4 4 15 36 14 41 14 32 14 39 15 40 15 42 15 43 19 7 44 29) #1# #2# 3123) #Y(si::bytecodes nil nil (15 36 15 1 15 45 15 46 19 4 4 15 36 77 15 47 15 48 1 53 12 19 5 35 29) #1# #2# 3234) #Y(si::bytecodes nil nil (15 54 15 1 15 55 15 56 19 4 4 15 54 14 39 77 15 57 19 4 4 15 54 14 41 14 32 14 39 15 57 15 42 15 58 19 7 44 29) #1# #2# 3340) #Y(si::bytecodes nil nil (15 54 15 1 15 59 15 60 19 4 4 15 54 77 15 61 15 62 1 68 12 19 5 35 29) #1# #2# 3482) #Y(si::bytecodes nil nil (15 69 15 1 15 70 15 71 19 4 4 15 69 14 39 77 15 72 19 4 4 15 69 14 41 14 32 14 39 15 72 15 42 15 73 19 7 44 29) #1# #2# 3620) #Y(si::bytecodes nil nil (15 69 15 1 15 74 15 75 19 4 4 15 69 77 15 76 15 77 1 82 12 19 5 35 29) #1# #2# 3761) #Y(si::bytecodes nil nil (15 83 15 1 15 84 15 85 19 4 4 15 83 14 39 77 15 86 19 4 4 15 83 14 41 14 32 14 39 15 86 15 42 15 87 19 7 44 29) #1# #2# 3979) #Y(si::bytecodes nil nil (15 83 15 1 15 88 15 89 19 4 4 15 83 77 15 90 15 91 1 94 12 19 5 35 29) #1# #2# 4100) #Y(si::bytecodes nil nil (15 95 15 1 15 96 15 97 19 4 4 15 95 14 39 77 15 98 19 4 4 15 95 14 41 14 32 14 39 15 98 15 42 15 99 19 7 44 29) #1# #2# 4212) #Y(si::bytecodes nil nil (15 95 15 1 15 100 15 101 19 4 4 15 95 77 15 102 15 103 1 105 12 19 5 35 29) #1# #2# 4318) #Y(si::bytecodes nil nil (15 95 15 1 15 106 15 107 19 4 4 15 95 77 15 108 15 109 1 112 12 19 5 35 29) #1# #2# 4398) #Y(si::bytecodes nil nil (15 113 15 1 15 114 15 115 19 4 4 15 113 14 39 77 15 116 19 4 4 15 113 14 41 14 32 14 39 15 116 15 42 15 117 19 7 44 29) #1# #2# 4489) #Y(si::bytecodes nil nil (15 113 15 1 15 118 15 119 19 4 4 15 113 77 15 120 15 121 1 132 12 19 5 35 29) #1# #2# 4612) #Y(si::bytecodes nil nil (15 133 15 1 15 134 15 135 19 4 4 15 133 14 39 77 15 136 19 4 4 15 133 14 41 14 32 14 39 15 136 15 42 15 137 19 7 44 29) #1# #2# 4954) #Y(si::bytecodes nil nil (15 133 15 1 15 138 15 139 19 4 4 15 133 77 15 140 15 141 1 147 12 19 5 35 29) #1# #2# 5084) #Y(si::bytecodes nil nil (15 148 15 1 15 149 15 150 19 4 4 15 148 14 39 77 15 151 19 4 4 15 148 14 41 14 32 14 39 15 151 15 42 15 152 19 7 44 29) #1# #2# 5443) #Y(si::bytecodes nil nil (15 148 15 1 15 153 15 154 19 4 4 15 148 77 15 155 15 156 1 165 12 19 5 35 29) #1# #2# 5599) #Y(si::bytecodes nil nil (15 160 15 1 15 166 15 167 19 4 4 15 160 14 39 77 15 168 19 4 4 15 160 14 41 14 32 14 39 15 168 15 42 15 169 19 7 44 29) #1# #2# 6038) #Y(si::bytecodes nil nil (15 160 15 1 15 170 15 171 19 4 4 15 160 77 15 172 15 173 1 203 12 19 5 35 29) #1# #2# 6184) #Y(si::bytecodes nil nil (15 144 15 1 15 204 15 205 19 4 4 15 144 77 15 206 15 207 1 212 12 19 5 35 29) #1# #2# 6529) #Y(si::bytecodes nil nil (15 213 15 1 15 214 15 215 19 4 4 15 213 14 39 77 15 216 19 4 4 15 213 14 41 14 32 14 39 15 216 15 42 15 217 19 7 44 29) #1# #2# 6636) #Y(si::bytecodes nil nil (15 213 15 1 15 218 15 219 19 4 4 15 213 77 15 220 15 221 1 230 12 19 5 35 29) #1# #2# 6768) #Y(si::bytecodes nil nil (15 231 15 1 15 232 15 233 19 4 4 15 231 14 39 77 15 234 19 4 4 15 231 14 41 14 32 14 39 15 234 15 42 15 235 19 7 44 29) #1# #2# 7135) #Y(si::bytecodes nil nil (15 231 15 1 15 236 15 237 19 4 4 15 231 77 15 238 15 239 1 242 12 19 5 35 29) #1# #2# 7269) #Y(si::bytecodes nil nil (15 243 15 1 15 244 15 245 19 4 4 15 243 14 39 77 15 246 19 4 4 15 243 14 41 14 32 14 39 15 246 15 42 15 247 19 7 44 29) #1# #2# 7516) #Y(si::bytecodes nil nil (15 243 15 1 15 248 15 249 19 4 4 15 243 77 15 250 15 251 1 253 12 19 5 35 29) #1# #2# 7633) #Y(si::bytecodes nil nil (15 254 15 1 15 255 15 256 19 4 4 15 254 14 39 77 15 257 19 4 4 15 254 14 41 14 32 14 39 15 257 15 42 15 258 19 7 44 29) #1# #2# 7809) #Y(si::bytecodes nil nil (15 254 15 1 15 259 15 260 19 4 4 15 254 77 15 261 15 262 1 267 12 19 5 35 29) #1# #2# 7910) #Y(si::bytecodes nil nil (15 268 15 1 15 269 15 270 19 4 4 15 268 14 39 77 15 271 19 4 4 15 268 14 41 14 32 14 39 15 271 15 42 15 272 19 7 44 29) #1# #2# 8627) #Y(si::bytecodes nil nil (15 268 15 1 15 273 15ƒ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               274 19 4 4 15 268 77 15 275 15 276 1 281 12 19 5 35 29) #1# #2# 8755) #Y(si::bytecodes nil nil (15 282 15 1 15 283 15 284 19 4 4 15 282 14 39 77 77 19 4 4 15 282 1 363 12 19 2 364 15 282 15 365 15 366 19 3 367 1 282 73 29) #1# #2# 9063) #Y(si::bytecodes nil nil (15 368 15 1 15 369 15 370 19 4 4 15 368 14 39 77 77 19 4 4 15 368 1 445 12 19 2 364 15 368 15 365 15 446 19 3 367 1 368 73 29) #1# #2# 12405) #Y(si::bytecodes nil nil (15 447 15 1 15 448 15 449 19 4 4 15 447 14 39 77 77 19 4 4 15 447 1 524 12 19 2 364 15 447 15 365 15 525 19 3 367 1 447 73 29) #1# #2# 15203) #Y(si::bytecodes nil nil (15 526 15 1 15 527 15 528 19 4 4 15 526 14 39 77 15 529 19 4 4 15 526 1 535 12 19 2 364 15 526 15 365 15 536 19 3 367 1 526 73 29) #1# #2# 20744) #Y(si::bytecodes nil nil (15 537 15 1 15 538 15 539 19 4 4 15 537 14 39 77 77 19 4 4 15 537 1 615 12 19 2 364 1 537 73 29) #1# #2# 21048) #Y(si::bytecodes nil nil (15 616 15 1 15 617 15 618 19 4 4 15 616 14 39 77 77 19 4 4 15 616 1 619 12 19 2 364 1 616 73 29) #1# #2# 26443))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author       Mike Byrne
+;;; Address     : Rice University, MS-25
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;; 
+;;; Copyright   : (c)1998-2001 Mike Byrne
+;;; Availability: Covered by the GNU LGPL, see LICENSE.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename     vision-categorization.lisp
+;;; Version      1.0
+;;; 
+;;; Description  Class and constants for different feature sets.
+;;; 
+;;; Bugs         
+;;; 
+;;; Todo         
+;;; 
+;;; ----- History -----
+;;; 99.06.10 Mike Byrne
+;;;               Header date.
+;;; 99.07.30 mdb
+;;;              Added GETFEATS.
+;;; 99.08.08 mdb
+;;;             : Removed keywords from feature lists, added PROB-BEST-CHAR.
+;;; 99.09.08 mdb
+;;;             : Corrected RM set from Mike Matessa's comments.
+;;; 00.06.09 mdb
+;;;             : Conversion of "new-feats.lisp" file to 
+;;;             : "vision-categorization" for inclusion in RPM 2.0.
+;;; 01.06.29 mdb
+;;;             : Added defgenerics and doc strings.
+;;;
+;;; 04.10.19 Dan [Moved into ACT-R 6]
+;;;             : Reset the version to 1.0a1
+;;;             : added the packaging switches
+;;; 2006.01.03 Dan
+;;;             : * Removed the package from the mode line at the top.
+;;; 2007.12.07 Dan [1.0]
+;;;             : * Fixed a bug in cliplast because it didn't specify the
+;;;             :   optional parameters before the keywords in read-from-string.
+;;;             :   Which didn't really matter since it was just :start 0
+;;;             :   but it doesn't hurt to be safe and it avoids a warning in LW.
+;;;             : * Put the :'s in the mode line at the top to avoid a warning
+;;;             :   with LW.
+;;; 2023.05.16 Dan
+;;;             : * Use expt-coerced for the error handling.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defclass char-feats ()
+  ((feature-ls :accessor feature-ls :initarg :feat-ls)
+   (fhash :accessor fhash :initform (make-hash-table :test #'equal))
+   (letters :accessor letters :allocation :class
+            :initform '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M"
+                          "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"))
+   (digits :accessor digits :allocation :class
+           :initform '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0"))
+   (average-match-prob :accessor average-match-prob :initform nil)
+   (name :accessor name :initarg :name :initform nil)
+   (number-of-features :accessor number-of-features :initform nil)
+   (true->icon :accessor true->icon :initarg :true->icon :initform #'identity)
+   ))
+
+
+(defmethod print-object ((self char-feats) stream)
+  (print-unreadable-object (self stream :type t)
+    (format stream "~S" (name self))))
+
+
+(defgeneric numfeats (chr-feat-set)
+  (:documentation  "Return the number of features in the feature set."))
+
+(defmethod numfeats ((self char-feats))
+  (aif (number-of-features self) it (length (feature-ls self))))
+
+
+(defgeneric has-match-p (chr-feat-set str1 str2)
+  (:documentation  "Given two letters, return the list of features that appear in both."))
+
+(defmethod has-match-p ((self char-feats) (s1 string) (s2 string))
+  (intersection (gethash s1 (fhash self)) (gethash s2 (fhash self))))
+
+
+(defgeneric prob-match (chr-feat-set str1 str2)
+  (:documentation  "Return the probabily that a random feature in s1 will appear in s2."))
+
+(defmethod prob-match ((self char-feats) (s1 string) (s2 string))
+  (if (string= s1 s2)
+    -1
+    (float (/ (length (remove-duplicates (has-match-p self s1 s2))) 
+              (length (gethash s1 (fhash self)))))))
+
+
+(defgeneric setfeats (chr-feat-set str feat-lst)
+  (:documentation  "Set the feature list for a string (character)."))
+
+(defmethod setfeats ((self char-feats) (s1 string) (feat-ls list))
+  (setf (gethash s1 (fhash self)) feat-ls))
+
+
+(defgeneric getfeats (chr-feat-set chr)
+  (:documentation "Returns the feature list for a character."))
+
+(defmethod getfeats ((self char-feats) (s string))
+  (gethash s (fhash self)))
+
+(defmethod getfeats ((self char-feats) (c character))
+  (gethash (mkstr c) (fhash self)))
+
+
+(defgeneric get-icon-feats (chr-feat-set char)
+  (:documentation "Return the icon feature list for a given character."))
+
+(defmethod get-icon-feats ((self char-feats) char)
+  (let ((ti (true->icon self)))
+    (cond ((functionp ti) (mapcar ti (getfeats self char)))
+          ((listp ti) (mapcar #'(lambda (feat)
+                                  (second (assoc feat ti)))
+                              (getfeats self char)))
+          (t (getfeats self char)))))
+
+
+(defgeneric exact-character (char-feat-set feat-lst)
+  (:documentation "Return the character exactly matching a feature set."))
+
+(defmethod exact-character ((self char-feats) (feat-ls list))
+  (setf feat-ls (mapcar #'sym->key feat-ls))
+  (let (realfeats)
+    (dolist (char (chars self))
+      (setf realfeats (getfeats self char))
+      (when (= (length realfeats) (length feat-ls)
+               (length (intersection feat-ls realfeats)))
+        (return-from exact-character char)))))
+
+
+(defgeneric prob-best-character (char-feat-set feat-lst)
+  (:documentation "Return the character with the best probability of match to a feature list."))
+
+(defmethod prob-best-character ((self char-feats) (feat-ls list))
+  (let ((bestval 0) (bestchar nil) cur-val)
+    (dolist (char (chars self))
+      (setf cur-val (feat-ls-prob-match self feat-ls (getfeats self char)))
+      (when (= cur-val bestval)
+        (push char bestchar))
+      (when (> cur-val bestval)
+        (setf bestval cur-val)
+        (setf bestchar (mklist char))))
+    (values (random-item bestchar) (* 100. bestval))))
+
+
+(defgeneric feat-ls-prob-match (char-feat-set lst1 lst2)
+  (:documentation "Return the probability that two feature lists represent a match."))
+
+(defmethod feat-ls-prob-match ((self char-feats) (l1 list) (l2 list))
+  (let* ((overlap (length (remove-duplicates (intersection l1 l2))))
+         (num-miss (+ (- (length l1) overlap)
+                        (- (length l2) overlap))))
+    (float (* (expt-coerced 2/3 (- (numfeats self) num-miss))
+              (expt-coerced 1/3 num-miss)))))
+
+
+(defmethod chars ((char-feat-set char-feats))
+  (append (letters char-feat-set) (digits char-feat-set)))
+
+
+(defgeneric avg-match-prob (char-feat-set)
+  (:documentation "Returns the average match probability for an entire feature set."))
+
+(defmethod avg-match-prob ((self char-feats))
+  (aif (average-match-prob self) 
+    it
+    (let ((accum))
+      (dolist (targ (chars self))
+        (dolist (item (chars self))
+          (when (not (string= targ item))
+            (push (prob-match self targ item) accum))))
+      (setf (average-match-prob self)
+            (/ (reduce #'+ accum) (length accum))))))
+                      
+
+
+(defgeneric print-match-table (char-feat-set)
+  (:documentation "Print out a table of matc probabilities."))
+
+(defmethod print-match-table ((self char-feats))
+  (dolist (targ (append (letters self) (digits self)))
+    (format t "~%~A	" targ)
+    (dolist (char (append (letters self) (digits self)))
+      (format t "~3,2F	" (prob-match self targ char)))))
+
+
+(defgeneric print-num-feats (char-feat-set)
+  (:documentation "Print the number of features for each character."))
+
+(defmethod print-num-feats ((self char-feats))
+  (dolist (targ (append (letters self) (digits self)))
+    (format t "~%~A has ~S" targ (length (gethash targ (fhash self))))))
+
+
+(defgeneric check-integrity (thing)
+  (:documentation "Check the internal integrity of <thing>."))
+
+(defmethod check-integrity ((self char-feats))
+  (let ((feat-ls))
+    (dolist (char (append (letters self) (digits self)))
+      (setf feat-ls (gethash char (fhash self)))
+      (awhen (set-difference feat-ls (feature-ls self))
+        (format t "~&~A has a feature not in the set ~S" char it))
+      (dolist (item (append (letters self) (digits self)))
+        (when (and (not (string= char item))
+                   (equal feat-ls (gethash item (fhash self))))
+          (format t "~&~A and ~A have identical features" char item)))
+      (let ((bestchar (prob-best-character self feat-ls)))
+        (when (not (string= char bestchar))
+          (format t "~&~A has ~A as its best char." char bestchar)))
+      )))
+
+
+(defgeneric feature-freq (char-feat-set)
+  (:documentation "Print the frequency of occurrence for each feature in the set."))
+
+(defmethod feature-freq ((self char-feats))
+  (let ((counter))
+    (dolist (feat (feature-ls self))
+      (setf counter 0)
+      (dolist (char (chars self))
+        (when (member feat (gethash char (fhash self)))
+          (incf counter)))
+      (format t "~&Feature ~S occurs in ~S chars" feat counter))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; The Gibson (1969) feature set
+
+(defun build-gibson-set ()
+  "Returns the Gibson (1969) character feature set."
+  (let ((tmp (make-instance 'char-feats :name :GIBSON :feat-ls
+                             '(HORIZONTAL VERTICAL DIAGONAL-SLASH 
+                               DIAGONAL-BACK DIAGONAL-SLASH CLOSED-CURVE
+                               OPEN-V-CURVE OPEN-H-CURVE INTERSECTION
+                               CYCLIC-CHANGE SYMMETRY VERTICAL-DISCONT
+                               HORIZONTAL-DISCONT))))
+    (setfeats tmp "A" '(SYMMETRY HORIZONTAL DIAGONAL-SLASH DIAGONAL-BACK INTERSECTION VERTICAL-DISCONT))
+    (setfeats tmp "B" '(SYMMETRY CYCLIC-CHANGE INTERSECTION HORIZONTAL VERTICAL CLOSED-CURVE ))
+    (setfeats tmp "C" '(SYMMETRY OPEN-H-CURVE ))
+    (setfeats tmp "D" '(SYMMETRY VERTICAL CLOSED-CURVE ))
+    (setfeats tmp "E" '(HORIZONTAL-DISCONT SYMMETRY CYCLIC-CHANGE HORIZONTAL VERTICAL INTERSECTION ))
+    (setfeats tmp "F" '(HORIZONTAL-DISCONT VERTICAL-DISCONT HORIZONTAL VERTICAL INTERSECTION ))
+    (setfeats tmp "G" '(HORIZONTAL OPEN-H-CURVE ))
+    (setfeats tmp "H" '(VERTICAL-DISCONT SYMMETRY HORIZONTAL VERTICAL INTERSECTION ))
+    (setfeats tmp "I" '(VERTICAL-DISCONT SYMMETRY VERTICAL ))
+    (setfeats tmp "J" '(OPEN-V-CURVE OPEN-H-CURVE ))
+    (setfeats tmp "K" '(VERTICAL-DISCONT SYMMETRY CYCLIC-CHANGE VERTICAL DIAGONAL-SLASH DIAGONAL-BACK INTERSECTION ))
+    (setfeats tmp "L" '(HORIZONTAL-DISCONT HORIZONTAL VERTICAL ))
+    (setfeats tmp "M" '(CYCLIC-CHANGE VERTICAL-DISCONT SYMMETRY VERTICAL DIAGONAL-SLASH DIAGONAL-BACK ))
+    (setfeats tmp "N" '(VERTICAL-DISCONT VERTICAL DIAGONAL-BACK ))
+    (setfeats tmp "O" '(SYMMETRY CLOSED-CURVE ))
+    (setfeats tmp "P" '(VERTICAL-DISCONT INTERSECTION VERTICAL CLOSED-CURVE ))
+    (setfeats tmp "Q" '(intersection DIAGONAL-BACK CLOSED-CURVE ))
+    (setfeats tmp "R" '(VERTICAL-DISCONT INTERSECTION VERTICAL DIAGONAL-BACK CLOSED-CURVE ))
+    (setfeats tmp "S" '(CYCLIC-CHANGE OPEN-H-CURVE ))
+    (setfeats tmp "T" '(HORIZONTAL-DISCONT VERTICAL-DISCONT SYMMETRY HORIZONTAL VERTICAL INTERSECTION ))
+    (setfeats tmp "U" '(SYMMETRY OPEN-V-CURVE ))
+    (setfeats tmp "V" '(SYMMETRY DIAGONAL-SLASH DIAGONAL-BACK ))
+    (setfeats tmp "W" '(SYMMETRY CYCLIC-CHANGE DIAGONAL-SLASH DIAGONAL-BACK ))
+    (setfeats tmp "X" '(SYMMETRY INTERSECTION DIAGONAL-SLASH DIAGONAL-BACK ))
+    (setfeats tmp "Y" '(VERTICAL-DISCONT SYMMETRY VERTICAL DIAGONAL-SLASH DIAGONAL-BACK ))
+    (setfeats tmp "Z" '(HORIZONTAL-DISCONT HORIZONTAL DIAGONAL-SLASH ))
+    
+    (setfeats tmp "1" '(HORIZONTAL-DISCONT HORIZONTAL VERTICAL INTERSECTION))
+    (setfeats tmp "2" '(HORIZONTAL-DISCONT HORIZONTAL OPEN-H-CURVE))
+    (setfeats tmp "3" '(SYMMETRY OPEN-H-CURVE CYCLIC-CHANGE))
+    (setfeats tmp "4" '(VERTICAL-DISCONT HORIZONTAL-DISCONT HORIZONTAL VERTICAL DIAGONAL-SLASH INTERSECTION))
+    (setfeats tmp "5" '(HORIZONTAL-DISCONT HORIZONTAL OPEN-H-CURVE CYCLIC-CHANGE))
+    (setfeats tmp "6" '(HORIZONTAL-DISCONT CLOSED-CURVE OPEN-H-CURVE))
+    (setfeats tmp "7" '(VERTICAL-DISCONT HORIZONTAL DIAGONAL-SLASH))
+    (setfeats tmp "8" '(SYMMETRY CLOSED-CURVE INTERSECTION))
+    (setfeats tmp "9" '(VERTICAL-DISCONT CLOSED-CURVE OPEN-H-CURVE))
+    (setfeats tmp "0" '(SYMMETRY CLOSED-CURVE DIAGONAL-SLASH))
+    tmp))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; The Briggs & Hocevar (1975) feature set
+
+(defun build-bh-set ()
+  "Returns the Briggs & Hocevar (1975) character feature set."
+  (let ((tmp (make-instance 'char-feats :name :BRIGGS-HOCEVAR :feat-ls
+                             '(H-TOP H-CENTER H-BOTTOM SINGLE-V DOUBLE-V 
+                               ANG-OPEN-TOP ANG-OPEN-DOWN ANG-OPEN-HORIZ 
+                               SM-CURVE-CONVEX-RIGHT SM-CURVE-CONVEX-BOTTOM 
+                               LARGE-CURVE CONTINUOUS-CURVE CLOSED-CURVE
+                               SM-CURVE-CONVEX-LEFT))))
+    
+    (setfeats tmp "A" '(H-CENTER ANG-OPEN-DOWN))
+    (setfeats tmp "B" '(H-TOP H-CENTER H-BOTTOM SINGLE-V SM-CURVE-CONVEX-RIGHT CLOSED-CURVE))
+    (setfeats tmp "C" '(LARGE-CURVE CONTINUOUS-CURVE ))
+    (setfeats tmp "D" '(SINGLE-V LARGE-CURVE CLOSED-CURVE))
+    (setfeats tmp "E" '(H-TOP H-CENTER H-BOTTOM SINGLE-V ))
+    (setfeats tmp "F" '(H-TOP H-CENTER SINGLE-V ))
+    (setfeats tmp "G" '(SM-CURVE-CONVEX-RIGHT LARGE-CURVE ))
+    (setfeats tmp "H" '(H-CENTER DOUBLE-V ))
+    (setfeats tmp "I" '(SINGLE-V ))
+    (setfeats tmp "J" '(SINGLE-V SM-CURVE-CONVEX-BOTTOM ))
+    (setfeats tmp "K" '(SINGLE-V ANG-OPEN-TOP ANG-OPEN-DOWN ANG-OPEN-HORIZ ))
+    (setfeats tmp "L" '(H-BOTTOM SINGLE-V ))
+    (setfeats tmp "M" '(DOUBLE-V ANG-OPEN-DOWN ))
+    (setfeats tmp "N" '(DOUBLE-V ANG-OPEN-TOP ANG-OPEN-DOWN ))
+    (setfeats tmp "O" '(LARGE-CURVE CONTINUOUS-CURVE CLOSED-CURVE))
+    (setfeats tmp "P" '(H-TOP H-CENTER SINGLE-V SM-CURVE-CONVEX-RIGHT CLOSED-CURVE))
+    (setfeats tmp "Q" '(LARGE-CURVE CLOSED-CURVE))
+    (setfeats tmp "R" '(H-TOP H-CENTER SINGLE-V ANG-OPEN-DOWN SM-CURVE-CONVEX-RIGHT CLOSED-CURVE))
+    (setfeats tmp "S" '(SM-CURVE-CONVEX-RIGHT CONTINUOUS-CURVE))
+    (setfeats tmp "T" '(H-TOP SINGLE-V ))
+    (setfeats tmp "U" '(DOUBLE-V SM-CURVE-CONVEX-BOTTOM ))
+    (setfeats tmp "V" '(ANG-OPEN-TOP ))
+    (setfeats tmp "W" '(ANG-OPEN-TOP ANG-OPEN-DOWN ))
+    (setfeats tmp "X" '(ANG-OPEN-TOP ANG-OPEN-DOWN ANG-OPEN-HORIZ ))
+    (setfeats tmp "Y" '(SINGLE-V ANG-OPEN-TOP ANG-OPEN-HORIZ ))
+    (setfeats tmp "Z" '(H-TOP H-BOTTOM ANG-OPEN-HORIZ ))
+    
+    (setfeats tmp "1" '(H-BOTTOM SINGLE-V ANG-OPEN-DOWN))
+    (setfeats tmp "2" '(H-BOTTOM SM-CURVE-CONVEX-LEFT))
+    (setfeats tmp "3" '(SM-CURVE-CONVEX-LEFT))
+    (setfeats tmp "4" '(SINGLE-V CLOSED-CURVE H-CENTER))
+    (setfeats tmp "5" '(SM-CURVE-CONVEX-LEFT H-TOP))
+    (setfeats tmp "6" '(CLOSED-CURVE SM-CURVE-CONVEX-RIGHT))
+    (setfeats tmp "7" '(H-TOP ANG-OPEN-HORIZ))
+    (setfeats tmp "8" '(CLOSED-CURVE CONTINUOUS-CURVE))
+    (setfeats tmp "9" '(CLOSED-CURVE SM-CURVE-CONVEX-LEFT))
+    (setfeats tmp "0" '(CLOSED-CURVE CONTINUOUS-CURVE LARGE-CURVE ANG-OPEN-HORIZ))
+    tmp))
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Original Rumelhart and McClelland feature set
+
+(defun build-rm-orig-set ()
+  "Returns the Rumelhart & McClelland (1981) character feature set."
+  (let ((tmp (make-instance 'char-feats :name :RM-ORIG 
+                             :feat-ls 
+                             '(horizontal-t0 vertical-l1
+                               back-diagonal-u1 vertical-c1 front-diagonal-u1
+                               vertical-r1 horizontal-c1 horizontal-c2
+                               vertical-l2 front-diagonal-l2 vertical-c2
+                               back-diagonal-l2 vertical-r2 horizontal-l0
+                               left-facing symmetric right-facing))))
+    
+    (setfeats tmp "A" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 VERTICAL-R2 SYMMETRIC))
+    (setfeats tmp "B" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-R1 HORIZONTAL-C2
+                        VERTICAL-C2 VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "C" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-L2 HORIZONTAL-L0
+                        RIGHT-FACING))
+    (setfeats tmp "D" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-R1 VERTICAL-C2
+                        VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "E" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 VERTICAL-L2
+                        HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "F" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 VERTICAL-L2
+                        RIGHT-FACING))
+    (setfeats tmp "G" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C2 VERTICAL-L2
+                        VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "H" '(VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-L2 VERTICAL-R2 SYMMETRIC))
+    (setfeats tmp "I" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-C2 HORIZONTAL-L0
+                        SYMMETRIC))
+    (setfeats tmp "J" '(VERTICAL-R1 VERTICAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        LEFT-FACING))
+    (setfeats tmp "K" '(VERTICAL-L1 FRONT-DIAGONAL-U1 HORIZONTAL-C1
+                        VERTICAL-L2 BACK-DIAGONAL-L2 RIGHT-FACING))
+    (setfeats tmp "L" '(VERTICAL-L1 VERTICAL-L2 HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "M" '(VERTICAL-L1 BACK-DIAGONAL-U1 FRONT-DIAGONAL-U1
+                        VERTICAL-R1 VERTICAL-L2 VERTICAL-R2 SYMMETRIC))
+    (setfeats tmp "N" '(VERTICAL-L1 BACK-DIAGONAL-U1 VERTICAL-R1 VERTICAL-L2
+                        BACK-DIAGONAL-L2 VERTICAL-R2 SYMMETRIC))
+    (setfeats tmp "O" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 VERTICAL-L2
+                        VERTICAL-R2 HORIZONTAL-L0 SYMMETRIC))
+    (setfeats tmp "P" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 RIGHT-FACING))
+    (setfeats tmp "Q" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 VERTICAL-L2
+                        BACK-DIAGONAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        RIGHT-FACING))
+    (setfeats tmp "R" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 BACK-DIAGONAL-L2
+                        RIGHT-FACING))
+    (setfeats tmp "S" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-R2 HORIZONTAL-L0 SYMMETRIC))
+    (setfeats tmp "T" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-C2 SYMMETRIC))
+    (setfeats tmp "U" '(VERTICAL-L1 VERTICAL-R1 VERTICAL-L2 VERTICAL-R2
+                        HORIZONTAL-L0 SYMMETRIC))
+    (setfeats tmp "V" '(VERTICAL-L1 FRONT-DIAGONAL-U1 VERTICAL-L2
+                        FRONT-DIAGONAL-L2 SYMMETRIC))
+    (setfeats tmp "W" '(VERTICAL-L1 VERTICAL-R1 VERTICAL-L2 FRONT-DIAGONAL-L2
+                        BACK-DIAGONAL-L2 VERTICAL-R2 SYMMETRIC))
+    (setfeats tmp "X" '(BACK-DIAGONAL-U1 FRONT-DIAGONAL-U1 FRONT-DIAGONAL-L2
+                        BACK-DIAGONAL-L2 SYMMETRIC))
+    (setfeats tmp "Y" '(BACK-DIAGONAL-U1 FRONT-DIAGONAL-U1 VERTICAL-C2
+                        SYMMETRIC))
+    (setfeats tmp "Z" '(HORIZONTAL-T0 FRONT-DIAGONAL-U1 FRONT-DIAGONAL-L2
+                        HORIZONTAL-L0 SYMMETRIC))
+    
+    (setfeats tmp "1" '(VERTICAL-R1 VERTICAL-R2 LEFT-FACING))
+    (setfeats tmp "2" '(HORIZONTAL-T0 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-L2 HORIZONTAL-L0 LEFT-FACING))
+    (setfeats tmp "3" '(HORIZONTAL-T0 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-R2 HORIZONTAL-L0 LEFT-FACING))
+    (setfeats tmp "4" '(VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-R2 LEFT-FACING))
+    (setfeats tmp "5" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1
+                        BACK-DIAGONAL-L2 HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "6" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-L2 VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING))
+    (setfeats tmp "7" '(HORIZONTAL-T0 VERTICAL-R1 VERTICAL-R2 LEFT-FACING))
+    (setfeats tmp "8" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        SYMMETRIC))
+    (setfeats tmp "9" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-R2 HORIZONTAL-L0 LEFT-FACING))
+    (setfeats tmp "0" '(HORIZONTAL-T0 VERTICAL-L1 BACK-DIAGONAL-U1 VERTICAL-R1
+                        VERTICAL-L2 BACK-DIAGONAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        SYMMETRIC))
+    tmp))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; "Clean" Rumelhart and McClelland (??) feature set
+
+(defun cliplast (sym)
+  "Removes the last character from a symbol."
+  (let ((str (mkstr sym)))
+    (read-from-string str nil nil :start 0 :end (- (length str) 1))))
+
+(defun build-rm-clean-set ()
+  (let ((tmp (make-instance 'char-feats :name :RM-CLEAN :true->icon #'cliplast
+                            :feat-ls 
+                            '(horizontal-t0 vertical-l1
+                              back-diagonal-u1 vertical-c1 front-diagonal-u1
+                              vertical-r1 horizontal-c1 horizontal-c2
+                              vertical-l2 front-diagonal-l2 vertical-c2
+                              back-diagonal-l2 vertical-r2 horizontal-l0
+                              left-facing+ symmetric+ right-facing+))))
+    
+    (setfeats tmp "A" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 VERTICAL-R2 SYMMETRIC+))
+    (setfeats tmp "B" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-R1 HORIZONTAL-C2
+                        VERTICAL-C2 VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "C" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-L2 HORIZONTAL-L0
+                        RIGHT-FACING+))
+    (setfeats tmp "D" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-R1 VERTICAL-C2
+                        VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "E" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 VERTICAL-L2
+                        HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "F" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 VERTICAL-L2
+                        RIGHT-FACING+))
+    (setfeats tmp "G" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C2 VERTICAL-L2
+                        VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "H" '(VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-L2 VERTICAL-R2 SYMMETRIC+))
+    (setfeats tmp "I" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-C2 HORIZONTAL-L0
+                        SYMMETRIC+))
+    (setfeats tmp "J" '(VERTICAL-R1 VERTICAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        LEFT-FACING+))
+    (setfeats tmp "K" '(VERTICAL-L1 FRONT-DIAGONAL-U1 HORIZONTAL-C1
+                        VERTICAL-L2 BACK-DIAGONAL-L2 RIGHT-FACING+))
+    (setfeats tmp "L" '(VERTICAL-L1 VERTICAL-L2 HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "M" '(VERTICAL-L1 BACK-DIAGONAL-U1 FRONT-DIAGONAL-U1
+                        VERTICAL-R1 VERTICAL-L2 VERTICAL-R2 SYMMETRIC+))
+    (setfeats tmp "N" '(VERTICAL-L1 BACK-DIAGONAL-U1 VERTICAL-R1 VERTICAL-L2
+                        BACK-DIAGONAL-L2 VERTICAL-R2 SYMMETRIC+))
+    (setfeats tmp "O" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 VERTICAL-L2
+                        VERTICAL-R2 HORIZONTAL-L0 SYMMETRIC+))
+    (setfeats tmp "P" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 RIGHT-FACING+))
+    (setfeats tmp "Q" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 VERTICAL-L2
+                        BACK-DIAGONAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        RIGHT-FACING+))
+    (setfeats tmp "R" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 BACK-DIAGONAL-L2
+                        RIGHT-FACING+))
+    (setfeats tmp "S" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-R2 HORIZONTAL-L0 SYMMETRIC+))
+    (setfeats tmp "T" '(HORIZONTAL-T0 VERTICAL-C1 VERTICAL-C2 SYMMETRIC+))
+    (setfeats tmp "U" '(VERTICAL-L1 VERTICAL-R1 VERTICAL-L2 VERTICAL-R2
+                        HORIZONTAL-L0 SYMMETRIC+))
+    (setfeats tmp "V" '(VERTICAL-L1 FRONT-DIAGONAL-U1 VERTICAL-L2
+                        FRONT-DIAGONAL-L2 SYMMETRIC+))
+    (setfeats tmp "W" '(VERTICAL-L1 VERTICAL-R1 VERTICAL-L2 FRONT-DIAGONAL-L2
+                        BACK-DIAGONAL-L2 VERTICAL-R2 SYMMETRIC+))
+    (setfeats tmp "X" '(BACK-DIAGONAL-U1 FRONT-DIAGONAL-U1 FRONT-DIAGONAL-L2
+                        BACK-DIAGONAL-L2 SYMMETRIC+))
+    (setfeats tmp "Y" '(BACK-DIAGONAL-U1 FRONT-DIAGONAL-U1 VERTICAL-C2
+                        SYMMETRIC+))
+    (setfeats tmp "Z" '(HORIZONTAL-T0 FRONT-DIAGONAL-U1 FRONT-DIAGONAL-L2
+                        HORIZONTAL-L0 SYMMETRIC+))
+    
+    (setfeats tmp "1" '(VERTICAL-R1 VERTICAL-R2 LEFT-FACING+))
+    (setfeats tmp "2" '(HORIZONTAL-T0 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-L2 HORIZONTAL-L0 LEFT-FACING+))
+    (setfeats tmp "3" '(HORIZONTAL-T0 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-R2 HORIZONTAL-L0 LEFT-FACING+))
+    (setfeats tmp "4" '(VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-R2 LEFT-FACING+))
+    (setfeats tmp "5" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1
+                        BACK-DIAGONAL-L2 HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "6" '(HORIZONTAL-T0 VERTICAL-L1 HORIZONTAL-C1 HORIZONTAL-C2
+                        VERTICAL-L2 VERTICAL-R2 HORIZONTAL-L0 RIGHT-FACING+))
+    (setfeats tmp "7" '(HORIZONTAL-T0 VERTICAL-R1 VERTICAL-R2 LEFT-FACING+))
+    (setfeats tmp "8" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        SYMMETRIC+))
+    (setfeats tmp "9" '(HORIZONTAL-T0 VERTICAL-L1 VERTICAL-R1 HORIZONTAL-C1
+                        HORIZONTAL-C2 VERTICAL-R2 HORIZONTAL-L0 LEFT-FACING+))
+    (setfeats tmp "0" '(HORIZONTAL-T0 VERTICAL-L1 BACK-DIAGONAL-U1 VERTICAL-R1
+                        VERTICAL-L2 BACK-DIAGONAL-L2 VERTICAL-R2 HORIZONTAL-L0
+                        SYMMETRIC+))
+    tmp))
+
+
+
+#|
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; XXXX () feature set
+
+(defun build-XX-set ()
+  
+  (let ((tmp (make-instance 'char-feats feat-ls
+                            '())))
+    (setfeats tmp "A" '())
+    (setfeats tmp "B" '())
+    (setfeats tmp "C" '())
+    (setfeats tmp "D" '())
+    (setfeats tmp "E" '())
+    (setfeats tmp "F" '())
+    (setfeats tmp "G" '())
+    (setfeats tmp "H" '())
+    (setfeats tmp "I" '())
+    (setfeats tmp "J" '())
+    (setfeats tmp "K" '())
+    (setfeats tmp "L" '())
+    (setfeats tmp "M" '())
+    (setfeats tmp "N" '())
+    (setfeats tmp "O" '())
+    (setfeats tmp "P" '())
+    (setfeats tmp "Q" '())
+    (setfeats tmp "R" '())
+    (setfeats tmp "S" '())
+    (setfeats tmp "T" '())
+    (setfeats tmp "U" '())
+    (setfeats tmp "V" '())
+    (setfeats tmp "W" '())
+    (setfeats tmp "X" '())
+    (setfeats tmp "Y" '())
+    (setfeats tmp "Z" '())
+    
+    (setfeats tmp "1" '())
+    (setfeats tmp "2" '())
+    (setfeats tmp "3" '())
+    (setfeats tmp "4" '())
+    (setfeats tmp "5" '())
+    (setfeats tmp "6" '())
+    (setfeats tmp "7" '())
+    (setfeats tmp "8" '())
+    (setfeats tmp "9" '())
+    (setfeats tmp "0" '())
+    tmp))
+
+|#
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+
+(defun all-feature-sets ()
+  (list (build-gibson-set) (build-bh-set) (build-rm-orig-set) 
+        (build-rm-clean-set)))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                        ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2015 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : load-act-r.lisp
+;;; Version     : 3.1
+;;; 
+;;; Description : Top level loader for the whole ACT-R system.
+;;; 
+;;; Bugs        : ???
+;;;
+;;; To do       : [-] Test in a variety of Lisps for issues with the
+;;;             :     logical hostname stuff.
+;;;             : [ ] Now, look into using the clisp version in other
+;;;             :     lisps because it seems cleaner/more generic than
+;;;             :     the ones I put toghether...
+;;;             : [x] Use compile-file-pathname instead of always adding a new
+;;;             :     entry for *.fasl-pathname*.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.10.26 Dan
+;;;             : Creation.
+;;;             :
+;;;             : Realized that require doesn't compile things automatically
+;;;             : in all cases, so added my own require-compiled that does.
+;;; 2004.12.10 Dan
+;;;             : Fixed the make-package for the packaged version (for use
+;;;             : with ACL at least).
+;;;             : Reduced the lines to max of 80 chars.
+;;; 2005.01.02 Dan
+;;;             : Changed it so that it loads the "core modules" in a specific
+;;;             : order and then all other modules.
+;;; 2005.01.12 Dan
+;;;             : * Added the tools directory to the set.
+;;; 2005.01.23 Dan
+;;;             : * Fixed the Lispworks binary extension check. Don't think it
+;;;             :   still needs the old one...
+;;; 2005.01.29 Dan
+;;;             : * Added a feature check into compile-and-load to force it
+;;;             :   to recompile if :actr-recompile is on the features list.
+;;; 2005.02.01 Dan
+;;;             : * This time, the Lispworks feature checks should be set
+;;;             :   properly for OSX (thanks to Chris Sims).
+;;; 2005.02.25 Dan
+;;;             : * Removed the ~\newline usages because that causes problems
+;;;             :   when a Lisp only wants to see native new lines there.
+;;; 2005.04.14 Dan
+;;;             : * Changed compile-and-load so that it throws an error if the
+;;;             :   file it is passed has a non-"lisp" extension. - need to
+;;;             :   verify that in other Lisps to make sure it works right.
+;;; 2005.07.07 Dan
+;;;             : * Fixed the packaged loading for Lispworks now too.
+;;; 2005.08.10 Dan
+;;;             : * Added a new directory to the set (commands) in place of
+;;;             :   where modules was and then moved modules to after the
+;;;             :   devices.
+;;;             : * Now, there's basically a directory to auto-load in all
+;;;             :   resonable locations, and I can better distribute files 
+;;;             :   that were all jammed into tools.
+;;;             : * Updated the version to 1.0.
+;;; 2005.08.16 Dan
+;;;             : * Added a flag to indicate whether things have been loaded
+;;;             :   previously or not and actually throw an error if this
+;;;             :   file is attempted to be loaded more than once.
+;;; 2005.09.16 Dan
+;;;             : * Added the appropriate feature checks to work "right" with
+;;;             :   ACL 7's IDE i.e. load the devices and package things in
+;;;             :   cg-user when necessary.
+;;; 2005.10.18 Dan
+;;;             : * Added the logical host setup for CMUCL.
+;;;             : * Moved the smart-load function here and generalized it so
+;;;             :   that framework and core-modules don't need to have 
+;;;             :   their own special versions.
+;;;             : * Also converted those specific loaders to essentially just
+;;;             :   file lists now.
+;;; 2005.11.01 Dan
+;;;             : * Added a new compile-and-load so that things can be loaded
+;;;             :   into MCL 5/5.1 (the versions that have the split open/load
+;;;             :   Mac/Unix file menu options) without having to convert all
+;;;             :   the files first.  This file needs to be loaded as a Unix
+;;;             :   file and the rest should take care of itself.
+;;; 2005.11.07 Dan
+;;;             : * Realized that since the environment is loaded from tools
+;;;             :   that there's no way to add patches to the environment
+;;;             :   in an "auto load" directory because things in tools may
+;;;             :   be loaded before the environment.  So, I've added yet
+;;;             :   another directory from which files are loaded automatically.
+;;;             :   The other-files directory is now scanned and .lisp files
+;;;             :   are loaded as the last step of the load process.
+;;; 2005.12.13 Dan
+;;;             : * Changed the logical host setup for ACL because it turns
+;;;             :   out that the host-namestring always ends up nil and doesn't
+;;;             :   actually capture the drive info which causes problems if
+;;;             :   the ACT-R sources are on a different drive than the ACL
+;;;             :   assumed default.
+;;; 2006.01.04 Dan
+;;;             : * Added the switches so that it'll load under CMUCL in OS X
+;;;             :   (with ppc).
+;;; 2006.06.29 Dan
+;;;             : * Added components provided by Don Morrison to allow it to be 
+;;;             :   loaded into CLisp v2.38 - the CLisp logical host, tighter 
+;;;             :   handling of the logical pathnames in general (other Lisps
+;;;             :   didn't mind logical namestrings in places where a pathname
+;;;             :   designator was required), and a shadowing of the CLisp
+;;;             :   execute function.
+;;; 2006.08.31 Dan
+;;;             : * Replaced the *already-loaded-act-r-6-files* variable as
+;;;             :   the reloading test with a feeature check for :act-r-6.0
+;;;             :   which is now placed on the *features* list.
+;;; 2007.01.17 Dan
+;;;             : * Added the support necessary to load into SBCL.
+;;;             : * Required changing all calls to logical-pathname in the
+;;;             :   directory calls to translate-logical-pathname which should
+;;;             :   work for all Lisps (SHOULD!).
+;;;             : * NOTE that this doesn't work with SBCL 1.0 under Windows
+;;;             :   because a bug in their directory command doesn't
+;;;             :   recognize the wildcards but they've addressed that so future
+;;;             :   versions of SBCL for Windows should work.
+;;; 2007.02.02 Dan
+;;;             : * Changed the uses for the packaged-actr so that all Lisps
+;;;             :   use "COMMON-LISP" - should work, but this is still an
+;;;             :   an experimental feature.
+;;; 2007.02.05 Dan
+;;;             : * Added the hack for the broken directory command in SBCL for
+;;;             :   Windows so that it can load all of the files now.
+;;; 2007.02.26 Dan
+;;;             : * Added an appropriate fasl extension for LispWorks 5 on
+;;;             :   x86 Macs.
+;;; 2007.07.24 Dan
+;;;             : * Finally added the right extension for LispWorks 5 for
+;;;             :   Windows.
+;;; 2007.08.03 Dan
+;;;             : * Fixed the feature checks so that LispWorks 5 gets the
+;;;             :   right value for Windows...
+;;; 2007.09.10 Dan
+;;;             : * Putting the LispWorks device file pointers in to allow use
+;;;             :   of the beta device interface.
+;;; 2008.06.09 Dan
+;;;             : * Added yet another LispWorks entry for compiled file types
+;;;             :   to cover the LW 5 unix names.  Probably about time to try
+;;;             :   getting something that's robust using compile-file-pathname
+;;;             :   instead...
+;;; 2008.06.10 Dan
+;;;             : * Trying a version that uses compile-file-pathname to try
+;;;             :   to set the fasl name "automatically".
+;;; 2010.03.09 Dan
+;;;             : * Changed the openmcl logical setting to the 'generic' one
+;;;             :   to fix problems with different "drives" under Windows.
+;;; 2010.03.11 mdb
+;;;             : * Changed MCL-specific code to not load CFBundle when running
+;;;             :   under MCL 5.2.
+;;; 2010.11.02 Dan
+;;;             : * Added ABCL to the list for logical translation.
+;;; 2011.04.28 Dan
+;;;             : * Define *file-list* here and just set it in the other loaders.
+;;; 2012.01.04 Dan
+;;;             : * Added another directory to the tree: user-loads.  That will
+;;;             :   always go last and there will never be any distributed files
+;;;             :   in it.  The .lisp files in it will be loaded in order based
+;;;             :   on file name and is for users to add initialization or model
+;;;             :   files to as needed.
+;;;             : * Removed the old info under general docs.
+;;; 2012.05.07 Dan
+;;;             : * Make the ACL device support dependent on the Windows version
+;;;             :   only and print a warning for the others.
+;;; 2012.08.24 Dan
+;;;             : * Added the switches to load the new ccl-cocoa device and
+;;;             :   removed the mcl device.
+;;; 2013.08.09 Dan
+;;;             : * Fixed a problem with the shadowing of functions in SBCL and
+;;;             :   CLisp when the current package wasn't :cg-user.
+;;; 2013.10.07 Dan
+;;;             : * Added another feature switch to be tested :actr-fast.  When
+;;;             :   it's on the features list set the optimize settings for faster
+;;;             :   compiled code.
+;;; 2013.12.19 Dan
+;;;             : * Added an :ecl switch to the logical path definitions.
+;;; 2014.02.21 Dan
+;;;             : * Big warnings that this shouldn't be used!
+;;; 2014.05.29 Dan
+;;;             : * Define the variable used to test for applying the hacks to
+;;;             :   work more like ACT-R 6.0.
+;;; 2014.06.16 Dan
+;;;             : * Added a use :ccl to the :act-r package for CCL.
+;;; 2014.07.14 Dan
+;;;             : * Changed the feature switch from :ACT-R-6.0 to :ACT-R-6.1
+;;;             :   and added a separate :ACT-R switch which can be used in
+;;;             :   the future for testing that "some" ACT-R is loaded.
+;;; 2014.08.28 Dan
+;;;             : * Changed the warning from don't use to pre-release and let me
+;;;             :   know about issues.
+;;; 2014.08.29 Dan
+;;;             : * Double check for the :act-r being on *features* because
+;;;             :   the compiler switch isn't sufficient if the file gets 
+;;;             :   compiled when the switch isn't set.
+;;;             : * Removed the second "do not use" warning as well.
+;;; 2014.09.11 Dan
+;;;             : * Changed the final load print out to say 6.1.
+;;; 2014.09.29 Dan
+;;;             : * Added the actr-load function which does a translate on the
+;;;             :   parameter it's passed so that I can use that in the test
+;;;             :   models and have them work with SBCL and any others which
+;;;             :   don't accept logical to load.
+;;; 2014.09.30 Dan
+;;;             : * Changed the warning to beta instead of pre-release.
+;;; 2014.12.01 Dan
+;;;             : * Removed the beta warning at load time.
+;;; 2014.12.02 Dan
+;;;             : * Added a translate-logical-pathname to the directory passed
+;;;             :   to smart-load so it can be used with logicals in Lisps that
+;;;             :   don't like logicals as pathnames.
+;;; 2015.07.28 Dan 
+;;;             : * Renamed it to load-act-r-7.lisp.
+;;;             : * Changed the logical from "ACT-R6" to "ACT-R" and use the
+;;;             :   general form for all Lisps.
+;;;             : * Removed all the special code for MCL.
+;;;             : * Get rid of the 6.0 compatibility hack variable.
+;;;             : * Changed the feature to :act-r-7.
+;;;             : * Changed the output to say ACT-R 7.
+;;;             : * Added an "ACT-R-support" logical for use in other places.
+;;; 2015.08.03 Dan
+;;;             : * Change the package shadowing for CLisp because it seems to
+;;;             :   need the nicknames now.
+;;; 2015.08.05 Dan
+;;;             : * Changed the name again to load-act-r.lisp because I might as 
+;;;             :   well do so now while I'm changing everything else...
+;;; 2015.10.26 Dan
+;;;             : * The hack for defconstant in SBCL doesn't work for the newer
+;;;             :   versions so replaced that with something that doesn't depend
+;;;             :   on the internals and just ignores any error in the "rebinding"
+;;;             :   situation.  This works for both the old and new versions and
+;;;             :   should continue to work with future versions as well.
+;;; 2016.03.03 Dan
+;;;             : * Only push :act-r onto features here and do specific version
+;;;             :   tags in the version-string file.
+;;;             : * Use the *actr-architecture-version* value where appropriate.
+;;; 2016.03.07 Dan
+;;;             : * Added system parameters for version info and version checking,
+;;;             :   and also a function for indicating the version a model was 
+;;;             :   written for to provide warnings when it is loaded in a 
+;;;             :   possibly incompatible version.
+;;; 2016.03.09 Dan
+;;;             : * Added an optional parameter to written-for-act-r-version to
+;;;             :   provide a description for use in the warning.
+;;; 2016.03.14 Dan
+;;;             : * Added the require-extra macro to make it easier to use the
+;;;             :   extras and the requiring-extra function to test in the main
+;;;             :   extra file so it can load more files when needed.
+;;; 2016.03.30 Dan
+;;;             : * Changed written-for-act-r-version to provide more details
+;;;             :   when there is a mismatch and change the system parameter 
+;;;             :   :act-r-minor-version to return 0 instead of nil when there
+;;;             :   isn't currently a minor version.
+;;; 2016.05.31 Dan
+;;;             : * Added the finish-format macro which can be used to do a format
+;;;             :   followed by a finish-output on the stream because *error-output*
+;;;             :   is buffered in some Lisps (Windows CCL 1.10+ at least) and 
+;;;             :   need to make sure warnings/errors get output immediately.
+;;; 2016.06.01 Dan
+;;;             : * Fixed the :check-act-r-version parameter so that it could 
+;;;             :   actually check the versions returned by the :act-r-version
+;;;             :   parameter which includes the -<...> tag at the end.
+;;; 2017.03.28 Dan
+;;;             : * Moved the code for loading the quicklisp libraries here.
+;;; 2017.12.04 Dan
+;;;             : * Editted the warning about Quicklisp to captialize it correctly.
+;;; 2018.01.09 Dan
+;;;             : * Fix the require-extra macro since it was checking the count
+;;;             :   of meta-processes which isn't recorded now.
+;;; 2018.03.29 Dan
+;;;             : * Can't print the version info when building the standalone
+;;;             :   since mp-print-versions now goes through the dispatcher.
+;;; 2018.08.27 Dan
+;;;             : * Keep track separately of the things which were loaded with
+;;;             :   require-extra and require-compiled in case they need to be
+;;;             :   removed from *modules* for some reason (reloading ACT-R in
+;;;             :   a separate package for example).  The variable *act-r-modules*
+;;;             :   holds the things that were loaded with those.
+;;; 2019.04.09 Dan
+;;;             : * Added support for the :single-threaded-act-r flag which
+;;;             :   results in the dispatcher not starting any threads (thus no 
+;;;             :   external connections possible) and all the locks being 
+;;;             :   ignored.  
+;;; 2019.04.10 Dan
+;;;             : * Print a notice that it's single threaded after the version
+;;;             :   information.
+;;; 2019.05.29 Dan [3.0]
+;;;             : * Don't need QuickLisp if loading in single-threaded mode.
+;;;             :   Instead just load the support/single-threaded.lisp file
+;;;             :   that now defines the packages and stubs for all the things
+;;;             :   that are referenced from the Quicklisp libraries.
+;;;             : * Record which mode was last used in support/mode.txt so that
+;;;             :   it can automatically force a recompile when switching 
+;;;             :   between full and single-threaded.
+;;; 2019.05.30 Dan
+;;;             : * Reverting from using jsown since it doesn't differentiate
+;;;             :   1.0 from 1, but that distinction is important.
+;;; 2019.11.18 Dan
+;;;             : * Wasn't using translate-logical-pathname in the writing of
+;;;             :   the load-mode.lisp file which meant sbcl would always
+;;;             :   have to recompile.
+;;; 2020.05.19 Dan [3.1]
+;;;             : * Because support and extra files aren't always being loaded,
+;;;             :   they need their own record of which mode was last used to
+;;;             :   compile them so they can be recompiled when necessary. [The
+;;;             :   problematic case was when they are loaded under one mode,
+;;;             :   the mode changes but that file isn't, and then that same 
+;;;             :   mode is used again and the file is required.]  Now alists
+;;;             :   are written into files extra-mode.lisp and required-mode.lisp
+;;;             :   in the support directory to record which mode was last used
+;;;             :   to compile files loaded with require-extra and require-compiled.
+;;;             : * To go along with that, compile-and-load now takes an optional
+;;;             :   parameter that if true will force the file to be recompiled
+;;;             :   regardless of the other tests.
+;;; 2020.07.17 Dan [3.2]
+;;;             : * Added another switch :dont-compile-actr which means just use
+;;;             :   whatever fasl file is there and don't read/write the extra
+;;;             :   marker files.  This overrides the :recompile-actr switch.
+;;; 2020.08.04 Dan
+;;;             : * To fix an issue with SBCL tacking a .NEWEST onto the end of
+;;;             :   pathnames with compile-and-load which results in an error
+;;;             :   if a string is provided, use translate-logical-pathname on
+;;;             :   it before doing anything else.
+;;; 2020.08.11 Dan
+;;;             : * Made the pathname for require-compiled optional and use the
+;;;             :   ACT-R-support directory with the code-module for the file
+;;;             :   name if not provided.
+;;; 2020.08.25 Dan
+;;;             : * Switching out the special defconstant macro for SBCL and 
+;;;             :   using thier define-constant instead for all systems.
+;;;             : * Added a string-downcase to require-compiled when the path
+;;;             :   is not provived since the module strings are upper case but
+;;;             :   the file names are lower case.
+;;; 2021.10.01 Dan
+;;;             : * Added the remote written-for-act-r-version here.
+;;; 2023.02.27 Dan
+;;;             : * SBCL 2.3.2 seems to have changed how defpackage works for
+;;;             :   existing packages, so need to add the cl-user nickname now
+;;;             :   if current package is common-lisp-user.
+;;; 2023.10.03 Dan
+;;;             : * Changed require-compiled to use ACT-R-support as the 
+;;;             :   logical when no pathname is provided instead of 
+;;;             :   ACT-R-SUPPORT (which doesn't really matter since the spec
+;;;             :   says logical hosts are compared with string-equal but it
+;;;             :   just doesn't look right having a mismatch like that).
+;;; 2024.09.17 Dan
+;;;             : * Update require-compiled so that when it's single-threaded
+;;;             :   it will put the dummy packages back in place before loading
+;;;             :   the code (saving the existing ones first if they exist) and
+;;;             :   then rename the dummies and restore the corresponding real
+;;;             :   ones if they existed.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Using logical pathnames a directory structure for ACT-R 7 can be created
+;;; that allows users to add or remove files from a specific directory within
+;;; the system, and through the use of require and provide also remove the
+;;; need to edit a "load order" file.
+;;;
+;;; See the reference manual for details about the directories provided.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; The logical hostname "ACT-R" can be used as a relative reference for the
+;;; directory where the ACT-R 7 folders are located.
+;;;
+;;;
+;;; require-compiled (code-module &optional pathname)
+;;;
+;;; code-module is a string that designates some code that needs to be loaded
+;;;             which should have a corresponding (provide code-module)
+;;; pathname is the pathname to where code-module can be found.
+;;;
+;;; Similar to the function require this will determine if the requested
+;;; code-module has been loaded and if not will compile and load the file
+;;; specified by pathname.  If the pathname is not provided the it will
+;;; try to load the file from the ACT-R-support directory with a name that
+;;; matches the code-module given.  Like the normal require function, it 
+;;; does depend on a provide call existing in the code-module file so that
+;;; it only loads the necessary file the first time it is required.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; The idea is for a system where people can just drop in new modules without
+;;; having to edit or change any of the existing code.  In practice, that
+;;; may not work all the time (with things like name conflicts) but should
+;;; be useable.  Name conflicts could probably be eliminated through some
+;;; sort of module packaging scheme, but that seems to complicate module
+;;; creation and could lead to some potentially nasty debugging issues.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (make-package :act-r 
+                               :use '("COMMON-LISP-USER" 
+                                      "COMMON-LISP"
+                                      #+:ccl "CCL"
+                                      #+:allegro "EXCL"
+                                      #+:allegro-ide "COMMON-GRAPHICS-USER"
+                                      #+:common-graphics "COMMON-GRAPHICS-USER"))
+
+
+;;; Basically a hack for ACL 7 so that I don't have to touch every file!
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  
+  #+(and :allegro :ide (not :allegro-ide))
+    (push :allegro-ide *features*))
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+#+:act-r (error "Only one version of ACT-R should be loaded at a time.")
+#-:act-r (if (find :act-r *features*)
+             (error "Only one version of ACT-R should be loaded at a time.")
+           (progn
+             (pushnew :act-r *features*)))
+
+
+;; Clisp has an implementation-specific function execute that conflicts with
+;; the generic function execute in ACT-R, so shadow it
+#+:clisp (eval `(defpackage ,(package-name *package*) (:nicknames "CL-USER" "USER") (:shadow "EXECUTE")))
+
+;; SBCL has a function called reset we need to shadow.
+
+#+(and :sbcl (not :win32))
+  (if (string-equal "common-lisp-user" (package-name *package*))
+	(eval `(defpackage ,(package-name *package*) (:shadow "RESET" ) (:nicknames "CL-USER")))
+     (eval `(defpackage ,(package-name *package*) (:shadow "RESET" ) )))
+#+(and :sbcl :win32) 
+  (if (string-equal "common-lisp-user" (package-name *package*))
+    (eval `(defpackage ,(package-name *package*) (:shadow "RESET" "DIRECTORY") (:nicknames "CL-USER")))
+  (eval `(defpackage ,(package-name *package*) (:shadow "RESET" "DIRECTORY") )))
+
+;;; The Windows version of SBCL doesn't properly handle wild cards in the
+;;; directory command so this hacks around that for now sufficiently to load
+;;; the ACT-R files...
+
+#+(and :sbcl :win32) 
+(eval-when (:load-toplevel :execute)
+  (defun directory (pathname &key)
+    ;(format t "Calling the new directory for ~S~%" pathname)
+    (if (not (string= (pathname-type pathname) "*"))
+        (let* ((new-path (make-pathname :host (pathname-host pathname)
+                                        :device (pathname-device pathname)
+                                        :directory (pathname-directory pathname)
+                                        :defaults "*.*"))
+               (new-val (cl::directory new-path))
+               (res (remove-if-not (lambda (x) 
+                                     (string-equal (pathname-type x) (pathname-type pathname)))
+                                   new-val)))
+          ;(format t "Returning ~S from directory of new-path: ~s which returns ~s.~%" res new-path new-val)
+          res)
+      (cl::directory pathname))))
+
+;;; To avoid the strict interpretation of defconstant that SBCL takes, use their
+;;; recommended define-constant macro instead in all cases instead of special
+;;; casing for SBCL
+
+(defmacro define-constant (name value &optional doc)
+  `(defconstant ,name (if (boundp ',name) (symbol-value ',name) ,value)
+                      ,@(when doc (list doc))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Create the logical host "ACT-R" relative to the current location
+
+(setf (logical-pathname-translations "ACT-R")
+  `(("**;*.*" ,(namestring (merge-pathnames "**/*.*" *load-truename*)))))
+
+(setf (logical-pathname-translations "ACT-R-support")
+  `(("**;*.*" ,(namestring (merge-pathnames "**/*.*" (translate-logical-pathname "ACT-R:support;"))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; define the file extension (the pathname type) for compiled and source files
+;;; in the currently supported systems
+
+(unless (boundp '*.lisp-pathname*)
+  (defvar *.lisp-pathname* 
+      (make-pathname :type "lisp")))
+
+(unless (boundp '*.fasl-pathname*)
+  (defvar *.fasl-pathname* 
+      (let ((type (pathname-type (compile-file-pathname "dummy.lisp"))))
+        (if (and type (not (string-equal type "lisp"))) 
+          (make-pathname :type type)
+        
+        ;; If it can't figure it out automatically resort to predefined value
+        
+        #+:allegro (make-pathname :type "fasl")
+        #+:sbcl (make-pathname :type "fasl")
+        #+:clisp (make-pathname  :type "fas")
+        #+(and :linux :cmu) (make-pathname :type "x86f")
+        #+(and :ppc :cmu) (make-pathname :type "ppcf")
+        #+(and :lispworks :win32 (not :lispworks5)) (make-pathname :type "fsl")
+        #+(and :lispworks :win32 :lispworks5) (make-pathname :type "ofasl")
+        #+(and :lispworks :unix (not :macosx) (not :lispworks5)) (make-pathname :type "ufsl")
+        #+(and :lispworks :unix (not :macosx) :lispworks5) (make-pathname :type "ufasl")
+        #+(and :lispworks :macosx (not :x86)) (make-pathname :type "nfasl")
+        #+(and :lispworks :macosx :x86) (make-pathname :type "xfasl")))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; When :actr-fast is on the features list then set the switches for fastest
+;;; compiled code.
+
+#+:actr-fast (eval-when (:compile-toplevel :load-toplevel :execute)
+               (proclaim '(optimize (speed 3) (safety 1) (space 0) (debug 0))))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Flag that forces recompiling to not happen.
+
+#+:dont-compile-actr (defvar *skip-recompiling* t)
+#-:dont-compile-actr (defvar *skip-recompiling* nil)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Define some functions for compiling and loading files
+
+;;; compile-and-load (pathname &optional force)
+;;;
+;;; pathname a file pathname (or pathname string) if the file already
+;;;          has a type specified, then it is ignored and the defaults
+;;;          of lisp for source and system-dependent binary types are
+;;;          used.
+;;; force  a generalized boolean which indicates whether the file should
+;;;        be compiled regardless of the state of a previously compiled
+;;;        version.
+;;; 
+;;; If a source file (.lisp) exists for the specified pathname then if there
+;;; is no binary file (determined by *.fasl-pathname*), the binary is
+;;; older than the source file, the feature :act-r-recompile is set, or force
+;;; is true then compile the source file into a binary and load it.  
+;;;
+;;; Based on the smart-load function from the ACT-R loader.
+
+
+(defun compile-and-load (pathname &optional force)
+  (when (stringp pathname)
+    (setf pathname (translate-logical-pathname pathname)))
+  
+  (when (pathname-type pathname) ;; throw away the type to allow for
+                                 ;; the merging with a binary type
+    (if (string-equal (pathname-type pathname) "lisp")
+        (setf pathname (make-pathname :host (pathname-host pathname)
+                                      :directory (pathname-directory pathname)
+                                      :device (pathname-device pathname)
+                                      :name (pathname-name pathname)))
+      (error "To compile a file it must have a .lisp extension")))
+  
+  (let* ((srcpath (merge-pathnames pathname *.lisp-pathname*))
+         (binpath (merge-pathnames pathname *.fasl-pathname*)))
+    (unless (probe-file srcpath)
+      (error "File ~S does not exist" srcpath))
+    (if *skip-recompiling*
+        (unless (probe-file binpath)
+          (error "File ~s does not exist but the :dont-compile-actr flag is set." binpath))
+      (when (or force
+                (member :actr-recompile *features*)
+                (not (probe-file binpath))
+                (> (file-write-date srcpath) (file-write-date binpath)))
+        (compile-file srcpath :output-file binpath)))
+    (load binpath)))
+  
+;;; Going to use this in a few places to make sure output to *error-output*
+;;; happens since it could be buffered.
+
+(defmacro finish-format (stream string &rest args)
+  `(prog1
+     (format ,stream ,string ,@args)
+     (finish-output ,stream)))
+
+;;; SMART-LOAD      [Function]
+;;; Date        : 99.12.21
+;;; Description : Loads binary version of a specified file.  Of course, the 
+;;;             : said binary version might not exist or be older than the 
+;;;             : source version, in which case the source file is compiled 
+;;;             : before loading.
+;;;             : Updated to add an option parameter to determine whether
+;;;             : to just warn of a missing file or to throw an error.
+
+
+(defun smart-load (this-files-dir file &optional (error? nil))
+  "Loads binary <file> in directory <this-files-dir> or compiles and loads 
+   source version"
+  (let* ((true-dir (translate-logical-pathname this-files-dir))
+         (srcpath (merge-pathnames  
+                   (merge-pathnames file *.lisp-pathname*)
+                   true-dir)))
+    (if (not (probe-file srcpath))
+        (if error? 
+            (error "File ~S does not exist" srcpath)
+          (finish-format *error-output* "File ~S does not exist" srcpath)))
+    (compile-and-load srcpath)))
+
+
+(defun actr-load (file)
+  "Loads the file specified after translating the pathname"
+  (let ((path (translate-logical-pathname file)))
+    (if (not (probe-file path))
+        (finish-format *error-output* "#|Warning: File ~S does not exist.|#~%" path)
+      (load path))))
+
+
+(defvar *act-r-modules* nil)
+
+;;; require-compiled (code-module &optional pathname)
+;;;
+;;; code-module is a string that designates some code that needs to be loaded
+;;;             which should have a corresponding (provide code-module) in it
+;;; pathname is the pathname to where that code-module can be found (including
+;;;          the file's name).
+;;;
+;;; Similar to the function require this will determine if the requested
+;;; code-module has been loaded and if not will compile and load the file
+;;; specified by pathname.  If the pathname is not provided the it will
+;;; try to load the file from the ACT-R-support directory with a name that
+;;; matches the code-module given.  Like the normal require function, it 
+;;; does depend on a provide call existing in the code-module file so that
+;;; it only loads the necessary file the first time it is required.
+
+(defmacro require-compiled (code-module &optional pathname)
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
+     (unless (member ,code-module *modules* :test #'string=)
+       (push ,code-module *act-r-modules*)
+       (let ((pn (if (null ,pathname) (concatenate 'string "ACT-R-support:" (string-downcase ,code-module) ".lisp") ,pathname)))
+         (if *skip-recompiling*
+             (compile-and-load (translate-logical-pathname pn))
+           (let* ((previous (ignore-errors 
+                             (with-open-file (f (translate-logical-pathname "ACT-R-support:require-mode.lisp") :direction :input)
+                               (read f))))
+                  (previous-mode (cdr (assoc ,code-module previous :test 'string=)))
+                  (need-to-compile (not (eq previous-mode *current-load-mode*)))
+                  (result (compile-and-load (translate-logical-pathname pn) need-to-compile)))
+             (when result
+               (if previous-mode
+                   (setf (cdr (assoc ,code-module previous :test 'string=)) *current-load-mode*)
+                 (push (cons ,code-module *current-load-mode*) previous))
+               (ignore-errors (with-open-file (f (translate-logical-pathname "ACT-R-support:require-mode.lisp") :direction :output :if-does-not-exist :create :if-exists :supersede)
+                                (write previous :stream f))))
+             result))))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; load any special system support files here
+
+;; Warn about the case sensitive mode in ACL because things like t vs T shouldn't
+;; matter (and both probably occur in the code), and won't work in the case sensitive
+;; versions of ACL.
+
+#+:allegro (when (or (eq :case-sensitive-lower *current-case-mode*)
+                     (eq :case-sensitive-upper *current-case-mode*))
+             (unless 
+                 (yes-or-no-p 
+                  "WARNING: you are using a case sensitive Lisp.  ACT-R may not load or run correctly.  Continue anyway?")
+               (break)))
+
+;; Load the quicklisp libraries for threads, sockets, and JSON parsing.
+;; For now, assume quicklisp is available, but eventually want to include local
+;; versions with the sources so it can be loaded without them too.
+
+
+#+(and (not :QUICKLISP) (not :single-threaded-act-r)) (eval-when (:compile-toplevel :load-toplevel :execute)
+                                                        (when (probe-file "~/quicklisp/setup.lisp")
+                                                          (load "~/quicklisp/setup.lisp"))
+                                                        (unless (find :quicklisp *features*)
+                                                          (error "This version of ACT-R requires Quicklisp to load the components necessary for the remote connection.")))
+
+;;; Load the libraries
+#-:single-threaded-act-r (eval-when (:compile-toplevel :load-toplevel :execute)
+                           (ql:quickload :bordeaux-threads)
+                           (ql:quickload :usocket)
+                           (ql:quickload :cl-json))
+
+;;; Check which mode the last load used to determine if it should
+;;; force a recompile.
+
+(defvar *current-load-mode* nil)
+
+(let ((current (if (find :single-threaded-act-r *features*)
+                   :single
+                 :normal))
+      (previous (unless *skip-recompiling* 
+                  (ignore-errors (with-open-file (f (translate-logical-pathname "ACT-R-support:load-mode.lisp") :direction :input)
+                                   (read f))))))
+  (unless (or *skip-recompiling* (eq current previous))
+    (pushnew :actr-recompile *features*))
+  (setf *current-load-mode* current))
+  
+
+#+:single-threaded-act-r (smart-load (translate-logical-pathname "ACT-R:support;") "single-threaded.lisp")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Load the framework's loader file (it is order dependent)
+
+(defvar *file-list*)
+
+(smart-load (translate-logical-pathname "ACT-R:framework;") "framework-loader.lisp")
+
+(dolist (the-file *file-list*)
+  (smart-load (translate-logical-pathname "ACT-R:framework;") the-file t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Define system parameters for version information before anything could 
+;;; change the global variables.
+
+
+
+(let ((set-version-info 4))
+  (defun version-info-ignored (val)
+    (declare (ignore val))
+    (if (zerop set-version-info)
+        nil
+      (decf set-version-info))))
+
+(defun fixed-version-parameter-value (val)
+  (lambda (a b)
+    (declare (ignore a b))
+    val))
+
+(create-system-parameter :act-r-version :valid-test 'version-info-ignored
+                         :default-value *actr-version-string* :warning "unmodified"
+                         :documentation "The full software version"
+                         :handler (fixed-version-parameter-value *actr-version-string*))
+
+(create-system-parameter :act-r-architecture-version :valid-test 'version-info-ignored
+                         :default-value (read-from-string *actr-architecture-version*) :warning "unmodified"
+                         :documentation "The ACT-R architecture version"
+                         :handler (fixed-version-parameter-value (read-from-string *actr-architecture-version*)))
+
+(create-system-parameter :act-r-major-version :valid-test 'version-info-ignored
+                         :default-value (read-from-string *actr-major-version-string*) :warning "unmodified"
+                         :documentation "The major software version"
+                         :handler (fixed-version-parameter-value (read-from-string *actr-major-version-string*)))
+
+(create-system-parameter :act-r-minor-version :valid-test 'version-info-ignored
+                         :default-value (if *actr-minor-version-string* (read-from-string *actr-minor-version-string*) 0) :warning "unmodified"
+                         :documentation "The minor software version"
+                         :handler (fixed-version-parameter-value (if *actr-minor-version-string* (read-from-string *actr-minor-version-string*) 0)))
+
+(defun valid-version-test-string (val)
+  (if (eq val t) 
+      t
+    (when (stringp val)
+      (awhen (position #\- val)
+             (setf val (subseq val 0 it)))
+      (and 
+       (every (lambda (x) (find x '(#\. #\0 #\1 #\2 #\3 #\4 #\5 #\6 #\7 #\8 #\9))) val)
+       (<= (count #\. val) 2)
+       (> (length val) 0)))))
+
+(let ((last-result t))
+  (defun check-act-r-version-string (set-or-get val)
+    (if set-or-get
+        (setf last-result (if (stringp val)
+                              (let* ((ver (subseq val 0 (position #\- val)))
+                                     (version-numbers (read-from-string (format nil "(~a)" (substitute #\space #\. ver)))))
+                                (case (length version-numbers)
+                                  (1 (= (first version-numbers) (car (ssp :act-r-architecture-version))))
+                                  (2 (and (= (first version-numbers) (car (ssp :act-r-architecture-version)))
+                                          (= (second version-numbers) (car (ssp :act-r-major-version)))))
+                                  (3 (and (= (first version-numbers) (car (ssp :act-r-architecture-version)))
+                                          (= (second version-numbers) (car (ssp :act-r-major-version)))
+                                          (<= (third version-numbers) (car (ssp :act-r-minor-version)))))
+                                  (t nil))) ;; just to be safe, but the valid test should avoid this...
+                            val))
+      last-result)))
+       
+
+(create-system-parameter :check-act-r-version :valid-test 'valid-version-test-string
+                         :default-value t :warning "a valid version string of the form A{.B{.C}} where A, B, and C are integers followed by optional data after a dash"
+                         :documentation "Test a version string against the current version for t or nil result"
+                         :handler 'check-act-r-version-string)
+
+
+
+(defun written-for-act-r-version (version &optional description)
+  (if (stringp version)
+      (let ((strip-tag (subseq version 0 (position #\- version))))
+        (if (valid-version-test-string strip-tag)
+            (let ((given-version-numbers (read-from-string (format nil "(~a)" (substitute #\space #\. strip-tag))))
+                  (current-version-numbers (mapcar (lambda (x) (car (ssp-fct (list x))))
+                                             (list :act-r-architecture-version
+                                                   :act-r-major-version
+                                                   :act-r-minor-version))))
+              (cond ((not (= (first given-version-numbers) (first current-version-numbers)))
+                     (print-warning "Current ACT-R architecture ~d is not the same as ~d specified in ~a~@[ for ~a~]." 
+                                    (first current-version-numbers) (first given-version-numbers) version description))
+                    ((and (second given-version-numbers)
+                          (not (= (second given-version-numbers) (second current-version-numbers))))
+                     (if (> (second given-version-numbers) (second current-version-numbers))
+                         (print-warning "Current ACT-R major version ~d is older than major version ~d specified in ~a~@[ for ~a~].~%           Some features may not be implemented." 
+                                        (second current-version-numbers) (second given-version-numbers) version description)
+                       (print-warning "Current ACT-R major version ~d is newer than major version ~d specified in ~a~@[ for ~a~].~%           It may not be backward compatible." 
+                                      (second current-version-numbers) (second given-version-numbers) version description)))
+                    ((and (third given-version-numbers)
+                          (> (third given-version-numbers) (third current-version-numbers)))
+                     (print-warning "Current ACT-R minor version ~d is older than minor version ~d specified in ~a~@[ for ~a~].~%           Some features may not be implemented." 
+                                    (third current-version-numbers) (third given-version-numbers) version description))
+                    (t t)))
+          (progn
+            (print-warning "Invalid version specified in written-for-act-r-version: ~s.  Version must be an ACT-R version string." version)
+            :invalid-value)))
+    (progn
+      (print-warning "Invalid version specified in written-for-act-r-version: ~s.  Version must be an ACT-R version string." version)
+      :invalid-value)))
+
+
+(add-act-r-command "written-for-act-r-version" 'written-for-act-r-version "Check a given version number against the current version for compatibility. Params: version-string {checking-info}")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Define a macro to make loading extras easier
+
+(defvar *requiring-extra* nil)
+
+(defun requiring-extra ()
+  *requiring-extra*)
+
+
+(defmacro require-extra (name)
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
+     (unless (member ,name *modules* :test #'string=)
+       (cond 
+             ((mp-models)
+              (print-warning "Cannot require an extra when there is a current model."))
+             ((not (probe-file (translate-logical-pathname (format nil "ACT-R:extras;~a;" ,name))))
+              (print-warning "Directory ~a for specified extra ~a not found." 
+                             (translate-logical-pathname (format nil "ACT-R:extras;~a;" ,name))
+                             ,name))
+             ((not (probe-file (translate-logical-pathname (format nil "ACT-R:extras;~a;~a.lisp" ,name ,name))))
+              (print-warning "Load file for extra ~a at location ~a not found." ,name
+                             (translate-logical-pathname (format nil "ACT-R:extras;~a;~a.lisp" ,name ,name))))
+             (t
+              (unwind-protect 
+               (progn
+                 (setf *requiring-extra* t)
+                 
+                 ;; swap existing packages to backup and dummies to real
+                 #+:single-threaded-act-r
+                 (progn
+                   
+                   (when (find-package :usocket)
+                     (rename-package :usocket :backup-usocket))
+                   
+                   (rename-package :dummy-usocket :usocket)
+
+                   (when (find-package :json)
+                     (rename-package :json :backup-json))
+                   
+                   (rename-package :dummy-json :json (list :cl-json))
+                                      
+                   (when (find-package :bordeaux-threads)
+                     (rename-package :bordeaux-threads :backup-bordeaux))
+                   
+                   (rename-package :dummy-bordeaux :bordeaux-threads (list :bt)))
+                 
+                 (if *skip-recompiling*
+                     (compile-and-load (translate-logical-pathname (format nil "ACT-R:extras;~a;~a.lisp" ,name ,name)))
+                   (let* ((previous (ignore-errors 
+                                     (with-open-file (f (translate-logical-pathname "ACT-R-support:extra-mode.lisp") :direction :input)
+                                       (read f))))
+                          (previous-mode (cdr (assoc ,name previous :test 'string=)))
+                          (need-to-compile (not (eq previous-mode *current-load-mode*)))
+                          (result (compile-and-load (translate-logical-pathname (format nil "ACT-R:extras;~a;~a.lisp" ,name ,name)) need-to-compile)))
+                   
+                     (when result
+                       (if previous-mode
+                           (setf (cdr (assoc ,name previous :test 'string=)) *current-load-mode*)
+                         (push (cons ,name *current-load-mode*) previous))
+                       (ignore-errors (with-open-file (f (translate-logical-pathname "ACT-R-support:extra-mode.lisp") :direction :output :if-does-not-exist :create :if-exists :supersede)
+                                        (write previous :stream f))))
+                     result)))
+                
+                (progn
+                  (pushnew ,name *act-r-modules*)
+                  (setf *requiring-extra* nil)
+                  
+                  ;; swap existing to dummies and restore originals
+                 #+:single-threaded-act-r
+                 (progn
+                   (rename-package :usocket :dummy-usocket)
+                   
+                   (when (find-package :backup-usocket)
+                     (rename-package :backup-usocket :usocket))
+                   
+                   (rename-package :json :dummy-json)
+                   
+                   (when (find-package :backup-json)
+                     (rename-package :backup-json :json (list :cl-json)))
+                                      
+                   (rename-package :bordeaux-threads :dummy-bordeaux)
+                   
+                   (when (find-package :backup-bordeaux)
+                     (rename-package :backup-bordeaux :bordeaux-threads (list :bt))))))
+              
+              (if (member ,name *modules* :test #'string=)
+                  t
+                (print-warning "Extra ~a was loaded, but did not have a provide to prevent it from being loaded again." ,name)))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Load the core modules 
+
+(smart-load (translate-logical-pathname "ACT-R:core-modules;") "core-loader.lisp")
+
+(dolist (the-file *file-list*)
+  (smart-load (translate-logical-pathname "ACT-R:core-modules;") the-file))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; First, load any additional extensions.
+
+(dolist (file (directory (translate-logical-pathname "ACT-R:commands;*.lisp")))
+  (compile-and-load file))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; When a new device is added it should be included w˜                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ith a switch below so that it can be loaded 
+
+(defvar *device-interface-pathname* nil)
+
+;;; Here are the devices that are defined
+
+#+(and :allegro-ide :mswindows) (setf *device-interface-pathname* "ACT-R:devices;acl;")
+
+#+(and :allegro-ide (not :mswindows)) (print-warning "Native ACL device not available for Mac or Linux versions because~%they lack the commands for controlling the mouse and keyboard as described here~%http://www.franz.com/support/documentation/6.2/doc/cggtk-relnotes.html#2.3~%")
+
+#+:lispworks (setf *device-interface-pathname* "ACT-R:devices;lw;")
+
+#+(and :clozure :darwin :apple-objc :ccl-1.8) (setf *device-interface-pathname* "ACT-R:devices;ccl-cocoa;")
+
+;;; Load the virtual device
+
+(compile-and-load (translate-logical-pathname "ACT-R:devices;virtual;device.lisp"))
+(compile-and-load (translate-logical-pathname "ACT-R:devices;virtual;uwi.lisp"))
+
+;;; Load any Lisp specific device that's defined
+
+(when *device-interface-pathname*
+  (if (probe-file (merge-pathnames *device-interface-pathname* "device.lisp"))
+      (compile-and-load (merge-pathnames *device-interface-pathname* 
+                                         "device.lisp"))
+    (format t 
+        "################~%#### No Device file found in ~S ####~%##############"
+      *device-interface-pathname*))
+  (if (probe-file (merge-pathnames *device-interface-pathname* "uwi.lisp"))
+      (compile-and-load (merge-pathnames *device-interface-pathname* 
+                                         "uwi.lisp"))
+    (format t 
+        "#################~%#### No uwi file found in ~S ####~%################"
+      *device-interface-pathname*)))
+  
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; After the modules and devices files are done load any files in the 
+;;; modules, tools and then finally the other-files drectories.
+
+(dolist (file (directory (translate-logical-pathname "ACT-R:modules;*.lisp")))
+  (compile-and-load file))
+
+(dolist (file (directory (translate-logical-pathname "ACT-R:tools;*.lisp")))
+  (compile-and-load file))
+
+(dolist (file (directory (translate-logical-pathname "ACT-R:other-files;*.lisp")))
+  (compile-and-load file))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Print a confirmation message to let the user know ACT-R has been loaded
+;;; along with the version numbers of all the modules.
+
+(format t "~%##################################~%")
+#-:standalone (mp-print-versions)
+#+:single-threaded-act-r (mp-print-versions)
+(format t "~%######### Loading of ACT-R ~d is complete #########~%" *actr-architecture-version*)
+#+:single-threaded-act-r (format t "~%######### This is a single threaded build #########~%")
+
+
+
+(unless *skip-recompiling*
+  (ignore-errors (with-open-file (f (translate-logical-pathname "ACT-R-support:load-mode.lisp") :direction :output :if-does-not-exist :create :if-exists :overwrite)
+                   (write *current-load-mode* :stream f))))
+
+
+(let ((d (directory (translate-logical-pathname "ACT-R:user-loads;*.lisp"))))
+  (when d
+    (format t "~%######### Loading user files #########~%")
+    (dolist (file (sort d 'string< :key (lambda (x) (string (pathname-name x)))))
+      (compile-and-load file))
+    (format t "~%######### User files loaded #########~%")))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                               ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2019 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : load-single-threaded-act-r.lisp
+;;; Version     : 3.0
+;;; 
+;;; Description : Top level loader for the whole ACT-R system.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : [-] Test in a variety of Lisps for issues with the
+;;;             :     logical hostname stuff.
+;;;             : [-] Now, look into using the clisp version in other
+;;;             :     lisps because it seems cleaner/more generic than
+;;;             :     the ones I put toghether...
+;;;             : [x] Use compile-file-pathname instead of always adding a new
+;;;             :     entry for *.fasl-pathname*.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2019.04.19 Dan 
+;;;             : * Custom loader that sets the flag to disable locking and
+;;;             :   suppress any threaded operation.
+;;; 2019.05.29 Dan [2.0]
+;;;             : * Just set the switch and then load the main load file so
+;;;             :   that I don't need to maintain two versions of basically the
+;;;             :   same code.
+;;; 2024.09.12 Dan [3.0]
+;;;             : * Rename the dummy packages created by the single-threaded
+;;;             :   loader to a dummy name and restore the originals if they
+;;;             :   existed.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+
+
+(pushnew :single-threaded-act-r *features*)
+
+(setf (logical-pathname-translations "SINGLE-STUB")
+  `(("**;*.*" ,(namestring (merge-pathnames "**/*.*" *load-truename*)))))
+
+(load (translate-logical-pathname "SINGLE-STUB:load-act-r.lisp"))
+
+
+(rename-package :usocket :dummy-usocket)
+#+:restore-usocket (rename-package :backup-usocket :usocket)
+
+(rename-package :json :dummy-json)
+#+:restore-json (rename-package :backup-json :json (list :cl-json))
+
+
+(rename-package :bordeaux-threads :dummy-bordeaux)
+#+:restore-bordeaux (rename-package :backup-bordeaux :bordeaux-threads (list :bt))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ]   .      ..  ^    act-gui-interface.fasc  _    act-gui-interface.lisp  `  $ production-compilation.fasc a  $ production-compilation.lisp b   temporal.fasc   c   temporal.lisp   d  $ utility-and-reward-1.fasc   e  utility-and-reward-1.lisp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           (#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (855) ((ftype (function (t &optional t) t) common-lisp-user::set-cursor-position-fct) proclaim common-lisp-user::agi-component ext::location (defclass common-lisp-user::agi-component) (#2=#P"/opt/actr/actr7.x/modules/act-gui-interface.lisp" . 21150) ext::annotate :initfunction :test equalp make-hash-table #Y(nil nil nil (26 14 8 15 9 19 2 10 29) #1# #2# 21150) (:initform (make-hash-table :test 'equalp) :writers ((setf common-lisp-user::global-agi-table)) :readers (common-lisp-user::global-agi-table) :name common-lisp-user::global-agi-table) #Y(nil nil nil (26 14 8 15 9 19 2 10 29) #1# #2# 21150) (:initform (make-hash-table :test 'equalp) :writers ((setf common-lisp-user::window-objects-table)) :readers (common-lisp-user::window-objects-table) :name common-lisp-user::window-objects-table) #Y(nil nil nil (26 14 8 15 9 19 2 10 29) #1# #2# 21150) (:initform (make-hash-table :test 'equalp) :writers ((setf common-lisp-user::window-added-objects-table)) :readers (common-lisp-user::window-added-objects-table) :name common-lisp-user::window-added-objects-table) (:initform nil :writers ((setf common-lisp-user::agi-window-list)) :readers (common-lisp-user::agi-window-list) :name common-lisp-user::agi-window-list) #Y(nil nil nil (26 19 0 10 29) #1# #2# 21150) (:initform (make-hash-table) :writers ((setf common-lisp-user::installed-windows)) :readers (common-lisp-user::installed-windows) :name common-lisp-user::installed-windows) #Y(nil nil nil (26 75 73 29) #1# #2# 21150) (:initform (bordeaux-threads::make-recursive-lock "agi") :writers ((setf common-lisp-user::agi-lock)) :readers (common-lisp-user::agi-lock) :name common-lisp-user::agi-lock) clos::load-defclass (ftype (function nil t) common-lisp-user::agi-component) make-instance common-lisp-user::agi (defun common-lisp-user::agi-component) (#2# . 23014) :lambda-list #Y(common-lisp-user::agi-component nil nil (26 10 0 73 29) #1# #2# 23014) si::fset common-lisp-user::create-agi-module (defun common-lisp-user::create-agi-module) (#2# . 23091) #Y(common-lisp-user::create-agi-module nil nil (26 19 0 2 29) #1# #2# 23091) common-lisp-user::delete-agi-module (defun common-lisp-user::delete-agi-module) (#2# . 23557) (common-lisp-user::instance) common-lisp-user::instance common-lisp-user::agi-window-list si::%dolist-var common-lisp-user::x common-lisp-user::close-exp-window #Y(common-lisp-user::delete-agi-module nil nil (24 45 39 26 13 0 19 1 40 45 41 38 18 10 0 4 45 42 13 0 19 1 43 10 1 5 51 1 43 1 10 0 40 -20 75 73 43 1 29) #1# #2# 23557) common-lisp-user::clear-all-agi-module (defun common-lisp-user::clear-all-agi-module) (#2# . 23844) (common-lisp-user::instance) common-lisp-user::reset-agi-module #:g20065 #:g20066 (setf common-lisp-user::agi-window-list) #Y(common-lisp-user::clear-all-agi-module nil nil (24 45 39 26 13 0 19 1 49 13 0 19 1 35 10 0 45 50 75 45 51 13 0 13 1 33 52 18 2 43 1 43 1 29) #1# #2# 23844) common-lisp-user::delete-model-agi-module (defun common-lisp-user::delete-model-agi-module) (#2# . 24262) (common-lisp-user::instance common-lisp-user::model-name) common-lisp-user::model-name common-lisp-user::installed-windows gethash common-lisp-user::it common-lisp-user::current-mp #:g20069 common-lisp-user::valid-model-name #:g20070 common-lisp-user::*current-act-r-model* common-lisp-user::w "vision" "exp-window" common-lisp-user::remove-device "print-warning" "~@?" "~S does not name a model in the current meta-process" format common-lisp-user::evaluate-act-r-command "No actions taken in with-model because there is no current meta-process" #Y(common-lisp-user::delete-model-agi-module nil nil (24 45 39 24 45 58 26 13 0 13 1 19 1 59 12 19 2 60 45 61 10 0 39 109 19 0 62 45 63 10 0 39 80 13 2 19 1 64 45 65 10 0 39 47 10 0 48 66 10 2 45 41 38 25 10 0 4 45 67 15 68 15 69 10 0 6 3 12 19 1 70 10 1 5 51 1 43 1 10 0 40 -27 75 73 43 1 44 1 38 19 15 71 77 15 72 15 73 13 0 19 4 74 12 19 2 75 75 73 43 1 38 17 15 71 77 15 72 15 76 19 3 74 12 19 2 75 75 73 43 1 38 3 75 73 43 1 29) #1# #2# 24262) (defun common-lisp-user::reset-agi-module) (#2# . 24554) (common-lisp-user::instance) clrhash #Y(common-lisp-user::reset-agi-module nil nil (24 45 39 26 13 0 19 1 59 16 81 29) #1# #2# 24554) :version "6.0" :documentation "Manager for the AGI windows" :creation :delete :clear-all :create-model :delete-model :before-reset :after-reset common-lisp-user::define-component-fct common-lisp-user::window-identifier-to-window (defun common-lisp-user::window-identifier-to-window) (#2# . 24940) (common-lisp-user::agi common-lisp-user::id) common-lisp-user::id common-lisp-user::global-agi-table #Y(common-lisp-user::window-identifier-to-window nil nil (24 45 25 24 45 99 26 13 0 13 1 19 1 100 12 19 2 60 29) #1# #2# 24940) common-lisp-user::init-exp-window (defun common-lisp-user::init-exp-window) (#2# . 25535) (common-lisp-user::device-list) common-lisp-user::device-list common-lisp-user::interface third common-lisp-user::win-identifier "vision" string-equal "Experiment windows can only be installed for the vision interface, but ~a given." #:g20088 common-lisp-user::current-model #:g20085 #:g20086 #:g20087 si::hash-set :motor t common-lisp-user::get-module-fct "keyboard" "motor" common-lisp-user::current-devices :key second find "motor" "keyboard" common-lisp-user::install-device :speech "microphone" "speech" "speech" "microphone" :needs-mouse common-lisp-user::get-parameter-value "mouse" "cursor" #Y(nil nil nil (24 45 42 26 10 0 16 108 12 15 138 19 2 111 10 0 16 126 12 15 139 19 2 111 29) #1# #2# 25535) "motor" find-if "motor" "cursor" "mouse" common-lisp-user::x-pos common-lisp-user::y-pos "mouse" common-lisp-user::set-cursor-position-fct :vision :process-cursor "mouse" "cursor" #Y(nil nil nil (24 45 42 26 10 0 16 108 12 15 152 19 2 111 10 0 16 126 12 15 153 19 2 111 29) #1# #2# 25535) "vision" "vision" "cursor" "mouse" common-lisp-user::width round + common-lisp-user::height common-lisp-user::set-visual-center-point common-lisp-user::current-device-interface common-lisp-user::stable-names common-lisp-user::subviews common-lisp-user::subview-sort sort common-lisp-user::feat-list common-lisp-user::build-vis-locs-for common-lisp-user::y common-lisp-user::add-visicon-features #:g20098 #:g20096 common-lisp-user::visual-features #:g20097 (setf common-lisp-user::visual-features) "Window ~s could not be found when being installed." #Y(common-lisp-user::init-exp-window nil nil (24 45 106 26 19 0 2 45 25 10 1 4 45 107 10 2 16 108 45 109 13 2 13 0 19 2 95 45 67 13 2 15 110 19 2 111 76 39 21 15 71 77 15 72 15 112 13 2 19 4 74 12 19 2 75 75 73 38 432 10 0 39 410 10 1 45 113 19 0 114 45 115 13 5 19 1 59 45 116 13 2 13 1 13 0 19 2 60 3 45 117 13 2 13 1 13 0 19 3 118 43 4 14 119 14 120 19 2 121 39 33 15 122 15 123 19 1 124 12 14 125 15 126 14 8 15 111 19 6 127 76 39 11 15 128 1 129 6 2 12 19 1 130 14 131 14 120 19 2 121 39 33 15 132 15 133 19 1 124 12 14 125 15 126 14 8 15 111 19 6 127 76 39 11 15 134 1 135 6 2 12 19 1 130 14 136 19 1 137 39 99 14 119 14 120 19 2 121 39 47 34 140 12 15 141 19 1 124 12 19 2 142 76 39 32 15 143 15 144 1 145 6 3 12 19 1 130 13 0 19 1 146 12 13 0 19 1 147 6 2 12 15 148 19 2 149 14 150 14 120 19 2 121 39 35 14 151 19 1 137 39 28 34 154 12 15 155 19 1 124 12 19 2 142 76 39 13 15 156 15 157 1 158 6 3 12 19 1 130 13 0 19 1 146 12 13 0 19 1 159 12 9 2 19 2 160 12 19 2 161 12 13 0 19 1 147 12 13 0 19 1 162 12 9 2 19 2 160 12 19 2 161 12 19 2 163 19 0 164 12 19 1 165 39 15 13 0 19 1 166 12 33 167 12 19 2 168 38 6 13 0 19 1 166 45 41 38 94 10 0 4 45 42 75 45 169 13 1 19 1 170 45 41 38 29 10 0 4 45 171 13 0 19 1 172 4 12 10 0 3 12 10 2 3 51 2 10 1 5 51 1 43 1 10 0 40 -31 43 1 19 0 114 12 10 0 3 45 173 10 2 45 174 13 1 13 0 19 1 175 3 45 176 13 0 13 1 33 177 18 2 43 3 43 1 10 1 5 51 1 43 1 10 0 40 -96 43 1 11 120 73 38 19 15 71 77 15 72 15 178 13 1 19 4 74 12 19 2 75 75 73 43 4 29) #1# #2# 25535) common-lisp-user::remove-exp-window (defun common-lisp-user::remove-exp-window) (#2# . 28636) (common-lisp-user::device-list) common-lisp-user::installed assoc common-lisp-user::delete-visicon-features #:g20108 car remove #:g20109 (setf common-lisp-user::visual-features) #Y(common-lisp-user::remove-exp-window nil nil (24 45 106 26 19 0 2 45 25 10 1 16 108 45 109 13 1 13 0 19 2 95 45 67 10 0 39 174 13 1 19 0 114 12 13 2 19 1 59 12 19 2 60 12 14 8 15 111 19 4 127 45 184 13 1 19 1 166 45 41 38 95 10 0 4 45 42 10 2 39 44 19 0 114 12 13 0 19 1 175 12 19 2 185 5 45 41 38 20 10 0 4 45 171 10 0 4 12 19 1 186 10 1 5 51 1 43 1 10 0 40 -22 43 1 10 0 45 187 19 0 114 12 13 1 19 1 175 12 14 125 15 188 19 4 189 45 190 13 0 13 1 33 191 18 2 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -97 43 1 19 0 114 12 13 3 19 1 59 12 13 2 19 0 114 12 13 3 19 1 59 12 19 2 60 12 14 8 15 111 19 4 189 12 19 3 118 43 1 11 120 73 43 3 29) #1# #2# 28636) common-lisp-user::notify-exp-window (defun common-lisp-user::notify-exp-window) (#2# . 30179) (common-lisp-user::device common-lisp-user::features) common-lisp-user::device common-lisp-user::features common-lisp-user::determine-exp-window listp stringp common-lisp-user::window-title append common-lisp-user::send-update-to-handlers "Exp window notification for ~s must be a list but given ~s" "Exp window notification for ~s must be have a string as the first feature but given ~s" "Could not notify a window with device list ~s" #Y(common-lisp-user::notify-exp-window nil nil (24 45 197 24 45 198 26 19 0 2 12 13 1 19 2 199 45 61 10 0 39 98 10 1 16 200 39 6 10 1 4 16 201 39 34 13 0 10 1 4 6 1 12 13 0 19 1 202 12 19 0 114 6 2 12 10 1 5 12 19 3 203 12 19 2 204 38 50 10 1 16 200 76 39 23 15 71 77 15 72 15 205 13 2 13 1 19 5 74 12 19 2 75 75 73 38 21 15 71 77 15 72 15 206 13 2 13 1 19 5 74 12 19 2 75 75 73 38 19 15 71 77 15 72 15 207 13 2 19 4 74 12 19 2 75 75 73 43 1 29) #1# #2# 30179) "init-exp-window" "Internal command for experiment windows being installed. Do not call." common-lisp-user::add-act-r-command "remove-exp-window" "Internal command for experiment windows being uninstalled. Do not call." "notify-exp-window" "Internal command for notifying an experiment window device.  Do not call." "exp-window" "init-exp-window" "remove-exp-window" "notify-exp-window" common-lisp-user::define-device common-lisp-user::open-exp-window (defun common-lisp-user::open-exp-window) (#2# . 31343) (common-lisp-user::title &key (common-lisp-user::visible t) (common-lisp-user::width 300) (common-lisp-user::height 300) (common-lisp-user::x 300) (common-lisp-user::y 300)) common-lisp-user::title (nil :y :x :height :width :visible) common-lisp-user::visible numberp common-lisp-user::key common-lisp-user::exists :visible :title :width :height :x :y common-lisp-user::make-rpm-window common-lisp-user::win #:g20127 #:g20125 adjoin #:g20126 (setf common-lisp-user::agi-window-list) "agi-win-click-mouse-monitor" common-lisp-user::get-new-command-name common-lisp-user::name common-lisp-user::model common-lisp-user::pos common-lisp-user::finger common-lisp-user::exp-window-mouse-click-handler #Y(nil nil nil (24 45 247 24 45 248 24 45 249 26 13 6 13 4 13 7 13 2 13 1 19 5 250 29) #1# #2# 31343) "Experiment window command for monitoring click-mouse signals.  Do not call directly." #:g20131 #:g20132 (setf common-lisp-user::monitor-click-mouse) "click-mouse" common-lisp-user::monitor-act-r-command "agi-win-move-cursor-monitor" common-lisp-user::cursor common-lisp-user::loc common-lisp-user::exp-window-move-cursor-handler #Y(nil nil nil (24 45 247 24 45 259 24 45 260 26 13 6 13 4 13 7 13 2 13 1 13 0 19 6 261 29) #1# #2# 31343) "Experiment window command for monitoring move-cursor signals.  Do not call directly." #:g20133 #:g20134 (setf common-lisp-user::monitor-move-cursor) "move-cursor" "agi-win-delete-cursor-monitor" common-lisp-user::exp-window-delete-cursor-handler #Y(nil nil nil (24 45 247 24 45 259 26 13 5 13 3 13 6 13 1 13 0 19 5 269 29) #1# #2# 31343) "Experiment window command for monitoring delete-cursor signals.  Do not call directly." #:g20135 #:g20136 (setf common-lisp-user::monitor-delete-cursor) "delete-cursor" common-lisp-user::select-rpm-window "vision" "exp-window" "Cannot create an experiment window with value ~s for the ~s parameter." "Experiment window title must be a string, but ~s was specified." #Y(common-lisp-user::open-exp-window nil nil (24 45 225 28 226 22 40 3 14 120 46 227 22 40 3 9 300 46 159 22 40 3 9 300 46 162 22 40 3 9 300 46 42 22 40 3 9 300 46 171 10 5 16 201 39 411 10 3 16 228 39 17 10 2 16 228 39 11 10 1 16 228 39 5 10 0 16 228 39 273 19 0 2 12 13 5 46 229 46 39 13 1 13 0 19 1 100 12 19 2 60 45 230 10 0 39 6 13 2 19 1 43 14 231 13 7 14 232 13 8 14 233 13 6 14 234 13 5 14 235 13 4 14 236 13 3 19 12 237 45 238 10 9 45 239 10 3 45 240 13 1 13 0 19 1 40 12 14 8 15 111 19 4 241 45 242 13 0 13 1 33 243 18 2 43 3 13 3 13 2 19 1 100 12 13 0 19 3 118 15 244 19 1 245 45 246 13 0 34 251 12 15 252 77 19 4 211 10 1 45 253 10 1 45 254 13 0 13 1 33 255 18 2 43 1 43 1 15 256 13 0 19 2 257 43 1 15 258 19 1 245 45 246 13 0 34 262 12 15 263 77 19 4 211 10 1 45 264 10 1 45 265 13 0 13 1 33 266 18 2 43 1 43 1 15 267 13 0 19 2 257 43 1 15 268 19 1 245 45 246 13 0 34 270 12 15 271 77 19 4 211 10 1 45 272 10 1 45 273 13 0 13 1 33 274 18 2 43 1 43 1 15 275 13 0 19 2 257 43 1 13 0 19 1 276 15 277 15 278 10 3 6 3 73 43 1 43 1 43 2 38 113 15 71 77 15 72 15 279 10 3 16 228 76 39 6 10 3 73 38 36 10 2 16 228 76 39 6 10 2 73 38 24 10 1 16 228 76 39 6 10 1 73 38 12 10 0 16 228 76 73 39 4 10 0 73 12 10 3 16 228 76 39 6 1 159 73 38 36 10 2 16 228 76 39 6 1 162 73 38 24 10 1 16 228 76 39 6 1 42 73 38 12 10 0 16 228 76 73 39 4 1 171 73 12 19 5 74 12 19 2 75 75 73 38 19 15 71 77 15 72 15 280 13 5 19 4 74 12 19 2 75 75 73 29) #1# #2# 31343) (defun common-lisp-user::exp-window-mouse-click-handler) (#2# . 36209) (common-lisp-user::instance common-lisp-user::win common-lisp-user::key common-lisp-user::model common-lisp-user::pos) vector coerce common-lisp-user::vv-handle-click #Y(common-lisp-user::exp-window-mouse-click-handler nil nil (24 45 39 24 45 238 24 45 229 24 45 247 24 45 248 26 10 1 39 39 13 2 13 1 13 4 19 1 59 12 19 2 60 12 14 8 15 111 19 4 127 73 39 13 13 3 13 0 1 285 17 286 12 19 2 287 38 13 13 3 13 0 1 285 17 286 12 19 2 287 29) #1# #2# 36209) (defun common-lisp-user::exp-window-move-cursor-handler) (#2# . 36739) (common-lisp-user::instance common-lisp-user::win common-lisp-user::key common-lisp-user::model common-lisp-user::cursor common-lisp-user::loc) "mouse" common-lisp-user::device-move-cursor-to #Y(common-lisp-user::exp-window-move-cursor-handler nil nil (24 45 39 24 45 238 24 45 229 24 45 247 24 45 259 24 45 260 26 13 1 15 292 19 2 111 39 22 13 3 13 2 13 5 19 1 59 12 19 2 60 12 14 8 15 111 19 4 127 73 39 13 13 4 13 0 1 285 17 286 12 19 2 293 29) #1# #2# 36739) (defun common-lisp-user::exp-window-delete-cursor-handler) (#2# . 37162) (common-lisp-user::instance common-lisp-user::win common-lisp-user::key common-lisp-user::model common-lisp-user::cursor) "mouse" #Y(common-lisp-user::exp-window-delete-cursor-handler nil nil (24 45 39 24 45 238 24 45 229 24 45 247 24 45 259 26 13 0 15 298 19 2 111 39 22 13 2 13 1 13 4 19 1 59 12 19 2 60 12 14 8 15 111 19 4 127 73 39 10 13 3 19 0 285 12 19 2 293 29) #1# #2# 37162) common-lisp-user::external-open-exp-window (defun common-lisp-user::external-open-exp-window) (#2# . 37571) (common-lisp-user::title &optional common-lisp-user::params) common-lisp-user::params (:visible :x :y :height :width) common-lisp-user::process-options-list common-lisp-user::ol common-lisp-user::valid apply #Y(common-lisp-user::external-open-exp-window nil nil (24 45 225 25 40 2 77 46 304 26 13 0 15 221 15 305 19 3 306 47 1 307 45 308 10 0 73 39 10 15 221 13 3 13 1 19 3 309 43 2 29) #1# #2# 37571) "open-exp-window" "Create a window for a task. Params: title {< visible, width, height, x, y >}" (defun common-lisp-user::determine-exp-window) (#2# . 37957) (common-lisp-user::instance common-lisp-user::window) common-lisp-user::window length = "vision" "exp-window" "~s is not the title of an open window." "~s is not a reference to an open window." "There is ~:[no~;more than one~] window to use in the AGI so a nil reference will not work." "There is no AGI component available to interact with experiment windows." #Y(common-lisp-user::determine-exp-window nil nil (24 45 39 24 45 316 26 10 0 16 200 39 46 10 0 16 317 12 9 3 19 2 318 39 34 10 0 4 12 15 319 19 2 111 39 23 10 0 16 126 12 15 320 19 2 111 39 11 13 1 10 0 16 108 12 19 2 95 45 61 10 0 39 12 13 0 10 1 16 108 12 72 2 38 165 13 2 13 1 19 2 95 45 61 10 0 39 9 13 0 13 2 72 2 38 142 10 2 39 9 10 2 16 201 39 3 10 3 39 21 15 71 77 15 72 15 321 13 2 19 4 74 12 19 2 75 75 73 38 108 10 2 39 21 15 71 77 15 72 15 322 13 2 19 4 74 12 19 2 75 75 73 38 84 10 3 39 64 13 3 19 1 40 16 317 12 9 1 19 2 318 39 25 13 3 13 3 19 1 40 4 12 19 2 95 12 13 3 19 1 40 4 12 72 2 38 23 15 71 77 15 72 15 323 13 3 19 1 40 12 19 4 74 12 19 2 75 75 73 38 17 15 71 77 15 72 15 324 19 3 74 12 19 2 75 75 73 43 1 43 1 29) #1# #2# 37957) (defun common-lisp-user::close-exp-window) (#2# . 39507) (&optional (common-lisp-user::window nil)) common-lisp-user::wind common-lisp-user::to-remove common-lisp-user::windows #Y(nil nil nil (24 45 247 24 45 331 26 13 4 13 0 14 8 15 111 19 4 127 73 39 13 13 1 10 0 3 12 10 2 3 51 2 73 29) #1# #2# 39507) maphash #:g20146 #:g20147 "vision" "exp-window" #Y(nil nil nil (24 45 42 26 10 0 4 12 10 0 5 12 46 331 46 247 19 0 62 45 334 10 0 39 52 13 1 19 1 64 45 335 10 0 39 21 10 0 48 66 15 336 15 337 10 7 6 3 12 19 1 70 44 1 38 17 15 71 77 15 72 15 73 13 0 19 4 74 12 19 2 75 43 1 38 15 15 71 77 15 72 15 76 19 3 74 12 19 2 75 43 1 13 0 13 6 19 1 59 12 13 5 13 1 14 8 15 111 19 4 189 12 19 3 118 43 2 29) #1# #2# 39507) mapcar common-lisp-user::close-rpm-window common-lisp-user::monitor-attended-loc "update-attended-loc" common-lisp-user::remove-act-r-command-monitor common-lisp-user::remove-act-r-command common-lisp-user::monitor-click-mouse "click-mouse" common-lisp-user::monitor-move-cursor "move-cursor" common-lisp-user::monitor-delete-cursor "delete-cursor" remhash #:g20151 #:g20152 (setf common-lisp-user::agi-window-list) common-lisp-user::window-objects-table string common-lisp-user::window-added-objects-table "Could not close window ~s" #Y(common-lisp-user::close-exp-window nil nil (25 40 2 77 46 316 26 19 0 2 45 39 13 0 13 1 19 2 199 47 1 229 45 329 10 0 39 254 75 45 330 34 332 12 13 3 19 1 59 17 333 34 338 12 13 0 19 2 339 13 1 19 1 340 13 1 19 1 341 39 21 15 342 13 1 19 1 341 12 19 2 343 13 1 19 1 341 12 19 1 344 13 1 19 1 345 39 21 15 346 13 1 19 1 345 12 19 2 343 13 1 19 1 345 12 19 1 344 13 1 19 1 347 39 21 15 348 13 1 19 1 347 12 19 2 343 13 1 19 1 347 12 19 1 344 13 1 19 1 349 39 21 15 350 13 1 19 1 349 12 19 2 343 13 1 19 1 349 12 19 1 344 13 2 13 3 19 1 100 17 351 10 3 45 352 13 3 13 4 19 1 40 12 14 8 15 111 19 4 189 45 353 13 0 13 1 33 354 18 2 43 1 43 1 13 2 13 3 19 1 355 12 19 2 60 45 41 38 32 10 0 4 45 42 13 4 13 0 19 1 99 16 356 6 2 12 13 5 19 1 100 17 351 10 1 5 51 1 43 1 10 0 40 -34 43 1 13 2 13 3 19 1 355 17 351 13 2 13 3 19 1 357 17 351 11 120 73 43 1 38 19 15 71 77 15 72 15 358 13 3 19 4 74 12 19 2 75 75 73 43 2 43 1 29) #1# #2# 39507) function "Close the experiment window" si::set-documentation "close-exp-window" "Close the indicated experiment window or if none provided the only open one. Params: {window}" common-lisp-user::close-all-exp-windows (defun common-lisp-user::close-all-exp-windows) (#2# . 43222) #Y(nil nil nil (24 45 238 26 13 0 19 1 43 29) #1# #2# 43222) #Y(common-lisp-user::close-all-exp-windows nil nil (26 19 0 2 45 25 34 368 12 13 0 19 1 40 12 19 2 339 43 1 29) #1# #2# 43222) "close-all-exp-windows" "Close all the currently open experiment windows. No params." common-lisp-user::select-exp-window (defun common-lisp-user::select-exp-window) (#2# . 43559) (&optional (common-lisp-user::window nil)) "Select-exp-window failed." #Y(common-lisp-user::select-exp-window nil nil (25 40 2 77 46 316 26 19 0 2 12 13 0 19 2 199 45 61 10 0 39 11 13 0 19 1 276 11 120 73 38 17 15 71 77 15 72 15 376 19 3 74 12 19 2 75 75 73 43 1 29) #1# #2# 43559) "select the experiment window" "select-exp-window" "Bring an open experiment window to the front. Params: {window}." common-lisp-user::add-items-to-exp-window (defun common-lisp-user::add-items-to-exp-window) (#2# . 44624) (common-lisp-user::win &rest common-lisp-user::items) common-lisp-user::items #Y(nil nil nil (24 45 42 26 13 0 13 3 1

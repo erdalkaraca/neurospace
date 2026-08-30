@@ -1,0 +1,1437 @@
+Section 2 are the only rights granted under
+this License. No additional rights or licenses will be implied from the
+distribution or licensing of Covered Software under this License.
+Notwithstanding Section 2.1(b) above, no patent license is granted by a
+Contributor:
+
+(a) for any code that a Contributor has removed from Covered Software;
+    or
+
+(b) for infringements caused by: (i) Your and any other third party's
+    modifications of Covered Software, or (ii) the combination of its
+    Contributions with other software (except as part of its Contributor
+    Version); or
+
+(c) under Patent Claims infringed by Covered Software in the absence of
+    its Contributions.
+
+This License does not grant any rights in the trademarks, service marks,
+or logos of any Contributor (except as may be necessary to comply with
+the notice requirements in Section 3.4).
+
+2.4. Subsequent Licenses
+
+No Contributor makes additional grants as a result of Your choice to
+distribute the Covered Software under a subsequent version of this
+License (see Section 10.2) or under the terms of a Secondary License (if
+permitted under the terms of Section 3.3).
+
+2.5. Representation
+
+Each Contributor represents that the Contributor believes its
+Contributions are its original creation(s) or it has sufficient rights
+to grant the rights to its Contributions conveyed by this License.
+
+2.6. Fair Use
+
+This License is not intended to limit any rights You have under
+applicable copyright doctrines of fair use, fair dealing, or other
+equivalents.
+
+2.7. Conditions
+
+Sections 3.1, 3.2, 3.3, and 3.4 are conditions of the licenses granted
+in Section 2.1.
+
+3. Responsibilities
+-------------------
+
+3.1. Distribution of Source Form
+
+All distribution of Covered Software in Source Code Form, including any
+Modifications that You create or to which You contribute, must be under
+the terms of this License. You must inform recipients that the Source
+Code Form of the Covered Software is governed by the terms of this
+License, and how they can obtain a copy of this License. You may not
+attempt to alter or restrict the recipients' rights in the Source Code
+Form.
+
+3.2. Distribution of Executable Form
+
+If You distribute Covered Software in Executable Form then:
+
+(a) such Covered Software must also be made available in Source Code
+    Form, as described in Section 3.1, and You must inform recipients of
+    the Executable Form how they can obtain a copy of such Source Code
+    Form by reasonable means in a timely manner, at a charge no more
+    than the cost of distribution to the recipient; and
+
+(b) You may distribute such Executable Form under the terms of this
+    License, or sublicense it under different terms, provided that the
+    license for the Executable Form does not attempt to limit or alter
+    the recipients' rights in the Source Code Form under this License.
+
+3.3. Distribution of a Larger Work
+
+You may create and distribute a Larger Work under terms of Your choice,
+provided that You also comply with the requirements of this License for
+the Covered Software. If the Larger Work is a combination of Covered
+Software with a work governed by one or more Secondary Licenses, and the
+Covered Software is not Incompatible With Secondary Licenses, this
+License permits You to additionally distribute such Covered Software
+under the terms of such Secondary License(s), so that the recipient of
+the Larger Work may, at their option, further distribute the Covered
+Software under the terms of either this License or such Secondary
+License(s).
+
+3.4. Notices
+
+You may not remove or alter the substance of any license notices
+(including copyright notices, patent notices, disclaimers of warranty,
+or limitations of liability) contained within the Source Code Form of
+the Covered Software, except that You may alter any license notices to
+the extent required to remedy known factual inaccuracies.
+
+3.5. Application of Additional Terms
+
+You may choose to offer, and to charge a fee for, warranty, support,
+indemnity or liability obligations to one or more recipients of Covered
+Software. However, You may do so only on Your own behalf, and not on
+behalf of any Contributor. You must make it absolutely clear that any
+such warranty, support, indemnity, or liability obligation is offered by
+You alone, and You hereby agree to indemnify every Contributor for any
+liability incurred by such Contributor as a result of warranty, support,
+indemnity or liability terms You offer. You may include additional
+disclaimers of warranty and limitations of liability specific to any
+jurisdiction.
+
+4. Inability to Comply Due to Statute or Regulation
+---------------------------------------------------
+
+If it is impossible for You to comply with any of the terms of this
+License with respect to some or all of the Covered Software due to
+statute, judicial order, or regulation then You must: (a) comply with
+the terms of this License to the maximum extent possible; and (b)
+describe the limitations and the code they affect. Such description must
+be placed in a text file included with all distributions of the Covered
+Software under this License. Except to the extent prohibited by statute
+or regulation, such description must be sufficiently detailed for a
+recipient of ordinary skill to be able to understand it.
+
+5. Termination
+--------------
+
+5.1. The rights granted under this License will terminate automatically
+if You fail to comply with any of its terms. However, if You become
+compliant, then the rights granted under this License from a particular
+Contributor are reinstated (a) provisionally, unless and until such
+Contributor explicitly and finally terminates Your grants, and (b) on an
+ongoing basis, if such Contributor fails to notify You of the
+non-compliance by some reasonable means prior to 60 days after You have
+come back into compliance. Moreover, Your grants from a particular
+Contributor are reinstated on an ongoing basis if such Contributor
+notifies You of the non-compliance by some reasonable means, this is the
+first time You have received notice of non-compliance with this License
+from such Contributor, and You become compliant prior to 30 days after
+Your receipt of the notice.
+
+5.2. If You initiate litigation against any entity by asserting a patent
+infringement claim (excluding declaratory judgment actions,
+counter-claims, and cross-claims) alleging that a Contributor Version
+directly or indirectly infringes any patent, then the rights granted to
+You by any and all Contributors for the Covered Software under Section
+2.1 of this License shall terminate.
+
+5.3. In the event of termination under Sections 5.1 or 5.2 above, all
+end user license agreements (excluding distributors and resellers) which
+have been validly granted by You or Your distributors under this License
+prior to termination shall survive termination.
+
+************************************************************************
+*                                                                      *
+*  6. Disclaimer of Warranty                                           *
+*  -------------------------                                           *
+*                                                                      *
+*  Covered Software is provided under this License on an "as is"       *
+*  basis, without warranty of any kind, either expressed, implied, or  *
+*  statutory, including, without limitation, warranties that the       *
+*  Covered Software is free of defects, merchantable, fit for a        *
+*  particular purpose or non-infringing. The entire risk as to the     *
+*  quality and performance of the Covered Software is with You.        *
+*  Should any Covered Software prove defective in any respect, You     *
+*  (not any Contributor) assume the cost of any necessary servicing,   *
+*  repair, or correction. This disclaimer of warranty constitutes an   *
+*  essential part of this License. No use of any Covered Software is   *
+*  authorized under this License except under this disclaimer.         *
+*                                                                      *
+************************************************************************
+
+************************************************************************
+*                                                                      *
+*  7. Limitation of Liability                                          *
+*  --------------------------                                          *
+*                                                                      *
+*  Under no circumstances and under no legal theory, whether tort      *
+*  (including negligence), contract, or otherwise, shall any           *
+*  Contributor, or anyone who distributes Covered Software as          *
+*  permitted above, be liable to You for any direct, indirect,         *
+*  special, incidental, or consequential damages of any character      *
+*  including, without limitation, damages for lost profits, loss of    *
+*  goodwill, work stoppage, computer failure or malfunction, or any    *
+*  and all other commercial damages or losses, even if such party      *
+*  shall have been informed of the possibility of such damages. This   *
+*  limitation of liability shall not apply to liability for death or   *
+*  personal injury resulting from such party's negligence to the       *
+*  extent applicable law prohibits such limitation. Some               *
+*  jurisdictions do not allow the exclusion or limitation of           *
+*  incidental or consequential damages, so this exclusion and          *
+*  limitation may not apply to You.                                    *
+*                                                                      *
+************************************************************************
+
+8. Litigation
+-------------
+
+Any litigation relating to this License may be brought only in the
+courts of a jurisdiction where the defendant maintains its principal
+place of business and such litigation shall be governed by laws of that
+jurisdiction, without reference to its conflict-of-law provisions.
+Nothing in this Section shall prevent a party's ability to bring
+cross-claims or counter-claims.
+
+9. Miscellaneous
+----------------
+
+This License represents the complete agreement concerning the subject
+matter hereof. If any provision of this License is held to be
+unenforceable, such provision shall be reformed only to the extent
+necessary to make it enforceable. Any law or regulation which provides
+that the language of a contract shall be construed against the drafter
+shall not be used to construe this License against a Contributor.
+
+10. Versions of the License
+---------------------------
+
+10.1. New Versions
+
+Mozilla Foundation is the license steward. Except as provided in Section
+10.3, no one other than the license steward has the right to modify or
+publish new versions of this License. Each version will be given a
+distinguishing version number.
+
+10.2. Effect of New Versions
+
+You may distribute the Covered Software under the terms of the version
+of the License under which You originally received the Covered Software,
+or under the terms of any subsequent version published by the license
+steward.
+
+10.3. Modified Versions
+
+If you create software not governed by this License, and you want to
+create a new license for such software, you may create and use a
+modified version of this License if you rename the license and remove
+any references to the name of the license steward (except to note that
+such modified license differs from this License).
+
+10.4. Distributing Source Code Form that is Incompatible With Secondary
+Licenses
+
+If You choose to distribute Source Code Form that is Incompatible With
+Secondary Licenses under the terms of this version of the License, the
+notice described in Exhibit B of this License must be attached.
+
+Exhibit A - Source Code Form License Notice
+-------------------------------------------
+
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+If it is not possible or desirable to put the notice in a particular
+file, then You may include the notice in a location (such as a LICENSE
+file in a relevant directory) where a recipient would be likely to look
+for such a notice.
+
+You may add additional accurate notices of copyright ownership.
+
+Exhibit B - "Incompatible With Secondary Licenses" Notice
+---------------------------------------------------------
+
+  This Source Code Form is "Incompatible With Secondary Licenses", as
+  defined by the Mozilla Public License, v. 2.0.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          {   .   e
+   ..  |   
+confmodule  }   confmodule.sh   ~   debconf.conf   	fix_db.pl   Ä  îfrontend                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    #!/bin/sh
+# This is a shell library to interface to the Debian configuration management
+# system.
+
+###############################################################################
+# Initialization.
+
+# Check to see if a FrontEnd is running.
+if [ ! "${DEBIAN_HAS_FRONTEND:-}" ]; then
+	PERL_DL_NONLAZY=1
+	export PERL_DL_NONLAZY
+	# Since there is no FrontEnd, this program execs a FrontEnd.
+	# It will then run a new copy of $0 that can talk to it.
+	if [ "${DEBCONF_USE_CDEBCONF:-}" ]; then
+		exec /usr/lib/cdebconf/debconf $0 "$@"
+	else
+		exec /usr/share/debconf/frontend $0 "$@"
+	fi
+fi
+
+# Only do this once.
+if [ -z "${DEBCONF_REDIR:-}" ]; then
+	# Redirect standard output to standard error. This prevents common
+	# mistakes by making all the output of the postinst or whatever
+	# script is using this library not be parsed as confmodule commands.
+	#
+	# To actually send something to standard output, send it to fd 3.
+	exec 3>&1
+	if [ "${DEBCONF_USE_CDEBCONF:-}" ]; then
+		exec 1>&5
+	else
+		exec 1>&2
+	fi
+	DEBCONF_REDIR=1
+	export DEBCONF_REDIR
+fi
+
+###############################################################################
+# Commands.
+
+_db_cmd () {
+	_db_internal_IFS="$IFS"
+	IFS=' '
+	printf '%s\n' "$*" >&3
+	# Set to newline to get whole line.
+	IFS='
+'
+	read -r _db_internal_line
+	IFS="$_db_internal_IFS"
+	# Disgusting, but it's the only good way to split the line,
+	# preserving all other whitespace.
+	RET="${_db_internal_line#[! 	][ 	]}"
+	case ${_db_internal_line%%[ 	]*} in
+		1)	# escaped data
+			RET="$(printf '%s' "$RET" | debconf-escape -u)"
+			return 0
+			;;
+	esac
+	return ${_db_internal_line%%[ 	]*}
+}
+
+db_capb ()	{ _db_cmd "CAPB $@"; }
+db_set ()	{ _db_cmd "SET $@"; }
+db_reset ()	{ _db_cmd "RESET $@"; }
+db_title ()	{ _db_cmd "TITLE $@"; }
+db_input ()	{ _db_cmd "INPUT $@"; }
+db_beginblock () { _db_cmd "BEGINBLOCK $@"; }
+db_endblock () 	{ _db_cmd "ENDBLOCK $@"; }
+db_go ()	{ _db_cmd "GO $@"; }
+db_get ()	{ _db_cmd "GET $@"; }
+db_register ()	{ _db_cmd "REGISTER $@"; }
+db_unregister () { _db_cmd "UNREGISTER $@"; }
+db_subst ()	{ _db_cmd "SUBST $@"; }
+db_fset ()	{ _db_cmd "FSET $@"; }
+db_fget ()	{ _db_cmd "FGET $@"; }
+db_purge ()	{ _db_cmd "PURGE $@"; }
+db_metaget ()	{ _db_cmd "METAGET $@"; }
+db_version ()	{ _db_cmd "VERSION $@"; }
+db_clear ()	{ _db_cmd "CLEAR $@"; }
+db_settitle ()	{ _db_cmd "SETTITLE $@"; }
+db_previous_module () { _db_cmd "PREVIOUS_MODULE $@"; }
+db_info ()	{ _db_cmd "INFO $@"; }
+db_progress ()	{ _db_cmd "PROGRESS $@"; }
+db_data ()	{ _db_cmd "DATA $@"; }
+db_x_loadtemplatefile ()	{ _db_cmd "X_LOADTEMPLATEFILE $@"; }
+
+# An old alias for input.
+db_text () {
+	db_input $@
+}
+
+# Cannot read a return code, since there is none and it would block.
+db_stop () {
+	echo STOP >&3
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             #!/bin/sh
+# This is a shell library to interface to the Debian configration management
+# system.
+#
+# This library is obsolete. Do not use.
+
+###############################################################################
+# Initialization.
+
+# Check to see if a FrontEnd is running.
+if [ ! "$DEBIAN_HAS_FRONTEND" ]; then
+	PERL_DL_NONLAZY=1
+	export PERL_DL_NONLAZY
+	# Ok, this is pretty crazy. Since there is no FrontEnd, this
+	# program execs a FrontEnd. It will then run a new copy of $0 that
+	# can talk to it.
+	exec /usr/share/debconf/frontend $0 $*
+fi
+
+# Only do this once.
+if [ -z "$DEBCONF_REDIR" ]; then
+	# Redirect standard output to standard error. This prevents common
+	# mistakes by making all the output of the postinst or whatever
+	# script is using this library not be parsed as confmodule commands.
+	#
+	# To actually send something to standard output, send it to fd 3.
+	exec 3>&1 1>&2
+	DEBCONF_REDIR=1
+	export DEBCONF_REDIR
+fi
+
+# For internal use, send text to the frontend.
+_command () {
+	echo $* >&3
+}
+
+echo "WARNING: Using deprecated debconf compatibility library."
+
+###############################################################################
+# Commands.
+
+# Generate subroutines for all commands that don't have special handlers.
+# Each command must be listed twice, once in lower case, once in upper.
+# Doing that saves us a lot of calls to tr at load time. I just wish shell had
+# an upper-case function.
+old_opts="$@"
+for i in "capb CAPB" "set SET" "reset RESET" "title TITLE" \
+         "input INPUT" "beginblock BEGINBLOCK" "endblock ENDBLOCK" "go GO" \
+	 "get GET" "register REGISTER" "unregister UNREGISTER" "subst SUBST" \
+	 "fset FSET" "fget FGET" "visible VISIBLE" "purge PURGE" \
+	 "metaget METAGET" "exist EXIST" \
+	 "x_loadtemplatefile X_LOADTEMPLATEFILE"; do
+	# Break string up into words.
+	set -- $i
+	eval "db_$1 () {
+		_command \"$2 \$@\"
+		read _RET
+		old_opts="\$@"
+		set -- \$_RET
+		shift
+		RET="\$*"
+		set -- \$old_opts
+		unset old_opts
+	      }"
+done
+# $@ was clobbered above, unclobber.
+set -- $old_opts
+unset old_opts
+
+# By default, 1.0 protocol version is sent to the frontend. You can
+# pass in a different version to override this.
+db_version () {
+	if [ "$1" ]; then
+		_command "VERSION $1"
+	else
+		_command "VERSION 1.0"
+	fi
+	# Not quite correct, but not worth fixing in obsolete code.
+	read -r RET
+}
+
+# Here for backwards compatibility.
+db_go () {
+	_command "GO"
+	read -r RET
+	if [ "$RET" = 30 ]; then
+		RET='back'
+	fi
+}
+
+# Just an alias for input. It tends to make more sense to use this to display
+# text, since displaying text isn't really asking for input.
+db_text () {
+	db_input $@
+}
+
+# Cannot read a return code, since there is none and we would block.            
+db_stop () {                                                                    
+	echo STOP >&3                                                           
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+Config: configdb
+Templates: templatedb
+
+Name: config
+Driver: File
+Mode: 644
+Reject-Type: password
+Filename: /var/cache/debconf/config.dat
+
+Name: passwords
+Driver: File
+Mode: 600
+Backup: false
+Required: false
+Accept-Type: password
+Filename: /var/cache/debconf/passwords.dat
+
+Name: configdb
+Driver: Stack
+Stack: config, passwords
+
+Name: templatedb
+Driver: File
+Mode: 644
+Filename: /var/cache/debconf/templates.dat
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  #!/usr/bin/perl -w
+# This file was preprocessed, do not edit!
+use strict;
+use Debconf::Db;
+use Debconf::Log q{warn};
+
+Debconf::Db->load;
+
+if (! @ARGV || $ARGV[0] ne 'end') {
+	my $fix=0;
+	my $ok;
+	my $counter=0;
+	do {
+		$ok=1;
+	
+		my %templates=();
+		my $ti=$Debconf::Db::templates->iterator;
+		while (my $t=$ti->iterate) {
+			$templates{$t}=Debconf::Template->get($t);
+		}
+	
+		my %questions=();
+		my $qi=Debconf::Question->iterator;
+		while (my $q=$qi->iterate) {
+			if (! defined $q->template) {
+				warn "question \"".$q->name."\" has no template field; removing it.";
+				$q->addowner("killme",""); # make sure it has one owner at least, so removal is triggered
+				foreach my $owner (split(/, /, $q->owners)) {
+					$q->removeowner($owner);
+				}
+				$ok=0;
+				$fix=1;
+			}
+			elsif (! exists $templates{$q->template->template}) {
+				warn "question \"".$q->name."\" uses nonexistant template ".$q->template->template."; removing it.";
+				foreach my $owner (split(/, /, $q->owners)) {
+					$q->removeowner($owner);
+				}
+				$ok=0;
+				$fix=1;
+			}
+			else {
+				$questions{$q->name}=$q;
+			}
+		}
+		
+		foreach my $t (keys %templates) {
+			my @owners=$Debconf::Db::templates->owners($t);
+			if (! @owners) {
+				warn "template \"$t\" has no owners; removing it.";
+				$Debconf::Db::templates->addowner($t, "killme","");
+				$Debconf::Db::templates->removeowner($t, "killme");
+				$fix=1;
+			}
+			foreach my $q (@owners) {
+				if (! exists $questions{$q}) {
+					warn "template \"$t\" claims to be used by nonexistant question \"$q\"; removing that.";
+					$Debconf::Db::templates->removeowner($t, $q);
+					$ok=0;
+					$fix=1;
+				}
+			}
+		}
+		$counter++;
+	} until ($ok || $counter > 20);
+
+	if ($fix) {
+		Debconf::Db->save;
+		exec($0, "end");
+		die "exec of self failed";
+	}
+}
+
+foreach my $templatefile (glob("/var/lib/dpkg/info/*.templates")) {
+	my ($package) = $templatefile =~ m:/var/lib/dpkg/info/(.*?).templates:;
+        Debconf::Template->load($templatefile, $package);
+}
+
+Debconf::Db->save;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            #!/usr/bin/perl -w
+# This file was preprocessed, do not edit!
+
+
+use strict;
+use Debconf::Db;
+use Debconf::Template;
+use Debconf::AutoSelect qw(:all);
+use Debconf::Log qw(:all);
+
+Debconf::Db->load;
+
+debug developer => "frontend started";
+
+my $frontend=make_frontend();
+
+shift @ARGV if $ARGV[0] eq '--';
+
+my $package;
+my $no_title=0;
+my $root=$ENV{DPKG_ROOT} // '';
+if ($ENV{DEBCONF_PACKAGE}) {
+	$package=$ENV{DEBCONF_PACKAGE};
+}
+elsif ($ARGV[0]=~m!^.*/(.*?)\.(?:postinst|postrm|prerm)$!) {
+	$package=$1;
+	my $action=$ARGV[1];
+	$no_title=1 if $action eq 'triggered';
+}
+elsif (-e "$root/var/lib/dpkg/tmp.ci/control") {
+	open (CONTROL, "< $root/var/lib/dpkg/tmp.ci/control")
+		|| die "Debconf: unable to open control file: $!";
+	while (<CONTROL>) {
+		if (/^Package: (.*)/) {
+			$package=$1;
+			last;
+		}
+	}
+	close CONTROL;
+	if (! exists $ENV{PERL_DL_NONLAZY} || ! $ENV{PERL_DL_NONLAZY}) {
+		warn "PERL_DL_NONLAZY is not set, if debconf is running from a preinst script, this is not safe";
+	}
+}
+else {
+	$package='';
+
+	debug developer => 'Trying to find a templates file..';
+	sub trytemplate {
+		my $fn=shift;
+		debug developer => "Trying $fn";
+		if (-e $fn) {
+			debug developer => "I guess it is $fn";
+			Debconf::Template->load($fn, $package);
+			return 1;
+		}
+		else {
+			return;
+		}
+	}
+
+	unless (trytemplate("$ARGV[0].templates")) {
+		unless ($ARGV[0]=~m/(.*)config$/ && trytemplate("${1}templates")) {
+			unless ($ARGV[0]=~m!^(?:.*/)?(.*)! && trytemplate("/usr/share/debconf/templates/${1}.templates")) {
+				debug developer => "Couldn't find a templates file."
+			}
+		}
+	}
+}
+debug developer => "frontend running, package name is $package";
+$frontend->default_title($package) if length $package and !$no_title;
+$frontend->info(undef);
+
+if ($ARGV[0] =~/^(.*[.\/])(?:preinst|postinst|prerm|postrm)$/) {
+	my $base=$1;
+	my $templates=$base."templates";
+	Debconf::Template->load($templates, $package)
+		if -e $templates;
+}
+
+if ($ARGV[0] =~/^(.*[.\/])(?:postinst|preinst)$/) {
+	my $base=$1;
+
+	my $config=$base."config";
+	if (-e $config) {
+		my $version=$ARGV[2];
+		if (! defined($version)) {
+			$version='';
+		}
+		my $confmodule=make_confmodule($config,
+			"configure", $version);
+
+		$confmodule->owner($package);
+
+		1 while ($confmodule->communicate);
+		
+		exit $confmodule->exitcode if $confmodule->exitcode > 0;
+	}
+}
+
+my $confmodule=make_confmodule(@ARGV);
+
+$confmodule->owner($package);
+
+1 while ($confmodule->communicate);
+
+$frontend->shutdown;
+
+Debconf::Db->save;
+
+exit $confmodule->exitcode;
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Å   .   e
+   ..  Ç   shells  É  ÿshells.d                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        # /etc/shells: valid login shells
+/bin/sh
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      É   .   Å   ..  Ñ   bashÖ  ‹dash                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                /bin/bash
+/bin/rbash
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /bin/dash
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Ü   .   e
+  Ù..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          á   .   e
+   ..  à   adduser ä   apt å   
+base-files  é   base-passwd ê   bashí   bsdutilsî   ca-certificates ú   	coreutils   û   dash†   debconf ¢    debian-archive-keyring  §   debianutils ¶   	diffutils   ®   dpkg™   	e2fsprogs   ¨   	findutils   Æ   gcc-12-base ∞   gpgv≤   grep¥   gzip∂   hostname∏   init-system-helpers ∫   libacl1 º   libapt-pkg6.0   æ   libattr1¿   libaudit-common ¬   	libaudit1   ƒ   	libblkid1   ∆   
+libbz2-1.0  »   libc-bin    libc6   Ã   
+libcap-ng0  Œ   libcap2 –   libcom-err2 “   	libcrypt1   ‘   libdb5.3÷   libdebconfclient0   ÿ   
+libext2fs2  ⁄   libffi8 ‹   libgc1  ﬁ   	libgcc-s1   ﬂ   libgcrypt20 ·   libgmp10„   libgnutls30 Â   libgpg-error0   Á   libhogweed6 È   	libidn2-0   Î   liblz4-1Ì   liblzma5Ô   libmd0  Ò   	libmount1   Û   
+libnettle8  ı   libp11-kit0 ˜   libpam-modules  ˘   libpam-modules-bin  ˚   libpam-runtime  ˝   libpam0gˇ   libpcre2-8-0   libseccomp2    libselinux1    libsemanage-common     libsemanage2	   	libsepol2      libsmartcols1      libss2     libssl3    
+libstdc++6     libsystemd0    
+libtasn1-6     	libtinfo6      libudev1   libunistring2      libuuid1   
+libxxhash0      libzstd1"   login   $   logsave &   mawk(   mount   *   ncurses-base,   ncurses-bin .   openssl 1   passwd  3   	perl-base   5   sed 7   sysvinit-utils  9   tar ;   tzdata  =   usr-is-merged   ?   
+util-linux  A   util-linux-extraC  4	zlib1g                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      à   .   á   ..  â  Ë	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: adduser
+Upstream-Source: https://salsa.debian.org/debian/adduser
+
+Files: *
+Copyright: 1994 Debian Association, Inc.
+           1995 Sven Rudolph  <sr1@inf.tu-dresden.de>
+           1995 Ian Murdock <imurdock@debian.org>
+           1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           1996 Steve Phillips <sjp@cvfn.org>
+           1996-1999 Guy Maor <maor@debian.org>
+           2000-2004 Roland Bauerschmidt <rb@debian.org>
+           2005-2009 Joerg Hoh <joerg@joerghoh.de>
+           2006-2011 Stephen Gran <sgran@debian.org>
+           2001-2016 John Zaitseff
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: examples/*
+Copyright: 1999-2016 John Zaitseff
+	   2016 Afif Elghraoui <afif@ghraoui.name>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+License: GPL-2+
+
+Files: deluser
+Copyright: 2000-2003 Roland Bauerschmidt <rb@debian.org>
+           1996-1999 Guy Maor <maor@debian.org>
+           1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           1995 Ian A. Murdock <imurdock@debian.org>
+           2016 Afif Elghraoui <afif@debian.org>
+           2006-2011 Stephen Gran <sgran@debian.org>
+           2005-2009 J√∂rg Hoh <joerg@joerghoh.de>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: adduser
+Copyright: 1994 Debian Association, Inc.
+           2000-2004 Roland Bauerschmidt <rb@debian.org>
+           1997-1999 Guy Maor <maor@debian.org>
+           1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           1995 Ian A. Murdock <imurdock@debian.org>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+           2016-2017 Afif Elghraoui <afif@debian.org>
+           2006-2011 Stephen Gran <sgran@debian.org>
+           2005-2009 J√∂rg Hoh <joerg@joerghoh.de>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: AdduserCommon.pm
+Copyright: 2000 Roland Bauerschmidt <rb@debian.org>
+           1997-1999 Guy Maor <maor@debian.org>
+           1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           1995 Ian A. Murdock <imurdock@debian.org>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2016 Nis Martensen <nis.martensen@web.de>
+           2016 Afif Elghraoui <afif@debian.org>
+           2005-2009 J√∂rg Hoh <joerg@joerghoh.de>
+           2006-2008 Stephen Gran <sgran@debian.org>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: doc/adduser.conf.5
+Copyright: 1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           2000-2003 Roland Bauerschmidt <rb@debian.org>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2006-2008 Stephen Gran <sgran@debian.org>
+           2007 J√∂rg Hoh <joerg@joerghoh.de>
+           2016 Afif Elghraoui <afif@debian.org>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+           2021 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: doc/deluser.conf.5
+Copyright: 1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           2000-2003 Roland Bauerschmidt <rb@debian.org>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2006-2007 J√∂rg Hoh <joerg@joerghoh.de>
+           2011 Stephen Gran <sgran@debian.org>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+           2021 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: doc/deluser.8
+Copyright: 1994 Ian A. Murdock <imurdock@debian.org>
+           1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           1997-1999 Guy Maor
+           2000-2003 Roland Bauerschmidt <rb@debian.org>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2006-2009 J√∂rg Hoh <joerg@joerghoh.de>
+           2011 Justin B Rye <jbr@edlug.org.uk>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+License: GPL-2+
+
+Files: doc/adduser.8
+Copyright: 1994 Ian A. Murdock <imurdock@debian.org>
+           1995 Ted Hajek <tedhajek@boombox.micro.umn.edu>
+           1997-1999 Guy Maor
+           2000-2003 Roland Bauerschmidt <rb@debian.org>
+           2004-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2005-2009 J√∂rg Hoh <joerg@joerghoh.de>
+           2006-2011 Stephen Gran <sgran@debian.org>
+           2011 Justin B Rye <jbr@edlug.org.uk>
+           2016 Afif Elghraoui <afif@debian.org>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+           2022 Akbarkhon Variskhanov <akbarkhon.variskhanov@gmail.com>
+License: GPL-2+
+
+Files: doc/adduser.local.8
+Copyright: 2022 Marc Haber <mh+debian-packages@zugschlus.de>
+License: GPL-2+
+
+Files: po/adduser.pot doc/po4a/po/adduser.pot
+Copyright: 20032-2004 Roland Bauerschmidt <rb@debian.org>
+           2011 Stephen Gran <sgran@debian.org>
+           2016 Helge Kreutzmann <debian@helgefjell.de>
+           2016 Afif Elghraoui <afif@debian.org>
+           2005-2022 Marc Haber <mh+debian-packages@zugschlus.de>
+           2021-2022 Jason Franklin <jason@oneway.dev>
+           2022 Matt Barry <matt@hazelmollusk.org>
+License: GPL-2+
+
+Files: po/ca.po
+Copyright: 2002, 2004, 2010 Software in the Public Interest, Inc. and others.
+           2002, 2004, 2010 Jordi Mallach <jordi@debian.org>
+License: GPL-2+
+
+Files: po/cs.po
+Copyright: Free Software Foundation, Inc.
+           2004-2016 Miroslav Kure <kurem@debian.cz>
+License: GPL-2+
+
+Files: po/da.po
+Copyright: 2016 adduser & nedenst√•ende overs√¶ttere.
+           2001-2004 Morten Brix Pedersen <morten@wtf.dk>
+           2010, 2016 Joe Hansen <joedalton2@yahoo.dk>
+License: GPL-2+
+
+Files: po/de.po
+Copyright: 2000, 2006 Free Software Foundation, Inc.
+           2000 Roland Bauerschmidt <roland@copyleft.de>
+           2006, 2010, 2017 Dr. Tobias Quathamer <toddy@debian.org>
+	   2023 Dr. Helge Kreutzmann <debian@helgefjell.de>
+License: GPL-2+
+
+Files: po/es.po
+Copyright: Nicol√°s Lichtmaier
+           2008, 2010 Javier Fern√°ndez-Sanguino
+License: GPL-2+
+
+Files: po/eu.po
+Copyright: 2004, 2006, 2008 Piarres Beobide Ega√±a <pi@beobide.net>
+           2010, 2016 I√±aki Larra√±aga Murgoitio <dooteo@euskalgnu.org>
+License: GPL-2+
+
+Files: po/fr.po
+Copyright: 2004 Software in the Public Interest
+           2009, 2010 Jean-Baka Domelevo Entfellner <domelevo@gmail.com>
+License: GPL-2+
+
+Files: po/hu.po
+Copyright: 2006 G√°l Ferenc <hunterz@freemail.hu>
+           2006 Nepusz Tam√°s <ntamas@gmail.com>
+           2007 Gabor Kelemen <kelemeng@gnome.hu>
+License: GPL-2+
+
+Files: po/it.po
+Copyright: 2004-2016 Luca Monducci <luca.mo@tiscali.it>
+           2004 Free Software Foundation, Inc.
+License: GPL-2+
+
+Files: po/ja.po
+Copyright: 1999 Akira Yoshiyama <yosshy@debian.or.jp>
+           1999-2010 Tomohiro KUBOTA <kubota@debian.org>
+           2010-2016 Kenshi Muto <kmuto@debian.org>
+License: GPL-2+
+
+Files: po/ko.po
+Copyright: 1999 Changwoo Ryu
+           2001 Eungkyu Song <eungkyu@sparcs.org>
+License: GPL-2+
+
+Files: po/nb.po
+Copyright: 2001 Free Software Foundation, Inc.
+           2001 Morten Brix Pedersen <morten@wtf.dk>
+           2003 Geir Helland, <debian@marked.no>
+           2005-2006, 2010, 2016 Hans F. Nordhaug <hans@nordhaug.priv.no>
+License: GPL-2+
+
+Files: po/nl.po
+Copyright: 2001 Free Software Foundation, Inc.
+           2001 Guus Sliepen <guus@debian.org>
+	   2016 Remco Rijnders <remco@webconquest.com>
+	   2022 Frans Spiesschaert <Frans.Spiesschaert@yucom.be>
+License: GPL-2+
+
+Files: po/pl.po
+Copyright: 2005, 2010 Robert Luberda <robert@debian.org>
+           2016 ≈Åukasz Dulny <BartekChom@poczta.onet.pl>
+License: GPL-2+
+
+Files: po/pt_BR.po
+Copyright: 2000 Cesar Eduardo Barros <cesarb@web4u.com.br>
+           2004 Andr√© Lu√≠s Lopes <andreop@debian.org>
+           2010 √âverton Arruda <root@earruda.eti.br>
+           2010-2016 Adriano Rafael Gomes <adrianorg@arg.eti.br>
+License: GPL-2+
+
+Files: po/pt.po
+Copyright: 2007 the adduser's copyright holder
+           2007 Ricardo Silva <ardoric@gmail.com>
+           2010-2023 Am√©rico Monteiro <a_monteiro@netcabo.pt>
+License: GPL-2+
+
+Files: po/ru.po
+Copyright: 2000, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+           2000 Peter Novodvorsky <nidd@debian.org>
+           2004, 2005, 2006, 2007, 2008 Yuri Kozlov <kozlov.y@gmail.com>
+           2009, 2010, 2016 Yuri Kozlov <yuray@komyakino.ru>
+           2019 Lev Lamberow <dogsleg@debian.org>
+License: GPL-2+
+
+Files: po/sk.po
+Copyright: 2007, 2010, 2016 Ivan Mas√°r <helix84@centrum.sk>
+License: GPL-2+
+
+Files: po/sv.po
+Copyright: 2006-2010 Free Software Foundation, Inc.
+           2006, 2009 Daniel Nylander <po@danielnylander.se>
+           2010, 2016 Martin Bagge <brother@bsnet.se>
+License: GPL-2+
+
+Files: po/uk.po
+Copyright: 2004, 2005, 2006 Eugeniy Meshcheryakov <eugen@univ.kiev.ua>
+License: GPL-2+
+
+Files: po/vi.po
+Copyright: 2010 Free Software Foundation, Inc.
+           2010 Clytie Siddall <clytie@riverland.net.au>
+           2016 Tr·∫ßn Ng·ªçc Qu√¢n <vnwildman@gmail.com>
+License: GPL-2+
+
+Files: po/zh_CN.po
+Copyright: 2009 Free Software Foundation, Inc.
+           2004 Hiei Xu <nicky@mail.edu.cn>
+           2004 Carlos Z.F. Liu <carlos_liu@yahoo.com>
+           2009 Aron Xu <happyaron.xu@gmail.com>
+           2018 Boyuan Yang <073plan@gmail.com>
+License: GPL-2+
+
+Files: doc/po4a/po/da.po
+Copyright: 2016 adduser & nedenst√•ende overs√¶ttere.
+           2004 Claus Hindsgaul <claus_h@image.dk>
+           2012, 2016 Joe Hansen <joedalton2@yahoo.dk>
+License: GPL-2+
+
+Files: doc/po4a/po/de.po
+Copyright: 2010 Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>
+           2016-2020 Holger Wansing <linux@wansing-online.de>
+License: GPL-2+
+
+Files: doc/po4a/po/es.po
+Copyright: 2010, 2011 Software in the Public Interest
+           2010, 2011 Omar Campagne Polaino <ocampagne@gmail.com>
+           Rub√©n Porras Campo
+License: GPL-2+
+
+Files: doc/po4a/po/fr.po
+Copyright: 2004 Software in the Public Interest
+           2008 Nicolas Fran√ßois <nicolas.francois@centraliens.net>
+           2010 David Pr√©vot <david@tilapin.org>
+           2016-2023 Jean-Paul Guillonneau <guillonneau.jeanpaul@free.fr>
+License: GPL-2+
+
+Files: doc/po4a/po/it.po
+Copyright: 2006-2020 Luca Monducci <luca.mo@tiscali.it>
+License: GPL-2+
+
+Files: doc/po4a/po/pl.po
+Copyright: 2005, 2010 Robert Luberda <robert@debian.org>
+           2016 ≈Åukasz Dulny <BartekChom@poczta.onet.pl>
+License: GPL-2+
+
+Files: doc/po4a/po/pt_BR.po
+Copyright: 2005 Free Software Foundation, Inc.
+           2005-2006 Felipe Augusto van de Wiel (faw) <felipe@cathedrallabs.org>
+License: GPL-2+
+
+Files: doc/po4a/po/pt.po
+Copyright: 2010 Free Software Foundation, Inc.
+           2010-2023 Am√©rico Monteiro <a_monteiro@gmx.com>
+License: GPL-2+
+
+Files: doc/po4a/po/ru.po
+Copyright: 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+           2005, 2006, 2007, 2008 Yuri Kozlov <kozlov.y@gmail.com>
+           2010, 2016 Yuri Kozlov <yuray@komyakino.ru>
+License: GPL-2+
+
+Files: doc/po4a/po/sv.po
+Copyright: 2006, 2010 Free Software Foundation, Inc.
+           2006 Daniel Nylander <po@danielnylander.se>
+           2010 Martin Bagge <brother@bsnet.se>
+License: GPL-2+
+
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ A copy of the GNU General Public License, version 2, can be found in
+ /usr/share/common-licenses/GPL-2 or in the COPYING file included with the
+ source.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ä   .   á   ..  ã  Ë	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: apt
+Upstream-Contact: APT Development Team <deity@lists.debian.org>
+Source: https://salsa.debian.org/apt-team/apt
+Comment:
+ APT is an old software with lots of contributors over its lifetime. This
+ file is a best effort to document the statements of copyright and licenses
+ as stated in the file, but is not a complete representation of all copyright
+ holders - those have been lost to times.
+ .
+ Several bits of apt-pkg/contrib have had public domain dedications but
+ contributions from authors in countries not recognizing a public domain
+ concept. We believe that these contributions have been done in good faith,
+ and we treat them as if they had been made under the GPL-2+ as we believe
+ some contributors may have missed these facts and the overall license statement
+ for the project has always been GPL-2+, so we cannot be sure that contributors
+ meant to grant additional permissions.
+ .
+ Translation files are considered to generally be GPL-2+,
+ but they also include strings used by methods/rsh.cc which appears to be GPL-2.
+ As the translations are split into separate domains later on,
+ these strings are not loaded by library users outside of apt
+ (they are in the 'apt' translation domain).
+ .
+ The apt-pkg/contrib/fileutl.cc file states "RunScripts()" is "GPLv2".
+ We believe that this was not meant to exclude later versions of the GPL,
+ as that would have changed the overall project license.
+
+Files: *
+Copyright: 1997-1999 Jason Gunthorpe and others
+           2018, 2019 Canonical Ltd
+           2009, 2010, 2015, 2016 Julian Andres Klode <jak@debian.org>
+           1998, Ben Gertzfield <che@debian.org>
+           2002-2019 Free Software Foundation, Inc.
+           2003, 2004, 2005, 2009, 2010, 2012 Software in the Public Interest
+           2002-2003 Lars Bahner <bahner@debian.org>
+           2003-2004 Axel Bojer <axelb@skolelinux.no>
+           2004 Klaus Ade Johnstad <klaus@skolelinux.no>
+           2004 Bjorn Steensrud <bjornst@powertech.no>
+           2003, 2005-2010 Hans Fredrik Nordhaug <hans@nordhaug.priv.no>
+           2016, 2018 Petter Reinholdtsen <pere@hungry.com>
+           2009 Rosetta Contributors and Canonical Ltd 2009
+           2013 Debian L10n Turkish 2013
+           2013-2018 Mert Dirik <mertdirik@gmail.com>
+           2004 Krzysztof Fiertek <akfedux@megapolis.pl>
+           2000-2004, 2010, 2012  Robert Luberda <robert@debian.org>
+           2000-2017 Debian Italian l10n team <debian-l10n-italian@lists.debian.org>
+           2003-2017 Debian Japanese List <debian-japanese@lists.debian.org>
+           2000-2018 Debian French l10n team <debian-l10n-french@lists.debian.org>
+           1997 Manoj Srivastava
+           1997 Tom Lees
+           2014 Anthony Towns
+License: GPL-2+
+
+Files: methods/rsh.cc
+Copyright: 2000 Ben Collins <bcollins@debian.org>
+License: GPL-2
+Comment:
+ This file stated:
+ Licensed under the GNU General Public License v2 [no exception clauses]
+ .
+ We believe that this was intended to be not a statement against future
+ versions of the GPL, but meant to exclude the Qt license exception in
+ place in APT until that time.
+ .
+ We received permission from Ben in 2021 to relicense under GPL-2+,
+ contributions from Adam Heath and Daniel Hartwig may still have to
+ be considered GPL-2 for the time being.
+ .
+ Other contributions are GPL-2+
+
+Files: CMake/FindBerkeley.cmake
+Copyright: 2006, Alexander Dymo, <adymo@kdevelop.org>
+           2016, Julian Andres Klode <jak@debian.org>
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ .
+ 1. Redistributions of source code must retain the copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Files: CMake/Documentation.cmake
+       CMake/FindLFS.cmake
+Copyright: 2016 Julian Andres Klode <jak@debian.org>
+License: Expat
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation files
+ (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge,
+ publish, distribute, sublicense, and/or sell copies of the Software,
+ and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+
+License: GPL-2
+ This package is free software; you can redistribute it and/or modify
+ it under the terms version 2 of the GNU General Public License
+ as published by the Free Software Foundation.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+Comment:
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+Comment:
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            å   .   á   ..  ç  Ë	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       This is the Debian prepackaged version of the Debian Base System
+Miscellaneous files. These files were written by Ian Murdock
+<imurdock@debian.org> and Bruce Perens <bruce@pixar.com>.
+
+This package was first put together by Bruce Perens <Bruce@Pixar.com>,
+from his own sources.
+
+The GNU Public Licenses in /usr/share/common-licenses were taken from
+ftp.gnu.org and are copyrighted by the Free Software Foundation, Inc.
+
+The Artistic License in /usr/share/common-licenses is the one coming
+from Perl and its SPDX name is "Artistic License 1.0 (Perl)".
+
+
+Copyright (C) 1995-2011 Software in the Public Interest.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        é   .   á   ..  è  Ë	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: base-passwd
+Upstream-Contact: Colin Watson <cjwatson@debian.org>
+
+Files: *
+Copyright: Copyright 1999-2002 Wichert Akkerman <wichert@deephackmode.org>
+ Copyright 2002, 2003, 2004 Colin Watson <cjwatson@debian.org>
+License: GPL-2
+
+Files:
+ passwd.master
+ group.master
+License: public-domain
+Copyright: PD; Originally written by Ian Murdock <imurdock@debian.org> and
+ Bruce Perens <bruce@pixar.com>.
+
+Files: doc/*
+Copyright: Copyright 2001, 2002 Joey Hess
+ Copyright 2002, 2003, 2004, 2005, 2007 Colin Watson
+ Copyright 2007 David Mandelberg
+License: GPL-2
+
+License: GPL-2
+ On Debian and Debian-based systems, a copy of the GNU General Public
+ License version 2 is available in /usr/share/common-licenses/GPL-2.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ê   .   á   ..  ë  Ë	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Contact: chet@po.cwru.edu
+Comment:
+ This is Debian GNU/Linux's prepackaged version of the FSF's GNU Bash,
+ the Bourne Again SHell.
+ .
+ This package was put together by Matthias Klose <doko@debian.org>.
+Source:
+ ftp.gnu.org:/pub/gnu/bash
+Files-Excluded:
+ doc/FAQ
+ doc/aosa-bash*.pdf
+ doc/article.*
+ doc/rose94.*
+
+Files: *
+Copyright: (C) 1987-2022 Free Software Foundation, Inc.
+License: GPL-3+
+
+Files: examples/shellmath/*
+Copyright: (c) 2020 by Michael Wood. All rights reserved.
+License: GPL-3+
+
+Files: support/bash.xbm
+Copyright: (C) 1992 Simon Marshall
+License: GPL-3+
+
+Files: support/checkbashisms
+Copyright:
+ Copyright (C) 1998 Richard Braakman
+ Copyright (C) 2002 Josip Rodin
+ Copyright (C) 2003 Julian Gilbey
+License: GPL-3+
+
+Files:
+ tests/ifs-posix.tests
+ tests/posix2.tests
+Copyright: (C) 2005 Glen Fowler
+ Copyright (c) 1995 Stephen Gildea
+License: GPL-3+
+
+License: GPL-3+
+ Bash is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free
+ Software Foundation; either version 3, or (at your option) any later
+ version.
+ .
+ Bash is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with Bash.  If not, see <http://www.gnu.org/licenses/>.
+Comment:
+ On Debian systems, the complete text of the GNU General Public License
+ version 3 can be found in `/usr/share/common-licenses/GPL-3'.
+
+Files: y.tab.*
+Copyright: (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
+   Inc.
+License: GPL-3+ with Bison exception
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+ .
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+ .
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ .
+   As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+ .
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.
+Comment:
+ On Debian systems, the complete text of the GNU General Public License
+ version 3 can be found in `/usr/share/common-licenses/GPL-3'.
+
+Files:
+ examples/functions/array-stuff
+ examples/functions/fstty
+ examples/functions/func
+ examples/functions/inetaddr
+ examples/functions/isnum2
+ examples/functions/ksh*
+ examples/functions/notify.bash
+ examples/functions/seq*
+ examples/functions/sort-pos-params
+ examples/functions/substr*
+ examples/functions/substr2
+ examples/functions/w*
+ tests/complete.tests
+Copyright: 1992-2020 Chester Ramey
+License: GPL-2+
+
+Files:
+ debian/clear_console.c
+ examples/complete/bash_completion
+Copyright:
+ Copyright (C) 2006-2019 Canonical Ltd.
+ Copyright (C) Ian Macdonald <ian@caliban.org>
+License: GPL-2+
+
+License: GPL-2+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+ .
+   TThis program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+ .
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+Comment:
+ On Debian systems, the complete text of the GNU General Public License
+ version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+Files:
+ doc/bashref.texi
+ lib/readline/doc/history.texi
+ lib/readline/doc/rl*man.texi
+Copyright: (c) 1988-2022 Free Software Foundation, Inc.
+License: GFDL-NIV-1.3
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.3 or
+ any later version published by the Free Software Foundation; with no
+ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+ A copy of the license is included in the section entitled
+ ``GNU Free Documentation License''.
+Comment:
+ On Debian systems, the complete text of the GNU Free Documentation License
+ version 1.3 can be found in `/usr/share/common-licenses/GFDL-1.3'.
+
+Files:
+ lib/readline/doc/rltech.texi
+ lib/readline/doc/rluser.texi
+ lib/readline/doc/hs*.texi
+Copyright: (C) 1988-2022 Free Software Foundation, Inc.
+License: Latex2e
+ Permission is granted to make and distribute verbatim copies of
+ this manual provided the copyright notice and this permission notice
+ pare preserved on all copies.
+ .
+ Permission is granted to process this file through TeX and print the
+ results, provided the printed document carries copying permission
+ notice identical to this one except for the removal of this paragraph
+ (this paragraph not being relevant to the printed manual).
+ .
+ Permission is granted to copy and distribute modified versions of this
+ manual under the conditions for verbatim copying, provided that the entire
+ resulting derived work is distributed under the terms of a permission
+ notice identical to this one.
+ .
+ Permission is granted to copy and distribute translations of this manual
+ into another language, under the above conditions for modified versions,
+ except that this permission notice may be stated in a translation approved
+ by the Foundation.
+
+Files: lib/sh/inet_aton.c
+Copyright:
+ * Copyright (c) 1983, 1990, 1993
+ *    The Regents of the University of California.  All rights reserved.
+ * Portions Copyright (c) 1993 by Digital Equipment Corporation.
+License: BSD-4-clause-UC and MIT-like
+
+License: BSD-4-clause-UC
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. <removed>
+ * 4. Neither the name of the University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ 

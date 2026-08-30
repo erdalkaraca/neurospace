@@ -1,0 +1,1495 @@
+15 435 19 2 142 11 16 73 36 1 14 16 15 436 13 4 19 1 213 4 45 437 13 0 19 1 141 12 43 1 19 3 142 14 16 15 438 19 2 142 14 16 15 439 19 2 142 14 16 15 440 19 2 142 14 16 15 441 19 2 142 14 16 15 442 19 2 142 14 16 15 443 19 2 142 14 16 15 444 19 2 142 14 16 15 445 19 2 142 19 0 446 45 447 10 0 41 311 4 42 448 8 11 16 73 36 2 38 86 42 310 7 75 73 36 2 38 77 42 449 6 19 0 450 38 69 42 451 6 19 0 452 38 61 42 453 6 19 0 454 38 53 42 147 6 19 0 455 38 45 42 117 7 77 19 1 456 38 36 42 457 33 10 5 45 458 13 0 19 1 213 45 459 10 0 4 10 0 5 51 0 13 1 15 70 9 6 13 0 19 4 71 43 2 43 1 35 0 0 62 73 63 29) #1# #2# 60964) #:g4382 #:g4381 #:g4379 #:g4380 #:g4377 #:g4376 #:g4378 "------" "Stepping stopped" #Y(common-lisp-user::run-step nil nil (26 30 1 460 19 0 26 45 24 13 0 32 1 12 14 209 77 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 214 77 19 0 26 12 77 46 461 46 462 46 463 13 1 19 1 57 51 2 10 2 45 58 38 181 10 0 4 45 464 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 465 45 466 10 1 39 137 75 45 467 13 1 19 1 129 12 19 1 130 51 0 10 0 39 117 13 0 13 5 19 2 131 76 39 107 13 0 10 5 3 51 5 14 16 10 0 17 96 39 50 15 132 77 15 133 14 135 13 11 19 1 66 12 14 221 15 468 14 223 15 99 14 138 15 469 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 43 13 0 15 144 14 135 13 11 19 1 66 12 14 221 15 468 14 223 15 99 14 138 15 469 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -183 43 1 43 3 13 0 19 1 261 12 13 1 13 2 72 3 43 3 43 1 43 1 29) #1# #2# 60964) common-lisp-user::internal-dummy-event-fn (defun common-lisp-user::internal-dummy-event-fn) (#2# . 63078) (&rest common-lisp-user::r) #Y(common-lisp-user::internal-dummy-event-fn nil nil (27 45 117 75 73 29) #1# #2# 63078) (defun common-lisp-user::schedule-event) (#2# . 63144) (time common-lisp-user::action &key (common-lisp-user::maintenance nil) (common-lisp-user::module :none) (common-lisp-user::destination nil) (common-lisp-user::priority 0) (common-lisp-user::params nil) (common-lisp-user::details nil) (common-lisp-user::output t) (common-lisp-user::time-in-ms nil) (common-lisp-user::precondition nil)) (nil :precondition :time-in-ms :output :details :params :priority :destination :module :maintenance) common-lisp-user::maintenance :none common-lisp-user::destination common-lisp-user::priority common-lisp-user::params common-lisp-user::details common-lisp-user::output common-lisp-user::time-in-ms common-lisp-user::precondition >= "Time must be non-negative number." common-lisp-user::local-or-remote-function-or-nil "Can't schedule ~S because it is not a valid command identifier." macro-function "Can't schedule ~S because it is a macro and not a function." :max "Priority must be a number or :min or :max." listp "params must be a list." integerp "When time-in-ms is true the time must be an integer." "Only maintenance events may have a precondition." "Precondition must be a function, but ~s provided." common-lisp-user::make-act-r-maintenance-event common-lisp-user::sechedule-event :action :precondition :destination common-lisp-user::new-event common-lisp-user::insert-queue-event "schedule-event called with no current model." #Y(common-lisp-user::schedule-event nil nil (24 45 180 24 45 303 28 479 22 40 2 77 46 480 22 40 3 14 481 46 63 22 40 2 77 46 482 22 40 3 9 0 46 483 22 40 2 77 46 484 22 40 2 77 46 485 22 40 3 14 16 46 486 22 40 2 77 46 487 22 40 2 77 46 488 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 432 19 0 26 45 24 10 11 16 77 39 8 13 11 9 0 19 2 489 76 39 19 15 202 77 15 203 15 490 19 3 142 12 19 2 143 75 73 38 389 13 10 19 1 491 76 39 21 15 202 77 15 203 15 492 13 10 19 4 142 12 19 2 143 75 73 38 361 10 10 16 304 39 6 13 10 19 1 493 39 21 15 202 77 15 203 15 494 13 10 19 4 142 12 19 2 143 75 73 38 328 10 6 16 77 40 15 13 6 11 232 17 96 40 7 13 6 11 495 17 96 76 39 19 15 202 77 15 203 15 496 19 3 142 12 19 2 143 75 73 38 287 10 5 16 497 76 39 19 15 202 77 15 203 15 498 19 3 142 12 19 2 143 75 73 38 262 10 2 39 6 10 11 16 499 76 39 19 15 202 77 15 203 15 500 19 3 142 12 19 2 143 75 73 38 233 10 1 39 4 10 9 76 39 19 15 202 77 15 203 15 501 19 3 142 12 19 2 143 75 73 38 206 10 1 39 7 13 1 19 1 271 76 40 12 10 1 16 304 39 6 13 1 19 1 493 39 21 15 202 77 15 203 15 502 13 1 19 4 142 12 19 2 143 75 73 38 161 10 9 39 6 33 503 73 38 4 33 226 73 12 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 221 13 8 14 135 10 2 39 6 10 11 73 38 8 13 11 15 504 19 2 205 12 14 231 10 6 16 77 39 6 10 6 73 38 4 8 0 73 12 14 232 13 6 11 232 17 96 73 39 4 10 6 73 12 14 495 13 6 11 495 17 96 73 39 4 10 6 73 12 14 505 10 10 39 6 10 10 73 38 4 1 471 73 12 14 137 13 5 14 138 13 4 14 225 13 3 14 506 13 1 14 507 13 7 20 26 23 45 508 13 1 13 0 19 2 509 13 0 19 1 116 43 1 43 1 38 17 15 202 77 15 203 15 510 19 3 142 12 19 2 143 75 73 29) #1# #2# 63144) common-lisp-user::external-schedule-event (defun common-lisp-user::external-schedule-event) (#2# . 66011) (time common-lisp-user::action &optional common-lisp-user::params) (:params :module :destination :priority :maintenance :output :time-in-ms :details :precondition) common-lisp-user::process-options-list common-lisp-user::ol common-lisp-user::valid (:module :destination :priority :output) common-lisp-user::convert-options-list-items apply #Y(common-lisp-user::external-schedule-event nil nil (24 45 180 24 45 303 25 40 2 77 46 484 26 13 0 15 235 15 516 19 3 517 47 1 518 45 519 10 0 73 39 19 15 235 13 4 13 3 13 1 15 520 77 19 3 521 12 19 4 522 43 2 29) #1# #2# 66011) "schedule-event" "Create an event to occur at the specified time. Params: time action { < params, module, destination, priority, maintenance, output, time-in-ms, details, precondition > }." common-lisp-user::schedule-event-relative (defun common-lisp-user::schedule-event-relative) (#2# . 66679) (common-lisp-user::time-delay common-lisp-user::action &key (common-lisp-user::maintenance nil) (common-lisp-user::module :none) (common-lisp-user::destination nil) (common-lisp-user::priority 0) (common-lisp-user::params nil) (common-lisp-user::details nil) (common-lisp-user::output t) (common-lisp-user::time-in-ms nil) (common-lisp-user::precondition nil)) common-lisp-user::time-delay (nil :precondition :time-in-ms :output :details :params :priority :destination :module :maintenance) "Time-delay must be non-negative number." "Can't schedule ~S because it is not a valid command identifier." "Can't schedule ~S because it is a macro and not a function." "Priority must be a number or :min or :max." "params must be a list." "When time-in-ms is true the time-delay must be an integer." "Only maintenance events may have a precondition." "Precondition must be a function, but ~s provided." :delta "schedule-event-relative called with no current model." #Y(common-lisp-user::schedule-event-relative nil nil (24 45 530 24 45 303 28 531 22 40 2 77 46 480 22 40 3 14 481 46 63 22 40 2 77 46 482 22 40 3 9 0 46 483 22 40 2 77 46 484 22 40 2 77 46 485 22 40 3 14 16 46 486 22 40 2 77 46 487 22 40 2 77 46 488 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 432 19 0 26 45 24 10 11 16 77 39 8 13 11 9 0 19 2 489 76 39 19 15 202 77 15 203 15 532 19 3 142 12 19 2 143 75 73 38 389 13 10 19 1 491 76 39 21 15 202 77 15 203 15 533 13 10 19 4 142 12 19 2 143 75 73 38 361 10 10 16 304 39 6 13 10 19 1 493 39 21 15 202 77 15 203 15 534 13 10 19 4 142 12 19 2 143 75 73 38 328 10 6 16 77 40 15 13 6 11 232 17 96 40 7 13 6 11 495 17 96 76 39 19 15 202 77 15 203 15 535 19 3 142 12 19 2 143 75 73 38 287 10 5 16 497 76 39 19 15 202 77 15 203 15 536 19 3 142 12 19 2 143 75 73 38 262 10 2 39 6 10 11 16 499 76 39 19 15 202 77 15 203 15 537 19 3 142 12 19 2 143 75 73 38 233 10 1 39 4 10 9 76 39 19 15 202 77 15 203 15 538 19 3 142 12 19 2 143 75 73 38 206 10 1 39 7 13 1 19 1 271 76 40 12 10 1 16 304 39 6 13 1 19 1 493 39 21 15 202 77 15 203 15 539 13 1 19 4 142 12 19 2 143 75 73 38 161 10 9 39 6 33 503 73 38 4 33 226 73 12 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 221 13 8 14 231 10 6 16 77 39 6 10 6 73 38 4 8 0 73 12 14 232 13 6 11 232 17 96 73 39 4 10 6 73 12 14 495 13 6 11 495 17 96 73 39 4 10 6 73 12 14 505 10 10 39 6 10 10 73 38 4 1 471 73 12 14 137 13 5 14 138 13 4 14 225 13 3 14 506 13 1 14 507 13 7 20 24 23 45 508 13 1 13 0 14 540 10 3 39 6 10 12 73 38 8 13 12 15 526 19 2 205 12 19 4 509 13 0 19 1 116 43 1 43 1 38 17 15 202 77 15 203 15 541 19 3 142 12 19 2 143 75 73 29) #1# #2# 66679) common-lisp-user::external-schedule-event-relative (defun common-lisp-user::external-schedule-event-relative) (#2# . 69553) (common-lisp-user::delta-time common-lisp-user::action &optional common-lisp-user::params) common-lisp-user::delta-time (:params :module :destination :priority :maintenance :output :time-in-ms :details :precondition) (:module :destination :priority :output) #Y(common-lisp-user::external-schedule-event-relative nil nil (24 45 547 24 45 303 25 40 2 77 46 484 26 13 0 15 526 15 548 19 3 517 47 1 518 45 519 10 0 73 39 19 15 526 13 4 13 3 13 1 15 549 77 19 3 521 12 19 4 522 43 2 29) #1# #2# 69553) "schedule-event-relative" "Create an event to occur at the specified amount of time from now. Params: time-delay action { < params, module, destination, priority, maintenance, output, time-in-ms, details, precondition > }." common-lisp-user::schedule-event-now (defun common-lisp-user::schedule-event-now) (#2# . 70304) (common-lisp-user::action &key (common-lisp-user::maintenance nil) (common-lisp-user::module :none) (common-lisp-user::destination nil) (common-lisp-user::priority 0) (common-lisp-user::params nil) (common-lisp-user::details nil) (common-lisp-user::output t) (common-lisp-user::precondition nil)) (nil :precondition :output :details :params :priority :destination :module :maintenance) "Can't schedule ~S because it is not a valid command identifier." "Can't schedule ~S because it is a macro and not a function." "Priority must be a number or :min or :max." "params must be a list." "Only maintenance events may have a precondition." "Precondition must be a function, but ~s provided." :now "schedule-event-now called with no current model." #Y(common-lisp-user::schedule-event-now nil nil (24 45 303 28 557 22 40 2 77 46 480 22 40 3 14 481 46 63 22 40 2 77 46 482 22 40 3 9 0 46 483 22 40 2 77 46 484 22 40 2 77 46 485 22 40 3 14 16 46 486 22 40 2 77 46 488 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 354 19 0 26 45 24 13 9 19 1 491 76 39 21 15 202 77 15 203 15 558 13 9 19 4 142 12 19 2 143 75 73 38 317 10 9 16 304 39 6 13 9 19 1 493 39 21 15 202 77 15 203 15 559 13 9 19 4 142 12 19 2 143 75 73 38 284 10 5 16 77 40 15 13 5 11 232 17 96 40 7 13 5 11 495 17 96 76 39 19 15 202 77 15 203 15 560 19 3 142 12 19 2 143 75 73 38 243 10 4 16 497 76 39 19 15 202 77 15 203 15 561 19 3 142 12 19 2 143 75 73 38 218 10 1 39 4 10 8 76 39 19 15 202 77 15 203 15 562 19 3 142 12 19 2 143 75 73 38 191 10 1 39 7 13 1 19 1 271 76 40 12 10 1 16 304 39 6 13 1 19 1 493 39 21 15 202 77 15 203 15 563 13 1 19 4 142 12 19 2 143 75 73 38 146 10 8 39 6 33 503 73 38 4 33 226 73 12 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 221 13 7 14 231 10 5 16 77 39 6 10 5 73 38 4 8 0 73 12 14 232 13 5 11 232 17 96 73 39 4 10 5 73 12 14 495 13 5 11 495 17 96 73 39 4 10 5 73 12 14 505 10 9 39 6 10 9 73 38 4 1 471 73 12 14 137 13 4 14 138 13 3 14 225 13 2 14 506 13 1 14 507 13 6 20 24 23 45 508 13 1 13 0 14 564 14 16 19 4 509 13 0 19 1 116 43 1 43 1 38 17 15 202 77 15 203 15 565 19 3 142 12 19 2 143 75 73 29) #1# #2# 70304) common-lisp-user::external-schedule-event-now (defun common-lisp-user::external-schedule-event-now) (#2# . 72652) (common-lisp-user::action &optional common-lisp-user::params) (:params :module :destination :priority :maintenance :output :details :precondition) (:module :destination :priority :output) #Y(common-lisp-user::external-schedule-event-now nil nil (24 45 303 25 40 2 77 46 484 26 13 0 15 553 15 571 19 3 517 47 1 518 45 519 10 0 73 39 17 15 553 13 3 13 1 15 572 77 19 3 521 12 19 3 522 43 2 29) #1# #2# 72652) "schedule-event-now" "Create an event to occur at the current time. Params: time-delay action { < params,  module, destination, priority, maintenance, output, details, precondition > }." common-lisp-user::schedule-event-after-module (defun common-lisp-user::schedule-event-after-module) (#2# . 73310) (common-lisp-user::after-module common-lisp-user::action &key (common-lisp-user::maintenance nil) (common-lisp-user::module :none) (common-lisp-user::destination nil) (common-lisp-user::params nil) (common-lisp-user::details nil) (common-lisp-user::output t) (common-lisp-user::delay t) (common-lisp-user::include-maintenance nil) (common-lisp-user::dynamic nil) (common-lisp-user::precondition nil)) common-lisp-user::after-module (nil :precondition :dynamic :include-maintenance :delay :output :details :params :destination :module :maintenance) common-lisp-user::delay common-lisp-user::include-maintenance common-lisp-user::dynamic common-lisp-user::valid-module-name "after-module must name a module." "Can't schedule ~S because it is not a valid command identifier." "Can't schedule ~S because it is a macro and not a function." "params must be a list." "Only maintenance events may have a precondition." "Precondition must be a function, but ~s provided." :dynamic :wait-condition common-lisp-user::insert-waiting-event "schedule-event-after-module called with no current model." #Y(common-lisp-user::schedule-event-after-module nil nil (24 45 580 24 45 303 28 581 22 40 2 77 46 480 22 40 3 14 481 46 63 22 40 2 77 46 482 22 40 2 77 46 484 22 40 2 77 46 485 22 40 3 14 16 46 486 22 40 3 14 16 46 582 22 40 2 77 46 583 22 40 2 77 46 584 22 40 2 77 46 488 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 304 19 0 26 45 24 13 12 19 1 585 76 39 19 15 202 77 15 203 15 586 19 3 142 12 19 2 143 75 73 38 269 13 11 19 1 491 76 39 21 15 202 77 15 203 15 587 13 11 19 4 142 12 19 2 143 75 73 38 241 10 11 16 304 39 6 13 11 19 1 493 39 21 15 202 77 15 203 15 588 13 11 19 4 142 12 19 2 143 75 73 38 208 10 7 16 497 76 39 19 15 202 77 15 203 15 589 19 3 142 12 19 2 143 75 73 38 183 10 1 39 4 10 10 76 39 19 15 202 77 15 203 15 590 19 3 142 12 19 2 143 75 73 38 156 10 1 39 7 13 1 19 1 271 76 40 12 10 1 16 304 39 6 13 1 19 1 493 39 21 15 202 77 15 203 15 591 13 1 19 4 142 12 19 2 143 75 73 38 111 10 10 39 6 33 503 73 38 4 33 226 73 12 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 221 13 9 14 232 14 232 14 505 10 11 39 6 10 11 73 38 4 1 471 73 12 14 137 13 7 14 138 13 6 14 225 13 5 14 506 13 1 14 507 13 8 14 592 13 2 14 593 14 221 13 12 10 3 6 3 12 20 24 23 45 508 13 1 13 0 13 5 19 3 594 43 1 43 1 38 17 15 202 77 15 203 15 595 19 3 142 12 19 2 143 75 73 29) #1# #2# 73310) common-lisp-user::external-schedule-event-after-module (defun common-lisp-user::external-schedule-event-after-module) (#2# . 75947) (common-lisp-user::after-module common-lisp-user::action &optional common-lisp-user::params) (:params :module :destination :maintenance :output :details :precondition :delay :include-maintenance :dynamic) common-lisp-user::string->name (:module :destination :output :delay) #Y(common-lisp-user::external-schedule-event-after-module nil nil (24 45 580 24 45 303 25 40 2 77 46 484 26 13 0 15 576 15 601 19 3 517 47 1 518 45 519 10 0 73 39 23 15 576 13 4 19 1 602 12 13 3 13 1 15 603 77 19 3 521 12 19 4 522 43 2 29) #1# #2# 75947) "schedule-event-after-module" "Create an event to occur after the next event for the named module. Params: after-module action {< params, module, destination, maintenance, output, details, precondition, delay, include-maintenance, dynamic > }" common-lisp-user::schedule-event-after-change (defun common-lisp-user::schedule-event-after-change) (#2# . 76765) (common-lisp-user::action &key (common-lisp-user::maintenance nil) (common-lisp-user::module :none) (common-lisp-user::destination nil) (common-lisp-user::params nil) (common-lisp-user::details nil) (common-lisp-user::output t) (common-lisp-user::delay t) (common-lisp-user::include-maintenance nil) (common-lisp-user::dynamic nil) (common-lisp-user::precondition nil)) (nil :precondition :dynamic :include-maintenance :delay :output :details :params :destination :module :maintenance) "Can't schedule ~S because it is not a valid command identifier." "Can't schedule ~S because it is a macro and not a function." "params must be a list." "Only maintenance events may have a precondition." "Precondition must be a function, but ~s provided." :any "schedule-event-after-change called with no current model." #Y(common-lisp-user::schedule-event-after-change nil nil (24 45 303 28 611 22 40 2 77 46 480 22 40 3 14 481 46 63 22 40 2 77 46 482 22 40 2 77 46 484 22 40 2 77 46 485 22 40 3 14 16 46 486 22 40 3 14 16 46 582 22 40 2 77 46 583 22 40 2 77 46 584 22 40 2 77 46 488 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 276 19 0 26 45 24 13 11 19 1 491 76 39 21 15 202 77 15 203 15 612 13 11 19 4 142 12 19 2 143 75 73 38 239 10 11 16 304 39 6 13 11 19 1 493 39 21 15 202 77 15 203 15 613 13 11 19 4 142 12 19 2 143 75 73 38 206 10 7 16 497 76 39 19 15 202 77 15 203 15 614 19 3 142 12 19 2 143 75 73 38 181 10 1 39 4 10 10 76 39 19 15 202 77 15 203 15 615 19 3 142 12 19 2 143 75 73 38 154 10 1 39 7 13 1 19 1 271 76 40 12 10 1 16 304 39 6 13 1 19 1 493 39 21 15 202 77 15 203 15 616 13 1 19 4 142 12 19 2 143 75 73 38 109 10 10 39 6 33 503 73 38 4 33 226 73 12 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 221 13 9 14 232 14 232 14 505 10 11 39 6 10 11 73 38 4 1 471 73 12 14 137 13 7 14 138 13 6 14 225 13 5 14 506 13 1 14 507 13 8 14 592 13 2 14 593 14 617 10 3 6 2 12 20 24 23 45 508 13 1 13 0 13 5 19 3 594 43 1 43 1 38 17 15 202 77 15 203 15 618 19 3 142 12 19 2 143 75 73 29) #1# #2# 76765) common-lisp-user::external-schedule-event-after-change (defun common-lisp-user::external-schedule-event-after-change) (#2# . 79101) (common-lisp-user::action &optional common-lisp-user::params) (:params :module :destination :maintenance :output :details :precondition :delay :include-maintenance :dynamic) (:module :destination :output :delay) #Y(common-lisp-user::external-schedule-event-after-change nil nil (24 45 303 25 40 2 77 46 484 26 13 0 15 607 15 624 19 3 517 47 1 518 45 519 10 0 73 39 17 15 607 13 3 13 1 15 625 77 19 3 521 12 19 3 522 43 2 29) #1# #2# 79101) "schedule-event-after-change" "Create an event to occur after the next event. Params: action {< params, module, destination, maintenance, output, details, precondition, delay, include-maintenance, dynamic > }" common-lisp-user::schedule-periodic-event (defun common-lisp-user::schedule-periodic-event) (#2# . 79844) (common-lisp-user::period common-lisp-user::action &key (common-lisp-user::maintenance nil) (common-lisp-user::module :none) (common-lisp-user::destination nil) (common-lisp-user::priority 0) (common-lisp-user::params nil) (common-lisp-user::details nil) (common-lisp-user::output t) (common-lisp-user::initial-delay 0) (common-lisp-user::time-in-ms nil)) common-lisp-user::period (nil :time-in-ms :initial-delay :output :details :params :priority :destination :module :maintenance) common-lisp-user::initial-delay "period must be greater than 0." "initial-dealy must be a non-negative number." "Can't schedule ~S because it is not a valid command identifier." "Can't schedule ~S because it is a macro and not a function." "Priority must be a number or :min or :max." "params must be a list." "When time-in-ms is true the period and initial-delay must be integers." common-lisp-user::real-event #:g4395 common-lisp-user::id :id common-lisp-user::periodic-action string "Periodic-Action " fboundp "Unnamed function" " " princ-to-string concatenate common-lisp-user::make-act-r-periodic-event common-lisp-user::periodic-event #:g4396 #:g4397 common-lisp-user::act-r-event #:g4398 #:g4399 "schedule-event called with no current model." #Y(common-lisp-user::schedule-periodic-event nil nil (24 45 633 24 45 303 28 634 22 40 2 77 46 480 22 40 3 14 481 46 63 22 40 2 77 46 482 22 40 3 9 0 46 483 22 40 2 77 46 484 22 40 2 77 46 485 22 40 3 14 16 46 486 22 40 3 9 0 46 635 22 40 2 77 46 487 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 579 19 0 26 45 24 10 11 16 77 39 8 13 11 9 0 19 2 201 76 39 19 15 202 77 15 203 15 636 19 3 142 12 19 2 143 75 73 38 536 10 2 16 77 39 8 13 2 9 0 19 2 489 76 39 19 15 202 77 15 203 15 637 19 3 142 12 19 2 143 75 73 38 502 13 10 19 1 491 76 39 21 15 202 77 15 203 15 638 13 10 19 4 142 1F  G  H  I  J                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              2 19 2 143 75 73 38 474 10 10 16 304 39 6 13 10 19 1 493 39 21 15 202 77 15 203 15 639 13 10 19 4 142 12 19 2 143 75 73 38 441 10 6 16 77 40 15 13 6 11 232 17 96 40 7 13 6 11 495 17 96 76 39 19 15 202 77 15 203 15 640 19 3 142 12 19 2 143 75 73 38 400 10 5 16 497 76 39 19 15 202 77 15 203 15 641 19 3 142 12 19 2 143 75 73 38 375 10 1 39 13 10 11 16 499 76 40 6 10 2 16 499 76 39 19 15 202 77 15 203 15 642 19 3 142 12 19 2 143 75 73 38 339 10 9 39 6 33 503 73 38 4 33 226 73 12 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 221 13 8 14 495 14 495 14 505 10 10 39 6 10 10 73 38 4 1 471 73 12 14 137 13 5 14 138 13 4 14 225 13 3 14 507 13 7 20 18 23 45 643 8 1 45 644 14 5 13 0 19 2 87 52 5 43 1 45 645 14 646 13 0 14 134 77 14 221 14 481 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 231 10 8 16 77 39 6 10 8 73 38 4 8 0 73 12 14 232 13 8 11 232 17 96 73 39 4 10 8 73 12 14 495 13 8 11 495 17 96 73 39 4 10 8 73 12 14 505 15 647 14 225 77 14 138 15 648 15 649 10 12 16 304 39 5 10 12 16 650 39 7 10 12 16 307 38 15 10 12 16 118 39 6 10 12 73 38 4 1 651 73 12 15 652 10 13 16 653 12 19 5 654 12 19 20 655 45 656 13 3 13 0 14 540 10 4 39 6 10 5 73 38 8 13 5 15 629 19 2 205 12 19 4 509 10 0 45 657 13 1 13 3 10 5 39 5 10 15 38 8 13 15 15 629 19 2 205 6 3 45 658 13 1 15 659 9 7 13 0 19 4 71 43 1 43 1 10 2 45 660 13 1 19 1 116 45 661 13 1 15 659 9 13 13 0 19 4 71 43 1 43 1 13 0 19 1 116 43 3 43 1 38 17 15 202 77 15 203 15 662 19 3 142 12 19 2 143 75 73 29) #1# #2# 79844) (defun common-lisp-user::periodic-action) (#2# . 83752) (common-lisp-user::periodic-event common-lisp-user::real-event common-lisp-user::period) #:g4404 #:g4405 #:g4406 #:g4407 #Y(common-lisp-user::periodic-action nil nil (24 45 656 24 45 643 24 45 633 26 19 0 26 45 24 10 2 45 667 13 4 19 1 81 45 668 13 1 15 659 9 0 13 0 19 4 71 43 1 43 1 13 0 13 2 19 2 509 10 3 45 669 13 4 19 1 81 12 13 2 19 2 87 45 670 13 1 15 659 9 0 13 0 19 4 71 43 1 43 1 13 0 13 3 19 2 509 43 1 29) #1# #2# 83752) common-lisp-user::external-schedule-periodic-event (defun common-lisp-user::external-schedule-periodic-event) (#2# . 84176) (common-lisp-user::period common-lisp-user::action &optional common-lisp-user::params) (:params :module :destination :maintenance :output :details :priority :time-in-ms :initial-delay) (:module :destination :output :priority) #Y(common-lisp-user::external-schedule-periodic-event nil nil (24 45 633 24 45 303 25 40 2 77 46 484 26 13 0 15 629 15 676 19 3 517 47 1 518 45 519 10 0 73 39 19 15 629 13 4 13 3 13 1 15 677 77 19 3 521 12 19 4 522 43 2 29) #1# #2# 84176) "schedule-periodic-event" "Create an event to occur repeatedly with the given period. Params: period action {< params, module, destination, maintenance, output, details, priority, time-in-ms, initial-delay > }" common-lisp-user::schedule-break (defun common-lisp-user::schedule-break) (#2# . 84912) (time &key (common-lisp-user::priority :max) (common-lisp-user::details nil) (common-lisp-user::time-in-ms nil)) (nil :time-in-ms :details :priority) "Time must be non-negative number." "Priority must be a number or :min or :max." "When time-in-ms is true the time must be an integer." #Y(common-lisp-user::schedule-break nil nil (24 45 180 28 685 22 40 3 14 495 46 483 22 40 2 77 46 485 22 40 2 77 46 487 19 0 26 45 24 10 4 16 77 39 8 13 4 9 0 19 2 489 76 39 19 15 202 77 15 203 15 686 19 3 142 12 19 2 143 75 73 38 170 10 3 16 77 40 15 13 3 11 232 17 96 40 7 13 3 11 495 17 96 76 39 19 15 202 77 15 203 15 687 19 3 142 12 19 2 143 75 73 38 129 10 1 39 6 10 4 16 499 76 39 19 15 202 77 15 203 15 688 19 3 142 12 19 2 143 75 73 38 100 14 134 77 14 135 10 1 39 6 10 4 73 38 8 13 4 15 681 19 2 205 12 14 137 10 0 6 1 12 14 231 10 3 16 77 39 6 10 3 73 38 4 8 0 73 12 14 232 13 3 11 232 17 96 73 39 4 10 3 73 12 14 495 13 3 11 495 17 96 73 39 4 10 3 73 12 14 138 13 2 19 14 140 45 508 13 1 13 0 19 2 509 13 0 19 1 116 43 1 43 1 29) #1# #2# 84912) common-lisp-user::external-schedule-break (defun common-lisp-user::external-schedule-break) (#2# . 86156) (time &optional common-lisp-user::params) (:priority :time-in-ms :details) (:priority) #Y(common-lisp-user::external-schedule-break nil nil (24 45 180 25 40 2 77 46 484 26 13 0 15 681 15 694 19 3 517 47 1 518 45 519 10 0 73 39 17 15 681 13 3 13 1 15 695 77 19 3 521 12 19 3 522 43 2 29) #1# #2# 86156) "schedule-break" "Create a break event to force the current run to stop at the time indicated. Params: time {< details, priority, time-in-ms > }" common-lisp-user::schedule-break-relative (defun common-lisp-user::schedule-break-relative) (#2# . 86674) (common-lisp-user::time-delay &key (common-lisp-user::priority :max) (common-lisp-user::details nil) (common-lisp-user::time-in-ms nil)) (nil :time-in-ms :details :priority) "Time-delay must be non-negative number." "Priority must be a number or :min or :max." "When time-in-ms is true the time-delay must be an integer." #Y(common-lisp-user::schedule-break-relative nil nil (24 45 530 28 703 22 40 3 14 495 46 483 22 40 2 77 46 485 22 40 2 77 46 487 19 0 26 45 24 10 4 16 77 39 8 13 4 9 0 19 2 489 76 39 19 15 202 77 15 203 15 704 19 3 142 12 19 2 143 75 73 38 170 10 3 16 77 40 15 13 3 11 232 17 96 40 7 13 3 11 495 17 96 76 39 19 15 202 77 15 203 15 705 19 3 142 12 19 2 143 75 73 38 129 10 1 39 6 10 4 16 499 76 39 19 15 202 77 15 203 15 706 19 3 142 12 19 2 143 75 73 38 100 14 134 77 14 137 10 0 6 1 12 14 231 10 3 16 77 39 6 10 3 73 38 4 8 0 73 12 14 232 13 3 11 232 17 96 73 39 4 10 3 73 12 14 495 13 3 11 495 17 96 73 39 4 10 3 73 12 14 138 13 2 19 12 140 45 508 13 1 13 0 14 540 10 2 39 6 10 5 73 38 8 13 5 15 699 19 2 205 12 19 4 509 13 0 19 1 116 43 1 43 1 29) #1# #2# 86674) common-lisp-user::external-schedule-break-relative (defun common-lisp-user::external-schedule-break-relative) (#2# . 87847) (common-lisp-user::time-delay &optional common-lisp-user::params) (:priority :time-in-ms :details) (:priority) #Y(common-lisp-user::external-schedule-break-relative nil nil (24 45 530 25 40 2 77 46 484 26 13 0 15 699 15 712 19 3 517 47 1 518 45 519 10 0 73 39 17 15 699 13 3 13 1 15 713 77 19 3 521 12 19 3 522 43 2 29) #1# #2# 87847) "schedule-break-relative" "Create a break event to force the current run to stop after the specified amount of time. Params: time-delay {< details, priority, time-in-ms > }" common-lisp-user::schedule-break-after-module (defun common-lisp-user::schedule-break-after-module) (#2# . 88442) (common-lisp-user::after-module &key (common-lisp-user::details nil) (common-lisp-user::delay t) (common-lisp-user::dynamic nil)) (nil :dynamic :delay :details) "after-module must name a module." "schedule-break-after-module called with no current model." #Y(common-lisp-user::schedule-break-after-module nil nil (24 45 580 28 721 22 40 2 77 46 485 22 40 3 14 16 46 582 22 40 2 77 46 584 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 39 105 19 0 26 45 24 13 4 19 1 585 76 39 19 15 202 77 15 203 15 722 19 3 142 12 19 2 143 75 73 38 70 14 134 77 14 223 11 25 73 40 13 19 0 26 45 24 13 0 19 1 27 43 1 12 14 232 14 232 14 137 10 0 6 1 12 14 138 13 3 14 592 13 1 14 593 14 221 13 4 11 16 6 3 12 19 14 140 45 508 13 1 13 0 13 3 19 3 594 43 1 43 1 38 17 15 202 77 15 203 15 723 19 3 142 12 19 2 143 75 73 29) #1# #2# 88442) common-lisp-user::external-schedule-break-after-module (defun common-lisp-user::external-schedule-break-after-module) (#2# . 89353) (common-lisp-user::after-module &optional common-lisp-user::params) (:delay :dynamic :details) #Y(common-lisp-user::external-schedule-break-after-module nil nil (24 45 580 25 40 2 77 46 484 26 13 0 15 717 15 729 19 3 517 47 1 518 45 519 10 0 73 39 10 15 717 13 3 13 1 19 3 522 43 2 29) #1# #2# 89353) "schedule-break-after-module" "Create a break event to force the current run to stop after the specified module's next action. Params: after-module {< details, delay, dynamic > }" common-lisp-user::schedule-break-after-all (defun common-lisp-user::schedule-break-after-all) (#2# . 89920) (&optional (common-lisp-user::details nil)) common-lisp-user::insert-final-queue-event #Y(common-lisp-user::schedule-break-after-all nil nil (25 40 2 77 46 485 26 19 0 26 45 24 14 134 77 14 137 10 0 6 1 12 14 232 14 232 14 138 13 1 19 8 140 45 508 13 1 13 0 19 2 737 13 0 19 1 116 43 2 29) #1# #2# 89920) "schedule-break-after-all" "Create a break event to force the current run to stop after the last event currently scheduled. Params: {details}" common-lisp-user::add-pre-event-hook (defun common-lisp-user::add-pre-event-hook) (#2# . 90559) (common-lisp-user::hook-fn &optional (warn t)) common-lisp-user::hook-fn warn "parameter ~s to add-pre-event-hook is not a function" "~s is already on the pre-event-hook list not added again" #:g4419 #:g4417 #:g4418 common-lisp-user::meta-p-next-hook-id common-lisp-user::meta-p-hook-table :pre si::hash-set #:g4423 #:g4425 #:g4424 1- #Y(common-lisp-user::add-pre-event-hook nil nil (24 45 745 25 40 3 14 16 46 746 26 19 0 26 45 24 13 2 19 1 271 76 39 21 15 202 77 15 203 15 747 13 2 19 4 142 12 19 2 143 75 73 38 127 13 2 13 0 19 1 114 12 19 2 131 39 26 10 1 73 39 19 15 202 77 15 203 15 748 13 2 19 4 142 12 19 2 143 75 73 38 89 10 2 45 749 10 1 45 750 13 1 13 0 19 1 114 3 45 751 13 1 15 70 9 10 13 0 19 4 71 43 3 13 0 19 1 752 12 13 0 19 1 753 12 14 754 10 2 3 12 19 3 755 10 0 45 756 8 1 45 757 13 1 19 1 752 12 13 0 19 2 87 45 758 13 2 15 70 9 16 13 0 19 4 71 43 3 16 759 43 1 29) #1# #2# 90559) "add-pre-event-hook" "Add a command to be called before each event is evaluated. Params: command {warn}" common-lisp-user::add-post-event-hook (defun common-lisp-user::add-post-event-hook) (#2# . 91549) (common-lisp-user::hook-fn &optional (warn t)) "parameter ~s to add-post-event-hook is not a function" "~s is already on the post-event-hook list not added again" #:g4437 #:g4435 #:g4436 :post #:g4441 #:g4443 #:g4442 #Y(common-lisp-user::add-post-event-hook nil nil (24 45 745 25 40 3 14 16 46 746 26 19 0 26 45 24 13 2 19 1 271 76 39 21 15 202 77 15 203 15 767 13 2 19 4 142 12 19 2 143 75 73 38 127 13 2 13 0 19 1 175 12 19 2 131 39 26 10 1 73 39 19 15 202 77 15 203 15 768 13 2 19 4 142 12 19 2 143 75 73 38 89 10 2 45 769 10 1 45 770 13 1 13 0 19 1 175 3 45 771 13 1 15 70 9 11 13 0 19 4 71 43 3 13 0 19 1 752 12 13 0 19 1 753 12 14 772 10 2 3 12 19 3 755 10 0 45 773 8 1 45 774 13 1 19 1 752 12 13 0 19 2 87 45 775 13 2 15 70 9 16 13 0 19 4 71 43 3 16 759 43 1 29) #1# #2# 91549) "add-post-event-hook" "Add a command to be called after each event is evaluated. Params: command {warn}" common-lisp-user::delete-event-hook (defun common-lisp-user::delete-event-hook) (#2# . 92537) (common-lisp-user::hook-fn-id) common-lisp-user::hook-fn-id gethash common-lisp-user::event remhash #:g4448 remove #:g4449 #:g4450 #:g4451 #Y(common-lisp-user::delete-event-hook nil nil (24 45 783 26 19 0 26 45 24 13 1 13 0 19 1 753 12 19 2 784 45 785 10 0 73 39 93 13 2 13 1 19 1 753 17 786 14 754 10 0 4 17 96 39 37 10 1 45 787 10 1 5 12 13 2 19 1 114 12 19 2 788 45 789 13 1 15 70 9 10 13 0 19 4 71 43 1 43 1 38 35 10 1 45 790 10 1 5 12 13 2 19 1 175 12 19 2 788 45 791 13 1 15 70 9 11 13 0 19 4 71 43 1 43 1 10 0 5 73 43 1 43 1 29) #1# #2# 92537) "delete-event-hook" "Remove a previously added event hook command. Params: event-hook-id")) #2# 0) #Y(si::bytecodes nil nil (1 2 16 1 29) #1# #2# 33003) #Y(si::bytecodes nil nil (1 3 16 1 29) #1# #2# 33061) #Y(si::bytecodes nil nil (1 4 16 1 29) #1# #2# 33116) #Y(si::bytecodes nil nil (1 5 16 6 1 5 16 7 76 39 5 8 0 52 5 15 5 15 8 15 9 15 10 19 4 11 1 5 73 29) #1# #2# 33163) #Y(si::bytecodes nil nil (1 12 16 6 1 12 16 7 76 39 4 75 52 12 15 12 15 8 15 13 15 14 19 4 11 1 12 73 29) #1# #2# 33203) #Y(si::bytecodes nil nil (1 15 16 6 1 15 16 7 76 39 5 11 16 52 15 15 15 15 8 15 17 15 18 19 4 11 1 15 73 29) #1# #2# 33266) #Y(si::bytecodes nil nil (15 19 15 8 15 20 15 21 19 4 11 15 19 14 22 77 15 23 19 4 11 15 19 1 40 12 19 2 41 1 19 73 29) #1# #2# 33299) #Y(si::bytecodes nil nil (15 42 77 15 43 77 19 4 44 29) #1# #2# 35414) #Y(si::bytecodes nil nil (15 45 77 15 46 77 19 4 44 29) #1# #2# 35554) #Y(si::bytecodes nil nil (15 47 15 8 15 48 15 49 19 4 11 15 47 14 22 77 15 50 19 4 11 15 47 1 106 12 19 2 41 15 47 15 107 15 108 19 3 109 1 47 73 29) #1# #2# 35676) #Y(si::bytecodes nil nil (15 84 15 8 15 110 15 111 19 4 11 15 84 14 22 77 15 112 19 4 11 15 84 1 176 12 19 2 41 1 84 73 29) #1# #2# 39513) #Y(si::bytecodes nil nil (15 82 15 8 15 177 15 178 19 4 11 15 82 14 22 77 15 179 19 4 11 15 82 1 194 12 19 2 41 15 82 15 107 15 195 19 3 109 1 82 73 29) #1# #2# 42496) #Y(si::bytecodes nil nil (15 196 15 8 15 197 15 198 19 4 11 15 196 14 22 77 15 199 19 4 11 15 196 1 262 12 19 2 41 1 196 73 29) #1# #2# 43487) #Y(si::bytecodes nil nil (15 263 15 196 15 264 15 265 19 4 44 29) #1# #2# 47944) #Y(si::bytecodes nil nil (15 266 15 8 15 267 15 268 19 4 11 15 266 14 22 77 15 269 19 4 11 15 266 1 295 12 19 2 41 1 266 73 29) #1# #2# 48100) #Y(si::bytecodes nil nil (15 296 15 266 15 297 15 298 19 4 44 29) #1# #2# 50493) #Y(si::bytecodes nil nil (15 299 15 8 15 300 15 301 19 4 11 15 299 14 22 77 15 302 19 4 11 15 299 1 333 12 19 2 41 1 299 73 29) #1# #2# 50709) #Y(si::bytecodes nil nil (15 334 15 8 15 335 15 336 19 4 11 15 334 14 22 77 15 337 19 4 11 15 334 1 339 12 19 2 41 1 334 73 29) #1# #2# 53662) #Y(si::bytecodes nil nil (15 340 15 334 15 341 15 342 19 4 44 29) #1# #2# 53786) #Y(si::bytecodes nil nil (15 343 15 8 15 344 15 345 19 4 11 15 343 14 22 77 15 346 19 4 11 15 343 1 362 12 19 2 41 1 343 73 29) #1# #2# 53996) #Y(si::bytecodes nil nil (15 363 15 343 15 364 15 365 19 4 44 29) #1# #2# 56012) #Y(si::bytecodes nil nil (15 91 15 8 15 366 15 367 19 4 11 15 91 14 22 77 77 19 4 11 15 91 1 368 12 19 2 41 1 91 73 29) #1# #2# 56184) #Y(si::bytecodes nil nil (15 369 15 8 15 370 15 371 19 4 11 15 369 14 22 77 15 372 19 4 11 15 369 1 399 12 19 2 41 1 369 73 29) #1# #2# 56219) #Y(si::bytecodes nil nil (15 400 15 369 15 401 15 402 19 4 44 29) #1# #2# 58877) #Y(si::bytecodes nil nil (15 403 15 8 15 404 15 405 19 4 11 15 403 14 22 77 15 406 19 4 11 15 403 1 428 12 19 2 41 1 403 73 29) #1# #2# 59046) #Y(si::bytecodes nil nil (15 429 15 403 15 430 15 431 19 4 44 29) #1# #2# 60785) #Y(si::bytecodes nil nil (15 432 15 8 15 433 15 434 19 4 11 15 432 14 22 77 77 19 4 11 15 432 1 470 12 19 2 41 1 432 73 29) #1# #2# 60964) #Y(si::bytecodes nil nil (15 471 15 8 15 472 15 473 19 4 11 15 471 14 22 77 15 474 19 4 11 15 471 1 475 12 19 2 41 1 471 73 29) #1# #2# 63078) #Y(si::bytecodes nil nil (15 235 15 8 15 476 15 477 19 4 11 15 235 14 22 77 15 478 19 4 11 15 235 1 511 12 19 2 41 1 235 73 29) #1# #2# 63144) #Y(si::bytecodes nil nil (15 512 15 8 15 513 15 514 19 4 11 15 512 14 22 77 15 515 19 4 11 15 512 1 523 12 19 2 41 1 512 73 29) #1# #2# 66011) #Y(si::bytecodes nil nil (15 524 15 512 15 525 77 19 4 44 29) #1# #2# 66400) #Y(si::bytecodes nil nil (15 526 15 8 15 527 15 528 19 4 11 15 526 14 22 77 15 529 19 4 11 15 526 1 542 12 19 2 41 1 526 73 29) #1# #2# 66679) #Y(si::bytecodes nil nil (15 543 15 8 15 544 15 545 19 4 11 15 543 14 22 77 15 546 19 4 11 15 543 1 550 12 19 2 41 1 543 73 29) #1# #2# 69553) #Y(si::bytecodes nil nil (15 551 15 543 15 552 77 19 4 44 29) #1# #2# 69982) #Y(si::bytecodes nil nil (15 553 15 8 15 554 15 555 19 4 11 15 553 14 22 77 15 556 19 4 11 15 553 1 566 12 19 2 41 1 553 73 29) #1# #2# 70304) #Y(si::bytecodes nil nil (15 567 15 8 15 568 15 569 19 4 11 15 567 14 22 77 15 570 19 4 11 15 567 1 573 12 19 2 41 1 567 73 29) #1# #2# 72652) #Y(si::bytecodes nil nil (15 574 15 567 15 575 77 19 4 44 29) #1# #2# 73030) #Y(si::bytecodes nil nil (15 576 15 8 15 577 15 578 19 4 11 15 576 14 22 77 15 579 19 4 11 15 576 1 596 12 19 2 41 1 576 73 29) #1# #2# 73310) #Y(si::bytecodes nil nil (15 597 15 8 15 598 15 599 19 4 11 15 597 14 22 77 15 600 19 4 11 15 597 1 604 12 19 2 41 1 597 73 29) #1# #2# 75947) #Y(si::bytecodes nil nil (15 605 15 597 15 606 77 19 4 44 29) #1# #2# 76418) #Y(si::bytecodes nil nil (15 607 15 8 15 608 15 609 19 4 11 15 607 14 22 77 15 610 19 4 11 15 607 1 619 12 19 2 41 1 607 73 29) #1# #2# 76765) #Y(si::bytecodes nil nil (15 620 15 8 15 621 15 622 19 4 11 15 620 14 22 77 15 623 19 4 11 15 620 1 626 12 19 2 41 1 620 73 29) #1# #2# 79101) #Y(si::bytecodes nil nil (15 627 15 620 15 628 77 19 4 44 29) #1# #2# 79531) #Y(si::bytecodes nil nil (15 629 15 8 15 630 15 631 19 4 11 15 629 14 22 77 15 632 19 4 11 15 629 1 663 12 19 2 41 1 629 73 29) #1# #2# 79844) #Y(si::bytecodes nil nil (15 647 15 8 15 664 15 665 19 4 11 15 647 14 22 77 15 666 19 4 11 15 647 1 671 12 19 2 41 1 647 73 29) #1# #2# 83752) #Y(si::bytecodes nil nil (15 672 15 8 15 673 15 674 19 4 11 15 672 14 22 77 15 675 19 4 11 15 672 1 678 12 19 2 41 1 672 73 29) #1# #2# 84176) #Y(si::bytecodes nil nil (15 679 15 672 15 680 77 19 4 44 29) #1# #2# 84602) #Y(si::bytecodes nil nil (15 681 15 8 15 682 15 683 19 4 11 15 681 14 22 77 15 684 19 4 11 15 681 1 689 12 19 2 41 1 681 73 29) #1# #2# 84912) #Y(si::bytecodes nil nil (15 690 15 8 15 691 15 692 19 4 11 15 690 14 22 77 15 693 19 4 11 15 690 1 696 12 19 2 41 1 690 73 29) #1# #2# 86156) #Y(si::bytecodes nil nil (15 697 15 690 15 698 77 19 4 44 29) #1# #2# 86439) #Y(si::bytecodes nil nil (15 699 15 8 15 700 15 701 19 4 11 15 699 14 22 77 15 702 19 4 11 15 699 1 707 12 19 2 41 1 699 73 29) #1# #2# 86674) #Y(si::bytecodes nil nil (15 708 15 8 15 709 15 710 19 4 11 15 708 14 22 77 15 711 19 4 11 15 708 1 714 12 19 2 41 1 708 73 29) #1# #2# 87847) #Y(si::bytecodes nil nil (15 715 15 708 15 716 77 19 4 44 29) #1# #2# 88170) #Y(si::bytecodes nil nil (15 717 15 8 15 718 15 719 19 4 11 15 717 14 22 77 15 720 19 4 11 15 717 1 724 12 19 2 41 1 717 73 29) #1# #2# 88442) #Y(si::bytecodes nil nil (15 725 15 8 15 726 15 727 19 4 11 15 725 14 22 77 15 728 19 4 11 15 725 1 730 12 19 2 41 1 725 73 29) #1# #2# 89353) #Y(si::bytecodes nil nil (15 731 15 725 15 732 77 19 4 44 29) #1# #2# 89638) #Y(si::bytecodes nil nil (15 733 15 8 15 734 15 735 19 4 11 15 733 14 22 77 15 736 19 4 11 15 733 1 738 12 19 2 41 1 733 73 29) #1# #2# 89920) #Y(si::bytecodes nil nil (15 739 15 733 15 740 77 19 4 44 29) #1# #2# 90326) #Y(si::bytecodes nil nil (15 741 15 8 15 742 15 743 19 4 11 15 741 14 22 77 15 744 19 4 11 15 741 1 760 12 19 2 41 1 741 73 29) #1# #2# 90559) #Y(si::bytecodes nil nil (15 761 15 741 15 762 19 3 44 29) #1# #2# 91393) #Y(si::bytecodes nil nil (15 763 15 8 15 764 15 765 19 4 11 15 763 14 22 77 15 766 19 4 11 15 763 1 776 12 19 2 41 1 763 73 29) #1# #2# 91549) #Y(si::bytecodes nil nil (15 777 15 763 15 778 19 3 44 29) #1# #2# 92390) #Y(si::bytecodes nil nil (15 779 15 8 15 780 15 781 19 4 11 15 779 14 22 77 15 782 19 4 11 15 779 1 792 12 19 2 41 1 779 73 29) #1# #2# 92537) #Y(si::bytecodes nil nil (15 793 15 779 15 794 19 3 44 29) #1# #2# 93159))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : scheduling.lisp
+;;; Version     : 5.2
+;;; 
+;;; Description : Event creation and scheduling and schedule running functions.
+;;; 
+;;; Bugs        : [X] Need to fix/remove the update functions from the modules
+;;;             :     because how they get called prevents one from scheduleing
+;;;             :     events correctly during one (in particular the device 
+;;;             :     device-update-attended-loc doesn't accept the time parameters
+;;;             :     but just adding that is really just a hack).
+;;;             : [ ] There isn't a way to delete an "after" event that was waiting
+;;;             :     but then got scheduled since it's no longer the same event
+;;;             :     in the queue.
+;;;
+;;; To do       : [ ] Finish documentation.
+;;;             : [x] Add an equivalent to the real-time-slack-hook-fn in rpm.
+;;;             : [ ] Consider a global randomize time flag and/or parameter to the
+;;;             :     scheduling functions.
+;;;             : [x] The break events and "stopping reason" trace don't go to
+;;;             :     the output of all models but probably should so that if
+;;;             :     the traces are split at the model level they all show it.
+;;;             : [x] Run-full-time and run-until-time both still rely on the
+;;;             :     time count in seconds to determine the "end" but that's
+;;;             :     still got potential problems.
+
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.08.16 Dan
+;;;             : Creation
+;;; 2004.12.06 Dan
+;;;             : Updated a warning message because I found it uninformative.
+;;;             : Tried to fit things to 80 char line width.
+;;; 2005.01.12 Dan
+;;;             : Because the device is now a module it doesn't need to
+;;;             : be handled specially in set-mp-clock.
+;;; 2005.01.27 Dan
+;;;             : * Modified run-one-event to use filter-output-events which
+;;;             :   is now part of the printing module to determine if the
+;;;             :   trace should be displayed.
+;;; 2005.02.03 Dan
+;;;             : * Removed the format call from the periodic action's details.
+;;; 2005.02.14 Dan
+;;;             : * Added the run-until-condition function.
+;;; 2005.02.16 Dan
+;;;             : * Some general cleanup and added the "stopping reason" output
+;;;             :   to the run functions.
+;;; 2005.02.22 Dan
+;;;             : * Cleaned up the stopping reason output.
+;;;             : * Fixed a bug in run-full-time by just making it use
+;;;             :   run-until-time.
+;;; 2005.02.25 Dan
+;;;             : * Made run work more like pm-run in that if there are future
+;;;             :   events it will work like run-full-time instead of just
+;;;             :   stopping.
+;;; 2005.02.28 Dan
+;;;             : * Switched the stopping reason output from model-output to
+;;;             :   meta-p-output (which I've put back into things) because
+;;;             :   model-output doesn't work in a multi-model situation.
+;;; 2005.04.20 Dan
+;;;             : * Changed add-pre/post-event-hook so that fboundp doesn't
+;;;             :   cause problems for Lispworks with lambdas.
+;;; 2005.05.20 Dan
+;;;             : * Fixed a bug in run-until-time (caused primarily when
+;;;             :   run-full-time used) where a non-rounded time could cause
+;;;             :   the system to get stuck.
+;;; 2005.12.08 Dan
+;;;             : * Fixed a bug in the output of the events generated by
+;;;             :   schedule-periodic-event and periodic-action.
+;;; 2006.01.25 Dan
+;;;             : * Modifying all the "run" functions so that when they end 
+;;;             :   a "run-terminated" event is passed to all the models if
+;;;             :   it terminates other than due to a break.  This way, the
+;;;             :   event hooks can detect when a run ends (either a break
+;;;             :   event or an event with the run-terminated action) which
+;;;             :   makes adding additional tracing and other tools easier.
+;;; 2006.01.26 Dan
+;;;             : * Added an optional parameter to the add-pre/post-event-hook
+;;;             :   functions to suppress the warning if one adds a hook that's
+;;;             :   already on the list.  It just returns nil in that case now.
+;;;             :   This helps because the hook is at the meta-process level,
+;;;             :   but one may have a module (at the model level) that needs
+;;;             :   to add such a hook and not want to see the warning if there
+;;;             :   are multiple models loaded and using it.
+;;; 2006.01.30 Dan
+;;;             : * Changed the run-terminated event to a maintenance event.
+;;;             : * Added the keyword param :include-maintenance to the schedule-
+;;;             :   after-* functions which indicates whether or not to include
+;;;             :   maintenance events in those that can trigger it (it defaults
+;;;             :   to nil).  This keeps things from getting scheduled after 
+;;;             :   events that don't do anything for the model.
+;;;             : * Added the schedule-maintenance-event-relative function to
+;;;             :   be able to schedule maintenance events.  Could make it a
+;;;             :   switch on the existing functions, but for now at least
+;;;             :   I've decided to use a different function.
+;;; 2006.02.24 Dan
+;;;             : * Fixed a bug in run-until-time that caused it to not work
+;;;             :   if there was more than one model defined.
+;;; 2006.02.27 Dan [1.2]
+;;;             : * Modified run-schd-queue and set-mp-clock so that they
+;;;             :   now use the "real time" control functions that can be set
+;;;             :   for the meta-process using mp-real-time-management.
+;;; 2006.02.28 Dan
+;;;             : * Added a schedule-maintenance-event function and changed
+;;;             :   run-until-time to actually use it.
+;;; 2006.03.03 Dan
+;;;             : * Modified run-sched-queue to use the max-delta-time 
+;;;             :   property set with mp-real-time-management.
+;;;             :   New (non-maintenance) "dummy" events will be automatically 
+;;;             :   generated to occur in any time slice that needs them. 
+;;; 2006.03.08 Dan
+;;;             : * Fixed a bug with schedule-break-after-module because it
+;;;             :   didn't set the model for the event, so never matched up
+;;;             :   with a new event to get scheduled.
+;;;
+;;; 2006.05.02 Dan
+;;;             : * Noted an issue with the update function of modules and put
+;;;             :   it under bugs above.
+;;; 2006.07.13 Dan
+;;;             : * Fixed a bug with run-until-time that caused it to jump
+;;;             :   back in time if the end-time had already passed.
+;;; 2006.07.14 Dan
+;;;             : * Added another output to run-n-events to make it clearer
+;;;             :   in the trace why it stopped - differentiate hitting the
+;;;             :   event-count from just running out of events.
+;;; 2006.07.18 Dan
+;;;             : * Removed the schedule-maintenance-* functions and
+;;;             :   replaced them with a keyword :maintenance t/nil
+;;;             :   in the regular schedule-* functions.
+;;;             : * Updated all references to schedule-maintenance-* with
+;;;             :   the correct schedule-* function.
+;;;             : * As a saftey check those maintenance functions now just
+;;;             :   print a warning to let people know there was a change.
+;;; 2006.07.20 Dan
+;;;             : * Fixed a bug in schedule-periodic-event because it tried
+;;;             :   to take the symbol-name of an interpreted function if that
+;;;             :   was passed as the action.
+;;;             : * Updated conditions-met because a break event doesn't have
+;;;             :   a model so if it's waiting it'll never match to any specific
+;;;             :   model so should instead match to any model.
+;;;             : * Fixed update waiting-events because it didn't distinguish
+;;;             :   between break events and normal events which caused a
+;;;             :   problem for schedule-break-after-module.
+;;; 2006.07.28 Dan
+;;;             : * Fixed the warning in delete-event-hook.
+;;; 2007.01.19 Dan
+;;;             : * Fixed a bug in periodic-action because it had the same 
+;;;             :   symbol-name issue as schedule-periodic-event did...
+;;; 2007.04.16 Dan
+;;;             : * Updated the version to 1.3.
+;;;             : * Made the run-terminated action actually do something.  It
+;;;             :   checks the :ncnar parameter and if true calls normalize-
+;;;             :   chunk-names.  
+;;; 2007.05.04 Dan
+;;;             : * Added a general method for delete-event (specified the class
+;;;             :   t) so that it doesn't throw an error if a bad value is
+;;;             :   provided.
+;;; 2007.07.13 Dan
+;;;             : * Changed run-terminated so that when :ncnar is set to delete
+;;;             :   it actually forces the chunk deletion and name uninterning.
+;;; 2007.08.28 Dan
+;;;             : * Added s and w options to run-step to show the event queue and
+;;;             :   the waiting events during the stepping.
+;;; 2007.10.31 Dan
+;;;             : * Fixed a bug with the printing of break events in run-one-event -
+;;;             :   if there was more than one model the event wasn't being output.
+;;;             :   Now check for break events and use meta-p-output instead of 
+;;;             :   model-output since a break doesn't have a model.
+;;;             : * Changed the model name used for the terminating event output
+;;;             :   to just '- so that it will always line up even if the longest
+;;;             :   model name is only 1 character.
+;;; 2007.11.30 Dan
+;;;             : * Changed run-terminated to use awhen so it doesn't have to
+;;;             :   call sgp twice (an expensive call).
+;;; 2007.12.13 Dan
+;;;             : * Fixed a bug in schedule-periodic-event because if it was
+;;;             :   passed an action that wasn't a symbol the call to fboundp
+;;;             :   for the details would break.
+;;; 2008.05.02 Dan
+;;;             : * Added another option to run-step (b) for showing the buffer
+;;;             :   contents.
+;;; 2008.10.23 Dan
+;;;             : * Updated run-terminated to use the new flags for normalizing.
+;;; 2008.10.28 Dan
+;;;             : * Changed the model-output in run-one-event so that the 
+;;;             :   event string isn't directly used as the format string to
+;;;             :   avoid issues with tildes in the output.
+;;; 2009.03.10 Dan [1.4]
+;;;             : * Moved the code to check for sending module "updates" from
+;;;             :   set-mp-clock to run-sched-queue.  This has two effects:
+;;;             :   - Updates occur at the end of a time step now and not the
+;;;             :     "top of the next one".
+;;;             :   - It's safe to schedule events during an "update" (fixes
+;;;             :     the bug listed under bugs).
+;;; 2009.04.29 Dan
+;;;             : * Added checks for recursive calls to run and now signal a
+;;;             :   warning and just abort the later calls.
+;;; 2009.12.04 Dan [1.5]
+;;;             : * Updated the real-time running code to allow for a little
+;;;             :   more responsiveness when a slack-hook is provided.  Events
+;;;             :   can be scheduled during the slack-hook and they can jump
+;;;             :   "back" in time if desired (which would require explicitly
+;;;             :   scheduling them for that time since "now" has still already 
+;;;             :   moved) which likely requires a custom clock as well (to
+;;;             :   know when "now" is relative to where the event queue is).
+;;;             : * In addition to that, if the allow-dynamics is also provided 
+;;;             :   then events which were scheduled using one of the after
+;;;             :   scheduling functions and are flagged as dynamic will be 
+;;;             :   sensitive to those new events (or events that they schedule)
+;;;             :   and may be moved back in time if appropriate (conflict-resolution 
+;;;             :   is now scheduled as dynamic so it could move back).
+;;;             : * It is important to note however that the scheduling code is
+;;;             :   still not thread safe -- any asynchronous event scheduling
+;;;             :   should occur in the slack-hook (or some other safe place) and 
+;;;             :   be protected appropriately.
+;;; 2010.09.02 Dan
+;;;             : * Added a test to run-sched-queue to check if the end time is
+;;;             :   greater than what can be represented accurately with the 
+;;;             :   current floating point size of the time and warn if it should
+;;;             :   be changed or there's nothing that can be done.
+;;;             : * Changed the calls that set the time so that they go through
+;;;             :   the proper coercion when things are changed.
+;;; 2010.11.03 Dan
+;;;             : * Changed all of the code to use time in milliseconds internally 
+;;;             :   and convert to/from seconds where there's an interface with the
+;;;             :   user since the API is for seconds.
+;;;             : * Removed the floating point time check code since it's not 
+;;;             :   necessary now, but may still be useful to know if the time
+;;;             :   is "too big" in the future so still leaving it in comments
+;;;             :   for potentially enabling again in the future.
+;;; 2010.12.22 Dan
+;;;             : * Took the toggle out of the run-sched-queue since the integer
+;;;             :   time values won't have the same issues as floating point 
+;;;             :   math and comparisons.
+;;;             : * Added code to notify modules at the start of a run for all
+;;;             :   the modules which have a run-notify function.
+;;; 2011.01.11 Dan
+;;;             : * Added code to notify modules at the end of a run too, and 
+;;;             :   reorganized run-sched-queue a little to make sure the 
+;;;             :   unwind-protect covers everything.
+;;; 2011.01.14 Dan
+;;;             : * Added the new command mp-running? to query whether the current
+;;;             :   meta-process is currently running.
+;;; 2011.02.04 Dan
+;;;             : * Added visicon and buffer-status options to run-step.
+;;; 2011.03.25 Dan
+;;;             : * Took the API section out since it's out of date and I don't
+;;;             :   want to update it with the new changes either...
+;;;             : * Adjusted run-one-event so that dynamics clear their dynamic
+;;;             :   flag before being output in the trace.
+;;; 2011.03.29 Dan
+;;;             : * Added the option of specifying time in milliseconds for all
+;;;             :   of the scheduling commmands by specifying :time-in-ms t.
+;;; 2011.04.25 Dan
+;;;             : * Fixed a bug in schedule-event-relative introduced with the
+;;;             :   :time-in-ms option.
+;;;             : * Schedule-periodic-event and schedule-ee had the
+;;;             :   same issue.
+;;; 2011.04.28 Dan
+;;;             : * Changed the schedule-maintenance-event* functions which aren't
+;;;             :   used to avoid warnings at compile time.
+;;;             : * Added some declaims to avoid compiler warnings about 
+;;;             :   undefined functions.
+;;; 2011.05.18 Dan 
+;;;             : * Changed set-mp-clock and insert-queue-event to prevent time
+;;;             :   from moving backwards.  The slack-hook for real time now
+;;;             :   gets called with a second parameter which is the "next"
+;;;             :   time in milliseconds.
+;;; 2011.05.19 Dan
+;;;             : * Added a declare to ignore next-time in real-time-slack.
+;;; 2011.06.06 Dan
+;;;             : * Changed the second parameter for the slack-hook to time in
+;;;             :   seconds since all the "user" code should be working in seconds.
+;;; 2011.06.07 Dan
+;;;             : * Changed the real-time clock setting so that the real-time
+;;;             :   clock function is called before the model time is checked 
+;;;             :   so that a custom clock could schedule events that are "ahead"
+;;;             :   of the next model event.
+;;; 2012.01.27 Dan
+;;;             : * Added an additional test to the scheduling functions so that
+;;;             :   they reject actions which are macros since those will throw
+;;;             :   an error at run time.
+;;; 2012.08.08 Dan
+;;;             : * Send all the notifications (start, stop, update, terminate)
+;;;             :   to the models in order using meta-p-model-order instead of
+;;;             :   maphashing over the model table for consistency.
+;;; 2012.12.06 Dan
+;;;             : * Changed run-sched-queue so that it returns the time in ms
+;;;             :   and then convert that as needed in the "run" functions to
+;;;             :   try and avoid other float issues with math on times.
+;;; 2013.01.03 Dan
+;;;             : * Use the meta-p-max-time-maintenance value when scheduling a
+;;;             :   necessary time-delta event.
+;;; 2013.01.04 Dan
+;;;             : * Add cannot-define-model to run-sched-queue and send-run-terminated-events 
+;;;             :   to avoid problems.
+;;; 2014.02.21 Dan
+;;;             : * Add a warning to the top of every run.
+;;; 2014.07.17 Dan
+;;;             : * Removed the warning.
+;;; 2015.06.04 Dan
+;;;             : * Use safe-seconds->ms for all the run and schedule time 
+;;;             :   conversions.
+;;; 2015.06.05 Dan
+;;;             : * Finally adding a schedule-event-now function that does what
+;;;             :   the name suggests to replace all the ...-relative 0 calls.
+;;; 2015.06.09 Dan
+;;;             : * The "clean up" run-full-time at the end of run now computes
+;;;             :   the difference in ms and creates a rational to avoid floats.
+;;; 2015.07.29 Dan [2.0]
+;;;             : * Add the option of a precondition to an event.  It must be a
+;;;             :   function and will be passed the same parameters as the action.
+;;;             :   If an event has a precondition when it is the "next" event
+;;;             :   which could occur the precondition is first tested.  If that
+;;;             :   returns nil then the event is removed from the queue without
+;;;             :   performing its action.  No output will be generated for the 
+;;;             :   trace for an event with a failed precondition at this point,
+;;;             :   and only maintenance events will be allowed to have preconditions
+;;;             :   for now.  This is being added because the "unstuff" actions
+;;;             :   for perceptual modules shouldn't advance the clock if there
+;;;             :   isn't a chunk that needs to be unstuffed, but the module
+;;;             :   can't remove the scheduled event because the buffer can be
+;;;             :   modified by "anything" and thus it can't know until it needs
+;;;             :   to try.
+;;; 2015.08.25 Dan
+;;;             : * Use the real-time-scale when updating the clock so that both
+;;;             :   the clock and slack get the appropriate shift in time.
+;;;             : * New system parameter :real-time-sleep-threshold which sets
+;;;             :   the min time for sleeping in the default real time slack hook.
+;;;             : * Run function's real-time parameter can be specified as a number
+;;;             :   in addition to t.  If it is a number then that over rides
+;;;             :   the current real-time-scale parameter.
+;;; 2015.09.14 [3.0]
+;;;             : * Not really a change to the code, but making the current
+;;;             :   process of scheduling equal priority items after any existing
+;;;             :   items of that priority the specified mechanism i.e. that's
+;;;             :   what the docs say now so it shouldn't be changed in the
+;;;             :   future.
+;;; 2016.09.28 Dan
+;;;             : * Removed all the setting of the :mp slot in the events.
+;;; 2016.11.16 Dan [4.0]
+;;;             : * Start to convert to using the central dispatcher for all
+;;;             :   user commands.  At this point, the only one added is run,
+;;;             :   and it still needs work because the trace/output situation
+;;;             :   hasn't been worked out yet.
+;;; 2016.11.17 Dan
+;;;             : * Changed execute-act-r-command to evaluate-act-r-command.
+;;; 2017.01.18 Dan
+;;;             : * Removed the echo-act-r-output from run.  The assumption
+;;;             :   now is that echoing is handled by the user.
+;;;             : * Use handle-evaluate-results.
+;;; 2017.01.27 Dan
+;;;             : * Start to think about taking dispatch function names for
+;;;             :   scheduling.  Right now just allow strings as the function 
+;;;             :   value, but don't actually dispatch them correctly because
+;;;             :   there are a bunch of issues to work out...
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.02.02 Dan
+;;;             : * Changed the real-time parameter for the run function from a
+;;;             :   keyword parameter to an optional so it matches the signature
+;;;             :   of the dispatchers function.
+;;;             : * Added the run-full-time command as a dispatched command.
+;;; 2017.02.09 Dan
+;;;             : * Updated the call to run-full-time inside of run since real-time
+;;;             :   is now optional not keyword.
+;;; 2017.02.15 Dan
+;;;             : * Allow all the scheduling commands to accept remote commands
+;;;             :   for the actions and preconditions.
+;;; 2017.02.20 Dan
+;;;             : * Fixed a bug introduced with the last update.
+;;; 2017.02.22 Dan
+;;;             : * Adding a suite of "simple" scheduling commands which will
+;;;             :   be available through the dispatcher.  The simple versions
+;;;             :   will use optional parameters to match with the underlying
+;;;             :   RPC protocol, not make available :destination since it can't
+;;;             :   practically be sent remotely, always have medium output, 
+;;;             :   always use milliseconds (since that's what gettime returns),
+;;;             :   no alternate details, and no precondition.
+;;;             :   For now, the simple event functions only return t or nil to
+;;;             :   indicate success and thus can't be deleted, but there could
+;;;             :   be an internal reference kept that maps something returnable,
+;;;             :   like an int, to the actual event to allow that eventually.
+;;; 2017.02.24 Dan
+;;;             : * Allowing run-until-condition to accept a string that will call
+;;;             :   a dispatch function.  That seems like an extremely bad way
+;;;             :   to run things since it gets called for each event, but there's
+;;;             :   a tutorial task that uses it so making it available...
+;;; 2017.03.30 Dan
+;;;             : * Replace meta-p-current-model usage with *current-act-r-model*.
+;;; 2017.03.31 Dan
+;;;             : * Mp-running? has been moved to the meta-process file and the
+;;;             :   code which was setting the running slot now calls the function
+;;;             :   set-mp-running and clear-mp-running in a macro that's used
+;;;             :   in the run functions directly instead of run-sched-queue.
+;;;             : * Also, run doesn't call run-full-time now because that would
+;;;             :   be a problem with setting the running flag.
+;;; 2017.06.02 Dan
+;;;             : * Cleaned up some issues with the "current model" setting and
+;;;             :   use current-model-struct instead of *current-act-r-model*
+;;;             :   directly.
+;;; 2017.06.22 Dan
+;;;             : * Protected all access to meta-p-time, meta-p-model-order, and
+;;;             :   meta-p-models.
+;;; 2017.06.23 Dan
+;;;             : * Protected meta-p-delayed and added the need-to-check-updates
+;;;             :   function to avoid the need for that same or occurring in lots
+;;;             :   of places.  Also protected meta-p-dynamics.
+;;; 2017.06.28 Dan
+;;;             : * Protecting the rest of the meta-p-* schedule slot access.
+;;; 2017.06.30 Dan
+;;;             : * Protecting the meta-p event hook slots.
+;;;             : * Why did run and run-full-time go through the dispatcher but 
+;;;             :   run-until-condition didn't?  For now not dispatching any, but
+;;;             :   may need to revisit that.
+;;;             : * Modified run-until-time and run-n-events to work remotely
+;;;             :   and added the commands.
+;;;             : * Added a schedule-simple-event-now local and remote.
+;;;             : * Everything is thread safe except run-step (read and format
+;;;             :   not feasible) and real-time-slack since the system parameter
+;;;             :   :real-time-sleep-threshold isn't safe.
+;;; 2017.06.14 Dan
+;;;             : * Real-time-slack is now safe since system parameters are now
+;;;             :   safe.  
+;;;             : * Check the top-level-lock before running.
+;;; 2017.08.24 Dan
+;;;             : * Added signals for run-start and run-stop that can be monitored.
+;;;             :   Should modules just monitor for those now instead of specifying
+;;;             :   hook functions for those situations?
+;;; 2017.08.28 Dan
+;;;             : * Added a remote version of schedule-break-relative and updated
+;;;             :   the doc string for the remote schedule-simple-event-relative.
+;;;             : * Allow a pre-event-hook to force a break before executing the
+;;;             :   event by returning the string "break".
+;;; 2017.08.29 Dan
+;;;             : * When the pre-event causes a break it needs to put the event
+;;;             :   back on the queue!
+;;; 2017.11.14 Dan
+;;;             : * Fix an issue with run not printing the end reason when it 
+;;;             :   stopped because the time limit was reached due to the need
+;;;             :   for a dummy event because the next real event was beyond the
+;;;             :   run time.
+;;; 2017.11.20 Dan
+;;;             : * Another fix for the previous issue because it printed the wrong 
+;;;             :   time with that fix.  It should all be right now.
+;;; 2017.12.06 Dan
+;;;             : * Changed some of the doc strings for remote commands.
+;;;             : * Added the schedule-simple-event-after-module remote command.
+;;; 2017.12.08 Dan
+;;;             : * Convert priorities from strings in the simple- functions.
+;;; 2017.12.11 Dan
+;;;             : * Also need to convert the module names in the simple functions.
+;;; 2018.02.07 Dan [5.0]
+;;;             : * Reworked all the event access to use the full struct since
+;;;             :   the conc-name of evt- isn't used any more.
+;;;             : * Simplified a lot of the scheduling code because the things
+;;;             :   that touch the event queues have been abstracted and put
+;;;             :   into functions in the meta-process code.
+;;;             : * Return an id# for the events instead of the struct itself
+;;;             :   so that it's more feasible to "use" them remotely.
+;;;             : * Reworked the "running" code because as it was there were
+;;;             :   some nasty race conditions now that events can come in
+;;;             :   asynchronously -- in particular that it kept referring to
+;;;             :   the first item in the event queue but gave up the lock 
+;;;             :   between accesses to that value.
+;;;             : * Also reworking how real-time works because it can't just 
+;;;             :   spin when the current next-event has to wait since another
+;;;             :   event that should happen during that wait time could show
+;;;             :   up while it's waiting.
+;;;             : * Real-time-slack now just yields instead of sleeping.
+;;;             : * The real time slack fn is now passed current time and next
+;;;             :   time and it can compute the delta if needed.
+;;;             : * For the run-terminated-events don't actually put it on the
+;;;             :   queue just run the created event directly.
+;;;             : * Actually store the model structure in the event instead of
+;;;             :   just the name.
+;;;             : * Protect all access to event times and priorities with the
+;;;             :   meta-p-schedule-lock.
+;;; 2018.02.23 Dan
+;;;             : * Depricate the "simple" scheduling functions and provide all
+;;;             :   the parameters as optionals for external versions of all the
+;;;             :   scheduling functions.
+;;; 2018.02.28 Dan
+;;;             : * Fixed some cut-and-paste bugs with the new external fcts.
+;;; 2018.03.26 Dan
+;;;             : * Pass the time to the run-until-condition condition function
+;;;             :   since it's not safe to get the time at that point -- the lock
+;;;             :   is held.
+;;; 2018.05.10 Dan
+;;;             : * Fixed run-sched-queue because it needed to use dispatch-
+;;;             :   apply when running the time-function.
+;;; 2018.05.11 Dan
+;;;             : * Use the time-units-per-second value with an absolute clock.
+;;; 2018.06.15 Dan
+;;;             : * Remove the simple scheduling functions and use an options 
+;;;             :   list to handle all keyword params.
+;;;             : * Schedule-break-after-all changed from having one keyword
+;;;             :   parameter to an optional.
+;;; 2018.06.28 Dan
+;;;             : * Moved the run-stop signal so it's always sent even if the
+;;;             :   run terminates due to an error.
+;;; 2018.07.11 Dan
+;;;             : * Fix a typo with :priority being misspelled in the calls 
+;;;             :   which process the external params for some actions.
+;;; 2019.02.05 Dan
+;;;             : * Adjustments because meta-p-models is now an alist.
+;;; 2019.02.15 Dan
+;;;             : * Added a switch that kills the trace output without having to
+;;;             :   access the printing module or output filtering and it's 
+;;;             :   associated with the system parameter - :high-performance.
+;;; 2019.04.09 Dan
+;;;             : * When creating events set the min and max slots instead of
+;;;             :   priority when needed since priority is now always a number.
+;;; 2019.05.22 Dan [5.1]
+;;;             : * Added a run-until-action function that runs the system 
+;;;             :   until after an event that has the provided action occurs.
+;;; 2019.09.09 Dan
+;;;             : * Adjusted calls to with-top-level lock to pass the string
+;;;             :   that indicates why the lock is being held.
+;;; 2020.06.02 Dan
+;;;             : * Since run-one-event already sets the current model it can
+;;;             :   skip filter-output-events and call the test directly now 
+;;;             :   that it always sets a current model if possible, and filter-
+;;;             :   test returns the current value of :v so that can be tested
+;;;             :   to avoid the model-output call that needs to get the 
+;;;             :   printing-module again.
+;;; 2020.07.06 Dan [5.2]
+;;;             : * Allow scheduling nil to just display the details. However,
+;;;             :   if details aren't provided for a nil event it's going to 
+;;;             :   show an event called internal-dummy-event-fn.
+;;; 2024.04.30 Dan
+;;;             : * Replaced the indicate-running macro usage with the 
+;;;             :   with-running-or-defining-lock macro instead.
+;;; 2024.05.15 Dan
+;;;             : * The schedule-event/break-after-* functions fixed so that
+;;;             :   they return two values again.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;; See reference-manual...
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Keep the system as simple as I can.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(declaim (ftype (function () t) print-visicon))
+(declaim (ftype (function () t) delete-chunks-after-run))
+(declaim (ftype (function () t) update-chunks-at-all))
+(declaim (ftype (function (t) t) filter-test))
+
+(defvar *periodic-event-id-counter* 0)
+(defvar *periodic-event-lock* (bt:make-lock "periodic-event"))
+
+(defvar *allow-event-output* t)
+
+(defun skip-unnecessary-events (mp)
+  ; assume it's called with the lock held (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+  (do* ((cm (current-model-struct))
+        (next-event (next-scheduled-event mp) (next-scheduled-event mp))
+        (unnecessary (and next-event
+                          (act-r-event-precondition next-event)
+                          
+                          (let ((*current-act-r-model* (if (act-r-event-model next-event)
+                                                           (act-r-event-model next-event)
+                                                         cm)))
+                            (null (if (act-r-event-destination next-event)
+                                      (dispatch-apply-list (act-r-event-precondition next-event) 
+                                                      (append (list (get-module-fct (act-r-event-destination next-event))) 
+                                                              (act-r-event-params next-event)))
+                                    (dispatch-apply-list (act-r-event-precondition next-event) (act-r-event-params next-event))))))
+                     (and next-event
+                          (act-r-event-precondition next-event)
+                          
+                          (let ((*current-act-r-model* (if (act-r-event-model next-event)
+                                                           (act-r-event-model next-event)
+                                                         cm)))
+                            (null (if (act-r-event-destination next-event)
+                                      (dispatch-apply-list (act-r-event-precondition next-event) 
+                                                      (append (list (get-module-fct (act-r-event-destination next-event))) 
+                                                              (act-r-event-params next-event)))
+                                    (dispatch-apply-list (act-r-event-precondition next-event) (act-r-event-params next-event))))))))
+       ((not unnecessary) nil)
+    (remove-scheduled-event mp next-event)))
+              
+
+(add-act-r-command "run-start" nil "Signal that the system is starting to run for monitoring. Params: run-start-time." nil)
+(add-act-r-command "run-stop" nil "Signal that the system has stopped running for monitoring. Params: run-end-time." nil)
+
+(defun run-sched-queue (mp stop-condition &key (real-time nil))
+  "The internal function that steps through events sending them to be
+    executed until a condtion is met"
+  
+  (unwind-protect 
+      (let ((event-count 0)
+            next-event
+            evaluate
+            next-time) 
+        
+        ;; Notify any modules which care that a new run has begun
+        
+        (dolist (model-name (bt:with-lock-held ((meta-p-models-lock mp)) (meta-p-model-order mp)))
+          (let ((*current-act-r-model* (bt:with-lock-held ((meta-p-models-lock mp)) (cdr (assoc model-name (meta-p-models mp))))))
+            (dolist (module (run-notify-modules))
+              (run-notify-module module))))
+        
+        ;; Send the start signal and set the initial clock info
+        
+        (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+          (dispatch-apply "run-start" (meta-p-time mp))
+          (setf (meta-p-break mp) nil)
+          
+          
+          (setf (meta-p-start-time mp) (meta-p-time mp))
+          
+          (when real-time
+            (setf (meta-p-start-real-time mp) 
+              (dispatch-apply (meta-p-time-function mp)))
+            
+            (unless (numberp real-time)
+              (setf real-time 1.0))))
+        
+        (loop
+          
+          (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+            
+            (when (or (meta-p-break mp)
+                      (skip-unnecessary-events mp) ;; always returns nil but need to do that now
+                      (not (setf next-event (next-scheduled-event mp)))
+                      (funcall stop-condition 
+                               mp 
+                               (act-r-event-mstime next-event)
+                               event-count))
+              (return))
+            
+            (set-mp-clock mp (act-r-event-mstime next-event) real-time)
+            
+            (setf evaluate (<= (act-r-event-mstime next-event) (meta-p-time mp)))
+            (setf next-time (act-r-event-mstime next-event)))
+          
+          (if evaluate
+              (let ((result (run-one-event mp next-event)))
+                (if result
+                    (incf event-count)
+                  (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+                    (setf (meta-p-break mp) t))))
+            (when real-time
+              (dispatch-apply (meta-p-slack-function mp) (meta-p-time mp) next-time))))
+        
+        (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+          (remove-tagged-events mp 'dummy-event-function :key 'act-r-event-action :count nil :test 'eq)
+          ;(dispatch-apply "run-stop" (meta-p-time mp))
+          (values (- (meta-p-time mp) (meta-p-start-time mp)) event-count (meta-p-break mp))))
+    
+    (progn
+      ;; generate a run-stop signal
+      
+      (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+          (dispatch-apply "run-stop" (meta-p-time mp)))
+
+      ;; Notify any modules which care that a run has ended
+
+      (dolist (model-name (bt:with-lock-held ((meta-p-models-lock mp)) (meta-p-model-order mp)))
+        (let ((*current-act-r-model* (bt:with-lock-held ((meta-p-models-lock mp)) (cdr (assoc model-name (meta-p-models mp))))))
+          (dolist (module (run-over-notify-modules))
+            (run-over-notify-module module))))
+      
+      ;; instead of relying on the run functions to do this,
+      ;; always do it here (even if there is a break) directly
+      ;; instead of through an event.
+      
+      (dolist (model-name (bt:with-lock-held ((meta-p-models-lock mp)) (meta-p-model-order mp)))
+        (let ((*current-act-r-model* (bt:with-lock-held ((meta-p-models-lock mp)) (cdr (assoc model-name (meta-p-models mp))))))
+          (when (update-chunks-at-all)
+            (normalize-chunk-names (delete-chunks-after-run))))))))
+
+
+
+;;; run-one-event 
+;;;
+
+(defun run-one-event (mp next-event)
+  (let ((*current-act-r-model* (act-r-event-model next-event))
+          (break nil))
+      
+    (dolist (hook (bt:with-lock-held ((meta-p-event-hook-lock mp)) (meta-p-pre-events mp)))
+      (let ((r (dispatch-apply hook (act-r-event-num next-event))))
+        (when (and r (stringp r) (string-equal r "break"))
+          (setf break t))))
+    
+    (when break  ;; don't remove the event and just return
+
+      (meta-p-output (format-event (make-act-r-break-event :mp nil
+                                                           :mstime (mp-time-ms)
+                                                           :params nil
+                                                           :details "forced by a pre-event hook")))
+      (return-from run-one-event nil))
+    
+    ;; print the trace if needed
+    
+    (when (and *allow-event-output*
+               (act-r-event-output next-event))
+      
+      (if *current-act-r-model*
+          (multiple-value-bind (o v) (filter-test next-event)
+            (when o
+              (if (act-r-break-event-p next-event)
+                  (meta-p-output (format-event next-event))
+                (when v
+                  (model-output "~a" (format-event next-event))))))
+        
+        ;; if we don't have a current-model just set it to the first one
+        ;; in the meta-process to get parameter values (which would be
+        ;; the same as default because default is only set when there's
+        ;; one model defined...
+          
+        (let ((*current-act-r-model* (bt:with-lock-held ((meta-p-models-lock mp)) 
+                                        (cdar (meta-p-models (current-mp))))))
+          
+          (multiple-value-bind (o v) (filter-test next-event)
+            (when o
+              (if (act-r-break-event-p next-event)
+                  (meta-p-output (format-event next-event))
+                (when v
+                  (model-output "~a" (format-event next-event)))))))))
+    
+    ;; remove the event now so that it doesn't interfere with
+    ;; events being scheduled while it's evaluated
+    
+    (remove-scheduled-event mp next-event)
+    
+    ;; evaluate the event
+    
+    (if (act-r-event-destination next-event)
+        (dispatch-apply-list (act-r-event-action next-event) 
+                             (append (list (get-module-fct
+                                            (act-r-event-destination next-event))) 
+                                     (act-r-event-params next-event)))
+      (dispatch-apply-list (act-r-event-action next-event) (act-r-event-params next-event)))
+    
+    ;; call the post hooks -- the event is still available viay the id because it's temporarily 
+    ;; stored by the meta-process with remove-scheduled-event
+    
+    (dolist (hook (bt:with-lock-held ((meta-p-event-hook-lock mp)) (meta-p-post-events mp)))
+      (dispatch-apply hook (act-r-event-num next-event)))
+    
+
+    ;; return success
+    
+    t))
+
+;;; set-mp-clock
+;;;
+;;; This function takes three parameters which are a meta-process, the next
+;;; time as it stands now, and whether or not it's to run in real-time.
+;;;
+
+(defun set-mp-clock (mp time real-time)
+  "Update the time of a meta-process"
+  
+  ;; assume this (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+    (if real-time
+        (let ((actual-time (cond ((eq (meta-p-time-mode mp) 'absolute)
+                                  (seconds->ms (/ (dispatch-apply (meta-p-time-function mp)) (meta-p-units-per-second mp))))
+                                 (t ;; interval
+                                  (+ (meta-p-start-time mp)
+                                     (seconds->ms (* real-time (/ (- (dispatch-apply (meta-p-time-function mp)) (meta-p-start-real-time mp))
+                                                                  (meta-p-units-per-second mp)))))))))
+          (setf (meta-p-time mp) (min time actual-time)))
+      (setf (meta-p-time mp) time)))
+  
+
+#| Replaced with the with-running-or-defining-lock
+
+
+(defmacro indicate-running (&body body)
+  `(when (set-mp-running "Recursive call to a running function not allowed.  Must wait for a 'run' to complete before 'running' again.")
+     (unwind-protect
+         (with-top-level-lock "Unable to run the system." "a running command"
+           ,@body)
+       (clear-mp-running))))
+|#
+       
+
+(defun run (run-time &optional (real-time nil))
+  (with-running-or-defining-lock "run" :running
+   (if (not (and (numberp run-time) (> run-time 0)))
+       (print-warning "run-time must be a number greater than zero.")
+     (let ((ms-time (safe-seconds->ms run-time 'run)))
+       (flet ((test (mp next-time count)
+                    (declare (ignore count))
+                    (> (- next-time (meta-p-start-time mp)) ms-time)))
+         (multiple-value-bind (time events break)
+             (run-sched-queue (current-mp) #'test :real-time real-time)
+           (unless break
+             (let ((mp (current-mp)))
+               
+               (let ((mp-time (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))))
+                 
+                 (if (< time ms-time)
+                     (if (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (null (meta-p-events mp)))
+                         (meta-p-output (format-event (make-act-r-event 
+                                                       :mstime mp-time
+                                                       :module "------"
+                                                       :model '-
+                                                       :details 
+                                                       "Stopped because no events left to process"
+                                                       :output t
+                                                       :mp nil)))
+                       (progn
+                         
+                         (let ((msend-time (+ (- ms-time time) mp-time)))
+                           (flet ((test (mp next-time count)
+                                        (declare (ignore count) (ignore mp))
+                                        (> next-time msend-time)))
+                             
+                             (if (current-model)
+                                 (schedule-event msend-time 'dummy-event-function 
+                                                 :maintenance t :priority :min 
+                                                 :details "A dummy event to guarantee a run until time"
+                                                 :time-in-ms t
+                                                 :output nil)
+                               (with-model-eval (first (mp-models)) ;; just pick the first one
+                                 (schedule-event msend-time 'dummy-event-function 
+                                                 :maintenance t 
+                                                 :priority :min 
+                                                 :details "A dummy event to guarantee a run until time"
+                                                 :time-in-ms t
+                                                 :output nil)))
+                             
+                             (run-sched-queue (current-mp) #'test :real-time real-time)))
+                         (setf time ms-time)
+                         (meta-p-output (format-event (make-act-r-event 
+                                                       :mstime (mp-time-ms) 
+                                                       :module "------"
+                                                       :model '-
+                                                       :details "Stopped because time limit reached"
+                                                       :output t
+                                                       :mp nil)))))
+                   
+                   (meta-p-output (format-event (make-act-r-event 
+                                                 :mstime mp-time
+                                                 :module "------"
+                                                 :model '-
+                                                 :details "Stopped because time limit reached"
+                                                 :output t
+                                                 :mp nil)))))))
+           (values (ms->seconds time) events break)))))))
+
+
+(add-act-r-command "run" 'run "Run the ACT-R scheduler for up to a specified amount of time. Params: time {real-time}." "Only one run allowed at a time")
+
+
+(defun run-until-condition (condition &optional (real-time nil))
+  (with-running-or-defining-lock "run-until-condition" :running
+   (if (not (local-or-remote-function-p condition))
+       (print-warning "condition must be a function or valid dispatch command string.")
+     (multiple-value-bind (time events break)
+         (run-sched-queue (current-mp) 
+                          (if (stringp condition)
+                              (lambda (mp next-time count)
+                                (declare (ignore mp count))
+                                (multiple-value-bind (success result) (evaluate-act-r-command condition next-time)
+                                  (if success
+                                      result
+                                    (progn
+                                      (print-warning "Run terminated because of Error:< ~s > evaluating condition." result)
+                                      t))))
+                            
+                            (lambda (mp next-time count)
+                       X  Y  Z  [  \  ]  ^  _  `  a  b                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (declare (ignore mp count))
+                              (funcall condition next-time)))
+                          :real-time real-time)
+       (unless break
+         (let* ((mp (current-mp))
+                (mp-time (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))))
+           
+           (if (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (null (meta-p-events mp)))
+               (meta-p-output (format-event (make-act-r-event 
+                                             :mstime mp-time
+                                             :module "------"
+                                             :model '-
+                                             :details "Stopped because no events to process"
+                                             :output t
+                                             :mp nil)))
+             (meta-p-output (format-event (make-act-r-event 
+                                           :mstime mp-time
+                                           :module "------"
+                                           :model '-
+                                           :details "Stopped because condition is true"
+                                           :output t
+                                           :mp nil))))))
+       (values (ms->seconds time) events break)))))
+
+(add-act-r-command "run-until-condition" 'run-until-condition "Run the ACT-R scheduler until the provided function returns a non-nil value. Params: fct-or-cmd-string {real-time?}." "Only one run allowed at a time")
+
+
+(defun run-until-action (action &optional (real-time nil))
+  (with-running-or-defining-lock "run-until-action" :running
+    (if (not (or (symbolp action) (stringp action)))
+       (print-warning "run-until-action must be given a name(symbol) or a string, but given ~s which is a ~s." action (type-of action))
+     (let ((stop nil)
+           (name (when (symbolp action) (symbol-name action))))
+       (flet ((test-symbol (mp next-time count)
+                           (declare (ignore next-time count))
+                           (let* ((e (next-scheduled-event mp))
+                                  (a (act-r-event-action e)))
+                             (prog1
+                                 stop
+                               (unless stop
+                                 (cond ((symbolp a)
+                                        (setf stop (eq action a)))
+                                       ((stringp a)
+                                        (setf stop (string-equal name a))))))))
+              
+              (test-string (mp next-time count)
+                           (declare (ignore next-time count))
+                           (let* ((e (next-scheduled-event mp))
+                                  (a (act-r-event-action e)))
+                             (prog1
+                                 stop
+                               (unless stop
+                                 (cond ((symbolp a)
+                                        (setf stop (string-equal action (symbol-name a))))
+                                       ((stringp a)
+                                        (setf stop (string= action a)))))))))
+         (multiple-value-bind (time events break)
+             (run-sched-queue (current-mp) (if (symbolp action) #'test-symbol #'test-string) :real-time real-time)
+           (unless break
+             (if stop
+                 (meta-p-output (format-event (make-act-r-event 
+                                               :mstime (mp-time-ms) 
+                                               :module "------"
+                                               :model '-
+                                               :details (format nil "Stopped because ~a action occurred" action)
+                                               :output t
+                                               :mp nil)))
+               
+               (meta-p-output (format-event (make-act-r-event 
+                                               :mstime (mp-time-ms)
+                                               :module "------"
+                                               :model '-
+                                               :details 
+                                               "Stopped because no events left to process"
+                                               :output t
+                                               :mp nil)))))
+                      
+           (values (ms->seconds time) events break)))))))
+
+(defun run-until-action-external (action &optional (real-time nil))
+  (run-until-action (decode-string action) real-time))
+
+(add-act-r-command "run-until-action" 'run-until-action-external "Run the ACT-R scheduler stopping after an event with the given action occurs. Params: 'action' {real-time}." "Only one run allowed at a time")
+
+(defun run-full-time (run-time &optional (real-time nil))
+  (with-running-or-defining-lock "run-full-time" :running
+    (if (not (and (numberp run-time) (> run-time 0)))
+       (print-warning "run-time must be a number greater than zero.")
+     
+     (let* ((mp (current-mp))
+            (msend-time (+ (safe-seconds->ms run-time 'run-full-time) (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp)))))
+       (flet ((test (mp next-time count)
+                    (declare (ignore count) (ignore mp))
+                    (> next-time msend-time)))
+         
+         (if (current-model)
+             (schedule-event msend-time 'dummy-event-function 
+                             :maintenance t :priority :min 
+                             :details "A dummy event to guarantee a run until time"
+                             :time-in-ms t
+                             :output nil)
+           (with-model-eval (first (mp-models)) ;; just pick the first one
+             (schedule-event msend-time 'dummy-event-function 
+                             :maintenance t 
+                             :priority :min 
+                             :details "A dummy event to guarantee a run until time"
+                             :time-in-ms t
+                             :output nil)))
+         
+         (multiple-value-bind (time events break)
+             (run-sched-queue mp #'test :real-time real-time)
+           (unless break
+             
+             (meta-p-output (format-event (make-act-r-event 
+                                           :mstime (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))
+                                           :module "------"
+                                           :model '-
+                                           :details "Stopped because time limit reached"
+                                           :output t
+                                           :mp nil))))
+           (values (ms->seconds time) events break)))))))
+
+
+(add-act-r-command "run-full-time" 'run-full-time "Run the ACT-R scheduler for the specified amount of time. Params: time {real-time}." "Only one run allowed at a time")
+ 
+
+(defun dummy-event-function ())
+
+(defun run-until-time (end-time &optional (real-time nil))
+  (with-running-or-defining-lock "run-until-time" :running
+    (if (not (and (numberp end-time) (> end-time 0)))
+       (print-warning "end-time must be a number greater than zero.")
+     (let ((mp (current-mp))
+           (ms-end-time (safe-seconds->ms end-time 'run-until-time)))
+       
+       (if (<= ms-end-time (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp)))
+           (progn
+             (meta-p-output (format-event (make-act-r-event 
+                                           :mstime (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))
+                                           :module "------"
+                                           :model '-
+                                           :details "Stopped because end time already passed"
+                                           :output t
+                                           :mp nil)))
+             (values 0 0 nil))
+         (flet ((test (mp next-time count)
+                      (declare (ignore count) (ignore mp))
+                      (> next-time ms-end-time)))
+           
+           (if (current-model)
+               (schedule-event ms-end-time 'dummy-event-function 
+                               :maintenance t :priority :min 
+                               :details "A dummy event to guarantee a run until time"
+                               :time-in-ms t
+                               :output nil)
+             (with-model-eval (first (mp-models)) ;; just pick the first one
+               (schedule-event ms-end-time 'dummy-event-function 
+                               :maintenance t 
+                               :priority :min 
+                               :details "A dummy event to guarantee a run until time"
+                               :time-in-ms t
+                               :output nil)))
+           
+           (multiple-value-bind (time events break)
+               (run-sched-queue mp #'test :real-time real-time)
+             (unless break
+               
+               (meta-p-output (format-event (make-act-r-event 
+                                             :mstime (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))
+                                             :module "------"
+                                             :model '-
+                                             :details "Stopped because time limit reached"
+                                             :output t
+                                             :mp nil))))
+             (values (ms->seconds time) events break))))))))
+
+(add-act-r-command "run-until-time" 'run-until-time "Run the ACT-R scheduler up to the indicated time. Params: end-time {real-time}." "Only one run allowed at a time")
+
+
+(defun run-n-events (event-count &optional (real-time nil))
+  (with-running-or-defining-lock "run-n-events" :running
+    (if (not (and (numberp event-count) (> event-count 0)))
+       (print-warning "event-count must be a number greater than zero.")
+     (flet ((test (mp next-time count)
+                  (declare (ignore next-time) (ignore mp))
+                  (= count event-count)))
+       (let ((mp (current-mp)))
+         (multiple-value-bind (time events break)
+             (run-sched-queue (current-mp) #'test :real-time real-time)
+           (unless break
+             
+             
+             (if (< events event-count)
+                 (meta-p-output (format-event (make-act-r-event 
+                                               :mstime (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))
+                                               :module "------"
+                                               :model '-
+                                               :details "Stopped because no events to process"
+                                               :output t
+                                               :mp nil)))   
+               (meta-p-output (format-event (make-act-r-event 
+                                             :mstime (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))
+                                             :module "------"
+                                             :model '-
+                                             :details "Stopped because event limit reached"
+                                             :output t
+                                             :mp nil)))))
+           (values (ms->seconds time) events break)))))))
+
+(add-act-r-command "run-n-events" 'run-n-events "Run the indicated number of events from the ACT-R scheduler. Params: event-count {real-time}." "Only one run allowed at a time")
+
+
+(defun run-step ()
+  (with-running-or-defining-lock "run-step" :running
+    (flet ((test (mp next-time count) 
+                 ;; the schedule-lock is held already while test is evaluated
+                 
+                (declare (ignore next-time count))
+                (loop
+                  (when (null (meta-p-events mp))
+                    (format t "No more events to process")
+                    (return t))
+                  (format t "Next Event: ~A~%" 
+                    (let ((next (car (meta-p-events mp))))
+                      (format-event next)))
+                  (format t "[A]bort (or [q]uit)~%")
+                  (format t "[D]elete~%")
+                  (format t "[S]how event queue~%")
+                  (format t "[W]aiting events~%")
+                  (format t "[B]uffer contents~%")
+                  (format t "[V]isicon~%")
+                  (format t "[R]eport buffer status~%")
+                  (format t "[E]xecute~%")
+                  
+                  (let ((response (read )))
+                    (case response
+                      ((a q) (return t))
+                      (e (return nil))
+                      (s (mp-show-queue))
+                      (w (mp-show-waiting))
+                      (b (show-buffer-chunks))
+                      (v (print-visicon))
+                      (r (buffer-status))
+                      (d (pop (meta-p-events mp))))))))
+     
+     
+     (let ((mp (current-mp)))
+       (multiple-value-bind (time events break)
+           (run-sched-queue mp #'test :real-time nil)
+         (unless break
+           
+           (meta-p-output (format-event (make-act-r-event 
+                                         :mstime (bt:with-recursive-lock-held ((meta-p-schedule-lock mp)) (meta-p-time mp))
+                                         :module "------"
+                                         :model '-
+                                         :details "Stepping stopped"
+                                         :output t
+                                         :mp nil))))
+         (values (ms->seconds time) events break))))))
+
+(defun internal-dummy-event-fn (&rest r)
+  (declare (ignore r)))
+
+
+(defun schedule-event (time action 
+                            &key (maintenance nil)
+                            (module :none) (destination nil)
+                            (priority 0) (params nil) 
+                            (details nil) (output t)
+                            (time-in-ms nil)
+                            (precondition nil))
+  (verify-current-model
+   "schedule-event called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (and (numberp time) (>= time 0)))
+            (print-warning "Time must be non-negative number."))
+           ((not (local-or-remote-function-or-nil action))
+            (print-warning "Can't schedule ~S because it is not a valid command identifier." action))
+           ((and (symbolp action) (macro-function action))
+            (print-warning "Can't schedule ~S because it is a macro and not a function." action))
+           ((not (or (numberp priority) (eq priority :min) (eq priority :max)))
+            (print-warning "Priority must be a number or :min or :max."))
+           ((not (listp params))
+            (print-warning "params must be a list."))
+           ((and time-in-ms (not (integerp time)))
+            (print-warning "When time-in-ms is true the time must be an integer."))
+           ((and precondition (not maintenance))
+            (print-warning "Only maintenance events may have a precondition."))
+           ((or (and precondition (not (local-or-remote-function-p precondition)))
+                (and (symbolp precondition) (macro-function precondition)))
+            (print-warning "Precondition must be a function, but ~s provided." precondition))
+           (t
+            (let ((new-event (funcall (if maintenance
+                                          #'make-act-r-maintenance-event
+                                        #'make-act-r-event) 
+                                      :mp nil
+                                      :model (current-model-struct)
+                                      :module module
+                                      :mstime (if time-in-ms time (safe-seconds->ms time 'sechedule-event))
+                                      :priority (if (numberp priority) priority 0)
+                                      :min (and (eq priority :min) priority)
+                                      :max (and (eq priority :max) priority)
+                                      :action (if action action 'internal-dummy-event-fn)
+                                      :params params
+                                      :details details
+                                      :output output
+                                      :precondition precondition
+                                      :destination destination)))
+              
+              (insert-queue-event mp new-event)
+              
+              (act-r-event-num new-event)))))))
+
+
+(defun external-schedule-event (time action &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-event '(:params :module :destination :priority :maintenance :output :time-in-ms :details :precondition))
+    (when valid 
+      (apply 'schedule-event time action (convert-options-list-items ol '(:module :destination :priority :output) nil)))))
+
+(add-act-r-command "schedule-event" 'external-schedule-event 
+                   "Create an event to occur at the specified time. Params: time action { < params, module, destination, priority, maintenance, output, time-in-ms, details, precondition > }."
+                   nil)
+  
+
+(defun schedule-event-relative (time-delay action 
+                                           &key (maintenance nil)
+                                           (module :none) (destination nil)
+                                           (priority 0) (params nil) 
+                                           (details nil) (output t)
+                                           (time-in-ms nil)
+                                           (precondition nil))
+  (verify-current-model
+   "schedule-event-relative called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (and (numberp time-delay) (>= time-delay 0)))
+            (print-warning "Time-delay must be non-negative number."))
+           ((not (local-or-remote-function-or-nil action))
+            (print-warning "Can't schedule ~S because it is not a valid command identifier." action))
+           ((and (symbolp action) (macro-function action))
+            (print-warning "Can't schedule ~S because it is a macro and not a function." action))
+           ((not (or (numberp priority) (eq priority :min) (eq priority :max)))
+            (print-warning "Priority must be a number or :min or :max."))
+           ((not (listp params))
+            (print-warning "params must be a list."))
+           ((and time-in-ms (not (integerp time-delay)))
+            (print-warning "When time-in-ms is true the time-delay must be an integer."))
+           ((and precondition (not maintenance))
+            (print-warning "Only maintenance events may have a precondition."))
+           ((or (and precondition (not (local-or-remote-function-p precondition)))
+                (and (symbolp precondition) (macro-function precondition)))
+            (print-warning "Precondition must be a function, but ~s provided." precondition))
+           (t
+            (let ((new-event 
+                   (funcall (if maintenance
+                                #'make-act-r-maintenance-event
+                              #'make-act-r-event)
+                            :mp nil
+                            :model (current-model-struct) 
+                            :module module
+                            :priority (if (numberp priority) priority 0)
+                            :min (and (eq priority :min) priority)
+                            :max (and (eq priority :max) priority)
+                            :action (if action action 'internal-dummy-event-fn)
+                            :params params
+                            :details details
+                            :output output
+                            :precondition precondition
+                            :destination destination)))
+              
+              (insert-queue-event mp new-event :delta (if time-in-ms time-delay (safe-seconds->ms time-delay 'schedule-event-relative)))
+              
+              (act-r-event-num new-event)))))))
+
+
+
+(defun external-schedule-event-relative (delta-time action &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-event-relative '(:params :module :destination :priority :maintenance :output :time-in-ms :details :precondition))
+    (when valid 
+      (apply 'schedule-event-relative delta-time action (convert-options-list-items ol '(:module :destination :priority :output) nil)))))
+
+(add-act-r-command "schedule-event-relative" 'external-schedule-event-relative 
+                   "Create an event to occur at the specified amount of time from now. Params: time-delay action { < params, module, destination, priority, maintenance, output, time-in-ms, details, precondition > }."
+                   nil)
+
+
+(defun schedule-event-now (action &key (maintenance nil)
+                                  (module :none) (destination nil)
+                                  (priority 0) (params nil) 
+                                  (details nil) (output t)
+                                  (precondition nil))
+  (verify-current-model
+   "schedule-event-now called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (local-or-remote-function-or-nil action))
+            (print-warning "Can't schedule ~S because it is not a valid command identifier." action))
+           ((and (symbolp action) (macro-function action))
+            (print-warning "Can't schedule ~S because it is a macro and not a function." action))
+           ((not (or (numberp priority) (eq priority :min) (eq priority :max)))
+            (print-warning "Priority must be a number or :min or :max."))
+           ((not (listp params))
+            (print-warning "params must be a list."))
+           ((and precondition (not maintenance))
+            (print-warning "Only maintenance events may have a precondition."))
+           ((or (and precondition (not (local-or-remote-function-p precondition)))
+                (and (symbolp precondition) (macro-function precondition)))
+            (print-warning "Precondition must be a function, but ~s provided." precondition))
+           (t
+            (let ((new-event 
+                   (funcall (if maintenance
+                                #'make-act-r-maintenance-event
+                              #'make-act-r-event)
+                            :mp nil
+                            :model (current-model-struct) 
+                            :module module
+                            :priority (if (numberp priority) priority 0)
+                            :min (and (eq priority :min) priority)
+                            :max (and (eq priority :max) priority)
+                            :action (if action action 'internal-dummy-event-fn)
+                            :params params
+                            :details details
+                            :output output
+                            :precondition precondition
+                            :destination destination)))
+              
+              (insert-queue-event mp new-event :now t)
+              
+              (act-r-event-num new-event)))))))
+
+(defun external-schedule-event-now (action &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-event-now '(:params :module :destination :priority :maintenance :output :details :precondition))
+    (when valid 
+      (apply 'schedule-event-now action (convert-options-list-items ol '(:module :destination :priority :output) nil)))))
+
+(add-act-r-command "schedule-event-now" 'external-schedule-event-now 
+                   "Create an event to occur at the current time. Params: time-delay action { < params,  module, destination, priority, maintenance, output, details, precondition > }."
+                   nil)
+
+
+(defun schedule-event-after-module (after-module action 
+                                                 &key (maintenance nil)
+                                                 (module :none) (destination nil)
+                                                 (params nil) (details nil) 
+                                                 (output t) (delay t)
+                                                 (include-maintenance nil)
+                                                 (dynamic nil)
+                                                 (precondition nil))
+  (verify-current-model
+   "schedule-event-after-module called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (valid-module-name after-module))
+            (print-warning "after-module must name a module."))
+           ((not (local-or-remote-function-or-nil action))
+            (print-warning "Can't schedule ~S because it is not a valid command identifier." action))
+           ((and (symbolp action) (macro-function action))
+            (print-warning "Can't schedule ~S because it is a macro and not a function." action))
+           ((not (listp params))
+            (print-warning "params must be a list."))
+           ((and precondition (not maintenance))
+            (print-warning "Only maintenance events may have a precondition."))
+           ((or (and precondition (not (local-or-remote-function-p precondition)))
+                (and (symbolp precondition) (macro-function precondition)))
+            (print-warning "Precondition must be a function, but ~s provided." precondition))
+           (t
+            (let* ((new-event 
+                    (funcall (if maintenance
+                                 #'make-act-r-maintenance-event
+                               #'make-act-r-event)
+                             :mp nil
+                             :model (current-model-struct) 
+                             :module module
+                             :min :min
+                             :action (if action action 'internal-dummy-event-fn)
+                             :params params
+                             :details details
+                             :output output
+                             :precondition precondition
+                             :destination destination
+                             :dynamic dynamic
+                             :wait-condition 
+                             (list :module after-module 
+                                   include-maintenance))))
+              
+              (insert-waiting-event mp new-event delay)
+              ;(act-r-event-num new-event)
+              ))))))
+
+
+(defun external-schedule-event-after-module (after-module action &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-event-after-module '(:params :module :destination :maintenance :output :details :precondition :delay :include-maintenance :dynamic))
+    (when valid 
+      (apply 'schedule-event-after-module (string->name after-module) action (convert-options-list-items ol '(:module :destination :output :delay) nil)))))
+
+
+(add-act-r-command "schedule-event-after-module" 'external-schedule-event-after-module 
+                   "Create an event to occur after the next event for the named module. Params: after-module action {< params, module, destination, maintenance, output, details, precondition, delay, include-maintenance, dynamic > }"
+                   nil)
+
+
+(defun schedule-event-after-change (action 
+                                    &key (maintenance nil)
+                                    (module :none) (destination nil)
+                                    (params nil) (details nil) 
+                                    (output t) (delay t)
+                                    (include-maintenance nil)
+                                    (dynamic nil)
+                                    (precondition nil))
+  (verify-current-model
+   "schedule-event-after-change called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (local-or-remote-function-or-nil action))
+            (print-warning "Can't schedule ~S because it is not a valid command identifier." action))
+           ((and (symbolp action) (macro-function action))
+            (print-warning "Can't schedule ~S because it is a macro and not a function." action))
+           ((not (listp params))
+            (print-warning "params must be a list."))
+           ((and precondition (not maintenance))
+            (print-warning "Only maintenance events may have a precondition."))
+           ((or (and precondition (not (local-or-remote-function-p precondition)))
+                (and (symbolp precondition) (macro-function precondition)))
+            (print-warning "Precondition must be a function, but ~s provided." precondition))
+           (t
+            (let* ((new-event 
+                    (funcall (if maintenance
+                                 #'make-act-r-maintenance-event
+                               #'make-act-r-event)
+                             :mp nil
+                             :model (current-model-struct) 
+                             :module module
+                             :min :min
+                             :action (if action action 'internal-dummy-event-fn)
+                             :params params
+                             :details details
+                             :output output
+                             :precondition precondition
+                             :destination destination
+                             :dynamic dynamic
+                             :wait-condition (list :any include-maintenance))))
+              
+              (insert-waiting-event mp new-event delay)
+              ;(act-r-event-num new-event)
+              ))))))
+
+
+(defun external-schedule-event-after-change (action &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-event-after-change '(:params :module :destination :maintenance :output :details :precondition :delay :include-maintenance :dynamic))
+    (when valid 
+      (apply 'schedule-event-after-change action (convert-options-list-items ol '(:module :destination :output :delay) nil)))))
+
+
+(add-act-r-command "schedule-event-after-change" 'external-schedule-event-after-change 
+                   "Create an event to occur after the next event. Params: action {< params, module, destination, maintenance, output, details, precondition, delay, include-maintenance, dynamic > }"
+                   nil)
+
+(defun schedule-periodic-event (period action 
+                                       &key (maintenance nil)
+                                       (module :none) (destination nil)
+                                       (priority 0) (params nil) 
+                                       (details nil) (output t)
+                                       (initial-delay 0)
+                                       (time-in-ms nil))
+  
+  (verify-current-model
+   "schedule-event called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (and (numberp period) (> period 0)))
+            (print-warning "period must be greater than 0."))
+           ((not (and (numberp initial-delay) (>= initial-delay 0)))
+            (print-warning "initial-dealy must be a non-negative number."))
+           ((not (local-or-remote-function-or-nil action))
+            (print-warning "Can't schedule ~S because it is not a valid command identifier." action))
+           ((and (symbolp action) (macro-function action))
+            (print-warning "Can't schedule ~S because it is a macro and not a function." action))
+           ((not (or (numberp priority) (eq priority :min) (eq priority :max)))
+            (print-warning "Priority must be a number or :min or :max."))
+           ((not (listp params))
+            (print-warning "params must be a list."))
+           ((and time-in-ms (or (not (integerp period)) (not (integerp initial-delay))))
+            (print-warning "When time-in-ms is true the period and initial-delay must be integers."))
+           (t
+            (let* ((real-event (funcall (if maintenance
+                                            #'make-act-r-maintenance-event
+                                          #'make-act-r-event) 
+                                        :mp nil
+                                        :model (current-model-struct) 
+                                        :module module
+                                        :max :max
+                                        :action (if action action 'internal-dummy-event-fn)
+          

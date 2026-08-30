@@ -1,0 +1,1378 @@
+
+ வடிவமைப்புக்கு டெப்கான்ஃப் ஐ பயன்படுத்தும் பொதிகள் ஒரு பொது தோற்றமும் உணர்வும் உள்ளவை. அவை பயன்படுத்தும் பயனர் இடைமுகத்தை நீங்கள் தேர்ந்தெடுக்கலாம்.
+ .
+ உரையாடல் முன் முனை முழுத்திரை, எழுத்துரு கொண்ட இடைமுகமாகும்.பயனர் பயன்படுத்தும் ரீட் லைன் மேலும் பாரம்பரிய வெற்று உரை இடைமுகமாகும்.க்னோம், கேடிஈ முன்முனைகள் இரண்டும் நவீன எக்ஸ் இடைமுகங்களாகும். அவை அவற்றின் மேல்மேசை சூழலில் பொருந்தினாலும் எந்த எக்ஸ் சூழலிலும் இயங்கக்கூடும். உங்கள் அபிமான உரை திருத்தியை பயன்படுத்தி நீங்கள் வடிவமைப்பை செய்யலாம்.ஊடாடல் இல்லா முன்முனை உங்களை கேள்வியே கேட்காது!
+Description-te.UTF-8: ఉపయోగించాల్సిన అంతరవర్తి:
+ అమరికలకోసం డెబ్కాన్ఫ్ ని వాడే    పాకేజీలు, ఏకరూపాన్ని, అనుభూతిని కలిగిస్తాయి. అవి  వాడే అంతరవర్తి ని(UI) ఎంచుకోవచ్చు 
+ .
+  భాషణ  (Dialog)అక్షరాల  అంతర్ముఖముగా గల పూర్తి తెర రూపము, రీడ్లైన్(Readline)  సాంప్రదాయక పాఠ్య రూపము, గ్నోమ్ (Gnome), కెడిఇ(KDE)  రంగస్థలానికి సరిపడే ఆధునిక  ఎక్స్  రూపాలు (ఏ ఎక్స్ పర్యావరణంలో అయిన వాడవచ్చు). సరిచేయునది (Editor) రూపముతో  మీ కు ఇష్టమైన సరిచేయు అనువర్తనము వాడిఅమరికలు చేయవచ్చు. ప్రశ్నలు వేయక(Noninteractive) రూపము ప్రశ్నలు వేయకుండా ఏకబిగిన పనిచేయటానికి
+Description-th.UTF-8: อินเทอร์เฟซที่จะใช้:
+ แพกเกจต่างๆ ที่ใช้ debconf ในการตั้งค่า จะมีรูปลักษณ์และการใช้งานเหมือนๆ กัน คุณสามารถเลือกชนิดของการติดต่อผู้ใช้ที่จะใช้ได้
+ .
+ การติดต่อผ่านกล่องโต้ตอบ เป็นอินเทอร์เฟซเต็มจอในโหมดตัวอักษร ในขณะที่การติดต่อแบบอ่านจากบรรทัด (readline) เป็นอินเทอร์เฟซแบบดั้งเดิมในโหมดตัวอักษร และการติดต่อทั้งของ GNOME และ KDE จะใช้อินเทอร์เฟซแบบกราฟิกส์ผ่าน X สมัยใหม่ ตามเดสก์ท็อปที่ใช้ (แต่ก็สามารถใช้ในสภาพแวดล้อม X ใดๆ ก็ได้) การติดต่อแบบแก้ไขข้อความ จะให้คุณตั้งค่าต่างๆ โดยใช้เครื่องมือแก้ไขข้อความที่คุณเลือกไว้ ส่วนการติดต่อแบบไม่โต้ตอบ จะไม่ถามคำถามใดๆ กับคุณเลย
+Description-tl.UTF-8: Mukha na gagamitin:
+ Ang mga pakete na gumagamit ng debconf para sa pagsasaayos ay magkatulad ng hitsura at pakiramdam. Maaari niyong piliin ang uri ng user interface na gagamitin nila.
+ .
+ Ang mukha na dialog ay buong-tabing na interface na batay sa mga karakter, samantalang ang mukha na readline ay gumagamit ng tradisyonal na payak na interface na gumagamit lamang ng teksto, at parehong ang mukha na gnome at kde naman ay makabagong X interface, na bagay sa kanilang mga desktop (ngunit maaari silang gamitin sa kahit anong kapaligirang X). Ang mukha na editor naman ay binibigyan kayo ng pagkakataon na isaayos ang mga bagay-bagay na gamit ang inyong paboritong editor ng teksto. Ang mukha na hindi-interactive ay hindi nagtatanong ng anumang tanong sa inyo.
+Description-tr.UTF-8: Kullanılacak arayüz:
+ Yapılandırma için debconf kullanan paketler ortak bir görüntü ve izlenim verirler. Paketlerin yapılandırmada kullanacağı arayüz tipini seçebilirsiniz.
+ .
+ Diyalog arayüzü tam ekran, metin tabanlı bir arayüz sunarken; Readline daha geleneksel bir salt metin arayüzü, gnome ve kde ise kendi masaüstü ortamlarına uygun şekilde (fakat herhangi bir X ortamı içinde de kullanılabilecek) daha çağdaş X arayüzleri sunmaktadır. Düzenleyici arayüzü, kullanmayı tercih ettiğiniz metin düzenleyici ile elle yapılandırmaya olanak sağlar. Etkileşimsiz arayüz seçeneğinde herhangi bir soru sorulmaz.
+Description-ug.UTF-8: ئىشلىتىدىغان ئارايۈز:
+ debconf ئىشلىتىپ تەڭشىلىدىغان بوغچىلار ئورتاق كۆرۈنۈشنى ئىشلىتىدۇ. تەڭشەش جەريانى ئىشلىتىدىغان ئىشلەتكۈچى ئارايۈزى تۈرىنى تاللاڭ.
+ .
+ سۆزلەشكۈ ئالدى ئۇچى — بىر خىل پۈتۈن ئېكرانلىق ھەرپ كۆرۈنۈشى، readline ئالدى ئۇچى — تېخىمۇ ئەنئەنىۋى بولغان تېكىست كۆرۈنۈشى، gnome ۋە kde ئالدى ئۇچى — ئۆزىنىڭ ئۈستەلئۈستى سىستېمىسى(ئەمما باشقا ھەر قانداق X مۇھىتىغا ماس كېلىشى مۇمكىن)غا ماس كېلىدىغان يېڭى تىپتىكى X ئارايۈز. تەھرىرلىگۈچ ئالدى ئۈچى — سىزنىڭ ئەڭ ياخشى كۆرىدىغان تېكىست تەھرىرلىگۈچتە سەپلەپ خىزمىتى ئېلىپ بېرىشىڭىزغا يول قويىدۇ. غەيرىي تەسىرلىشىشچان ئالدى ئۇچى — سىزگە ھېچقانداق مەسىلە ئوتتۇرىغا قويمايدۇ.
+Description-uk.UTF-8: Використовувати інтерфейс:
+ Пакунки, що використовують debconf для налаштування, мають спільний інтерфейс. Ви можете вибрати тип інтерфейсу, що вам підходить.
+ .
+ Діалогова оболонка - повноекранна, в той час як "рядок вводу" використовує більш традиційний простий текстовий інтерфейс, a KDE та Gnome - сучасний X інтерфейс. Режим редактора дозволить вам задавати налаштування в текстовому редакторі, який ви використовуєте. Неінтерактивний режим позбавить вас від необхідності відповідати на будь-які запитання.
+Description-vi.UTF-8: Giao diện cần dùng:
+ Mọi gói sử dụng debconf để cấu hình thì có giao diện và cảm nhận rất tương tự. Bạn có khả năng chọn kiểu giao diện được dùng.
+ .
+ Tiền tiêu hộp thoại là giao diện dựa vào ký tự trên toàn màn hình, còn tiền tiêu readline dùng giao diện chữ thô truyền thống hơn, và cả hai giao diện GNOME và KDE đều là giao diện X hiện đại, thích hợp với từng môi trường làm việc (nhưng mà có thể được sử dụng trong bất cứ môi trường X nào). Tiền tiêu trình hiệu chỉnh cho bạn có khả năng cấu hình tùy chọn bằng trình hiệu chỉnh văn bản ưa thích. Tiền tiêu khác tương tác không bao giờ hỏi câu nào.
+Description-wo.UTF-8: Interfaas biñuy jëfandikoo:
+ Paket yiy jëfandikoo debconfg ci seen komfiguraasioŋ, dañuy niróo jëmmu ak melo. Man ngaa tann fasoŋu interfaas bi nga bëgg ñukoy jëfandikoo.
+ .
+ Dialog ab interfaas bu karakteer la buy fees ekraŋ bi, readline bi moom dafay jëfandikoo tekst ordineer bu cosaan, gnome ak kde nak ñoom yu interfaas X yu jamonoo lañu, dëppóo ak seeni biro (waaye maneesna leena jëfandikoo ci béppu barab X). Editor nak dana la may nga jëfandikoo sa editoru tekst bila daxal kir komfigure linga bëgg. noninteractive nak dula laaj mukk benn laaj.
+Description-zh_CN.UTF-8: 要使用的界面：
+ 使用 debconf 进行设置的软件包共享一个通用的外观。请选择设置过程将使用的用户界面种类。
+ .
+ Dialog 前端是一种全屏的字符界面，readline 前端则是一种更传统的纯文本界面，而 gnome 和 kde 前端则是适合其各自桌面系统(但可能也适用于任何 X 环境)的新型 X 界面。编辑器前端则允许您使用您最喜爱的文本编辑器进行配置工作。非交互式前端则不会向您提出任何问题。
+Description-zh_TW.UTF-8: 要使用的介面：
+ 使用 debconf 來進行設定的套件有著共同的外觀及風格。您可以指定它們將會使用的使用者介面類型。
+ .
+ Dialog 前端是一種全螢幕的文字介面，readline 前端則使用了一種更傳統的純文字介面，而 gnome 和 kde 前端則是適合其各自桌面系統（但可能也適用於任何 X 環境）的新型 X 介面。編輯器前端則允許您使用您最喜愛的文字編輯器進行配置工作。非互動式前端則不會向您提出任何問題。
+
+Template: debconf/priority
+Type: select
+Choices: critical, high, medium, low
+Choices-ar.UTF-8: حرج, مرتفع, متوسّط, منخفض
+Choices-ast.UTF-8: crítica, alta, media, baxa
+Choices-be.UTF-8: крытычны, высокі, сярэдні, нізкі
+Choices-bg.UTF-8: критичен, висок, среден, нисък
+Choices-bn.UTF-8: জটিল, উচ্চ, মাঝারি, নিম্ন
+Choices-bs.UTF-8: kritični, visoki, srednji, niski
+Choices-ca.UTF-8: crítica, alta, mitjana, baixa
+Choices-cs.UTF-8: kritická, vysoká, střední, nízká
+Choices-cy.UTF-8: hanfodol, uchel, canolig, isel
+Choices-da.UTF-8: kritisk, høj, mellem, lav
+Choices-de.UTF-8: kritisch, hoch, mittel, niedrig
+Choices-dz.UTF-8: ཚབས་ཆེན, མཐོ, འབྲིང་མ, དམའ
+Choices-el.UTF-8: κρίσιμη, υψηλή, μεσαία, χαμηλή
+Choices-eo.UTF-8: altega, alta, meza, malalta
+Choices-es.UTF-8: crítica, alta, media, baja
+Choices-et.UTF-8: kriitiline, kõrge, keskmine, madal
+Choices-eu.UTF-8: kritikoa, handia, ertaina, txikia
+Choices-fa.UTF-8: بحرانی, بالا, متوسط, پایین
+Choices-fi.UTF-8: kriittinen, korkea, keskitaso, matala
+Choices-fr.UTF-8: critique, élevée, intermédiaire, basse
+Choices-ga.UTF-8: criticiúil, ard, gnách, íseal
+Choices-gl.UTF-8: crítica, alta, media, baixa
+Choices-gu.UTF-8: અત્યંત જરુરી, ઉચ્ચ, મધ્યમ, નીચું
+Choices-he.UTF-8: קריטית, גבוהה, בינונית, נמוכה
+Choices-hi.UTF-8: नाजुक, उच्च, मध्यम, निम्न
+Choices-hr.UTF-8: kritične, visoke, srednje, niske
+Choices-hu.UTF-8: kritikus, magas, közepes, alacsony
+Choices-id.UTF-8: kritis, tinggi, sedang, rendah
+Choices-is.UTF-8: mikilvægt, mikill, miðlungs, lítill
+Choices-it.UTF-8: critica, alta, media, bassa
+Choices-ja.UTF-8: 重要, 高, 中, 低
+Choices-kk.UTF-8: қатаң, жоғары, орташа, төмен
+Choices-km.UTF-8: សំខាន់បំផុត, ខ្ពស់, មធ្យម, ទាប
+Choices-ko.UTF-8: 중요, 높음, 중간, 낮음
+Choices-lt.UTF-8: kritinis, aukštas, vidutinis, žemas
+Choices-lv.UTF-8: kritiska, augsta, vidēja, zema
+Choices-mg.UTF-8: critical, high, medium, low
+Choices-mk.UTF-8: критично, високо, средно, ниско
+Choices-ml.UTF-8: ഗുരുതരം, ഉയര്‍ന്ന, ഇടയ്കുള്ള, താഴ്ന്ന
+Choices-mr.UTF-8: गंभीर, अधिक, मध्यम, निम्न
+Choices-nb.UTF-8: kritisk, høy, middels, lav
+Choices-ne.UTF-8: असामान्य , उच्च, मध्यम, कम
+Choices-nl.UTF-8: kritiek, hoog, gemiddeld, laag
+Choices-nn.UTF-8: kritisk, høg, middels, låg
+Choices-no.UTF-8: kritisk, høy, middels, lav
+Choices-pa.UTF-8: ਨਾਜ਼ੁਕ, ਜਿਆਦਾ, ਮੱਧਮ, ਘੱਟ
+Choices-pl.UTF-8: krytyczny, wysoki, średni, niski
+Choices-pt.UTF-8: crítica, elevada, média, baixa
+Choices-pt_BR.UTF-8: crítica, alta, média, baixa
+Choices-ro.UTF-8: critic, ridicat, mediu, scăzut
+Choices-ru.UTF-8: критический, высокий, средний, низкий
+Choices-si.UTF-8: දරුණු, ඉහළ, මධ්‍යම, අඩු
+Choices-sk.UTF-8: kritická, vysoká, stredná, nízka
+Choices-sl.UTF-8: kritična, visoka, srednja, nizka
+Choices-sq.UTF-8: kritike, i lartë, medium, ulët
+Choices-sr.UTF-8: критично, високо, средње, ниско
+Choices-sr@latin.UTF-8: kritično, visoko, srednje, nisko
+Choices-sv.UTF-8: kritisk, hög, medel, låg
+Choices-ta.UTF-8: மிக முக்கியமான, உயர், நடுத்தரம், குறைவு
+Choices-te.UTF-8: కీలకం, ఉన్నతం, మధ్యమం, అధమం
+Choices-th.UTF-8: วิกฤติ, สูง, กลาง, ต่ำ
+Choices-tl.UTF-8: kritikal, mataas, kainaman, mababa
+Choices-tr.UTF-8: kritik, yüksek, orta, düşük
+Choices-ug.UTF-8: ھالقىلىق, يۇقىرى, ئوتتۇرا, تۆۋەن
+Choices-uk.UTF-8: критичний, високий, середній, низький
+Choices-vi.UTF-8: tới hạn, cao, vừa, thấp
+Choices-wo.UTF-8: bu garaaw, bu kawe, bu diggdóomu, bu suufe
+Choices-xh.UTF-8: ibalulekile, iphezulu, iphakathi, iphantsi
+Choices-zh_CN.UTF-8: 关键, 高, 中, 低
+Choices-zh_TW.UTF-8: 關鍵, 高, 中, 低
+Default: high
+Description: Ignore questions with a priority less than:
+ Debconf prioritizes the questions it asks you. Pick the lowest priority of
+ question you want to see:
+   - 'critical' only prompts you if the system might break.
+     Pick it if you are a newbie, or in a hurry.
+   - 'high' is for rather important questions
+   - 'medium' is for normal questions
+   - 'low' is for control freaks who want to see everything
+ .
+ Note that no matter what level you pick here, you will be able to see
+ every question if you reconfigure a package with dpkg-reconfigure.
+Description-ar.UTF-8: تجاهل الأسئلة التي لها أولوية أقل من:
+ يقوم Debconf يتعيين أولوية الأسئلة التي يسألك إياها. الرجاء اختيار أقل أولوية للأسئلة التي تود رؤيتها:
+   - 'حرجة' تسألك فقط إن كان هناك احتمال عطب النظام.
+     اخترها إن كنت مستخدماً جديداً، أو مستعجلاً.
+   - 'مرتفعة' للأسئلة الأكثر أهميّة.
+   - 'متوسطة' للأسئلة العادية.
+   - 'منخفضة' لمهووسي التحكّم الذين يريدون رؤية كل شيء.
+ .
+ لاحظ أنه بغض النظر عن المستوى الذي تختاره هنا، ستكون قادراً على رؤية جميع الأسئلة إن قمت بإعادة تهيئة حزمة ما باستخدام dpkg-reconfigure.
+Description-ast.UTF-8: Inorar entrugues con una prioridá menor a:
+ Debconf prioriza les entrugues. Escueye la prioridá más baxa d'entruga que quies ver:
+   - 'crítica' sólo entrugárate si'l sistema puede frayar.
+     Escuéyelo si tas deprendiendo, o una urxencia.
+   - 'alta' ye pa les entrugues más importantes
+   - 'media' ye pa entrugues normales
+   - 'baxa' ye pa quien quier remanar tolo que ve
+ .
+ Ten en cuenta qu'a espenses de los qu'escueyas, podrás ver cualisquier entruga si reconfigures un paquete con dpkg-reconfigure.
+Description-be.UTF-8: Ігнараваць пытанні з прыярытэтам менш за:
+ Debconf надае прыярытэт пытанням, што пытае ў вас. Выберыце найніжэйшы прыярытэт пытанняў, што хочаце бачыць:
+   - 'крытычны' чакае вашай рэакцыі, толькі калі сістэма можа пашкодзіцца.
+     Выберыце яго, калі вы навічок, або маеце няшмат вольнага часу.
+   - 'высокі' для пераважна ўплывовых пытанняў
+   - 'medium' для звычайных пытанняў
+   - 'low' для тых, хто хоча кантраляваць усё
+ .
+ Заўважце, што няма розніцы, які ўзровень вы выбралі, вы зможаце бачыць любое пытанне, калі зробіце пераналадку пакета з дапамогай dpkg-reconfigure.
+Description-bg.UTF-8: Игнориране на въпросите с приоритет, по-нисък от:
+ Debconf подрежда въпросите, които задава по приоритет. Изберете най-ниския приоритет на въпросите, които искате да виждате:
+ - „критичен“ се показва само ако има опасност системата може да се повреди.
+   Изберете ако сте новак или много бързате.
+ - „висок“ е за доста важни въпроси.
+ - „среден“ е за нормални въпроси.
+ - „нисък“ е за техничари, които искат да виждат всичко
+ .
+ Каквото и да изберете тук, ще можете да видите всеки въпрос при пренастройване на пакети чрез dpkg-reconfigure.
+Description-bn.UTF-8: এর চেয়ে কম অগ্রাধিকারের প্রশ্ন উপেক্ষা করা হবে:
+ আপনাকে যে প্রশ্নগুলো জিজ্ঞেস করা হয় তা Debconf অগ্রাধিকার ভিত্তিতে সাজায়। আপনি সর্বনিম্ন যে অগ্রাধিকারের প্রশ্ন দেখতে চান তা নির্বাচন করুন:
+   - 'জটিল' আপনাকে শুধুমাত্র তখনই জিজ্ঞেস করবে যদি সিস্টেমটি ভেঙ্গে যাওয়ার সম্ভাবনা থাকে।
+     যদি আপনি নতুন হোন, বা তাড়া থাকে তাহলে এটি পছন্দ করুন।
+   - 'উচ্চ' হচ্ছে তুলনামূলক প্রয়োজনীয় প্রশ্নের জন্য
+   - 'মাঝারি' হল সাধারণ প্রশ্নের জন্য
+   - 'নিম্ন' হল নিয়ন্ত্রন পাগলদের জন্য যারা সবকিছু দেখতে চায়
+ .
+ মনে রাখবেন, আপনি এখানে যে স্তরই পছন্দ করুন না কেন, আপনি সকল প্রশ্ন দেখতে পারবেন যদি আপনি কোন প্যাকেজ dpkg-reconfigure দ্বারা পুনরায় কনফিগার করেন।
+Description-bs.UTF-8: Ignoriši pitanja prioriteta manjeg od:
+ Debconf prioritizuje pitanja koja vam postavlja. Izaberite najniži prioritet pitanja koja želite vidjeti:
+   - 'kritični' samo pita ako se sistem može pokvariti.
+     Odaberite ako ste početnik, ili ako vam se žuri.
+   - 'visoki' je za važnija pitanja
+   - 'srednji' je za normalna pitanja
+   - 'niski' je za one koji žele sve da kontrolišu
+ .
+ Bez obzira koji nivo izaberete ovdje, moći ćete vidjeti svako pitanje ako rekonfigurišete paket naredbom dpkg-reconfigure <ime paketa>.
+Description-ca.UTF-8: Ignora les preguntes amb una prioritat menor que:
+ Debconf priorititza les preguntes que vos pregunta. Escolliu la prioritat més baixa per a les preguntes que voleu veure:
+  - «crítica» només pregunta si es pot trencar el sistema. Escolliu-la si sou novells, o teniu pressa.
+  - «alta» és per a preguntes prou importants.
+  - «mitjana» és per a preguntes normals.
+  - «baixa» és per als bojos pel control que ho volen veure tot.
+ .
+ Teniu en compte que independentment del què escolliu ací, podreu veure totes les preguntes si reconfigureu un paquet amb dpkg-reconfigure.
+Description-cs.UTF-8: Ignorovat otázky s prioritou menší než:
+ Otázky kladené programem debconf mají různou prioritu. Můžete si zvolit nejnižší prioritu otázek, které chcete vidět:
+   - „kritická“ se ptá pouze, pokud by se mohl systém porušit.
+                Volba je vhodná pro začátečníky, nebo pokud nemáte čas.
+   - „vysoká“   obsahuje spíše důležité otázky
+   - „střední“  slouží pro běžné otázky
+   - „nízká“    je pro nadšence, kteří chtějí vidět vše
+ .
+ Všimněte si, že při rekonfiguraci balíku programem dpkg-reconfigure uvidíte všechny otázky bez ohledu na to, jakou prioritu zde zvolíte.
+Description-cy.UTF-8: Anwybyddu cwestiynau gyda blaenoriaeth llai na:
+ Mae debconf yn blaenoriaethu'r cwestiynau mae'n ofyn i chi. Dewiswch y flaenoriaeth isaf o gwestiynau hoffech chi eu gweld:
+   - 'hanfodol' - mae'n eich holi dim ond os allai'r system dorri.
+     Dewiswch hwn os ydych yn ddechreuwr, neu mewn brys
+   - 'uchel' - mae'n gofyn cwestiynau tra bwysig
+   - 'canolig' - mae'n gofyn cwestiynau cyffredin
+   - 'isel' - ar gyfer creaduriaid od sydd eisiau gweld popeth
+ .
+ Nodwch fod dim ots pa lefel rydych yn ddewis yma, fe allwch chi weld pob cwestiwn os ydych yn ail-gyflunio pecyn gyda dpkg-reconfigure.
+Description-da.UTF-8: Ignorér spørgsmål med en prioritet lavere end:
+ Debconf prioriterer de spørgsmål, den stiller dig. Vælg den laveste spørgsmåls-prioritet, du ønsker at se:
+  - 'kritisk' spørger dig kun hvis systemet potentielt kommer i uorden.
+     Vælg dette, hvis du er nybegynder eller har travlt. 
+   - 'høj' for ret vigtige spørgsmål 
+   - 'mellem' for almindelige spørgmål 
+   - 'lav' for kontrolnarkomaner, der vil have alt at se
+ .
+ Bemærk at uanset hvilket niveau du vælger her, vil du kunne se samtlige spørgsmål, hvis du genopsætter pakken med kommandoen dpkg-reconfigure.
+Description-de.UTF-8: Ignoriere Fragen mit einer Priorität niedriger als:
+ Abhängig von der gewählten Priorität stellt Debconf Ihnen Fragen oder unterdrückt diese. Wählen Sie die niedrigste Prioritätsstufe der Fragen, die Sie sehen möchten:
+   - »kritisch« fragt Sie nur, wenn das System beschädigt werden könnte.
+     Wählen Sie dies, falls Sie Linux-Neuling sind oder es eilig haben.
+   - »hoch« ist für ziemlich wichtige Fragen.
+   - »mittel« ist für normale Fragen.
+   - »niedrig« ist für Kontroll-Freaks, die alles sehen möchten.
+ .
+ Beachten Sie, dass Sie unabhängig von der hier gewählten Stufe jede Frage sehen können, wenn Sie ein Paket mit dpkg-reconfigure neu konfigurieren.
+Description-dz.UTF-8: གཙོ་རིམ་ དེ་ལས་ཉུང་མི་འདྲི་བ་ཚུ་སྣང་མེད་སྦེ་བཞག་:
+ Debconf གིས་ ཁྱོད་ལུ་འདྲི་མི་འདྲི་བ་ཚུ་ གཙོ་རིམ་སྦེ་བཀོདཔ་ཨིན། ཁྱོད་ཀྱིས་བལྟ་དགོ་མནོ་མི་འདྲི་བའི་གཙོ་རིམ་དམའ་ཤོས་འདི་འཐུ་:
+ -རིམ་ལུགས་འདི་རྒྱུན་ཆད་པ་ཅིན་ 'ཚབས་ཆེན་'རྐྱངམ་ཅིག་གིས་ ནུས་པ་སྤེལཝ་ཨིན།
+  ཁྱོད་ གསར་གཏོགས་པ་ ཡང་ན་ ཚབ་ཚབ་ཨིན་པ་ཅིན་ འདི་འཐུ།
+ -'མཐོ་བ་' འདི་ ལྷག་པར་གལ་ཆེ་བའི་འདྲི་བ་ཚུའི་དོན་ལུ་ཨིན།
+ -'བར་ནམ་' འདི་ སྤྱིར་བཏང་འདྲི་བ་ཚུའི་དོན་ལུ་ཨིན།
+ -'དམའ་བ་' འདི་ ག་ཅི་ཡང་བལྟ་དགོ་མནོ་མི་ ཀུན་དང་མི་མཐུན་པ་ཚད་འཛིན་གྱི་དོན་ལུ་ཨིན།
+ .
+ ཁྱོད་ཀྱིས་ནཱ་ལས་གནས་རིམ་ག་ཅི་འཐུ་ནི་ཨིན་རུང་ ཁྱད་མེདཔ་སེམས་ཁར་དྲན་ ཁྱོད་ཀྱིས་ ཌི་པི་ཀེ་ཇི་-སླར་རིམ་སྒྲིག་གི་ཐོག་ལས་ ཐུམ་སྒྲིལ་ཅིག་སླར་རིམ་སྒྲིག་འབད་བ་ཅིན་ འདྲི་བ་ཚུ་གེ་ར་མཐོང་ཚུགས།
+Description-el.UTF-8: Να αγνοηθούν οι ερωτήσεις με προτεραιότητα μικρότερη από:
+ Το debconf ορίζει προτεραιότητες για τις ερωτήσεις που σας κάνει. Επιλέξτε την μικρότερη προτεραιότητα των ερωτήσεων που θέλετε να εμφανίζονται:
+   - 'κρίσιμη', εμφανίζει τις ερωτήσεις που είναι απολύτως απαραίτητες να απαντηθούν.
+     επιλέξτε αυτό αν είστε νέος χρήστης ή βιάζεστε.
+   - 'υψηλή', εμφανίζει τις σημαντικές ερωτήσεις.
+   - 'μεσαία', εμφανίζει τις μέτριας σπουδαιότητας ερωτήσεις.
+   - 'χαμηλή', εμφανίζει όλες τις ερωτήσεις για αυτούς που θέλουν να τα ελέγχουν όλα
+ .
+ Σημειωτέον ότι οποιαδήποτε προτεραιότητα επιλέξετε, όλες οι ερωτήσεις θα εμφανιστούν αν πραγματοποιήσετε επαναρύθμιση ενός πακέτου με το dpkg-reconfigure.
+Description-eo.UTF-8: Preterpasi demandojn kun prioritato malpli granda ol:
+ Debconf prioritatigas farotajn demandojn. Elektu la plej malaltan prioritaton por la demandoj kiujn vi volas vidi:
+   - 'altega' demandos vin nur kiam via sistemo povos fiaski.
+     Elektu ĝin se vi estas novulo, aŭ se vi hastas.
+   - 'alta' faros nur gravajn demandojn.
+   - 'meza', faros normalajn demandojn.
+   - 'malalta' estas por "reg-maniuloj", kiuj volas vidi ĉion detalege
+ .
+ Rimarku ke, kia ajn estas via elekto, ĉiel vi povos vidi ĉiujn demandojn, se vi re-agordas pakon per 'dpkg-reconfigure'.
+Description-es.UTF-8: Ignorar preguntas con una prioridad menor que:
+ Debconf prioriza las preguntas que le presenta. Escoja la prioridad más baja de las preguntas que desea ver:
+   - «crítica» es para asuntos vitales, que pueden romper el sistema.
+     Escójala si es novato o tiene prisa.
+   - «alta» es para preguntas muy importantes
+   - «media» es para asuntos normales
+   - «baja» es para quienes quieran tener el máximo control del sistema
+ .
+ Observe que independientemente del nivel que elija, puede ver todas las preguntas de un paquete usando dpkg-reconfigure.
+Description-et.UTF-8: Ignoreeri küsimusi, mille prioriteet on madalam, kui:
+ Debconfi küsimused on prioritiseeritud. Vali küsimuste madalaim prioriteet, millele veel vastata soovid:
+  - 'kriitiline' tülitab sind ainult süsteemi rikkuda võivate küsimustega.
+    Vali, kui oled algaja või kui sul on kiire.
+  - 'kõrge' prioriteet on küllalt tähtsatel küsimustel
+  - 'keskmine' on tavalised küsimused
+  - 'madal' on erilistele pedantidele, kes tahavad kõike ise juhtida
+ .
+ Võid arvestada, et sõltumata siinkohal valitud tasemest võid dpkg-reconfigure abil pakki ümber seadistades vastata kõigile küsimustele.
+Description-eu.UTF-8: Ez ikusia egin hau baino lehentasun txikiagoa duten galderei:
+ Debconf-ek egingo dizkizun galderak lehentasun mailetan sailkatzen ditu. Aukeratu ikusi nahi dituzun galderen lehentasun baxuena:
+   - 'kritikoa'-k sistema hondatu dezaketen galderak egingo ditu .
+     Erabiltzaile berria edo presa baduzu hau aukeratu.
+   - 'handia'-k galdera garrantzitsuak egingo ditu.
+   - 'ertaina'-k galdera arruntak egingo ditu. 
+   - 'txikia' dena ikusi nahi baduzu
+ .
+ Kontutan izan hemen zein aukera egiten duzun axola gabe galdera guztiak ikusi ahal izango dituzula paketea dpkg-reconfigure erabiliaz konfiguratzen baduzu.
+Description-fa.UTF-8: از سوالات با اولویت کمتر از مقدار روبرو صرف نظر کن:
+ Debconf سؤالهایی را که از شما می پرسد اولویت بندی می کند. پایین ترین اولویت هایی را که می خواهیید ببینید انتخاب کنید:
+   - 'بحرانی' تنها در صورتی که احتمال شکست در سیستم باشد به شما نمایش داده می شود.
+     در صورتی که تازه کار هستید و یا عجله دارید آن را انتخاب کنید.
+   - 'بالا' برای سؤالات نسبتاً مهم است.
+   - 'متوسط' سؤالات معمولی
+   - 'پایین' برای کنترل زیاد برای کسی که می خواهد همه چیز را ببیند
+ .
+ توجه داشته باشید، که هیچ اهمیتی ندارد که چه گزینه ای را انتخاب می کنید، شما می توانید در صورتی که یک بسته را با دستور dpkg-reconfigure مجدداً پیکربندی کردید، تمام سؤال ها را دوباره ببینید.
+Description-fi.UTF-8: Ohita kysymykset, joiden prioriteetti on pienempi kuin:
+ Debconf priorisoi esittämänsä kysymykset. Valitse alin prioriteetti, jonka kysymykset haluat nähdä:
+   - "kriittinen" kysyy vain jos järjestelmä voi hajota.
+     Valitse tämä jos olet uusi tai sinulla on kiire.
+   - "tärkeä" on kohtuullisen tärkeille kysymyksille
+   - "tavallinen" on normaaleille kysymyksille
+   - "vähäpätöinen" on säätöfriikeille, jotka haluavat nähdä kaiken
+ .
+ Huomaa, että riippumatta tässä valitsemastasi tasosta näet kaikki kysymykset uudelleensäätämällä paketin "dpkg-reconfigure"-ohjelmalla.
+Description-fr.UTF-8: Ignorer les questions de priorité inférieure à :
+ Debconf gère les priorités des questions qu'il vous pose. Choisissez la priorité la plus basse des questions que vous souhaitez voir :
+   - « critique » n'affiche que les questions pouvant casser le système.
+     Choisissez-la si vous êtes peu expérimenté ou pressé ;
+   - « élevée » affiche les questions plutôt importantes ;
+   - « intermédiaire » affiche les questions normales ;
+   - « basse » est destinée à ceux qui veulent tout contrôler.
+ .
+ Quel que soit le niveau de votre choix, vous pourrez revoir toutes les questions si vous reconfigurez le paquet avec « dpkg-reconfigure ».
+Description-ga.UTF-8: Déan neamhaird de cheisteanna le tosaíocht níos lú ná:
+ Cuireann Debconf tosaíocht ar gach ceist a chuireann sé ort. Roghnaigh an tosaíocht is ísle do na ceisteanna ba mhaith leat feiceáil:
+   - 'criticiúil': cuireann sé ceist ort más féidir an córas a bhriseadh.
+     Roghnaigh é más deargnúíosach thú, nó má tá deifir ort.
+   - 'ard': ceisteanna tábhachtacha
+   - 'gnách': gnáthcheisteanna
+   - 'íseal': d'úsáideoirí aisteacha atá ag iarraidh chuile rud a fheiceáil
+ .
+ Is cuma cén leibhéal a roghnaíonn tú anseo, beidh tú in ann gach ceist a fheiceáil má dhéanann tú cumraíocht nua ar phacáiste le dpkg-reconfigure.
+Description-gl.UTF-8: Ignorar as preguntas cunha prioridade inferior a:
+ Debconf asígnalle prioridades ás preguntas que lle fai. Escolla a prioridade mínima das preguntas que quere ver:
+   - "crítica" só lle pregunta se o sistema pode romper.
+     Escóllaa se non ten experiencia o se ten présa.
+   - "alta" é para preguntas máis ben importantes
+   - "media" é para preguntas normais
+   - "baixa" é para fanáticos do control que o queren ver todo
+ .
+ Teña en conta que, sen importar o nivel que escolla aquí, ha poder ver tódalas preguntas se reconfigura un paquete con dpkg-reconfigure.
+Description-gu.UTF-8: આની કરતા ઓછી પ્રાથમિકતા વાળા પ્રશ્નો અવગણો:
+ ડેબકોન્ફ તમને પૂછવામાં આવતા પ્રશ્નની પ્રાથમિકતા આપશે. તમારે જોઈતા પ્રશ્નની નીચામાં નીચી પ્રાથમિકતા પસંદ કરો:
+   - 'અત્યંત જરુરી' ત્યારે જ પૂછશે જ્યારે તમારી સિસ્ટમમાં ભંગાણ થઈ શકે છે.
+     આ પસંદ કરો જો તમે નવા હોવ, અથવા જલ્દીમાં હોવ.
+   - 'ઉચ્ચ' એ મહત્વનાં પ્રશ્નો માટે છે.
+   - 'મધ્યમ' એ સામાન્ય પ્રશ્નો માટે છે
+   - 'નીચું' એ નિયંત્રણ પસંદ કરતાં લોકો માટે છે જે બધું જોવા માંગે છે
+ .
+ અહીં કોઈ પણ સ્તર પસંદ કર્યા છતાં, પેકેજને dpkg-reconfigure સાથે ફરી રુપરેખાંકિત કરતા તમે દરેક પ્રશ્ન જોઈ શકશો.
+Description-he.UTF-8: התעלם משאלות בעדיפות נמוכה מאשר:
+ Debconf מתעדף את השאלות שהוא שואל, בחר את הרמה הכי נמוכה של שאלות שברצונך לראות:
+   - 'קריטית' דיווח רק אם המערכת עלולה להשבר.
+     בחר באפשרות זאת אם אתה משתמש חדש, או שאתה ממהר מאוד.
+   - 'גבוהה' בשביל שאלות דיי חשובות.
+   - 'בינונית' בשביל שאלות נורמליות.
+   - 'נמוכה' בשביל חולי שליטה שרוצים לראות הכל.
+ .
+ שיב לב, לא משנה איזה רמה תבחר כאן, תוכל לראות את כל השאלות אם תגדיר מחדש את החבילה עם dpkg-reconfigure.
+Description-hi.UTF-8: उन प्रश्नों की उपेक्षा करें जिसमें प्राथमिकता इससे कम है:
+ आपको पूछे जाने प्रश्नों को डीबीकॉन्फ प्राथमिकता में रखता है. निम्नतम प्राथमिकता वाला प्रश्न जो आप देखना चाहते हैं उसे चुनें:
+   - 'नाजुक' तभी पूछेगा जब तंत्र खराब होने को होगा.
+    इसे तभी चुनें यदि आप नौसिखिए हैं, या जल्दी में हैं.
+   - 'उच्च' महत्वपूर्ण प्रश्नों के लिए है
+   - 'मध्यम' सामान्य प्रश्नों के लिए है
+   - 'निम्न' उन मनमौजियों के लिए है जो हर चीज देखना चाहते हैं
+ .
+ यदि आप किसी पैकेज को डीपीकेजी-रीकॉन्फ़िगर से फिर से कॉन्फ़िगर करते हैं तो टीप लें कि इससे कोई फ़र्क़ नहीं पड़ता कि आप कौन सा स्तर यहाँ चुनते हैं, आपको हमेशा ही प्रत्येक प्रश्न दिखाई देगा.
+Description-hr.UTF-8: Preskoči pitanja razine važnosti niže od:
+ Debconf slaže pitanja koja vas pita po prioritetu odn. razini važnosti. Odaberite najnižu razinu važnosti pitanja koja želite vidjeti:
+  - 'kritična' znači da će neodgovaranje na to pitanje može pokvariti sustav.
+     Odaberite ovu razinu ako ste početnik, ili ako vam se žuri.
+  - 'visoka' je za prilično bitna pitanja
+  - 'srednja' je za uobičajena pitanja
+  - 'niska' je za one opsjednute kontrolom, koji žele vidjeti sve
+ .
+ Imajte na umu da neovisno o tome koji nivo ovdje odaberete, moći ćete vidjeti svako pitanje ako pokrenete ponovo podešavanje nekog paketa koristeći 'dpkg-reconfigure'.
+Description-hu.UTF-8: A kevésbé fontos kérdések átugrása, mint:
+ A Debconf eltérően fontos kérdéseket kezel. Melyik legyen a legalacsonyabb szintű kérdés?
+  - A 'kritikus' csak a rendszerveszélyek esetén kérdez.
+     Csak kezdők vagy sietők válasszák.
+   - A 'magas' a fontos kérdésektől kérdez.
+   - A 'közepes' a hétköznapiaktól.
+   - Az 'alacsony' a részletguruk kedvence.
+ .
+ Függetlenül az itt beállított szinttől minden kérdés megjelenik a csomagok dpkg-reconfigure eszközzel való újrakonfigurálásakor.
+Description-id.UTF-8: Abaikan pertanyaan dengan prioritas kurang dari: 
+ Debconf memprioritaskan pertanyaan yang ditanyakan pada anda. Pilih prioritas pertanyaan terendah yang ingin anda lihat:
+   - 'kritis' hanya akan menampilkan prompt bila sistem akan rusak.
+     Pilih ini bila anda pengguna baru, atau sedang terburu-buru.
+   - 'tinggi' untuk pertanyaan yang cukup penting.
+   - 'sedang' untuk pertanyaan-pertanyaan normal
+   - 'rendah' untuk melihat segalanya
+ .
+ Perhatikan bahwa apapun tingkatan yang anda pilih saat ini, anda akan dapat melihat semua pertanyaan bila anda mengkonfigurasi ulang sebuah paket dengan dpkg-reconfigure.
+Description-is.UTF-8: Sleppa spurningum sem hafa lægri forgang en:
+ Debconf forgangsraðar spurningunum sem þú verður beðin(n) um að svara. Veldu þann lægsta forgang spurninga sem þú vilt sjá:
+   - 'mikilvægt' spyr þig einungis ef að kerfið gæti orðið óstarfhæft.
+     Veldu þetta ef þú ert byrjandi eða að flýta þér.
+   - 'mikill' er fyrir frekar mikilvægar spurningar
+   - 'miðlungs' er fyrir venjulegar spurningar
+   - 'lítill' er fyrir fullkomnunarsinna sem vilja stilla allt sjálfir
+ .
+ Athugaðu að það er sama hvaða stig þú velur hérna, ef þú endurstillir pakka með dpkg-reconfigure þá muntu geta séð allar viðkomandi spurningar aftur.
+Description-it.UTF-8: Ignorare domande con priorità inferiore a:
+ Debconf assegna priorità alle domande da porre. Scegliere la più bassa priorità della domanda che verrà visualizzata:
+   - "critica" chiede solo se il sistema potrebbe danneggiarsi.
+      Scegliere questo se non si è molto esperti o di fretta.
+   - "alta" visualizza solo le domande abbastanza importanti.
+   - "media" visualizza solo le domande normali.
+   - "bassa" è per i fanatici del controllo che vogliono vedere tutto.
+ .
+ Notare che qualunque livello si selezioni, sarà possibile visualizzare tutte le domande se il pacchetto viene riconfigurato dpkg-reconfigure.
+Description-ja.UTF-8: より低い優先度の質問を無視:
+ あなたが答えたい質問のうち、最低の優先度のものを選択してください。
+  - 「重要」は、ユーザが介在しないとシステムを破壊しかねないような項目用です。
+    あなたが初心者か、あるいは急いでいるのであればこれを選んでください。
+  - 「高」は、適切なデフォルトの回答がないような項目用です。
+  - 「中」は、適切なデフォルトの回答があるような普通の項目用です。
+  - 「低」は、ほとんどの場合にデフォルトの回答でかまわないような、ささいな項目用です。
+ .
+ 注意: ここで何を選択しても、以前に行った質問は dpkg-reconfigure プログラムを使用して表示できます。
+Description-kk.UTF-8: Приоритеті келесіден төмен сұрақтарды елемеу:
+ Debconf сізге қойылатын сұрақтарды маңызы бойынша келесідей бөледі. Көргіңіз келетін ең төмен дәрежені таңдаңыз:
+   - 'катаң' тек жүйеңізге зақым келтіру қауіпі болса ғана сұрайды.
+     Бастауыш болсаңыз не асықсаңыз, осыны таңдаңыз.
+   - 'жоғары' тек маңызды сұрақтар үшін
+   - 'орташа' қалыпты сұрақтар үшін
+   - 'төмен' егжей-тегжейін көргісі келетіндер үшін
+ .
+ Осында не таңдасаңыз да, егер дестені dpkg-reconfigure көмегімен қайта баптасаңыз, ол десте үшін барлық сұрақтарды көре алатыныңызды есте сақтаңыз.
+Description-km.UTF-8: មិនអើពើ​នឹង​សំណួរ​ដែល​មាន​អាទិភាព​ទាប​ជាង ។
+ Debconf ធ្វើអទិភាព​​សំណួរ​ដែល​​វា​សួរ​អ្នក ។ ជ្រើស​យក​អាទិភាព​ទាប​បំផុតនៃ​សំណួរ​ដែល​អ្នក​ចង់​មើល​ ៖
+   - 'សំខាន់បំផុត' បានតែ​រំលឹក​អ្នកប៉ុណ្ណោះ ប្រសិនបើ​ប្រព័ន្ធ​ខូច​ ។
+     ជ្រើសយក​វា ប្រសិន​បើ​អ្នក​ជា​ newbie, ឬ មាន​ការប្រញាប់ ។
+   - 'ខ្ពស់' គឺសម្រាប់​សំណួរ​ដែល​សំខាន់​ផងដែរ
+   - 'កណ្ដាល' គឺ​សម្រាប់​សំណួរ​ធម្មតា​
+   - 'ទាប' គឺត្រួត​ពិនិត្យលក្ខណៈចម្លែក​ ដែល​រ​នណា​ចង់​មើល​អ្វីៗ
+ .
+ ចំណាំ​ថា គ្មានបញ្ហា​ដែលកម្រិត​អ្វី​ដែលអ្នកជ្រើស​នៅទីនេះ អ្នក​នឹង​អាចឃើញ​គ្រប់​សំណួរ​ បើ​អ្នក​បាន​កំណត់​រចនាសម្ព័ន្ធ​កញ្ចប់​ឡើង​វិញ ជា​មួយ dpkg-recofigure ។
+Description-ko.UTF-8: 이보다 우선 순위가 낮은 질문은 무시:
+ debconf의 질문은 우선 순위가 있습니다. 질문을 보고 싶은 최저 우선 순위를 고르십시오:
+  - '중요'는 설정하지 않으면 시스템이 제대로 동작하지 않는 경우입니다.
+   초보자이거나, 긴급한 경우에 사용하십시오.
+  - '높음'은 상당히 중요한 질문인 경우
+  - '중간'은 일반적인 질문의 경우
+  - '낮음'은 모든 설정 사항을 보고 조정하려는 괴짜들이 사용합니다
+ .
+ 기억해 두십시오. 여기에서 어떤 우선 순위를 선택하든지 간에, dpkg-reconfigure로 패키지를 설정하면 모든 질문을 볼 수 있습니다.
+Description-lt.UTF-8: Ignoruoti klausimus, kurių prioritetas žemesnis negu:
+ „Debconf“ skiria jums pateikiamų klausimų prioritetus. Pasirinkite žemiausią norimų matyti klausimų prioritetą:
+  - „kritinis“ – klausti tik tų klausimų, kurių neatsakius, 
+     iškiltų didelė sistemos strigimo grėsmė.
+     Rinkitės šį variantą, jei esate naujokas(-ė) arba skubate.
+  - „aukštas“ – gan svarbūs klausimai.
+  - „vidutinis“ – įprasti klausimai.
+  - „žemas“ – norintiems kontroliuoti viską, ką tik įmanoma.
+ .
+ Nepriklausomai nuo to, kurį prioritetą pasirinksite, Jūs visada galėsite pamatyti visus klausimus, įvykdydami komandą „dpkg-reconfigure“.
+Description-lv.UTF-8: Ignorēt jautājumus ar prioritāti zemāku par:
+ Debconf ir paredzētas jautājumu prioritātes. Izvēlieties, kāda ir zemākā prioritāte, kuras jautājumus jūs vēl vēlaties redzēt:
+   - 'kritiska' tikai uzdod jautājumus, ja sistēma var salūzt.
+     Izvēlieties šo opciju, ja esat iesācējs, vai vienkārši steidzaties.
+   - 'augsta' ir paredzēts svarīgiem jautājumiem
+   - 'vidēja' ir paredzēts parastiem jautājumiem
+   - 'zema' ir domāts cilvēkiem, kas grib kontrolēt pilnīgi visu.
+ .
+ Neatkarīgi no šeit izvēlētā līmeņa, jūs varēsiet redzēt visu līmeņu jautājumus, ja pārkonfigurēsiet paku ar dpkg-reconfigure palīdzību.
+Description-mg.UTF-8: Adinoy ny fanontaniana manana laharana ambanin'ny :
+ Debconf dia manome laharana ny fanontaniana izay hapetrany aminao. Fidio eto ny laharan'ny fanontaniana ambany indrindra izay tianao hiseo:
+ -'critical' tsy manontany raha tsy misy zavatra mety hanimba ny system.
+  Io fidina raha toa ka tsy mbola zatra ianao na somary maika.
+ -'high' raha ireo fanontaniana important ihany no apetraka.
+ -'medium' ho an'ireo fanontaniana mahazatra.
+ -'low' raha tianao jerena daholo ny zavatra rehetra
+ .
+ Tadidio fa na inona na inona ny laharana fidinao eto dia ho hitanao daholo ny fanontaniana rehetra rehefa mametraka ny fonosana miaraka amin'ny dpkg-reconfigure ianao.
+Description-mk.UTF-8: Игнорирај ги прашањата со приоритет помал од:
+ Debconf ги приоритизира прашањата кои те прашува. Избери го најниското ниво на приоритет на прашањата што сакаш да ги видиш: 
+ - „критично“ е за делови кои најверојатно ќе го расипат системот 
+ Избери го ова ако си нов корисник, или се брзаш
+ - „висок“ е поприлично важни прашања
+ - „среден“ е за нормални прашањ
+ - „низок“ е за оние кои сакаат да ги видат баш сите прашања 
+ .
+ Имај на ум дека било кое ниво што ќе го одбереш тука, ќе бидеш во можност да ги гледаш сите прашања ако гопреконфигурираш пакетот со dpkg-reconfigure.
+Description-ml.UTF-8: ഇതിനേക്കാള്‍ മുന്‍ഗണന കുറഞ്ഞ ചോദ്യങ്ങള്‍ അവഗണിക്കുക:
+ ഡെബ്കോണ്‍ഫ് നിങ്ങളോട് ചോദിക്കുന്ന ചോദ്യങ്ങള്‍ക്ക് അത് മുന്‍ഗണനാ ക്രമം നിശ്ചയിക്കും. നിങ്ങള്‍ കാണാനാഗ്രഹിക്കുന്ന ചോദ്യങ്ങളുടെ ഏറ്റവും താഴ്ന്ന മുന്‍ഗണന തിരഞ്ഞെടുക്കുക:
+   - 'ഗുരുതരം' സിസ്റ്റം കുഴപ്പത്തിലാക്കാന്‍ സാധ്യതയുള്ള ചോദ്യങ്ങള്‍ മാത്രം.
+     നിങ്ങള്‍ പുതുമുഖമാണെങ്കില്‍, അല്ലെങ്കില്‍ തിരക്കിലാണെങ്കില്‍ ഇത് തിരഞ്ഞെടുക്കുക.
+   - 'ഉയര്‍ന്ന' എന്നത് പ്രാധാന്യമുള്ള ചോദ്യങ്ങള്‍ക്കാണ്
+   - 'ഇടയ്കുള്ള' എന്നത് സാധാരണ ചോദ്യങ്ങള്‍ക്കാണ്
+   - 'താഴ്ന്ന' എന്നത് എല്ലാം കാണണം എന്നാഗ്രഹിക്കുന്നവര്‍ക്കാണ്
+ .
+ ഇവിടെ നിങ്ങള്‍ ഏത്  ലെവല്‍ തിരഞ്ഞെടുക്കുന്നു എന്നതിനെ ആശ്രയിക്കാതെ തന്നെ ഒരു പാക്കേജ് dpkg-reconfigure ഉപയോഗിച്ച് പുനക്രമീകരിക്കുകയാണെങ്കില്‍, നിങ്ങള്‍ക്ക് എല്ലാ ചോദ്യങ്ങളും കാണാവുന്നതാണ്.
+Description-mr.UTF-8: प्राधान्यक्रमानुसार कमी महत्वाचे प्रश्नांकडे दुर्लक्ष करा
+ डेबकॉन्फ प्रश्नांचा प्राधान्यक्रम ठरवितो। तुमच्या प्राधान्यक्रमातील सर्वात कमी महत्वाचा प्रश्न निवडा
+  - गंभीर हा शब्द एवढेच दर्शवितो की संगणकामध्ये कदाचित बिघाड संभवतो। 
+  तुम्ही नवखे असाल वा घाईत असाल तरच याची निवड करा। 
+   'अधिक' हा शब्द जास्त महत्वाचे प्रश्नांसाठी आहे 
+   'मध्यम' हा शब्द साधारण प्रश्नांसाठी आहे 
+   'निम्न' हा शब्द अधिक अधिकार गाजवू पहाणा-यांसाठी आहे ज्यांना प्रत्येक गोष्ट पहावयाची असते
+ .
+ जर तुम्ही पॅकेजची संरचना डिपीकेजी वापरून पुन्हा करणार असाल तर कृपया ध्यानात घ्या की तुम्हीकोणतीही पातळी निवडलीत तरी तुम्ही प्रत्येक प्रश्न पाहु शकाल
+Description-nb.UTF-8: Hopp over spørsmål med lavere prioritet enn:
+ Debconf setter en prioritet for hvert spørsmål som stilles. Velg laveste prioritet på spørsmål du vil se:
+   - «kritisk» spør deg bare hvis systemet kan bli ødelagt.
+ ... Velg dette om du er nybegynner eller har det travelt.
+ ..- «høy» gjelder ganske viktige spørsmål
+ ..- .«middels» er for normale spørsmål
+ .. -«lav» er for kontrollfriker som vil se alt
+ .
+ Merk at uansett hvilket nivå du velger her, vil du kunne få se alle spørsmål hvis du setter opp en pakke på nytt med dpkg-reconfigure.
+Description-ne.UTF-8: यस भन्दा कम प्राथमिकता भएका प्रश्नहरू उपेक्षा गर्नुहोस्:
+ यसले तपाईँलाई सोधिएका प्रश्नहरुलाई Debconf ले प्राथमिकता दिन्छ । तपाईँले हेर्न चाहनु भएको कम प्राथमिकताको प्रश्न झिक्नुहोस्:
+   - यदि प्रणाली विच्छेदन भएमा 'critical' ले मात्र तपाईँलाई प्रोम्प्ट गर्दछ ।
+     यदि तपाईँ newbie, वा हतारमा हुनुहुन्छ भने, यसलाई झिक्नुहोस् ।
+    - 'high' खास गरेर महत्वपूर्ण प्रश्नहरुको लागि हो
+    - 'medium' सामन्य प्रश्नहरुको लागि हो
+    - 'low' नियन्त्रण लहरहरुको लागि हो जसले सबै चीज हेर्न चाहन्छ
+ .
+ याद गर्नुहोस् तपाईँले यहाँ कुन स्तर झिक्नु भएको थियो त्यसले केही फरक पार्दैन, यदि तपाईँले dpkg-reconfigure संगै प्याकेज पुन: कनफिगर गर्नु भयो भने तपाईँ प्रत्येक प्रश्न हेर्न सक्नुहुनेछ ।
+Description-nl.UTF-8: Negeer vragen met een prioriteit lager dan:
+ Debconf vragen zijn geordend volgens prioriteit. Kies de laagste prioriteit die u wilt zien:
+   - 'kritiek' is voor vragen die noodzaakelijk zijn om het systeem in werkbare staat te houden
+     Kies dit indien alles nieuw voor u is, of wanneer u haast heeft.
+   - 'hoog' is voor relatief belangrijke vragen
+   - 'gemiddeld' is voor normale vragen
+   - 'laag' is voor controle-freaks die alles willen zien
+ .
+ Merk op dat u met dpkg-reconfigure in staat bent om elke vraag te zien, onafhankelijk van wat u hier kiest.
+Description-no.UTF-8: Hopp over spørsmål med lavere prioritet enn:
+ Debconf setter en prioritet for hvert spørsmål som stilles. Velg laveste prioritet på spørsmål du vil se:
+   - «kritisk» spør deg bare hvis systemet kan bli ødelagt.
+ ... Velg dette om du er nybegynner eller har det travelt.
+ ..- «høy» gjelder ganske viktige spørsmål
+ ..- .«middels» er for normale spørsmål
+ .. -«lav» er for kontrollfriker som vil se alt
+ .
+ Merk at uansett hvilket nivå du velger her, vil du kunne få se alle spørsmål hvis du setter opp en pakke på nytt med dpkg-reconfigure.
+Description-pa.UTF-8: ਘੱਟ ਦਰਜੇ ਵਾਲੇ ਸਵਾਲਾਂ ਨੂੰ ਅਣਡਿੱਠਾ ਕਰ ਦਿਓ:
+ Debconf ਤੁਹਾਨੂੰ ਇਹ ਸਵਾਲ ਪੁੱਛੇਦੀ ਹੈ। ਸਭ ਤੋਂ ਘੱਟ ਤਰਜੀਹ ਵਾਲੇ ਸਵਾਲਾਂ ਦੀ ਚੋਣ ਕਰੋ, ਜਿੰਨਾਂ ਨੂੰ ਤੁਸੀਂ ਵੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ:
+   - 'critical' ਸਿਰਫ਼ ਤਾਂ ਹੀ, ਜੇਕਰ ਸਿਸਟਮ ਵਿਗੜ ਸਕਦੇ ਹੈ।
+     ਇਸ ਦੀ ਚੋਣ ਤਾਂ ਹੀ ਕਰੋ, ਜੇਕਰ ਤੁਸੀਂ ਨਵੇਂ ਹੋ ਜਾਂ ਕਾਹਲੀ ਵਿੱਚ ਹੋ।
+   - 'high' ਖਾਸ ਸਵਾਲਾਂ ਲਈ ਹੈ।
+   - 'medium' ਆਮ ਸਵਾਲਾਂ ਲਈ ਹੈ।
+   - 'low' ਕੰਟਰੋਲ ਉਹਨਾਂ ਲਈ ਹੈ, ਜੋ ਕਿ ਹਰੇਕ ਚੀਜ਼ ਵੇਖਣੀ ਚਾਹੁੰਦੇ ਹਨ।
+ .
+ ਯਾਦ ਰੱਖੋ ਕਿ ਇਸ ਦਾ ਕੋਈ ਫ਼ਰਕ ਨਹੀਂ ਪੈਂਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਕੀ ਚੋਣ ਕੀਤੀ ਹੈ, ਬਲਕਿ ਤੁਸੀਂ dpkg-reconfigureਨਾਲ ਇੱਕ ਪੈਕੇਜ ਨੂੰ ਮੁੜ-ਸੰਰਚਿਤ ਕਰਨ ਕੀਤਾ ਤਾਂ ਹਰੇਕ ਸਵਾਲ ਵੇਖੋਗੇ।
+Description-pl.UTF-8: Ignoruj pytania z priorytetem niższym niż:
+ Debconf używa priorytetów dla zadawanych pytań. Wybierz najniższy priorytet pytań jakie chcesz zobaczyć:
+   - 'krytyczny' zadaje pytania tylko jeśli istnieje niebezpieczeństwo 
+ uszkodzenia systemu. Zalecane dla początkujących
+   - 'wysoki' dla raczej istotnych pytań
+   - 'średni' dla zwyczajnych pytań
+   - 'niski' dla tych, którzy chcą kontrolować każdy szczegół
+ .
+ Pamiętaj, że bez względu na to jaki poziom wybierzesz, istnieje możliwość ujrzenia wszystkich pytań po przekonfigurowaniu pakietu z użyciem dpkg-reconfigure.
+Description-pt.UTF-8: Ignorar perguntas com uma prioridade inferior a:
+ O debconf atribui prioridades às questões que lhe coloca. Escolha a prioridade mais baixa da questão que deseja ver:
+   - 'crítica' apenas faz perguntas se o sistema se pode estragar.
+     Escolha-a se for um novato, ou se estiver com pressa.
+   - 'alta' é para questões importantes
+   - 'média' é para questões normais
+   - 'baixa' é para maníacos do controle que querem ver tudo
+ .
+ Note que qualquer que seja o nível que escolher aqui, poderá ver todas as questões se reconfigurar o pacote com dpkg-reconfigure.
+Description-pt_BR.UTF-8: Ignorar perguntas com uma prioridade menor que:
+ O debconf dá prioridade para as perguntas que faz. Escolha a menor prioridade das questões que você deseja ver:
+   - 'crítica' somente pergunta algo caso o sistema possa sofrer danos.
+     Escolha essa opção caso você seja iniciante ou esteja com pressa.
+   - 'alta' é para perguntas importantes
+   - 'média' é para perguntas normais
+   - 'baixa' é para malucos por controle que desejam ver tudo
+ .
+ Note que, independentemente do que você escolher aqui, você poderá ver todas as perguntas caso você reconfigure um pacote com o comando dpkg-reconfigure.
+Description-ro.UTF-8: Ignoră întrebările cu prioritatea mai mică decât:
+ Debconf prioritizează întrebările pe care vi le adresează. Alegeți cea mai  mică prioritate a întrebărilor pe care doriți să le vedeți:
+   - 'critic' apare doar când sistemul se poate să se strice.
+      Alegeți-o dacă sunteți începător, sau vă grăbiți.
+   - 'ridicat' este pentru întrebări destul de importante
+   - 'mediu' este pentru întrebări normale
+   - 'scăzut' este pentru obsedații de control care vor să vadă tot
+ .
+ A se nota că indiferent ce nivel alegeți aici, veți putea să vedeți fiecare întrebare dacă reconfigurați un pachet cu dpkg-reconfigure.
+Description-ru.UTF-8: Не задавать вопросы с приоритетом менее чем:
+ Debconf различает степень важности задаваемых вам вопросов. Выберите наименьший уровень вопросов, которые хотите видеть: 
+   - «критический» — Выдает только вопросы, критичные для работы системы.
+      Выберите этот уровень, если вы новичок или если торопитесь.
+   - «высокий»     — Выдает наиболее важные вопросы.
+   - «средний»     — Только обычные вопросы.
+   - «низкий»      — Для тех, кто хочет видеть все вопросы.
+ .
+ Заметим, что независимо от выбранной сейчас степени важности, вы всегда сможете увидеть все вопросы при перенастройке пакета с помощью программы dpkg-reconfigure.
+Description-si.UTF-8: වඩා අඩු ප්‍රමුඛතා සහිත ප්‍රශ්ණ මඟ හරින්න:
+ Debconf ඔබෙන් අසන ගැටළු ප්‍රමුඛතාවන්ට අනුව පෙළ ගසයි. ඔබට දැකීමට ඇවැසි අඩුම ප්‍රමුඛතාව තෝරන්න:
+   - 'දරුණු' පද්ධතිය බිඳවැටේනම් පමණක් ඔබෙන් අසයි.
+     ඔබ නවකයෙක් හෝ හදිසි නම් එය තෝරන්න.
+   - 'ඉහළ' වඩා වැදගත් ගැටළු වලටයි
+   - 'මධ්‍යම' සාමාන්‍ය ගැටළු සඳහා
+   - 'අඩු' සියල්ල දැකීමට කැමැත්තන්ටයි
+ .
+ ඔබ මෙහි කුමක් සඳහන් කලද, ඔබ පැකේජය  dpkg-reconfigure මගින් නැවත සැකසුව හොත් ඔබ සියළු ගැටළු නැවත දකින බව දැනගන්න.
+Description-sk.UTF-8: Ignorovať otázky s prioritou menšou ako:
+ Otázky kladené programom debconf majú rôznu prioritu. Môžete si zvoliť najnižšiu prioritu otázok, ktoré chcete vidieť:
+   - „kritická“ sa pýta iba vtedy, ak by sa mohol systém narušiť.
+                Voľba je vhodná pre začiatočníkov alebo ak nemáte čas.
+   - „vysoká“   zahŕňa dôležité otázky
+   - „stredná“  slúži pre normálne otázky
+   - „nízka“    je pre nadšencov, ktorí chcú vidieť všetko
+ .
+ Všimnite si, že pri opätovnom nastavovaní balíka programom dpkg-reconfigure uvidíte všetky otázky bez ohľadu na to, akú prioritu si tu zvolíte.
+Description-sl.UTF-8: Prezri vprašanja s prioriteto nižjo od:
+ Debconf ločuje postavljena vprašanja glede na pomembnost. Izberite najnižjo stopnjo pomembnosti vprašanj, ki jih želite videti:
+   - 'kritična' za tista vprašanja, ki se nanašajo na stvari, ki lahko pokvarijo vaš sistem.
+     Izberite če ste začetnik ali pa se vam mudi.
+   - 'visoka' je za zelo pomembna vprašanja
+   - 'srednja' je za navadna vprašanja
+   - 'nizka' je za uporabnike, ki želijo videti vse
+ .
+ Ne glede na to kateri nivo izberete boste lahko videli vsa vprašanja, če ponovno nastavite paket z dpkg-reconfigure.
+Description-sq.UTF-8: Injoro pyetjet me prioritet më të vogël se:
+ Debconf u vë prioritet pyetjeve që ai ju bën juve. Zgjidh prioritetin më të ulët të pyetjes që ju doni të shihni:
+   - 'kritike' ju lajmeron vetëm nësë sistemi bie.
+     Pick it if you are a newbie, or in a hurry.
+   - 'i lartë' është për pyetje të rëndësishme
+   - 'medium' është për pyetje normale
+   - 'ulët' është për fanatikët e kontrollit që duan të shohin gjithcka
+ .
+ Vini re se pavarësisht se cilin nivel ju zgjidhni, ju do të jeni në gjendje të shihni çdo pyetje në qoftë se ju konfiguroni një pakete me rekonfigurim-dpkg.
+Description-sr.UTF-8: Игнорисати питања мањег приоритета од:
+ Debconf разврстава питања по приоритету. Изаберите најнижи приоритет питања који желите да видите:
+   - 'критично' пита само ако систем може да се сруши.
+     Изаберите ако сте почетник или у журби.
+   - 'високо' пита битна питања
+   - 'средње' пита нормална питања
+   - 'ниско' пита најбаналнија питања и објашњава све.
+ .
+ Било шта да изаберете, моћиће те да видите свако питање ако реконфигуришете пакет помоћу dpkg-reconfigure.
+Description-sr@latin.UTF-8: Ignorisati pitanja manjeg prioriteta od:
+ Debconf razvrstava pitanja po prioritetu. Izaberite najniži prioritet pitanja koji želite da vidite:
+   - 'kritično' pita samo ako sistem može da se sruši.
+     Izaberite ako ste početnik ili u žurbi.
+   - 'visoko' pita bitna pitanja
+   - 'srednje' pita normalna pitanja
+   - 'nisko' pita najbanalnija pitanja i objašnjava sve.
+ .
+ Bilo šta da izaberete, moćiće te da vidite svako pitanje ako rekonfigurišete paket pomoću dpkg-reconfigure.
+Description-sv.UTF-8: Ignorera frågor med lägre prioritet än:
+ Debconf prioriterar frågor den ställer till dig. Välj den lägsta prioritetsnivån för frågor du vill se:
+   - "kritisk" frågar dig endast om systemet kan skadas.
+     Välj den om du är nybörjare eller har bråttom..
+   - "hög" är för ganska viktiga frågor
+   - "medel" är för normala frågor
+   - "låg" är för kontrolltokar som vill se allt som händer
+ .
+ Notera att oavsett vilken nivå du väljer här är det möjligt att se varje fråga om du konfigurerar om ett paket med dpkg-reconfigure.
+Description-ta.UTF-8: இதைவிட முன்னுரிமை குறைந்த கேள்விகளைத் தவிர்.
+ டெப்கான்ஃப்  அது உங்களை கேட்கும் கேள்விகளை முன்னுரிமை படுத்துகிறது.  நீங்கள் பார்க்க விரும்பும் கேள்விகளின் மிகக்குறைந்த முன்னுரிமையை தேர்ந்தெடுங்கள்:
+   - 'மிக முக்கியமான' என்பது அது இல்லாமல் கணினி இயங்கா கேள்விகள்.
+     நீங்கள் மிகப்புதியவராக இருந்தாலோ அல்லது மிக அவசரத்தில் இருந்தாலோ இதை தேர்ந்தெடுக்கவும்.
+   - 'உயர்' மிக முக்கியமான கேள்விகளுக்கு
+   - 'நடுத்தரம்' வழக்கமான கேள்விகளுக்கு
+   - 'குறைவு' எல்லாவற்றையும் பார்க்க விரும்பும் நபருக்கு.
+ .
+ ஒரு விஷயம் இங்கு நினைவு கொள்ளலாம். நீங்கள் எந்த மட்டத்தை இப்போது தேர்ந்தெடுத்தாலும் ஒரு பொதியை மறு வடிவமைப்பு செய்ய dpkg-reconfigure  கட்டளை கொடுத்தல் எல்லா கேள்விகளையும் காணலாம்.
+Description-te.UTF-8: ఇంత కంటే తక్కువ ప్రాధాన్యత ఉన్న ప్రశ్నలను వదిలివేయి:
+ డెబ్కాన్ఫ్  మిమ్ములను  ప్రాధాన్యత ప్రకారము  ప్రశ్నలను అడుగుతుంది. మీరు చూడాలనుకునే కనిష్ఠ స్థాయిని ఎంచుకో  :
+   - 'కీలకం'  మీ వ్యవస్థ చెడిపోయే అవకాశముండే ప్రశ్నలుమాత్రము.
+     మీరు కొత్త  వాడుకరి లేక తొందరలో వుంటే  ఎంచుకో .
+   - 'ఉన్నతం' ముఖ్యమైన ప్రశ్నలు
+   - 'మధ్యమం'  సాధారణ  ప్రశ్నలు
+   - 'అధమం'  ప్రతీది పరీక్షగా చూద్దామనేవారికి
+ .
+ మీరు ఏ స్థాయి ఎంచుకున్నా, మీరు dpkg-reconfigure  వాడితే, ప్రతి ప్రశ్న చూడవచ్చని గమనించండి
+Description-th.UTF-8: ไม่ต้องถามคำถามที่มีระดับความสำคัญต่ำกว่า:
+ debconf จะจัดระดับความสำคัญของคำถามที่จะถามคุณ กรุณาเลือกระดับความสำคัญของคำถามที่ต่ำที่สุดที่คุณต้องการเห็น:
+   - 'วิกฤติ' จะถามคุณเฉพาะคำถามที่คำตอบมีโอกาสทำให้ระบบพังได้
+     คุณอาจเลือกตัวเลือกนี้ถ้าคุณเป็นมือใหม่ หรือกำลังรีบ
+   - 'สูง' สำหรับคำถามที่สำคัญพอสมควร
+   - 'กลาง' สำหรับคำถามปกติ
+   - 'ต่ำ' สำหรับผู้อยากรู้อยากเห็นที่อยากปรับละเอียดทุกตัวเลือก
+ .
+ สังเกตว่า ไม่ว่าคุณจะเลือกระดับคำถามใดตรงนี้ คุณจะยังเห็นคำถามทุกข้อถ้าคุณตั้งค่าแพกเกจใหม่ด้วย dpkg-reconfigure
+Description-tl.UTF-8: Huwag pansinin ang mga tanong na mas-mababa ang antas kaysa sa:
+ Binibigyan ng debconf ng iba't ibang antas ang mga tanong. Piliin ang pinakamababang antas ng tanong na nais niyong makita:
+   - 'kritikal' ay tinatanong kung maaaring makapinsala sa sistema.
+     Piliin ito kung kayo'y baguhan, o nagmamadali.
+   - 'mataas' ay para sa mga importanteng mga tanong
+   - 'kainaman' ay para mga pangkaraniwang mga tanong
+   - 'mababa' ay para sa control freak na gustong makita ang lahat
+ .
+ Unawain na kahit anong antas ang piliin ninyo dito, maaari niyong makita ang bawat tanong kung inyong isasaayos muli ang isang pakete gamit ang dpkg-reconfigure.
+Description-tr.UTF-8: Aşağıdakinden daha düşük önceliğe sahip soruları göz ardı et:
+ Debconf görüntülediği sorulara öncelikler verir. Görmek istediğiniz sorular için en düşük önceliği seçin:
+   - 'kritik': sadece sistemi bozabilecek durumlarda soru sorar.
+      Yeni başlayan ya da aceleci birisiyseniz bunu seçin.
+   - 'yüksek': önemi daha yüksek sorular
+   - 'orta': normal düzeyde sorular
+   - 'düşük': bütün seçenekleri görmek isteyen denetim düşkünleri için
+ .
+ Unutmayın ki paketlerin dpkg-reconfigure komutu ile tekrar yapılandırılması sırasında burada seçtiğiniz öncelik seviyesi ne olursa olsun bütün soruları görebileceksiniz.
+Description-ug.UTF-8: مۇھىملىقى تۆۋەنرەك بولغان سوئاللارغا پەرۋا قىلما:
+ Debconf ئوتتۇرىغا قويۇلىدىغان مەسىلىلەرنى كۆپ دەرىجىگە ئايرىيدۇ. سىز كۆرمەكچى بولغان ئەڭ تۆۋەن دەرىجىلىك مەسىلىنى تاللاڭ:
+ - ھالقىلىق		پەقەت سىستېما بۇزۇلۇشىنى كەلتۈرۈپ چىقىرىدىغان مەسىلىلەرنىلا ئەسكەرتىدۇ
+ سىز يېڭىياچى ياكى بەك ئالدىراش بولسىڭىز، بۇ تۈرنى تاللاشنى ئويلاشسىڭىز بولىدۇ.
+ - يۇقىرى		ناھايىتى مۇھىم بولغان مەسىلىلەرگە قارىتىلىدۇ
+ - ئوتتۇرا		ئادەتتىكى مەسىلىلەرگە قارىتىلىدۇ
+ - تۆۋەن		ھەممىنى كۆرۈپ تۇرۇشنى خالايدىغان تىزگىنلىگۈچىلەرگە ماس كېلىدۇ
+ .
+ دىققەت: سىز بۇ يەردە قايسى دەرىجىنى تاللىشىڭىزدىن قەتئىينەزەر، سىز dpkg-reconfigure ئىشلىتىپ بوغچىلارنى قايتا تەڭشىگەندە ھەممە مەسىلىلەرنى كۆرەلەيسىز.
+Description-uk.UTF-8: Ігнорувати питання з пріоритетом меншим ніж:
+ Debconf розрізняє пріоритети для питань, що задає. Виберіть найменший пріоритет питань, які ви хочете бачити:
+   - "критичний" видавати запитання критичні для роботи системи.
+     Виберіть цей пункт, якщо ви не знайомі з системою, або не можете чекати.
+   - "високий" - для важливих питань
+   - "середній" - для нормальних питань
+   - "низький" - для тих, хто хоче бачити всі питання
+ .
+ Зауважте, що незалежно від вибраного зараз рівня пріоритету, ви завжди зможете побачити всі питання, за допомогою програми dpkg-reconfigure.
+Description-vi.UTF-8: Bỏ qua các câu hỏi có cấp ưu tiên thấp hơn so với:
+ Trình debconf định quyền ưu tiên cho mỗi câu hỏi cấu hình. Bạn có muốn xem câu hỏi có ưu tiên nào?
+  • tới hạn	nhắc bạn chỉ khi hệ thống sắp bị hỏng
+ 					Hãy chọn điều này nếu bạn là người dùng mới, hoặc nếu bạn vội
+  • cao			cho câu hỏi hơi quan trọng
+  • vừa			cho câu hỏi bình thường
+  • thấp			cho người dùng muốn xem hết.
+ .
+ Ghi chú rằng bất chấp cấp được chọn ở đây, bạn vẫn có khả năng xem mọi câu hỏi bằng cách cấu hình lại gói nào bằng lệnh « dpkg-reconfigure ten_gói ».
+Description-wo.UTF-8: jéllalé laaj yi am piriyorite yu yées:
+ Debconf dafay jox laaj yimu lay laaj ay piritorite. Tannal piriyorite bi gëna suufe bi ngay bëgg diko gis:
+   -'bu garaaw' dula laaj dara fiiyak sistem bi nekkul di bëgga dammu.
+    Tann ko bu fekkee ab saabees nga, walla nga yàkkamti.
+   -'bu kawe' ngir rekk laaj yi am solo lool.
+   'bu diggdóomu' ngir laaj yu ordineer
+   'bu suufe' ngir ñi nga xam ne dañuy bëgg di konturle leppu
+ .
+ Xamal ne tolluwaay boo man di tann fii, du tee ngay mana gis laaj yéppu, bu fekkee dangay komfigure ab paket ak dpkg-reconfigure.
+Description-zh_CN.UTF-8: 忽略问题，如果它的优先级低于：
+ Debconf 将需要提出的问题分成多个级别。请选择您想看到的最低级别的问题：
+   - “关键” 仅提示您那些可能会造成系统损坏的问题
+      如果您是新手或非常匆忙，可以考虑选择此项。
+   - “高” 针对那些相当重要的问题
+   - “中” 针对那些普通问题
+   - “低” 适用于想看到一切的控制狂
+ .
+ 注意：不管您在此处选择哪种级别，当您使用 dpkg-reconfigure 重新设置软件包时都将能看到所有的问题。
+Description-zh_TW.UTF-8: 忽略問題，如果它的優先級低於：
+ Debconf 把將會提出的問題分成多個級別。請選擇您想回答的問題的最低級別：
+   - 【關鍵】僅提示您那些可能會造成系統損壞的問題。
+     如果您是新手或時間緊迫，可以考慮選擇此項。
+   - 【高】針對那些相當重要的問題
+   - 【中】針對那些普通問題
+   - 【低】適用於對一切細節控制上癮的使用者
+ .
+ 注意：不管您在此處選擇了哪種級別，當您使用 dpkg-reconfigure 重新設定套件時都將能看到所有的問題。
+
+Template: debconf-apt-progress/title
+Type: text
+Description: Installing packages
+Description-ar.UTF-8: تثبيت الحزم
+Description-ast.UTF-8: Instalando paquetes
+Description-be.UTF-8: Усталяванне пакетаў
+Description-bg.UTF-8: Инсталиране на пакети
+Description-bn.UTF-8: প্যাকেজ ইন্সটল করা হচ্ছে
+Description-bs.UTF-8: Instaliram pakete
+Description-ca.UTF-8: S'estan instal·lant els paquets
+Description-cs.UTF-8: Instalují se balíky
+Description-cy.UTF-8: Yn gosod pecynnau
+Description-da.UTF-8: Installerer pakker
+Description-de.UTF-8: Installiere Pakete
+Description-dz.UTF-8: ཐུམ་སྒྲིལ་ཚུ་གཞི་བཙུགས་འབད་དོ།
+Description-el.UTF-8: Εγκατάσταση πακέτων
+Description-eo.UTF-8: Instalado de pakoj
+Description-es.UTF-8: Instalando paquetes
+Description-et.UTF-8: Pakkide paigaldamine
+Description-eu.UTF-8: Paketeak instalatzen
+Description-fa.UTF-8: نصب بسته ها
+Description-fi.UTF-8: Asennetaan paketteja
+Description-fr.UTF-8: Installation des paquets
+Description-ga.UTF-8: Pacáistí á suiteáil
+Description-gl.UTF-8: A instalar os paquetes
+Description-gu.UTF-8: પેકેજો સ્થાપન કરે છે
+Description-he.UTF-8: מתקין חבילות
+Description-hi.UTF-8: पैकेजों की संस्थापना की जा रही है
+Description-hr.UTF-8: Instaliranje paketa
+Description-hu.UTF-8: Csomagok telepítése
+Description-id.UTF-8: Memasang paket-paket
+Description-is.UTF-8: Set upp pakka
+Description-it.UTF-8: Installazione dei pacchetti in corso
+Description-ja.UTF-8: パッケージをインストールしています
+Description-kk.UTF-8: Дестелерді орнату
+Description-km.UTF-8: កំពុង​ដំឡើង​កញ្ចប់​
+Description-ko.UTF-8: 패키지를 설치하는 중입니다
+Description-lt.UTF-8: Diegiami paketai
+Description-lv.UTF-8: Instalē pakas
+Description-mg.UTF-8: Mametraka fonosana
+Description-mk.UTF-8: Инсталирање пакети
+Description-ml.UTF-8: പാക്കേജുകള്‍ ഇന്സ്റ്റാള്‍ ചെയ്തുകൊണ്ടിരിക്കുന്നു
+Description-mr.UTF-8: पॅकेजची स्थापना चालू आहे
+Description-nb.UTF-8: Installerer pakker
+Description-ne.UTF-8: प्याकेजहरू स्थापना गरिदैछ
+Description-nl.UTF-8: Paketten worden geïnstalleerd
+Description-no.UTF-8: Installerer pakker
+Description-pa.UTF-8: ਪੈਕੇਜ ਇੰਸਟਾਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ
+Description-pl.UTF-8: Instalowanie pakietów
+Description-pt.UTF-8: A instalar pacotes
+Description-pt_BR.UTF-8: Instalando pacotes
+Description-ro.UTF-8: Se instalează pachete
+Description-ru.UTF-8: Устанавливаются пакеты
+Description-si.UTF-8: පැකේජ ස්ථාපනය කරමින්
+Description-sk.UTF-8: Inštalujú sa balíky
+Description-sl.UTF-8: Nameščam pakete
+Description-sq.UTF-8: Duke instaluar paketat
+Description-sr.UTF-8: Инсталирање пакета
+Description-sr@latin.UTF-8: Instaliranje paketa
+Description-sv.UTF-8: Installerar paket
+Description-ta.UTF-8: நிறுவும் தொகுப்புகள்
+Description-te.UTF-8: ప్యాకేజీలను స్థాపిస్తున్నాం
+Description-th.UTF-8: กำลังติดตั้งแพกเกจ
+Description-tl.UTF-8: Nagluluklok ng mga pakete
+Description-tr.UTF-8: Paketler kuruluyor
+Description-ug.UTF-8: بوغچىلارنى ئورنىتىۋاتىدۇ
+Description-uk.UTF-8: Встановлення пакунків
+Description-vi.UTF-8: Đang cài đặt gói
+Description-wo.UTF-8: Mi ngi istale paket yi
+Description-zh_CN.UTF-8: 正在安装软件包
+Description-zh_TW.UTF-8: 安裝套件
+
+Template: debconf-apt-progress/preparing
+Type: text
+Description: Please wait...
+Description-ar.UTF-8: الرجاء الانتظار...
+Description-ast.UTF-8: Por favor, espera...
+Description-be.UTF-8: Калі ласка, чакайце...
+Description-bg.UTF-8: Моля, изчакайте...
+Description-bn.UTF-8: অনুগ্রহ করে অপেক্ষা করুন...
+Description-bs.UTF-8: Molim čekajte...
+Description-ca.UTF-8: Si us plau, espereu...
+Description-cs.UTF-8: Čekejte prosím...
+Description-cy.UTF-8: Arhoswch os gwelwch yn dda...
+Description-da.UTF-8: Vent venligst...
+Description-de.UTF-8: Bitte warten ...
+Description-dz.UTF-8: བསྒུག་གནང་...
+Description-el.UTF-8: Παρακαλώ περιμένετε...
+Description-eo.UTF-8: Bonvolu atendi...
+Description-es.UTF-8: Por favor, espere...
+Description-et.UTF-8: Palun oota...
+Description-eu.UTF-8: Itxoin mesedez...
+Description-fa.UTF-8: لطفاً صبر کنید ...
+Description-fi.UTF-8: Odota...
+Description-fr.UTF-8: Veuillez patienter...
+Description-ga.UTF-8: Fan go fóill...
+Description-gl.UTF-8: Agarde...
+Description-gu.UTF-8: મહેરબાની કરી રાહ જુઓ...
+Description-he.UTF-8: המתן בבקשה...
+Description-hi.UTF-8: कृपया इंतजार करें...
+Description-hr.UTF-8: Molim pričekajte...
+Description-hu.UTF-8: Türelem...
+Description-id.UTF-8: Mohon menunggu...
+Description-is.UTF-8: Bíddu aðeins...
+Description-it.UTF-8: Attendere...
+Description-ja.UTF-8: しばらくお待ちください...
+Description-kk.UTF-8: Күте тұрыңыз...
+Description-km.UTF-8: សូម​រង់ចាំ...
+Description-ko.UTF-8: 잠시 기다리십시오...
+Description-lt.UTF-8: Palaukite...
+Description-lv.UTF-8: Lūdzu, uzgaidiet...
+Description-mg.UTF-8: Miandrasa kely azafady ...
+Description-mk.UTF-8: Те молам почекај...
+Description-ml.UTF-8: ദയവായി കാത്തിരിക്കൂ...
+Description-mr.UTF-8: कृपया वाट पहा
+Description-nb.UTF-8: Vent litt ...
+Description-ne.UTF-8: कृपया पर्खनुहोस्...
+Description-nl.UTF-8: Even geduld alstublieft ...
+Description-no.UTF-8: Vent litt ...
+Description-pa.UTF-8: ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕੋ...
+Description-pl.UTF-8: Proszę czekać...
+Description-pt.UTF-8: Por favor aguarde...
+Description-pt_BR.UTF-8: Por favor, aguarde...
+Description-ro.UTF-8: Vă rugăm, așteptați...
+Description-ru.UTF-8: Подождите…
+Description-si.UTF-8: කරුණාකර රැඳෙන්න...
+Description-sk.UTF-8: Počkajte, prosím...
+Description-sl.UTF-8: Prosim počakajte ...
+Description-sq.UTF-8: Ju lutem prit...
+Description-sr.UTF-8: Сачекајте...
+Description-sr@latin.UTF-8: Sačekajte...
+Description-sv.UTF-8: Var god vänta...
+Description-ta.UTF-8: தயவு செய்து பொறுத்திருக்கவும் ...
+Description-te.UTF-8: దయచేసి వేచివుండండి...
+Description-th.UTF-8: กรุณารอสักครู่...
+Description-tl.UTF-8: Maghintay po lamang...
+Description-tr.UTF-8: Lütfen bekleyin...
+Description-ug.UTF-8: سەل كۈتۈڭ…
+Description-uk.UTF-8: Зачекайте, будь ласка...
+Description-vi.UTF-8: Hãy chờ...
+Description-wo.UTF-8: Muñal tuut...
+Description-zh_CN.UTF-8: 请稍候...
+Description-zh_TW.UTF-8: 請稍候...
+
+Template: debconf-apt-progress/info
+Type: text
+Description: ${DESCRIPTION}
+
+Template: debconf-apt-progress/media-change
+Type: text
+Description: Media change
+ ${MESSAGE}
+Description-ar.UTF-8: تغيير القرص
+ ${MESSAGE}
+Description-ast.UTF-8: Camudar media
+ ${MESSAGE}
+Description-be.UTF-8: Змена носьбіта
+ ${MESSAGE}
+Description-bg.UTF-8: Смяна на носителя
+ ${MESSAGE}
+Description-bn.UTF-8: মিডিয়া পরিবর্তন
+ ${MESSAGE}
+Description-bs.UTF-8: Promjena medija
+ ${MESSAGE}
+Description-ca.UTF-8: Canvi de medi
+ ${MESSAGE}
+Description-cs.UTF-8: Výměna média
+ ${MESSAGE}
+Description-cy.UTF-8: Newid cyfrwng
+ ${MESSAGE}
+Description-da.UTF-8: Nyt medie
+ ${MESSAGE}
+Description-de.UTF-8: Datenträgerwechsel
+ ${MESSAGE}
+Description-dz.UTF-8: མི་ཌི་ཡ་ བསྒྱུར་བཅོས།
+ ${MESSAGE}
+Description-el.UTF-8: Αλλαγή μέσου
+ ${MESSAGE}
+Description-eo.UTF-8: Ŝanĝo de datumportilo
+ ${MESSAGE}
+Description-es.UTF-8: Cambio de medio
+ ${MESSAGE}
+Description-eu.UTF-8: Euskarri aldaketa
+ ${MESSAGE}
+Description-fa.UTF-8: تغییر رسانه
+ ${MESSAGE}
+Description-fi.UTF-8: Taltion vaihto
+ ${MESSAGE}
+Description-fr.UTF-8: Changement de support
+ ${MESSAGE}
+Description-ga.UTF-8: Athrú meáin
+ ${MESSAGE}
+Description-gl.UTF-8: Cambio de soporte
+ ${MESSAGE}
+Description-gu.UTF-8: માધ્યમ બદલાવ
+ ${MESSAGE}
+Description-he.UTF-8: החלפת מדיה
+ ${MESSAGE}
+Description-hi.UTF-8: मीडिया परिवर्तन
+ ${MESSAGE}
+Description-hr.UTF-8: Promjena medija
+ ${MESSAGE}
+Description-id.UTF-8: Media Berubah
+ ${MESSAGE}
+Description-is.UTF-8: Skipti á miðli
+ ${MESSAGE}
+Description-it.UTF-8: Cambio supporto
+ ${MESSAGE}
+Description-ja.UTF-8: メディアの変更
+ ${MESSAGE}
+Description-kk.UTF-8: Дискті ауыстыру
+ ${MESSAGE}
+Description-km.UTF-8: ផ្លាស់ប្ដូរ​មេឌៀ
+ ${MESSAGE}
+Description-ko.UTF-8: 미디어 교체
+ ${MESSAGE}
+Description-lt.UTF-8: Laikmenos keitimas
+ ${MESSAGE}
+Description-lv.UTF-8: Datu nesēja maiņa
+ ${MESSAGE}
+Description-ml.UTF-8: മീഡിയയില്‍ മാറ്റം .
+ ${MESSAGE}
+Description-nb.UTF-8: Skift CD/DVD
+ ${MESSAGE}
+Description-nl.UTF-8: Verwissel medium
+ ${MESSAGE}
+Description-no.UTF-8: Skift CD/DVD
+ ${MESSAGE}
+Description-pl.UTF-8: Zmiana nośnika
+ ${MESSAGE}
+Description-pt.UTF-8: Mudança de meio de instalação
+ ${MESSAGE}
+Description-pt_BR.UTF-8: Troca de mídia
+ ${MESSAGE}
+Description-ro.UTF-8: Schimbare de disc
+ ${MESSAGE}
+Description-ru.UTF-8: Смена носителя
+ ${MESSAGE}
+Description-si.UTF-8: මාධ්‍ය වෙනසක්
+ ${MESSAGE}
+Description-sk.UTF-8: Výmena nosiča
+ ${MESSAGE}
+Description-sl.UTF-8: Sprememba nosilca
+ ${MESSAGE}
+Description-sq.UTF-8: Ndryshim media
+ ${MESSAGE}
+Description-sr.UTF-8: Промена медија
+ ${MESSAGE}
+Description-sr@latin.UTF-8: Promena medija
+ ${MESSAGE}
+Description-sv.UTF-8: Byte av källmedium
+ ${MESSAGE}
+Description-ta.UTF-8: ஊடக மாற்றம்
+ ${MESSAGE}
+Description-te.UTF-8: మాధ్యమ మార్పు
+ ${MESSAGE}
+Description-th.UTF-8: เปลี่ยนแผ่น
+ ${MESSAGE}
+Description-tr.UTF-8: Ortamı(CD,DVD) değişimi
+ ${MESSAGE}
+Description-ug.UTF-8: ۋاسىتە ئالماشتۇر
+ ${MESSAGE}
+Description-vi.UTF-8: Đổi vật chứa
+ ${MESSAGE}
+Description-zh_CN.UTF-8: 更换媒介
+ ${MESSAGE}
+Description-zh_TW.UTF-8: 變更媒體
+ ${MESSAGE}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        /etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.asc
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.asc
+/etc/apt/trusted.gpg.d/debian-archive-trixie-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-trixie-security-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-trixie-stable.asc
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               /.
+/etc
+/etc/apt
+/etc/apt/trusted.gpg.d
+/etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.asc
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.asc
+/etc/apt/trusted.gpg.d/debian-archive-trixie-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-trixie-security-automatic.asc
+/etc/apt/trusted.gpg.d/debian-archive-trixie-stable.asc
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/debian-archive-keyring
+/usr/share/doc/debian-archive-keyring/README
+/usr/share/doc/debian-archive-keyring/changelog.gz
+/usr/share/doc/debian-archive-keyring/copyright
+/usr/share/keyrings
+/usr/share/keyrings/debian-archive-bookworm-automatic.gpg
+/usr/share/keyrings/debian-archive-bookworm-security-automatic.gpg
+/usr/share/keyrings/debian-archive-bookworm-stable.gpg
+/usr/share/keyrings/debian-archive-bullseye-automatic.gpg
+/usr/share/keyrings/debian-archive-bullseye-security-automatic.gpg
+/usr/share/keyrings/debian-archive-bullseye-stable.gpg
+/usr/share/keyrings/debian-archive-keyring.gpg
+/usr/share/keyrings/debian-archive-removed-keys.gpg
+/usr/share/keyrings/debian-archive-trixie-automatic.gpg
+/usr/share/keyrings/debian-archive-trixie-security-automatic.gpg
+/usr/share/keyrings/debian-archive-trixie-stable.gpg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1f7bb252cc1f41fc32eba28217117883  usr/share/doc/debian-archive-keyring/README
+7fd56b3e8aca1935560e6a8e7a7a988d  usr/share/doc/debian-archive-keyring/changelog.gz
+3a39527c50bc61e28a31bd9c3de8e17f  usr/share/doc/debian-archive-keyring/copyright
+8ed7972dd2fdcbcf16ca5c139655eced  usr/share/keyrings/debian-archive-bookworm-automatic.gpg
+befef93070ec9002b7873a7375ffc739  usr/share/keyrings/debian-archive-bookworm-security-automatic.gpg
+4974fa497e6120a5babe820bc779e357  usr/share/keyrings/debian-archive-bookworm-stable.gpg
+f5b8d048d75e0ba9a964c28daa0757cf  usr/share/keyrings/debian-archive-bullseye-automatic.gpg
+b6b2ad2c894ecfe479981fd0eadc1c92  usr/share/keyrings/debian-archive-bullseye-security-automatic.gpg
+045a5096301163f4b172d226e9d4dbb8  usr/share/keyrings/debian-archive-bullseye-stable.gpg
+ee3bb6ed859d7c826768ae6ce2afa366  usr/share/keyrings/debian-archive-keyring.gpg
+f2e1881612e9c5abf3419ff7e6366f15  usr/share/keyrings/debian-archive-removed-keys.gpg
+9526524e7c95760072e7396bd829c9ac  usr/share/keyrings/debian-archive-trixie-automatic.gpg
+830dd0b18a6864ede3b48b1c1ff15f43  usr/share/keyrings/debian-archive-trixie-security-automatic.gpg
+71bbacea891e22a7b9a4c17b8538a4ca  usr/share/keyrings/debian-archive-trixie-stable.gpg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         #!/bin/sh
+
+set -e
+
+if [ "$1" = 'configure' -a -n "$2" ]; then
+	# remove keys from the trusted.gpg file as they are now shipped in fragment files in trusted.gpg.d
+	if dpkg --compare-versions "$2" 'lt' "2012.1" && which gpg > /dev/null && which apt-key > /dev/null; then
+		TRUSTEDFILE='/etc/apt/trusted.gpg'
+		eval $(apt-config shell TRUSTEDFILE Apt::GPGV::TrustedKeyring)
+		eval $(apt-config shell TRUSTEDFILE Dir::Etc::Trusted/f)
+		if [ -e "$TRUSTEDFILE" ]; then
+			for KEY in F42584E6 55BE302B 6D849617 B98321F9 473041FA 46925553 65FFB764; do
+				apt-key --keyring "$TRUSTEDFILE" del $KEY > /dev/null 2>&1 || :
+			done
+		fi
+	fi
+fi
+
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-automatic.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-stable.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-security-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.asc 2025.1\~\~ -- "$@"
+# End automatically added section
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               #!/bin/sh
+
+set -e
+
+if [ "$1" = "purge" ]
+then
+  # Remove the symlink
+  rm -f /etc/apt/trusted.gpg.d/debian-archive-keyring.gpg
+fi
+
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-automatic.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-stable.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-security-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.asc 2025.1\~\~ -- "$@"
+# End automatically added section
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    #!/bin/sh
+set -e
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-automatic.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-stable.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-security-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.asc 2025.1\~\~ -- "$@"
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        #!/bin/sh
+set -e
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-automatic.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-squeeze-stable.gpg 2017.5\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg 2019.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-security-automatic.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg 2021.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg 2023.3\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg 2022.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.gpg 2023.3\+deb12u1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-stable.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.asc 2025.1\~\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.asc 2025.1\~\~ -- "$@"
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        /.
+/bin
+/bin/run-parts
+/bin/tempfile
+/sbin
+/sbin/installkernel
+/usr
+/usr/bin
+/usr/bin/ischroot
+/usr/bin/savelog
+/usr/bin/which.debianutils
+/usr/sbin
+/usr/sbin/add-shell
+/usr/sbin/remove-shell
+/usr/sbin/update-shells
+/usr/share
+/usr/share/debianutils
+/usr/share/debianutils/shells
+/usr/share/debianutils/shells.d
+/usr/share/doc
+/usr/share/doc/debianutils
+/usr/share/doc/debianutils/README.shells.gz
+/usr/share/doc/debianutils/changelog.Debian.gz
+/usr/share/doc/debianutils/changelog.gz
+/usr/share/doc/debianutils/copyright
+/usr/share/man
+/usr/share/man/de
+/usr/share/man/de/man1
+/usr/share/man/de/man1/which.debianutils.1.gz
+/usr/share/man/de/man8
+/usr/share/man/de/man8/add-shell.8.gz
+/usr/share/man/de/man8/installkernel.8.gz
+/usr/share/man/de/man8/remove-shell.8.gz
+/usr/share/man/de/man8/run-parts.8.gz
+/usr/share/man/de/man8/savelog.8.gz
+/usr/share/man/es
+/usr/share/man/es/man1
+/usr/share/man/es/man1/which.debianutils.1.gz
+/usr/share/man/es/man8
+/usr/share/man/es/man8/add-shell.8.gz
+/usr/share/man/es/man8/installkernel.8.gz
+/usr/share/man/es/man8/remove-shell.8.gz
+/usr/share/man/es/man8/run-parts.8.gz
+/usr/share/man/es/man8/savelog.8.gz
+/usr/share/man/fr
+/usr/share/man/fr/man1
+/usr/share/man/fr/man1/which.debianutils.1.gz
+/usr/share/man/fr/man8
+/usr/share/man/fr/man8/add-shell.8.gz
+/usr/share/man/fr/man8/installkernel.8.gz
+/usr/share/man/fr/man8/remove-shell.8.gz
+/usr/share/man/fr/man8/run-parts.8.gz
+/usr/share/man/fr/man8/savelog.8.gz
+/usr/share/man/it
+/usr/share/man/it/man1
+/usr/share/man/it/man1/which.debianutils.1.gz
+/usr/share/man/it/man8
+/usr/share/man/it/man8/add-shell.8.gz
+/usr/share/man/it/man8/installkernel.8.gz
+/usr/share/man/it/man8/remove-shell.8.gz
+/usr/share/man/it/man8/run-parts.8.gz
+/usr/share/man/it/man8/savelog.8.gz
+/usr/share/man/ja
+/usr/share/man/ja/man1
+/usr/share/man/ja/man1/which.debianutils.1.gz
+/usr/share/man/ja/man8
+/usr/share/man/ja/man8/add-shell.8.gz
+/usr/share/man/ja/man8/installkernel.8.gz
+/usr/share/man/ja/man8/remove-shell.8.gz
+/usr/share/man/ja/man8/run-parts.8.gz
+/usr/share/man/ja/man8/savelog.8.gz
+/usr/share/man/man1
+/usr/share/man/man1/ischroot.1.gz
+/usr/share/man/man1/tempfile.1.gz
+/usr/share/man/man1/which.debianutils.1.gz
+/usr/share/man/man8
+/usr/share/man/man8/add-shell.8.gz
+/usr/share/man/man8/installkernel.8.gz
+/usr/share/man/man8/remove-shell.8.gz
+/usr/share/man/man8/run-parts.8.gz
+/usr/share/man/man8/savelog.8.gz
+/usr/share/man/man8/update-shells.8.gz
+/usr/share/man/pl
+/usr/share/man/pl/man1
+/usr/share/man/pl/man1/which.debianutils.1.gz
+/usr/share/man/pl/man8
+/usr/share/man/pl/man8/add-shell.8.gz
+/usr/share/man/pl/man8/installkernel.8.gz
+/usr/share/man/pl/man8/remove-shell.8.gz
+/usr/share/man/pl/man8/run-parts.8.gz
+/usr/share/man/pl/man8/savelog.8.gz
+/usr/share/man/pt
+/usr/share/man/pt/man1
+/usr/share/man/pt/man1/which.1.gz
+/usr/share/man/pt/man8
+/usr/share/man/pt/man8/add-shell.8.gz
+/usr/share/man/pt/man8/installkernel.8.gz
+/usr/share/man/pt/man8/remove-shell.8.gz
+/usr/share/man/pt/man8/run-parts.8.gz
+/usr/share/man/pt/man8/savelog.8.gz
+/usr/share/man/sl
+/usr/share/man/sl/man1
+/usr/share/man/sl/man1/which.debianutils.1.gz
+/usr/share/man/sl/man8
+/usr/share/man/sl/man8/add-shell.8.gz
+/usr/share/man/sl/man8/installkernel.8.gz
+/usr/share/man/sl/man8/remove-shell.8.gz
+/usr/share/man/sl/man8/run-parts.8.gz
+/usr/share/man/sl/man8/savelog.8.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         e89087f34e009065d507116d94c93d3f  bin/run-parts
+195af1595f74f8e143221139b657b139  bin/tempfile
+467b9e77c7b896b4898a44c326f16e6b  sbin/installkernel
+cea57727dbff626d13e5489f094dc573  usr/bin/ischroot
+8c844c3942907e9edf9f30b7110b0cc6  usr/bin/savelog
+e942f154ef9d9974366551d2d231d936  usr/bin/which.debianutils
+139cb32cfcb71cd06e22a432efe33659  usr/sbin/add-shell
+e052ac1c8b98cc06d58011a6bfc74515  usr/sbin/remove-shell
+d476d035515c4b4b39e09e6c83b09576  usr/sbin/update-shells
+a0b758b0ae1eaefda1dfb8b031f7a903  usr/share/debianutils/shells
+dc0a65ab5c89c8e9442cafd12d428d84  usr/share/doc/debianutils/README.shells.gz
+ec5d23dd5e89ca754e8aa6990d57b0c9  usr/share/doc/debianutils/changelog.Debian.gz
+40e94d80af0ef9ed2ecc49b3b6770e14  usr/share/doc/debianutils/changelog.gz
+365dd1cc0a59bc0faee05bb1a0456efd  usr/share/doc/debianutils/copyright
+5dd5fcfc01ded2a3cb2dcef2f8ad4271  usr/share/man/de/man1/which.debianutils.1.gz
+484f342d6f681d9472aac98461c7c523  usr/share/man/de/man8/add-shell.8.gz
+15d3cb1f086d27f717f349730de3291e  usr/share/man/de/man8/installkernel.8.gz
+859e4b18bf26f86a216c35102847f2a0  usr/share/man/de/man8/remove-shell.8.gz
+ca38207250dde30dc0b8819665759339  usr/share/man/de/man8/run-parts.8.gz
+c5fa73341ea98f5ed04b35a665c86225  usr/share/man/de/man8/savelog.8.gz
+9a7fbb315200b747fef96d53a6d29ad8  usr/share/man/es/man1/which.debianutils.1.gz
+018af8d7ec38e32ea4aebff34811d82e  usr/share/man/es/man8/add-shell.8.gz
+e0c0c9822533ee1eb745f301d418d828  usr/share/man/es/man8/installkernel.8.gz
+03724d569da9435a17fa18359c4c6efd  usr/share/man/es/man8/remove-shell.8.gz
+c18c2a2bb6010d78d75c0ef100a141ae  usr/share/man/es/man8/run-parts.8.gz
+8f50ec1821fc8421f71a7e356329223f  usr/share/man/es/man8/savelog.8.gz
+4dbc9e5ab93bda483d6162200a714b62  usr/share/man/fr/man1/which.debianutils.1.gz
+574a1d5408e2188c3e009f6caedb8c1a  usr/share/man/fr/man8/add-shell.8.gz
+80799f22cc608639b98ec0de7fddcc2f  usr/share/man/fr/man8/installkernel.8.gz
+1a3ef6913a518a910f0d0f07fe47764b  usr/share/man/fr/man8/remove-shell.8.gz
+40c584a60f79b191e47fbb533a274663  usr/share/man/fr/man8/run-parts.8.gz
+07da2a5e5fb3a740be1116404c2ee820  usr/share/man/fr/man8/savelog.8.gz
+cddcaa628a9edcf1ea19bdf503e9ad77  usr/share/man/it/man1/which.debianutils.1.gz
+1ce1ba3d779a1c34faac736cb9a37204  usr/share/man/it/man8/add-shell.8.gz
+cdd93afd71373cc32a1314f1f9abeca6  usr/share/man/it/man8/installkernel.8.gz
+cbaa34b9700d1f3ce602c00ce601374e  usr/share/man/it/man8/remove-shell.8.gz
+fdd207fc094658ed4461ace4d3b39000  usr/share/man/it/man8/run-parts.8.gz
+f532fcfbc4376e225a02e4371d9e97b8  usr/share/man/it/man8/savelog.8.gz
+78b747d1afb3984da4d451441557495e  usr/share/man/ja/man1/which.debianutils.1.gz
+47925debb3eef5f86141f23ccd6d1708  usr/share/man/ja/man8/add-shell.8.gz
+d3f15a11abc8f6dbc93d41a3fd502d71  usr/share/man/ja/man8/installkernel.8.gz
+264e83ccbf65d1f03a6517db8f17e070  usr/share/man/ja/man8/remove-shell.8.gz
+6af8b8ec14e95946aeb6b5b0045b02c0  usr/share/man/ja/man8/run-parts.8.gz
+dd8fc824b214c04a06f11aa604cd90d6  usr/share/man/ja/man8/savelog.8.gz
+9a4ec88654b945c97d4d3d51456c22df  usr/share/man/man1/ischroot.1.gz
+7e9ae809d3e7be3a20212f3c9885cad2  usr/share/man/man1/tempfile.1.gz
+aa13fe96c02efaee3e67533f95413f74  usr/share/man/man1/which.debianutils.1.gz
+b1c4db1b2ae57b3a3a0987cdc541c515  usr/share/man/man8/add-shell.8.gz
+e70536fb91582eae89e02194b3d6ef11  usr/share/man/man8/installkernel.8.gz
+27cba2cc672a31a4f82895d4cc73fd5b  usr/share/man/man8/remove-shell.8.gz
+26c7036af0a30dd0c93c90e75d84bd64  usr/share/man/man8/run-parts.8.gz
+8d1889587d106b7c88bb16706edf4faa  usr/share/man/man8/savelog.8.gz
+3ad9c5ac9d1b93724cc45767b21443b6  usr/share/man/man8/update-shells.8.gz
+2858393c277090a6991489640584aee3  usr/share/man/pl/man1/which.debianutils.1.gz
+f23f87226c135664b81d031c9da34daa  usr/share/man/pl/man8/add-shell.8.gz
+70f974b9899e2a2758f475a36346f3a4  usr/share/man/pl/man8/installkernel.8.gz
+a53bd04b407fbe4f89424436c245d615  usr/share/man/pl/man8/remove-shell.8.gz
+e9b2ed69c5495b890c6116d2b24c60e5  usr/share/man/pl/man8/run-parts.8.gz
+c937a4226ebd83ac2e525c10afb63755  usr/share/man/pl/man8/savelog.8.gz
+f74e0341e8b7d891bff89f579f0cbede  usr/share/man/pt/man1/which.1.gz
+3a2016a114eca102686fa2d4a3933b69  usr/share/man/pt/man8/add-shell.8.gz
+62fc9ce33e9b858f9f13f58a621be867  usr/share/man/pt/man8/installkernel.8.gz
+321e4da05fbcfe6d6ad72e958a410ed2  usr/share/man/pt/man8/remove-shell.8.gz
+80b93717908aacd8239401dd7537c261  usr/share/man/pt/man8/run-parts.8.gz
+93141eb00b892349b864ccbe011ad9d1  usr/share/man/pt/man8/savelog.8.gz
+b5234ba3035929b69da34fd9007f4a1b  usr/share/man/sl/man1/which.debianutils.1.gz
+f786580b5376b1fa5e2f4cf70c921ac3  usr/share/man/sl/man8/add-shell.8.gz
+4c39d12b2da2e3d92860baf7c1185726  usr/share/man/sl/man8/installkernel.8.gz
+fd7c845ab3cb83e35f5961eb5a4395c5  usr/share/man/sl/man8/remove-shell.8.gz
+3d68aee4df97bf80cd1021bde0c39679  usr/share/man/sl/man8/run-parts.8.gz
+1df217ec0b164e41551342ade8e81701  usr/share/man/sl/man8/savelog.8.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           

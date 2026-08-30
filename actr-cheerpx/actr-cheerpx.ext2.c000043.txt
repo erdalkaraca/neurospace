@@ -1,0 +1,758 @@
+6 13 1 19 1 302 45 303 13 0 19 1 197 16 352 43 1 29) #1# #2# 39761) (defmethod common-lisp-user::hand-loc (common-lisp-user::location common-lisp-user::hand-pos) &key #12=(common-lisp-user::current t)) (#2# . 40007) (common-lisp-user::hand-pos) (common-lisp-user::location &key #12#) (t :current) #Y(common-lisp-user::hand-loc nil nil (24 45 303 28 358 22 40 3 14 30 46 301 13 1 19 1 197 16 352 29) #1# #2# 40007) (defmethod common-lisp-user::hand-loc (common-lisp-user::hand symbol) &key #13=(common-lisp-user::current t)) (#2# . 40134) (symbol) (common-lisp-user::hand &key #13#) (t :current) #:g13297 (common-lisp-user::right common-lisp-user::left) #Y(common-lisp-user::hand-loc nil nil (24 45 60 28 364 22 40 3 14 30 46 301 10 1 45 365 10 0 42 66 13 15 87 77 19 2 145 12 19 1 151 38 22 42 62 13 15 87 77 19 2 145 12 19 1 150 38 7 13 0 1 366 17 321 43 1 45 322 13 0 14 251 13 1 19 3 342 43 1 29) #1# #2# 40134) common-lisp-user::hand-position (defgeneric common-lisp-user::hand-position) (#2# . 40356) (common-lisp-user::the-hand &key common-lisp-user::current) "Return the position structure of the hand at current or next location (current if not set)" (defmethod common-lisp-user::hand-position (common-lisp-user::the-hand common-lisp-user::hand) &key #14=(common-lisp-user::current t)) (#2# . 40521) (common-lisp-user::hand) (common-lisp-user::the-hand &key #14#) (t :current) #Y(common-lisp-user::hand-position nil nil (24 45 299 28 377 22 40 3 14 30 46 301 10 0 40 7 13 1 19 1 302 76 39 8 13 1 19 1 183 38 6 13 1 19 1 302 45 303 10 0 73 43 1 29) #1# #2# 40521) (defmethod common-lisp-user::hand-position (common-lisp-user::hand symbol) &key #15=(common-lisp-user::current t)) (#2# . 40746) (symbol) (common-lisp-user::hand &key #15#) (t :current) #:g13301 (common-lisp-user::right common-lisp-user::left) #Y(common-lisp-user::hand-position nil nil (24 45 60 28 383 22 40 3 14 30 46 301 10 1 45 384 10 0 42 66 13 15 87 77 19 2 145 12 19 1 151 38 22 42 62 13 15 87 77 19 2 145 12 19 1 150 38 7 13 0 1 385 17 321 43 1 45 322 13 0 14 251 13 1 19 3 368 43 1 29) #1# #2# 40746) common-lisp-user::move-hand (defgeneric common-lisp-user::move-hand) (#2# . 40978) (common-lisp-user::the-hand common-lisp-user::r common-lisp-user::theta &key common-lisp-user::current) "Computes the new position based on indicated starting point." (defmethod common-lisp-user::move-hand (common-lisp-user::the-hand common-lisp-user::hand) common-lisp-user::r common-lisp-user::theta &key #16=(common-lisp-user::current t)) (#2# . 41118) (common-lisp-user::hand t t) (common-lisp-user::the-hand common-lisp-user::r common-lisp-user::theta &key #16#) (t :current) #:g13308 #:g13309 #Y(common-lisp-user::move-hand nil nil (24 45 299 24 45 333 24 45 334 28 396 22 40 3 14 30 46 301 10 0 40 7 13 3 19 1 302 76 39 8 13 3 19 1 183 38 6 13 3 19 1 302 12 19 1 93 45 89 10 0 45 397 13 1 19 1 197 12 13 4 13 3 19 2 118 12 19 2 337 45 398 13 1 15 89 9 0 13 0 19 4 191 43 1 43 1 10 0 73 43 1 29) #1# #2# 41118) (defgeneric common-lisp-user::set-hand-device) (#2# . 41457) (common-lisp-user::hand common-lisp-user::device) "Set the current device for a hand" (defmethod common-lisp-user::set-hand-device (common-lisp-user::the-hand common-lisp-user::hand) common-lisp-user::device) (#2# . 41557) (common-lisp-user::hand t) (common-lisp-user::the-hand common-lisp-user::device) common-lisp-user::internal-set-hand-device #Y(common-lisp-user::set-hand-device nil nil (24 45 299 24 45 153 26 13 1 13 0 19 2 408 29) #1# #2# 41557) (defun common-lisp-user::internal-set-hand-device) (#2# . 41703) (common-lisp-user::hand common-lisp-user::device) common-lisp-user::it common-lisp-user::name common-lisp-user::notify-device-hand-unset #:g13312 #:g13313 (setf common-lisp-user::device) common-lisp-user::notify-device-hand-set #Y(common-lisp-user::internal-set-hand-device nil nil (24 45 60 24 45 153 26 13 1 19 1 153 45 413 10 0 39 14 13 0 13 2 19 1 414 12 19 2 415 38 1 43 1 10 1 45 416 10 1 45 417 13 0 13 1 33 418 18 2 43 1 43 1 10 0 73 39 12 13 0 13 1 19 1 414 12 19 2 419 29) #1# #2# 41703) (defgeneric common-lisp-user::get-hand-device) (#2# . 41952) (common-lisp-user::hand &key common-lisp-user::current) "Get the device for a hand" (defmethod common-lisp-user::get-hand-device (common-lisp-user::the-hand common-lisp-user::hand) &key #17=(common-lisp-user::current t)) (#2# . 42050) (common-lisp-user::hand) (common-lisp-user::the-hand &key #17#) (t :current) common-lisp-user::hand-pos-device #Y(common-lisp-user::get-hand-device nil nil (24 45 299 28 429 22 40 3 14 30 46 301 10 0 39 8 13 1 19 1 153 38 25 13 1 19 1 302 39 10 13 1 19 1 302 12 19 1 430 73 40 6 13 1 19 1 153 29) #1# #2# 42050) common-lisp-user::device-for-hand (defun common-lisp-user::device-for-hand) (#2# . 42305) (common-lisp-user::hand &key (common-lisp-user::current t)) (nil :current) common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model mod "Invalid hand ~s no device available." "Cannot report a hand's device because no motor module available." "No current model. Cannot report a hand's device." #Y(common-lisp-user::device-for-hand nil nil (24 45 60 28 436 22 40 3 14 30 46 301 11 437 40 13 19 0 438 45 439 13 0 19 1 440 43 1 39 92 15 87 77 19 2 145 45 441 10 0 39 60 10 2 42 66 8 13 0 19 1 151 38 28 42 62 8 13 0 19 1 150 38 18 15 158 77 15 159 15 442 13 2 19 4 161 12 19 2 162 75 45 322 10 0 73 39 10 13 0 14 251 13 2 19 3 194 43 1 38 17 15 158 77 15 159 15 443 19 3 161 12 19 2 162 75 73 43 1 38 17 15 158 77 15 159 15 444 19 3 161 12 19 2 162 75 73 29) #1# #2# 42305) common-lisp-user::move-a-finger (defgeneric common-lisp-user::move-a-finger) (#2# . 42860) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta &key common-lisp-user::current) "Moves a finger, returning the new XY location" (defmethod common-lisp-user::move-a-finger (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta &key #18=(common-lisp-user::current t)) (#2# . 43324) (common-lisp-user::motor-module t t t t) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta &key #18#) (t :current) #:g13317 (common-lisp-user::right common-lisp-user::left) #Y(common-lisp-user::move-a-finger nil nil (24 45 231 24 45 60 24 45 202 24 45 333 24 45 334 28 455 22 40 3 14 30 46 301 10 4 45 456 10 0 42 66 22 13 6 19 1 151 12 13 4 13 3 13 2 14 251 13 1 19 6 324 38 31 42 62 22 13 6 19 1 150 12 13 4 13 3 13 2 14 251 13 1 19 6 324 38 7 13 0 1 457 17 321 43 1 29) #1# #2# 43324) common-lisp-user::move-a-hand (defgeneric common-lisp-user::move-a-hand) (#2# . 43584) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::r common-lisp-user::theta &key common-lisp-user::current) "Moves a hand, returning the new XY location" (defmethod common-lisp-user::move-a-hand (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::hand common-lisp-user::r common-lisp-user::theta &key #19=(common-lisp-user::current t)) (#2# . 43828) (common-lisp-user::motor-module t t t) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::r common-lisp-user::theta &key #19#) (t :current) #:g13321 (common-lisp-user::right common-lisp-user::left) #Y(common-lisp-user::move-a-hand nil nil (24 45 231 24 45 60 24 45 333 24 45 334 28 468 22 40 3 14 30 46 301 10 3 45 469 10 0 42 66 20 13 5 19 1 151 12 13 3 13 2 14 251 13 1 19 5 387 38 29 42 62 20 13 5 19 1 150 12 13 3 13 2 14 251 13 1 19 5 387 38 7 13 0 1 470 17 321 43 1 29) #1# #2# 43828) (defgeneric common-lisp-user::set-hand-position) (#2# . 44061) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::pos &key common-lisp-user::current) "Moves a hand given a hand-pos struct" (defmethod common-lisp-user::set-hand-position (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::hand common-lisp-user::pos &key #20=(common-lisp-user::current t)) (#2# . 44185) (common-lisp-user::motor-module t t) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::pos &key #20#) common-lisp-user::pos (t :current) #:g13337 (common-lisp-user::right common-lisp-user::left) #:g13338 #:g13339 (setf common-lisp-user::loc) #:g13340 #:g13341 (setf common-lisp-user::next-loc) #Y(common-lisp-user::set-hand-position nil nil (24 45 231 24 45 60 24 45 480 28 481 22 40 3 14 30 46 301 10 2 45 482 10 0 42 66 8 13 4 19 1 151 38 17 42 62 8 13 4 19 1 150 38 7 13 0 1 483 17 321 43 1 45 322 10 1 39 23 10 0 45 484 10 3 45 485 13 0 13 1 33 486 18 2 43 1 43 1 38 21 10 0 45 487 10 3 45 488 13 0 13 1 33 489 18 2 43 1 43 1 43 1 75 73 29) #1# #2# 44185) common-lisp-user::finger-loc-m (defgeneric common-lisp-user::finger-loc-m) (#2# . 44502) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::finger &key common-lisp-user::current) "Return the XY location of the specified finger" (defmethod common-lisp-user::finger-loc-m (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::hand common-lisp-user::finger &key #21=(common-lisp-user::current t)) (#2# . 44768) (common-lisp-user::motor-module t t) (common-lisp-user::mtr-mod common-lisp-user::hand common-lisp-user::finger &key #21#) (t :current) #:g13345 (common-lisp-user::right common-lisp-user::left) #Y(common-lisp-user::finger-loc-m nil nil (24 45 231 24 45 60 24 45 202 28 500 22 40 3 14 30 46 301 10 2 45 501 10 0 42 66 18 13 4 19 1 151 12 13 2 14 251 13 1 19 4 204 38 27 42 62 18 13 4 19 1 150 12 13 2 14 251 13 1 19 4 204 38 7 13 0 1 502 17 321 43 1 29) #1# #2# 44768) common-lisp-user::motor-action-performed (defun common-lisp-user::motor-action-performed) (#2# . 45001) #Y(common-lisp-user::motor-action-performed nil nil (26 75 73 29) #1# #2# 45001) common-lisp-user::notify-motor-device (defun common-lisp-user::notify-motor-device) (#2# . 45235) (common-lisp-user::device common-lisp-user::params &optional time) time common-lisp-user::notify-device :module common-lisp-user::medium :details symbol-name " " common-lisp-user::schedule-event-now #Y(common-lisp-user::notify-motor-device nil nil (24 45 153 24 45 132 25 40 2 77 46 512 26 10 2 39 10 13 2 13 1 19 2 513 38 53 10 0 39 36 15 504 14 514 14 87 14 46 15 515 14 516 15 6 1 504 16 517 12 15 518 10 0 16 142 12 19 4 10 12 19 7 519 38 14 15 504 14 514 14 87 14 46 15 515 19 5 519 29) #1# #2# 45235) common-lisp-user::distance= (defun common-lisp-user::distance=) (#2# . 45736) (common-lisp-user::d1 common-lisp-user::d2) common-lisp-user::d1 common-lisp-user::d2 2.0 - abs > #Y(common-lisp-user::distance= nil nil (24 45 525 24 45 526 26 10 1 39 3 10 0 73 39 16 15 527 13 1 13 0 19 2 528 16 529 12 19 2 530 29) #1# #2# 45736) function "Two distances are not equal if they are more than two degrees apart." si::set-documentation common-lisp-user::direction= (defun common-lisp-user::direction=) (#2# . 45991) (common-lisp-user::d1 common-lisp-user::d2) common-lisp-user::delta pi / 7/4 * #Y(common-lisp-user::direction= nil nil (24 45 525 24 45 526 26 10 1 39 3 10 0 73 39 43 13 1 13 0 19 2 528 16 529 45 539 14 540 9 4 19 2 541 12 13 0 19 2 530 73 40 14 13 0 15 542 14 540 19 2 543 12 19 2 530 43 1 29) #1# #2# 45991) "Two directions are not equal if they are more than pi/4 apart." common-lisp-user::xy-to-polar (defun common-lisp-user::xy-to-polar) (#2# . 46274) (common-lisp-user::from common-lisp-user::to) common-lisp-user::from common-lisp-user::to subseq common-lisp-user::dist common-lisp-user::distance zerop 0.0 atan #Y(common-lisp-user::xy-to-polar nil nil (24 45 550 24 45 551 26 13 1 9 0 9 2 19 3 552 12 13 0 9 0 9 2 19 3 552 12 19 2 553 45 554 13 0 10 0 16 555 39 6 1 556 73 38 40 13 1 8 1 17 188 12 13 2 8 1 17 188 12 19 2 528 12 13 1 8 0 17 188 12 13 2 8 0 17 188 12 19 2 528 12 19 2 557 12 19 2 118 43 1 29) #1# #2# 46274) common-lisp-user::fitts (defgeneric common-lisp-user::fitts) (#2# . 46528) (common-lisp-user::mtr-mod common-lisp-user::coef common-lisp-user::d &optional common-lisp-user::w) "Fitts law time for movement" (defmethod common-lisp-user::fitts (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::coef common-lisp-user::d &optional #22=(common-lisp-user::w #23=1.0)) (#2# . 46848) (common-lisp-user::motor-module t t) (common-lisp-user::mtr-mod common-lisp-user::coef common-lisp-user::d &optional #22#) common-lisp-user::coef common-lisp-user::d #23# common-lisp-user::w minusp common-lisp-user::default-target-width common-lisp-user::default "Fitts time computation received a negative or zero width.  Using the default-target-width setting ~s." common-lisp-user::min-fitts-time 0.5 "Cannot take log of 0 returning most negative float value" -3.4028235e38 "Cannot use base 1 for log returning most positive float value" 3.4028235e38 log max #Y(common-lisp-user::fitts nil nil (24 45 231 24 45 568 24 45 569 25 40 3 15 570 46 571 26 10 0 16 555 40 5 10 0 16 572 39 30 13 3 19 1 573 45 574 15 158 77 15 159 15 575 13 0 19 4 161 12 19 2 162 10 0 51 1 43 1 13 3 19 1 576 12 13 2 13 1 13 0 19 2 541 12 15 577 19 2 305 16 555 40 5 8 2 16 555 39 20 15 158 77 15 159 15 578 19 3 161 12 19 2 162 1 579 73 38 48 9 2 15 570 19 2 336 39 20 15 158 77 15 159 15 580 19 3 161 12 19 2 162 1 581 73 38 20 13 1 13 0 19 2 541 12 15 577 19 2 305 12 9 2 19 2 582 12 19 2 543 12 19 2 583 29) #1# #2# 46848) common-lisp-user::punch (defclass common-lisp-user::punch) (#2# . 47329) (common-lisp-user::movement-style) ((:initform nil :initargs (:hand) :writers ((setf common-lisp-user::hand)) :readers (common-lisp-user::hand) :name common-lisp-user::hand) (:initform nil :initargs (:finger) :writers ((setf common-lisp-user::finger)) :readers (common-lisp-user::finger) :name common-lisp-user::finger)) :style-name :punch :feature-slots '#24=(common-lisp-user::hand common-lisp-user::finger) #24# (defmethod common-lisp-user::punch #25=(common-lisp-user::module common-lisp-user::pm-module) &key common-lisp-user::hand common-lisp-user::finger . #26=(common-lisp-user::request-spec)) (#2# . 47329) (common-lisp-user::pm-module) (common-lisp-user::module &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::request-spec) common-lisp-user::module (t :request-spec :finger :hand) common-lisp-user::request-spec common-lisp-user::check-jam common-lisp-user::check-specs :request-spec :hand :finger common-lisp-user::prepare-movement #Y(common-lisp-user::punch nil nil (24 45 599 28 600 22 40 2 77 46 60 22 40 2 77 46 202 22 40 2 77 46 601 13 3 19 1 602 40 10 15 585 13 2 13 1 19 3 603 76 73 39 24 13 3 15 585 14 604 13 0 14 605 13 2 14 606 13 1 19 7 63 12 19 2 607 29) #1# #2# 47329) common-lisp-user::compute-exec-time (defmethod common-lisp-user::compute-exec-time (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::punch)) (#2# . 47475) (common-lisp-user::motor-module common-lisp-user::punch) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::self common-lisp-user::init-time common-lisp-user::key-closure-time #Y(common-lisp-user::compute-exec-time nil nil (24 45 231 24 45 614 26 13 1 19 1 615 12 13 1 19 1 616 12 19 2 305 29) #1# #2# 47475) common-lisp-user::compute-finish-time (defmethod common-lisp-user::compute-finish-time (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::punch)) (#2# . 47662) (common-lisp-user::motor-module common-lisp-user::punch) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::burst-time #Y(common-lisp-user::compute-finish-time nil nil (24 45 231 24 45 614 26 13 1 19 1 615 12 13 1 19 1 623 12 13 1 19 1 623 12 19 3 305 29) #1# #2# 47662) common-lisp-user::feat-differences (defmethod common-lisp-user::feat-differences (common-lisp-user::p1 common-lisp-user::punch) (common-lisp-user::p2 common-lisp-user::punch)) (#2# . 47874) (common-lisp-user::punch common-lisp-user::punch) (common-lisp-user::p1 common-lisp-user::p2) common-lisp-user::p1 common-lisp-user::p2 #Y(common-lisp-user::feat-differences nil nil (24 45 630 24 45 631 26 13 1 19 1 60 12 13 0 19 1 60 17 36 76 39 6 8 2 73 38 25 13 1 19 1 202 12 13 0 19 1 202 17 36 76 39 6 8 1 73 38 4 8 0 73 29) #1# #2# 47874) common-lisp-user::queue-output-events (defmethod common-lisp-user::queue-output-events (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::punch)) (#2# . 48033) (common-lisp-user::motor-module common-lisp-user::punch) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::exec-time common-lisp-user::seconds->ms :time-in-ms :params common-lisp-user::model common-lisp-user::current-model (common-lisp-user::style common-lisp-user::punch) common-lisp-user::request-time common-lisp-user::schedule-event-relative #Y(common-lisp-user::queue-output-events nil nil (24 45 231 24 45 614 26 13 0 19 1 638 12 19 1 639 12 15 508 14 640 14 30 14 514 14 87 14 46 77 14 641 13 0 19 1 60 12 19 1 432 12 15 642 19 0 643 6 2 12 15 644 15 60 13 0 19 1 60 6 2 12 15 183 13 1 13 0 19 1 60 12 13 0 19 1 202 12 19 3 491 12 1 198 17 199 6 2 6 4 12 13 0 19 1 645 6 3 12 19 10 646 29) #1# #2# 48033) common-lisp-user::hfrt-movement (defclass common-lisp-user::hfrt-movement) (#2# . 48650) (common-lisp-user::movement-style) ((:initform nil :initargs (:hand) :writers ((setf common-lisp-user::hand)) :readers (common-lisp-user::hand) :name common-lisp-user::hand) (:initform nil :initargs (:finger) :writers ((setf common-lisp-user::finger)) :readers (common-lisp-user::finger) :name common-lisp-user::finger) (:initform nil :initargs (:r) :writers ((setf common-lisp-user::r)) :readers (common-lisp-user::r) :name common-lisp-user::r) (:initform nil :initargs (:theta) :writers ((setf common-lisp-user::theta)) :readers (common-lisp-user::theta) :name common-lisp-user::theta)) :hfrt-movement '#27=(common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta) #27# (defmethod common-lisp-user::hfrt-movement #25# &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta . #26#) (#2# . 48650) (common-lisp-user::pm-module) (common-lisp-user::module &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta common-lisp-user::request-spec) (t :request-spec :theta :r :finger :hand) :r :theta #Y(common-lisp-user::hfrt-movement nil nil (24 45 599 28 660 22 40 2 77 46 60 22 40 2 77 46 202 22 40 2 77 46 333 22 40 2 77 46 334 22 40 2 77 46 601 13 5 19 1 602 40 14 15 648 13 4 13 3 13 2 13 1 19 5 603 76 73 39 32 13 5 15 648 14 604 13 0 14 605 13 4 14 606 13 3 14 661 13 2 14 662 13 1 19 11 63 12 19 2 607 29) #1# #2# 48650) (defmethod common-lisp-user::feat-differences (common-lisp-user::m1 common-lisp-user::hfrt-movement) (common-lisp-user::m2 common-lisp-user::hfrt-movement)) (#2# . 48826) (common-lisp-user::hfrt-movement common-lisp-user::hfrt-movement) (common-lisp-user::m1 common-lisp-user::m2) common-lisp-user::m1 common-lisp-user::m2 common-lisp-user::num-possible-feats common-lisp-user::maxfeats 1- common-lisp-user::nfeats #:g13363 #:g13365 #Y(common-lisp-user::feat-differences nil nil (24 45 668 24 45 669 26 13 1 19 1 670 45 671 13 2 19 1 60 12 13 1 19 1 60 17 36 76 39 7 10 0 16 672 38 101 13 2 19 1 202 12 13 1 19 1 202 17 36 76 39 10 13 0 9 2 19 2 528 38 76 8 0 45 673 13 3 19 1 333 12 13 2 19 1 333 12 19 2 521 76 39 16 8 1 45 674 13 1 13 0 19 2 305 51 1 43 1 13 3 19 1 334 12 13 2 19 1 334 12 19 2 535 76 39 16 8 1 45 675 13 1 13 0 19 2 305 51 1 43 1 10 0 73 43 1 43 1 29) #1# #2# 48826) common-lisp-user::peck (defclass common-lisp-user::peck) (#2# . 49258) (common-lisp-user::hfrt-movement) ((:initform nil :initargs (:hand) :writers ((setf common-lisp-user::hand)) :readers (common-lisp-user::hand) :name common-lisp-user::hand) (:initform nil :initargs (:finger) :writers ((setf common-lisp-user::finger)) :readers (common-lisp-user::finger) :name common-lisp-user::finger) (:initform nil :initargs (:r) :writers ((setf common-lisp-user::r)) :readers (common-lisp-user::r) :name common-lisp-user::r) (:initform nil :initargs (:theta) :writers ((setf common-lisp-user::theta)) :readers (common-lisp-user::theta) :name common-lisp-user::theta)) :peck '#28=(common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta) #28# (defmethod common-lisp-user::peck #25# &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta . #26#) (#2# . 49258) (common-lisp-user::pm-module) (common-lisp-user::module &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta common-lisp-user::request-spec) (t :request-spec :theta :r :finger :hand) #Y(common-lisp-user::peck nil nil (24 45 599 28 689 22 40 2 77 46 60 22 40 2 77 46 202 22 40 2 77 46 333 22 40 2 77 46 334 22 40 2 77 46 601 13 5 19 1 602 40 14 15 677 13 4 13 3 13 2 13 1 19 5 603 76 73 39 32 13 5 15 677 14 604 13 0 14 605 13 4 14 606 13 3 14 661 13 2 14 662 13 1 19 11 63 12 19 2 607 29) #1# #2# 49258) common-lisp-user::prepare-features (defmethod common-lisp-user::prepare-features (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::peck)) (#2# . 49420) (common-lisp-user::motor-module common-lisp-user::peck) (common-lisp-user::mtr-mod common-lisp-user::self) #:g13372 #:g13373 (setf common-lisp-user::updated-pos) #Y(common-lisp-user::prepare-features nil nil (24 45 231 24 45 614 26 10 0 45 696 13 2 13 1 19 1 60 12 13 1 19 1 202 12 13 1 19 1 333 12 13 1 19 1 334 12 14 251 77 19 7 446 45 697 13 0 13 1 33 698 18 2 43 1 43 1 29) #1# #2# 49420) (defmethod common-lisp-user::compute-exec-time (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::peck)) (#2# . 49653) (common-lisp-user::motor-module common-lisp-user::peck) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::peck-fitts-coeff common-lisp-user::randomize-time #Y(common-lisp-user::compute-exec-time nil nil (24 45 231 24 45 614 26 13 1 19 1 615 12 13 1 19 1 623 12 13 1 13 1 19 1 704 12 13 0 19 1 333 12 19 3 559 12 19 1 705 12 19 2 583 12 19 2 305 29) #1# #2# 49653) (defmethod common-lisp-user::queue-output-events (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::peck)) (#2# . 49934) (common-lisp-user::motor-module common-lisp-user::peck) (common-lisp-user::mtr-mod common-lisp-user::self) :destination (common-lisp-user::style common-lisp-user::peck) #Y(common-lisp-user::queue-output-events nil nil (24 45 231 24 45 614 26 13 0 19 1 638 12 19 1 639 12 15 165 14 640 14 30 14 514 14 87 14 46 77 14 711 14 87 14 641 13 0 19 1 60 12 13 0 19 1 250 6 2 12 19 12 646 13 0 19 1 638 12 19 1 639 12 15 508 14 640 14 30 14 514 14 87 14 46 77 14 641 13 0 19 1 60 12 19 1 432 12 15 642 19 0 643 6 2 12 15 712 15 60 13 0 19 1 60 6 2 12 15 183 13 0 19 1 250 12 13 0 19 1 202 12 19 2 204 12 1 198 17 199 6 2 6 4 12 13 0 19 1 645 6 3 12 19 10 646 29) #1# #2# 49934) common-lisp-user::peck-recoil (defclass common-lisp-user::peck-recoil) (#2# . 50646) (common-lisp-user::hfrt-movement) ((:writers ((setf common-lisp-user::move-time)) :readers (common-lisp-user::move-time) :name common-lisp-user::move-time)) (defmethod common-lisp-user::compute-exec-time (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::peck-recoil)) (#2# . 50884) (common-lisp-user::motor-module common-lisp-user::peck-recoil) (common-lisp-user::mtr-mod common-lisp-user::self) #:g13380 #:g13381 (setf common-lisp-user::move-time) common-lisp-user::move-time #Y(common-lisp-user::compute-exec-time nil nil (24 45 231 24 45 614 26 10 0 45 723 13 2 19 1 623 12 13 2 13 2 19 1 704 12 13 1 19 1 333 12 19 3 559 12 19 2 583 45 724 13 0 13 1 33 725 18 2 43 1 43 1 13 1 19 1 615 12 13 1 19 1 623 12 13 0 19 1 726 12 19 1 705 12 19 2 583 12 19 2 305 29) #1# #2# 50884) (defmethod common-lisp-user::compute-finish-time (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::peck-recoil)) (#2# . 51261) (common-lisp-user::motor-module common-lisp-user::peck-recoil) (common-lisp-user::mtr-mod common-lisp-user::self) #Y(common-lisp-user::compute-finish-time nil nil (24 45 231 24 45 614 26 13 0 19 1 638 12 13 1 19 1 623 12 13 1 19 1 623 12 13 0 19 1 726 12 19 1 705 12 19 2 583 12 19 3 305 29) #1# #2# 51261) (defmethod common-lisp-user::queue-output-events (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::peck-recoil)) (#2# . 51527) (common-lisp-user::motor-module common-lisp-user::peck-recoil) (common-lisp-user::mtr-mod common-lisp-user::self) (common-lisp-user::style common-lisp-user::peck-recoil) #Y(common-lisp-user::queue-output-events nil nil (24 45 231 24 45 614 26 13 0 19 1 638 12 19 1 639 12 15 508 14 640 14 30 14 514 14 87 14 46 77 14 641 13 0 19 1 60 12 19 1 432 12 15 642 19 0 643 6 2 12 15 737 15 60 13 0 19 1 60 6 2 12 15 183 13 1 13 0 19 1 60 12 13 0 19 1 202 12 19 3 491 12 13 0 19 1 333 12 13 0 19 1 334 12 19 2 118 12 19 2 337 12 1 198 17 199 6 2 6 4 12 13 0 19 1 645 6 3 12 19 10 646 29) #1# #2# 51527) (defmethod common-lisp-user::peck-recoil (common-lisp-user::mtr-mod common-lisp-user::motor-module) &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta common-lisp-user::request-spec) (#2# . 52446) (common-lisp-user::motor-module) (common-lisp-user::mtr-mod &key common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta common-lisp-user::request-spec) (t :request-spec :theta :r :finger :hand) symbolp symbol-value #Y(common-lisp-user::peck-recoil nil nil (24 45 231 28 743 22 40 2 77 46 60 22 40 2 77 46 202 22 40 2 77 46 333 22 40 2 77 46 334 22 40 2 77 46 601 13 5 19 1 602 76 73 39 44 10 1 16 744 39 7 10 1 16 745 51 1 13 5 15 714 14 605 13 4 14 606 13 3 14 661 13 2 14 662 13 1 14 604 13 0 19 11 63 12 19 2 607 29) #1# #2# 52446) common-lisp-user::ply (defclass common-lisp-user::ply) (#2# . 52763) (common-lisp-user::hfrt-movement) (:initargs (:fitts-coeff) :writers ((setf common-lisp-user::fitts-coeff)) :readers (common-lisp-user::fitts-coeff) :name common-lisp-user::fitts-coeff) #Y(nil nil nil (26 15 87 77 19 2 145 45 231 10 0 73 39 6 13 0 19 1 573 43 1 29) #1# #2# 52763) (:initform (let ((common-lisp-user::mtr-mod (common-lisp-user::get-module :motor))) (when common-lisp-user::mtr-mod (bordeaux-threads::with-recursive-lock-held ((common-lisp-user::param-lock common-lisp-user::mtr-mod)) (common-lisp-user::default-target-width common-lisp-user::mtr-mod)))) :initargs (:target-width) :writers ((setf common-lisp-user::target-width)) :readers (common-lisp-user::target-width) :name common-lisp-user::target-width) :dummy :ply :fitts-coeff (let ((common-lisp-user::mtr-mod (common-lisp-user::get-module :motor))) (when common-lisp-user::mtr-mod (bordeaux-threads::with-recursive-lock-held ((common-lisp-user::param-lock common-lisp-user::mtr-mod)) (common-lisp-user::peck-fitts-coeff common-lisp-user::mtr-mod)))) #Y(nil nil nil (26 15 87 77 19 2 145 45 231 10 0 73 39 6 13 0 19 1 704 43 1 29) #1# #2# 52763) (defmethod common-lisp-user::prepare-features (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::ply)) (#2# . 53564) (common-lisp-user::motor-module common-lisp-user::ply) (common-lisp-user::mtr-mod common-lisp-user::self) #:g13392 #:g13393 (setf common-lisp-user::updated-pos) #Y(common-lisp-user::prepare-features nil nil (24 45 231 24 45 614 26 10 0 45 763 13 2 13 1 19 1 60 12 13 1 19 1 202 12 13 1 19 1 333 12 13 1 19 1 334 12 14 251 77 19 7 446 45 764 13 0 13 1 33 765 18 2 43 1 43 1 29) #1# #2# 53564) (defmethod common-lisp-user::queue-output-events (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::ply)) (#2# . 53796) (common-lisp-user::motor-module common-lisp-user::ply) (common-lisp-user::mtr-mod common-lisp-user::self) "~a ~a ~a ~a ~a" #Y(common-lisp-user::queue-output-events nil nil (24 45 231 24 45 614 26 13 0 19 1 638 12 19 1 639 12 15 165 14 640 14 30 14 514 14 87 14 711 14 87 14 641 13 0 19 1 60 12 13 0 19 1 250 6 2 12 14 516 77 15 771 15 446 13 0 19 1 60 12 13 0 19 1 202 12 13 0 19 1 333 12 13 0 19 1 334 12 19 7 161 12 19 12 646 29) #1# #2# 53796) (defmethod common-lisp-user::compute-exec-time (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::ply)) (#2# . 54267) (common-lisp-user::motor-module common-lisp-ush  i  j  k  l  m  n  o  p  q  r  s  t  u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          er::ply) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::fitts-coeff common-lisp-user::target-width #Y(common-lisp-user::compute-exec-time nil nil (24 45 231 24 45 614 26 13 1 19 1 615 12 13 1 13 0 19 1 777 12 13 0 19 1 333 12 13 0 19 1 778 12 19 4 559 12 19 1 705 12 19 2 305 29) #1# #2# 54267) (defmethod common-lisp-user::num-possible-feats :around (common-lisp-user::self common-lisp-user::ply)) (#2# . 54535) (:around) (common-lisp-user::ply) (common-lisp-user::self) call-next-method #Y(common-lisp-user::num-possible-feats nil nil (24 45 614 26 19 0 785 12 9 1 19 2 528 29) #1# #2# 54535) common-lisp-user::hand-ply (defclass common-lisp-user::hand-ply) (#2# . 54616) (common-lisp-user::ply) ((:initform nil :initargs (:offsets) :writers ((setf common-lisp-user::offsets)) :readers (common-lisp-user::offsets) :name common-lisp-user::offsets) (:initform nil :initargs (:device) :writers ((setf common-lisp-user::device)) :readers (common-lisp-user::device) :name common-lisp-user::device)) (let ((common-lisp-user::mtr-mod (common-lisp-user::get-module :motor))) (when common-lisp-user::mtr-mod (bordeaux-threads::with-recursive-lock-held ((common-lisp-user::param-lock common-lisp-user::mtr-mod)) (common-lisp-user::mouse-fitts-coeff common-lisp-user::mtr-mod)))) common-lisp-user::mouse-fitts-coeff #Y(nil nil nil (26 15 87 77 19 2 145 45 231 10 0 73 39 6 13 0 19 1 793 43 1 29) #1# #2# 54616) (defmethod common-lisp-user::prepare-features (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::hand-ply)) (#2# . 55007) (common-lisp-user::motor-module common-lisp-user::hand-ply) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::new-pos common-lisp-user::offsets standard #:g13427 #:g13429 (common-lisp-user::right common-lisp-user::left) #:g13428 #Y(nil nil nil (24 45 133 26 10 0 4 12 10 0 16 152 12 10 0 16 167 12 19 2 118 6 2 73 29) #1# #2# 55007) #:g13432 #:g13433 #:g13434 #:g13435 #:g13436 #:g13437 (setf common-lisp-user::updated-pos) #Y(common-lisp-user::prepare-features nil nil (24 45 231 24 45 614 26 13 1 13 0 19 1 60 12 13 0 19 1 333 12 13 0 19 1 334 12 14 251 77 19 6 459 45 799 13 1 19 1 800 39 186 13 1 19 1 800 12 1 801 17 36 39 57 10 0 45 802 13 2 19 1 60 45 803 10 0 42 66 6 19 0 124 38 15 42 62 6 19 0 114 38 7 13 0 1 804 17 321 43 1 45 805 13 1 15 89 9 1 13 0 19 4 191 43 1 43 1 38 118 34 806 12 13 1 19 1 800 12 19 2 141 45 182 13 1 19 1 184 45 185 38 64 10 0 4 45 26 10 0 4 12 13 2 14 186 15 187 19 4 157 76 39 36 10 0 4 12 10 0 16 152 12 8 0 17 188 12 10 0 16 152 12 8 1 17 188 12 19 2 118 6 2 12 10 2 3 51 2 10 1 5 51 1 43 1 10 0 40 -66 43 1 10 1 45 807 10 1 45 808 13 1 15 89 9 1 13 0 19 4 191 43 1 43 1 43 1 10 0 45 809 13 2 19 1 153 45 810 13 1 15 89 9 3 13 0 19 4 191 43 1 43 1 10 1 45 811 10 1 45 812 13 0 13 1 33 813 18 2 43 1 43 1 43 1 29) #1# #2# 55007) (defmethod common-lisp-user::queue-output-events (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::hand-ply)) (#2# . 56085) (common-lisp-user::motor-module common-lisp-user::hand-ply) (common-lisp-user::mtr-mod common-lisp-user::self) #:g13441 (common-lisp-user::right common-lisp-user::left) :priority "~a ~a ~a ~a" #Y(common-lisp-user::queue-output-events nil nil (24 45 231 24 45 614 26 13 0 19 1 60 45 819 10 0 42 66 8 13 2 19 1 151 38 17 42 62 8 13 2 19 1 150 38 7 13 0 1 820 17 321 43 1 45 60 13 1 19 1 153 39 43 13 1 19 1 638 12 19 1 639 12 15 149 14 640 14 30 14 514 14 87 14 641 13 0 13 1 19 1 153 6 2 12 14 821 9 1 14 46 77 19 12 646 13 1 19 1 638 12 19 1 639 12 15 165 14 640 14 30 14 514 14 87 14 711 14 87 14 641 13 1 19 1 60 12 13 1 19 1 250 6 2 12 14 516 77 15 822 15 459 13 1 19 1 60 12 13 1 19 1 333 12 13 1 19 1 334 12 19 6 161 12 19 12 646 43 1 29) #1# #2# 56085) common-lisp-user::point-hand (defmethod common-lisp-user::point-hand (common-lisp-user::mtr-mod common-lisp-user::motor-module) &key common-lisp-user::hand common-lisp-user::r common-lisp-user::theta common-lisp-user::twidth common-lisp-user::offsets common-lisp-user::request-spec common-lisp-user::device common-lisp-user::style) (#2# . 57154) (common-lisp-user::motor-module) (common-lisp-user::mtr-mod &key common-lisp-user::hand common-lisp-user::r common-lisp-user::theta common-lisp-user::twidth common-lisp-user::offsets common-lisp-user::request-spec common-lisp-user::device common-lisp-user::style) (t :style :device :request-spec :offsets :twidth :theta :r :hand) common-lisp-user::twidth common-lisp-user::style subtypep common-lisp-user::printing-module #:g13451 #:g13450 #:g13452 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "Invalid custom style ~s in a point-hand action." length (common-lisp-user::thumb common-lisp-user::index common-lisp-user::middle common-lisp-user::ring common-lisp-user::pinkie) #Y(nil nil nil (24 45 133 26 10 0 16 135 73 39 41 10 0 16 843 12 9 3 19 2 336 73 39 28 10 0 4 12 15 844 19 2 157 73 39 16 10 0 16 152 16 166 73 39 7 10 0 16 167 16 166 29) #1# #2# 57154) #:g13455 #:g13454 #:g13456 "Invalid offsets ~s in a point-hand action." :target-width :offsets :device #Y(common-lisp-user::point-hand nil nil (24 45 231 28 829 22 40 2 77 46 60 22 40 2 77 46 333 22 40 2 77 46 334 22 40 2 77 46 830 22 40 2 77 46 800 22 40 2 77 46 601 22 40 2 77 46 153 22 40 2 77 46 831 57 824 60 258 13 9 19 1 602 40 12 15 824 13 8 13 7 13 6 19 4 603 76 73 39 235 10 1 76 40 8 13 1 15 787 19 2 832 76 39 64 15 833 19 1 145 47 1 834 45 835 10 1 39 44 75 45 836 13 1 19 1 837 12 19 1 838 39 6 13 1 19 1 839 51 0 10 0 39 17 15 840 77 15 841 15 842 13 4 19 4 161 12 19 2 162 43 1 43 2 75 73 36 0 10 4 76 40 17 13 4 1 801 17 36 40 9 34 845 12 13 4 19 2 138 76 39 64 15 833 19 1 145 47 1 846 45 847 10 1 39 44 75 45 848 13 1 19 1 837 12 19 1 838 39 6 13 1 19 1 839 51 0 10 0 39 17 15 840 77 15 841 15 849 13 7 19 4 161 12 19 2 162 43 1 43 2 75 73 36 0 13 9 10 1 39 6 10 1 73 38 4 1 787 73 12 14 605 13 8 14 661 13 7 14 662 13 6 14 850 10 5 45 413 10 0 39 6 10 0 73 38 6 13 10 19 1 573 12 43 1 14 851 13 4 14 852 13 2 14 604 13 3 19 15 63 12 19 2 607 63 29) #1# #2# 57154) common-lisp-user::cursor-ply (defclass common-lisp-user::cursor-ply) (#2# . 58411) (common-lisp-user::ply) ((:initargs (:target-coords) :writers ((setf common-lisp-user::target-coords)) :readers (common-lisp-user::target-coords) :name common-lisp-user::target-coords) (:initform 0 :initargs (:control-order) :writers ((setf common-lisp-user::control-order)) :readers (common-lisp-user::control-order) :name common-lisp-user::control-order) (:initform nil :initargs (:cursor) :writers ((setf common-lisp-user::cursor)) :readers (common-lisp-user::cursor) :name common-lisp-user::cursor)) 'common-lisp-user::right (let ((common-lisp-user::mtr-mod (common-lisp-user::get-module :motor))) (when common-lisp-user::mtr-mod (bordeaux-threads::with-recursive-lock-held ((common-lisp-user::param-lock common-lisp-user::mtr-mod)) (common-lisp-user::mouse-fitts-coeff common-lisp-user::mtr-mod)))) #Y(nil nil nil (26 15 87 77 19 2 145 45 231 10 0 73 39 6 13 0 19 1 793 43 1 29) #1# #2# 58411) (defmethod common-lisp-user::compute-exec-time :before (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::cursor-ply)) (#2# . 59171) (:before) (common-lisp-user::motor-module common-lisp-user::cursor-ply) (common-lisp-user::mtr-mod common-lisp-user::self) #:g13476 #:g13478 #:g13479 floating-point-underflow #Y(nil nil nil (24 45 19 26 35 1 0 29) #1# #2# 59171) floating-point-overflow #Y(nil nil nil (24 45 19 26 35 1 1 29) #1# #2# 59171) common-lisp-user::control-order expt "~s^~s resulted in an underflow.  Using smallest possible value ~f instead." 1.4012985e-45 "~s^~s resulted in an overflow.  Using largest possible value ~f instead." #:g13477 (setf common-lisp-user::fitts-coeff) #Y(common-lisp-user::compute-exec-time nil nil (24 45 231 24 45 614 26 10 0 45 867 57 868 60 105 75 45 869 57 17 61 2 34 62 15 870 34 871 3 12 15 872 34 873 3 6 2 12 11 21 3 48 21 9 2 13 4 19 1 874 17 875 36 2 44 1 15 158 77 15 159 15 876 9 2 13 4 19 1 874 12 15 877 19 6 161 12 19 2 162 1 877 73 36 2 15 158 77 15 159 15 878 9 2 13 4 19 1 874 12 15 581 19 6 161 12 19 2 162 1 581 73 36 2 62 73 43 1 63 12 13 1 19 1 777 12 19 2 543 45 879 13 0 13 1 33 880 18 2 43 1 43 1 29) #1# #2# 59171) (defmethod common-lisp-user::prepare-features (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::cursor-ply)) (#2# . 59347) (common-lisp-user::motor-module common-lisp-user::cursor-ply) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::starting-point common-lisp-user::hand-pos-other common-lisp-user::others common-lisp-user::target-coords remove #:g13502 #:g13503 #:g13504 #:g13505 (setf common-lisp-user::updated-pos) #Y(common-lisp-user::prepare-features nil nil (24 45 231 24 45 614 26 13 0 19 1 60 12 14 251 77 19 3 368 12 19 1 93 45 886 13 0 19 1 887 16 352 45 888 15 889 13 1 19 1 887 12 14 186 15 187 19 4 157 45 413 10 0 39 12 13 0 13 1 19 2 890 51 1 38 1 43 1 15 889 13 2 19 1 889 6 2 12 10 0 3 51 0 10 1 45 891 10 1 45 892 13 1 15 89 9 2 13 0 19 4 191 43 1 43 1 10 2 45 893 10 2 45 894 13 0 13 1 33 895 18 2 43 1 43 1 43 2 29) #1# #2# 59347) (defmethod common-lisp-user::queue-output-events (common-lisp-user::mtr-mod common-lisp-user::motor-module) (common-lisp-user::self common-lisp-user::cursor-ply)) (#2# . 60172) (common-lisp-user::motor-module common-lisp-user::cursor-ply) (common-lisp-user::mtr-mod common-lisp-user::self) common-lisp-user::incremental-mouse-p common-lisp-user::steptime round common-lisp-user::nsteps common-lisp-user::cursor common-lisp-user::current-position common-lisp-user::startpos common-lisp-user::curdist common-lisp-user::px-move si::%dotimes-var common-lisp-user::idx 1+ common-lisp-user::minjerk-dist common-lisp-user::pm-angle-to-pixels (common-lisp-user::style common-lisp-user::move-cursor) < (common-lisp-user::style common-lisp-user::move-cursor) #Y(common-lisp-user::queue-output-events nil nil (24 45 231 24 45 614 26 13 1 19 1 901 39 236 13 0 19 1 638 12 19 1 639 45 569 13 2 19 1 901 16 166 39 8 13 2 19 1 901 38 3 8 50 45 902 9 1 13 1 13 0 19 2 903 12 19 2 583 45 904 13 3 19 1 905 12 1 906 6 1 12 19 2 513 45 907 8 0 45 908 75 45 909 13 3 9 1 19 2 530 39 156 13 3 9 1 19 2 528 45 910 8 0 45 911 38 130 10 0 16 912 12 13 6 19 2 543 12 13 8 19 1 333 12 13 7 19 3 913 51 3 13 4 13 3 19 1 914 12 13 8 19 1 334 12 19 2 118 12 19 2 337 51 2 10 0 16 912 12 13 6 19 2 543 12 15 508 14 640 14 30 14 46 77 14 514 14 87 14 641 13 8 19 1 905 12 15 642 19 0 643 6 2 12 15 915 15 60 13 8 19 1 60 6 2 12 15 183 13 2 1 198 17 199 6 2 6 4 12 13 8 19 1 645 6 3 12 19 10 646 10 0 16 912 51 0 13 0 13 1 19 2 916 40 -137 43 2 43 6 13 0 19 1 638 12 19 1 639 12 15 508 14 640 14 30 14 46 77 14 514 14 87 14 641 13 0 19 1 905 12 15 642 19 0 643 6 2 12 15 917 15 60 13 0 19 1 60 6 2 12 15 183 13 0 19 1 889 12 1 198 17 199 6 2 6 4 12 13 0 19 1 645 6 3 12 19 10 646 13 0 19 1 638 12 19 1 639 12 15 165 14 640 14 30 14 514 14 87 14 711 14 87 14 641 13 0 19 1 60 12 13 0 19 1 250 6 2 12 14 46 77 19 12 646 29) #1# #2# 60172) (defun common-lisp-user::minjerk-dist) (#2# . 62825) (common-lisp-user::tm common-lisp-user::a common-lisp-user::d) common-lisp-user::tm common-lisp-user::a >= "Negative time passed to MINJERK-DIST" <= common-lisp-user::td #:g13534 #:g13535 #Y(nil nil nil (24 45 19 26 35 1 0 29) #1# #2# 62825) #Y(nil nil nil (24 45 19 26 35 1 1 29) #1# #2# 62825) #:g13538 #:g13539 #Y(nil nil nil (24 45 19 26 35 1 0 29) #1# #2# 62825) #Y(nil nil nil (24 45 19 26 35 1 1 29) #1# #2# 62825) #:g13542 #:g13543 #Y(nil nil nil (24 45 19 26 35 1 0 29) #1# #2# 62825) #Y(nil nil nil (24 45 19 26 35 1 1 29) #1# #2# 62825) #Y(common-lisp-user::minjerk-dist nil nil (24 45 922 24 45 923 24 45 569 26 13 2 13 0 19 2 924 39 6 10 1 73 38 377 13 2 9 0 19 2 916 39 8 15 925 19 1 18 38 361 13 2 9 0 19 2 336 39 6 8 0 73 38 347 13 0 9 0 19 2 926 39 6 8 0 73 38 333 13 2 13 0 19 2 541 45 927 13 2 9 10 57 928 60 94 75 45 929 57 17 61 2 31 55 15 870 34 930 3 12 15 872 34 931 3 6 2 12 11 21 3 48 21 13 3 8 3 17 875 36 2 44 1 15 158 77 15 159 15 876 13 3 9 3 15 877 19 6 161 12 19 2 162 1 877 73 36 2 15 158 77 15 159 15 878 13 3 9 3 15 581 19 6 161 12 19 2 162 1 581 73 36 2 62 73 43 1 63 12 19 2 543 12 9 -15 57 932 60 94 75 45 933 57 17 61 2 31 55 15 870 34 934 3 12 15 872 34 935 3 6 2 12 11 21 3 48 21 13 3 8 4 17 875 36 2 44 1 15 158 77 15 159 15 876 13 3 9 4 15 877 19 6 161 12 19 2 162 1 877 73 36 2 15 158 77 15 159 15 878 13 3 9 4 15 581 19 6 161 12 19 2 162 1 581 73 36 2 62 73 43 1 63 12 19 2 543 12 9 6 57 936 60 94 75 45 937 57 17 61 2 31 55 15 870 34 938 3 12 15 872 34 939 3 6 2 12 11 21 3 48 21 13 3 8 5 17 875 36 2 44 1 15 158 77 15 159 15 876 13 3 9 5 15 877 19 6 161 12 19 2 162 1 877 73 36 2 15 158 77 15 159 15 878 13 3 9 5 15 581 19 6 161 12 19 2 162 1 581 73 36 2 62 73 43 1 63 12 19 2 543 12 19 3 305 12 19 2 543 43 1 29) #1# #2# 62825) "Returns distance moved at time tm, given max distance a and total move time d." common-lisp-user::move-cursor (defclass common-lisp-user::move-cursor) (#2# . 63229) (common-lisp-user::movement-style) :move-cursor '#29=(common-lisp-user::loc common-lisp-user::object common-lisp-user::hand) #29# (defmethod common-lisp-user::move-cursor (common-lisp-user::mtr-mod common-lisp-user::motor-module) &key common-lisp-user::loc common-lisp-user::object #30=(common-lisp-user::hand 'common-lisp-user::right) common-lisp-user::request-spec) (#2# . 63691) (common-lisp-user::motor-module) (common-lisp-user::mtr-mod &key common-lisp-user::loc common-lisp-user::object #30# common-lisp-user::request-spec) (t :request-spec :hand :object :loc) common-lisp-user::object common-lisp-user::string->name "Hand value for move-cursor action must be left or right but given ~s." common-lisp-user::real-hand common-lisp-user::real-device "cursor" string-equal "Hand is not on a cursor device in request to move-cursor." common-lisp-user::chunk-p-fct common-lisp-user::chunk-to-visual-position common-lisp-user::target-loc common-lisp-user::target "No valid location could be generated from ~s or ~s when trying to move a cursor." common-lisp-user::real-starting-point common-lisp-user::known-loc common-lisp-user::cursor-loc common-lisp-user::r-theta #:g13555 #:g13554 #:g13556 "Move-cursor request has different (or missing) z coordinates for start ~s and target ~s locations, but motor module assumes a cursor moves in only two dimensions." #:g13559 #:g13558 #:g13560 "Move-cursor action aborted because cursor is at requested target ~S" common-lisp-user::approach-width common-lisp-user::noisy-loc? common-lisp-user::noisy-target-cords common-lisp-user::r-theta-new common-lisp-user::pm-pixels-to-angle :cursor :target-coords :control-order #Y(common-lisp-user::move-cursor nil nil (24 45 231 28 953 22 40 2 77 46 183 22 40 2 77 46 954 22 40 3 15 66 46 60 22 40 2 77 46 601 57 942 60 604 13 2 19 1 955 42 66 8 13 5 19 1 151 38 28 42 62 8 13 5 19 1 150 38 18 15 158 77 15 159 15 956 13 2 19 4 161 12 19 2 162 75 45 957 13 0 14 251 77 19 3 194 45 958 10 0 76 40 12 10 0 16 152 12 15 959 19 2 960 76 39 19 15 158 77 15 159 15 961 19 3 161 12 19 2 162 75 73 36 2 13 7 19 1 602 40 17 15 942 10 6 73 40 4 10 5 73 12 13 4 19 3 603 76 73 39 484 13 5 19 1 962 39 3 10 5 73 40 12 13 6 19 1 962 73 39 4 10 6 73 12 10 5 39 6 13 5 19 1 963 73 40 11 10 6 73 39 6 13 6 19 1 963 12 46 964 46 965 10 0 39 3 10 1 76 39 23 15 158 77 15 159 15 966 13 7 13 8 19 5 161 12 19 2 162 75 73 36 4 13 6 14 251 77 19 3 368 45 967 10 0 39 32 15 889 13 0 19 1 887 12 19 2 33 45 413 10 0 39 12 10 0 16 152 12 1 198 17 199 38 2 75 43 1 45 968 10 0 39 5 10 0 38 11 13 4 1 906 6 1 12 19 2 513 45 969 13 0 13 4 19 2 546 45 970 10 1 16 843 12 10 5 16 843 12 19 2 336 39 26 10 1 16 843 12 9 2 19 2 530 39 14 10 1 16 167 12 10 5 16 167 12 19 2 336 76 39 62 15 833 19 1 145 47 1 971 45 972 10 1 39 46 75 45 973 13 1 19 1 837 12 19 1 838 39 6 13 1 19 1 839 51 0 10 0 39 19 15 840 77 15 841 15 974 13 4 13 8 19 5 161 12 19 2 162 43 1 43 2 9 0 13 0 8 0 17 188 12 19 2 336 39 18 13 1 8 2 17 188 12 13 5 8 2 17 188 12 19 2 336 39 64 15 833 19 1 145 47 1 975 45 976 10 1 39 44 75 45 977 13 1 19 1 837 12 19 1 838 39 6 13 1 19 1 839 51 0 10 0 39 17 15 840 77 15 841 15 978 13 7 19 4 161 12 19 2 162 43 1 75 73 43 2 38 122 13 4 13 0 8 1 17 188 12 13 1 8 0 17 188 12 13 1 8 1 17 188 12 19 4 979 45 571 13 14 13 6 1 118 17 199 12 13 0 19 3 980 45 981 13 3 13 0 19 2 546 45 982 13 16 15 854 14 604 13 12 14 661 13 0 8 0 17 188 12 19 1 983 12 14 662 13 0 8 1 17 188 12 14 850 13 2 14 605 13 13 14 984 13 9 14 985 13 1 14 986 13 9 1 874 6 1 12 19 2 513 12 19 17 63 12 19 2 607 43 3 43 4 43 2 43 2 63 29) #1# #2# 63691) (defgeneric common-lisp-user::noisy-loc?) (#2# . 67057) (common-lisp-user::mtr-mod common-lisp-user::xy-loc common-lisp-user::w) "If the Motor Module is set up for it, make the output location noisy." (defmethod common-lisp-user::noisy-loc? (common-lisp-user::mm common-lisp-user::motor-module) (common-lisp-user::xy-loc vector) (common-lisp-user::w number)) (#2# . 67193) (common-lisp-user::motor-module vector number) (common-lisp-user::mm common-lisp-user::xy-loc common-lisp-user::w) common-lisp-user::mm common-lisp-user::xy-loc common-lisp-user::cursor-noise common-lisp-user::pixw 7.8 common-lisp-user::act-r-noise common-lisp-user::act-r-random #Y(common-lisp-user::noisy-loc? nil nil (24 45 996 24 45 997 24 45 571 26 13 2 19 1 998 76 39 6 10 1 73 38 48 13 0 19 1 914 45 999 10 0 16 555 39 6 10 2 73 38 28 13 2 13 0 15 1000 19 2 541 12 19 1 1001 12 14 540 19 1 1002 12 19 2 118 12 19 2 337 43 1 29) #1# #2# 67193) common-lisp-user::query-motor-module (defun common-lisp-user::query-motor-module) (#2# . 67847) (common-lisp-user::motor common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value) common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value common-lisp-user::state common-lisp-user::generic-state-query #Y(common-lisp-user::query-motor-module nil nil (24 45 146 24 45 1008 24 45 1009 24 45 1010 26 13 1 1 1011 17 36 39 7 13 0 1 18 17 36 39 5 75 73 38 12 13 3 13 2 13 1 13 0 19 4 1012 29) #1# #2# 67847) common-lisp-user::extend-manual-requests (defmacro common-lisp-user::extend-manual-requests) (#2# . 68173) (common-lisp-user::chunk-type common-lisp-user::function-name) #:g13563 #:g13562 #:g13564 si::dm-too-few-arguments common-lisp-user::chunk-type common-lisp-user::function-name si::dm-too-many-arguments common-lisp-user::extend-manual-requests-fct quote #Y(common-lisp-user::extend-manual-requests nil nil (24 45 1018 24 45 1019 26 10 1 5 45 1020 10 0 76 39 6 13 2 19 1 1021 10 0 4 12 10 0 5 51 0 22 45 1022 10 1 76 39 6 13 3 19 1 1021 10 1 4 12 10 1 5 51 1 22 45 1023 10 2 39 6 13 4 19 1 1024 15 1025 15 1026 10 1 6 2 12 15 1026 10 0 6 2 6 3 73 29) #1# #2# 68173) (defun common-lisp-user::extend-manual-requests-fct) (#2# . 68464) (common-lisp-user::chunk-type common-lisp-user::function-name) "Invalid chunk-type specification ~s.  Manual requests not extended." fboundp "~s does not name a function.  Manual requests not extended." common-lisp-user::dummy-module common-lisp-user::ct-name common-lisp-user::new-requests-table gethash "Request ~s is already an extension of the manual buffer.  To redefine you must remove it first with remove-manual-request." append (:include common-lisp-user::motor-command) common-lisp-user::type-list si::hash-set #Y(common-lisp-user::extend-manual-requests-fct nil nil (24 45 1022 24 45 1023 26 10 1 16 135 76 39 21 15 158 77 15 159 15 1031 13 1 19 4 161 12 19 2 162 75 73 38 164 10 0 16 1032 76 39 21 15 158 77 15 159 15 1033 13 0 19 4 161 12 19 2 162 75 73 38 137 10 1 4 16 135 39 8 10 1 4 4 73 38 5 10 1 4 73 12 15 53 19 1 63 12 46 1034 46 1035 13 0 13 1 19 1 1036 12 19 2 1037 39 21 15 158 77 15 159 15 1038 13 0 19 4 161 12 19 2 162 75 73 38 73 10 3 4 16 135 39 17 13 3 15 148 10 0 6 2 6 1 12 19 2 1039 38 26 13 0 1 1040 6 2 6 1 12 10 3 5 12 15 148 10 0 6 2 6 1 12 19 3 1039 45 1041 13 1 13 2 19 1 1036 12 13 0 10 3 3 12 19 3 1042 11 30 73 43 1 43 2 29) #1# #2# 68464) common-lisp-user::remove-manual-request (defmacro common-lisp-user::remove-manual-request) (#2# . 69756) (common-lisp-user::chunk-type) #:g13572 #:g13571 #:g13573 common-lisp-user::remove-manual-request-fct #Y(common-lisp-user::remove-manual-request nil nil (24 45 1048 24 45 1049 26 10 1 5 45 1050 10 0 76 39 6 13 2 19 1 1021 10 0 4 12 10 0 5 51 0 22 45 1022 10 1 39 6 13 3 19 1 1024 15 1051 15 1026 10 0 6 2 6 2 73 29) #1# #2# 69756) (defun common-lisp-user::remove-manual-request-fct) (#2# . 69847) (common-lisp-user::chunk-type) remhash "~s is not a previously extended request for the manual module." #Y(common-lisp-user::remove-manual-request-fct nil nil (24 45 1022 26 15 53 19 1 63 45 1034 13 1 13 0 19 1 1036 12 19 2 1037 39 12 13 1 13 0 19 1 1036 17 1056 38 19 15 158 77 15 159 15 1057 13 1 19 4 161 12 19 2 162 75 73 43 1 29) #1# #2# 69847) common-lisp-user::pm-module-request (defmethod common-lisp-user::pm-module-request (common-lisp-user::motor common-lisp-user::motor-module) common-lisp-user::buffer-name common-lisp-user::chunk-spec) (#2# . 70242) (common-lisp-user::motor-module t t) (common-lisp-user::motor common-lisp-user::buffer-name common-lisp-user::chunk-spec) common-lisp-user::buffer-name common-lisp-user::chunk-spec common-lisp-user::test-for-clear-request common-lisp-user::clear common-lisp-user::chunk-spec-slot-spec common-lisp-user::spec-slot-value common-lisp-user::prepare common-lisp-user::verify-single-explicit-value common-lisp-user::slot-in-chunk-spec-p common-lisp-user::sym->key "Invalid prepare command to motor module with invalid specification for ~s slot." #Y(nil nil nil (24 45 133 26 13 4 13 0 19 2 1072 73 39 53 13 4 13 0 14 87 13 1 19 4 1071 45 413 10 0 39 14 13 1 19 1 1073 12 10 0 6 2 73 38 21 15 158 77 15 159 15 1074 13 1 19 4 161 12 19 2 162 75 73 36 4 43 1 29) #1# #2# 70242) (common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta) mapcan common-lisp-user::params-list #:g13577 #:g13578 (setf common-lisp-user::prepare-spec) common-lisp-user::low "Invalid command ~a sent to the manual buffer" "Invalid command to motor module specifies the cmd slot multiple times." "Invalid command to motor module does not specify the cmd slot." #Y(common-lisp-user::pm-module-request nil nil (24 45 146 24 45 1064 24 45 1065 26 57 1059 60 243 13 1 19 1 1066 39 20 15 1067 14 514 14 87 14 711 14 87 14 46 15 515 19 7 519 38 216 13 1 15 148 19 2 1068 16 843 12 9 1 19 2 336 39 156 13 1 15 148 19 2 1068 4 12 19 1 1069 45 148 13 0 1 1070 17 36 39 80 13 2 15 831 14 87 15 1070 19 4 1071 45 831 34 1075 12 15 1076 19 2 1077 45 1078 10 1 73 39 48 10 6 45 1079 10 5 45 1080 13 0 13 1 33 1081 18 2 43 1 43 1 15 1070 14 711 14 87 14 641 13 1 10 0 3 51 0 12 14 514 14 87 14 46 15 1082 19 9 519 43 2 38 51 13 0 13 4 19 1 1036 12 19 2 1037 45 413 10 0 39 14 10 0 5 12 13 5 13 3 20 2 23 38 19 15 158 77 15 159 15 1083 13 1 19 4 161 12 19 2 162 75 73 43 1 43 1 38 44 13 1 15 148 19 2 1068 39 19 15 158 77 15 159 15 1084 19 3 161 12 19 2 162 75 73 38 17 15 158 77 15 159 15 1085 19 3 161 12 19 2 162 75 73 63 29) #1# #2# 70242) common-lisp-user::handle-simple-command-request (defmethod common-lisp-user::handle-simple-command-request (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::chunk-spec &optional #31=(common-lisp-user::output 'common-lisp-user::low)) (#2# . 72353) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::chunk-spec &optional #31#) common-lisp-user::output common-lisp-user::command "~a" #Y(common-lisp-user::handle-simple-command-request nil nil (24 45 231 24 45 1065 25 40 3 15 1082 46 1092 26 13 1 15 148 19 2 1068 4 12 19 1 1069 45 1093 10 0 39 11 10 0 16 744 39 5 10 0 16 1032 73 39 36 13 0 14 711 14 87 14 514 14 87 14 46 13 1 14 641 10 2 6 1 12 14 516 77 15 1094 13 0 19 3 161 12 19 11 519 43 1 29) #1# #2# 72353) common-lisp-user::medium-output-command-request (defun common-lisp-user::medium-output-command-request) (#2# . 72779) (common-lisp-user::m common-lisp-user::s) common-lisp-user::m common-lisp-user::s #Y(common-lisp-user::medium-output-command-request nil nil (24 45 1100 24 45 1101 26 13 1 13 0 15 515 19 3 1087 29) #1# #2# 72779) common-lisp-user::handle-style-request (defmethod common-lisp-user::handle-style-request (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::chunk-spec) (#2# . 72870) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::chunk-spec) common-lisp-user::dummy #:g13585 #:g13584 #:g13586 "~s request aborted because feature ~s is missing or specified multiple times" #Y(nil nil nil (24 45 133 26 13 4 13 0 14 87 13 2 19 4 1071 45 413 10 0 39 14 13 1 19 1 1073 12 10 0 6 2 73 38 66 15 833 19 1 145 47 1 1109 45 1110 10 1 39 46 75 45 1111 13 1 19 1 837 12 19 1 838 39 6 13 1 19 1 839 51 0 10 0 39 19 15 840 77 15 841 15 1112 13 6 13 4 19 5 161 12 19 2 162 43 1 43 2 75 73 36 4 43 1 29) #1# #2# 72870) "~a ~{~a~^ ~}" #Y(common-lisp-user::handle-style-request nil nil (24 45 231 24 45 1065 26 57 1103 60 84 13 1 15 148 19 2 1068 4 12 19 1 1069 45 831 13 0 19 1 63 45 1108 34 1113 12 13 0 19 1 249 12 19 2 1077 45 1078 13 2 14 711 14 87 14 641 14 604 10 4 6 2 12 13 0 19 2 1039 12 14 514 14 87 14 46 15 1082 14 516 77 15 1114 13 2 13 0 19 4 161 12 19 11 519 43 3 63 29) #1# #2# 72870) common-lisp-user::handle-partial-style-request (defmethod common-lisp-user::handle-partial-style-request (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::chunk-spec) (#2# . 73818) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::chunk-spec) #:g13593 #:g13592 #:g13594 "~s request aborted because feature ~s is missing or specified multiple times" #Y(nil nil nil (24 45 133 26 13 4 13 0 19 2 1072 73 39 98 13 4 13 0 14 87 13 2 19 4 1071 45 413 10 0 39 14 13 1 19 1 1073 12 10 0 6 2 73 38 66 15 833 19 1 145 47 1 1121 45 1122 10 1 39 46 75 45 1123 13 1 19 1 837 12 19 1 838 39 6 13 1 19 1 839 51 0 10 0 39 19 15 840 77 15 841 15 1124 13 6 13 4 19 5 161 12 19 2 162 43 1 43 2 75 73 36 4 43 1 29) #1# #2# 73818) "~a ~{~a~^ ~}" #Y(common-lisp-user::handle-partial-style-request nil nil (24 45 231 24 45 1065 26 57 1116 60 84 13 1 15 148 19 2 1068 4 12 19 1 1069 45 831 13 0 19 1 63 45 1108 34 1125 12 13 0 19 1 249 12 19 2 1077 45 1078 13 2 14 711 14 87 14 641 14 604 10 4 6 2 12 13 0 19 2 1039 12 14 514 14 87 14 46 15 1082 14 516 77 15 1126 13 2 13 0 19 4 161 12 19 11 519 43 3 63 29) #1# #2# 73818) (common-lisp-user::execute) (common-lisp-user::punch common-lisp-user::hand common-lisp-user::finger) (common-lisp-user::peck common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta) (common-lisp-user::peck-recoil common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta) (common-lisp-user::move-cursor common-lisp-user::object common-lisp-user::loc common-lisp-user::hand) common-lisp-user::reset-motor-module (defun common-lisp-user::reset-motor-module) (#2# . 75307) (common-lisp-user::instance) common-lisp-user::instance #Y(common-lisp-user::reset-motor-module nil nil (24 45 1137 26 13 0 19 1 236 29) #1# #2# 75307) common-lisp-user::params-motor-module (defun common-lisp-user::params-motor-module) (#2# . 75552) (common-lisp-user::motor common-lisp-user::param) common-lisp-user::param consp :cursor-noise #:g13616 #:g13617 (setf common-lisp-user::cursor-noise) :default-target-width #:g13618 #:g13619 (setf common-lisp-user::default-target-width) :incremental-mouse-moves #:g13620 common-lisp-user::safe-seconds->ms #:g13621 (setf common-lisp-user::incremental-mouse-p) :min-fitts-time #:g13622 #:g13623 (setf common-lisp-user::min-fitts-time) :motor-burst-time #:g13624 #:g13625 (setf common-lisp-user::burst-time) :motor-initiation-time #:g13626 #:g13627 (setf common-lisp-user::init-time) :motor-feature-prep-time #:g13628 #:g13629 (setf common-lisp-user::feat-prep-time) :peck-fitts-coeff #:g13630 #:g13631 (setf common-lisp-user::peck-fitts-coeff) :cursor-fitts-coeff #:g13632 #:g13633 (setf common-lisp-user::mouse-fitts-coeff) :key-closure-time #:g13634 #:g13635 (setf common-lisp-user::key-closure-time) common-lisp-user::ms->seconds common-lisp-user::feat-prep-time #Y(common-lisp-user::params-motor-module nil nil (24 45 146 24 45 1143 26 10 0 16 1144 39 288 10 0 4 42 1145 24 10 1 45 1146 10 1 5 45 1147 13 0 13 1 33 1148 18 2 43 1 43 1 38 257 42 1149 24 10 1 45 1150 10 1 5 45 1151 13 0 13 1 33 1152 18 2 43 1 43 1 38 231 42 1153 44 10 1 45 1154 10 1 5 16 166 39 10 10 1 5 12 19 1 1155 38 4 10 1 5 45 1156 13 0 13 1 33 1157 18 2 43 1 43 1 10 0 5 73 38 185 42 1158 24 10 1 45 1159 10 1 5 45 1160 13 0 13 1 33 1161 18 2 43 1 43 1 38 159 42 1162 24 10 1 45 1163 10 1 5 45 1164 13 0 13 1 33 1165 18 2 43 1 43 1 38 133 42 1166 24 10 1 45 1167 10 1 5 45 1168 13 0 13 1 33 1169 18 2 43 1 43 1 38 107 42 1170 24 10 1 45 1171 10 1 5 45 1172 13 0 13 1 33 1173 18 2 43 1 43 1 38 81 42 1174 24 10 1 45 1175 10 1 5 45 1176 13 0 13 1 33 1177 18 2 43 1 43 1 38 55 42 1178 24 10 1 45 1179 10 1 5 45 1180 13 0 13 1 33 1181 18 2 43 1 43 1 38 29 42 1182 24 10 1 45 1183 10 1 5 45 1184 13 0 13 1 33 1185 18 2 43 1 43 1 38 3 75 73 38 105 10 0 42 1145 8 13 1 19 1 998 38 93 42 1149 8 13 1 19 1 573 38 83 42 1153 28 13 1 19 1 901 16 166 39 12 13 1 19 1 901 12 19 1 1186 38 6 13 1 19 1 901 38 53 42 1158 8 13 1 19 1 576 38 43 42 1162 8 13 1 19 1 623 38 33 42 1166 8 13 1 19 1 615 38 23 42 1170 8 13 1 19 1 1187 38 13 42 1174 8 13 1 19 1 704 38 3 75 73 29) #1# #2# 75552) common-lisp-user::create-motor-module (defun common-lisp-user::create-motor-module) (#2# . 77409) (common-lisp-user::model-name) common-lisp-user::model-name (common-lisp-user::motor-command (common-lisp-user::cmd "motor action")) common-lisp-user::chunk-type-fct ((common-lisp-user::prepare (:include common-lisp-user::motor-command)) (common-lisp-user::cmd common-lisp-user::prepare) common-lisp-user::style common-lisp-user::hand common-lisp-user::finger common-lisp-user::r common-lisp-user::theta) ((common-lisp-user::prepare common-lisp-user::isa common-lisp-user::prepare)) common-lisp-user::define-chunks-fct (common-lisp-user::left common-lisp-user::right common-lisp-user::index common-lisp-user::middle common-lisp-user::ring common-lisp-user::pinkie common-lisp-user::thumb) common-lisp-user::c type common-lisp-user::isa "Failed to extend motor capabilities with chunk-type definition: ~s" #Y(nil nil nil (24 45 414 24 45 1010 26 10 0 4 12 19 1 1195 45 1201 10 0 39 26 13 2 19 1 962 76 73 39 15 13 2 15 1202 10 2 6 3 6 1 12 19 1 1198 38 21 15 158 77 15 159 15 1203 10 1 4 12 19 4 161 12 19 2 162 75 73 43 1 29) #1# #2# 77409) maphash #Y(common-lisp-user::create-motor-module nil nil (24 45 1193 26 15 1194 19 1 1195 15 1196 19 1 1195 15 1070 19 1 962 76 39 6 15 1197 19 1 1198 1 1199 45 185 38 35 10 0 4 45 1200 13 0 19 1 962 76 39 15 13 0 15 414 10 0 6 3 6 1 12 19 1 1198 10 1 5 51 1 43 1 10 0 40 -37 43 1 15 53 19 1 63 45 1137 34 1204 12 13 0 19 1 1036 17 1205 10 0 73 43 1 29) #1# #2# 77409) common-lisp-user::manual-buffer-status (defun common-lisp-user::manual-buffer-status) (#2# . 78567) common-lisp-user::print-module-status #Y(common-lisp-user::manual-buffer-status nil nil (26 15 87 77 19 2 145 12 19 1 1210 29) #1# #2# 78567) common-lisp-user::manual :queries (common-lisp-user::modality common-lisp-user::preparation common-lisp-user::execution common-lisp-user::processor common-lisp-user::last-command) :status-fn common-lisp-user::define-buffer-fct :valid-test common-lisp-user::tornil :default-value :warning "T or NIL" "Is there noise in the final cursor location." common-lisp-user::define-parameter :owner common-lisp-user::posnumorbool "T, NIL, or a non-negative number" "Output mouse moves in stages?" common-lisp-user::nonneg 0.1 "a non-negative number" "Minimum movement time for an aimed [Fitts's] movement." 0.05 "a non-negative number" "Minimum time for any movement." "a non-negative number" "Time to initiate a motor movement." "a non-negative number" "Time to prepare a movement feature." 0.075 "a non-negative number" "b coefficient in Fitts's equation for PECK movements." :version common-lisp-user::version-string "Module to provide a model with virtual hands" :creation :reset :query :request common-lisp-user::define-module-fct common-lisp-user::prepare-motor (defmacro common-lisp-user::prepare-motor) (#2# . 80654) (&rest common-lisp-user::lis) #:g13637 #:g13636 #:g13638 common-lisp-user::lis common-lisp-user::pm-prepare-mvmt-mth (common-lisp-user::get-module :motor) #Y(common-lisp-user::prepare-motor nil nil (24 45 1254 24 45 1255 26 10 1 5 45 1256 10 0 45 1257 15 1258 15 1259 15 1026 10 0 6 2 6 3 73 29) #1# #2# 80654) "Tells the Motor Module to prepare the supplied movement." common-lisp-user::set-hand-location (defmacro common-lisp-user::set-hand-location) (#2# . 80916) (common-lisp-user::hand common-lisp-user::x common-lisp-user::y &optional (common-lisp-user::device nil common-lisp-user::devicep)) #:g13640 #:g13639 #:g13641 common-lisp-user::y common-lisp-user::devicep if common-lisp-user::set-hand-location-fct #Y(common-lisp-user::set-hand-location nil nil (24 45 1266 24 45 1267 26 10 1 5 45 1268 10 0 76 39 6 13 2 19 1 1021 10 0 4 12 10 0 5 51 0 22 45 60 10 1 76 39 6 13 3 19 1 1021 10 1 4 12 10 1 5 51 1 22 45 133 10 2 76 39 6 13 4 19 1 1021 10 2 4 12 10 2 5 51 2 22 45 1269 10 3 39 6 10 3 4 38 2 75 45 153 10 4 39 8 10 4 5 51 4 11 30 45 1270 10 5 39 6 13 7 19 1 1024 15 1271 13 0 15 1272 15 1026 10 4 6 2 12 15 1026 13 3 10 2 6 2 6 2 12 15 1026 10 1 6 2 6 4 12 15 1272 15 1026 10 4 6 2 12 15 1026 13 3 10 2 6 2 6 2 6 3 6 4 73 29) #1# #2# 80916) "Sets the location of the given hand to LOC" (defun common-lisp-user::set-hand-location-fct) (#2# . 81162) (common-lisp-user::hand common-lisp-user::loc &optional (common-lisp-user::device nil common-lisp-user::devicep)) "Invalid location ~s provided to set-hand-location-fct." "motor" #:g13648 #:g13649 (setf common-lisp-user::loc) #:g13650 #:g13651 (setf common-lisp-user::loc) "Invalid hand ~s specified in set-hand-location-fct." "Invalid device ~s given to set-hand-location-fct." "No motor module found.  Cannot set hand location." "No current model.  Cannot set hand location." #Y(common-lisp-user::set-hand-location-fct nil nil (24 45 60 24 45 183 25 40 3 77 75 45 1270 46 153 26 11 437 40 13 19 0 438 45 439 13 0 19 1 440 43 1 39 278 15 87 77 19 2 145 45 413 10 0 39 246 10 3 16 135 76 40 22 10 3 16 843 12 9 2 19 2 336 76 40 9 15 166 13 3 19 2 138 76 39 21 15 158 77 15 159 15 1278 13 3 19 4 161 12 19 2 162 75 73 38 194 10 2 76 40 21 10 1 76 40 16 13 1 15 1279 19 1 155 12 14 2 15 156 19 4 157 39 149 13 3 1 118 17 199 51 3 10 4 42 62 57 13 0 19 1 150 45 322 10 0 45 1280 14 169 13 5 14 170 19 0 114 12 19 4 99 45 1281 13 0 13 1 33 1282 18 2 43 1 43 1 10 3 39 8 13 0 13 2 19 2 408 11 30 73 43 1 38 78 42 66 57 13 0 19 1 151 45 322 10 0 45 1283 14 169 13 5 14 170 19 0 124 12 19 4 99 45 1284 13 0 13 1 33 1285 18 2 43 1 43 1 10 3 39 8 13 0 13 2 19 2 408 11 30 73 43 1 38 19 15 158 77 15 159 15 1286 13 4 19 4 161 12 19 2 162 75 73 38 19 15 158 77 15 159 15 1287 13 1 19 4 161 12 19 2 162 75 73 38 17 15 158 77 15 159 15 1288 19 3 161 12 19 2 162 75 73 43 1 38 17 15 158 77 15 159 15 1289 19 3 161 12 19 2 162 75 73 29) #1# #2# 81162) "Function to set the location of the given hand to LOC" common-lisp-user::external-set-hand-location (defun common-lisp-user::external-set-hand-location) (#2# . 82883) (common-lisp-user::hand common-lisp-user::x common-lisp-user::y &optional (common-lisp-user::device nil common-lisp-user::devicep)) #Y(common-lisp-user::external-set-hand-location nil nil (24 45 60 24 45 133 24 45 1269 25 40 3 77 75 45 1270 46 153 26 10 1 39 21 13 4 19 1 955 12 13 3 10 2 6 2 12 13 0 19 3 1272 38 17 13 4 19 1 955 12 13 3 10 2 6 2 12 19 2 1272 29) #1# #2# 82883) common-lisp-user::external-set-hand-location-fct (defun common-lisp-user::external-set-hand-location-fct) (#2# . 83103) (common-lisp-user::hand common-lisp-user::loc &optional (common-lisp-user::device nil common-lisp-user::devicep)) #Y(common-lisp-user::external-set-hand-location-fct nil nil (24 45 60 24 45 183 25 40 3 77 75 45 1270 46 153 26 10 1 39 16 13 3 19 1 955 12 13 2 13 0 19 3 1272 38 12 13 3 19 1 955 12 13 2 19 2 1272 29) #1# #2# 83103) "set-hand-location" "Set the position of the indicated hand. Params: hand x-pos y-pos {device}" "set-hand-location-fct" "Set the position of the indicated hand. Params: hand (x-pos y-pos) {device}")) #2# 0) #Y(si::bytecodes nil nil (15 53 15 54 15 55 15 56 19 4 57 15 53 15 58 14 59 1 64 12 1 65 7 3 12 14 59 1 67 12 1 68 7 3 12 14 59 1 69 12 1 70 7 3 12 15 71 15 72 15 73 15 74 15 75 15 76 15 77 15 78 15 79 14 59 1 81 12 1 82 7 3 6 13 12 14 83 15 84 15 85 1 85 16 86 6 3 12 15 61 15 87 11 87 16 86 6 3 6 2 6 2 12 19 4 88 29) #1# #2# 26103) #Y(si::bytecodes nil nil (15 89 15 90 77 77 15 91 15 92 15 93 77 77 77 15 94 9 4 77 77 15 95 19 15 96 15 89 15 54 15 97 15 98 19 4 57 15 99 15 54 15 100 15 101 19 4 57 15 99 14 102 77 15 103 19 4 57 15 89 19 1 113 78 109 15 99 1 111 12 19 2 112 1 89 73 29) #1# #2# 27587) #Y(si::bytecodes nil nil (15 114 15 54 15 115 15 116 19 4 57 15 114 14 102 77 77 19 4 57 15 114 1 123 12 19 2 112 1 114 73 29) #1# #2# 27768) #Y(si::bytecodes nil nil (15 124 15 54 15 125 15 126 19 4 57 15 124 14 102 77 77 19 4 57 15 124 1 127 12 19 2 112 1 124 73 29) #1# #2# 28164) #Y(si::bytecodes nil nil (15 128 15 54 15 129 15 130 19 4 57 15 128 14 102 77 15 131 19 4 57 15 128 1 210 12 19 2 112 1 128 73 29) #1# #2# 28377) #Y(si::bytecodes nil nil (15 211 15 128 15 212 19 3 213 29) #1# #2# 35259) #Y(si::bytecodes nil nil (15 214 15 54 15 215 15 216 19 4 57 15 214 14 102 77 15 217 19 4 57 15 214 1 218 12 19 2 112 1 214 73 29) #1# #2# 35393) #Y(si::bytecodes nil nil (15 219 15 214 15 220 19 3 213 29) #1# #2# 35467) #Y(si::bytecodes nil nil (15 221 15 222 77 77 15 223 19 5 224 29) #1# #2# 35611) #Y(si::bytecodes nil nil (15 225 15 54 15 226 15 227 19 4 57 15 225 15 228 15 229 15 230 1 234 12 19 5 235 29) #1# #2# 35681) #Y(si::bytecodes nil nil (15 236 15 54 15 237 15 238 19 4 57 15 236 15 239 15 240 15 241 1 242 12 19 5 235 29) #1# #2# 35790) #Y(si::bytecodes nil nil (15 243 15 54 15 244 15 245 19 4 57 15 243 77 15 246 15 247 1 252 12 19 5 235 29) #1# #2# 36132) #Y(si::bytecodes nil nil (15 60 15 54 15 253 15 254 19 4 57 15 60 77 15 255 14 59 1 256 12 1 257 7 3 12 15 258 15 259 1 260 6 5 12 77 19 4 88 29) #1# #2# 36375) #Y(si::bytecodes nil nil (15 233 15 54 15 261 15 262 19 4 57 15 233 77 15 263 15 264 1 287 12 19 5 235 29) #1# #2# 36815) #Y(si::bytecodes nil nil (15 204 15 54 15 288 15 289 19 4 57 15 204 14 102 77 15 290 19 4 57 15 204 14 291 14 30 14 102 15 290 15 292 15 293 19 7 294 29) #1# #2# 37589) #Y(si::bytecodes nil nil (15 204 15 54 15 295 15 296 19 4 57 15 204 77 15 297 15 298 1 306 12 19 5 235 29) #1# #2# 37742) #Y(si::bytecodes nil nil (15 204 15 54 15 307 15 308 19 4 57 15 204 77 15 309 15 310 1 312 12 19 5 235 29) #1# #2# 38163) #Y(si::bytecodes nil nil (15 204 15 54 15 313 15 314 19 4 57 15 204 77 15 315 15 316 1 323 12 19 5 235 29) #1# #2# 38471) #Y(si::bytecodes nil nil (15 324 15 54 15 325 15 326 19 4 57 15 324 14 102 77 15 327 19 4 57 15 324 14 291 14 30 14 102 15 327 15 292 15 328 19 7 294 29) #1# #2# 38721) #Y(si::bytecodes nil nil (15 324 15 54 15 329 15 330 19 4 57 15 324 77 15 331 15 332 1 341 12 19 5 235 29) #1# #2# 38871) #Y(si::bytecodes nil nil (15 342 15 54 15 343 15 344 19 4 57 15 342 14 102 77 15 345 19 4 57 15 342 14 291 14 30 14 102 15 345 15 292 15 346 19 7 294 29) #1# #2# 39612) #Y(si::bytecodes nil nil (15 342 15 54 15 347 15 348 19 4 57 15 342 77 15 349 15 350 1 353 12 19 5 235 29) #1# #2# 39761) #Y(si::bytecodes nil nil (15 342 15 54 15 354 15 355 19 4 57 15 342 77 15 356 15 357 1 359 12 19 5 235 29) #1# #2# 40007) #Y(si::bytecodes nil nil (15 342 15 54 15 360 15 361 19 4 57 15 342 77 15 362 15 363 1 367 12 19 5 235 29) #1# #2# 40134) #Y(si::bytecodes nil nil (15 368 15 54 15 369 15 370 19 4 57 15 368 14 102 77 15 371 19 4 57 15 368 14 291 14 30 14 102 15 371 15 292 15 372 19 7 294 29) #1# #2# 40356) #Y(si::bytecodes nil nil (15 368 15 54 15 373 15 374 19 4 57 15 368 77 15 375 15 376 1 378 12 19 5 235 29) #1# #2# 40521) #Y(si::bytecodes nil nil (15 368 15 54 15 379 15 380 19 4 57 15 368 77 15 381 15 382 1 386 12 19 5 235 29) #1# #2# 40746) #Y(si::bytecodes nil nil (15 387 15 54 15 388 15 389 19 4 57 15 387 14 102 77 15 390 19 4 57 15 387 14 291 14 30 14 102 15 390 15 292 15 391 19 7 294 29) #1# #2# 40978) #Y(si::bytecodes nil nil (15 387 15 54 15 392 15 393 19 4 57 15 387 77 15 394 15 395 1 399 12 19 5 235 29) #1# #2# 41118) #Y(si::bytecodes nil nil (15 149 15 54 15 400 15 401 19 4 57 15 149 14 102 77 15 402 19 4 57 15 149 14 291 14 30 14 102 15 402 15 292 15 403 19 7 294 29) #1# #2# 41457) #Y(si::bytecodes nil nil (15 149 15 54 15 404 15 405 19 4 57 15 149 77 15 406 15 407 1 409 12 19 5 235 29) #1# #2# 41557) #Y(si::bytecodes nil nil (15 408 15 54 15 410 15 411 19 4 57 15 408 14 102 77 15 412 19 4 57 15 408 1 420 12 19 2 112 1 408 73 29) #1# #2# 41703) #Y(si::bytecodes nil nil (15 194 15 54 15 421 15 422 19 4 57 15 194 14 102 77 15 423 19 4 57 15 194 14 291 14 30 14 102 15 423 15 292 15 424 19 7 294 29) #1# #2# 41952) #Y(si::bytecodes nil nil (15 194 15 54 15 425 15 426 19 4 57 15 194 77 15 427 15 428 1 431 12 19 5 235 29) #1# #2# 42050) #Y(si::bytecodes nil nil (15 432 15 54 15 433 15 434 19 4 57 15 432 14 102 77 15 435 19 4 57 15 432 1 445 12 19 2 112 1 432 73 29) #1# #2# 42305) #Y(si::bytecodes nil nil (15 446 15 54 15 447 15 448 19 4 57 15 446 14 102 77 15 449 19 4 57 15 446 14 291 14 30 14 102 15 449 15 292 15 450 19 7 294 29) #1# #2# 42860) #Y(si::bytecodes nil nil (15 446 15 54 15 451 15 452 19 4 57 15 446 77 15 453 15 454 1 458 12 19 5 235 29) #1# #2# 43324) #Y(si::bytecodes nil nil (15 459 15 54 15 460 15 461 19 4 57 15 459 14 102 77 15 462 19 4 57 15 459 14 291 14 30 14 102 15 462 15 292 15 463 19 7 294 29) #1# #2# 43584) #Y(si::bytecodes nil nil (15 459 15 54 15 464 15 465 19 4 57 15 459 77 15 466 15 467 1 471 12 19 5 235 29) #1# #2# 43828) #Y(si::bytecodes nil nil (15 165 15 54 15 472 15 473 19 4 57 15 165 14 102 77 15 474 19 4 57 15 165 14 291 14 30 14 102 15 474 15 292 15 475 19 7 294 29) #1# #2# 44061) #Y(si::bytecodes nil nil (15 165 15 54 15 476 15 477 19 4 57 15 165 77 15 478 15 479 1 490 12 19 5 235 29) #1# #2# 44185) #Y(si::bytecodes nil nil (15 491 15 54 15 492 15 493 19 4 57 15 491 14 102 77 15 494 19 4 57 15 491 14 291 14 30 14 102 15 494 15 292 15 495 19 7 294 29) #1# #2# 44502) #Y(si::bytecodes nil nil (15 491 15 54 15 496 15 497 19 4 57 15 491 77 15 498 15 499 1 503 12 19 5 235 29) #1# #2# 44768) #Y(si::bytecodes nil nil (15 504 15 54 15 505 15 506 19 4 57 15 504 14 102 77 77 19 4 57 15 504 1 507 12 19 2 112 1 504 73 29) #1# #2# 45001) #Y(si::bytecodes nil nil (15 508 15 54 15 509 15 510 19 4 57 15 508 14 102 77 15 511 19 4 57 15 508 1 520 12 19 2 112 1 508 73 29) #1# #2# 45235) #Y(si::bytecodes nil nil (15 521 15 54 15 522 15 523 19 4 57 15 521 14 102 77 15 524 19 4 57 15 521 1 531 12 19 2 112 15 521 15 532 15 533 19 3 534 1 521 73 29) #1# #2# 45736) #Y(si::bytecodes nil nil (15 535 15 54 15 536 15 537 19 4 57 15 535 14 102 77 15 538 19 4 57 15 535 1 544 12 19 2 112 15 535 15 532 15 545 19 3 534 1 535 73 29) #1# #2# 45991) #Y(si::bytecodes nil nil (15 546 15 54 15 547 15 548 19 4 57 15 546 14 102 77 15 549 19 4 57 15 546 1 558 12 19 2 112 1 546 73 29) #1# #2# 46274) #Y(si::bytecodes nil nil (15 559 15 54 15 560 15 561 19 4 57 15 559 14 102 77 15 562 19 4 57 15 559 14 291 14 30 14 102 15 562 15 292 15 563 19 7 294 29) #1# #2# 46528) #Y(si::bytecodes nil nil (15 559 15 54 15 564 15 565 19 4 57 15 559 77 15 566 15 567 1 584 12 19 5 235 29) #1# #2# 46848) #Y(si::bytecodes nil nil (15 585 15 54 15 586 15 587 19 4 57 15 585 15 588 15 589 14 83 15 590 15 591 11 591 16 86 6 3 12 15 592 15 593 1 594 16 86 6 3 6 2 6 2 12 19 4 88 15 585 15 54 15 595 15 596 19 4 57 15 585 77 15 597 15 598 1 608 12 19 5 235 29) #1# #2# 47329) #Y(si::bytecodes nil nil (15 609 15 54 15 610 15 611 19 4 57 15 609 77 15 612 15 613 1 617 12 19 5 235 29) #1# #2# 47475) #Y(si::bytecodes nil nil (15 618 15 54 15 619 15 620 19 4 57 15 618 77 15 621 15 622 1 624 12 19 5 235 29) #1# #2# 47662) #Y(si::bytecodes nil nil (15 625 15 54 15 626 15 627 19 4 57 15 625 77 15 628 15 629 1 632 12 19 5 235 29) #1# #2# 47874) #Y(si::bytecodes nil nil (15 633 15 54 15 634 15 635 19 4 57 15 633 77 15 636 15 637 1 647 12 19 5 235 29) #1# #2# 48033) #Y(si::bytecodes nil nil (15 648 15 54 15 649 15 650 19 4 57 15 648 15 651 15 652 14 83 15 590 15 653 11 653 16 86 6 3 12 15 592 15 654 1 655 16 86 6 3 6 2 6 2 12 19 4 88 15 648 15 54 15 656 15 657 19 4 57 15 648 77 15 658 15 659 1 663 12 19 5 235 29) #1# #2# 48650) #Y(si::bytecodes nil nil (15 625 15 54 15 664 15 665 19 4 57 15 625 77 15 666 15 667 1 676 12 19 5 235 29) #1# #2# 48826) #Y(si::bytecodes nil nil (15 677 15 54 15 678 15 679 19 4 57 15 677 15 680 15 681 14 83 15 590 15 682 11 682 16 86 6 3 12 15 592 15 683 1 684 16 86 6 3 6 2 6 2 12 19 4 88 15 677 15 54 15 685 15 686 19 4 57 15 677 77 15 687 15 688 1 690 12 19 5 235 29) #1# #2# 49258) #Y(si::bytecodes nil nil (15 691 15 54 15 692 15 693 19 4 57 15 691 77 15 694 15 695 1 699 12 19 5 235 29) #1# #2# 49420) #Y(si::bytecodes nil nil (15 609 15 54 15 700 15 701 19 4 57 15 609 77 15 702 15 703 1 706 12 19 5 235 29) #1# #2# 49653) #Y(si::bytecodes nil nil (15 633 15 54 15 707 15 708 19 4 57 15 633 77 15 709 15 710 1 713 12 19 5 235 29) #1# #2# 49934) #Y(si::bytecodes nil nil (15 714 15 54 15 715 15 716 19 4 57 15 714 15 717 15 718 14 83 15 590 15 682 11 682 16 86 6 3 6 1 6 2 12 19 4 88 29) #1# #2# 50646) #Y(si::bytecodes nil nil (15 609 15 54 15 719 15 720 19 4 57 15 609 77 15 721 15 722 1 727 12 19 5 235 29) #1# #2# 50884) #Y(si::bytecodes nil nil (15 618 15 54 15 728 15 729 19 4 57 15 618 77 15 730 15 731 1 732 12 19 5 235 29) #1# #2# 51261) #Y(si::bytecodes nil nil (15 633 15 54 15 733 15 734 19 4 57 15 633 77 15 735 15 736 1 738 12 19 5 235 29) #1# #2# 51527) #Y(si::bytecodes nil nil (15 714 15 54 15 739 15 740 19 4 57 15 714 77 15 741 15 742 1 746 12 19 5 235 29) #1# #2# 52446) #Y(si::bytecodes nil nil (15 747 15 54 15 748 15 749 19 4 57 15 747 15 750 15 751 14 59 1 752 12 1 753 7 3 6 2 12 14 83 15 606 15 754 11 754 16 86 6 3 12 15 590 15 755 11 755 16 86 6 3 12 15 756 15 757 1 758 6 3 6 3 6 2 12 19 4 88 29) #1# #2# 52763) #Y(si::bytecodes nil nil (15 691 15 54 15 759 15 760 19 4 57 15 691 77 15 761 15 762 1 766 12 19 5 235 29) #1# #2# 53564) #Y(si::bytecodes nil nil (15 633 15 54 15 767 15 768 19 4 57 15 633 77 15 769 15 770 1 772 12 19 5 235 29) #1# #2# 53796) #Y(si::bytecodes nil nil (15 609 15 54 15 773 15 774 19 4 57 15 609 77 15 775 15 776 1 779 12 19 5 235 29) #1# #2# 54267) #Y(si::bytecodes nil nil (15 670 15 54 15 780 15 781 19 4 57 15 670 15 782 15 783 15 784 1 786 12 19 5 235 29) #1# #2# 54535) #Y(si::bytecodes nil nil (15 787 15 54 15 788 15 789 19 4 57 15 787 15 790 15 791 14 83 15 756 15 792 1 794 6 3 6 1 6 2 12 19 4 88 29) #1# #2# 54616) #Y(si::bytecodes nil nil (15 691 15 54 15 795 15 796 19 4 57 15 691 77 15 797 15 798 1 814 12 19 5 235 29) #1# #2# 55007) #Y(si::bytecodes nil nil (15 633 15 54 15 815 15 816 19 4 57 15 633 77 15 817 15 818 1 823 12 19 5 235 29) #1# #2# 56085) #Y(si::bytecodes nil nil (15 824 15 54 15 825 15 826 19 4 57 15 824 77 15 827 15 828 1 853 12 19 5 235 29) #1# #2# 57154) #Y(si::bytecodes nil nil (15 854 15 54 15 855 15 856 19 4 57 15 854 15 857 15 858 14 83 15 605 15 859 1 66 16 86 6 3 12 15 756 15 860 1 861 6 3 6 2 6 2 12 19 4 88 29) #1# #2# 58411) #Y(si::bytecodes nil nil (15 609 15 54 15 862 15 863 19 4 57 15 609 15 864 15 865 15 866 1 881 12 19 5 235 29) #1# #2# 59171) #Y(si::bytecodes nil nil (15 691 15 54 15 882 15 883 19 4 57 15 691 77 15 884 15 885 1 896 12 19 5 235 29) #1# #2# 59347) #Y(si::bytecodes nil nil (15 633 15 54 15 897 15 898 19 4 57 15 633 77 15 899 15 900 1 918 12 19 5 235 29) #1# #2# 60172) #Y(si::bytecodes nil nil (15 913 15 54 15 919 15 920 19 4 57 15 913 14 102 77 15 921 19 4 57 15 913 1 940 12 19 2 112 15 913 15 532 15 941 19 3 534 1 913 73 29) #1# #2# 62825) #Y(si::bytecodes nil nil (15 942 15 54 15 943 15 944 19 4 57 15 942 15 945 77 14 83 15 590 15 946 11 946 16 86 6 3 12 15 592 15 947 1 948 16 86 6 3 6 2 6 2 12 19 4 88 29) #1# #2# 63229) #Y(si::bytecodes nil nil (15 942 15 54 15 949 15 950 19 4 57 15 942 77 15 951 15 952 1 987 12 19 5 235 29) #1# #2# 63691) #Y(si::bytecodes nil nil (15 980 15 54 15 988 15 989 19 4 57 15 980 14 102 77 15 990 19 4 57 15 980 14 291 14 30 14 102 15 990 15 292 15 991 19 7 294 29) #1# #2# 67057) #Y(si::bytecodes nil nil (15 980 15 54 15 992 15 993 19 4 57 15 980 77 15 994 15 995 1 1003 12 19 5 235 29) #1# #2# 67193) #Y(si::bytecodes nil nil (15 1004 15 54 15 1005 15 1006 19 4 57 15 1004 14 102 77 15 1007 19 4 57 15 1004 1 1013 12 19 2 112 1 1004 73 29) #1# #2# 67847) #Y(si::bytecodes nil nil (15 1014 15 54 15 1015 15 1016 19 4 57 15 1014 14 102 77 15 1017 19 4 57 15 1014 1 1027 12 14 30 9 3 19 4 112 1 1014 73 29) #1# #2# 68173) #Y(si::bytecodes nil nil (15 1025 15 54 15 1028 15 1029 19 4 57 15 1025 14 102 77 15 1030 19 4 57 15 1025 1 1043 12 19 2 112 1 1025 73 29) #1# #2# 68464) #Y(si::bytecodes nil nil (15 1044 15 54 15 1045 15 1046 19 4 57 15 1044 14 102 77 15 1047 19 4 57 15 1044 1 1052 12 14 30 9 2 19 4 112 1 1044 73 29) #1# #2# 69756) #Y(si::bytecodes nil nil (15 1051 15 54 15 1053 15 1054 19 4 57 15 1051 14 102 77 15 1055 19 4 57 15 1051 1 1058 12 19 2 112 1 1051 73 29) #1# #2# 69847) #Y(si::bytecodes nil nil (15 1059 15 54 15 1060 15 1061 19 4 57 15 1059 77 15 1062 15 1063 1 1086 12 19 5 235 29) #1# #2# 70242) #Y(si::bytecodes nil nil (15 1087 15 54 15 1088 15 1089 19 4 57 15 1087 77 15 1090 15 1091 1 1095 12 19 5 235 29) #1# #2# 72353) #Y(si::bytecodes nil nil (15 1096 15 54 15 1097 15 1098 19 4 57 15 1096 14 102 77 15 1099 19 4 57 15 1096 1 1102 12 19 2 112 1 1096 73 29) #1# #2# 72779) #Y(si::bytecodes nil nil (15 1103 15 54 15 1104 15 1105 19 4 57 15 1103 77 15 1106 15 1107 1 1115 12 19 5 235 29) #1# #2# 72870) #Y(si::bytecodes nil nil (15 1116 15 54 15 1117 15 1118 19 4 57 15 1116 77 15 1119 15 1120 1 1127 12 19 5 235 29) #1# #2# 73818) #Y(si::bytecodes nil nil (15 1128 15 1096 19 2 1025 29) #1# #2# 74934) #Y(si::bytecodes nil nil (15 1129 15 1103 19 2 1025 29) #1# #2# 75001) #Y(si::bytecodes nil nil (15 1130 15 1103 19 2 1025 29) #1# #2# 75068) #Y(si::bytecodes nil nil (15 1131 15 1103 19 2 1025 29) #1# #2# 75141) #Y(si::bytecodes nil nil (15 1132 15 1116 19 2 1025 29) #1# #2# 75221) #Y(si::bytecodes nil nil (15 1133 15 54 15 1134 15 1135 19 4 57 15 1133 14 102 77 15 1136 19 4 57 15 1133 1 1138 12 19 2 112 1 1133 73 29) #1# #2# 75307) #Y(si::bytecodes nil nil (15 1139 15 54 15 1140 15 1141 19 4 57 15 1139 14 102 77 15 1142 19 4 57 15 1139 1 1188 12 19 2 112 1 1139 73 29) #1# #2# 75552) #Y(si::bytecodes nil nil (15 1189 15 54 15 1190 15 1191 19 4 57 15 1189 14 102 77 15 1192 19 4 57 15 1189 1 1206 12 19 2 112 1 1189 73 29) #1# #2# 77409) #Y(si::bytecodes nil nil (15 1207 15 54 15 1208 15 1209 19 4 57 15 1207 14 102 77 77 19 4 57 15 1207 1 1211 12 19 2 112 1 1207 73 29) #1# #2# 78567) #Y(si::bytecodes nil nil (14 87 15 1212 14 1213 15 1214 14 1215 15 1207 19 5 1216 6 1 12 14 1145 14 1217 15 1218 14 1219 77 14 1220 15 1221 14 292 15 1222 19 9 1223 12 14 1149 14 1224 77 19 3 1223 12 14 1153 14 1217 15 1225 14 1219 77 14 1220 15 1226 14 292 15 1227 19 9 1223 12 14 1158 14 1217 15 1228 14 1219 15 1229 14 1220 15 1230 14 292 15 1231 19 9 1223 12 14 1162 14 1217 15 1228 14 1219 15 1232 14 1220 15 1233 14 292 15 1234 19 9 1223 12 14 1166 14 1217 15 1228 14 1219 15 1232 14 1220 15 1235 14 292 15 1236 19 9 1223 12 14 1170 14 1217 15 1228 14 1219 15 1232 14 1220 15 1237 14 292 15 1238 19 9 1223 12 14 1174 14 1217 15 1228 14 1219 15 1239 14 1220 15 1240 14 292 15 1241 19 9 1223 12 14 1178 14 1224 77 19 3 1223 12 14 1182 14 1224 77 19 3 1223 6 10 12 14 1242 15 53 19 1 63 12 19 1 1243 12 14 292 15 1244 14 1245 15 1189 14 1246 15 1133 14 1247 15 1004 14 1248 15 1059 14 641 15 1139 19 17 1249 29) #1# #2# 78644) #Y(si::bytecodes nil nil (15 1250 15 54 15 1251 15 1252 19 4 57 15 1250 14 102 77 15 1253 19 4 57 15 1250 1 1260 12 14 30 9 1 19 4 112 15 1250 15 532 15 1261 19 3 534 1 1250 73 29) #1# #2# 80654) #Y(si::bytecodes nil nil (15 1262 15 54 15 1263 15 1264 19 4 57 15 1262 14 102 77 15 1265 19 4 57 15 1262 1 1273 12 14 30 9 5 19 4 112 15 1262 15 532 15 1274 19 3 534 1 1262 73 29) #1# #2# 80916) #Y(si::bytecodes nil nil (15 1272 15 54 15 1275 15 1276 19 4 57 15 1272 14 102 77 15 1277 19 4 57 15 1272 1 1290 12 19 2 112 15 1272 15 532 15 1291 19 3 534 1 1272 73 29) #1# #2# 81162) #Y(si::bytecodes nil nil (15 1292 15 54 15 1293 15 1294 19 4 57 15 1292 14 102 77 15 1295 19 4 57 15 1292 1 1296 12 19 2 112 1 1292 73 29) #1# #2# 82883) #Y(si::bytecodes nil nil (15 1297 15 54 15 1298 15 1299 19 4 57 15 1297 14 102 77 15 1300 19 4 57 15 1297 1 1301 12 19 2 112 1 1297 73 29) #1# #2# 83103) #Y(si::bytecodes nil nil (15 1302 15 1292 15 1303 19 3 213 29) #1# #2# 83314) #Y(si::bytecodes nil nil (15 1304 15 1297 15 1305 19 3 213 29) #1# #2# 83459))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Mike Byrne & Dan Bothell
+;;; Address     : Rice University, MS-25
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;; 
+;;; Copyright   : (c)1998-2010 Mike Byrne/Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : motor.lisp
+;;; Version     : 7.4
+;;; 
+;;; Description : Source code for the ACT-R Motor Module.
+;;; 
+;;; Bugs        : 
+;;; To do       : [X] Consider a mechanism for extending the commands that are
+;;;             :     accepted by the motor module without having to redefine the
+;;;             :     the request function.
+;;;             : [ ] Should a jam signal an error state?
+;;;             : [ ] Let subtypes of prepare be passed in as a request
+;;;             :     and generalize how it pulls the keyword values out of
+;;;             :     the slots so that new styles with different features
+;;;             :     can also be prepared.
+;;;             : [X] Figure out a good way for move-cursor to be abstracted
+;;;             :     away from needing to access the internals of vision.
+;;;             : [ ] When the hand move has finger offsets it probably should
+;;;             :     test if the cost of any necessary finger move is greater
+;;;             :     than the hand move and adjust the time accordingly.
+;;;             : [ ] Consider not testing the features in handle-style-request
+;;;             :     for efficiency since defstyle already includes a check-specs
+;;;             :     call.
+;;;             : [ ] Should a point-hand action send a notification to the device?
+;;;
+;;; 
+;;; ----- History -----
+;;; 2004.12.23 Dan [First pass at moving to ACT-R 6]
+;;;             : Changed name to motor and reset version to 1.0a1
+;;;             :
+;;;             : Eliminated the state chunk
+;;;             :
+;;;             : Making the requests explicit instead of using a mapping
+;;;             :   mechanism as was done in ACT-R 5 (at least for now).
+;;;             : 
+;;;             : Added :from :motor to the queue-command calls that
+;;;             :  are events for the device.
+;;;             :
+;;;             : Doesn't flag any error states at this point (jams or 
+;;;             : otherwise) nor does it put a "response" chunk into the buffer
+;;;             : which has been a suggestion for a while.
+;;;             :
+;;;             : Removed the defgeneric for loc->key, check-specs, and
+;;;             :   polar-move-xy.
+;;;             :
+;;;             : Renamed reset-module reset-pm-module.
+;;;             :
+;;; 2004.12.28 Dan
+;;;             : Added pm-start-hand-at-mouse here. [Should all the names
+;;;             : have the pm- taken off?]
+;;;             :
+;;;             : In move-cursor, because the chunk name of the copy passed
+;;;             : as the location doesn't match the original
+;;;             : stored by vision, loc-to-feat ends up returning a random
+;;;             : feature because (gethash (id loc) (found-locs vis-m))
+;;;             : ends up returning nil.
+;;;             : So instead, since all move-cursor cares about is the xy
+;;;             : I'm pulling that out directly in a dummy feature.
+;;;             : May have to do a similar thing with the object, but
+;;;             : I'm not sure on that one.
+;;; 2005.01.11 mdb
+;;;             : * Changed some of the request/query interaction.
+;;;             : * Added some toplevel commands.
+;;;             : * Added doc strings for parameters.
+;;; 2005.01.12 Dan
+;;;             : * Moved the device's parameters to the device module.
+;;; 2005.02.03 Dan
+;;;             : * Added ":output 'medium"  or ":output 'low" to some of the 
+;;;             :   events scheduled to play friendly with the new detail level.
+;;; 2005.02.10 Dan
+;;;             : * Switched expt to expt-coerced in compute-exec-time and
+;;;             :   log to log-coerced in fitts.
+;;; 2005.04.23 Dan
+;;;             : * Added the status printing function to the module's buffer
+;;;             :   definition.
+;;;             : * Noticed that the last-command query is unhandled...
+;;; 2005.05.02 Dan
+;;;             : * Added another command from the old rpm-toplevel file - 
+;;;             :   set-hand-location and moved the pm- functions to the
+;;;             :   backwards.lisp file.
+;;; 2005.05.11 Dan
+;;;             : * Added ":output 'medium" to the output-key command
+;;;             :   events so they show in the medium trace level.
+;;;             : * Probably want to do that for other things too at some
+;;;             :   point...
+;;; 2005.09.28 Dan
+;;;             : * Slight change in the reset-motor-module function so that
+;;;             :   the chunk-types are defined before calling reset-pm-module
+;;;             :   to allow for extensions to define the reset-pm-module
+;;;             :   method for adding chunk-types and let them use the motor-
+;;;             :   command chunk-type.
+;;; 2005.12.16 Dan
+;;;             : * Added a new command to the manual to prepare features:
+;;;             :   +manual> isa prepare style <style>.
+;;;             :   effectively the same as calling prepare-motor, but it
+;;;             :   only allows for the style to be prepared.  May want to
+;;;             :   extnd that at some point, but currently one would have to
+;;;             :   prespecify all possible features to be accepted in the
+;;;             :   chunk-type which isn't ideal...
+;;; 2006.08.22 Dan
+;;;             : * Fixed the prepare request because it wasn't actually 
+;;;             :   making the module busy during the preparation - I called 
+;;;             :   the wrong pm method to do the preparation.
+;;; 2006.08.24 Dan
+;;;             : * Undoing an old change (from 2004.12.28) because the
+;;;             :   assumption was wrong (that only the xy matters) and now
+;;;             :   loc-to-feat works right anyway.  So, move-cursor does use
+;;;             :   loc-to-feat again.
+;;; 2006.08.29 Dan
+;;;             : * Added a features slot to the prepare chunk-type so that
+;;;             :   the rest of the features can be passed into a prepare
+;;;             :   request - it must be a list of the features as would be
+;;;             :   passed to the prepare command not counting the style (which
+;;;             :   must be specified in the style slot:
+;;;             :   +manual> isa prepare style punch features (:hand right)
+;;;             :   as an example.
+;;; 2006.09.08 Dan
+;;;             : * Changed some of the param tests to nonneg instead of posnum.
+;;;             : * Cleaned up noisy-loc? so that it doesn't call act-r-noise
+;;;             :   with 0.
+;;; 2006.09.13 Dan
+;;;             : * Changed the defstyle of peck to add the keywords so that
+;;;             :   an explict peck request will work (not sure if there is
+;;;             :   a bug in defstyle but this was sufficient to fix things).
+;;; 2006.09.15 Dan
+;;;             : * Changed move-finger to test that r was not 0 instead of
+;;;             :   theta before progressing (which I assume is how it should
+;;;             :   be).
+;;; 2007.01.05 Dan
+;;;             : * Synched all the versions to 2.3 (file, object, module).
+;;;             : * Changed the module doc string to remove the "first pass".
+;;; 2007.01.08 Dan
+;;;             : * Adding in the execute request - since prepartion now allows
+;;;             :   for a full movement specification it seems to make sense to
+;;;             :   actually have this now.
+;;; 2007.01.09 Dan
+;;;             : * Fixed a bug with home-hands - the quoted lists caused problems
+;;;             :   in some Lisps (treated like a constant so once changed it
+;;;             :   stayed that way).
+;;;             : * Patched press-key so that if an invalid key is specified
+;;;             :   it prints a warning instead of throwing an error.
+;;;             : * Made point-hand-at-key check to make sure that there's a
+;;;             :   valid position for the key before issueing the command.
+;;;             : * Changed the prepare request so that hand, finger, r, and theta
+;;;             :   are supplied directly instead of in a list because all the
+;;;             :   "styles" only use those arguments.
+;;;             : * Made start-hand-at-mouse, set-cursor-position, and set-hand-
+;;;             :   location all better check for current mp/model/module.
+;;;             : * Changed the home position for the left thumb to be offset
+;;;             :   by (1 2) instead of (-1 2) which is the setting of the right
+;;;             :   thumb (they shouldn't have been the same and the values for
+;;;             :   the right thumb seemed correct to me...)
+;;; 2007.01.15 Dan
+;;;             : * Added a saftey check to the fitts method to catch situations
+;;;             :   where a 0 or - width is provided to print a warning and then
+;;;             :   assume 1 pixel width for the target.
+;;; 2007.01.16 Dan
+;;;             : * Fixed a warning in the handling of a prepare request.
+;;; 2007.06.04 Dan
+;;;             : * Added the extend-manual-requests command to allow people to
+;;;             :   add new requests to the manual system without having to 
+;;;             :   modify the request and reset functions.
+;;; 2007.06.21 Dan
+;;;             : * Modified move-cursor to deal with the new chunk based feature
+;;;             :   representation.
+;;; 2008.06.11 Dan 
+;;;             : * Changed noisy-loc? to more accurately reflect the 4%
+;;;             :   chance of missing by only computing one distance instead
+;;;             :   of doing it separately for each axis.
+;;; 2008.10.28 Dan
+;;;             : * Fixed some issues with move-cursor relative to the possible
+;;;             :   deletion of chunks by the vision module.
+;;; 2010.10.06 mdb
+;;;             : * Changed movement to use mininmum jerk velocity profile for
+;;;             :   cursor moves. 
+;;;             : * Allow incremental mouse moves to update at schedules
+;;;             :   other than 50 ms.
+;;; 2010.10.06 mdb
+;;;             : * Added missing MINJERK-DIST function.
+;;; 2011.02.07 Dan
+;;;             : * Updated move-cursor to to correspond to the change in how
+;;;             :   vision stores it's info, but really need to abstract that
+;;;             :   since motor shouldn't have to be dependent on the internals
+;;;             :   of vision and need to call its methods.
+;;;             : * Also added a warning to move-cursor if it aborts because of
+;;;             :   a 0 pixel move.
+;;; 2011.05.16 Dan
+;;;             : * Replaced pm-warning calls with model-warning.
+;;; 2011.05.17 Dan
+;;;             : * Replaced queue-command calls with schedule-event-relative.
+;;; 2013.10.01 Dan
+;;;             : * Update move-cursor so that incremental movements with a
+;;;             :   noisy location are still a straight line to fix an issue 
+;;;             :   reported by Melissa Gallagher.
+;;; 2014.02.12 Dan
+;;;             : * The request chunk-types are no longer subtypes of motor-command
+;;;             :   since that wasn't actually used for anything.
+;;; 2014.04.24 Dan
+;;;             : * Added a create-motor-module function instead of using a
+;;;             :   lambda in the definition so that it can be changed for
+;;;             :   easier extension of the module.
+;;; 2014.05.16 Dan [3.0]
+;;;             : * Start the conversion to chunks without types.
+;;;             : * Remove the require for "DMI" since it's not needed.
+;;;             : * Removing a lot of old code that was commented out.
+;;;             : * Have all the built-in requests except for clear and prepare
+;;;             :   created using the extend-manual-requests command.  That way
+;;;             :   everything is treated the same and the request function is
+;;;             :   much cleaner.
+;;; 2014.05.19 Dan
+;;;             : * Have extend-manual-requests create the chunks which match
+;;;             :   the type as isa that type.
+;;; 2014.05.30 Dan
+;;;             : * Use the test-for-clear-request function in pm-module-request.
+;;; 2014.10.31 Dan
+;;;             : * Define prepare as 'isa preapare' instead of 'name prepare'.
+;;; 2014.12.01 Dan
+;;;             : * Automatically define chunks named: left, right, index, 
+;;;             :   middle, ring, pinkie, and thumb for the motor module if not
+;;;             :   already chunks.
+;;; 2015.05.20 Dan
+;;;             : * Updates to the xy-loc calls and removing specific coordinate
+;;;             :   slot names and use those indicated for the device in the mouse
+;;;             :   movement method.
+;;;             : * Approach-width needs to pass the vision module in as well.
+;;; 2015.06.04 Dan
+;;;             : * Convert exec-times to ms explicitly and then use :time-in-ms t 
+;;;             :   in all scheduled events.
+;;;             : * Changed incremental-mouse-p to ms at setting time and do the
+;;;             :   math in ms.
+;;; 2015.07.28 Dan
+;;;             : * Changed the logical to ACT-R-support in the require-compiled.
+;;; 2015.08.13 Dan
+;;;             : * Changed all rand-time calls to randomize-time.
+;;; 2015.08.31 Dan [3.1]
+;;;             : * The point-hand-at-key style now includes an optional feature
+;;;             :   (which doesn't increase prep cost) that indicates the state
+;;;             :   of the fingers at the target location.  Previously it just
+;;;             :   kept the finger offsets that were currently set for the hand,
+;;;             :   but peck actions could have adjusted those so that they aren't
+;;;             :   right for something like a hand-to-mouse if the index finger
+;;;             :   had been offset previously. 
+;;;             :   The offsets feature can be:
+;;;             :    - nil (the default and value if not provided) which means
+;;;             :      to leave the current finger offsets in place
+;;;             :    - standard which means the normal home position offsets of
+;;;             :      0,0 for index and increasing/decreasing by one per finger
+;;;             :      and -/+1,2 for the thumb.
+;;;             :    - a list of three element lists where each sublist specifies
+;;;             :      a finger name and then the x and y offset for that finger
+;;;             :      when the action completes.
+;;;             : *** When there are offsets that require moving the fingers
+;;;             : *** it should probably compute the move time as the max of 
+;;;             : *** the hand movement and the individual finger movements or
+;;;             : *** especially if the hand move is to the same loc, but for
+;;;             : *** now not changing that i.e. the finger movements are zero
+;;;             : *** cost with the hand move.
+;;;             : * The hand-to-home, hand-to-mouse, and set-hand-location 
+;;;             :   actions set the standard finger offsets now.
+;;; 2015.09.01 Dan
+;;;             : * Added a hand-to-keypad request and a start-hand-at-keypad
+;;;             :   command.  The finger positions are set over 4, 5, 6, enter,
+;;;             :   and 0 which will be used to create the actions for some new
+;;;             :   press-key shortcuts.
+;;; 2015.09.21 Dan [4.0]
+;;;             : * Manual buffer now marked as trackable.
+;;;             : * When preparing an action set the prepare-spec slot.
+;;;             : * All the 'extended' motor action functions set the request-
+;;;             :   spec of the style if they generate one.
+;;;             : * All of the "simple-command" request functions are now passed
+;;;             :   the chunk-spec because they need to indicate when it is complete.
+;;; 2015.09.22 Dan
+;;;             : * The "pseudo style" actions of point-hand, press-key, and
+;;;             :   move-cursor have been updated to deal with the request completion
+;;;             :   now.
+;;; 2015.09.23 Dan
+;;;             : * All the special actions make sure to complete the request in
+;;;             :   the event of a jam or nop as well.
+;;; 2017.01.13 Dan [5.0]
+;;;             : * Start the work to remove the old device object interface and
+;;;             :   replace it with the new general device mechanism for remote
+;;;             :   interface use.
+;;;             :  - Took the keyboard specific code out.
+;;;             :  - Define an interface which has no init or remove methods
+;;;             :    at this point.
+;;;             :  - Each hand now specifies the device with which it is interacting
+;;;             :    if there is one.
+;;;             :  - The base actions now signal that device instead of assuming that
+;;;             :    it's a keyboard (or mouse button). 
+;;; 2017.01.18 Dan
+;;;             : * Fixed a bug because an invalid cmd value in a request left
+;;;             :   it uncompleted.
+;;; 2017.01.20 Dan
+;;;             : * Have peck and peck-recoil also notify the device as their
+;;;             :   output action like punch does.
+;;; 2017.03.02 Dan
+;;;             : * Removed all the mouse code because that's now being handled 
+;;;             :   by a mouse device.
+;;; 2017.03.06 Dan
+;;;             : * Removed the eff-cursor-loc slot as well.
+;;;             : * Put the cursor-ply style back in here because devices other
+;;;             :   than a mouse may be implemented and want to use it.
+;;;             : * A virtual-cursor class should be used to create any devices
+;;;             :   that can be accessed via move-cursor (mouse, joystick, etc).
+;;;             :   That style assumes some details of that class and that the
+;;;             :   device can return an instance when signaled with 'cursor-object.
+;;;             :   The device->order code is no longer needed since the class
+;;;             :   will have that as a slot.
+;;;             : * Point-hand action now takes a device as well and if provided
+;;;             :   the hand will be set to that device as part of the movement.
+;;;             : * Set-cursor-position can be used for any installed cursor
+;;;             :   device.
+;;; 2017.03.07 Dan
+;;;             : * Updated set-hand-location-fct to take an optional device.
+;;;             : * Moved start-hand-at-mouse to the mouse device file.
+;;;             : * Fixed bugs in set-cursor-position.
+;;; 2017.03.08 Dan
+;;;             : * Don't have a general cursor class since that wouldn't be
+;;;             :   usable by an 'external' device.  Instead, a cursor has to
+;;;             :   respond to a bunch of signals for the information.
+;;;             : * xy-to-polar is just a function instead of a method and can
+;;;             :   work on any sequence given.
+;;; 2017.08.10 Dan
+;;;             : * Adding a hand-lock slot to the hand class to protect access
+;;;             :   to all the slots of the hand.
+;;; 2017.08.11 Dan
+;;;             : * Fixed a missing ) in queue-output-events for hand-ply objs.
+;;; 2018.03.05 Dan
+;;;             : * Signal-device was renamed to notify-device and renamed the
+;;;             :   notify-device function that was here notify-motor-device.
+;;; 2018.03.07 Dan
+;;;             : * Adjusted move-cursor to not need the vision module because
+;;;             :   there are now functions to get that info without it.
+;;; 2018.05.02 Dan
+;;;             : * Approach-width now gets passed the x and y of the starting
+;;;             :   point as well to allow for better custom calculations.
+;;; 2018.05.30 Dan [6.0]
+;;;             : * Actually put some locks in the module to protect the params
+;;;             :   and requests (internals are covered by the pm-module's locks).
+;;;             : * Monitor key-closure-time, mouse-fitts-coeff,  instead of having to get it from
+;;;             :   the device interface directly.
+;;; 2018.06.01 Dan
+;;;             : * Param-lock moved to the pm-module class.
+;;; 2018.06.04 Dan
+;;;             : * Set-cursor-position moved to the mouse code file.
+;;;             : * Set-hand-location changed to take explicit x and y parameters
+;;;             :   as well as an optional device, added remote versions, and
+;;;             :   added more parameter testing.
+;;; 2018.06.12 Dan
+;;;             : * Only the external set-hand-location commands should do the
+;;;             :   string conversion.
+;;; 2018.07.26 Dan [6.1]
+;;;             : * Removing the support for request completion.
+;;; 2018.10.04 Dan [7.0]
+;;;             : * Using the interface notification function to provide access
+;;;             :   for getting and updating hand/finger info so devices don't 
+;;;             :   need the motor module to manipulate it directly (like keyboard 
+;;;             :   and cursor do currently).
+;;; 2018.10.08 Dan
+;;;             : * Added more interface opitons for getting internal info about
+;;;             :   hands and fingers.
+;;;             : * Should there be an extend-motor-notifications command like
+;;;             :   extend-manual-requests?
+;;; 2018.10.10 Dan
+;;;             : * Change the version string setting to use create-motor-module
+;;;             :   instead of specifically creating an instance of motor-module
+;;;             :   so that extensions which subclass the module can report a
+;;;             :   different version number.
+;;; 2018.10.15 Dan
+;;;             : * Schedule the call to set-hand-device for ply action because
+;;;             :   the switch shouldn't happen until the execution finishes
+;;;             :   (which matters now that devices typically refer to a single
+;;;             :   thing e.g. keyboard or mouse instead of a monolitic object).
+;;; 2018.10.25 Dan
+;;;             : * Fixed the description of the default-target-width parameter
+;;;             :   because it's not in DVA -- it's the explicit width used when
+;;;             :   none provided.
+;;;             : * Also using that value when a zero or negative width is given
+;;;             :   to fitts function instead of 1 (still use 1 as the default
+;;;             :   width regardless of the default-target-width parameter).
+;;; 2018.10.31 Dan [7.1]
+;;;             : * Added calls to notify-device-hand-set and -unset whenever
+;;;             :   the hand changes devices.
+;;;             : * Added a name slot to the hand class to indicate which it is.
+;;; 2018.11.01 Dan
+;;;             : * Moved the :default-target-width parameter to the device
+;;;             :   interface and just monitor it here.
+;;; 2018.11.02 Dan
+;;;             : * Motor-interface function needs to be more careful about
+;;;             :   re-stringing a device, but may need a better solution in
+;;;             :   general.
+;;; 2019.03.04 Dan
+;;;             : * Distance= fixed so that it handles obtuse differences 
+;;;             :   correctly -- when the difference in angles is > pi radians
+;;;             :   need to check the other angle because previously this was
+;;;             :   the result which is wrong:
+;;;             :     1[5]: (DIRECTION= -2.7610862 2.8501358)
+;;;             :     1[5]: returned NIL
+;;; 2019.04.23 Dan
+;;;             : * Create the chunk-type definition for motor extensions when
+;;;             :   they're added instead of at every reset.
+;;; 2019.10.01 Dan [7.2]
+;;;             : * Cursor positions are now always x,y,z but move-cursor still
+;;;             :   assumes movement in x,y only and warns if the z values differ.
+;;;             : * xy-to-polar now makes sure to only use x,y coords since it may
+;;;             :   be given x,y,z.
+;;; 2020.01.10 Dan [7.3]
+;;;             : * Removed the #' and lambdas from the module interface 
+;;;             :   functions since  that's not allowed in the general system
+;;;             :   now.
+;;; 2020.03.23 Dan [7.4]
+;;;             : * Move to using separate hand positions for features and 
+;;;             :   actions because there're potential problems with the single
+;;;             :   position situation that used to exist.
+;;;             : * Add the time to the notify-motor-device event in the trace.
+;;;             : * Point-hand has a keyword :style to specify a subclass of a
+;;;             :   hand-ply when needed.
+;;;             : * Added functions for the standard-offsets instead of creating
+;;;             :   the lists over and over.
+;;;             : * Handle-style-request and handle-partial-style-request now 
+;;;             :   print a warning when they abort because of a missing or
+;;;             :   over-specified feature.
+;;; 2020.04.20 Dan
+;;;             : * Fixed an issue with some Lisps not liking a default value 
+;;;             :   in the keyword of a defgeneric.
+;;; 2020.06.01 Dan [8.0]
+;;;             : * Moved the chunk-type and chunk definitions (including the
+;;;             :   actions from the table) to the creation function instead of
+;;;             :   the reset function since that's allowed now.  That means 
+;;;             :   extend-manual-requests now must be called before a model is
+;;;             :   defined not just reloaded.
+;;; 2020.08.26 Dan
+;;;             : * Removed the path for require-compiled since it's not needed
+;;;             :   and results in warnings in SBCL.
+;;; 2022.01.28 Dan
+;;;             : * Updated move-cursor to better check the z coordinates of
+;;;             :   the movement because one or both could be missing but the
+;;;             :   code assumed both were there previously.
+;;; 2023.05.16 Dan
+;;;             : * Use expt-coerced for the error handling.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+;;;
+;;; DAN 
+;;; Start by making sure the general-pm file has been loaded
+;;;
+
+(require-compiled "GENERAL-PM")
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; the Motor Module class itself
+;;;; ---------------------------------------------------------------------- ;;;;
+
+
+(defclass motor-module (pm-module)
+  ((left-hand :accessor left-hand :initarg :left-hand :initform (make-instance 'hand :name 'left))
+   (right-hand :accessor right-hand :initarg :right-hand :initform (make-instance 'hand :name 'right))
+   (requests-table-lock :accessor requests-table-lock :initform (bt:make-lock "motor-requests") :allocation :class)
+   (key-closure-time :accessor key-closure-time :initform 0.01)
+   (mouse-fitts-coeff :accessor mouse-fitts-coeff :initform 0.1)
+   (feature-prep-time :accessor feat-prep-time  :initarg :feat-prep-time :initform 0.050)
+   (movement-initiation-time :accessor init-time :initarg :init-time :initform 0.050)
+   (default-target-width :accessor default-target-width :initarg :default-target-width :initform 1.0)
+   (peck-fitts-coeff :accessor peck-fitts-coeff :initarg :peck-fitts-coeff :initform 0.075) 
+   (min-fitts-time :accessor min-fitts-time :initarg :min-fitts-time :initform 0.100)
+   (incremental-mouse-p :accessor incremental-mouse-p :initarg :incremental-mouse-p :initform nil)
+   (cursor-noise :accessor cursor-noise :initarg :cursor-noise :initform nil)
+   (new-requests-table :accessor new-requests-table :initform (make-hash-table) :allocation :class))
+  (:default-initargs
+    :version-string "8.0"
+    :name :MOTOR))
+
+
+;;; A struct to hold hand position information so that current, and next for
+;;; feature preparation can be more easily maintained.
+
+(defstruct hand-pos loc fingers other device)
+
+;;; Instead of creating the lists again and again have functions
+;;; that return a completely fresh set of values to avoid issues
+;;; with constant lists/vectors being manipulated.
+
+(defun left-standard-offsets ()
+  (list (list 'index (vector 0 0))
+        (list 'middle (vector -1 0))
+        (list 'ring (vector -2 0))
+        (list 'pinkie (vector -3 0))
+        (list 'thumb (vector 1 2))))
+
+(defun right-standard-offsets ()
+  (list (list 'index (vector 0 0))
+        (list 'middle (vector 1 0))
+        (list 'ring (vector 2 0))
+        (list 'pinkie (vector 3 0))
+        (list 'thumb (vector -1 2))))
+
+;; Some of these could be (or are) also available as user commands, but
+;; putting them in the interface keeps things consistent.
+
+(defun motor-interface (params)
+  (labels ((string-or-list-of-strings (x)
+                                      (cond ((stringp x)
+                                             t)
+                                            ((listp x)
+                                             (every (lambda (z) (string-or-list-of-strings z)) x))
+                                            (t nil)))
+           (make-it-strings (x)
+                            (cond ((stringp x)
+                                   x)
+                                  ((and x (listp x))
+                                   (mapcar 'make-it-strings x))
+                                  (t
+                                   (princ-to-string x))))
+                                   
+           (restore-device-string (x)
+                                  (if (string-or-list-of-strings x)
+                                      x
+                                    (make-it-strings x))))
+    (let ((motor (get-module :motor)))
+      (if motor
+          (if (listp params)
+              (let ((cmd (first params))
+                    (p (rest params)))
+                (case cmd 
+                  (set-hand-device ; hand device-list
+                   (let ((hand (case (first p)
+                                 (left (left-hand motor))
+                                 (right (right-hand motor)))))
+                     (if hand
+                         (if (and (second p) (listp (second p)))
+                             (let ((device (restore-device-string (second p))))
+                               (if (find device (current-devices "motor") :test 'equalp)
+                                   (set-hand-device hand device)
+                                 (print-warning "Device ~s not installed for motor interface when notifying motor interface for set-hand-device." device)))
+                           (print-warning "Invalid device list ~s when notifying motor interface for set-hand-device." (second p)))
+                       (print-warning "Invalid hand ~s provided when notifying motor interface for set-hand-device." (first p)))))
+                  (set-hand-position ; hand x y 
+                   (if (and (numberp (second p)) (numberp (third p)))
+                       (case (first p)
+                         (left 
+                          (let ((hand (left-hand motor)))
+                            (bt:with-lock-held ((hand-lock hand))
+                              (setf (loc hand) (make-hand-pos :loc (vector (second p) (third p))
+                                                              :fingers (left-standard-offsets))))))
+                         (right 
+                          (let ((hand (right-hand motor)))
+                            (bt:with-lock-held ((hand-lock hand))
+                              (setf (loc hand) (make-hand-pos :loc (vector (second p) (third p))
+                                                              :fingers (right-standard-offsets))))))
+                         (t
+                          (print-warning "Invalid hand ~s provided when notifying motor interface for set-hand-position." (first p))))
+                     (print-warning "Invalid x and/or y position ~s and ~s provided when notifying motor interface for set-hand-position." 
+                                    (second p) (third p))))
+                     
+                  (set-finger-offset ; hand (finger x-off y-off)*
+                   (if (every (lambda (x) 
+                                (and (numberp (second x)) (numberp (third x))
+                                     (find (first x) '(index middle ring pinkie thumb))))
+                              (rest p))
+                       (let ((hand (case (first p)
+                                     (left (left-hand motor))
+                                     (right (right-hand motor)))))
+                         (if hand
+                            (bt:with-lock-held ((hand-lock hand))
+                              (let ((new-offsets (mapcar (lambda (x) (list (first x) (vector (second x) (third x)))) (rest p))))
+                                (dolist (f (hand-pos-fingers (loc hand)))
+                                  (unless (find (first f) new-offsets :key 'first)
+                                    (push (list (first f) (vector (px (second f)) (py (second f)))) new-offsets)))
+                                (setf (hand-pos-fingers (loc hand)) new-offsets)))
+                           (print-warning "Invalid hand ~s provided when notifying motor interface for set-finger-offset." (first p))))
+                     (print-warning "Invalid finger offset provided in ~s when notifying motor interface for set-finger-offset." (rest p))))
+                  (get-hand-device ; hand
+                   (let ((hand (case (first p)
+                                 (left (left-hand motor))
+                                 (right (right-hand motor)))))
+                     (if hand
+                         (bt:with-lock-held ((hand-lock hand))
+                           (device hand))
+                       (print-warning "Invalid hand ~s provided when notifying motor interface for get-hand-device." (first p)))))
+                  (get-hand-position ; hand
+                   (let ((hand (case (first p)
+                                 (left (left-hand motor))
+                                 (right (right-hand motor)))))
+                     (if hand
+                         (bt:with-lock-held ((hand-lock hand))
+                           (coerce (hand-pos-loc (loc hand)) 'list))
+                       (print-warning "Invalid hand ~s provided when notifying motor interface for get-hand-position." (first p)))))
+                  (get-finger-position ; hand finger
+                   (let ((hand (case (first p)
+                                 (left (left-hand motor))
+                                 (right (right-hand motor))))
+                         (finger (second p)))
+                     (if hand
+                         (if (find finger '(index middle ring pinkie thumb))
+                             (coerce (finger-loc hand finger) 'list)
+                           (print-warning "Invalid finger ~s provided when notifying motor interface for get-finger-position." finger))
+                       (print-warning "Invalid hand ~s provided when notifying motor interface for get-hand-position." (first p)))))
+                  (t
+                   (print-warning "Motor interface received invalid action ~s with parameters ~s" cmd p))))
+            (print-warning "Motor interface notification requires a list of parameters but got ~s." params))
+        (print-warning "No motor module available for motor interface notification.")))))
+
+
+(add-act-r-command "motor-interface" 'motor-interface "Internal command for handling motor interface notifications.  Do not call.")
+
+(defun motor-interface-install (device)
+  (declare (ignore device))
+  t)
+
+(add-act-r-command "motor-install" 'motor-interface-install "Internal command for handling motor interface device installation. Do not call.")
+
+(define-interface "motor" "motor-install" nil nil "motor-interface")
+
+(defmethod initialize-instance :after ((mtr-mod motor-module) &key)
+  (set-default-hand-positions mtr-mod))
+
+
+;;; RESET-PM-MODULE      [Method]
+;;; Date        : 97.03.31
+;;; Description : Resetting a motor module includes clearing the motor
+;;;             : feature memory and resetting the hands to the 'home row'
+;;;             : position.
+
+(defmethod reset-pm-module :after ((mtr-mod motor-module))
+    
+  (set-default-hand-positions mtr-mod))
+
+
+
+(defmethod update-prepared ((mtr-mod motor-module))
+  (when (find 'hand (feature-slots (last-prep mtr-mod)))
+    (set-hand-position mtr-mod (hand (last-prep mtr-mod))
+                       (updated-pos (last-prep mtr-mod)) :current nil)))
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; the HAND class
+;;;; ---------------------------------------------------------------------- ;;;;
+
+
+(defclass hand ()
+  ((name :accessor name :initarg :name :initform nil)
+   (hand-lock :accessor hand-lock :initform (bt:make-lock "hand-lock"))
+   (location :accessor loc)
+   (device :accessor device :initform nil)
+   (next-location :accessor next-loc)))
+
+(defmethod set-default-hand-positions ((mtr-mod motor-module))
+  
+  ;; Put them where the default keyboard home row will be
+  ;; just to have some starting point.  Installing a keyboard
+  ;; will move them there explicitly as well as set the device.
+  (let ((lh (left-hand mtr-mod))
+        (rh (right-hand mtr-mod)))
+    
+    (bt:with-lock-held ((hand-lock lh))
+      (setf (device lh) nil)
+      (setf (next-loc lh) nil)
+      (setf (loc lh) (make-hand-pos :loc #(4 4)
+                                    :fingers (left-standard-offsets))))
+      
+    (bt:with-lock-held ((hand-lock rh))
+      (setf (device rh) nil)
+      (setf (next-loc rh) nil)
+      (setf (loc rh) (make-hand-pos :loc #(7 4)
+                                    :fingers (right-standard-offsets))))))
+
+
+(defgeneric finger-loc (the-hand finger &key current)
+  (:documentation  "Return the absolute XY coordinate of <finger> at current or next location"))
+
+(defmethod finger-loc ((the-hand hand) finger &key (current t))
+  (bt:with-lock-held ((hand-lock the-hand))
+    (let* ((location (if (or current (null (next-loc the-hand))) (loc the-hand) (next-loc the-hand)))
+           (fngr-offset (second (assoc finger (hand-pos-fingers location)))))
+      (vector (+ (px (hand-pos-loc location)) (px fngr-offset))
+              (+ (py (hand-pos-loc location)) (py fngr-offset))))))
+  
+
+(defmethod finger-loc ((location hand-pos) finger &key (current t))
+  (declare (ignore current))
+  (let* ((fngr-offset (second (assoc finger (hand-pos-fingers location)))))
+      (vector (+ (px (hand-pos-loc location)) (px fngr-offset))
+              (+ (py (hand-pos-loc location)) (py fngr-offset)))))
+
+(defmethod finger-loc ((hand-name symbol) finger &key (current t))
+  (let ((h (ecase hand-name
+             (right (right-hand (get-module :motor)))
+             (left (left-hand (get-module :motor))))))
+    (finger-loc h finger :current current)))
+  
+(defgeneric move-finger (the-hand finger r theta &key current)
+  (:documentation  "Computes the new position based on indicated starting point."))
+
+(defmethod move-finger ((the-hand hand) finger r theta &key (current t))
+  (bt:with-lock-held ((hand-lock the-hand))
+    (let ((hand-pos (if (or current (null (next-loc the-hand))) (loc the-hand) (next-loc the-hand))))
+      (unless (= r 0)
+        (setf hand-pos (copy-hand-pos hand-pos))
+        
+        (let ((new-offsets (mapcar (lambda (x) 
+                                     (if (eq (first x) finger)
+                                         (list (first x) 
+                                               (polar-move-xy (second x) (vector r theta)))
+                                       x))
+                             (hand-pos-fingers hand-pos))))
+          (setf (hand-pos-fingers hand-pos) new-offsets)))
+      hand-pos)))
+
+(defgeneric hand-loc (the-hand &key current)
+  (:documentation  "Return the xy vector of <hand> at current or next location (current if not set)"))
+
+(defmethod hand-loc ((the-hand hand) &key (current t))
+  (bt:with-lock-held ((hand-lock the-hand))
+    (let ((location (if (or current (null (next-loc the-hand))) (loc the-hand) (next-loc the-hand))))
+      (copy-seq (hand-pos-loc location)))))
+
+(defmethod hand-loc ((location hand-pos) &key (current t))
+  (declare (ignore current))
+  (copy-seq (hand-pos-loc location)))
+
+(defmethod hand-loc ((hand symbol) &key (current t))
+  (let ((h (ecase hand
+             (right (right-hand (get-module :motor)))
+             (left (left-hand (get-module :motor))))))
+    (hand-loc h :current current)))
+
+(defgeneric hand-position (the-hand &key current)
+  (:documentation  "Return the position structure of the hand at current or next location (current if not set)"))
+
+(defmethod hand-position ((the-hand hand) &key (current t))
+  (bt:with-lock-held ((hand-lock the-hand))
+    (let ((location (if (or current (null (next-loc the-hand))) (loc the-hand) (next-loc the-hand))))
+      location)))
+
+(defmethod hand-position ((hand symbol) &key (current t))
+  (let ((h (ecase hand
+             (right (right-hand (get-module :motor)))
+             (left (left-hand (get-module :motor))))))
+    (hand-position h :c

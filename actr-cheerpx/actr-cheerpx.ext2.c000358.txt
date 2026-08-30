@@ -1,0 +1,2252 @@
+package IPC::Open3;
+
+use strict;
+no strict 'refs'; # because users pass me bareword filehandles
+
+use Exporter 'import';
+
+use Carp;
+use Symbol qw(gensym qualify);
+
+our $VERSION	= '1.22';
+our @EXPORT		= qw(open3);
+
+# &open3: Marc Horowitz <marc@mit.edu>
+# derived mostly from &open2 by tom christiansen, <tchrist@convex.com>
+# fixed for 5.001 by Ulrich Kunitz <kunitz@mai-koeln.com>
+# ported to Win32 by Ron Schmidt, Merrill Lynch almost ended my career
+# fixed for autovivving FHs, tchrist again
+# allow fd numbers to be used, by Frank Tobin
+# allow '-' as command (c.f. open "-|"), by Adam Spiers <perl@adamspiers.org>
+#
+# usage: $pid = open3('wtr', 'rdr', 'err' 'some cmd and args', 'optarg', ...);
+#
+# spawn the given $cmd and connect rdr for
+# reading, wtr for writing, and err for errors.
+# if err is '', or the same as rdr, then stdout and
+# stderr of the child are on the same fh.  returns pid
+# of child (or dies on failure).
+
+# if wtr begins with '<&', then wtr will be closed in the parent, and
+# the child will read from it directly.  if rdr or err begins with
+# '>&', then the child will send output directly to that fd.  In both
+# cases, there will be a dup() instead of a pipe() made.
+
+# WARNING: this is dangerous, as you may block forever
+# unless you are very careful.
+#
+# $wtr is left unbuffered.
+#
+# abort program if
+#   rdr or wtr are null
+#   a system call fails
+
+our $Me = 'open3 (bug)';	# you should never see this, it's always localized
+
+# Fatal.pm needs to be fixed WRT prototypes.
+
+sub xpipe {
+    pipe $_[0], $_[1] or croak "$Me: pipe($_[0], $_[1]) failed: $!";
+}
+
+# I tried using a * prototype character for the filehandle but it still
+# disallows a bareword while compiling under strict subs.
+
+sub xopen {
+    open $_[0], $_[1], @_[2..$#_] and return;
+    local $" = ', ';
+    carp "$Me: open(@_) failed: $!";
+}
+
+sub xclose {
+    $_[0] =~ /\A=?(\d+)\z/
+	? do { my $fh; open($fh, $_[1] . '&=' . $1) and close($fh); }
+	: close $_[0]
+	or croak "$Me: close($_[0]) failed: $!";
+}
+
+sub xfileno {
+    return $1 if $_[0] =~ /\A=?(\d+)\z/;  # deal with fh just being an fd
+    return fileno $_[0];
+}
+
+use constant FORCE_DEBUG_SPAWN => 0;
+use constant DO_SPAWN => $^O eq 'os2' || $^O eq 'MSWin32' || FORCE_DEBUG_SPAWN;
+
+sub _open3 {
+    local $Me = shift;
+
+    # simulate autovivification of filehandles because
+    # it's too ugly to use @_ throughout to make perl do it for us
+    # tchrist 5-Mar-00
+
+    # Historically, open3(undef...) has silently worked, so keep
+    # it working.
+    splice @_, 0, 1, undef if \$_[0] == \undef;
+    splice @_, 1, 1, undef if \$_[1] == \undef;
+    unless (eval  {
+	$_[0] = gensym unless defined $_[0] && length $_[0];
+	$_[1] = gensym unless defined $_[1] && length $_[1];
+	1; })
+    {
+	# must strip crud for croak to add back, or looks ugly
+	$@ =~ s/(?<=value attempted) at .*//s;
+	croak "$Me: $@";
+    }
+
+    my @handles = ({ mode => '<', handle => \*STDIN },
+		   { mode => '>', handle => \*STDOUT },
+		   { mode => '>', handle => \*STDERR },
+		  );
+
+    foreach (@handles) {
+	$_->{parent} = shift;
+	$_->{open_as} = gensym;
+    }
+
+    if (@_ > 1 and $_[0] eq '-') {
+	croak "Arguments don't make sense when the command is '-'"
+    }
+
+    $handles[2]{parent} ||= $handles[1]{parent};
+    $handles[2]{dup_of_out} = $handles[1]{parent} eq $handles[2]{parent};
+
+    my $package;
+    foreach (@handles) {
+	$_->{dup} = ($_->{parent} =~ s/^[<>]&//);
+
+	if ($_->{parent} !~ /\A=?(\d+)\z/) {
+	    # force unqualified filehandles into caller's package
+	    $package //= caller 1;
+	    $_->{parent} = qualify $_->{parent}, $package;
+	}
+
+	next if $_->{dup} or $_->{dup_of_out};
+	if ($_->{mode} eq '<') {
+	    xpipe $_->{open_as}, $_->{parent};
+	} else {
+	    xpipe $_->{parent}, $_->{open_as};
+	}
+    }
+
+    my $kidpid;
+    if (!DO_SPAWN) {
+	# Used to communicate exec failures.
+	xpipe my $stat_r, my $stat_w;
+
+	$kidpid = fork;
+	croak "$Me: fork failed: $!" unless defined $kidpid;
+	if ($kidpid == 0) {  # Kid
+	    eval {
+		# A tie in the parent should not be allowed to cause problems.
+		untie *STDIN;
+		untie *STDOUT;
+		untie *STDERR;
+
+		close $stat_r;
+		require Fcntl;
+		my $flags = fcntl $stat_w, &Fcntl::F_GETFD, 0;
+		croak "$Me: fcntl failed: $!" unless $flags;
+		fcntl $stat_w, &Fcntl::F_SETFD, $flags|&Fcntl::FD_CLOEXEC
+		    or croak "$Me: fcntl failed: $!";
+
+		# If she wants to dup the kid's stderr onto her stdout I need to
+		# save a copy of her stdout before I put something else there.
+		if (!$handles[2]{dup_of_out} && $handles[2]{dup}
+			&& xfileno($handles[2]{parent}) == fileno \*STDOUT) {
+		    my $tmp = gensym;
+		    xopen($tmp, '>&', $handles[2]{parent});
+		    $handles[2]{parent} = $tmp;
+		}
+
+		foreach (@handles) {
+		    if ($_->{dup_of_out}) {
+			xopen \*STDERR, ">&STDOUT"
+			    if defined fileno STDERR && fileno STDERR != fileno STDOUT;
+		    } elsif ($_->{dup}) {
+			xopen $_->{handle}, $_->{mode} . '&', $_->{parent}
+			    if fileno $_->{handle} != xfileno($_->{parent});
+		    } else {
+			xclose $_->{parent}, $_->{mode};
+			xopen $_->{handle}, $_->{mode} . '&=',
+			    fileno $_->{open_as};
+		    }
+		}
+		return 1 if ($_[0] eq '-');
+		exec @_ or do {
+		    local($")=(" ");
+		    croak "$Me: exec of @_ failed: $!";
+		};
+	    } and do {
+                close $stat_w;
+                return 0;
+            };
+
+	    my $bang = 0+$!;
+	    my $err = $@;
+	    utf8::encode $err if $] >= 5.008;
+	    print $stat_w pack('IIa*', $bang, length($err), $err);
+	    close $stat_w;
+
+	    eval { require POSIX; POSIX::_exit(255); };
+	    exit 255;
+	}
+	else {  # Parent
+	    close $stat_w;
+	    my $to_read = length(pack('I', 0)) * 2;
+	    my $bytes_read = read($stat_r, my $buf = '', $to_read);
+	    if ($bytes_read) {
+		(my $bang, $to_read) = unpack('II', $buf);
+		read($stat_r, my $err = '', $to_read);
+		waitpid $kidpid, 0; # Reap child which should have exited
+		if ($err) {
+		    utf8::decode $err if $] >= 5.008;
+		} else {
+		    $err = "$Me: " . ($! = $bang);
+		}
+		$! = $bang;
+		die($err);
+	    }
+	}
+    }
+    else {  # DO_SPAWN
+	# All the bookkeeping of coincidence between handles is
+	# handled in spawn_with_handles.
+
+	my @close;
+
+	foreach (@handles) {
+	    if ($_->{dup_of_out}) {
+		$_->{open_as} = $handles[1]{open_as};
+	    } elsif ($_->{dup}) {
+		$_->{open_as} = $_->{parent} =~ /\A[0-9]+\z/
+		    ? $_->{parent} : \*{$_->{parent}};
+		push @close, $_->{open_as};
+	    } else {
+		push @close, \*{$_->{parent}}, $_->{open_as};
+	    }
+	}
+	require IO::Pipe;
+	$kidpid = eval {
+	    spawn_with_handles(\@handles, \@close, @_);
+	};
+	die "$Me: $@" if $@;
+    }
+
+    foreach (@handles) {
+	next if $_->{dup} or $_->{dup_of_out};
+	xclose $_->{open_as}, $_->{mode};
+    }
+
+    # If the write handle is a dup give it away entirely, close my copy
+    # of it.
+    xclose $handles[0]{parent}, $handles[0]{mode} if $handles[0]{dup};
+
+    select((select($handles[0]{parent}), $| = 1)[0]); # unbuffer pipe
+    $kidpid;
+}
+
+sub open3 {
+    if (@_ < 4) {
+	local $" = ', ';
+	croak "open3(@_): not enough arguments";
+    }
+    return _open3 'open3', @_
+}
+
+sub spawn_with_handles {
+    my $fds = shift;		# Fields: handle, mode, open_as
+    my $close_in_child = shift;
+    my ($fd, %saved, @errs);
+
+    foreach $fd (@$fds) {
+	$fd->{tmp_copy} = IO::Handle->new_from_fd($fd->{handle}, $fd->{mode});
+	$saved{fileno $fd->{handle}} = $fd->{tmp_copy} if $fd->{tmp_copy};
+    }
+    foreach $fd (@$fds) {
+	bless $fd->{handle}, 'IO::Handle'
+	    unless eval { $fd->{handle}->isa('IO::Handle') } ;
+	# If some of handles to redirect-to coincide with handles to
+	# redirect, we need to use saved variants:
+    my $open_as = $fd->{open_as};
+    my $fileno = fileno($open_as);
+    $fd->{handle}->fdopen(defined($fileno)
+                  ? $saved{$fileno} || $open_as
+                  : $open_as,
+                  $fd->{mode});
+    }
+    unless ($^O eq 'MSWin32') {
+	require Fcntl;
+	# Stderr may be redirected below, so we save the err text:
+	foreach $fd (@$close_in_child) {
+	    next unless fileno $fd;
+	    fcntl($fd, Fcntl::F_SETFD(), 1) or push @errs, "fcntl $fd: $!"
+		unless $saved{fileno $fd}; # Do not close what we redirect!
+	}
+    }
+
+    my $pid;
+    unless (@errs) {
+	if (FORCE_DEBUG_SPAWN) {
+	    pipe my $r, my $w or die "Pipe failed: $!";
+	    $pid = fork;
+	    die "Fork failed: $!" unless defined $pid;
+	    if (!$pid) {
+		{ no warnings; exec @_ }
+		print $w 0 + $!;
+		close $w;
+		require POSIX;
+		POSIX::_exit(255);
+	    }
+	    close $w;
+	    my $bad = <$r>;
+	    if (defined $bad) {
+		$! = $bad;
+		undef $pid;
+	    }
+	} else {
+	    $pid = eval { system 1, @_ }; # 1 == P_NOWAIT
+	}
+	if($@) {
+	    push @errs, "IO::Pipe: Can't spawn-NOWAIT: $@";
+	} elsif(!$pid || $pid < 0) {
+	    push @errs, "IO::Pipe: Can't spawn-NOWAIT: $!";
+	}
+    }
+
+    # Do this in reverse, so that STDERR is restored first:
+    foreach $fd (reverse @$fds) {
+	$fd->{handle}->fdopen($fd->{tmp_copy}, $fd->{mode});
+    }
+    foreach (values %saved) {
+	$_->close or croak "Can't close: $!";
+    }
+    croak join "\n", @errs if @errs;
+    return $pid;
+}
+
+1; # so require is happy
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ñ   .   k   ..  ó  ËUtil.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         # Copyright (c) 1997-2009 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+#
+# Maintained since 2013 by Paul Evans <leonerd@leonerd.org.uk>
+
+package List::Util;
+
+use strict;
+use warnings;
+require Exporter;
+
+our @ISA        = qw(Exporter);
+our @EXPORT_OK  = qw(
+  all any first min max minstr maxstr none notall product reduce reductions sum sum0
+  sample shuffle uniq uniqint uniqnum uniqstr zip zip_longest zip_shortest mesh mesh_longest mesh_shortest
+  head tail pairs unpairs pairkeys pairvalues pairmap pairgrep pairfirst
+);
+our $VERSION    = "1.62";
+our $XS_VERSION = $VERSION;
+$VERSION =~ tr/_//d;
+
+require XSLoader;
+XSLoader::load('List::Util', $XS_VERSION);
+
+# Used by shuffle()
+our $RAND;
+
+sub import
+{
+  my $pkg = caller;
+
+  # (RT88848) Touch the caller's $a and $b, to avoid the warning of
+  #   Name "main::a" used only once: possible typo" warning
+  no strict 'refs';
+  ${"${pkg}::a"} = ${"${pkg}::a"};
+  ${"${pkg}::b"} = ${"${pkg}::b"};
+
+  goto &Exporter::import;
+}
+
+# For objects returned by pairs()
+sub List::Util::_Pair::key   { shift->[0] }
+sub List::Util::_Pair::value { shift->[1] }
+sub List::Util::_Pair::TO_JSON { [ @{+shift} ] }
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        package POSIX;
+use strict;
+use warnings;
+
+our ($AUTOLOAD, %SIGRT);
+
+our $VERSION = '2.03';
+
+require XSLoader;
+
+use Fcntl qw(FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_RDLCK F_SETFD
+	     F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK O_ACCMODE O_APPEND
+	     O_CREAT O_EXCL O_NOCTTY O_NONBLOCK O_RDONLY O_RDWR O_TRUNC
+	     O_WRONLY SEEK_CUR SEEK_END SEEK_SET
+	     S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISREG
+	     S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU S_ISGID S_ISUID
+	     S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR);
+
+my $loaded;
+
+sub croak { require Carp;  goto &Carp::croak }
+sub usage { croak "Usage: POSIX::$_[0]" }
+
+XSLoader::load();
+
+my %replacement = (
+    L_tmpnam    => undef,
+    atexit      => 'END {}',
+    atof        => undef,
+    atoi        => undef,
+    atol        => undef,
+    bsearch     => \'not supplied',
+    calloc      => undef,
+    clearerr    => 'IO::Handle::clearerr',
+    div         => '/, % and int',
+    execl       => undef,
+    execle      => undef,
+    execlp      => undef,
+    execv       => undef,
+    execve      => undef,
+    execvp      => undef,
+    fclose      => 'IO::Handle::close',
+    fdopen      => 'IO::Handle::new_from_fd',
+    feof        => 'IO::Handle::eof',
+    ferror      => 'IO::Handle::error',
+    fflush      => 'IO::Handle::flush',
+    fgetc       => 'IO::Handle::getc',
+    fgetpos     => 'IO::Seekable::getpos',
+    fgets       => 'IO::Handle::gets',
+    fileno      => 'IO::Handle::fileno',
+    fopen       => 'IO::File::open',
+    fprintf     => 'printf',
+    fputc       => 'print',
+    fputs       => 'print',
+    fread       => 'read',
+    free        => undef,
+    freopen     => 'open',
+    fscanf      => '<> and regular expressions',
+    fseek       => 'IO::Seekable::seek',
+    fsetpos     => 'IO::Seekable::setpos',
+    fsync       => 'IO::Handle::sync',
+    ftell       => 'IO::Seekable::tell',
+    fwrite      => 'print',
+    labs        => 'abs',
+    ldiv        => '/, % and int',
+    longjmp     => 'die',
+    malloc      => undef,
+    memchr      => 'index()',
+    memcmp      => 'eq',
+    memcpy      => '=',
+    memmove     => '=',
+    memset      => 'x',
+    offsetof    => undef,
+    putc        => 'print',
+    putchar     => 'print',
+    puts        => 'print',
+    qsort       => 'sort',
+    rand        => \'non-portable, use Perl\'s rand instead',
+    realloc     => undef,
+    scanf       => '<> and regular expressions',
+    setbuf      => 'IO::Handle::setbuf',
+    setjmp      => 'eval {}',
+    setvbuf     => 'IO::Handle::setvbuf',
+    siglongjmp  => 'die',
+    sigsetjmp   => 'eval {}',
+    srand       => \'not supplied; refer to Perl\'s srand documentation',
+    sscanf      => 'regular expressions',
+    strcat      => '.=',
+    strchr      => 'index()',
+    strcmp      => 'eq',
+    strcpy      => '=',
+    strcspn     => 'regular expressions',
+    strlen      => 'length',
+    strncat     => '.=',
+    strncmp     => 'eq',
+    strncpy     => '=',
+    strpbrk     => undef,
+    strrchr     => 'rindex()',
+    strspn      => undef,
+    strtok      => undef,
+    tmpfile     => 'IO::File::new_tmpfile',
+    tmpnam      => 'use File::Temp',
+    ungetc      => 'IO::Handle::ungetc',
+    vfprintf    => undef,
+    vprintf     => undef,
+    vsprintf    => undef,
+);
+
+my %reimpl = (
+    abs       => 'x => CORE::abs($_[0])',
+    alarm     => 'seconds => CORE::alarm($_[0])',
+    assert    => 'expr => croak "Assertion failed" if !$_[0]',
+    atan2     => 'x, y => CORE::atan2($_[0], $_[1])',
+    chdir     => 'directory => CORE::chdir($_[0])',
+    chmod     => 'mode, filename => CORE::chmod($_[0], $_[1])',
+    chown     => 'uid, gid, filename => CORE::chown($_[0], $_[1], $_[2])',
+    closedir  => 'dirhandle => CORE::closedir($_[0])',
+    cos       => 'x => CORE::cos($_[0])',
+    creat     => 'filename, mode => &open($_[0], &O_WRONLY | &O_CREAT | &O_TRUNC, $_[1])',
+    errno     => '$! + 0',
+    exit      => 'status => CORE::exit($_[0])',
+    exp       => 'x => CORE::exp($_[0])',
+    fabs      => 'x => CORE::abs($_[0])',
+    fcntl     => 'filehandle, cmd, arg => CORE::fcntl($_[0], $_[1], $_[2])',
+    fork      => 'CORE::fork',
+    fstat     => 'fd => CORE::open my $dup, "<&", $_[0]; CORE::stat($dup)', # Gross.
+    getc      => 'handle => CORE::getc($_[0])',
+    getchar   => 'CORE::getc(STDIN)',
+    getegid   => '$) + 0',
+    getenv    => 'name => $ENV{$_[0]}',
+    geteuid   => '$> + 0',
+    getgid    => '$( + 0',
+    getgrgid  => 'gid => CORE::getgrgid($_[0])',
+    getgrnam  => 'name => CORE::getgrnam($_[0])',
+    getgroups => 'my %seen; grep !$seen{$_}++, split " ", $)',
+    getlogin  => 'CORE::getlogin()',
+    getpgrp   => 'CORE::getpgrp',
+    getpid    => '$$',
+    getppid   => 'CORE::getppid',
+    getpwnam  => 'name => CORE::getpwnam($_[0])',
+    getpwuid  => 'uid => CORE::getpwuid($_[0])',
+    gets      => 'scalar <STDIN>',
+    getuid    => '$<',
+    gmtime    => 'time => CORE::gmtime($_[0])',
+    isatty    => 'filehandle => -t $_[0]',
+    kill      => 'pid, sig => CORE::kill $_[1], $_[0]',
+    link      => 'oldfilename, newfilename => CORE::link($_[0], $_[1])',
+    localtime => 'time => CORE::localtime($_[0])',
+    log       => 'x => CORE::log($_[0])',
+    mkdir     => 'directoryname, mode => CORE::mkdir($_[0], $_[1])',
+    opendir   => 'directory => my $dh; CORE::opendir($dh, $_[0]) ? $dh : undef',
+    pow       => 'x, exponent => $_[0] ** $_[1]',
+    raise     => 'sig => CORE::kill $_[0], $$;	# Is this good enough',
+    readdir   => 'dirhandle => CORE::readdir($_[0])',
+    remove    => 'filename => (-d $_[0]) ? CORE::rmdir($_[0]) : CORE::unlink($_[0])',
+    rename    => 'oldfilename, newfilename => CORE::rename($_[0], $_[1])',
+    rewind    => 'filehandle => CORE::seek($_[0],0,0)',
+    rewinddir => 'dirhandle => CORE::rewinddir($_[0])',
+    rmdir     => 'directoryname => CORE::rmdir($_[0])',
+    sin       => 'x => CORE::sin($_[0])',
+    sqrt      => 'x => CORE::sqrt($_[0])',
+    stat      => 'filename => CORE::stat($_[0])',
+    strerror  => 'errno => BEGIN { local $!; require locale; locale->import} my $e = $_[0] + 0; local $!; $! = $e; "$!"',
+    strstr    => 'big, little => CORE::index($_[0], $_[1])',
+    system    => 'command => CORE::system($_[0])',
+    time      => 'CORE::time',
+    umask     => 'mask => CORE::umask($_[0])',
+    unlink    => 'filename => CORE::unlink($_[0])',
+    utime     => 'filename, atime, mtime => CORE::utime($_[1], $_[2], $_[0])',
+    wait      => 'CORE::wait()',
+    waitpid   => 'pid, options => CORE::waitpid($_[0], $_[1])',
+);
+
+sub import {
+    my $pkg = shift;
+
+    load_imports() unless $loaded++;
+
+    # Rewrite legacy foo_h form to new :foo_h form
+    s/^(?=\w+_h$)/:/ for my @list = @_;
+
+    my @unimpl = sort grep { exists $replacement{$_} } @list;
+    if (@unimpl) {
+      for my $u (@unimpl) {
+        warn "Unimplemented: POSIX::$u(): ", unimplemented_message($u);
+      }
+      croak(sprintf("Unimplemented: %s",
+                    join(" ", map { "POSIX::$_()" } @unimpl)));
+    }
+
+    local $Exporter::ExportLevel = 1;
+    Exporter::import($pkg,@list);
+}
+
+eval join ';', map "sub $_", keys %replacement, keys %reimpl;
+
+sub unimplemented_message {
+  my $func = shift;
+  my $how = $replacement{$func};
+  return "C-specific, stopped" unless defined $how;
+  return "$$how" if ref $how;
+  return "$how instead" if $how =~ /^use /;
+  return "Use method $how() instead" if $how =~ /::/;
+  return "C-specific: use $how instead";
+}
+
+sub AUTOLOAD {
+    my ($func) = ($AUTOLOAD =~ /.*::(.*)/);
+
+    die "POSIX.xs has failed to load\n" if $func eq 'constant';
+
+    if (my $code = $reimpl{$func}) {
+	my ($num, $arg) = (0, '');
+	if ($code =~ s/^(.*?) *=> *//) {
+	    $arg = $1;
+	    $num = 1 + $arg =~ tr/,//;
+	}
+	# no warnings to be consistent with the old implementation, where each
+	# function was in its own little AutoSplit world:
+	eval qq{ sub $func {
+		no warnings;
+		usage "$func($arg)" if \@_ != $num;
+		$code
+	    } };
+	no strict;
+	goto &$AUTOLOAD;
+    }
+    if (exists $replacement{$func}) {
+      croak "Unimplemented: POSIX::$func(): ", unimplemented_message($func);
+    }
+
+    constant($func);
+}
+
+sub perror {
+    print STDERR "@_: " if @_;
+    print STDERR $!,"\n";
+}
+
+sub printf {
+    usage "printf(pattern, args...)" if @_ < 1;
+    CORE::printf STDOUT @_;
+}
+
+sub sprintf {
+    usage "sprintf(pattern, args...)" if @_ == 0;
+    CORE::sprintf(shift,@_);
+}
+
+sub load_imports {
+my %default_export_tags = ( # cf. exports policy below
+
+    assert_h =>	[qw(assert NDEBUG)],
+
+    ctype_h =>	        [],
+
+    dirent_h =>	[],
+
+    errno_h =>	[qw(E2BIG EACCES EADDRINUSE EADDRNOTAVAIL EAFNOSUPPORT EAGAIN
+		EALREADY EBADF EBADMSG EBUSY ECANCELED ECHILD ECONNABORTED
+		ECONNREFUSED ECONNRESET EDEADLK EDESTADDRREQ EDOM EDQUOT EEXIST
+		EFAULT EFBIG EHOSTDOWN EHOSTUNREACH EIDRM EILSEQ EINPROGRESS
+		EINTR EINVAL EIO EISCONN EISDIR ELOOP EMFILE EMLINK EMSGSIZE
+		ENAMETOOLONG ENETDOWN ENETRESET ENETUNREACH ENFILE ENOBUFS
+		ENODATA ENODEV ENOENT ENOEXEC ENOLCK ENOLINK ENOMEM ENOMSG
+		ENOPROTOOPT ENOSPC ENOSR ENOSTR ENOSYS ENOTBLK ENOTCONN ENOTDIR
+		ENOTEMPTY ENOTRECOVERABLE ENOTSOCK ENOTSUP ENOTTY ENXIO
+		EOPNOTSUPP EOTHER EOVERFLOW EOWNERDEAD EPERM EPFNOSUPPORT EPIPE
+		EPROCLIM EPROTO EPROTONOSUPPORT EPROTOTYPE ERANGE EREMOTE
+		ERESTART EROFS ESHUTDOWN ESOCKTNOSUPPORT ESPIPE ESRCH ESTALE
+		ETIME ETIMEDOUT ETOOMANYREFS ETXTBSY EUSERS EWOULDBLOCK EXDEV
+		errno)],
+
+    fcntl_h =>	[qw(FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_RDLCK
+		F_SETFD F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK
+		O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK
+		O_RDONLY O_RDWR O_TRUNC O_WRONLY
+		creat
+		SEEK_CUR SEEK_END SEEK_SET
+		S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU
+		S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISGID S_ISREG S_ISUID
+		S_IWGRP S_IWOTH S_IWUSR)],
+
+    float_h =>	[qw(DBL_DIG DBL_EPSILON DBL_MANT_DIG
+		DBL_MAX DBL_MAX_10_EXP DBL_MAX_EXP
+		DBL_MIN DBL_MIN_10_EXP DBL_MIN_EXP
+		FLT_DIG FLT_EPSILON FLT_MANT_DIG
+		FLT_MAX FLT_MAX_10_EXP FLT_MAX_EXP
+		FLT_MIN FLT_MIN_10_EXP FLT_MIN_EXP
+		FLT_RADIX FLT_ROUNDS
+		LDBL_DIG LDBL_EPSILON LDBL_MANT_DIG
+		LDBL_MAX LDBL_MAX_10_EXP LDBL_MAX_EXP
+		LDBL_MIN LDBL_MIN_10_EXP LDBL_MIN_EXP)],
+
+    grp_h =>	[],
+
+    limits_h =>	[qw( ARG_MAX CHAR_BIT CHAR_MAX CHAR_MIN CHILD_MAX
+		INT_MAX INT_MIN LINK_MAX LONG_MAX LONG_MIN MAX_CANON
+		MAX_INPUT MB_LEN_MAX NAME_MAX NGROUPS_MAX OPEN_MAX
+		PATH_MAX PIPE_BUF SCHAR_MAX SCHAR_MIN SHRT_MAX SHRT_MIN
+		SSIZE_MAX STREAM_MAX TZNAME_MAX UCHAR_MAX UINT_MAX
+		ULONG_MAX USHRT_MAX _POSIX_ARG_MAX _POSIX_CHILD_MAX
+		_POSIX_LINK_MAX _POSIX_MAX_CANON _POSIX_MAX_INPUT
+		_POSIX_NAME_MAX _POSIX_NGROUPS_MAX _POSIX_OPEN_MAX
+		_POSIX_PATH_MAX _POSIX_PIPE_BUF _POSIX_SSIZE_MAX
+		_POSIX_STREAM_MAX _POSIX_TZNAME_MAX)],
+
+    locale_h =>	[qw(LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES
+		    LC_MONETARY LC_NUMERIC LC_TIME LC_IDENTIFICATION
+                    LC_MEASUREMENT LC_PAPER LC_TELEPHONE LC_ADDRESS
+                    LC_SYNTAX LC_TOD NULL
+		    localeconv setlocale)],
+
+    math_h =>   [qw(FP_ILOGB0 FP_ILOGBNAN FP_INFINITE FP_NAN FP_NORMAL
+                    FP_SUBNORMAL FP_ZERO
+                    M_1_PI M_2_PI M_2_SQRTPI M_E M_LN10 M_LN2 M_LOG10E M_LOG2E
+                    M_PI M_PI_2 M_PI_4 M_SQRT1_2 M_SQRT2
+                    HUGE_VAL INFINITY NAN
+                    acos asin atan ceil cosh fabs floor fmod
+		    frexp ldexp log10 modf pow sinh tan tanh)],
+
+    pwd_h =>	[],
+
+    setjmp_h =>	[qw(longjmp setjmp siglongjmp sigsetjmp)],
+
+    signal_h =>	[qw(SA_NOCLDSTOP SA_NOCLDWAIT SA_NODEFER SA_ONSTACK
+		SA_RESETHAND SA_RESTART SA_SIGINFO SIGABRT SIGALRM
+		SIGCHLD SIGCONT SIGFPE SIGHUP SIGILL SIGINT SIGKILL
+		SIGPIPE %SIGRT SIGRTMIN SIGRTMAX SIGQUIT SIGSEGV SIGSTOP
+		SIGTERM SIGTSTP SIGTTIN SIGTTOU SIGUSR1 SIGUSR2 SIGBUS
+		SIGPOLL SIGPROF SIGSYS SIGTRAP SIGURG SIGVTALRM SIGXCPU SIGXFSZ
+		SIG_BLOCK SIG_DFL SIG_ERR SIG_IGN SIG_SETMASK SIG_UNBLOCK
+		raise sigaction signal sigpending sigprocmask sigsuspend)],
+
+    stdarg_h =>	[],
+
+    stddef_h =>	[qw(NULL offsetof)],
+
+    stdio_h =>	[qw(BUFSIZ EOF FILENAME_MAX L_ctermid L_cuserid
+		NULL SEEK_CUR SEEK_END SEEK_SET
+		STREAM_MAX TMP_MAX stderr stdin stdout
+		clearerr fclose fdopen feof ferror fflush fgetc fgetpos
+		fgets fopen fprintf fputc fputs fread freopen
+		fscanf fseek fsetpos ftell fwrite getchar gets
+		perror putc putchar puts remove rewind
+		scanf setbuf setvbuf sscanf tmpfile tmpnam
+		ungetc vfprintf vprintf vsprintf)],
+
+    stdlib_h =>	[qw(EXIT_FAILURE EXIT_SUCCESS MB_CUR_MAX NULL RAND_MAX
+		abort atexit atof atoi atol bsearch calloc div
+		free getenv labs ldiv malloc mblen mbstowcs mbtowc
+		qsort realloc strtod strtol strtoul wcstombs wctomb)],
+
+    string_h =>	[qw(NULL memchr memcmp memcpy memmove memset strcat
+		strchr strcmp strcoll strcpy strcspn strerror strlen
+		strncat strncmp strncpy strpbrk strrchr strspn strstr
+		strtok strxfrm)],
+
+    sys_stat_h => [qw(S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU
+		S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISGID S_ISREG
+		S_ISUID S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR
+		fstat mkfifo)],
+
+    sys_times_h => [],
+
+    sys_types_h => [],
+
+    sys_utsname_h => [qw(uname)],
+
+    sys_wait_h => [qw(WEXITSTATUS WIFEXITED WIFSIGNALED WIFSTOPPED
+		WNOHANG WSTOPSIG WTERMSIG WUNTRACED)],
+
+    termios_h => [qw( B0 B110 B1200 B134 B150 B1800 B19200 B200 B2400
+		B300 B38400 B4800 B50 B600 B75 B9600 BRKINT CLOCAL
+		CREAD CS5 CS6 CS7 CS8 CSIZE CSTOPB ECHO ECHOE ECHOK
+		ECHONL HUPCL ICANON ICRNL IEXTEN IGNBRK IGNCR IGNPAR
+		INLCR INPCK ISIG ISTRIP IXOFF IXON NCCS NOFLSH OPOST
+		PARENB PARMRK PARODD TCIFLUSH TCIOFF TCIOFLUSH TCION
+		TCOFLUSH TCOOFF TCOON TCSADRAIN TCSAFLUSH TCSANOW
+		TOSTOP VEOF VEOL VERASE VINTR VKILL VMIN VQUIT VSTART
+		VSTOP VSUSP VTIME
+		cfgetispeed cfgetospeed cfsetispeed cfsetospeed tcdrain
+		tcflow tcflush tcgetattr tcsendbreak tcsetattr )],
+
+    time_h =>	[qw(CLK_TCK CLOCKS_PER_SEC NULL asctime clock ctime
+		difftime mktime strftime tzset tzname)],
+
+    unistd_h =>	[qw(F_OK NULL R_OK SEEK_CUR SEEK_END SEEK_SET
+		STDERR_FILENO STDIN_FILENO STDOUT_FILENO W_OK X_OK
+		_PC_CHOWN_RESTRICTED _PC_LINK_MAX _PC_MAX_CANON
+		_PC_MAX_INPUT _PC_NAME_MAX _PC_NO_TRUNC _PC_PATH_MAX
+		_PC_PIPE_BUF _PC_VDISABLE _POSIX_CHOWN_RESTRICTED
+		_POSIX_JOB_CONTROL _POSIX_NO_TRUNC _POSIX_SAVED_IDS
+		_POSIX_VDISABLE _POSIX_VERSION _SC_ARG_MAX
+		_SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL
+		_SC_NGROUPS_MAX _SC_OPEN_MAX _SC_PAGESIZE _SC_SAVED_IDS
+		_SC_STREAM_MAX _SC_TZNAME_MAX _SC_VERSION
+		_exit access ctermid cuserid
+		dup2 dup execl execle execlp execv execve execvp
+		fpathconf fsync getcwd getegid geteuid getgid getgroups
+		getpid getuid isatty lseek pathconf pause setgid setpgid
+		setsid setuid sysconf tcgetpgrp tcsetpgrp ttyname)],
+
+    utime_h =>	[],
+);
+
+if ($^O eq 'MSWin32') {
+    $default_export_tags{winsock_h} = [qw(
+	WSAEINTR WSAEBADF WSAEACCES WSAEFAULT WSAEINVAL WSAEMFILE WSAEWOULDBLOCK
+	WSAEINPROGRESS WSAEALREADY WSAENOTSOCK WSAEDESTADDRREQ WSAEMSGSIZE
+	WSAEPROTOTYPE WSAENOPROTOOPT WSAEPROTONOSUPPORT WSAESOCKTNOSUPPORT
+	WSAEOPNOTSUPP WSAEPFNOSUPPORT WSAEAFNOSUPPORT WSAEADDRINUSE
+	WSAEADDRNOTAVAIL WSAENETDOWN WSAENETUNREACH WSAENETRESET WSAECONNABORTED
+	WSAECONNRESET WSAENOBUFS WSAEISCONN WSAENOTCONN WSAESHUTDOWN
+	WSAETOOMANYREFS WSAETIMEDOUT WSAECONNREFUSED WSAELOOP WSAENAMETOOLONG
+	WSAEHOSTDOWN WSAEHOSTUNREACH WSAENOTEMPTY WSAEPROCLIM WSAEUSERS
+	WSAEDQUOT WSAESTALE WSAEREMOTE WSAEDISCON WSAENOMORE WSAECANCELLED
+	WSAEINVALIDPROCTABLE WSAEINVALIDPROVIDER WSAEPROVIDERFAILEDINIT
+	WSAEREFUSED)];
+}
+
+my %other_export_tags = ( # cf. exports policy below
+    fenv_h => [qw(
+        FE_DOWNWARD FE_TONEAREST FE_TOWARDZERO FE_UPWARD fegetround fesetround
+    )],
+
+    math_h_c99 => [ @{$default_export_tags{math_h}}, qw(
+        Inf NaN acosh asinh atanh cbrt copysign erf erfc exp2 expm1 fdim fma
+        fmax fmin fpclassify hypot ilogb isfinite isgreater isgreaterequal
+        isinf isless islessequal islessgreater isnan isnormal isunordered j0 j1
+        jn lgamma log1p log2 logb lrint lround nan nearbyint nextafter nexttoward
+        remainder remquo rint round scalbn signbit tgamma trunc y0 y1 yn
+    )],
+
+    netdb_h => [qw(EAI_AGAIN    EAI_BADFLAGS EAI_FAIL
+                   EAI_FAMILY   EAI_MEMORY   EAI_NONAME
+                   EAI_OVERFLOW EAI_SERVICE  EAI_SOCKTYPE
+                   EAI_SYSTEM)],
+
+    stdlib_h_c99 => [ @{$default_export_tags{stdlib_h}}, 'strtold' ],
+
+    sys_resource_h => [qw(PRIO_PROCESS PRIO_PGRP PRIO_USER)],
+
+    sys_socket_h => [qw(
+        MSG_CTRUNC MSG_DONTROUTE MSG_EOR MSG_OOB MSG_PEEK MSG_TRUNC MSG_WAITALL
+    )],
+
+    nan_payload => [ qw(getpayload setpayload setpayloadsig issignaling) ],
+
+    signal_h_si_code => [qw(
+        ILL_ILLOPC ILL_ILLOPN ILL_ILLADR ILL_ILLTRP ILL_PRVOPC ILL_PRVREG
+        ILL_COPROC ILL_BADSTK
+        FPE_INTDIV FPE_INTOVF FPE_FLTDIV FPE_FLTOVF FPE_FLTUND
+        FPE_FLTRES FPE_FLTINV FPE_FLTSUB
+        SEGV_MAPERR SEGV_ACCERR
+        BUS_ADRALN BUS_ADRERR BUS_OBJERR
+        TRAP_BRKPT TRAP_TRACE
+        CLD_EXITED CLD_KILLED CLD_DUMPED CLD_TRAPPED CLD_STOPPED CLD_CONTINUED
+        POLL_IN POLL_OUT POLL_MSG POLL_ERR POLL_PRI POLL_HUP
+        SI_USER SI_QUEUE SI_TIMER SI_ASYNCIO SI_MESGQ
+  )],
+);
+
+# exports policy:
+# - new functions may not be added to @EXPORT, only to @EXPORT_OK
+# - new SHOUTYCONSTANTS are OK to add to @EXPORT
+
+{
+  # De-duplicate the export list: 
+  my ( %export, %export_ok );
+  @export   {map {@$_} values %default_export_tags} = ();
+  @export_ok{map {@$_} values   %other_export_tags} = ();
+  # Doing the de-dup with a temporary hash has the advantage that the SVs in
+  # @EXPORT are actually shared hash key scalars, which will save some memory.
+  our @EXPORT = keys %export;
+
+  # you do not want to add symbols to the following list. add a new tag instead
+  our @EXPORT_OK = (qw(close lchown nice open pipe read sleep times write
+		       printf sprintf),
+		    grep {!exists $export{$_}} keys %reimpl, keys %replacement, keys %export_ok);
+
+  our %EXPORT_TAGS = ( %default_export_tags, %other_export_tags );
+}
+
+require Exporter;
+}
+
+package POSIX::SigAction;
+
+sub new { bless {HANDLER => $_[1], MASK => $_[2], FLAGS => $_[3] || 0, SAFE => 0}, $_[0] }
+sub handler { $_[0]->{HANDLER} = $_[1] if @_ > 1; $_[0]->{HANDLER} };
+sub mask    { $_[0]->{MASK}    = $_[1] if @_ > 1; $_[0]->{MASK} };
+sub flags   { $_[0]->{FLAGS}   = $_[1] if @_ > 1; $_[0]->{FLAGS} };
+sub safe    { $_[0]->{SAFE}    = $_[1] if @_ > 1; $_[0]->{SAFE} };
+
+{
+package POSIX::SigSet;
+# This package is here entirely to make sure that POSIX::SigSet is seen by the
+# PAUSE indexer, so that it will always be clearly indexed in core.  This is to
+# prevent the accidental case where a third-party distribution can accidentally
+# claim the POSIX::SigSet package, as occurred in 2011-12. -- rjbs, 2011-12-30
+}
+
+package POSIX::SigRt;
+
+require Tie::Hash;
+
+our @ISA = 'Tie::StdHash';
+
+our ($_SIGRTMIN, $_SIGRTMAX, $_sigrtn);
+
+our $SIGACTION_FLAGS = 0;
+
+sub _init {
+    $_SIGRTMIN = &POSIX::SIGRTMIN;
+    $_SIGRTMAX = &POSIX::SIGRTMAX;
+    $_sigrtn   = $_SIGRTMAX - $_SIGRTMIN;
+}
+
+sub _croak {
+    &_init unless defined $_sigrtn;
+    die "POSIX::SigRt not available" unless defined $_sigrtn && $_sigrtn > 0;
+}
+
+sub _getsig {
+    &_croak;
+    my $rtsig = $_[0];
+    # Allow (SIGRT)?MIN( + n)?, a common idiom when doing these things in C.
+    $rtsig = $_SIGRTMIN + ($1 || 0)
+	if $rtsig =~ /^(?:(?:SIG)?RT)?MIN(\s*\+\s*(\d+))?$/;
+    return $rtsig;
+}
+
+sub _exist {
+    my $rtsig = _getsig($_[1]);
+    my $ok    = $rtsig >= $_SIGRTMIN && $rtsig <= $_SIGRTMAX;
+    ($rtsig, $ok);
+}
+
+sub _check {
+    my ($rtsig, $ok) = &_exist;
+    die "No POSIX::SigRt signal $_[1] (valid range SIGRTMIN..SIGRTMAX, or $_SIGRTMIN..$_SIGRTMAX)"
+	unless $ok;
+    return $rtsig;
+}
+
+sub new {
+    my ($rtsig, $handler, $flags) = @_;
+    my $sigset = POSIX::SigSet->new($rtsig);
+    my $sigact = POSIX::SigAction->new($handler, $sigset, $flags);
+    POSIX::sigaction($rtsig, $sigact);
+}
+
+sub EXISTS { &_exist }
+sub FETCH  { my $rtsig = &_check;
+	     my $oa = POSIX::SigAction->new();
+	     POSIX::sigaction($rtsig, undef, $oa);
+	     return $oa->{HANDLER} }
+sub STORE  { my $rtsig = &_check; new($rtsig, $_[2], $SIGACTION_FLAGS) }
+sub DELETE { delete $SIG{ &_check } }
+sub CLEAR  { &_exist; delete @SIG{ &POSIX::SIGRTMIN .. &POSIX::SIGRTMAX } }
+sub SCALAR { &_croak; $_sigrtn + 1 }
+
+tie %POSIX::SIGRT, 'POSIX::SigRt';
+# and the expression on the line above is true, so we return true.
+                                                                                                 ô   .   k   ..  ö  ËUtil.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         # Copyright (c) 1997-2007 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+#
+# Maintained since 2013 by Paul Evans <leonerd@leonerd.org.uk>
+
+package Scalar::Util;
+
+use strict;
+use warnings;
+require Exporter;
+
+our @ISA       = qw(Exporter);
+our @EXPORT_OK = qw(
+  blessed refaddr reftype weaken unweaken isweak
+
+  dualvar isdual isvstring looks_like_number openhandle readonly set_prototype
+  tainted
+);
+our $VERSION    = "1.62";
+$VERSION =~ tr/_//d;
+
+require List::Util; # List::Util loads the XS
+List::Util->VERSION( $VERSION ); # Ensure we got the right XS version (RT#100863)
+
+# populating @EXPORT_FAIL is done in the XS code
+sub export_fail {
+  if (grep { /^isvstring$/ } @_ ) {
+    require Carp;
+    Carp::croak("Vstrings are not implemented in this version of perl");
+  }
+
+  @_;
+}
+
+# set_prototype has been moved to Sub::Util with a different interface
+sub set_prototype(&$)
+{
+  my ( $code, $proto ) = @_;
+  return Sub::Util::set_prototype( $proto, $code );
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        package SelectSaver;
+
+our $VERSION = '1.02';
+
+require 5.000;
+use Carp;
+use Symbol;
+
+sub new {
+    @_ >= 1 && @_ <= 2 or croak 'usage: SelectSaver->new( [FILEHANDLE] )';
+    my $fh = select;
+    my $self = bless \$fh, $_[0];
+    select qualify($_[1], caller) if @_ > 1;
+    $self;
+}
+
+sub DESTROY {
+    my $self = $_[0];
+    select $$self;
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        package Socket;
+
+use strict;
+{ use v5.6.1; }
+
+our $VERSION = '2.033';
+
+# Still undocumented: SCM_*, SOMAXCONN, IOV_MAX, UIO_MAXIOV
+
+use Carp;
+use warnings::register;
+
+require Exporter;
+require XSLoader;
+our @ISA = qw(Exporter);
+
+# <@Nicholas> you can't change @EXPORT without breaking the implicit API
+# Please put any new constants in @EXPORT_OK!
+
+# List re-ordered to match documentation above. Try to keep the ordering
+# consistent so it's easier to see which ones are or aren't documented.
+our @EXPORT = qw(
+	PF_802 PF_AAL PF_APPLETALK PF_CCITT PF_CHAOS PF_CTF PF_DATAKIT
+	PF_DECnet PF_DLI PF_ECMA PF_GOSIP PF_HYLINK PF_IMPLINK PF_INET PF_INET6
+	PF_ISO PF_KEY PF_LAST PF_LAT PF_LINK PF_MAX PF_NBS PF_NIT PF_NS PF_OSI
+	PF_OSINET PF_PUP PF_ROUTE PF_SNA PF_UNIX PF_UNSPEC PF_USER PF_WAN
+	PF_X25
+
+	AF_802 AF_AAL AF_APPLETALK AF_CCITT AF_CHAOS AF_CTF AF_DATAKIT
+	AF_DECnet AF_DLI AF_ECMA AF_GOSIP AF_HYLINK AF_IMPLINK AF_INET AF_INET6
+	AF_ISO AF_KEY AF_LAST AF_LAT AF_LINK AF_MAX AF_NBS AF_NIT AF_NS AF_OSI
+	AF_OSINET AF_PUP AF_ROUTE AF_SNA AF_UNIX AF_UNSPEC AF_USER AF_WAN
+	AF_X25
+
+	SOCK_DGRAM SOCK_RAW SOCK_RDM SOCK_SEQPACKET SOCK_STREAM
+
+	SOL_SOCKET
+
+	SO_ACCEPTCONN SO_ATTACH_FILTER SO_BACKLOG SO_BROADCAST SO_CHAMELEON
+	SO_DEBUG SO_DETACH_FILTER SO_DGRAM_ERRIND SO_DOMAIN SO_DONTLINGER
+	SO_DONTROUTE SO_ERROR SO_FAMILY SO_KEEPALIVE SO_LINGER SO_OOBINLINE
+	SO_PASSCRED SO_PASSIFNAME SO_PEERCRED SO_PROTOCOL SO_PROTOTYPE
+	SO_RCVBUF SO_RCVLOWAT SO_RCVTIMEO SO_REUSEADDR SO_REUSEPORT
+	SO_SECURITY_AUTHENTICATION SO_SECURITY_ENCRYPTION_NETWORK
+	SO_SECURITY_ENCRYPTION_TRANSPORT SO_SNDBUF SO_SNDLOWAT SO_SNDTIMEO
+	SO_STATE SO_TYPE SO_USELOOPBACK SO_XOPEN SO_XSE
+
+	IP_HDRINCL IP_OPTIONS IP_RECVOPTS IP_RECVRETOPTS IP_RETOPTS IP_TOS
+	IP_TTL
+
+	MSG_BCAST MSG_BTAG MSG_CTLFLAGS MSG_CTLIGNORE MSG_CTRUNC MSG_DONTROUTE
+	MSG_DONTWAIT MSG_EOF MSG_EOR MSG_ERRQUEUE MSG_ETAG MSG_FASTOPEN MSG_FIN
+	MSG_MAXIOVLEN MSG_MCAST MSG_NOSIGNAL MSG_OOB MSG_PEEK MSG_PROXY MSG_RST
+	MSG_SYN MSG_TRUNC MSG_URG MSG_WAITALL MSG_WIRE
+
+	SHUT_RD SHUT_RDWR SHUT_WR
+
+	INADDR_ANY INADDR_BROADCAST INADDR_LOOPBACK INADDR_NONE
+
+	SCM_CONNECT SCM_CREDENTIALS SCM_CREDS SCM_RIGHTS SCM_TIMESTAMP
+
+	SOMAXCONN
+
+	IOV_MAX
+	UIO_MAXIOV
+
+	sockaddr_family
+	pack_sockaddr_in  unpack_sockaddr_in  sockaddr_in
+	pack_sockaddr_in6 unpack_sockaddr_in6 sockaddr_in6
+	pack_sockaddr_un  unpack_sockaddr_un  sockaddr_un 
+
+	inet_aton inet_ntoa
+);
+
+# List re-ordered to match documentation above. Try to keep the ordering
+# consistent so it's easier to see which ones are or aren't documented.
+our @EXPORT_OK = qw(
+	CR LF CRLF $CR $LF $CRLF
+
+	SOCK_NONBLOCK SOCK_CLOEXEC
+
+	IP_ADD_MEMBERSHIP IP_ADD_SOURCE_MEMBERSHIP IP_BIND_ADDRESS_NO_PORT
+	IP_DROP_MEMBERSHIP IP_DROP_SOURCE_MEMBERSHIP IP_FREEBIND
+	IP_MULTICAST_ALL IP_MULTICAST_IF IP_MULTICAST_LOOP IP_MULTICAST_TTL
+	IP_MTU IP_MTU_DISCOVER IP_NODEFRAG IP_RECVERR IP_TRANSPARENT
+
+	IPPROTO_IP IPPROTO_IPV6 IPPROTO_RAW IPPROTO_ICMP IPPROTO_IGMP
+	IPPROTO_TCP IPPROTO_UDP IPPROTO_GRE IPPROTO_ESP IPPROTO_AH
+	IPPROTO_ICMPV6 IPPROTO_SCTP
+
+	IP_PMTUDISC_DO IP_PMTUDISC_DONT IP_PMTUDISC_PROBE IP_PMTUDISC_WANT
+
+	IPTOS_LOWDELAY IPTOS_THROUGHPUT IPTOS_RELIABILITY IPTOS_MINCOST
+
+	TCP_CONGESTION TCP_CONNECTIONTIMEOUT TCP_CORK TCP_DEFER_ACCEPT
+	TCP_FASTOPEN TCP_INFO TCP_INIT_CWND TCP_KEEPALIVE TCP_KEEPCNT
+	TCP_KEEPIDLE TCP_KEEPINTVL TCP_LINGER2 TCP_MAXRT TCP_MAXSEG
+	TCP_MD5SIG TCP_NODELAY TCP_NOOPT TCP_NOPUSH TCP_QUICKACK
+	TCP_SACK_ENABLE TCP_STDURG TCP_SYNCNT TCP_USER_TIMEOUT
+	TCP_WINDOW_CLAMP
+
+	IN6ADDR_ANY IN6ADDR_LOOPBACK
+
+	IPV6_ADDRFROM IPV6_ADD_MEMBERSHIP IPV6_DROP_MEMBERSHIP IPV6_JOIN_GROUP
+	IPV6_LEAVE_GROUP IPV6_MTU IPV6_MTU_DISCOVER IPV6_MULTICAST_HOPS
+	IPV6_MULTICAST_IF IPV6_MULTICAST_LOOP IPV6_RECVERR IPV6_ROUTER_ALERT
+	IPV6_UNICAST_HOPS IPV6_V6ONLY
+
+	SO_LOCK_FILTER SO_RCVBUFFORCE SO_SNDBUFFORCE
+
+	pack_ip_mreq unpack_ip_mreq pack_ip_mreq_source unpack_ip_mreq_source
+
+	pack_ipv6_mreq unpack_ipv6_mreq
+
+	inet_pton inet_ntop
+
+	getaddrinfo getnameinfo
+
+	AI_ADDRCONFIG AI_ALL AI_CANONIDN AI_CANONNAME AI_IDN
+	AI_IDN_ALLOW_UNASSIGNED AI_IDN_USE_STD3_ASCII_RULES AI_NUMERICHOST
+	AI_NUMERICSERV AI_PASSIVE AI_V4MAPPED
+
+	NI_DGRAM NI_IDN NI_IDN_ALLOW_UNASSIGNED NI_IDN_USE_STD3_ASCII_RULES
+	NI_NAMEREQD NI_NOFQDN NI_NUMERICHOST NI_NUMERICSERV
+
+	NIx_NOHOST NIx_NOSERV
+
+	EAI_ADDRFAMILY EAI_AGAIN EAI_BADFLAGS EAI_BADHINTS EAI_FAIL EAI_FAMILY
+	EAI_NODATA EAI_NONAME EAI_PROTOCOL EAI_SERVICE EAI_SOCKTYPE EAI_SYSTEM
+);
+
+our %EXPORT_TAGS = (
+    crlf     => [qw(CR LF CRLF $CR $LF $CRLF)],
+    addrinfo => [qw(getaddrinfo getnameinfo), grep m/^(?:AI|NI|NIx|EAI)_/, @EXPORT_OK],
+    all      => [@EXPORT, @EXPORT_OK],
+);
+
+BEGIN {
+    sub CR   () {"\015"}
+    sub LF   () {"\012"}
+    sub CRLF () {"\015\012"}
+
+    # These are not gni() constants; they're extensions for the perl API
+    # The definitions in Socket.pm and Socket.xs must match
+    sub NIx_NOHOST() {1 << 0}
+    sub NIx_NOSERV() {1 << 1}
+}
+
+*CR   = \CR();
+*LF   = \LF();
+*CRLF = \CRLF();
+
+# The four deprecated addrinfo constants
+foreach my $name (qw( AI_IDN_ALLOW_UNASSIGNED AI_IDN_USE_STD3_ASCII_RULES NI_IDN_ALLOW_UNASSIGNED NI_IDN_USE_STD3_ASCII_RULES )) {
+    no strict 'refs';
+    *$name = sub {
+	croak "The addrinfo constant $name is deprecated";
+    };
+}
+
+sub sockaddr_in {
+    if (@_ == 6 && !wantarray) { # perl5.001m compat; use this && die
+	my($af, $port, @quad) = @_;
+	warnings::warn "6-ARG sockaddr_in call is deprecated" 
+	    if warnings::enabled();
+	pack_sockaddr_in($port, inet_aton(join('.', @quad)));
+    } elsif (wantarray) {
+	croak "usage:   (port,iaddr) = sockaddr_in(sin_sv)" unless @_ == 1;
+        unpack_sockaddr_in(@_);
+    } else {
+	croak "usage:   sin_sv = sockaddr_in(port,iaddr))" unless @_ == 2;
+        pack_sockaddr_in(@_);
+    }
+}
+
+sub sockaddr_in6 {
+    if (wantarray) {
+	croak "usage:   (port,in6addr,scope_id,flowinfo) = sockaddr_in6(sin6_sv)" unless @_ == 1;
+	unpack_sockaddr_in6(@_);
+    }
+    else {
+	croak "usage:   sin6_sv = sockaddr_in6(port,in6addr,[scope_id,[flowinfo]])" unless @_ >= 2 and @_ <= 4;
+	pack_sockaddr_in6(@_);
+    }
+}
+
+sub sockaddr_un {
+    if (wantarray) {
+	croak "usage:   (filename) = sockaddr_un(sun_sv)" unless @_ == 1;
+        unpack_sockaddr_un(@_);
+    } else {
+	croak "usage:   sun_sv = sockaddr_un(filename)" unless @_ == 1;
+        pack_sockaddr_un(@_);
+    }
+}
+
+XSLoader::load(__PACKAGE__, $VERSION);
+
+my %errstr;
+
+if( defined &getaddrinfo ) {
+    # These are not part of the API, nothing uses them, and deleting them
+    # reduces the size of %Socket:: by about 12K
+    delete $Socket::{fake_getaddrinfo};
+    delete $Socket::{fake_getnameinfo};
+} else {
+    require Scalar::Util;
+
+    *getaddrinfo = \&fake_getaddrinfo;
+    *getnameinfo = \&fake_getnameinfo;
+
+    # These numbers borrowed from GNU libc's implementation, but since
+    # they're only used by our emulation, it doesn't matter if the real
+    # platform's values differ
+    my %constants = (
+	AI_PASSIVE     => 1,
+	AI_CANONNAME   => 2,
+	AI_NUMERICHOST => 4,
+	AI_V4MAPPED    => 8,
+	AI_ALL         => 16,
+	AI_ADDRCONFIG  => 32,
+	# RFC 2553 doesn't define this but Linux does - lets be nice and
+	# provide it since we can
+	AI_NUMERICSERV => 1024,
+
+	EAI_BADFLAGS   => -1,
+	EAI_NONAME     => -2,
+	EAI_NODATA     => -5,
+	EAI_FAMILY     => -6,
+	EAI_SERVICE    => -8,
+
+	NI_NUMERICHOST => 1,
+	NI_NUMERICSERV => 2,
+	NI_NOFQDN      => 4,
+	NI_NAMEREQD    => 8,
+	NI_DGRAM       => 16,
+
+	# Constants we don't support. Export them, but croak if anyone tries to
+	# use them
+	AI_IDN      => 64,
+	AI_CANONIDN => 128,
+	NI_IDN      => 32,
+
+	# Error constants we'll never return, so it doesn't matter what value
+	# these have, nor that we don't provide strings for them
+	EAI_SYSTEM   => -11,
+	EAI_BADHINTS => -1000,
+	EAI_PROTOCOL => -1001
+    );
+
+    foreach my $name ( keys %constants ) {
+	my $value = $constants{$name};
+
+	no strict 'refs';
+	defined &$name or *$name = sub () { $value };
+    }
+
+    %errstr = (
+	# These strings from RFC 2553
+	EAI_BADFLAGS()   => "invalid value for ai_flags",
+	EAI_NONAME()     => "nodename nor servname provided, or not known",
+	EAI_NODATA()     => "no address associated with nodename",
+	EAI_FAMILY()     => "ai_family not supported",
+	EAI_SERVICE()    => "servname not supported for ai_socktype",
+    );
+}
+
+# The following functions are used if the system does not have a
+# getaddrinfo(3) function in libc; and are used to emulate it for the AF_INET
+# family
+
+# Borrowed from Regexp::Common::net
+my $REGEXP_IPv4_DECIMAL = qr/25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}/;
+my $REGEXP_IPv4_DOTTEDQUAD = qr/$REGEXP_IPv4_DECIMAL\.$REGEXP_IPv4_DECIMAL\.$REGEXP_IPv4_DECIMAL\.$REGEXP_IPv4_DECIMAL/;
+
+sub fake_makeerr
+{
+    my ( $errno ) = @_;
+    my $errstr = $errno == 0 ? "" : ( $errstr{$errno} || $errno );
+    return Scalar::Util::dualvar( $errno, $errstr );
+}
+
+sub fake_getaddrinfo
+{
+    my ( $node, $service, $hints ) = @_;
+
+    $node = "" unless defined $node;
+
+    $service = "" unless defined $service;
+
+    my ( $family, $socktype, $protocol, $flags ) = @$hints{qw( family socktype protocol flags )};
+
+    $family ||= Socket::AF_INET(); # 0 == AF_UNSPEC, which we want too
+    $family == Socket::AF_INET() or return fake_makeerr( EAI_FAMILY() );
+
+    $socktype ||= 0;
+
+    $protocol ||= 0;
+
+    $flags ||= 0;
+
+    my $flag_passive     = $flags & AI_PASSIVE();     $flags &= ~AI_PASSIVE();
+    my $flag_canonname   = $flags & AI_CANONNAME();   $flags &= ~AI_CANONNAME();
+    my $flag_numerichost = $flags & AI_NUMERICHOST(); $flags &= ~AI_NUMERICHOST();
+    my $flag_numericserv = $flags & AI_NUMERICSERV(); $flags &= ~AI_NUMERICSERV();
+
+    # These constants don't apply to AF_INET-only lookups, so we might as well
+    # just ignore them. For AI_ADDRCONFIG we just presume the host has ability
+    # to talk AF_INET. If not we'd have to return no addresses at all. :)
+    $flags &= ~(AI_V4MAPPED()|AI_ALL()|AI_ADDRCONFIG());
+
+    $flags & (AI_IDN()|AI_CANONIDN()) and
+	croak "Socket::getaddrinfo() does not support IDN";
+
+    $flags == 0 or return fake_makeerr( EAI_BADFLAGS() );
+
+    $node eq "" and $service eq "" and return fake_makeerr( EAI_NONAME() );
+
+    my $canonname;
+    my @addrs;
+    if( $node ne "" ) {
+	return fake_makeerr( EAI_NONAME() ) if( $flag_numerichost and $node !~ m/^$REGEXP_IPv4_DOTTEDQUAD$/ );
+	( $canonname, undef, undef, undef, @addrs ) = gethostbyname( $node );
+	defined $canonname or return fake_makeerr( EAI_NONAME() );
+
+	undef $canonname unless $flag_canonname;
+    }
+    else {
+	$addrs[0] = $flag_passive ? Socket::inet_aton( "0.0.0.0" )
+				  : Socket::inet_aton( "127.0.0.1" );
+    }
+
+    my @ports; # Actually ARRAYrefs of [ socktype, protocol, port ]
+    my $protname = "";
+    if( $protocol ) {
+	$protname = eval { getprotobynumber( $protocol ) };
+    }
+
+    if( $service ne "" and $service !~ m/^\d+$/ ) {
+	return fake_makeerr( EAI_NONAME() ) if( $flag_numericserv );
+	getservbyname( $service, $protname ) or return fake_makeerr( EAI_SERVICE() );
+    }
+
+    foreach my $this_socktype ( Socket::SOCK_STREAM(), Socket::SOCK_DGRAM(), Socket::SOCK_RAW() ) {
+	next if $socktype and $this_socktype != $socktype;
+
+	my $this_protname = "raw";
+	$this_socktype == Socket::SOCK_STREAM() and $this_protname = "tcp";
+	$this_socktype == Socket::SOCK_DGRAM()  and $this_protname = "udp";
+
+	next if $protname and $this_protname ne $protname;
+
+	my $port;
+	if( $service ne "" ) {
+	    if( $service =~ m/^\d+$/ ) {
+		$port = "$service";
+	    }
+	    else {
+		( undef, undef, $port, $this_protname ) = getservbyname( $service, $this_protname );
+		next unless defined $port;
+	    }
+	}
+	else {
+	    $port = 0;
+	}
+
+	push @ports, [ $this_socktype, eval { scalar getprotobyname( $this_protname ) } || 0, $port ];
+    }
+
+    my @ret;
+    foreach my $addr ( @addrs ) {
+	foreach my $portspec ( @ports ) {
+	    my ( $socktype, $protocol, $port ) = @$portspec;
+	    push @ret, {
+		family    => $family,
+		socktype  => $socktype,
+		protocol  => $protocol,
+		addr      => Socket::pack_sockaddr_in( $port, $addr ),
+		canonname => undef,
+	    };
+	}
+    }
+
+    # Only supply canonname for the first result
+    if( defined $canonname ) {
+	$ret[0]->{canonname} = $canonname;
+    }
+
+    return ( fake_makeerr( 0 ), @ret );
+}
+
+sub fake_getnameinfo
+{
+    my ( $addr, $flags, $xflags ) = @_;
+
+    my ( $port, $inetaddr );
+    eval { ( $port, $inetaddr ) = Socket::unpack_sockaddr_in( $addr ) }
+	or return fake_makeerr( EAI_FAMILY() );
+
+    my $family = Socket::AF_INET();
+
+    $flags ||= 0;
+
+    my $flag_numerichost = $flags & NI_NUMERICHOST(); $flags &= ~NI_NUMERICHOST();
+    my $flag_numericserv = $flags & NI_NUMERICSERV(); $flags &= ~NI_NUMERICSERV();
+    my $flag_nofqdn      = $flags & NI_NOFQDN();      $flags &= ~NI_NOFQDN();
+    my $flag_namereqd    = $flags & NI_NAMEREQD();    $flags &= ~NI_NAMEREQD();
+    my $flag_dgram       = $flags & NI_DGRAM()   ;    $flags &= ~NI_DGRAM();
+
+    $flags & NI_IDN() and
+	croak "Socket::getnameinfo() does not support IDN";
+
+    $flags == 0 or return fake_makeerr( EAI_BADFLAGS() );
+
+    $xflags ||= 0;
+
+    my $node;
+    if( $xflags & NIx_NOHOST ) {
+	$node = undef;
+    }
+    elsif( $flag_numerichost ) {
+	$node = Socket::inet_ntoa( $inetaddr );
+    }
+    else {
+	$node = gethostbyaddr( $inetaddr, $family );
+	if( !defined $node ) {
+	    return fake_makeerr( EAI_NONAME() ) if $flag_namereqd;
+	    $node = Socket::inet_ntoa( $inetaddr );
+	}
+	elsif( $flag_nofqdn ) {
+	    my ( $shortname ) = split m/\./, $node;
+	    my ( $fqdn ) = gethostbyname $shortname;
+	    $node = $shortname if defined $fqdn and $fqdn eq $node;
+	}
+    }
+
+    my $service;
+    if( $xflags & NIx_NOSERV ) {
+	$service = undef;
+    }
+    elsif( $flag_numericserv ) {
+	$service = "$port";
+    }
+    else {
+	my $protname = $flag_dgram ? "udp" : "";
+	$service = getservbyport( $port, $protname );
+	if( !defined $service ) {
+	    $service = "$port";
+	}
+    }
+
+    return ( fake_makeerr( 0 ), $node, $service );
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            package Symbol;
+
+use strict;
+use warnings;
+
+require Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT = qw(gensym ungensym qualify qualify_to_ref);
+our @EXPORT_OK = qw(delete_package geniosym);
+
+our $VERSION = '1.09';
+
+my $genpkg = "Symbol::";
+my $genseq = 0;
+
+my %global = map {$_ => 1} qw(ARGV ARGVOUT ENV INC SIG STDERR STDIN STDOUT);
+
+#
+# Note that we never _copy_ the glob; we just make a ref to it.
+# If we did copy it, then SVf_FAKE would be set on the copy, and
+# glob-specific behaviors (e.g. C<*$ref = \&func>) wouldn't work.
+#
+sub gensym () {
+    my $name = "GEN" . $genseq++;
+    no strict 'refs';
+    my $ref = \*{$genpkg . $name};
+    delete $$genpkg{$name};
+    $ref;
+}
+
+sub geniosym () {
+    my $sym = gensym();
+    # force the IO slot to be filled
+    select(select $sym);
+    *$sym{IO};
+}
+
+sub ungensym ($) {}
+
+sub qualify ($;$) {
+    my ($name) = @_;
+    if (!ref($name) && index($name, '::') == -1 && index($name, "'") == -1) {
+	my $pkg;
+	# Global names: special character, "^xyz", or other. 
+	if ($name =~ /^(([^a-z])|(\^[a-z_]+))\z/i || $global{$name}) {
+	    # RGS 2001-11-05 : translate leading ^X to control-char
+	    $name =~ s/^\^([a-z_])/'qq(\c'.$1.')'/eei;
+	    $pkg = "main";
+	}
+	else {
+	    $pkg = (@_ > 1) ? $_[1] : caller;
+	}
+	$name = $pkg . "::" . $name;
+    }
+    $name;
+}
+
+sub qualify_to_ref ($;$) {
+    no strict 'refs';
+    return \*{ qualify $_[0], @_ > 1 ? $_[1] : caller };
+}
+
+#
+# of Safe.pm lineage
+#
+sub delete_package ($) {
+    my $pkg = shift;
+
+    # expand to full symbol table name if needed
+
+    unless ($pkg =~ /^main::.*::$/) {
+        $pkg = "main$pkg"	if	$pkg =~ /^::/;
+        $pkg = "main::$pkg"	unless	$pkg =~ /^main::/;
+        $pkg .= '::'		unless	$pkg =~ /::$/;
+    }
+
+    my($stem, $leaf) = $pkg =~ m/(.*::)(\w+::)$/;
+    no strict 'refs';
+    my $stem_symtab = *{$stem}{HASH};
+    return unless defined $stem_symtab and exists $stem_symtab->{$leaf};
+
+    # free all the symbols in the package
+
+    my $leaf_symtab = *{$stem_symtab->{$leaf}}{HASH};
+    foreach my $name (keys %$leaf_symtab) {
+        undef *{$pkg . $name};
+    }
+    use strict 'refs';
+
+    # delete the symbol table
+
+    %$leaf_symtab = ();
+    delete $stem_symtab->{$leaf};
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   û   .   k   ..  ü   ParseWords.pm   †   Tabs.pm °  ¿Wrap.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 package Text::ParseWords;
+
+use strict;
+use warnings;
+require 5.006;
+our $VERSION = "3.31";
+
+use Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT = qw(shellwords quotewords nested_quotewords parse_line);
+our @EXPORT_OK = qw(old_shellwords);
+our $PERL_SINGLE_QUOTE;
+
+sub shellwords {
+    my (@lines) = @_;
+    my @allwords;
+
+    foreach my $line (@lines) {
+	$line =~ s/^\s+//;
+	my @words = parse_line('\s+', 0, $line);
+	pop @words if (@words and !defined $words[-1]);
+	return() unless (@words || !length($line));
+	push(@allwords, @words);
+    }
+    return(@allwords);
+}
+
+sub quotewords {
+    my($delim, $keep, @lines) = @_;
+    my($line, @words, @allwords);
+
+    foreach $line (@lines) {
+	@words = parse_line($delim, $keep, $line);
+	return() unless (@words || !length($line));
+	push(@allwords, @words);
+    }
+    return(@allwords);
+}
+
+sub nested_quotewords {
+    my($delim, $keep, @lines) = @_;
+    my($i, @allwords);
+
+    for ($i = 0; $i < @lines; $i++) {
+	@{$allwords[$i]} = parse_line($delim, $keep, $lines[$i]);
+	return() unless (@{$allwords[$i]} || !length($lines[$i]));
+    }
+    return(@allwords);
+}
+
+sub parse_line {
+    my($delimiter, $keep, $line) = @_;
+    my($word, @pieces);
+
+    no warnings 'uninitialized';	# we will be testing undef strings
+
+    while (length($line)) {
+        # This pattern is optimised to be stack conservative on older perls.
+        # Do not refactor without being careful and testing it on very long strings.
+        # See Perl bug #42980 for an example of a stack busting input.
+        $line =~ s/^
+                    (?: 
+                        # double quoted string
+                        (")                             # $quote
+                        ((?>[^\\"]*(?:\\.[^\\"]*)*))"   # $quoted 
+		    |	# --OR--
+                        # singe quoted string
+                        (')                             # $quote
+                        ((?>[^\\']*(?:\\.[^\\']*)*))'   # $quoted
+                    |   # --OR--
+                        # unquoted string
+		        (                               # $unquoted 
+                            (?:\\.|[^\\"'])*?           
+                        )		
+                        # followed by
+		        (                               # $delim
+                            \Z(?!\n)                    # EOL
+                        |   # --OR--
+                            (?-x:$delimiter)            # delimiter
+                        |   # --OR--                    
+                            (?!^)(?=["'])               # a quote
+                        )  
+		    )//xs or return;		# extended layout                  
+        my ($quote, $quoted, $unquoted, $delim) = (($1 ? ($1,$2) : ($3,$4)), $5, $6);
+
+	return() unless( defined($quote) || length($unquoted) || length($delim));
+
+        if ($keep) {
+	    $quoted = "$quote$quoted$quote";
+	}
+        else {
+	    $unquoted =~ s/\\(.)/$1/sg;
+	    if (defined $quote) {
+		$quoted =~ s/\\(.)/$1/sg if ($quote eq '"');
+		$quoted =~ s/\\([\\'])/$1/g if ( $PERL_SINGLE_QUOTE && $quote eq "'");
+            }
+	}
+        $word .= substr($line, 0, 0);	# leave results tainted
+        $word .= defined $quote ? $quoted : $unquoted;
+ 
+        if (length($delim)) {
+            push(@pieces, $word);
+            push(@pieces, $delim) if ($keep eq 'delimiters');
+            undef $word;
+        }
+        if (!length($line)) {
+            push(@pieces, $word);
+	}
+    }
+    return(@pieces);
+}
+
+sub old_shellwords {
+
+    # Usage:
+    #	use ParseWords;
+    #	@words = old_shellwords($line);
+    #	or
+    #	@words = old_shellwords(@lines);
+    #	or
+    #	@words = old_shellwords();	# defaults to $_ (and clobbers it)
+
+    no warnings 'uninitialized';	# we will be testing undef strings
+    local *_ = \join('', @_) if @_;
+    my (@words, $snippet);
+
+    s/\A\s+//;
+    while ($_ ne '') {
+	my $field = substr($_, 0, 0);	# leave results tainted
+	for (;;) {
+	    if (s/\A"(([^"\\]|\\.)*)"//s) {
+		($snippet = $1) =~ s#\\(.)#$1#sg;
+	    }
+	    elsif (/\A"/) {
+		require Carp;
+		Carp::carp("Unmatched double quote: $_");
+		return();
+	    }
+	    elsif (s/\A'(([^'\\]|\\.)*)'//s) {
+		($snippet = $1) =~ s#\\(.)#$1#sg;
+	    }
+	    elsif (/\A'/) {
+		require Carp;
+		Carp::carp("Unmatched single quote: $_");
+		return();
+	    }
+	    elsif (s/\A\\(.?)//s) {
+		$snippet = $1;
+	    }
+	    elsif (s/\A([^\s\\'"]+)//) {
+		$snippet = $1;
+	    }
+	    else {
+		s/\A\s+//;
+		last;
+	    }
+	    $field .= $snippet;
+	}
+	push(@words, $field);
+    }
+    return @words;
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  use strict; use warnings;
+
+package Text::Tabs;
+
+BEGIN { require Exporter; *import = \&Exporter::import }
+
+our @EXPORT = qw( expand unexpand $tabstop );
+
+our $VERSION = '2021.0814';
+our $SUBVERSION = 'modern'; # back-compat vestige
+
+our $tabstop = 8;
+
+sub expand {
+	my @l;
+	my $pad;
+	for ( @_ ) {
+		defined or do { push @l, ''; next };
+		my $s = '';
+		for (split(/^/m, $_, -1)) {
+			my $offs;
+			for (split(/\t/, $_, -1)) {
+				if (defined $offs) {
+					$pad = $tabstop - $offs % $tabstop;
+					$s .= " " x $pad;
+				}
+				$s .= $_;
+				$offs = () = /\PM/g;
+			}
+		}
+		push(@l, $s);
+	}
+	return @l if wantarray;
+	return $l[0];
+}
+
+sub unexpand
+{
+	my (@l) = @_;
+	my @e;
+	my $x;
+	my $line;
+	my @lines;
+	my $lastbit;
+	my $ts_as_space = " " x $tabstop;
+	for $x (@l) {
+		defined $x or next;
+		@lines = split("\n", $x, -1);
+		for $line (@lines) {
+			$line = expand($line);
+			@e = split(/((?:\PM\pM*){$tabstop})/,$line,-1);
+			$lastbit = pop(@e);
+			$lastbit = '' 
+				unless defined $lastbit;
+			$lastbit = "\t"
+				if $lastbit eq $ts_as_space;
+			for $_ (@e) {
+				s/  +$/\t/;
+			}
+			$line = join('',@e, $lastbit);
+		}
+		$x = join("\n", @lines);
+	}
+	return @l if wantarray;
+	return $l[0];
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 use strict; use warnings;
+
+package Text::Wrap;
+
+use warnings::register;
+
+BEGIN { require Exporter; *import = \&Exporter::import }
+
+our @EXPORT = qw( wrap fill );
+our @EXPORT_OK = qw( $columns $break $huge );
+
+our $VERSION = '2021.0814';
+our $SUBVERSION = 'modern'; # back-compat vestige
+
+our $columns = 76;  # <= screen width
+our $break = '(?=\s)(?:\r\n|\PM\pM*)';
+our $huge = 'wrap'; # alternatively: 'die' or 'overflow'
+our $unexpand = 1;
+our $tabstop = 8;
+our $separator = "\n";
+our $separator2 = undef;
+
+sub _xlen { () = $_[0] =~ /\PM/g }
+
+use Text::Tabs qw(expand unexpand);
+
+sub wrap
+{
+	my ($ip, $xp, @t) = map +( defined $_ ? $_ : '' ), @_;
+
+	local($Text::Tabs::tabstop) = $tabstop;
+	my $r = "";
+	my $tail = pop(@t);
+	my $t = expand(join("", (map { /\s+\z/ ? ( $_ ) : ($_, ' ') } @t), $tail));
+	my $lead = $ip;
+	my $nll = $columns - _xlen(expand($xp)) - 1;
+	if ($nll <= 0 && $xp ne '') {
+		my $nc = _xlen(expand($xp)) + 2;
+		warnings::warnif "Increasing \$Text::Wrap::columns from $columns to $nc to accommodate length of subsequent tab";
+		$columns = $nc;
+		$nll = 1;
+	}
+	my $ll = $columns - _xlen(expand($ip)) - 1;
+	$ll = 0 if $ll < 0;
+	my $nl = "";
+	my $remainder = "";
+
+	use re 'taint';
+
+	pos($t) = 0;
+	while ($t !~ /\G(?:$break)*\Z/gc) {
+		if ($t =~ /\G((?:(?!\n)\PM\pM*){0,$ll})($break|\n+|\z)/xmgc) {
+			$r .= $unexpand 
+				? unexpand($nl . $lead . $1)
+				: $nl . $lead . $1;
+			$remainder = $2;
+		} elsif ($huge eq 'wrap' && $t =~ /\G((?:(?!\n)\PM\pM*){$ll})/gc) {
+			$r .= $unexpand 
+				? unexpand($nl . $lead . $1)
+				: $nl . $lead . $1;
+			$remainder = defined($separator2) ? $separator2 : $separator;
+		} elsif ($huge eq 'overflow' && $t =~ /\G((?:(?!\n)\PM\pM*)*?)($break|\n+|\z)/xmgc) {
+			$r .= $unexpand 
+				? unexpand($nl . $lead . $1)
+				: $nl . $lead . $1;
+			$remainder = $2;
+		} elsif ($huge eq 'die') {
+			die "couldn't wrap '$t'";
+		} elsif ($columns < 2) {
+			warnings::warnif "Increasing \$Text::Wrap::columns from $columns to 2";
+			$columns = 2;
+			return @_;
+		} else {
+			die "This shouldn't happen";
+		}
+			
+		$lead = $xp;
+		$ll = $nll;
+		$nl = defined($separator2)
+			? ($remainder eq "\n"
+				? "\n"
+				: $separator2)
+			: $separator;
+	}
+	$r .= $remainder;
+
+	$r .= $lead . substr($t, pos($t), length($t) - pos($t))
+		if pos($t) ne length($t);
+
+	return $r;
+}
+
+sub fill 
+{
+	my ($ip, $xp, @raw) = map +( defined $_ ? $_ : '' ), @_;
+	my @para;
+	my $pp;
+
+	for $pp (split(/\n\s+/, join("\n",@raw))) {
+		$pp =~ s/\s+/ /g;
+		my $x = wrap($ip, $xp, $pp);
+		push(@para, $x);
+	}
+
+	# if paragraph_indent is the same as line_indent, 
+	# separate paragraphs with blank lines
+
+	my $ps = ($ip eq $xp) ? "\n\n" : "\n";
+	return join ($ps, @para);
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¢   .   k   ..  £  ËHash.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         package Tie::Hash;
+
+our $VERSION = '1.06';
+
+use Carp;
+use warnings::register;
+
+sub new {
+    my $pkg = shift;
+    $pkg->TIEHASH(@_);
+}
+
+# Legacy support for new()
+
+sub TIEHASH {
+    my $pkg = shift;
+    my $pkg_new = $pkg -> can ('new');
+
+    if ($pkg_new and $pkg ne __PACKAGE__) {
+        my $my_new = __PACKAGE__ -> can ('new');
+        if ($pkg_new == $my_new) {  
+            #
+            # Prevent recursion
+            #
+            croak "$pkg must define either a TIEHASH() or a new() method";
+        }
+
+	warnings::warnif ("WARNING: calling ${pkg}->new since " .
+                          "${pkg}->TIEHASH is missing");
+	$pkg -> new (@_);
+    }
+    else {
+	croak "$pkg doesn't define a TIEHASH method";
+    }
+}
+
+sub EXISTS {
+    my $pkg = ref $_[0];
+    croak "$pkg doesn't define an EXISTS method";
+}
+
+sub CLEAR {
+    my $self = shift;
+    my $key = $self->FIRSTKEY(@_);
+    my @keys;
+
+    while (defined $key) {
+	push @keys, $key;
+	$key = $self->NEXTKEY(@_, $key);
+    }
+    foreach $key (@keys) {
+	$self->DELETE(@_, $key);
+    }
+}
+
+# The Tie::StdHash package implements standard perl hash behaviour.
+# It exists to act as a base class for classes which only wish to
+# alter some parts of their behaviour.
+
+package Tie::StdHash;
+# @ISA = qw(Tie::Hash);		# would inherit new() only
+
+sub TIEHASH  { bless {}, $_[0] }
+sub STORE    { $_[0]->{$_[1]} = $_[2] }
+sub FETCH    { $_[0]->{$_[1]} }
+sub FIRSTKEY { my $a = scalar keys %{$_[0]}; each %{$_[0]} }
+sub NEXTKEY  { each %{$_[0]} }
+sub EXISTS   { exists $_[0]->{$_[1]} }
+sub DELETE   { delete $_[0]->{$_[1]} }
+sub CLEAR    { %{$_[0]} = () }
+sub SCALAR   { scalar %{$_[0]} }
+
+package Tie::ExtraHash;
+
+sub TIEHASH  { my $p = shift; bless [{}, @_], $p }
+sub STORE    { $_[0][0]{$_[1]} = $_[2] }
+sub FETCH    { $_[0][0]{$_[1]} }
+sub FIRSTKEY { my $a = scalar keys %{$_[0][0]}; each %{$_[0][0]} }
+sub NEXTKEY  { each %{$_[0][0]} }
+sub EXISTS   { exists $_[0][0]->{$_[1]} }
+sub DELETE   { delete $_[0][0]->{$_[1]} }
+sub CLEAR    { %{$_[0][0]} = () }
+sub SCALAR   { scalar %{$_[0][0]} }
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    # Generated from XSLoader_pm.PL (resolved %Config::Config value)
+# This file is unique for every OS
+
+use strict;
+no strict 'refs';
+
+package XSLoader;
+
+our $VERSION = "0.31"; # remember to update version in POD!
+
+package DynaLoader;
+
+# No prizes for guessing why we don't say 'bootstrap DynaLoader;' here.
+# NOTE: All dl_*.xs (including dl_none.xs) define a dl_error() XSUB
+boot_DynaLoader('DynaLoader') if defined(&boot_DynaLoader) &&
+                                !defined(&dl_error);
+package XSLoader;
+
+sub load {
+    package DynaLoader;
+
+    my ($caller, $modlibname) = caller();
+    my $module = $caller;
+
+    if (@_) {
+        $module = $_[0];
+    } else {
+        $_[0] = $module;
+    }
+
+    # work with static linking too
+    my $boots = "$module\::bootstrap";
+    goto &$boots if defined &$boots;
+
+    goto \&XSLoader::bootstrap_inherit unless $module and defined &dl_load_file;
+
+    my @modparts = split(/::/,$module);
+    my $modfname = $modparts[-1];
+    my $modfname_orig = $modfname; # For .bs file search
+
+    my $modpname = join('/',@modparts);
+    my $c = () = split(/::/,$caller,-1);
+    $modlibname =~ s,[\\/][^\\/]+$,, while $c--;    # Q&D basename
+    # Does this look like a relative path?
+    if ($modlibname !~ m{^/}) {
+        # Someone may have a #line directive that changes the file name, or
+        # may be calling XSLoader::load from inside a string eval.  We cer-
+        # tainly do not want to go loading some code that is not in @INC,
+        # as it could be untrusted.
+        #
+        # We could just fall back to DynaLoader here, but then the rest of
+        # this function would go untested in the perl core, since all @INC
+        # paths are relative during testing.  That would be a time bomb
+        # waiting to happen, since bugs could be introduced into the code.
+        #
+        # So look through @INC to see if $modlibname is in it.  A rela-
+        # tive $modlibname is not a common occurrence, so this block is
+        # not hot code.
+        FOUND: {
+            for (@INC) {
+                if ($_ eq $modlibname) {
+                    last FOUND;
+                }
+            }
+            # Not found.  Fall back to DynaLoader.
+            goto \&XSLoader::bootstrap_inherit;
+        }
+    }
+    my $file = "$modlibname/auto/$modpname/$modfname.so";
+
+#   print STDERR "XSLoader::load for $module ($file)\n" if $dl_debug;
+
+    # N.B. The .bs file does not following the naming convention used
+    # by mod2fname, so use the unedited version of the name.
+
+    my $bs = "$modlibname/auto/$modpname/$modfname_orig.bs";
+
+    # This calls DynaLoader::bootstrap, which will load the .bs file if present
+    goto \&XSLoader::bootstrap_inherit if not -f $file or -s $bs;
+
+    my $bootname = "boot_$module";
+    $bootname =~ s/\W/_/g;
+    @DynaLoader::dl_require_symbols = ($bootname);
+
+    my $boot_symbol_ref;
+
+    # Many dynamic extension loading problems will appear to come from
+    # this section of code: XYZ failed at line 123 of DynaLoader.pm.
+    # Often these errors are actually occurring in the initialisation
+    # C code of the extension XS file. Perl reports the error as being
+    # in this perl code simply because this was the last perl code
+    # it executed.
+
+    my $libref = dl_load_file($file, 0) or do { 
+        require Carp;
+        Carp::croak("Can't load '$file' for module $module: " . dl_error());
+    };
+    push(@DynaLoader::dl_librefs,$libref);  # record loaded object
+
+    $boot_symbol_ref = dl_find_symbol($libref, $bootname) or do {
+        require Carp;
+        Carp::croak("Can't find '$bootname' symbol in $file\n");
+    };
+
+    push(@DynaLoader::dl_modules, $module); # record loaded module
+
+  boot:
+    my $xs = dl_install_xsub($boots, $boot_symbol_ref, $file);
+
+    # See comment block above
+    push(@DynaLoader::dl_shared_objects, $file); # record files loaded
+    return &$xs(@_);
+}
+
+# Can't test with DynaLoader->can('bootstrap_inherit') when building in the
+# core, as XSLoader gets built before DynaLoader.
+
+sub bootstrap_inherit {
+    require DynaLoader;
+    goto \&DynaLoader::bootstrap_inherit;
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             package attributes;
+
+our $VERSION = 0.34;
+
+@EXPORT_OK = qw(get reftype);
+@EXPORT = ();
+%EXPORT_TAGS = (ALL => [@EXPORT, @EXPORT_OK]);
+
+use strict;
+
+sub croak {
+    require Carp;
+    goto &Carp::croak;
+}
+
+sub carp {
+    require Carp;
+    goto &Carp::carp;
+}
+
+# Hash of SV type (CODE, SCALAR, etc.) to regex matching deprecated
+# attributes for that type.
+my %deprecated;
+
+my %msg = (
+    lvalue => 'lvalue attribute applied to already-defined subroutine',
+   -lvalue => 'lvalue attribute removed from already-defined subroutine',
+    const  => 'Useless use of attribute "const"',
+);
+
+sub _modify_attrs_and_deprecate {
+    my $svtype = shift;
+    # After we've removed a deprecated attribute from the XS code, we need to
+    # remove it here, else it ends up in @badattrs. (If we do the deprecation in
+    # XS, we can't control the warning based on *our* caller's lexical settings,
+    # and the warned line is in this package)
+    grep {
+	$deprecated{$svtype} && /$deprecated{$svtype}/ ? do {
+	    require warnings;
+	    warnings::warnif('deprecated', "Attribute \"$1\" is deprecated, " .
+                                           "and will disappear in Perl 5.28");
+	    0;
+	} : $svtype eq 'CODE' && exists $msg{$_} ? do {
+	    require warnings;
+	    warnings::warnif(
+		'misc',
+		 $msg{$_}
+	    );
+	    0;
+	} : 1
+    } _modify_attrs(@_);
+}
+
+sub import {
+    @_ > 2 && ref $_[2] or do {
+	require Exporter;
+	goto &Exporter::import;
+    };
+    my (undef,$home_stash,$svref,@attrs) = @_;
+
+    my $svtype = uc reftype($svref);
+    my $pkgmeth;
+    $pkgmeth = UNIVERSAL::can($home_stash, "MODIFY_${svtype}_ATTRIBUTES")
+	if defined $home_stash && $home_stash ne '';
+    my @badattrs;
+    if ($pkgmeth) {
+	my @pkgattrs = _modify_attrs_and_deprecate($svtype, $svref, @attrs);
+	@badattrs = $pkgmeth->($home_stash, $svref, @pkgattrs);
+	if (!@badattrs && @pkgattrs) {
+            require warnings;
+	    return unless warnings::enabled('reserved');
+	    @pkgattrs = grep { m/\A[[:lower:]]+(?:\z|\()/ } @pkgattrs;
+	    if (@pkgattrs) {
+		for my $attr (@pkgattrs) {
+		    $attr =~ s/\(.+\z//s;
+		}
+		my $s = ((@pkgattrs == 1) ? '' : 's');
+		carp "$svtype package attribute$s " .
+		    "may clash with future reserved word$s: " .
+		    join(' : ' , @pkgattrs);
+	    }
+	}
+    }
+    else {
+	@badattrs = _modify_attrs_and_deprecate($svtype, $svref, @attrs);
+    }
+    if (@badattrs) {
+	croak "Invalid $svtype attribute" .
+	    (( @badattrs == 1 ) ? '' : 's') .
+	    ": " .
+	    join(' : ', @badattrs);
+    }
+}
+
+sub get ($) {
+    @_ == 1  && ref $_[0] or
+	croak 'Usage: '.__PACKAGE__.'::get $ref';
+    my $svref = shift;
+    my $svtype = uc reftype($svref);
+    my $stash = _guess_stash($svref);
+    $stash = caller unless defined $stash;
+    my $pkgmeth;
+    $pkgmeth = UNIVERSAL::can($stash, "FETCH_${svtype}_ATTRIBUTES")
+	if defined $stash && $stash ne '';
+    return $pkgmeth ?
+		(_fetch_attrs($svref), $pkgmeth->($stash, $svref)) :
+		(_fetch_attrs($svref))
+	;
+}
+
+sub require_version { goto &UNIVERSAL::VERSION }
+
+require XSLoader;
+XSLoader::load();
+
+1;
+__END__
+#The POD goes here
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ¶   .   k   ..  ß   Cwd ©   Fcntl   ´   FileÆ   Hash±   IO  ≥   List∂   POSIX   ∏   Socket  ∫   
+attributes  º  hre                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ß   .   ¶   ..  ®  ËCwd.so                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ELF                  4   B      4   	 (                  	  	                    ÿ  ÿ            0   0   0  ®
+  ®
+           ¸>  ¸N  ¸N  †  §           ?  O  O  ‡   ‡            T  T  T  $   $         PÂtd<1  <1  <1  |   |         QÂtd                          RÂtd¸>  ¸N  ¸N                     GNU ¢ èOÌ6ÌÚ{_téœ°«}Y˝   *         @ @ *       ◊ºX                ˇ                             Ã             á              ›             A             à             U              f             ü                          n              R             F           "   j                            Î              ê             L             S             *             Ä              .                          ®             ®              é              ◊                                          x             ó             ˇ             Z             ;             ö              º             ,               Ï             `              ∏                0(  x     __gmon_start__ _ITM_deregisterTMCloneTable _ITM_registerTMCloneTable __cxa_finalize Perl_newSV Perl_newSVpvn Perl_sv_2pv_flags memchr memcpy Perl_mg_get Perl_sv_magic Perl_sv_2mortal Perl_sv_newmortal Perl_do_join Perl_sv_catsv_flags Perl_croak_xs_usage Perl_stack_grow Perl_getcwd_sv Perl_mg_set __errno_location Perl_sv_setpv_mg getcwd strlen Perl_my_strlcpy __memmove_chk Perl_my_strlcat lstat64 strchr strrchr readlink Perl_sv_setsv_flags Perl_push_scope Perl_call_method Perl_pop_scope Perl_newSVsv_flags Perl_markstack_grow boot_Cwd Perl_xs_handshake Perl_newXS_deffile Perl_my_cxt_init Perl_xs_boot_epilog __stack_chk_fail libc.so.6 GLIBC_2.3.4 GLIBC_2.1.3 GLIBC_2.4 GLIBC_2.33 GLIBC_2.0                                                 w         ti	   Å     si	   ç     ii   ô     ≥ëñ   £     ii   Æ      ¸N      O     îP     ‰O    ËO    ÏO    O  &   P    P    P    P    P    P    P    P  	   P  
+  $P    (P    ,P    0P    4P    8P    <P    @P    DP    HP    LP    PP    TP    XP    \P    `P    dP    hP    lP    pP     tP  !  xP  "  |P  #  ÄP  $  ÑP  %  àP  '  åP  (  êP  )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          SÉÏËá  Å√Î?  ãÉ¯ˇˇˇÖ¿tˇ–Éƒ[√ˇ≥   ˇ£       ˇ£   h    È‡ˇˇˇˇ£   h   È–ˇˇˇˇ£   h   È¿ˇˇˇˇ£   h   È∞ˇˇˇˇ£   h    È†ˇˇˇˇ£    h(   Èêˇˇˇˇ£$   h0   ÈÄˇˇˇˇ£(   h8   Èpˇˇˇˇ£,   h@   È`ˇˇˇˇ£0   hH   ÈPˇˇˇˇ£4   hP   È@ˇˇˇˇ£8   hX   È0ˇˇˇˇ£<   h`   È ˇˇˇˇ£@   hh   Èˇˇˇˇ£D   hp   È ˇˇˇˇ£H   hx   È˛ˇˇˇ£L   hÄ   È‡˛ˇˇˇ£P   hà   È–˛ˇˇˇ£T   hê   È¿˛ˇˇˇ£X   hò   È∞˛ˇˇˇ£\   h†   È†˛ˇˇˇ£`   h®   Èê˛ˇˇˇ£d   h∞   ÈÄ˛ˇˇˇ£h   h∏   Èp˛ˇˇˇ£l   h¿   È`˛ˇˇˇ£p   h»   ÈP˛ˇˇˇ£t   h–   È@˛ˇˇˇ£x   hÿ   È0˛ˇˇˇ£|   h‡   È ˛ˇˇˇ£Ä   hË   È˛ˇˇˇ£Ñ   h   È ˛ˇˇˇ£à   h¯   È˝ˇˇˇ£å   h   È‡˝ˇˇˇ£ê   h  È–˝ˇˇˇ£î   h  È¿˝ˇˇˇ£ò   h  È∞˝ˇˇˇ£ú   h   È†˝ˇˇˇ£Ùˇˇˇfê        ã$√fêfêfêfêfêfêË‡   Å¬O=  çä®   çÇ®   9»tãÇˇˇˇÖ¿tUâÂÉÏQˇ–Éƒ…√çt& ê√ç¥&    Ë†   Å¬=  UâÂSçä®   çÇ®   ÉÏ)»â√¡Ë¡˚ÿ—¯tãí¸ˇˇˇÖ“t
+ÉÏPQˇ“Éƒã]¸…√ç¥&    fêUâÂSËWˇˇˇÅ√ª<  ÉÏÄª®    u'ãÉÙˇˇˇÖ¿tÉÏˇ≥†   ËˇˇˇÉƒË5ˇˇˇ∆É®   ã]¸…√ç¥&    fêÈ[ˇˇˇã$√fêfêfêêUWVSË˜˛ˇˇÅ√[<  ÉÏãt$(ãF@çP¸âV@ã8jV¡ÁË‘¸ˇˇãì§   ÉƒãhãÜ8  çêãâ*ãâU ã@âEçÉ+‡ˇˇj PVËq˛ˇˇÉƒâE çÉ‡ˇˇjPVË\˛ˇˇâE~â>Éƒ[^_]√ç¥&    çt& êUWâ◊VSËe˛ˇˇÅ√…;  ÉÏ,â$e°   âD$ãB©    Öû  ã$Å¡¿   ˆƒˇÑN  â¬Å‚   Å˙   ÑU  % A  = A  ÑE  j çD$PWˇt$Ë:¸ˇˇâ∆ãD$(ÉƒÖ¿Ñ7  çÉÏâT$Pˇt$Ë’˚ˇˇÉƒˆG ãT$â¡tÅH    ∂>ãiâ¯</ÑÉ  â¯âl$<.Ñ6  ê9÷Ñ  âL$â’âÈÉÏ)ÒQâL$j/VË>¸ˇˇÉƒãL$Ö¿â«Ñ◊   â¡ÉÏ)ÒQâL$Vãt$VË˚ˇˇãL$âÉƒ»â¡9˝t>â˙çv â÷ç∂    âÚ∂FÉ∆</tÛ9ıt <.uÉ¬9ÍtÄ~/t÷çA∆/âD$ÈuˇˇˇâÕãL$∆E  ã+iÅI D  âhã$Äxi Öf  ãD$e+   Öö  Éƒ,â»[^_]√ããwã@âD$Ö¿Ö…˛ˇˇÉÏçÉ+‡ˇˇj Pˇt$Ëm¸ˇˇÉƒâ¡ÎµâÕãL$ÉÏâL$UVã|$WË=˙ˇˇâ¯ÉƒãL$Ëâ≈ÈjˇˇˇÄ~/Ö¡˛ˇˇâÔÉ∆çt& ∂FÉ∆</tı<.uÄ~/t‰9ÚÑ˙   â|$â’âL$Èö˛ˇˇ∆E /∂~çEâ’âD$ââ˙çpÄ˙/tSÄ˙.t*âÍÈc˛ˇˇ∂PÉ¿9≈tvÄ˙/Ñß   9˝u·âÉ∆ç∂    ∂PçxÄ˙.t—9˝tÄ˙/u¡çF∂VçpÄ˙/u≠âÚâ∆â–ÎÏçFÄ˙/t‰âÍâ∆È˛ˇˇÉÏRˇt$Ë¶˙ˇˇãGÉƒÈJ˝ˇˇãl$ÈÅ˛ˇˇâ¯ÈdˇˇˇÄxh Ñê˛ˇˇÉÏj j jtj QâL$ ˇt$Ë¯˙ˇˇÉƒ ãL$Èk˛ˇˇçt& â˛Èyˇˇˇ∆.çoÈ5˛ˇˇËQ  êUWVSË'˚ˇˇÅ√ã8  ÉÏ,ãt$@ãF@ãçÆ¿   çP¸âV@ã â«âD$ãF¡Áç89—tH)—ã´§   ãñ8  âL$ã™âT$â ãL$¡˙—ãàç,ç    ââL$âl$ËG¸ˇˇãL$â≈É˘u,ÉÏUVË¢˘ˇˇãVâD:ãFçD8âÉƒ<[^_]√ç¥&    çv ÉÏVËW˙ˇˇâD$$XZUVËj˘ˇˇãT$ ãL$,ãFãâàãD$(ãVãL$–â$çäPãT$$ˇrˇt$,VËe˘ˇˇãT$4Éƒ âË∑˚ˇˇããRÖ“t
+ãHÄ|ˇ/tjãL$ˇqPâD$VË ˘ˇˇãD$ÉƒjUPâD$VË˘ˇˇÉƒãl$È3ˇˇˇç¥&    ç¥&    êWVSãt$Ëƒ˘ˇˇÅ√(7  ãF@ãNçP¸âV@ã ã¡‡ç<)˙Ö“~2ãTçxâË$˚ˇˇÉÏPVËä¯ˇˇãVÉƒâ:~â>[^_√ç¥&    êçñ¿   çxÎ çt& êUWVSËW˘ˇˇÅ√ª6  ÉÏãt$ ãF@çP¸âV@ã8ãVã¡Áç:)»Ö¿~>çoÉ¯~.ãT:âË´˙ˇˇÉÏPVË¯ˇˇãVâD:nâ.Éƒ[^_]√çt& êçñ¿   ÎŒPPçÉ‡ˇˇPˇt$0ËN˜ˇˇç¥&    ç¥&    UWVSË«¯ˇˇÅ√+6  ÉÏãt$0ãF@ã>çP¸â|$âV@ã(ãFçMç®âL$ãã§   )◊ãñ8  ¡ˇãäâ$â˙É¬âT$àÜ   ãL$ãV) â—¡˘9L$rã$ãL$ÉÏ¡Âã˘ç<ç    âàVË!¯ˇˇãNœÈâ<$QãT$ˇrPâD$VËT˜ˇˇãT$ Éƒ âË¶˘ˇˇÉÏPVË˜ˇˇãVâD*ãFçD(âÉƒ,[^_]√çt& ˇt$ãD$PPVËÄıˇˇãFÉƒÈsˇˇˇçt& êUWVSË«˜ˇˇÅ√+5  ÉÏãt$0ãâD$ãF@çP¸âV@ã(ãFç®ãD$4ã ãPãFˆ@tQãxãFã<∏É˙u
+9L$Öà   ÉÏWVËüıˇˇãFÉƒç,®ˆG
+@u@â}Ä~h çEuDâÉƒ[^_]√ç¥&    çv âT$ÉÏâL$VË˜ˇˇÉƒãT$ãL$â«ÎòÉÏWVËˆıˇˇÉƒÎ±êâD$ÉÏj j jtj WVËöˆˇˇÉƒ ãD$ÎùPPçÉ+‡ˇˇPˇt$@ËOıˇˇç¥&    ç¥&    êUWVSË«ˆˇˇÅ√+4  ÅÏ¨@  ãÑ$¿@  ã¨$ƒ@  âD$â¡e°   âÑ$ú@  â»ã	âL$â¡ã@@çP¸âQ@ã ãIçÖ    âD$ãD$ç4)É¯á∆  1ˆÖ¿Ö  ãL$ãAˆ@Ñ  ãPãAãêâD$ÖˆÑ%  ãFâ¬Å‚   Å˙   Ñ˛  % A  = A  ÑÓ  jj Vˇt$ Ë@ÙˇˇÉƒâ∆Ë¶ÙˇˇÄ>/âD$$ã âD$(ÖË   ∑ÉD·ˇˇçî$ú   fâÑ$ú   Ä~ ÖK  ÉÏRã|$ Wãt$ VË@ıˇˇãGâD$%ˇ ˇ_ÉƒÄÃDâGÄ~h Öy  ãL$ã|$ãAç∏ã|$çpâxÄyh Ö7  ãD$â0ãÑ$ú@  e+   Ö±  Åƒ¨@  [^_]√ç¥&    çv ãtãL$ãAˆ@Ö·˛ˇˇÉÏˇt$ ËˇÙˇˇâD$(ÉƒÖˆÖ€˛ˇˇËªÛˇˇç≥*‡ˇˇâD$$ã âD$(ÉÏh   çî$®   RâT$ËrÛˇˇÉƒãT$Ö¿Ñ€  ÉÏRâT$ËfÛˇˇÉƒh   â≈Vçº$®  WË.ÙˇˇÉƒ=ˇ  á‡  Ö¿ãT$Ñ”  çå$ú   â˛«D$     â«âL$∑ãD·ˇˇfâL$È  çt& ãT$)ÚÅ˙ˇ  áñ  ÉÏRâT$Vˇt$ËÚˇˇãD$ãT$É¿∆Ñ¨    â¬h   )Ú)◊çWRPVË{ÚˇˇÉƒ Äº,õ   /tçE=ˇ  á@  ∑L$fâå,ú   â≈Äº$ú    twãD$fÉ8.tmfÅ8..Ñ¬   ÉÏh   ˇt$çÑ$®   âD$PËÛˇˇÉƒâ≈=ˇ  áÂ  ÉÏçD$DPˇt$ËÑÒˇˇÉƒÖ¿ÖÆ  ãD$L%   = †  Ñ’   çt& êÖˇÑ†   ÉÏj/VË›ÒˇˇÉƒâD$Ö¿ÖÊ˛ˇˇÅˇˇ  áÇ  ÉÏWVˇt$ËÙˇˇ∆Ñ<¨    Éƒ1ˇÈ
+ˇˇˇfêãvÈ˝ˇˇç¥&    êÄx Ö4ˇˇˇÉ˝vë∆Ñ,õ    ÉÏj/çÑ$®   âD$PËCÚˇˇÉƒçh∆@ ãD$)≈ÖˇÖcˇˇˇçv çî$ú   É˝Üı¸ˇˇçD*ˇÄ8/ÖË¸ˇˇ∆  È‡¸ˇˇçv ãD$ çHâL$ É¯á

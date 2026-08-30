@@ -1,0 +1,1 @@
+var e=`ACT-R`,t=`Edit and run ACT-R tutorial models; download the official archive from the catalog`,n={EXT_ACTR_NAME:e,EXT_ACTR_DESC:t};export{t as EXT_ACTR_DESC,e as EXT_ACTR_NAME,n as default};

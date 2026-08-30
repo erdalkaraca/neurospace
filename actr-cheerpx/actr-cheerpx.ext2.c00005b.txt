@@ -1,0 +1,1161 @@
+                              :params params
+                                        :details details
+                                        :output output
+                                        :destination destination))
+                   (id (bt:with-lock-held (*periodic-event-lock*)
+                         (incf *periodic-event-id-counter*)))
+                   (periodic-event 
+                    (make-act-r-periodic-event 
+                     :id id
+                     :mp nil
+                     :module :none
+                     :model (current-model-struct) 
+                     
+                     :priority (if (numberp priority) priority 0)
+                     :min (and (eq priority :min) priority)
+                     :max (and (eq priority :max) priority)
+                     :action 'periodic-action
+                     :output nil
+                     :details 
+                     ;(format nil 
+                     ;    "Periodic Action: ~A Period: ~A" action period)
+                     (concatenate 'string
+                       "Periodic-Action "
+                       (if (and (symbolp action) (fboundp action)) (symbol-name action) (if (stringp action) action "Unnamed function"))
+                       " "
+                       (princ-to-string period)))))
+              
+              (insert-queue-event mp periodic-event :delta (if time-in-ms initial-delay (safe-seconds->ms initial-delay 'schedule-periodic-event)))
+              
+              (setf (act-r-event-params periodic-event) 
+                (list periodic-event real-event (if time-in-ms period (safe-seconds->ms period 'schedule-periodic-event))))
+              
+              (setf (act-r-event-num real-event) (act-r-event-num periodic-event))
+              
+              (act-r-event-num periodic-event)))))))
+
+
+(defun periodic-action (periodic-event real-event period)
+  
+  (let ((mp (current-mp)))
+    (bt:with-recursive-lock-held ((meta-p-schedule-lock mp))
+      (setf (act-r-event-mstime real-event) (act-r-event-mstime periodic-event))
+      (insert-queue-event mp real-event)
+      
+      (setf (act-r-event-mstime periodic-event) (+ (act-r-event-mstime periodic-event) period))
+      (insert-queue-event mp periodic-event))))
+    
+
+
+(defun external-schedule-periodic-event (period action &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-periodic-event '(:params :module :destination :maintenance :output :details :priority :time-in-ms :initial-delay))
+    (when valid 
+      (apply 'schedule-periodic-event period action (convert-options-list-items ol '(:module :destination :output :priority) nil)))))
+
+
+(add-act-r-command "schedule-periodic-event" 'external-schedule-periodic-event 
+                   "Create an event to occur repeatedly with the given period. Params: period action {< params, module, destination, maintenance, output, details, priority, time-in-ms, initial-delay > }"
+                   nil)
+
+
+(defun schedule-break (time &key (priority :max) (details nil)(time-in-ms nil))
+  (let ((mp (current-mp)))
+    (cond ((not (and (numberp time) (>= time 0)))
+           (print-warning "Time must be non-negative number."))
+          ((not (or (numberp priority) (eq priority :min) (eq priority :max)))
+           (print-warning "Priority must be a number or :min or :max."))
+          ((and time-in-ms (not (integerp time)))
+           (print-warning "When time-in-ms is true the time must be an integer."))
+          (t
+           (let ((new-event (make-act-r-break-event :mp nil
+                                                    :mstime (if time-in-ms time (safe-seconds->ms time 'schedule-break))
+                                                    :params (list mp)
+                                                    :priority (if (numberp priority) priority 0)
+                                                    :min (and (eq priority :min) priority)
+                                                    :max (and (eq priority :max) priority)
+                                                    :details details)))
+             
+             (insert-queue-event mp new-event)
+             
+             (act-r-event-num new-event))))))
+
+
+
+(defun external-schedule-break (time &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-break '(:priority :time-in-ms :details))
+    (when valid 
+      (apply 'schedule-break time (convert-options-list-items ol '(:priority) nil)))))
+
+
+(add-act-r-command "schedule-break" 'external-schedule-break
+                   "Create a break event to force the current run to stop at the time indicated. Params: time {< details, priority, time-in-ms > }"
+                   nil)
+
+
+
+(defun schedule-break-relative (time-delay &key (priority :max) (details nil)(time-in-ms nil))
+  (let ((mp (current-mp)))
+    (cond ((not (and (numberp time-delay) (>= time-delay 0)))
+           (print-warning "Time-delay must be non-negative number."))
+          ((not (or (numberp priority) (eq priority :min) (eq priority :max)))
+           (print-warning "Priority must be a number or :min or :max."))
+          ((and time-in-ms (not (integerp time-delay)))
+           (print-warning "When time-in-ms is true the time-delay must be an integer."))
+          (t
+           (let ((new-event (make-act-r-break-event 
+                             :mp nil
+                             :params (list mp)
+                             :priority (if (numberp priority) priority 0)
+                             :min (and (eq priority :min) priority)
+                             :max (and (eq priority :max) priority)
+                             :details details)))
+             
+             (insert-queue-event mp new-event :delta (if time-in-ms time-delay (safe-seconds->ms time-delay 'schedule-break-relative)))
+             
+             (act-r-event-num new-event))))))
+
+
+
+
+(defun external-schedule-break-relative (time-delay &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-break-relative '(:priority :time-in-ms :details))
+    (when valid 
+      (apply 'schedule-break-relative time-delay (convert-options-list-items ol '(:priority) nil)))))
+
+
+(add-act-r-command "schedule-break-relative" 'external-schedule-break-relative
+                   "Create a break event to force the current run to stop after the specified amount of time. Params: time-delay {< details, priority, time-in-ms > }"
+                   nil)
+
+
+(defun schedule-break-after-module (after-module &key (details nil) (delay t)(dynamic nil))
+  (verify-current-model
+   "schedule-break-after-module called with no current model."
+   (let ((mp (current-mp)))
+     (cond ((not (valid-module-name after-module))
+            (print-warning "after-module must name a module."))
+           (t
+            (let* ((new-event (make-act-r-break-event 
+                               :mp nil
+                               :model (current-model-struct)
+                               :min :min
+                               :params (list mp)
+                               :details details
+                               :dynamic dynamic
+                               :wait-condition 
+                               (list :module after-module t))))
+              (insert-waiting-event mp new-event delay)
+              ;(act-r-event-num new-event)
+              ))))))
+
+
+(defun external-schedule-break-after-module (after-module &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'schedule-break-after-module '(:delay :dynamic :details))
+    (when valid 
+      (apply 'schedule-break-after-module after-module ol))))
+
+
+(add-act-r-command "schedule-break-after-module" 'external-schedule-break-after-module
+                   "Create a break event to force the current run to stop after the specified module's next action. Params: after-module {< details, delay, dynamic > }"
+                   nil)
+
+(defun schedule-break-after-all (&optional (details nil))
+  (let* ((mp (current-mp))
+         (new-event (make-act-r-break-event :mp nil
+                                            :params (list mp)
+                                            :min :min
+                                            :details details)))
+    
+    (insert-final-queue-event mp new-event)
+    
+    (act-r-event-num new-event)))
+
+
+(add-act-r-command "schedule-break-after-all" 'schedule-break-after-all
+                   "Create a break event to force the current run to stop after the last event currently scheduled. Params: {details}"
+                   nil)
+
+
+(defun add-pre-event-hook (hook-fn &optional (warn t))
+  (verify-current-mp
+   "add-pre-event-hook called with no current meta-process"
+   (let ((mp (current-mp)))
+     (bt:with-lock-held ((meta-p-event-hook-lock mp))
+       (cond ((not (local-or-remote-function-p hook-fn))
+              (print-warning 
+               "parameter ~s to add-pre-event-hook is not a function" hook-fn))
+             ((member hook-fn (meta-p-pre-events mp))
+              (when warn
+                (print-warning 
+                 "~s is already on the pre-event-hook list not added again"
+                 hook-fn)))
+             (t (push hook-fn (meta-p-pre-events mp))
+                (setf (gethash (meta-p-next-hook-id mp) (meta-p-hook-table mp))
+                  (cons :pre hook-fn))
+                (1- (incf (meta-p-next-hook-id mp)))))))))
+         
+
+(add-act-r-command "add-pre-event-hook" 'add-pre-event-hook "Add a command to be called before each event is evaluated. Params: command {warn}")
+
+(defun add-post-event-hook (hook-fn &optional (warn t))
+  (verify-current-mp
+   "add-post-event-hook called with no current meta-process"
+   (let ((mp (current-mp)))
+     (bt:with-lock-held ((meta-p-event-hook-lock mp))
+       (cond ((not (local-or-remote-function-p hook-fn))
+              (print-warning 
+               "parameter ~s to add-post-event-hook is not a function" hook-fn))
+             ((member hook-fn (meta-p-post-events mp))
+              (when warn
+                (print-warning 
+                 "~s is already on the post-event-hook list not added again" 
+                 hook-fn)))
+             (t (push hook-fn (meta-p-post-events mp))
+                (setf (gethash (meta-p-next-hook-id mp) (meta-p-hook-table mp))
+                  (cons :post hook-fn))
+                (1- (incf (meta-p-next-hook-id mp)))))))))
+
+(add-act-r-command "add-post-event-hook" 'add-post-event-hook "Add a command to be called after each event is evaluated. Params: command {warn}")
+
+(defun delete-event-hook (hook-fn-id)
+  (verify-current-mp
+   "delete-event-hook called with no current meta-process"
+   (let ((mp (current-mp)))
+     (bt:with-lock-held ((meta-p-event-hook-lock mp))
+       (let ((event (gethash hook-fn-id (meta-p-hook-table mp))))
+         (when event
+           (remhash hook-fn-id (meta-p-hook-table mp))
+           (if (eq :pre (car event))
+               (setf (meta-p-pre-events mp) 
+                 (remove (cdr event) (meta-p-pre-events mp)))
+             (setf (meta-p-post-events mp) 
+               (remove (cdr event) (meta-p-post-events mp))))
+           (cdr event)))))))
+
+(add-act-r-command "delete-event-hook" 'delete-event-hook "Remove a previously added event hook command. Params: event-hook-id")
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                    ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2017 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : system-locks.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Code for creating and using locks at the meta-process and model
+;;;             : levels.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2017.03.30 Dan [1.0]
+;;;             : * Initial creation.
+;;; 2020.07.29 Dan
+;;;             : * Fixed a bug with make-act-r-model-lock even though it's not
+;;;             :   currently being used.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; In order for things to be thread safe need locks around lots of things...
+;;; So, this code provides the mechanism for creating and using locks that exist
+;;; at the meta-process and the model level.  A lock gets named with a string and
+;;; the with-... and acquire-.../release-... macros are used to protect the code 
+;;; as needed.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; The meta-process table is not cleared upon clear-all and the model table is
+;;; not cleared upon reset.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(defun make-act-r-lock (name &optional recursive)
+  (if (gethash name (meta-p-lock-table (current-mp)))
+      (print-warning "A lock named ~s already exists." name)
+    (progn
+      (setf (gethash name (meta-p-lock-table (current-mp)))
+        (if recursive
+            (cons (bt:make-recursive-lock name) t)
+          (cons (bt:make-lock name) nil)))
+      name)))
+
+
+(defun make-act-r-model-lock (name &optional recursive)
+  (with-current-model 
+   "No current model available to create a model lock"
+   (if (gethash name (act-r-model-lock-table current-model))
+       (print-warning "A lock named ~s already exists in the current model." name)
+     (progn
+       (setf (gethash name (act-r-model-lock-table current-model))
+         (if recursive
+             (cons (bt:make-recursive-lock name) t)
+           (cons (bt:make-lock name) nil)))
+       name))))
+
+(defmacro with-act-r-lock (name &body body)
+  (let ((lock (gensym)))
+    `(let* ((,lock (gethash ,name (meta-p-lock-table (current-mp)))))
+       (if ,lock
+           (if (cdr ,lock)
+               (bt:with-recursive-lock-held ((car ,lock))
+                 (progn ,@body))
+             (bt:with-lock-held ((car ,lock))
+               (progn ,@body)))
+         (print-warning "No actions taken in with-act-r-lock because there is no lock named ~s" ,name)))))
+
+(defun acquire-act-r-lock (name &optional (wait t))
+  (let ((lock (gethash name (meta-p-lock-table (current-mp)))))
+    (if lock
+        (if (cdr lock)
+            (bt:acquire-recursive-lock (car lock))
+          (bt:acquire-lock (car lock) wait))
+      (print-warning "Cannot acquire act-r-lock because there is no lock named ~s" name))))
+
+(defun release-act-r-lock (name)
+  (let ((lock (gethash name (meta-p-lock-table (current-mp)))))
+    (if lock
+        (if (cdr lock)
+            (bt:release-recursive-lock (car lock))
+          (bt:release-lock (car lock)))
+      (print-warning "Cannot release act-r-lock because there is no lock named ~s" name))))
+
+
+(defmacro with-act-r-model-lock (name &body body)
+  (let ((lock (gensym)))
+    `(with-current-model
+         (let* ((,lock (gethash ,name (act-r-model-lock-table current-model))))
+           (if ,lock
+               (if (cdr ,lock)
+                   (bt:with-recursive-lock-held ((car ,lock))
+                     (progn ,@body))
+                 (bt:with-lock-held ((car ,lock))
+                   (progn ,@body)))
+             (print-warning "No actions taken in with-act-r-model-lock because there is no lock named ~s in the current model: ~s" ,name current-model))))))
+
+(defun acquire-act-r-model-lock (name &optional (wait t))
+  (with-current-model 
+      "Cannot acquire a lock because there is no current model."
+      (let ((lock (gethash name (act-r-model-lock-table current-model))))
+        (if lock
+            (if (cdr lock)
+                (bt:acquire-recursive-lock (car lock))
+              (bt:acquire-lock (car lock) wait))
+          (print-warning "Cannot acquire act-r-lock because there is no lock named ~s" name)))))
+
+(defun release-act-r-model-lock (name)
+  (with-current-model
+      "Cannot acquire a lock because there is no current model."
+    (let ((lock (gethash name (act-r-model-lock-table current-model))))
+        (if lock
+            (if (cdr lock)
+                (bt:release-recursive-lock (car lock))
+              (bt:release-lock (car lock)))
+          (print-warning "Cannot release act-r-lock because there is no lock named ~s" name)))))
+  
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      (#Y(si::bytecodes nil nil (1 0 16 1 1 0 16 2 76 39 11 14 3 33 4 12 19 2 5 52 0 15 0 15 6 15 7 19 3 8 15 0 15 9 15 10 15 11 19 4 12 1 0 73 29) #1=#A(t (238) (common-lisp-user::*act-r-system-parameters-table* si::*make-special boundp :test eq make-hash-table variable "The table of all system parameters" si::set-documentation ext::location (defvar common-lisp-user::*act-r-system-parameters-table*) (#2=#P"/opt/actr/actr7.x/framework/system-parameters.lisp" . 0) ext::annotate common-lisp-user::*act-r-system-parameter-table-lock* (defvar common-lisp-user::*act-r-system-parameter-table-lock*) (#2# . 4820) common-lisp-user::act-r-system-parameter "ACT-R-SYSTEM-PARAMETER-" (common-lisp-user::handler) ((common-lisp-user::param-name nil t nil 0 common-lisp-user::act-r-parameter-param-name) (common-lisp-user::default nil t nil 1 common-lisp-user::act-r-parameter-default) (common-lisp-user::test nil t nil 2 common-lisp-user::act-r-parameter-test) (warning nil t nil 3 common-lisp-user::act-r-parameter-warning) (common-lisp-user::details nil t nil 4 common-lisp-user::act-r-parameter-details) (common-lisp-user::owner t t nil 5 common-lisp-user::act-r-parameter-owner) (common-lisp-user::users nil t nil 6 common-lisp-user::act-r-parameter-users) (common-lisp-user::handler nil t nil 7 nil)) common-lisp-user::copy-act-r-system-parameter common-lisp-user::act-r-parameter (common-lisp-user::make-act-r-system-parameter) common-lisp-user::act-r-system-parameter-p si::define-structure #3=(common-lisp-user::act-r-system-parameter (:include common-lisp-user::act-r-parameter (common-lisp-user::owner t))) (defstruct #3#) (#2# . 4893) common-lisp-user::make-act-r-system-parameter (defun common-lisp-user::make-act-r-system-parameter) (#2# . 4893) :lambda-list (&key #4=#:param-name #5=#:default #6=#:test #7=#:warning #8=#:details (#9=#:owner t) #10=#:users #11=#:handler) (nil :handler :users :owner :details :warning :test :default :param-name) #4# #5# #6# #7# #8# t #9# #10# #11# 0 si::make-structure #Y(common-lisp-user::make-act-r-system-parameter nil nil (28 33 22 40 2 77 46 34 22 40 2 77 46 35 22 40 2 77 46 36 22 40 2 77 46 37 22 40 2 77 46 38 22 40 3 14 39 46 40 22 40 2 77 46 41 22 40 2 77 46 42 15 43 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 9 44 29) #1# #2# 4893) si::fset find-class common-lisp-user::create-system-parameter (defun common-lisp-user::create-system-parameter) (#2# . 4978) (common-lisp-user::param-name &key (common-lisp-user::valid-test nil) (common-lisp-user::default-value nil) (warning #12="") (documentation #13="") (common-lisp-user::handler nil)) common-lisp-user::param-name (nil :handler :documentation :warning :default-value :valid-test) common-lisp-user::valid-test common-lisp-user::default-value #12# warning #13# documentation common-lisp-user::handler keywordp "print-warning" "~@?" "Parameter name must be a keyword." format common-lisp-user::evaluate-act-r-command "default-value cannot be a keyword." common-lisp-user::fctornil "valid-test must be a function, the name of a function, or nil." stringp "documentation must be a string." "warning must be a string." "a handler function must be provided." gethash "a system parameter with the name ~s already exists." "default-value does not pass the valid-test" :param-name :default :warning :details :handler common-lisp-user::param si::hash-set common-lisp-user::internal-set-system-parameter-value #Y(common-lisp-user::create-system-parameter nil nil (24 45 52 28 53 22 40 2 77 46 54 22 40 2 77 46 55 22 40 3 15 56 46 57 22 40 3 15 58 46 59 22 40 2 77 46 60 10 5 16 61 76 39 19 15 62 77 15 63 15 64 19 3 65 12 19 2 66 75 73 38 246 10 3 16 61 39 19 15 62 77 15 63 15 67 19 3 65 12 19 2 66 75 73 38 222 13 4 19 1 68 76 39 19 15 62 77 15 63 15 69 19 3 65 12 19 2 66 75 73 38 196 10 1 16 70 76 39 19 15 62 77 15 63 15 71 19 3 65 12 19 2 66 75 73 38 171 10 2 16 70 76 39 19 15 62 77 15 63 15 72 19 3 65 12 19 2 66 75 73 38 146 10 0 39 6 13 0 19 1 68 76 39 19 15 62 77 15 63 15 73 19 3 65 12 19 2 66 75 73 38 116 13 5 14 0 19 2 74 39 21 15 62 77 15 63 15 75 13 5 19 4 65 12 19 2 66 75 73 38 87 10 4 39 13 10 3 39 9 13 4 13 3 20 1 23 76 39 19 15 62 77 15 63 15 76 19 3 65 12 19 2 66 75 73 38 51 14 77 13 5 14 78 13 3 14 3 13 4 14 79 13 2 14 80 13 1 14 81 13 0 19 12 28 45 82 13 6 14 0 13 0 19 3 83 13 0 13 4 19 2 84 10 6 73 43 1 29) #1# #2# 4978) common-lisp-user::remove-system-parameter (defun common-lisp-user::remove-system-parameter) (#2# . 6847) (common-lisp-user::param-name) remhash #Y(common-lisp-user::remove-system-parameter nil nil (24 45 52 26 13 0 14 0 19 2 74 73 39 10 13 0 11 0 17 90 11 39 73 29) #1# #2# 6847) function "Remove a system parameter" common-lisp-user::ssp (defmacro common-lisp-user::ssp) (#2# . 7116) (&rest common-lisp-user::parameters) #:g943 #:g942 #:g944 common-lisp-user::parameters common-lisp-user::ssp-fct quote #Y(common-lisp-user::ssp nil nil (24 45 98 24 45 99 26 10 1 5 45 100 10 0 45 101 15 102 15 103 10 0 6 2 6 2 73 29) #1# #2# 7116) (defun common-lisp-user::ssp-fct) (#2# . 7178) (&optional (common-lisp-user::parameters-list nil)) common-lisp-user::parameters-list common-lisp-user::show-all-system-parameters every common-lisp-user::get-system-parameters common-lisp-user::set-system-parameters #Y(common-lisp-user::ssp-fct nil nil (25 40 2 77 46 108 26 10 0 76 39 6 19 0 109 38 23 33 61 12 13 0 19 2 110 39 8 13 0 19 1 111 38 6 13 0 19 1 112 29) #1# #2# 7178) (defun common-lisp-user::get-system-parameters) (#2# . 7432) (common-lisp-user::params) common-lisp-user::params common-lisp-user::res si::%dolist-var common-lisp-user::p-name common-lisp-user::valid-system-parameter-name common-lisp-user::get-system-parameter-struct common-lisp-user::act-r-system-parameter-handler common-lisp-user::val :bad-parameter-name reverse #Y(common-lisp-user::get-system-parameters nil nil (24 45 117 26 75 45 118 10 1 45 119 38 58 10 0 4 45 120 13 0 19 1 121 39 32 13 0 19 1 122 45 82 13 0 19 1 123 12 77 77 20 2 23 45 124 13 0 10 4 3 51 4 43 2 38 8 14 125 10 2 3 51 2 10 1 5 51 1 43 1 10 0 40 -60 75 45 120 10 2 16 126 43 1 43 1 43 1 29) #1# #2# 7432) common-lisp-user::get-system-parameter-value (defun common-lisp-user::get-system-parameter-value) (#2# . 7793) (common-lisp-user::parameter) common-lisp-user::parameter #Y(common-lisp-user::get-system-parameter-value nil nil (24 45 132 26 10 0 6 1 12 19 1 111 4 73 29) #1# #2# 7793) common-lisp-user::external-get-system-parameter-value (defun common-lisp-user::external-get-system-parameter-value) (#2# . 7894) (common-lisp-user::parameter) common-lisp-user::string->name common-lisp-user::p common-lisp-user::encode-string-names #Y(common-lisp-user::external-get-system-parameter-value nil nil (24 45 132 26 13 0 19 1 138 12 19 1 128 45 139 13 0 19 1 140 43 1 29) #1# #2# 7894) "get-system-parameter-value" "Return the current value of a system parameter. Params: system-parameter-name." common-lisp-user::add-act-r-command (defun common-lisp-user::get-system-parameter-struct) (#2# . 8219) (common-lisp-user::p-name) #Y(common-lisp-user::get-system-parameter-struct nil nil (24 45 120 26 13 0 14 0 19 2 74 29) #1# #2# 8219) (defun common-lisp-user::valid-system-parameter-name) (#2# . 8379) (common-lisp-user::p-name) #Y(common-lisp-user::valid-system-parameter-name nil nil (24 45 120 26 13 0 14 0 19 2 74 29) #1# #2# 8379) (defun common-lisp-user::set-system-parameters) (#2# . 8538) (common-lisp-user::params) length evenp #:g965 #:g966 common-lisp-user::p-val common-lisp-user::test-and-set-system-parameter-value #:g968 nconc "Odd number of parameters and values passed to ssp." #Y(common-lisp-user::set-system-parameters nil nil (24 45 117 26 10 0 16 156 16 157 39 84 75 45 118 38 67 10 1 45 158 10 0 4 12 10 0 5 51 0 10 0 51 2 43 1 10 1 45 159 10 0 4 12 10 0 5 51 0 10 0 51 2 43 1 46 160 46 120 13 0 13 1 19 2 161 6 1 45 162 13 3 13 0 19 2 163 51 3 43 1 43 2 10 1 76 39 -70 10 0 73 43 1 38 17 15 62 77 15 63 15 164 19 3 65 12 19 2 66 75 73 29) #1# #2# 8538) (defun common-lisp-user::test-and-set-system-parameter-value) (#2# . 8898) (common-lisp-user::p-name common-lisp-user::value) common-lisp-user::value common-lisp-user::act-r-system-parameter-test "System parameter ~S cannot take value ~A because it must be ~A." common-lisp-user::act-r-parameter-warning :invalid-value "Parameter ~s is not the name of an available system parameter" #Y(common-lisp-user::test-and-set-system-parameter-value nil nil (24 45 120 24 45 169 26 13 1 19 1 122 45 82 10 0 39 60 13 0 19 1 170 76 40 12 13 0 19 1 170 12 13 1 20 1 23 39 10 13 0 13 1 19 2 84 38 28 15 62 77 15 63 15 171 13 2 13 1 13 0 19 1 172 12 19 6 65 12 19 2 66 11 173 73 38 20 15 62 77 15 63 15 174 13 2 19 4 65 12 19 2 66 11 125 73 43 1 29) #1# #2# 8898) (defun common-lisp-user::internal-set-system-parameter-value) (#2# . 9568) (common-lisp-user::param common-lisp-user::value) #Y(common-lisp-user::internal-set-system-parameter-value nil nil (24 45 82 24 45 169 26 13 1 19 1 123 12 14 39 13 0 20 2 23 29) #1# #2# 9568) common-lisp-user::set-system-parameter-value (defun common-lisp-user::set-system-parameter-value) (#2# . 9686) (common-lisp-user::param common-lisp-user::value) #Y(common-lisp-user::set-system-parameter-value nil nil (24 45 82 24 45 169 26 13 1 13 0 19 2 161 29) #1# #2# 9686) common-lisp-user::external-set-system-parameter-value (defun common-lisp-user::external-set-system-parameter-value) (#2# . 9788) (common-lisp-user::param common-lisp-user::value) common-lisp-user::decode-string-names #Y(common-lisp-user::external-set-system-parameter-value nil nil (24 45 82 24 45 169 26 13 1 19 1 138 12 13 0 19 1 189 12 19 2 161 12 19 1 140 29) #1# #2# 9788) "set-system-parameter-value" "Sets the current value of a system parameter. Params: system-parameter-name new-value." (defun common-lisp-user::show-all-system-parameters) (#2# . 10139) common-lisp-user::hash-table-keys common-lisp-user::output common-lisp-user::keys common-lisp-user::value-len common-lisp-user::default-len common-lisp-user::name-len common-lisp-user::current-val-table common-lisp-user::key string > "~s" common-lisp-user::act-r-system-parameter-default "~s" "~s" "~s" #Y(nil nil nil (24 45 202 26 13 0 19 1 122 45 82 13 0 19 1 123 12 77 77 20 2 23 45 124 10 2 16 203 16 156 12 13 4 19 2 204 39 9 10 2 16 203 16 156 51 4 77 15 205 13 1 19 1 206 12 19 3 65 16 156 12 13 5 19 2 204 39 17 77 15 207 13 1 19 1 206 12 19 3 65 16 156 51 5 77 15 208 13 0 19 3 65 16 156 12 13 6 19 2 204 39 13 77 15 209 13 0 19 3 65 16 156 51 6 13 2 10 0 3 12 13 3 13 1 19 3 83 43 2 29) #1# #2# 10139) mapc "~vS ~vS default: ~vS : ~A~%" 1+ common-lisp-user::act-r-system-parameter-details #:g984 #Y(nil nil nil (24 45 82 24 45 169 26 77 15 212 10 3 16 213 12 10 1 4 12 13 5 10 1 5 12 13 4 13 0 19 1 206 12 13 0 19 1 214 12 19 9 65 6 1 45 215 13 8 13 0 19 2 163 51 8 73 43 1 29) #1# #2# 10139) maphash "general-trace" "~@?~%" "~{~a~}" #Y(common-lisp-user::show-all-system-parameters nil nil (26 14 3 15 4 19 2 5 12 9 0 9 0 9 0 14 0 19 1 195 12 77 46 196 46 197 46 198 46 199 46 200 46 201 34 210 12 13 4 19 2 211 34 216 12 10 0 17 217 15 218 77 15 219 15 220 13 5 19 4 65 12 19 2 66 75 73 43 6 29) #1# #2# 10139) common-lisp-user::simple-system-param-handler (defmacro common-lisp-user::simple-system-param-handler) (#2# . 11735) (common-lisp-user::var-name) #:g986 #:g985 #:g987 si::dm-too-few-arguments common-lisp-user::var-name si::dm-too-many-arguments lambda (common-lisp-user::set-or-get common-lisp-user::value) if common-lisp-user::set-or-get setf #Y(common-lisp-user::simple-system-param-handler nil nil (24 45 226 24 45 227 26 10 1 5 45 228 10 0 76 39 6 13 2 19 1 229 10 0 4 12 10 0 5 51 0 22 45 230 10 1 39 6 13 3 19 1 231 15 232 15 233 15 234 15 235 15 236 13 0 1 169 6 3 12 10 0 6 4 6 3 73 29) #1# #2# 11735))) #2# 0) #Y(si::bytecodes nil nil (1 13 16 1 1 13 16 2 76 39 4 75 52 13 15 13 15 9 15 14 15 15 19 4 12 1 13 73 29) #1# #2# 4820) #Y(si::bytecodes nil nil (15 16 15 17 77 77 15 18 15 19 15 20 15 21 77 77 15 22 9 8 77 77 15 23 19 15 24 15 25 15 9 15 26 15 27 19 4 12 15 28 15 9 15 29 15 30 19 4 12 15 28 14 31 77 15 32 19 4 12 15 16 19 1 47 78 43 15 28 1 45 12 19 2 46 1 16 73 29) #1# #2# 4893) #Y(si::bytecodes nil nil (15 48 15 9 15 49 15 50 19 4 12 15 48 14 31 77 15 51 19 4 12 15 48 1 85 12 19 2 46 1 48 73 29) #1# #2# 4978) #Y(si::bytecodes nil nil (15 86 15 9 15 87 15 88 19 4 12 15 86 14 31 77 15 89 19 4 12 15 86 1 91 12 19 2 46 15 86 15 92 15 93 19 3 8 1 86 73 29) #1# #2# 6847) #Y(si::bytecodes nil nil (15 94 15 9 15 95 15 96 19 4 12 15 94 14 31 77 15 97 19 4 12 15 94 1 104 12 14 39 9 1 19 4 46 1 94 73 29) #1# #2# 7116) #Y(si::bytecodes nil nil (15 102 15 9 15 105 15 106 19 4 12 15 102 14 31 77 15 107 19 4 12 15 102 1 113 12 19 2 46 1 102 73 29) #1# #2# 7178) #Y(si::bytecodes nil nil (15 111 15 9 15 114 15 115 19 4 12 15 111 14 31 77 15 116 19 4 12 15 111 1 127 12 19 2 46 1 111 73 29) #1# #2# 7432) #Y(si::bytecodes nil nil (15 128 15 9 15 129 15 130 19 4 12 15 128 14 31 77 15 131 19 4 12 15 128 1 133 12 19 2 46 1 128 73 29) #1# #2# 7793) #Y(si::bytecodes nil nil (15 134 15 9 15 135 15 136 19 4 12 15 134 14 31 77 15 137 19 4 12 15 134 1 141 12 19 2 46 1 134 73 29) #1# #2# 7894) #Y(si::bytecodes nil nil (15 142 15 134 15 143 77 19 4 144 29) #1# #2# 8047) #Y(si::bytecodes nil nil (15 122 15 9 15 145 15 146 19 4 12 15 122 14 31 77 15 147 19 4 12 15 122 1 148 12 19 2 46 1 122 73 29) #1# #2# 8219) #Y(si::bytecodes nil nil (15 121 15 9 15 149 15 150 19 4 12 15 121 14 31 77 15 151 19 4 12 15 121 1 152 12 19 2 46 1 121 73 29) #1# #2# 8379) #Y(si::bytecodes nil nil (15 112 15 9 15 153 15 154 19 4 12 15 112 14 31 77 15 155 19 4 12 15 112 1 165 12 19 2 46 1 112 73 29) #1# #2# 8538) #Y(si::bytecodes nil nil (15 161 15 9 15 166 15 167 19 4 12 15 161 14 31 77 15 168 19 4 12 15 161 1 175 12 19 2 46 1 161 73 29) #1# #2# 8898) #Y(si::bytecodes nil nil (15 84 15 9 15 176 15 177 19 4 12 15 84 14 31 77 15 178 19 4 12 15 84 1 179 12 19 2 46 1 84 73 29) #1# #2# 9568) #Y(si::bytecodes nil nil (15 180 15 9 15 181 15 182 19 4 12 15 180 14 31 77 15 183 19 4 12 15 180 1 184 12 19 2 46 1 180 73 29) #1# #2# 9686) #Y(si::bytecodes nil nil (15 185 15 9 15 186 15 187 19 4 12 15 185 14 31 77 15 188 19 4 12 15 185 1 190 12 19 2 46 1 185 73 29) #1# #2# 9788) #Y(si::bytecodes nil nil (15 191 15 185 15 192 77 19 4 144 29) #1# #2# 9959) #Y(si::bytecodes nil nil (15 109 15 9 15 193 15 194 19 4 12 15 109 14 31 77 77 19 4 12 15 109 1 221 12 19 2 46 1 109 73 29) #1# #2# 10139) #Y(si::bytecodes nil nil (15 222 15 9 15 223 15 224 19 4 12 15 222 14 31 77 15 225 19 4 12 15 222 1 237 12 14 39 9 2 19 4 46 1 222 73 29) #1# #2# 11735))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2010 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : system-parameters.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : Functions for setting and accessing system parameters.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;;
+;;; 2010.11.04 Dan
+;;;             : Creation.
+;;; 2010.11.16 Dan
+;;;             : * Added the simple-system-param-handler macro which creates
+;;;             :   a function to set or return a global variable.
+;;;             : * Can't use command-output since there may not be a current
+;;;             :   model.  Instead always print to *standard-output* when
+;;;             :   no parameters provided and don't print details when a
+;;;             :   particular parameter is given.
+;;; 2017.07.13 Dan [2.0]
+;;;             : * Make the simple handler thread safe by wrapping it with a
+;;;             :   lock, and use act-r-output instead of format for printing
+;;;             :   the results.
+;;;             : * Lock access to the underlying table too.
+;;; 2018.01.14 Dan
+;;;             : * Provide external set/get for single parameters as was done
+;;;             :   for sgp (could extend that to more general at some point).
+;;; 2018.06.21 Dan 
+;;;             : * The external set was broken since it used an internal fct
+;;;             :   that processed the actual parameter struct.  Cleaned up the
+;;;             :   internal/user interface appropriately.
+;;; 2019.09.10 Dan
+;;;             : * Added single-threaded and normal system specific versions of
+;;;             :   the simple-system-param-handler to avoid the warnings at 
+;;;             :   load time for the single-threaded system.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; System parameters are for controling things not specifically tied to a 
+;;; module instance in a model i.e. they would affect all models/meta-processes 
+;;; and may even do something in the absence of a model.
+;;;
+;;; Basically, this allows a clean way to modify things that are typically just
+;;; a globabl variable which is to be set. 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; ssp and ssp-fct
+;;;
+;;; Works just like sgp except that it only covers the system parameters except
+;;; that it only prints the details when no parameters are provided.
+;;;
+;;; create-system-parameter
+;;;
+;;; Works like define-parameter except that there is no ownership option (only
+;;; the creator gets notifications) and in addition to creating the parameter
+;;; one also needs to specify the handler function for setting/getting the value.
+;;; The handler function will get two parameters.  The first is whether it is a
+;;; set or get operation (t means set and nil means get).  If the first is t then
+;;; the second will be the new value, and if the first is nil the second will 
+;;; also be nil.  The return value from the handler is what will be returned from 
+;;; ssp for that parameter's position.  Create-system-parameter will return the
+;;; parameter name if it has been successfully created or nil if it failed.
+;;;
+;;; remove-system-parameter
+;;;
+;;; Takes the named parameter out of the system parameter set.  Necessary for
+;;; redefinition since create-system-parameter will not overwrite an existing
+;;; parameter.  Returns t if successfully removed or nil if there was no parameter
+;;; with that name.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Provides some protection and control over setting things instead of just 
+;;; having users change system variables directly.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;;; Holds all the system parameters that have been created.
+
+(defvar *act-r-system-parameters-table* (make-hash-table :test #'eq)
+  "The table of all system parameters")
+
+(defvar *act-r-system-parameter-table-lock* (bt:make-lock "ssp-table"))
+
+(defstruct (act-r-system-parameter (:include act-r-parameter (owner t)))
+  handler)
+                                   
+
+(defun create-system-parameter (param-name &key (valid-test nil) (default-value nil) (warning "")
+                                (documentation "")(handler nil))
+  (cond ((not (keywordp param-name))
+         (print-warning "Parameter name must be a keyword."))
+        ((keywordp default-value)
+         (print-warning "default-value cannot be a keyword."))
+        ((not (fctornil valid-test))
+         (print-warning "valid-test must be a function, the name of a function, or nil."))
+        ((not (stringp documentation))
+         (print-warning "documentation must be a string."))
+        ((not (stringp warning))
+         (print-warning "warning must be a string."))
+        ((not (and handler (fctornil handler)))
+         (print-warning "a handler function must be provided."))
+        ((bt:with-lock-held (*act-r-system-parameter-table-lock*) (gethash param-name *act-r-system-parameters-table*))
+         (print-warning "a system parameter with the name ~s already exists." param-name))
+        ((and valid-test default-value (not (funcall valid-test default-value)))
+         (print-warning "default-value does not pass the valid-test"))
+        (t
+         (let ((param (make-act-r-system-parameter :param-name param-name
+                                                   :default default-value
+                                                   :test valid-test
+                                                   :warning warning
+                                                   :details documentation
+                                                   :handler handler)))
+           (bt:with-lock-held (*act-r-system-parameter-table-lock*)
+             (setf (gethash param-name *act-r-system-parameters-table*) param))
+           (internal-set-system-parameter-value param default-value)
+           param-name))))
+
+
+
+(defun remove-system-parameter (param-name)
+  "Remove a system parameter"
+  (bt:with-lock-held (*act-r-system-parameter-table-lock*)
+    (when (gethash param-name *act-r-system-parameters-table*)
+      (remhash param-name *act-r-system-parameters-table*)
+      t)))
+ 
+(defmacro ssp (&rest parameters)
+  `(ssp-fct ',parameters))
+
+(defun ssp-fct (&optional (parameters-list nil))
+  (if (null parameters-list)
+      (show-all-system-parameters)
+    (if (every #'keywordp parameters-list)
+        (get-system-parameters parameters-list)
+      (set-system-parameters parameters-list))))
+
+(defun get-system-parameters (params)
+  (let ((res nil))
+    (dolist (p-name params (reverse res))
+      (if (valid-system-parameter-name p-name)
+          (let* ((param (get-system-parameter-struct p-name))
+                 (val (funcall (act-r-system-parameter-handler param) nil nil)))
+            (push val res))
+        (push :bad-parameter-name res)))))
+
+
+
+(defun get-system-parameter-value (parameter)
+  (first (get-system-parameters (list parameter))))
+
+(defun external-get-system-parameter-value (parameter)
+  (let ((p (get-system-parameter-value (string->name parameter))))
+    (encode-string-names p)))
+
+(add-act-r-command "get-system-parameter-value" 'external-get-system-parameter-value "Return the current value of a system parameter. Params: system-parameter-name." nil)
+
+
+(defun get-system-parameter-struct (p-name)
+  (bt:with-lock-held (*act-r-system-parameter-table-lock*)
+    (gethash p-name *act-r-system-parameters-table*)))
+
+(defun valid-system-parameter-name (p-name)
+  (bt:with-lock-held (*act-r-system-parameter-table-lock*)
+    (gethash p-name *act-r-system-parameters-table*)))
+
+
+(defun set-system-parameters (params)
+  (if (evenp (length params))
+      (let ((res nil))
+        (while params
+          (let ((p-name (pop params))
+                (p-val (pop params)))
+            (push-last (test-and-set-system-parameter-value p-name p-val) res)))
+        res)
+    (print-warning "Odd number of parameters and values passed to ssp.")))
+
+
+(defun test-and-set-system-parameter-value (p-name value)
+  (let ((param (get-system-parameter-struct p-name)))
+    (if param
+        (if (or (null (act-r-system-parameter-test param))
+                (funcall (act-r-system-parameter-test param) value))
+            (internal-set-system-parameter-value param value)
+          (progn
+            (print-warning "System parameter ~S cannot take value ~A because it must be ~A."
+                           p-name value (act-r-parameter-warning param))
+            :invalid-value))
+      (progn
+        (print-warning "Parameter ~s is not the name of an available system parameter" p-name)
+        :bad-parameter-name))))
+
+(defun internal-set-system-parameter-value (param value)
+  (funcall (act-r-system-parameter-handler param) t value))
+
+(defun set-system-parameter-value (param value)
+  (test-and-set-system-parameter-value param value))
+
+
+(defun external-set-system-parameter-value (param value)
+  (encode-string-names (test-and-set-system-parameter-value (string->name param) (decode-string-names value))))
+
+(add-act-r-command "set-system-parameter-value" 'external-set-system-parameter-value "Sets the current value of a system parameter. Params: system-parameter-name new-value." nil)
+
+
+(defun show-all-system-parameters ()
+  (let ((current-val-table (make-hash-table :test 'eq))
+        (name-len 0)
+        (default-len 0)
+        (value-len 0)
+        (keys (bt:with-lock-held (*act-r-system-parameter-table-lock*) (hash-table-keys *act-r-system-parameters-table*)))
+        (output nil))
+    (mapc (lambda (key)
+            (let* ((param (get-system-parameter-struct key))
+                   (val (funcall (act-r-system-parameter-handler param) nil nil)))
+                 
+                 (when (> (length (string key)) name-len)
+                   (setf name-len (length (string key))))
+                 (when (> (length (format nil "~s" (act-r-system-parameter-default param))) default-len)
+                   (setf default-len (length (format nil "~s" (act-r-system-parameter-default param)))))
+                 (when (> (length (format nil "~s" val)) value-len)
+                   (setf value-len (length (format nil "~s" val))))
+                 (setf (gethash (cons key val) current-val-table) param)))
+             keys)
+    
+    (maphash (lambda (param value)
+               (push-last (format nil "~vS ~vS default: ~vS : ~A~%"
+                            (1+ name-len)
+                            (car param)
+                            value-len
+                            (cdr param)
+                            default-len
+                            (act-r-system-parameter-default value)
+                            (act-r-system-parameter-details value))
+                          output))
+             current-val-table)
+    (act-r-output "~{~a~}" output)))
+
+
+#-:single-threaded-act-r 
+(defmacro simple-system-param-handler (var-name)
+  (let ((lock (gensym)))
+    `(let ((,lock (bt:make-lock)))
+       (lambda (set-or-get value)
+         (bt:with-lock-held (,lock)
+           (if set-or-get
+               (setf ,var-name value)
+             ,var-name))))))
+
+
+#+:single-threaded-act-r 
+(defmacro simple-system-param-handler (var-name)
+  `(lambda (set-or-get value)
+     (if set-or-get
+         (setf ,var-name value)
+       ,var-name)))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       (#Y(si::bytecodes nil nil (1 0 16 1 1 0 16 2 76 39 4 75 52 0 15 0 15 3 15 4 15 5 19 4 6 1 0 73 29) #1=#A(t (140) (common-lisp-user::*recorded-load-file* si::*make-special boundp ext::location (defvar common-lisp-user::*recorded-load-file*) (#2=#P"/opt/actr/actr7.x/framework/top-level.lisp" . 0) ext::annotate common-lisp-user::clear-all (defun common-lisp-user::clear-all) (#2# . 7303) :lambda-list common-lisp-user::current-mp common-lisp-user::mp "clear-all-start" common-lisp-user::dispatch-apply common-lisp-user::x common-lisp-user::internal-delete-model-fct #Y(nil nil nil (24 45 15 26 10 0 4 12 19 1 16 29) #1# #2# 7303) common-lisp-user::meta-p-models mapcar common-lisp-user::verify-remote-modules common-lisp-user::meta-p-component-list si::%dolist-var common-lisp-user::c common-lisp-user::act-r-component-clear-all common-lisp-user::act-r-component-instance common-lisp-user::reset-mp #:g4911 #:g4912 common-lisp-user::meta-process si::structure-set #:g4913 #:g4914 #:g4915 #:g4916 common-lisp-user::meta-p-hook-table clrhash #:g4917 #:g4918 #:g4919 #:g4920 #:g4921 #:g4922 #:g4923 #:g4924 common-lisp-user::clear-used-modules *load-truename* #Y(common-lisp-user::clear-all nil nil (26 19 0 11 45 12 15 13 19 1 14 34 17 12 13 0 19 1 18 12 19 2 19 19 0 20 13 0 19 1 21 45 22 38 41 10 0 4 45 23 10 0 5 12 19 1 24 39 20 10 0 5 12 19 1 24 12 10 0 5 12 19 1 25 12 20 1 23 10 1 5 51 1 43 1 10 0 40 -43 43 1 13 0 19 1 26 10 0 45 27 75 45 28 13 1 15 29 9 10 13 0 19 4 30 43 1 43 1 10 0 45 31 75 45 32 13 1 15 29 9 11 13 0 19 4 30 43 1 43 1 10 0 45 33 8 0 45 34 13 1 15 29 9 16 13 0 19 4 30 43 1 43 1 13 0 19 1 35 16 36 10 0 45 37 75 45 38 13 1 15 29 9 3 13 0 19 4 30 43 1 43 1 10 0 45 39 75 45 40 13 1 15 29 9 23 13 0 19 4 30 43 1 43 1 10 0 45 41 8 0 45 42 13 1 15 29 9 4 13 0 19 4 30 43 1 43 1 10 0 45 43 8 0 45 44 13 1 15 29 9 5 13 0 19 4 30 43 1 43 1 43 1 19 0 45 11 46 52 0 75 73 29) #1# #2# 7303) si::fset "clear-all-start" "Signal that a clear-all has begun for monitoring. No params." common-lisp-user::add-act-r-command "reset-start" "Signal that a reset has begun for monitoring. No params." common-lisp-user::internal-reset (defun common-lisp-user::internal-reset) (#2# . 8955) "reset-start" common-lisp-user::act-r-component-before-reset common-lisp-user::it common-lisp-user::meta-p-model-order common-lisp-user::model-name assoc common-lisp-user::reset-model common-lisp-user::act-r-component-after-reset t #Y(common-lisp-user::internal-reset nil nil (26 19 0 11 45 12 15 57 19 1 14 13 0 19 1 26 13 0 19 1 21 45 22 38 43 10 0 4 45 23 10 0 5 12 19 1 58 45 59 10 0 39 16 13 0 10 1 5 12 19 1 25 12 20 1 23 38 1 43 1 10 1 5 51 1 43 1 10 0 40 -45 43 1 13 0 19 1 60 45 22 38 42 10 0 4 45 61 13 0 13 2 19 1 18 12 19 2 62 5 45 59 10 0 39 10 13 3 13 0 19 2 63 38 1 43 1 10 1 5 51 1 43 1 10 0 40 -44 43 1 13 0 19 1 21 45 22 38 43 10 0 4 45 23 10 0 5 12 19 1 64 45 59 10 0 39 16 13 0 10 1 5 12 19 1 25 12 20 1 23 38 1 43 1 10 1 5 51 1 43 1 10 0 40 -45 43 1 11 65 73 43 1 29) #1# #2# 8955) "reset" "Reset the ACT-R scheduler and all models. No params." "Reset already in progress" common-lisp-user::reset (defun common-lisp-user::reset) (#2# . 10050) list "reset" common-lisp-user::evaluate-act-r-command common-lisp-user::result values-list "print-warning" "~@?" format #Y(common-lisp-user::reset nil nil (26 15 73 15 74 19 1 75 69 21 23 45 76 10 0 4 39 8 10 0 5 16 77 38 47 10 0 5 45 22 38 27 10 0 4 45 15 15 78 77 15 79 13 0 19 3 80 12 19 2 75 10 1 5 51 1 43 1 10 0 40 -29 75 45 15 75 73 43 1 43 1 43 1 29) #1# #2# 10050) common-lisp-user::internal-reload (defun common-lisp-user::internal-reload) (#2# . 10129) (&optional (compile nil)) compile probe-file common-lisp-user::no-errors pathname-type common-lisp-user::*.lisp-pathname* string= make-string-output-stream common-lisp-user::save-stream *standard-output* make-broadcast-stream common-lisp-user::display-stream *error-output* common-lisp-user::error-stream #:g4938 #:g4939 0 error si::temp #Y(nil nil nil (24 45 103 26 10 0 51 2 35 1 0 29) #1# #2# 10129) si::*handler-clusters* common-lisp-user::compile-and-load "Error ~/print-error-message/ while trying to reload file ~s" get-output-stream-string common-lisp-user::s length zerop "Non-ACT-R messages during load of ~s:~%~a~%" common-lisp-user::*.fasl-pathname* merge-pathnames "Since the last loaded file was compiled and the source file exists, recompiling the source file if necessary." #:g4942 #:g4943 #Y(nil nil nil (24 45 103 26 10 0 51 2 35 1 0 29) #1# #2# 10129) "Error ~/print-error-message/ while trying to reload file ~s" "Non-ACT-R messages during load of ~s:~%~a~%" #:g4946 #:g4947 #Y(nil nil nil (24 45 103 26 10 0 51 2 35 1 0 29) #1# #2# 10129) load "Error ~/print-error-message/ while trying to reload file ~s" "Non-ACT-R messages during load of ~s:~%~a~%" "File ~s does not exist." "No model file recorded to reload." :none #Y(common-lisp-user::internal-reload nil nil (25 40 2 77 46 86 26 11 0 39 529 11 0 16 87 39 503 11 65 45 88 10 1 39 16 14 0 19 1 89 12 14 90 19 1 89 12 19 2 91 39 141 19 0 92 45 93 14 94 13 0 19 2 95 45 96 14 97 13 1 19 2 95 45 98 10 1 48 94 10 0 48 97 57 99 60 65 75 45 100 57 101 61 1 23 15 102 34 104 3 6 1 12 11 105 3 48 105 14 0 19 1 106 36 2 44 1 10 1 45 15 15 78 77 15 79 15 107 13 0 14 0 19 5 80 12 19 2 75 75 51 7 73 43 1 36 2 62 43 1 63 10 2 16 108 45 109 10 0 16 110 16 111 76 39 19 15 78 77 15 79 15 112 14 0 13 0 19 5 80 12 19 2 75 43 1 43 3 44 2 38 331 10 1 39 27 14 0 19 1 89 12 14 113 19 1 89 12 19 2 91 39 10 14 90 14 0 19 2 114 16 87 39 161 15 78 77 15 79 15 115 19 3 80 12 19 2 75 19 0 92 45 93 14 94 13 0 19 2 95 45 96 14 97 13 1 19 2 95 45 98 10 1 48 94 10 0 48 97 57 116 60 71 75 45 117 57 101 61 1 29 15 102 34 118 3 6 1 12 11 105 3 48 105 14 90 14 0 19 2 114 12 19 1 106 36 2 44 1 10 1 45 15 15 78 77 15 79 15 119 13 0 14 0 19 5 80 12 19 2 75 75 51 7 73 43 1 36 2 62 43 1 63 10 2 16 108 45 109 10 0 16 110 16 111 76 39 19 15 78 77 15 79 15 120 14 0 13 0 19 5 80 12 19 2 75 43 1 43 3 44 2 38 139 19 0 92 45 93 14 94 13 0 19 2 95 45 96 14 97 13 1 19 2 95 45 98 10 1 48 94 10 0 48 97 57 121 60 65 75 45 122 57 101 61 1 23 15 102 34 123 3 6 1 12 11 105 3 48 105 14 0 19 1 124 36 2 44 1 10 1 45 15 15 78 77 15 79 15 125 13 0 14 0 19 5 80 12 19 2 75 75 51 7 73 43 1 36 2 62 43 1 63 10 2 16 108 45 109 10 0 16 110 16 111 76 39 19 15 78 77 15 79 15 126 14 0 13 0 19 5 80 12 19 2 75 43 1 43 3 44 2 10 0 73 43 1 38 19 15 78 77 15 79 15 127 14 0 19 4 80 12 19 2 75 75 73 38 18 15 78 77 15 79 15 128 19 3 80 12 19 2 75 11 129 73 29) #1# #2# 10129) "reload" "Reload the last ACT-R model file which was loaded. Params: {compile}." "Reload already in progress" common-lisp-user::reload (defun common-lisp-user::reload) (#2# . 14210) (&optional (compile nil)) "reload" #Y(common-lisp-user::reload nil nil (25 40 2 77 46 86 26 15 73 15 138 13 0 19 2 75 69 21 23 45 76 10 0 4 39 8 10 0 5 16 77 38 47 10 0 5 45 22 38 27 10 0 4 45 15 15 78 77 15 79 13 0 19 3 80 12 19 2 75 10 1 5 51 1 43 1 10 0 40 -29 75 45 15 75 73 43 1 43 1 43 1 29) #1# #2# 14210))) #2# 0) #Y(si::bytecodes nil nil (15 7 15 3 15 8 15 9 19 4 6 15 7 14 10 77 77 19 4 6 15 7 1 47 12 19 2 48 1 7 73 29) #1# #2# 7303) #Y(si::bytecodes nil nil (15 49 77 15 50 77 19 4 51 29) #1# #2# 8743) #Y(si::bytecodes nil nil (15 52 77 15 53 77 19 4 51 29) #1# #2# 8854) #Y(si::bytecodes nil nil (15 54 15 3 15 55 15 56 19 4 6 15 54 14 10 77 77 19 4 6 15 54 1 66 12 19 2 48 1 54 73 29) #1# #2# 8955) #Y(si::bytecodes nil nil (15 67 15 54 15 68 15 69 19 4 51 29) #1# #2# 9921) #Y(si::bytecodes nil nil (15 70 15 3 15 71 15 72 19 4 6 15 70 14 10 77 77 19 4 6 15 70 1 81 12 19 2 48 1 70 73 29) #1# #2# 10050) #Y(si::bytecodes nil nil (15 82 15 3 15 83 15 84 19 4 6 15 82 14 10 77 15 85 19 4 6 15 82 1 130 12 19 2 48 1 82 73 29) #1# #2# 10129) #Y(si::bytecodes nil nil (15 131 15 82 15 132 15 133 19 4 51 29) #1# #2# 14060) #Y(si::bytecodes nil nil (15 134 15 3 15 135 15 136 19 4 6 15 134 14 10 77 15 137 19 4 6 15 134 1 139 12 19 2 48 1 134 73 29) #1# #2# 14210))
+                                                                                                                                                                                                                    ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : top-level.lisp
+;;; Version     : 3.0
+;;; 
+;;; Description : The framework's top level user commands that aren't
+;;;               part of another section.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : * Documentation.
+;;;             : * Make reload/clear-all smart about compiled files so that 
+;;;             :   it knows to check the .lisp if the current file is a
+;;;             :   compiled one.
+;;;             : [X] Why doesn't clear-all use the reset-mp command?
+;;;             : [ ] Deal with clear-all not checking the top-level-lock.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.09.02 Dan
+;;;             : Creation
+;;; 2005.01.29 Dan
+;;;             : * Added an optional parameter to reload that if specified as
+;;;             :   non-nil will use compile-and-load to load the file.
+;;; 2005.02.11 Dan
+;;;             : * Changed clear-all to use clrhash instead of building new
+;;;             :   tables.
+;;; 2005.02.22 Dan
+;;;             : * Modified reset so it better reports what's happening in
+;;;             :   other than normal circumstances.
+;;; 2009.10.27 Dan
+;;;             : * Fixed clear-all so that it also restores the meta-process
+;;;             :   timing code to the default if it has been changed by mp-
+;;;             :   real-time-management.
+;;; 2009.12.03 Dan
+;;;             : * Clear the meta-process dynamics and in-slack on a clear-all too.
+;;; 2009.12.04 Dan
+;;;             : * Use reset-mp in clear-all to avoid duplicate code.
+;;; 2012.01.11 Dan
+;;;             : * Added a safety check to clear-all which throws an error if
+;;;             :   it's called while there's a meta-process running.  This 
+;;;             :   should avoid situations which can be very problematic when
+;;;             :   model files get loaded while things are running.
+;;; 2012.08.08 Dan
+;;;             : * Change reset so that it uses meta-p-model-order so that 
+;;;             :   things work the same at reset and reload times and between
+;;;             :   Lisps.
+;;; 2016.09.28 Dan
+;;;             : * Removed code relating to multiple meta-processes.
+;;;             : * Reset now returns t instead of a meta-process name.
+;;; 2016.11.16 Dan [2.0]
+;;;             : * Making the commands available through the central dispatcher
+;;;             :   and having the user commands execute them that way.  Only
+;;;             :   doing reset and reload through the dispatcher right now 
+;;;             :   because I'm not sure about top-level model file commands
+;;;             :   at this point.
+;;; 2016.11.17 Dan
+;;;             : * Changed execute-act-r-command to evaluate-act-r-command.
+;;; 2016.12.07 Dan
+;;;             : * Updated the reload internal function so that it captures
+;;;             :   the non-ACT-R output during the load the same way load does.
+;;; 2017.01.18 Dan
+;;;             : * Removed the echo-act-r-output from commands.  The assumption
+;;;             :   now is that echoing is handled by the user.
+;;;             : * Only return the actual result of evaluating reset and reload
+;;;             :   printing errors using handle-evaluate-results.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.03.30 Dan
+;;;             : * Don't need meta-p-current-model in clear-all.
+;;; 2017.05.30 Dan
+;;;             : * Adding the call to component functions into clear-all.
+;;; 2017.06.22 Dan
+;;;             : * Protect meta-p-model-order and meta-p-models with lock.
+;;; 2017.06.30 Dan
+;;;             : * Protect the meta-p event-hook related slots.
+;;; 2017.07.14 Dan
+;;;             : * Reset and reload check the top-level-lock.  Clear-all DOES NOT.
+;;;             :   That's because it can't be a recursive lock and clear-all
+;;;             :   gets called during reload, but since clear-all isn't remotely
+;;;             :   available that isn't a serious issue at this point.
+;;;             : * Protect access to meta-p-component-list.
+;;; 2017.08.25 Dan
+;;;             : * If reload is provided the optional compile flag and the 
+;;;             :   last loaded file was compiled now it will recompile the source
+;;;             :   file if it exists and should be.
+;;;             : * Reset and reload return t upon success.
+;;; 2017.08.28 Dan
+;;;             : * Adding a signal for clear-all (clear-all-start). 
+;;;             : * Added a reset-start signal with the last update but didn't
+;;;             :   note that above.
+;;; 2017.12.14 Dan [3.0]
+;;;             : * Eliminated the special case of not resetting a single empty
+;;;             :   model because that usage should be discouraged and this seems
+;;;             :   like a good time to eliminate a 5.0 backwards compatibility
+;;;             :   feature!
+;;;             : * Why does reload generate errors?  Just print the warnings
+;;;             :   now instead.  Should probably do the same for clear-all,
+;;;             :   but holding off on that for now.
+;;; 2017.12.18 Dan
+;;;             : * Fixed a bug with changing the errors to print-warnings in
+;;;             :   reload.
+;;; 2019.02.05 Dan
+;;;             : * Adjustments because meta-p-models is now an alist.
+;;; 2019.05.24 Dan
+;;;             : * At clear-all make sure all remote modules are still connected.
+;;;             :   Would be nice to check at other times, but can't undefine
+;;;             :   when there are models so this is really the only safe spot
+;;;             :   right now.
+;;; 2019.09.09 Dan
+;;;             : * Adjusted calls to with-top-level lock to pass the string
+;;;             :   that indicates why the lock is being held.
+;;; 2021.10.15 Dan [4.0]
+;;;             : * Added the call to clear-used-modules during clear-all.
+;;; 2024.04.30 Dan
+;;;             : * Protect clear-all and reset using the 
+;;;             :   with-running-or-defining-lock macro instead of checking the
+;;;             :   running status directly.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defvar *recorded-load-file* nil)
+
+
+(defun clear-all ()
+  (with-running-or-defining-lock "Clear-all" "using clear-all"
+    
+    ;; There is only one mp in this system
+    
+    (let ((mp (current-mp)))
+      
+      (dispatch-apply "clear-all-start")
+      
+      
+      (mapcar (lambda (x)
+                (internal-delete-model-fct (car x)))
+        (bt:with-lock-held ((meta-p-models-lock mp)) (meta-p-models mp)))
+      
+      
+      ;; Make sure all the remote modules are still available
+      (verify-remote-modules)
+      
+      ;; update the componenets
+      
+      (dolist (c (bt:with-lock-held ((meta-p-component-lock mp)) (meta-p-component-list mp)))
+        (when (act-r-component-clear-all (cdr c))
+          (funcall (act-r-component-clear-all (cdr c)) (act-r-component-instance (cdr c)))))
+      
+      
+      ;; This resets the scheduler and real-time management
+      
+      (reset-mp mp)
+      
+      (bt:with-lock-held ((meta-p-event-hook-lock mp))
+        (setf (meta-p-pre-events mp) nil)
+        (setf (meta-p-post-events mp) nil)
+        (setf (meta-p-next-hook-id mp) 0)
+        
+        (clrhash (meta-p-hook-table mp)))
+      
+      
+      (bt:with-lock-held ((meta-p-models-lock mp))
+        (setf (meta-p-models mp) nil)
+        (setf (meta-p-model-order mp) nil)
+        (setf (meta-p-model-count mp) 0)
+        (setf (meta-p-model-name-len mp) 0))
+      )
+    
+    (clear-used-modules)
+    (setf *recorded-load-file* *load-truename*)
+    nil)) 
+
+(add-act-r-command "clear-all-start" nil "Signal that a clear-all has begun for monitoring. No params." nil)
+(add-act-r-command "reset-start" nil "Signal that a reset has begun for monitoring. No params." nil)
+
+(defun internal-reset ()
+  (with-top-level-lock "Reset cannot be used." "reset"
+    (with-running-or-defining-lock "Reset" :resetting
+      
+      (let ((mp (current-mp)))
+        (dispatch-apply "reset-start")
+        
+        (reset-mp mp)
+        
+        (dolist (c (bt:with-lock-held ((meta-p-component-lock mp)) (meta-p-component-list mp)))
+          (awhen (act-r-component-before-reset (cdr c))
+                 (funcall it (act-r-component-instance (cdr c)))))
+        
+        (dolist (model-name (bt:with-lock-held ((meta-p-models-lock mp)) (meta-p-model-order mp)))
+          (awhen (bt:with-lock-held ((meta-p-models-lock mp)) (cdr (assoc model-name (meta-p-models mp))))
+                 (reset-model mp it)))
+        
+        (dolist (c (bt:with-lock-held ((meta-p-component-lock mp)) (meta-p-component-list mp)))
+          (awhen (act-r-component-after-reset (cdr c))
+                 (funcall it (act-r-component-instance (cdr c)))))
+        t))))
+
+
+(add-act-r-command "reset" 'internal-reset "Reset the ACT-R scheduler and all models. No params." "Reset already in progress")
+
+(defun reset ()
+  (handle-evaluate-results (evaluate-act-r-command "reset")))
+
+
+(defun internal-reload (&optional (compile nil))
+  (if *recorded-load-file*
+     (if (probe-file *recorded-load-file*)
+         (with-top-level-lock "Reload cannot be used." "reload"
+           (let ((no-errors t))
+             (cond ((and compile 
+                         (string= (pathname-type *recorded-load-file*)
+                                  (pathname-type *.lisp-pathname*)))
+                    
+                    (let* ((save-stream (make-string-output-stream))
+                           (display-stream (make-broadcast-stream *standard-output* save-stream))
+                           (error-stream (make-broadcast-stream *error-output* save-stream))
+                           (*standard-output* display-stream)
+                           (*error-output* error-stream))              
+                      (handler-case
+                          (compile-and-load *recorded-load-file*)
+                        (error (x)
+                          (print-warning "Error ~/print-error-message/ while trying to reload file ~s" x *recorded-load-file*)
+                          (setf no-errors nil)))
+                      (let ((s (get-output-stream-string save-stream)))
+                        (unless (zerop (length s))
+                          (print-warning "Non-ACT-R messages during load of ~s:~%~a~%" *recorded-load-file* s)))))
+                   ((and compile 
+                         (string= (pathname-type *recorded-load-file*)
+                                  (pathname-type *.fasl-pathname*))
+                         (probe-file (merge-pathnames *.lisp-pathname* *recorded-load-file*)))
+                    
+                    (print-warning "Since the last loaded file was compiled and the source file exists, recompiling the source file if necessary.")
+                    
+                    (let* ((save-stream (make-string-output-stream))
+                           (display-stream (make-broadcast-stream *standard-output* save-stream))
+                           (error-stream (make-broadcast-stream *error-output* save-stream))
+                           (*standard-output* display-stream)
+                           (*error-output* error-stream))              
+                      (handler-case
+                          (compile-and-load (merge-pathnames *.lisp-pathname* *recorded-load-file*))
+                        (error (x)
+                          (print-warning "Error ~/print-error-message/ while trying to reload file ~s" x *recorded-load-file*)
+                          (setf no-errors nil)))
+                      (let ((s (get-output-stream-string save-stream)))
+                        (unless (zerop (length s))
+                          (print-warning "Non-ACT-R messages during load of ~s:~%~a~%" *recorded-load-file* s)))))
+                   (t
+                    (let* ((save-stream (make-string-output-stream))
+                           (display-stream (make-broadcast-stream *standard-output* save-stream))
+                           (error-stream (make-broadcast-stream *error-output* save-stream))
+                           (*standard-output* display-stream)
+                           (*error-output* error-stream))              
+                      (handler-case
+                          (load *recorded-load-file*)
+                        (error (x)
+                          (print-warning "Error ~/print-error-message/ while trying to reload file ~s" x *recorded-load-file*)
+                          (setf no-errors nil)))
+                      (let ((s (get-output-stream-string save-stream)))
+                        (unless (zerop (length s))
+                          (print-warning "Non-ACT-R messages during load of ~s:~%~a~%" *recorded-load-file* s))))))
+             no-errors))
+       (print-warning "File ~s does not exist." *recorded-load-file*))
+    (progn
+      (print-warning "No model file recorded to reload.")
+      :none)))
+
+
+
+(add-act-r-command "reload" 'internal-reload "Reload the last ACT-R model file which was loaded. Params: {compile}." "Reload already in progress")
+
+(defun reload (&optional (compile nil))
+  (handle-evaluate-results (evaluate-act-r-command "reload" compile)))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           (#Y(si::bytecodes nil nil (1 0 16 1 1 0 16 2 76 39 5 1 3 52 0 15 0 15 4 15 5 15 6 19 4 7 1 0 73 29) #1=#A(t (35) (common-lisp-user::*actr-architecture-version* si::*make-special boundp "7" ext::location (defvar common-lisp-user::*actr-architecture-version*) (#2=#P"/opt/actr/actr7.x/framework/version-string.lisp" . 0) ext::annotate common-lisp-user::*actr-major-version-string* "31" (defvar common-lisp-user::*actr-major-version-string*) (#2# . 4090) common-lisp-user::*actr-minor-version-string* "4" (defvar common-lisp-user::*actr-minor-version-string*) (#2# . 4132) common-lisp-user::*actr-repository-number* "3489.c" (defvar common-lisp-user::*actr-repository-number*) (#2# . 4173) common-lisp-user::*actr-release-tag* "2026-06-10" (defvar common-lisp-user::*actr-release-tag*) (#2# . 4216) common-lisp-user::*actr-version-string* "~a.~a~@[.~a~]-<~@[~a:~]~a>" format (defvar common-lisp-user::*actr-version-string*) (#2# . 4257) ":act-r-~a" read-from-string *features* adjoin ":act-r-~a.~a" ":act-r-~a.~a.~a")) #2# 0) #Y(si::bytecodes nil nil (1 8 16 1 1 8 16 2 76 39 5 1 9 52 8 15 8 15 4 15 10 15 11 19 4 7 1 8 73 29) #1# #2# 4090) #Y(si::bytecodes nil nil (1 12 16 1 1 12 16 2 76 39 5 1 13 52 12 15 12 15 4 15 14 15 15 19 4 7 1 12 73 29) #1# #2# 4132) #Y(si::bytecodes nil nil (1 16 16 1 1 16 16 2 76 39 5 1 17 52 16 15 16 15 4 15 18 15 19 19 4 7 1 16 73 29) #1# #2# 4173) #Y(si::bytecodes nil nil (1 20 16 1 1 20 16 2 76 39 5 1 21 52 20 15 20 15 4 15 22 15 23 19 4 7 1 20 73 29) #1# #2# 4216) #Y(si::bytecodes nil nil (1 24 16 1 1 24 16 2 76 39 19 77 15 25 14 0 14 8 14 12 14 16 14 20 19 7 26 52 24 15 24 15 4 15 27 15 28 19 4 7 1 24 73 29) #1# #2# 4257) #Y(si::bytecodes nil nil (77 15 29 14 0 19 3 26 12 19 1 30 12 14 31 19 2 32 52 31 73 29) #1# #2# 4619) #Y(si::bytecodes nil nil (77 15 33 14 0 14 8 19 4 26 12 19 1 30 12 14 31 19 2 32 52 31 73 29) #1# #2# 4713) #Y(si::bytecodes nil nil (11 12 73 39 26 77 15 34 14 0 14 8 14 12 19 5 26 12 19 1 30 12 14 31 19 2 32 52 31 73 29) #1# #2# 4837))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2007 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : version-string.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : Sets a global variable with the current version of the ACT-R
+;;;             : sources so that this is all I need to touch to update that.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       :  * When the repository number isn't set (it's not a released
+;;;             :    version) it could try to get the version info from subversion
+;;;             :    since that's probably how one got an unreleased version.  In
+;;;             :    ACL that'd look more or less like this:
+;;;             :
+;;;             :     CG-USER(194): (when (null *actr-repository-number*)
+;;;             :                     (let ((result (ignore-errors (run-shell-command "svnversion" :wait nil :output :stream :directory (translate-logical-pathname "ACT-R:")))))
+;;;             :                       (when result
+;;;             :                         (read-line result))))
+;;;             :     "1924:1946M"
+;;;             :     
+;;;             :   Would need to be Lisp specific (like run-environment) and
+;;;             :   require the appropriate Lisp modules.  When to do that
+;;;             :   is a potential issue because it may cause a terminal window
+;;;             :   to open which could be confusing/annoying to some.
+;;; 
+;;; ----- History -----
+;;; 2007.01.15 Dan
+;;;             : * Initial creation.
+;;; 2014.07.17 Dan
+;;;             : * Split it into a major and minor version now.  Report the
+;;;             :   major version with the "ACT-R ..." part of mp-print-versions
+;;;             :   and the minor version as the Framework number.
+;;; 2015.07.29 Dan
+;;;             : * The version strings are now going to be combined to create
+;;;             :   the "version" of the software instead of being separate 
+;;;             :   and the ".0" is dropped from the major version info.  
+;;;             :   When I build a release it will now append the repository #
+;;;             :   as an additional .# on the end and add the date in place of 
+;;;             :   the <internal> tag which will be after the number e.g. if
+;;;             :   I were to build it today it would be .0.1842-<07/29/2015>
+;;;             :   instead of ".0-<internal>".
+;;; 2015.08.03 Dan
+;;;             : * Actually separate out all the pieces of the version string
+;;;             :   and then combine them to set *actr-version-string*.
+;;; 2016.03.03 Dan [2.0]
+;;;             : * Don't consider 7 as the major version number but the architecture
+;;;             :   and move the repository number into the angle brackets.
+;;;             : * Push features for the architecture, architecture.major, and
+;;;             :   architecture.major.minor (if it exists) onto *features*.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Just sets a string which will be used as the framework version number.
+;;; 
+;;; Will not be indicating changes to version numbers in the history section 
+;;; when they are made - only changes to the code and how the version numbers
+;;; are constructed will be noted.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(defvar *actr-architecture-version* "7")
+(defvar *actr-major-version-string* "31")
+(defvar *actr-minor-version-string* "4")
+(defvar *actr-repository-number* "3489.c")
+(defvar *actr-release-tag* "2026-06-10")
+
+(defvar *actr-version-string* (format nil "~a.~a~@[.~a~]-<~@[~a:~]~a>"
+                                *actr-architecture-version*
+                                *actr-major-version-string*
+                                *actr-minor-version-string*
+                                *actr-repository-number*
+                                *actr-release-tag*))
+
+(pushnew (read-from-string (format nil ":act-r-~a" *actr-architecture-version*)) *features*)
+(pushnew (read-from-string (format nil ":act-r-~a.~a" *actr-architecture-version* *actr-major-version-string*)) *features*)
+(when *actr-minor-version-string*
+  (pushnew (read-from-string (format nil ":act-r-~a.~a.~a" *actr-architecture-version* *actr-major-version-string* *actr-minor-version-string*)) *features*))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 77 15 5 14 6 1 10 12 1 11 7 3 12 15 12 15 13 15 14 15 15 15 16 14 6 1 18 12 1 19 7 3 6 8 12 77 19 4 20 29) #1=#A(t (620) (common-lisp-user::char-feats ext::location (defclass common-lisp-user::char-feats) (#2=#P"/opt/actr/actr7.x/framework/vision-categorization.lisp" . 0) ext::annotate (:initargs (:feat-ls) :writers ((setf common-lisp-user::feature-ls)) :readers (common-lisp-user::feature-ls) :name common-lisp-user::feature-ls) :initfunction :test equal make-hash-table #Y(nil nil nil (26 14 7 33 8 12 19 2 9 29) #1# #2# 0) (:initform (make-hash-table :test #'equal) :writers ((setf common-lisp-user::fhash)) :readers (common-lisp-user::fhash) :name common-lisp-user::fhash) (:initform '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z") :allocation :class :writers ((setf common-lisp-user::letters)) :readers (common-lisp-user::letters) :name common-lisp-user::letters) (:initform '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0") :allocation :class :writers ((setf common-lisp-user::digits)) :readers (common-lisp-user::digits) :name common-lisp-user::digits) (:initform nil :writers ((setf common-lisp-user::average-match-prob)) :readers (common-lisp-user::average-match-prob) :name common-lisp-user::average-match-prob) (:initform nil :initargs (:name) :writers ((setf common-lisp-user::name)) :readers (common-lisp-user::name) :name common-lisp-user::name) (:initform nil :writers ((setf common-lisp-user::number-of-features)) :readers (common-lisp-user::number-of-features) :name common-lisp-user::number-of-features) identity #Y(nil nil nil (26 33 17 73 29) #1# #2# 0) (:initform #'identity :initargs (:true->icon) :writers ((setf common-lisp-user::true->icon)) :readers (common-lisp-user::true->icon) :name common-lisp-user::true->icon) clos::load-defclass print-object (defmethod print-object (common-lisp-user::self common-lisp-user::char-feats) stream) (#2# . 2982) (common-lisp-user::char-feats t) (common-lisp-user::self stream) common-lisp-user::self stream "~S" common-lisp-user::name format #Y(si::.print-unreadable-object-body. nil nil (26 13 0 15 28 13 1 19 1 29 12 19 3 30 29) #1# #2# 2982) t si::print-unreadable-object-function #Y(print-object nil nil (24 45 26 24 45 27 26 30 1 31 13 2 13 1 14 32 77 32 0 12 19 5 33 43 1 29) #1# #2# 2982) clos::install-method common-lisp-user::numfeats (defgeneric common-lisp-user::numfeats) (#2# . 3123) :lambda-list (common-lisp-user::chr-feat-set) :delete-methods :documentation "Return the number of features in the feature set." ensure-generic-function (defmethod common-lisp-user::numfeats (common-lisp-user::self common-lisp-user::char-feats)) (#2# . 3234) (common-lisp-user::char-feats) (common-lisp-user::self) common-lisp-user::number-of-features common-lisp-user::it common-lisp-user::feature-ls length #Y(common-lisp-user::numfeats nil nil (24 45 26 26 13 0 19 1 49 45 50 10 0 39 6 10 0 73 38 8 13 1 19 1 51 16 52 43 1 29) #1# #2# 3234) common-lisp-user::has-match-p (defgeneric common-lisp-user::has-match-p) (#2# . 3340) (common-lisp-user::chr-feat-set common-lisp-user::str1 common-lisp-user::str2) "Given two letters, return the list of features that appear in both." (defmethod common-lisp-user::has-match-p (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::s1 string) (common-lisp-user::s2 string)) (#2# . 3482) (common-lisp-user::char-feats string string) (common-lisp-user::self common-lisp-user::s1 common-lisp-user::s2) common-lisp-user::s1 common-lisp-user::s2 common-lisp-user::fhash gethash intersection #Y(common-lisp-user::has-match-p nil nil (24 45 26 24 45 63 24 45 64 26 13 1 13 2 19 1 65 12 19 2 66 12 13 0 13 2 19 1 65 12 19 2 66 12 19 2 67 29) #1# #2# 3482) common-lisp-user::prob-match (defgeneric common-lisp-user::prob-match) (#2# . 3620) (common-lisp-user::chr-feat-set common-lisp-user::str1 common-lisp-user::str2) "Return the probabily that a random feature in s1 will appear in s2." (defmethod common-lisp-user::prob-match (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::s1 string) (common-lisp-user::s2 string)) (#2# . 3761) (common-lisp-user::char-feats string string) (common-lisp-user::self common-lisp-user::s1 common-lisp-user::s2) string= remove-duplicates / float #Y(common-lisp-user::prob-match nil nil (24 45 26 24 45 63 24 45 64 26 13 1 13 0 19 2 78 39 6 8 -1 73 38 38 13 2 13 1 13 0 19 3 54 12 19 1 79 16 52 12 13 1 13 2 19 1 65 12 19 2 66 16 52 12 19 2 80 12 19 1 81 29) #1# #2# 3761) common-lisp-user::setfeats (defgeneric common-lisp-user::setfeats) (#2# . 3979) (common-lisp-user::chr-feat-set common-lisp-user::str common-lisp-user::feat-lst) "Set the feature list for a string (character)." (defmethod common-lisp-user::setfeats (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::s1 string) (common-lisp-user::feat-ls list)) (#2# . 4100) (common-lisp-user::char-feats string list) (common-lisp-user::self common-lisp-user::s1 common-lisp-user::feat-ls) common-lisp-user::feat-ls si::hash-set #Y(common-lisp-user::setfeats nil nil (24 45 26 24 45 63 24 45 92 26 13 1 13 2 19 1 65 12 13 0 19 3 93 29) #1# #2# 4100) common-lisp-user::getfeats (defgeneric common-lisp-user::getfeats) (#2# . 4212) (common-lisp-user::chr-feat-set common-lisp-user::chr) "Returns the feature list for a character." (defmethod common-lisp-user::getfeats (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::s string)) (#2# . 4318) (common-lisp-user::char-feats string) (common-lisp-user::self common-lisp-user::s) common-lisp-user::s #Y(common-lisp-user::getfeats nil nil (24 45 26 24 45 104 26 13 0 13 1 19 1 65 12 19 2 66 29) #1# #2# 4318) (defmethod common-lisp-user::getfeats (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::c character)) (#2# . 4398) (common-lisp-user::char-feats character) (common-lisp-user::self common-lisp-user::c) common-lisp-user::c common-lisp-user::mkstr #Y(common-lisp-user::getfeats nil nil (24 45 26 24 45 110 26 13 0 19 1 111 12 13 1 19 1 65 12 19 2 66 29) #1# #2# 4398) common-lisp-user::get-icon-feats (defgeneric common-lisp-user::get-icon-feats) (#2# . 4489) (common-lisp-user::chr-feat-set char) "Return the icon feature list for a given character." (defmethod common-lisp-user::get-icon-feats (common-lisp-user::self common-lisp-user::char-feats) char) (#2# . 4612) (common-lisp-user::char-feats t) (common-lisp-user::self char) char common-lisp-user::true->icon common-lisp-user::ti functionp mapcar listp common-lisp-user::feat assoc second #Y(nil nil nil (24 45 128 26 13 0 13 1 19 2 129 16 130 29) #1# #2# 4612) #Y(common-lisp-user::get-icon-feats nil nil (24 45 26 24 45 122 26 13 1 19 1 123 45 124 10 0 16 125 39 16 13 0 13 2 13 1 19 2 95 12 19 2 126 38 30 10 0 16 127 39 17 34 131 12 13 2 13 1 19 2 95 12 19 2 126 38 8 13 2 13 1 19 2 95 43 1 29) #1# #2# 4612) common-lisp-user::exact-character (defgeneric common-lisp-user::exact-character) (#2# . 4954) (common-lisp-user::char-feat-set common-lisp-user::feat-lst) "Return the character exactly matching a feature set." (defmethod common-lisp-user::exact-character (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::feat-ls list)) (#2# . 5084) (common-lisp-user::char-feats list) (common-lisp-user::self common-lisp-user::feat-ls) common-lisp-user::sym->key common-lisp-user::realfeats common-lisp-user::chars si::%dolist-var = #Y(common-lisp-user::exact-character nil nil (24 45 26 24 45 92 26 57 133 60 85 33 142 12 13 1 19 2 126 51 1 75 45 143 13 3 19 1 144 45 145 38 52 10 0 4 45 122 13 5 13 0 19 2 95 51 2 10 2 16 52 12 10 4 16 52 12 13 4 13 2 19 2 67 16 52 12 19 3 146 39 6 10 0 73 36 3 10 1 5 51 1 43 1 10 0 40 -54 75 73 43 1 43 1 63 29) #1# #2# 5084) common-lisp-user::prob-best-character (defgeneric common-lisp-user::prob-best-character) (#2# . 5443) (common-lisp-user::char-feat-set common-lisp-user::feat-lst) "Return the character with the best probability of match to a feature list." (defmethod common-lisp-user::prob-best-character (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::feat-ls list)) (#2# . 5599) (common-lisp-user::char-feats list) (common-lisp-user::self common-lisp-user::feat-ls) common-lisp-user::cur-val common-lisp-user::bestchar common-lisp-user::bestval common-lisp-user::feat-ls-prob-match > common-lisp-user::mklist common-lisp-user::random-item * #Y(common-lisp-user::prob-best-character nil nil (24 45 26 24 45 92 26 9 0 77 77 46 157 46 158 46 159 13 4 19 1 144 45 145 38 66 10 0 4 45 122 13 6 13 5 13 6 13 0 19 2 95 12 19 3 160 51 4 13 4 13 2 19 2 146 39 8 13 0 10 3 3 51 3 13 4 13 2 19 2 161 39 12 10 4 51 2 13 0 19 1 162 51 3 10 1 5 51 1 43 1 10 0 40 -68 43 1 13 1 19 1 163 12 9 100 13 0 19 2 164 12 72 2 43 3 29) #1# #2# 5599) (defgeneric common-lisp-user::feat-ls-prob-match) (#2# . 6038) (common-lisp-user::char-feat-set common-lisp-user::lst1 common-lisp-user::lst2) "Return the probability that two feature lists represent a match." (defmethod common-lisp-user::feat-ls-prob-match (common-lisp-user::self common-lisp-user::char-feats) (common-lisp-user::l1 list) (common-lisp-user::l2 list)) (#2# . 6184) (common-lisp-user::char-feats list list) (common-lisp-user::self common-lisp-user::l1 common-lisp-user::l2) common-lisp-user::l1 common-lisp-user::l2 common-lisp-user::overlap - + common-lisp-user::num-miss #:g5102 #:g5103 0 floating-point-underflow si::temp #Y(nil nil nil (24 45 184 26 35 1 0 29) #1# #2# 6184) floating-point-overflow #Y(nil nil nil (24 45 184 26 35 1 1 29) #1# #2# 6184) si::*handler-clusters* 2/3 expt "print-warning" "~@?" "~s^~s resulted in an underflow.  Using smallest possible value ~f instead." 1.4012985e-45 common-lisp-user::evaluate-act-r-command "~s^~s resulted in an overflow.  Using largest possible value ~f instead." 3.4028235e38 #:g5106 #:g5107 #Y(nil nil nil (24 45 184 26 35 1 0 29) #1# #2# 6184) #Y(nil nil nil (24 45 184 26 35 1 1 29) #1# #2# 6184) 1/3 #Y(common-lisp-user::feat-ls-prob-match nil nil (24 45 26 24 45 174 24 45 175 26 13 1 13 0 19 2 67 12 19 1 79 16 52 45 176 10 2 16 52 12 13 0 19 2 177 12 10 1 16 52 12 13 0 19 2 177 12 19 2 178 45 179 57 180 60 123 75 45 181 57 182 61 2 40 74 15 183 34 185 3 12 15 186 34 187 3 6 2 12 11 188 3 48 188 15 189 13 7 19 1 36 12 13 3 19 2 177 17 190 36 2 44 1 15 191 77 15 192 15 193 15 189 13 7 19 1 36 12 13 3 19 2 177 12 15 194 19 6 30 12 19 2 195 1 194 73 36 2 15 191 77 15 192 15 196 15 189 13 7 19 1 36 12 13 3 19 2 177 12 15 197 19 6 30 12 19 2 195 1 197 73 36 2 62 73 43 1 63 12 57 198 60 94 75 45 199 57 182 61 2 31 55 15 183 34 200 3 12 15 186 34 201 3 6 2 12 11 188 3 48 188 15 202 10 3 17 190 36 2 44 1 15 191 77 15 192 15 193 15 202 13 3 15 194 19 6 30 12 19 2 195 1 194 73 36 2 15 191 77 15 192 15 196 15 202 13 3 15 197 19 6 30 12 19 2 195 1 197 73 36 2 62 73 43 1 63 12 19 2 164 12 19 1 81 43 2 29) #1# #2# 6184) (defmethod common-lisp-user::chars (common-lisp-user::char-feat-set common-lisp-user::char-feats)) (#2# . 6529) (common-lisp-user::char-feats) (common-lisp-user::char-feat-set) common-lisp-user::char-feat-set common-lisp-user::letters common-lisp-user::digits append #Y(common-lisp-user::chars nil nil (24 45 208 26 13 0 19 1 209 12 13 0 19 1 210 12 19 2 211 29) #1# #2# 6529) common-lisp-user::avg-match-prob (defgeneric common-lisp-user::avg-match-prob) (#2# . 6636) (common-lisp-user::char-feat-set) "Returns the average match probability for an entire feature set." (defmethod common-lisp-user::avg-match-prob (common-lisp-user::self common-lisp-user::char-feats)) (#2# . 6768) (common-lisp-user::char-feats) (common-lisp-user::self) common-lisp-user::average-match-prob common-lisp-user::accum common-lisp-user::targ common-lisp-user::item #:g5132 reduce #:g5133 (setf common-lisp-user::average-match-prob) #Y(common-lisp-user::avg-match-prob nil nil (24 45 26 26 13 0 19 1 222 45 50 10 0 39 6 10 0 73 38 120 75 45 223 13 2 19 1 144 45 145 38 65 10 0 4 45 224 13 4 19 1 144 45 145 38 38 10 0 4 45 225 13 2 13 0 19 2 78 76 39 16 13 6 13 2 13 0 19 3 69 12 10 4 3 51 4 10 1 5 51 1 43 1 10 0 40 -40 43 1 10 1 5 51 1 43 1 10 0 40 -67 43 1 10 2 45 226 33 178 12 13 1 19 2 227 12 10 1 16 52 12 19 2 80 45 228 13 0 13 1 33 229 18 2 43 1 43 1 43 1 43 1 29) #1# #2# 6768) common-lisp-user::print-match-table (defgeneric common-lisp-user::print-match-table) (#2# . 7135) (common-lisp-user::char-feat-set) "Print out a table of matc probabilities." (defmethod common-lisp-user::print-match-table (common-lisp-user::self common-lisp-user::char-feats)) (#2# . 7269) (common-lisp-user::char-feats) (common-lisp-user::self) "~%~A	" "~3,2F	" #Y(common-lisp-user::print-match-table nil nil (24 45 26 26 13 0 19 1 209 12 13 0 19 1 210 12 19 2 211 45 145 38 76 10 0 4 45 224 14 32 15 240 13 0 19 3 30 13 2 19 1 209 12 13 2 19 1 210 12 19 2 211 45 145 38 30 10 0 4 45 122 14 32 15 241 13 4 13 2 13 0 19 3 69 12 19 3 30 10 1 5 51 1 43 1 10 0 40 -32 43 1 10 1 5 51 1 43 1 10 0 40 -78 75 73 43 1 29) #1# #2# 7269) common-lisp-user::print-num-feats (defgeneric common-lisp-user::print-num-feats) (#2# . 7516) (common-lisp-user::char-feat-set) "Print the number of features for each character." (defmethod common-lisp-user::print-num-feats (common-lisp-user::self common-lisp-user::char-feats)) (#2# . 7633) (common-lisp-user::char-feats) (common-lisp-user::self) "~%~A has ~S" #Y(common-lisp-user::print-num-feats nil nil (24 45 26 26 13 0 19 1 209 12 13 0 19 1 210 12 19 2 211 45 145 38 36 10 0 4 45 224 14 32 15 252 13 0 13 0 13 2 19 1 65 12 19 2 66 16 52 12 19 4 30 10 1 5 51 1 43 1 10 0 40 -38 75 73 43 1 29) #1# #2# 7633) common-lisp-user::check-integrity (defgeneric common-lisp-user::check-integrity) (#2# . 7809) (common-lisp-user::thing) "Check the internal integrity of <thing>." (defmethod common-lisp-user::check-integrity (common-lisp-user::self common-lisp-user::char-feats)) (#2# . 7910) (common-lisp-user::char-feats) (common-lisp-user::self) set-difference "~&~A has a feature not in the set ~S" "~&~A and ~A have identical features" "~&~A has ~A as its best char." #Y(common-lisp-user::check-integrity nil nil (24 45 26 26 75 45 92 13 1 19 1 209 12 13 1 19 1 210 12 19 2 211 45 145 38 165 10 0 4 45 122 13 0 13 3 19 1 65 12 19 2 66 51 2 13 2 13 3 19 1 51 12 19 2 263 45 50 10 0 39 14 14 32 15 264 13 1 13 0 19 4 30 38 1 43 1 13 3 19 1 209 12 13 3 19 1 210 12 19 2 211 45 145 38 51 10 0 4 45 225 13 2 13 0 19 2 78 76 39 16 13 4 13 0 13 5 19 1 65 12 19 2 66 17 8 39 12 14 32 15 265 13 2 13 0 19 4 30 10 1 5 51 1 43 1 10 0 40 -53 43 1 13 3 13 2 19 2 148 45 158 13 1 13 0 19 2 78 76 39 12 14 32 15 266 13 1 13 0 19 4 30 43 1 10 1 5 51 1 43 1 10 0 40 -167 75 73 43 1 43 1 29) #1# #2# 7910) common-lisp-user::feature-freq (defgeneric common-lisp-user::feature-freq) (#2# . 8627) (common-lisp-user::char-feat-set) "Print the frequency of occurrence for each feature in the set." (defmethod common-lisp-user::feature-freq (common-lisp-user::self common-lisp-user::char-feats)) (#2# . 8755) (common-lisp-user::char-feats) (common-lisp-user::self) common-lisp-user::counter member #:g5181 "~&Feature ~S occurs in ~S chars" #Y(common-lisp-user::feature-freq nil nil (24 45 26 26 75 45 277 13 1 19 1 51 45 145 38 89 10 0 4 45 128 8 0 51 2 13 3 19 1 144 45 145 38 47 10 0 4 45 122 13 2 13 0 13 5 19 1 65 12 19 2 66 12 19 2 278 39 16 8 1 45 279 13 5 13 0 19 2 178 51 5 43 1 10 1 5 51 1 43 1 10 0 40 -49 43 1 14 32 15 280 13 0 13 2 19 4 30 10 1 5 51 1 43 1 10 0 40 -91 75 73 43 1 43 1 29) #1# #2# 8755) common-lisp-user::build-gibson-set (defun common-lisp-user::build-gibson-set) (#2# . 9063) :name :gibson :feat-ls (common-lisp-user::horizontal common-lisp-user::vertical common-lisp-user::diagonal-slash common-lisp-user::diagonal-back common-lisp-user::diagonal-slash common-lisp-user::closed-curve common-lisp-user::open-v-curve common-lisp-user::open-h-curve intersection common-lisp-user::cyclic-change common-lisp-user::symmetry common-lisp-user::vertical-discont common-lisp-user::horizontal-discont) make-instance common-lisp-user::tmp "A" (common-lisp-user::symmetry common-lisp-user::horizontal common-lisp-user::diagonal-slash common-lisp-user::diagonal-back intersection common-lisp-user::vertical-discont) "B" (common-lisp-user::symmetry common-lisp-user::cyclic-change intersection common-lisp-user::horizontal common-lisp-user::vertical common-lisp-user::closed-curve) "C" (common-lisp-user::symmetry common-lisp-user::open-h-curve) "D" (common-lisp-user::symmetry common-lisp-user::vertical common-lisp-user::closed-curve) "E" (common-lisp-user::horizontal-discont common-lisp-user::symmetry common-lisp-user::cyclic-change common-lisp-user::horizontal common-lisp-user::vertical intersection) "F" (common-lisp-user::horizontal-discont common-lisp-user::vertical-discont common-lisp-user::horizontal common-lisp-user::vertical intersection) "G" (common-lisp-user::horizontal common-lisp-user::open-h-curve) "H" (common-lisp-user::vertical-discont common-lisp-user::symmetry common-lisp-user::horizontal common-lisp-user::vertical intersection) "I" (common-lisp-user::vertical-discont common-lisp-user::symmetry common-lisp-user::vertical) "J" (common-lisp-user::open-v-curve common-lisp-user::open-h-curve) "K" (common-lisp-user::vertical-discont common-lisp-user::symmetry common-lisp-user::cyclic-change common-lisp-user::vertical common-lisp-user::diagonal-slash common-lisp-user::diagonal-back intersection) "L" (common-lisp-user::horizontal-discont common-lisp-user::horizontal common-lisp-user::vertical) "M" (common-lisp-user::cyclic-change common-lisp-user::vertical-discont common-lisp-user::symmetry common-lisp-user::vertical common-lisp-user::diagonal-slash common-lisp-user::diagonal-back) "N" (common-lisp-user::vertical-discont common-lisp-user::vertical common-lisp-user::diagonal-back) "O" (common-lisp-user::symmetry common-lisp-user::closed-curve) "P" (common-lisp-user::vertical-discont intersection common-lisp-user::vertical common-lisp-user::closed-curve) "Q" (intersection common-lisp-user::diagonal-back common-lisp-user::closed-curve) "R" (common-lisp-user::vertical-discont intersection common-lisp-user::vertical common-lisp-user::diagonal-back common-lisp-user::closed-curve) "S" (common-lisp-user::cyclic-change common-lisp-user::open-h-curve) "T" (common-lisp-user::horizontal-discont common-lisp-user::vertical-discont common-lisp-user::symmetry common-lisp-user::horizontal common-lisp-user::vertical intersection) "U" (common-lisp-user::symmetry common-lisp-user::open-v-curve) "V" (common-lisp-user::symmetry common-lisp-user::diagonal-slash common-lisp-user::diagonal-back) "W" (common-lisp-user::symmetry common-lisp-user::cyclic-change common-lisp-user::diagonal-slash common-lisp-user::diagonal-back) "X" (common-lisp-user::symmetry intersection common-lisp-user::diagonal-slash common-lisp-user::diagonal-back) "Y" (common-lisp-user::vertical-discont common-lisp-user::symmetry common-lisp-user::vertical common-lisp-user::diagonal-slash common-lisp-user::diagonal-back) "Z" (common-lisp-user::horizontal-discont common-lisp-user::horizontal common-lisp-user::diagonal-slash) "1" (common-lisp-user::horizontal-discont common-lisp-user::horizontal common-lisp-user::vertical intersection) "2" (common-lisp-user::horizontal-discont common-lisp-user::horizontal common-lisp-user::open-h-curve) "3" (common-lisp-user::symmetry common-lisp-user::open-h-curve common-lisp-user::cyclic-change) "4" (common-lisp-user::vertical-discont common-lisp-user::horizontal-discont common-lisp-user::horizontal common-lisp-user::vertical common-lisp-user::diagonal-slash intersection) "5" (common-lisp-user::horizontal-discont common-lisp-user::horizontal common-lisp-user::open-h-curve common-lisp-user::cyclic-change) "6" (common-lisp-user::horizontal-discont common-lisp-user::closed-curve common-lisp-user::open-h-curve) "7" (common-lisp-user::vertical-discont common-lisp-user::horizontal common-lisp-user::diagonal-slash) "8" (common-lisp-user::symmetry common-lisp-user::closed-curve intersection) "9" (common-lisp-user::vertical-discont common-lisp-user::closed-curve common-lisp-user::open-h-curve) "0" (common-lisp-user::symmetry common-lisp-user::closed-curve common-lisp-user::diagonal-slash) #Y(common-lisp-user::build-gibson-set nil nil (26 15 0 14 285 14 286 14 287 15 288 19 5 289 45 290 13 0 15 291 15 292 19 3 83 13 0 15 293 15 294 19 3 83 13 0 15 295 15 296 19 3 83 13 0 15 297 15 298 19 3 83 13 0 15 299 15 300 19 3 83 13 0 15 301 15 302 19 3 83 13 0 15 303 15 304 19 3 83 13 0 15 305 15 306 19 3 83 13 0 15 307 15 308 19 3 83 13 0 15 309 15 310 19 3 83 13 0 15 311 15 312 19 3 83 13 0 15 313 15 314 19 3 83 13 0 15 315 15 316 19 3 83 13 0 15 317 15 318 19 3 83 13 0 15 319 15 320 19 3 83 13 0 15 321 15 322 19 3 83 13 0 15 323 15 324 19 3 83 13 0 15 325 15 326 19 3 83 13 0 15 327 15 328 19 3 83 13 0 15 329 15 330 19 3 83 13 0 15 331 15 332 19 3 83 13 0 15 333 15 334 19 3 83 13 0 15 335 15 336 19 3 83 13 0 15 337 15 338 19 3 83 13 0 15 339 15 340 19 3 83 13 0 15 341 15 342 19 3 83 13 0 15 343 15 344 19 3 83 13 0 15 345 15 346 19 3 83 13 0 15 347 15 348 19 3 83 13 0 15 349 15 350 19 3 83 13 0 15 351 15 352 19 3 83 13 0 15 353 15 354 19 3 83 13 0 15 355 15 356 19 3 83 13 0 15 357 15 358 19 3 83 13 0 15 359 15 360 19 3 83 13 0 15 361 15 362 19 3 83 10 0 73 43 1 29) #1# #2# 9063) si::fset function "Returns the Gibson (1969) character feature set." si::set-documentation common-lisp-user::build-bh-set (defun common-lisp-user::build-bh-set) (#2# . 12405) :briggs-hocevar (common-lisp-user::h-top common-lisp-user::h-center common-lisp-user::h-bottom common-lisp-user::single-v common-lisp-user::double-v common-lisp-user::ang-open-top common-lisp-user::ang-open-down common-lisp-user::ang-open-horiz common-lisp-user::sm-curve-convex-right common-lisp-user::sm-curve-convex-bottom common-lisp-user::large-curve common-lisp-user::continuous-curve common-lisp-user::closed-curve common-lisp-user::sm-curve-convex-left) "A" (common-lisp-user::h-center common-lisp-user::ang-open-down) "B" (common-lisp-user::h-top common-lisp-user::h-center common-lisp-user::h-bottom common-lisp-user::single-v common-lisp-user::sm-curve-convex-right common-lisp-user::closed-curve) "C" (common-lisp-user::large-curve common-lisp-user::continuous-curve) "D" (common-lisp-user::single-v common-lisp-user::large-curve common-lisp-user::closed-curve) "E" (common-lisp-user::h-top common-lisp-user::h-center common-lisp-user::h-bottom common-lisp-user::single-v) "F" (common-lisp-user::h-top common-lisp-user::h-center common-lisp-user::single-v) "G" (common-lisp-user::sm-curve-convex-right common-lisp-user::large-curve) "H" (common-lisp-user::h-center common-lisp-user::double-v) "I" (common-lisp-user::single-v) "J" (common-lisp-user::single-v common-lisp-user::sm-curve-convex-bottom) "K" (common-lisp-user::single-v common-lisp-user::ang-open-top common-lisp-user::ang-open-down common-lisp-user::ang-open-horiz) "L" (common-lisp-user::h-bottom common-lisp-user::single-v) "M" (common-lisp-user::double-v common-lisp-user::ang-open-down) "N" (common-lisp-user::double-v common-lisp-user::ang-open-top common-lisp-user::ang-open-down) "O" (common-lisp-user::large-curve common-lisp-user::continuous-curve common-lisp-user::closed-curve) "P" (common-lisp-user::h-top common-lisp-user::h-center common-lisp-user::single-v common-lisp-user::sm-curve-convex-right common-lisp-user::closed-curve) "Q" (common-lisp-user::large-curve common-lisp-user::closed-curve) "R" (common-lisp-user::h-top common-lisp-user::h-center common-lisp-user::single-v common-lisp-user::ang-open-down common-lisp-user::sm-curve-convex-right common-lisp-user::closed-curve) "S" (common-lisp-user::sm-curve-convex-right common-lisp-user::continuous-curve) "T" (common-lisp-user::h-top common-lisp-user::single-v) "U" (common-lisp-user::double-v common-lisp-user::sm-curve-convex-bottom) "V" (common-lisp-user::ang-open-top) "W" (common-lisp-user::ang-open-top common-lisp-user::ang-open-down) "X" (common-lisp-user::ang-open-top common-lisp-user::ang-open-down common-lisp-user::ang-open-horiz) "Y" (common-lisp-user::single-v common-lisp-user::ang-open-top common-lisp-user::ang-open-horiz) "Z" (common-lisp-user::h-top common-lisp-user::h-bottom common-lisp-user::ang-open-horiz) "1" (common-lisp-user::h-bottom common-lisp-user::single-v common-lisp-user::ang-open-down) "2" (common-lisp-user::h-bottom common-lisp-user::sm-curve-convex-left) "3" (common-lisp-user::sm-curve-convex-left) "4" (common-lisp-user::single-v common-lisp-user::closed-curve common-lisp-user::h-center) "5" (common-lisp-user::sm-curve-convex-left common-lisp-user::h-top) "6" (common-lisp-user::closed-curve common-lisp-user::sm-curve-convex-right) "7" (common-lisp-user::h-top common-lisp-user::ang-open-horiz) "8" (common-lisp-user::closed-curve common-lisp-user::continuous-curve) "9" (common-lisp-user::closed-curve common-lisp-user::sm-curve-convex-left) "0" (common-lisp-user::closed-curve common-lisp-user::continuous-curve common-lisp-user::large-curve common-lisp-user::ang-open-horiz) #Y(common-lisp-user::build-bh-set nil nil (26 15 0 14 285 14 371 14 287 15 372 19 5 289 45 290 13 0 15 373 15 374 19 3 83 13 0 15 375 15 376 19 3 83 13 0 15 377 15 378 19 3 83 13 0 15 379 15 380 19 3 83 13 0 15 381 15 382 19 3 83 13 0 15 383 15 384 19 3 83 13 0 15 385 15 386 19 3 83 13 0 15 387 15 388 19 3 83 13 0 15 389 15 390 19 3 83 13 0 15 391 15 392 19 3 83 13 0 15 393 15 394 19 3 83 13 0 15 395 15 396 19 3 83 13 0 15 397 15 398 19 3 83 13 0 15 399 15 400 19 3 83 13 0 15 401 15 402 19 3 83 13 0 15 403 15 404 19 3 83 13 0 15 405 15 406 19 3 83 13 0 15 407 15 408 19 3 83 13 0 15 409 15 410 19 3 83 13 0 15 411 15 412 19 3 83 13 0 15 413 15 414 19 3 83 13 0 15 415 15 416 19 3 83 13 0 15 417 15 418 19 3 83 13 0 15 419 15 420 19 3 83 13 0 15 421 15 422 19 3 83 13 0 15 423 15 424 19 3 83 13 0 15 425 15 426 19 3 83 13 0 15 427 15 428 19 3 83 13 0 15 429 15 430 19 3 83 13 0 15 431 15 432 19 3 83 13 0 15 433 15 434 19 3 83 13 0 15 435 15 436 19 3 83 13 0 15 437 15 438 19 3 83 13 0 15 439 15 440 19 3 83 13 0 15 441 15 442 19 3 83 13 0 15 443 15 444 19 3 83 10 0 73 43 1 29) #1# #2# 12405) "Returns the Briggs & Hocevar (1975) character feature set." common-lisp-user::build-rm-orig-set (defun common-lisp-user::build-rm-orig-set) (#2# . 15203) :rm-orig (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::vertical-c1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::front-diagonal-l2 common-lisp-user::vertical-c2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing common-lisp-user::symmetric common-lisp-user::right-facing) "A" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric) "B" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "C" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "D" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-r1 common-lisp-user::vertical-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "E" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "F" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::vertical-l2 common-lisp-user::right-facing) "G" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "H" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric) "I" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-c2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) "J" (common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing) "K" (common-lisp-user::vertical-l1 common-lisp-user::front-diagonal-u1 common-lisp-user::horizontal-c1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::right-facing) "L" (common-lisp-user::vertical-l1 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "M" (common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric) "N" (common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric) "O" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) "P" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::right-facing) "Q" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "R" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::right-facing) "S" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) "T" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-c2 common-lisp-user::symmetric) "U" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) "V" (common-lisp-user::vertical-l1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-l2 common-lisp-user::front-diagonal-l2 common-lisp-user::symmetric) "W" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::front-diagonal-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric) "X" (common-lisp-user::back-diagonal-u1 common-lisp-user::front-diagonal-u1 common-lisp-user::front-diagonal-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::symmetric) "Y" (common-lisp-user::back-diagonal-u1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-c2 common-lisp-user::symmetric) "Z" (common-lisp-user::horizontal-t0 common-lisp-user::front-diagonal-u1 common-lisp-user::front-diagonal-l2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) "1" (common-lisp-user::vertical-r1 common-lisp-user::vertical-r2 common-lisp-user::left-facing) "2" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing) "3" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing) "4" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::left-facing) "5" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::back-diagonal-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "6" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing) "7" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-r1 common-lisp-user::vertical-r2 common-lisp-user::left-facing) "8" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) "9" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing) "0" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric) #Y(common-lisp-user::build-rm-orig-set nil nil (26 15 0 14 285 14 450 14 287 15 451 19 5 289 45 290 13 0 15 452 15 453 19 3 83 13 0 15 454 15 455 19 3 83 13 0 15 456 15 457 19 3 83 13 0 15 458 15 459 19 3 83 13 0 15 460 15 461 19 3 83 13 0 15 462 15 463 19 3 83 13 0 15 464 15 465 19 3 83 13 0 15 466 15 467 19 3 83 13 0 15 468 15 469 19 3 83 13 0 15 470 15 471 19 3 83 13 0 15 472 15 473 19 3 83 13 0 15 474 15 475 19 3 83 13 0 15 476 15 477 19 3 83 13 0 15 478 15 479 19 3 83 13 0 15 480 15 481 19 3 83 13 0 15 482 15 483 19 3 83 13 0 15 484 15 485 19 3 83 13 0 15 486 15 487 19 3 83 13 0 15 488 15 489 19 3 83 13 0 15 490 15 491 19 3 83 13 0 15 492 15 493 19 3 83 13 0 15 494 15 495 19 3 83 13 0 15 496 15 497 19 3 83 13 0 15 498 15 499 19 3 83 13 0 15 500 15 501 19 3 83 13 0 15 502 15 503 19 3 83 13 0 15 504 15 505 19 3 83 13 0 15 506 15 507 19 3 83 13 0 15 508 15 509 19 3 83 13 0 15 510 15 511 19 3 83 13 0 15 512 15 513 19 3 83 13 0 15 514 15 515 19 3 83 13 0 15 516 15 517 19 3 83 13 0 15 518 15 519 19 3 83 13 0 15 520 15 521 19 3 83 13 0 15 522 15 523 19 3 83 10 0 73 43 1 29) #1# #2# 15203) "Returns the Rumelhart & McClelland (1981) character feature set." common-lisp-user::cliplast (defun common-lisp-user::cliplast) (#2# . 20744) (common-lisp-user::sym) common-lisp-user::sym common-lisp-user::str :start :end read-from-string #Y(common-lisp-user::cliplast nil nil (24 45 530 26 13 0 19 1 111 45 531 13 0 77 77 14 532 9 0 14 533 10 0 16 52 12 9 1 19 2 177 12 19 7 534 43 1 29) #1# #2# 20744) "Removes the last character from a symbol." common-lisp-user::build-rm-clean-set (defun common-lisp-user::build-rm-clean-set) (#2# . 21048) :rm-clean :true->icon (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::vertical-c1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::front-diagonal-l2 common-lisp-user::vertical-c2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing+ common-lisp-user::symmetric+ common-lisp-user::right-facing+) "A" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric+) "B" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "C" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "D" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-r1 common-lisp-user::vertical-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "E" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "F" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::vertical-l2 common-lisp-user::right-facing+) "G" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "H" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric+) "I" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-c2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) "J" (common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::left-facing+) "K" (common-lisp-user::vertical-l1 common-lisp-user::front-diagonal-u1 common-lisp-user::horizontal-c1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::right-facing+) "L" (common-lisp-user::vertical-l1 common-lisp-user::vertical-l2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "M" (common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric+) "N" (common-lisp-user::vertical-l1 common-lisp-user::back-diagonal-u1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::symmetric+) "O" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) "P" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::right-facing+) "Q" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::right-facing+) "R" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-l2 common-lisp-user::back-diagonal-l2 common-lisp-user::right-facing+) "S" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-l1 common-lisp-user::horizontal-c1 common-lisp-user::horizontal-c2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) "T" (common-lisp-user::horizontal-t0 common-lisp-user::vertical-c1 common-lisp-user::vertical-c2 common-lisp-user::symmetric+) "U" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-user::vertical-r2 common-lisp-user::horizontal-l0 common-lisp-user::symmetric+) "V" (common-lisp-user::vertical-l1 common-lisp-user::front-diagonal-u1 common-lisp-user::vertical-l2 common-lisp-user::front-diagonal-l2 common-lisp-user::symmetric+) "W" (common-lisp-user::vertical-l1 common-lisp-user::vertical-r1 common-lisp-user::vertical-l2 common-lisp-

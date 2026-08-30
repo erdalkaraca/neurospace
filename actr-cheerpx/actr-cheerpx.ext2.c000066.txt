@@ -1,0 +1,2648 @@
+title-mixin (easygui::view-text-via-title-mixin)
+  ((easygui::text :initarg :window-title)))
+
+(defclass view-text-via-button-title-mixin (view-text-via-title-mixin)
+  ())
+
+(defclass view-text-via-stringvalue-mixin (easygui::view-text-via-stringvalue-mixin)
+  ())
+
+(defclass view-text-mixin (easygui::view-text-mixin)
+  ((text-justification :accessor text-justification :initarg :text-justification))
+  (:default-initargs :text-justification $tejustleft))
+
+(defparameter *fred-default-font-spec* '("Monaco" 9 :SRCOR :PLAIN (:COLOR-INDEX 0)))
+
+(defclass view-mixin (easygui::view)
+  ((easygui::size :initarg :view-size)
+   (easygui::position :initarg :view-position :initform (make-point 0 0))
+   (temp-view-subviews :initarg :view-subviews)
+   (easygui::foreground :initform (color-symbol->system-color 'black))
+   (easygui::background :initform (make-color 0 0 0 0.0)))
+  (:default-initargs :view-font *fred-default-font-spec*))
+
+; MCL allows for subviews to be passed at object initialization. I tried shadowing the 'easygui::subviews :initargs symbol
+; with :view-subviews, so that MCL code cleanly initialized easygui's subviews slot, but it turns out that this slot isn't always 
+; where the subviews are supposed to go. If the view is a window, then the subviews go as subviews under the content-view slot.
+; easygui handles all of this in their add-subviews method, so the technique here is to use a temp slot on the view-mixin class,
+; make that :initarg :view-subviews, and then on object initialization, take any provided subviews and call easygui's add-subviews method
+; on them. Then clear the temp slot. It's a hack, but it seems to work, and requires minimal code additions and still uses
+; easygui's add-subviews machinery, etc.
+
+(defmethod initialize-instance :after ((view view-mixin) &key) 
+  (when (slot-boundp view 'temp-view-subviews)
+    (apply #'add-subviews view (slot-value view 'temp-view-subviews))
+    (slot-makunbound view 'temp-view-subviews)))
+
+; Try to keep the class hierarchy of the public interface the same as it is for MCL.
+; So, simple-view is top; then view (allows subviews); then types that inherit from view,
+; like, window, dialog stuff, etc.
+
+(defclass simple-view (easygui::simple-view view-mixin output-stream pen-mixin)
+  ((bezier-path :accessor bezier-path :initform nil)
+   (direction :initarg :direction :initform :output)
+   (wptr :initarg :wptr :initform nil)
+   (help-spec :initarg :help-spec :initform nil)
+   (view-scroll-position :initarg :view-scroll-position :initform (make-point 0 0))))
+
+(defmethod view-default-size ((view simple-view))
+  (make-point 100 100))
+
+(defmethod parse-mcl-initargs (&rest list)
+  (loop for (keyword val . rest) in list
+        when val append (apply #'parse-mcl-initarg keyword val rest)))
+
+; easygui expects the font slot to be initialized with an ns-font type. However, MCL uses the
+; same slot name and expects the font slot to be initialized with a font spec as a list.
+; So in order to make it so that the font slot is correct for easygui, shadow the :view-font
+; initarg if it is provided by the equivalent ns-font value
+
+(defmethod initialize-instance :around ((view simple-view) &rest args &key back-color view-font view-size view-position view-scroll-position)
+  (let ((accum (parse-mcl-initargs
+                 (list :back-color back-color)
+                 (list :view-font view-font)
+                 (list :view-size view-size)
+                 (list :view-position view-position)
+                 (list :view-scroll-position view-scroll-position))))
+    (apply #'call-next-method view (nconc accum args))))
+
+(defmethod initialize-instance :after ((view simple-view) &key)
+  (guard ((cocoa-is-flipped (cocoa-ref view))))
+  (guard ((slot-value view 'easygui::flipped)))
+  (with-slots (direction wptr view-scroll-position) view
+    (guard ((eq direction :output) "only :output for direction slot is allowed"))
+    (guard ((eq wptr nil) "only nil for wptr slot is allowed"))
+    (guard ((points-equal-p view-scroll-position
+                            (make-point 0 0)) "non-(0,0) view-scroll-position is not currently implemented"))))
+
+
+(defmethod cocoa-is-flipped :around ((self easygui::cocoa-extension-mixin))
+  (and (slot-value self 'easygui::flipped)
+       (call-next-method)))
+
+(defmethod cocoa-is-flipped ((self ns:ns-view))
+  (#/isFlipped self))
+
+(defmethod cocoa-is-flipped ((self t))
+  t)
+
+; Parsing MCL initarg lists, and converting to CCL/Easygui equivalents
+
+(defun make-font (name pt)
+  (guard ((not (equal it1 ccl:+null-ptr+)) "font not found for font-name ~a" name)
+    (#/fontWithName:size: ns:ns-font
+     (objc:make-nsstring name)
+     pt)))
+
+(defun color-lst->color (lst)
+  (destructuring-bind (type val) lst
+    (ecase type
+      (:color (mcl-color->system-color val))
+      (:color-index
+        (unless (eq val 0)
+          (error "need to support this")
+          ; Default, so return nil
+          ())))))
+
+(defmethod parse-mcl-initarg ((keyword (eql :view-font)) font-lst &key)
+  (let ((name) (pt) (color))
+    (dolist (atom font-lst)
+      (etypecase atom
+        (string (setf name atom))
+        (integer (setf pt atom))
+        ; FIXME; Parse these style and transfer mode values
+        (keyword ())
+        (list (setf color (color-lst->color atom)))))
+    (nconc
+      (list :view-font (make-font name pt))
+      (if color
+        (list :fore-color color)))))
+
+(defmethod parse-mcl-initarg ((keyword (eql :back-color)) back-color &key)
+  (list :back-color (mcl-color->system-color back-color)))
+
+(defmethod parse-mcl-initarg ((keyword (eql :view-size)) view-size &key)
+  (list :view-size (mcl-point->system-point view-size)))
+
+(defmethod parse-mcl-initarg ((keyword (eql :view-position)) view-position &key size)
+  (list :view-position
+        (if size
+          (parse-view-position-argument view-position size)
+          (mcl-point->system-point view-position))))
+
+(defmethod parse-view-position-argument ((keyword (eql :centered)) size)
+  (destructuring-bind (sizex sizey) (as-list (mcl-point->system-point size))
+    (make-point (/ (- *screen-width* sizex) 2)
+                (/ (- *screen-height* sizey) 2))))
+
+(defmethod parse-view-position-argument ((keyword list) size)
+  (guard ((eq t easygui::*screen-flipped*)))
+  (destructuring-bind (keyword offset) keyword
+    (destructuring-bind (x y) (as-list (parse-view-position-argument :centered size))
+      (destructuring-bind (sizex sizey) (as-list (mcl-point->system-point size))
+        (ecase keyword
+          (:top (setf y offset))
+          (:bottom (setf y (- *screen-height*
+                              (+ sizey offset))))
+          (:left (setf x offset))
+          (:right (setf x (- *screen-width*
+                             (+ sizex offset)))))
+        (make-point x y)))))
+
+(defmethod parse-view-position-argument ((keyword easygui::eg-point) size)
+  (declare (ignore size))
+  keyword)
+
+(defmethod parse-view-position-argument ((keyword integer) size)
+  (declare (ignore size))
+  keyword)
+
+(defmethod parse-mcl-initarg ((keyword (eql :view-scroll-position)) view-scroll-position &key)
+  (list :view-scroll-position (mcl-point->system-point view-scroll-position)))
+
+(defclass view (simple-view)
+  ()
+  (:documentation "Top-level class for views"))
+
+(defclass contained-view (easygui::contained-view view)
+  ((easygui::background :initform (color-symbol->system-color 'white))))
+
+(defclass static-view-mixin (easygui::static-view-mixin) ())
+
+(defclass window (easygui:window view-text-via-title-mixin view)
+  ((grow-icon-p :initform nil :initarg :grow-icon-p :reader grow-icon-p)
+   (grow-box-p :initarg :grow-box-p)
+   (theme-background :initarg :theme-background)
+   (window-show :initarg :window-show)
+   (window-type :initarg :window-type)
+   (easygui::closable-p :initarg :close-box-p)
+   (maintenance-thread :accessor maintenance-thread)
+   (initialized-p :accessor initialized-p :initform nil)
+   (easygui::background :initform (color-symbol->system-color 'white))
+   (close-requested-p :accessor close-requested-p :initform nil)
+   (sema-finished-close :accessor sema-finished-close :initform (make-semaphore))
+   (sema-request-close :accessor sema-request-close :initform (make-semaphore))
+   (window-do-first-click :initarg :window-do-first-click :initform nil)
+   (window-other-attributes :initarg :window-other-attributes :initform 0)
+   (process :initarg :process :initform nil)
+   (auto-position :initarg :auto-position :initform nil))
+  (:default-initargs 
+    :view-position (make-point 200 200)
+    :view-size (make-point 200 200)
+    :contained-view-specifically 'contained-view))
+
+(defun process-active-p (p)
+  (ccl::process-active-p p))
+
+(defmethod initialize-instance :after ((win window) &key)
+  (with-slots (window-do-first-click window-other-attributes process auto-position) win
+    (guard ((null window-do-first-click) "non-nil window-do-first-click not currently implemented"))
+    (guard ((eq 0 window-other-attributes) "non-zero window-other-attributes not currently implemented"))
+    (guard ((null process) "process slot should be nil"))
+    (guard ((member auto-position (list nil :noAutoCenter)) "auto-position not currently implemented")))
+  (let ((started-sema (make-semaphore)))
+    (setf (maintenance-thread win)
+          (process-run-function 
+            (format nil "maintenance thread for win ~a" win)
+            (lambda ()
+              (setf (initialized-p win) t)
+              (ccl::create-autorelease-pool)
+              (signal-semaphore started-sema)
+              (while (wptr win)
+                (cond ((close-requested-p win)
+                       (sv-log "closing ~a on thread ~a~%" win *current-process*)
+                       (funcall (window-close-fct win) win)
+                       (signal-semaphore (sema-finished-close win)))
+                      ((aand (front-window) (eq win it))
+                       (window-null-event-handler win)))
+                (timed-wait-on-semaphore (sema-request-close win) .1)))))
+    (guard-!nil
+      (timed-wait-on-semaphore started-sema 1))))
+
+; Give each window a maintenance thread. In that thread,
+; periodically check if the window is the frontmost window.
+; If it is, call window-null-event-handler on the window. 
+
+; I took a sample of the refresh rate of MCL's
+; calls to window-null-event-handler, and it
+; was around 100ms. So using that rate here.
+(defmethod initialize-instance :around ((win window) &rest args &key view-position view-size)
+  (let ((accum (when (and view-position view-size)
+                 (parse-mcl-initarg :view-position view-position :size view-size))))
+    (apply #'call-next-method win (nconc accum args))))
+
+(objc:defmethod (#/close :void) ((self easygui::cocoa-window))
+  (let ((win (easygui::easygui-window-of self)))
+    (slot-makunbound win 'easygui::ref)
+    (call-next-method)))
+
+(defparameter *window-null-event-handler-lock* (make-lock "window-null-event-handler-lock")) 
+
+(defmethod window-null-event-handler ((win window))
+  ())
+
+(defmethod window-null-event-handler :around ((win window))
+  (cond ((try-lock *window-null-event-handler-lock*)
+         (unwind-protect (call-next-method)
+           (release-lock *window-null-event-handler-lock*)))
+        (t
+         (sv-log "not calling null-event-handler for win ~a because another null-event-handler is active~%" win))))
+
+(defmethod window-close ((win window))
+  (unless (wptr win)
+    (sv-log "Attempting to close window ~a which is already closed" win)
+    (return-from window-close nil))
+  (when (close-requested-p win)
+    (sv-log "Already requested for window ~a to be closed" win)
+    (return-from window-close nil))
+  (setf (close-requested-p win) t)
+  (signal-semaphore (sema-request-close win))
+  (sv-log "requesting to close win ~a on thread ~a~%" win *current-process*)
+  (let ((time
+          (return-time-ms
+            (timed-wait-on-semaphore (sema-finished-close win) .5))))
+    (sv-log "waited for ~,2f ms before win ~a was closed by maintenance thread~%" time win)))
+
+(defclass static-contained-view (static-view-mixin contained-view) ())
+
+(defclass static-window (static-view-mixin window)
+  ()
+  (:default-initargs :contained-view-specifically 'static-contained-view)) 
+
+; You could return easygui::perform-close (which calls #/performClose:), but this doesn't close the window when the window doesn't have a close box.
+; So to keep things simple, bypass easygui's perform-close method (so bypass #/performClose:) and go directly to #/close.
+(defmethod window-close-fct ((win window))
+  (lambda (win) (#/close (cocoa-ref win))))
+
+(defclass windoid (window)
+  ((easygui::level :initform 1)
+   (easygui::resizable-p :initform nil)
+   (easygui::minimizable-p :initform nil)
+   (easygui::closable-p :initform nil)))
+
+(defclass borderless-window (window)
+  ((easygui::resizable-p :initform nil)
+   (easygui::minimizable-p :initform nil)
+   (easygui::closable-p :initform nil)
+   (easygui::style :initform #$NSBorderlessWindowMask)))
+
+(defmethod windoid-p ((win t))
+  nil)
+
+(defmethod windoid-p ((win windoid))
+  t)
+
+(defclass simple-overlay-view (easygui::overlay-view view) 
+  ()
+  (:documentation "Top-level class for views that do not monitor mouse clicks and mouse movement"))
+
+(defclass consuming-view (easygui::consuming-view view)
+  ())
+
+(defclass liner (view)
+  ((liner-type :reader liner-type :initarg :liner-type)
+   (easygui::foreground :reader color :initarg :color)))
+
+(defclass dialog (window)
+  ()
+  (:default-initargs
+    :window-title "Untitled Dialog"
+    :window-type :document))
+
+(defclass color-dialog (dialog)
+  ()
+  (:documentation "Top-level class for windows"))
+
+(defclass action-view-mixin (easygui::action-view-mixin) ())
+
+(defmethod initialize-instance :around ((view action-view-mixin) &rest args &key action)
+  (let ((accum (parse-mcl-initargs (list :action action :view view))))
+    (apply #'call-next-method view (nconc accum args))))
+
+(defmethod parse-mcl-initarg ((keyword (eql :action)) action &key view)
+  (guard ((not (null view)) "view must associated with an action"))
+  (list :action
+        (lambda ()
+          (sv-log-n 1 "calling action for ~a" view)
+          (funcall action)
+          (sv-log-n 1 "finished calling action for ~a" view))))
+
+(defclass dialog-item (view view-text-mixin action-view-mixin)
+  ((easygui::dialog-item-enabled-p :initarg :enabled-p)
+   (part-color-list :reader part-color-list :initarg :part-color-list)
+   (dialog-item-handle :accessor dialog-item-handle :initarg :dialog-item-handle :initform nil)
+   (dialog-item-action :accessor dialog-item-action :initarg :dialog-item-action :initform nil)
+   (allow-tabs :reader allow-tabs :initarg :allow-tabs :initform nil)
+   (compress-text :accessor compress-text :initarg :compress-text :initform nil))
+  (:default-initargs 
+    :view-font '("Lucida Grande" 13 :SRCCOPY :PLAIN (:COLOR-INDEX 0))))
+
+; easygui's action slot takes a lambda with zero arguments. MCL's dialog-item-action slots take a lambda 
+; with the object/view as an argument. So to enable this feature, wrap a :dialog-item-action 
+; initarg function in a closure that takes zero arguments, and assign that clozure to the :action initarg
+
+(defmethod initialize-instance :around ((view dialog-item) &rest args &key dialog-item-action)
+  (let ((accum (parse-mcl-initargs
+                 (list :dialog-item-action dialog-item-action :view view))))
+    (apply #'call-next-method view (nconc accum args))))
+
+(defmethod parse-mcl-initarg ((keyword (eql :dialog-item-action)) action &key view)
+  (guard ((not (null view)) "dialog item action must be associated with a view"))
+  (list :action (lambda () (funcall action view))))
+
+(defmethod initialize-instance :before ((view dialog-item) &key text)
+  (guard ((null text) "Do not use :text initarg; use :dialog-item-text instead")))
+
+(defmethod initialize-instance :after ((view dialog-item) &key)
+  (guard ((null (dialog-item-handle view)) "Not utilizing dialog-item-handle"))
+  (guard ((null (compress-text view)) "Not utilizing compress-text"))
+  (size-to-fit view)
+  (when (slot-boundp view 'part-color-list)
+    (loop for (part color) in (group (part-color-list view) 2)
+          do (set-part-color view part (mcl-color->system-color color)))))
+
+; Note that the :specifically initarg says what cocoa view class to associate with an instance of the object. 
+; These really should have been specified in the easygui package, alongside each easygui class definition IMHO, but they weren't.
+; Most of the easygui package uses a global easygui::*view-class-to-ns-class-map* variable that contains mappings of lisp
+; classes to cocoa view classes, but I found using this flat mapping to be problematic with clos hierarchies. 
+; Easygui also provides a :specifically method to overrule the easygui::*view-class-to-ns-class-map* variable, and I like this better, 
+; so I'm using it. The benefits of the :specifically method are: 
+; [1] cocoa view class mappings are explicitly written, and contained within each clos class definition. 
+; [2] As the clos classes are extended, the :specifically values are inherited/over-ridden in the usual way.
+
+(defclass button-dialog-item (easygui:push-button-view view-text-via-button-title-mixin easygui::text-fonting-mixin dialog-item)
+  ((easygui::default-button-p :initarg :default-button)
+   (cancel-button :initarg :cancel-button))
+  (:default-initargs :specifically 'easygui::cocoa-button :text-justification $tejustcenter))
+
+(defmethod get-mutable-title ((view view-text-via-title-mixin))
+  (let ((attributed-title (guard-!null-ptr (#/attributedTitle (cocoa-ref view)))))
+    (let ((mutable-title (#/alloc ns:ns-mutable-attributed-string)))
+      (#/initWithAttributedString: mutable-title attributed-title))))
+
+(defmethod add-to-attributed-title ((view view-text-via-title-mixin) name val)
+  (let* ((mutable-title (get-mutable-title view))
+         (title-range (ns:make-ns-range 0 (#/length mutable-title))))
+    (#/addAttribute:value:range: mutable-title name val title-range)
+    (#/setAttributedTitle: (cocoa-ref view) mutable-title)))
+
+(defmethod set-fore-color :before ((view view-text-via-button-title-mixin) (color ns:ns-color))
+  (add-to-attributed-title view #$NSForegroundColorAttributeName color))
+
+(defmethod initialize-instance :after ((view view-text-via-button-title-mixin) &key)
+  (set-fore-color view (slot-value view 'easygui::foreground)))
+
+(defclass default-button-dialog-item (button-dialog-item)
+  ()
+  (:default-initargs :dialog-item-text "OK" :default-button t :cancel-button nil))
+
+(defclass static-text-dialog-item (easygui:static-text-view view-text-via-stringvalue-mixin dialog-item)
+  ((bordered-p :reader bordered-p)
+   (text-truncation :initarg :text-truncation :reader text-truncation :initform #$NSLineBreakByTruncatingTail)
+   (easygui::drawsbackground :initform nil))
+  (:default-initargs :specifically 'easygui::cocoa-mouseable-text-field))
+
+(defmethod initialize-instance :around ((view static-text-dialog-item) &rest args &key text-truncation)
+  (let ((accum (parse-mcl-initargs (list :text-truncation text-truncation))))
+    (apply #'call-next-method view (nconc accum args))))
+
+; Default line break mode is to wrap and not tighten. Cocoa has a TighteningFactorForTruncation value that is set to .05.
+; And that threshold default is fine, but it doesn't kick in (tighten the text) unless the cell is set to truncate. 
+
+(defmethod initialize-instance :after ((view static-text-dialog-item) &key)
+  (awhen (text-truncation view)
+    (#/setLineBreakMode: (#/cell (cocoa-ref view)) it)))
+
+(defmethod parse-mcl-initarg ((keyword (eql :text-truncation)) val &key)
+  (list
+    :text-truncation
+    (etypecase val
+      (keyword (ecase val
+                 (:end #$NSLineBreakByTruncatingTail)))
+      (integer val))))
+
+; Cocoa doesn't automatically determine the value of drawsbackground dependent on the background color.
+; If the back color is clear, drawsbackground should be nil, otherwise t. So if a back-color is passed in
+; as an initform, and that color is not clear, inform easygui that the background should be drawn by passing
+; a t for :draws-background keyword.
+
+(defmethod initialize-instance :around ((view easygui::background-coloring-mixin) &rest args &key back-color)
+  (if (and back-color
+           (not (equalp (color-opacity (mcl-color->system-color back-color))
+                        0)))
+    (apply #'call-next-method view :draws-background t args)
+    (call-next-method)))
+
+(defmethod (setf bordered-p) (bordered-p (view static-text-dialog-item))
+  (unwind-protect (setf (slot-value view 'bordered-p) bordered-p)
+    (#/setBordered: (easygui:cocoa-ref view) (if bordered-p #$YES #$NO))))
+
+(defclass scroll-bar-dialog-item (easygui::content-view-mixin dialog-item)
+  ((scrollee :accessor scrollee :initarg :scrollee)
+   (scrollee-class :initarg :scrollee-class)
+   (v-scroll-p :reader v-scroll-p :initarg :v-scroll-p))
+  (:default-initargs
+    :v-scroll-p t
+    :specifically 'easygui::cocoa-scroll-view
+    :objc-content-view-accessor #'#/documentView))
+
+(defclass editable-text-dialog-item (easygui::editable-mixin easygui::mouse-tracking-mixin scroll-bar-dialog-item) 
+  ((allow-returns :initarg :allow-returns)
+   (draw-outline :initarg :draw-outline))
+  (:default-initargs
+    :v-scroll-p nil
+    :scrollee-class 'inner-text-view))
+
+(defclass inner-text-view (dialog-item easygui::view-text-via-string-mixin easygui::text-coloring-mixin easygui::text-fonting-mixin)
+  ()
+  (:default-initargs
+    :specifically 'easygui::cocoa-text-view))
+
+(defmethod initialize-instance :around ((view scroll-bar-dialog-item) &rest args &key scrollee scrollee-class)
+  (setf (scrollee view)
+        (if scrollee
+          scrollee
+          (apply #'make-instance
+                 scrollee-class
+                 (getf-include-key args (list :view-size :allow-tabs :view-font :dialog-item-text :text-justification)))))
+  ; Not removing :view-size, since the content-view-mixin should make use of this information as well, if available
+  (mapc (lambda (indicator) (remf args indicator))
+        (list :allow-tabs :view-font :dialog-item-text :text-justification))
+  (apply #'call-next-method view :content-view (scrollee view) args))
+
+(defmethod easygui::initialize-view :after ((view scroll-bar-dialog-item))
+  (let ((content-view (slot-value view 'easygui::content-view)))
+    (#/setDocumentView: (cocoa-ref view) (cocoa-ref content-view))
+    (#/setBorderType: (cocoa-ref view) #$NSBezelBorder)
+    (setf (slot-value content-view 'easygui::parent) view)))
+
+(defmethod initialize-instance :after ((view scroll-bar-dialog-item) &key v-scroll-p)
+  (when v-scroll-p
+    (#/setHasVerticalScroller: (cocoa-ref view) #$YES)))
+
+; I couldn't get #/sizeToFit to work for NSTextView objects, so doing things manually in this case
+; http://stackoverflow.com/questions/2654580/how-to-resize-nstextview-according-to-its-content
+
+(defmethod size-to-fit ((view inner-text-view))
+  (when (and (slot-boundp view 'easygui::text)
+             (not (slot-boundp view 'easygui::size)))
+    (easygui::running-on-main-thread ()
+      (#/setFrameSize: (cocoa-ref view) (ns:make-ns-size 100000 10000)) ; Needed so that #/usedRectForTextContainer: doesn't return a size 0 frame; not sure why
+      (let ((container (#/textContainer (cocoa-ref view))))
+        (let ((manager (#/layoutManager (cocoa-ref view))))
+          (#/ensureLayoutForTextContainer: manager container)
+          (let ((frame (#/usedRectForTextContainer: manager container))) ; The frame will be the size required to fit all of the view's current text
+            (#/setFrameSize: (cocoa-ref view)
+             (ns:make-ns-size (ns:ns-rect-width frame)
+                              (ns:ns-rect-height frame)))
+            (easygui::size-to-fit view)))))))
+
+(defmethod size-to-fit ((view editable-text-dialog-item))
+  (when (and (not (slot-boundp view 'easygui::size))
+             (slot-boundp (content-view view) 'easygui::size))
+    (set-view-size view (add-points (make-point 5 5) (view-size (content-view view))))))
+
+(defmethod size-to-fit ((view dialog-item))
+  (when (and (slot-boundp view 'easygui::text)
+             (not (slot-boundp view 'easygui::size)))
+    (#/sizeToFit (cocoa-ref view))
+    (easygui::size-to-fit view)))
+
+(defmethod cocoa-text-view ((view editable-text-dialog-item))
+  (cocoa-ref (content-view view)))
+
+(defclass radio-button-dialog-item (easygui:radio-button-view view-text-via-button-title-mixin dialog-item)
+  ((easygui::cluster :initarg :radio-button-cluster)
+   (easygui::selected :initarg :radio-button-pushed-p))
+  (:default-initargs :specifically 'easygui::cocoa-button))
+
+(defclass check-box-dialog-item (easygui:check-box-view view-text-via-button-title-mixin dialog-item)
+  ((easygui::text :initform ""))
+  (:default-initargs :specifically 'easygui::cocoa-button))
+
+(defclass table-dialog-item (view-text-via-stringvalue-mixin dialog-item)
+  ())
+
+(defclass sequence-dialog-item (table-dialog-item)
+  ((table-sequence :reader table-sequence :initarg :table-sequence)
+   (columns :reader columns :initform 1)
+   (table-print-function :accessor table-print-function :initarg :table-print-function :initform nil)
+   (rows :reader rows)
+   (cell-size :reader cell-size :initarg :cell-size)
+   (table-hscrollp :reader table-hscrollp :initarg :table-hscrollp :initform nil)
+   (table-vscrollp :reader table-vscrollp :initarg :table-vscrollp :initform t)
+   (selection-type :initarg :selection-type))
+  (:default-initargs
+    :specifically 'easygui::cocoa-matrix
+    :table-sequence ()))
+
+(defmethod (setf rows) (new-rows (view sequence-dialog-item))
+  (with-slots (columns rows) view
+    (unwind-protect (setf rows new-rows)
+      (#/renewRows:columns: (cocoa-ref view) rows columns))))
+
+(defmethod set-cell-size ((view sequence-dialog-item) h &optional v)
+  (destructuring-bind (h v) (canonicalize-point h v)
+    (with-slots (cell-size) view
+      (unwind-protect (setf cell-size (make-point h v))
+        (#/setCellSize: (cocoa-ref view)
+         (ns:make-ns-size h v)))))) 
+
+(defmethod cell-contents ((view sequence-dialog-item) h &optional v)
+  (destructuring-bind (h v) (canonicalize-point h v)
+    (guard ((eq h 0)))
+    (nth v (table-sequence view))))
+
+(defmethod set-table-sequence ((view sequence-dialog-item) new-sequence)
+  (with-slots (table-sequence table-print-function) view
+    (with-accessors ((view-font view-font)) view
+      (setf (rows view) (length new-sequence))
+      (unwind-protect (setf table-sequence new-sequence)
+        (loop for item in new-sequence
+              for index from 0
+              with cell-array = (#/cells (cocoa-ref view))
+              for cell = (#/objectAtIndex: cell-array index)
+              do (#/setTitle: cell 
+                  (objc::make-nsstring (funcall table-print-function item nil)))
+              when view-font do (#/setFont: cell view-font))))))
+
+(defmethod selected-cells ((view sequence-dialog-item))
+  (let ((selected-cells))
+    (do-array (cell (#/selectedCells (cocoa-ref view)) selected-cells)
+      (push-to-end (get-location-of-cell view cell)
+                   selected-cells))))
+
+(defmethod get-location-of-cell ((view sequence-dialog-item) (cell ns:ns-cell))
+  (rlet ((rownum #>NSInteger)
+         (colnum #>NSInteger))
+    (#/getRow:column:ofCell: (cocoa-ref view) rownum colnum cell)
+    (make-point (pref colnum #>NSInteger)
+                (pref rownum #>NSInteger))))
+
+(defmethod initialize-instance :after ((view sequence-dialog-item) &key)
+  (let ((cocoa-matrix (cocoa-ref view))
+        (prototype (make-instance 'easygui::cocoa-text-field-cell)))
+    (with-slots (table-hscrollp table-vscrollp columns) view
+      (guard (table-vscrollp "Sequence dialog item must allow vertical scrolling"))
+      (guard ((not table-hscrollp) "Sequence dialog item must not allow horizontal scrolling"))
+      (guard ((eq columns 1) "Only supporting a single column currently")))
+    (unless (table-print-function view)
+      (setf (table-print-function view)
+            (lambda (item strm) (format strm "~a" item))))
+    (unless (slot-boundp view 'cell-size)
+      (setf (slot-value view 'cell-size)
+            (make-point (point-h (view-size view)) 20)))
+    (#/setPrototype: cocoa-matrix prototype)
+    (#/setMode: cocoa-matrix #$NSListModeMatrix)
+    (#/setIntercellSpacing: cocoa-matrix (ns:make-ns-size 0 0))
+    (set-cell-size view (cell-size view))
+    (set-table-sequence view (table-sequence view))))
+
+(defclass image-view (easygui::image-view view)
+  ((pict-id :reader pict-id :initarg :pict-id)))
+
+(defmethod size-to-fit ((view image-view))
+  (let ((view-size
+          (cond ((not (slot-boundp view 'easygui::size))
+                 (let ((ns-size (#/size (#/image (cocoa-ref view)))))
+                   (destructuring-bind (width height) (as-list ns-size)
+                     (make-point width height))))
+                (t
+                 (view-size view)))))
+    (set-view-size view view-size)))
+
+(defmethod initialize-instance :after ((view image-view) &key)
+  (when (slot-boundp view 'pict-id)
+    (setf (pict-id view) (pict-id view)))
+  (size-to-fit view))
+
+(defmethod (setf easygui::view-size) :after (size (view image-view))
+  (destructuring-bind (width height) (as-list size)
+    (#/setSize: (#/image (cocoa-ref view)) (ns:make-ns-size width height))))
+
+(defmethod (setf pict-id) (pict-id (view image-view))
+  (unwind-protect (setf (slot-value view 'pict-id) pict-id)
+    (#/setImage: (easygui:cocoa-ref view) (get-resource-val pict-id 'image))))
+
+(defclass back-image-view (image-view) ())
+
+(defclass clickable-image-view (easygui::clickable-image-view image-view) ())
+
+(defclass icon-dialog-item (clickable-image-view dialog-item view)
+  ((pict-id :reader icon :initarg :icon)
+   (easygui::view-text :initarg :view-text)))
+
+; Place all images in the background (behind all other views). Do this by
+; specializing on the add-1-subview method in the easygui package. And call
+; cocoa's method for adding a subview that is behind all other views
+
+(defmethod easygui::add-1-subview ((view back-image-view) (super-view view))
+  (setf (slot-value view 'easygui::parent) super-view)
+  (push view (slot-value super-view 'easygui::subviews))
+  (#/addSubview:positioned:relativeTo: 
+   (easygui:cocoa-ref super-view) 
+   (easygui:cocoa-ref view)
+   #$NSWindowBelow
+   nil))
+
+(provide :icon-dialog-item)
+
+(defun make-dialog-item (class position size text &optional action &rest attributes)
+  (apply #'make-instance class
+         (nconc
+           (list
+             :view-position position
+             :view-size size
+             :dialog-item-text text)
+           (if action (list :dialog-item-action action))
+           attributes)))
+
+(defclass menu-view (easygui::menu-view view view-text-via-title-mixin easygui::text-fonting-mixin easygui::decline-menu-mixin)
+  ((easygui::text :initarg :menu-title)
+   (default-item :initarg :default-item :initform 1)
+   (auto-update-default :initarg :auto-update-default)
+   (item-display :initarg :item-display))
+  (:default-initargs :specifically 'easygui::cocoa-pop-up-button))
+
+; FIXME: menu-item-checked isn't being used at all; default-item from menu-view determines which item is checked. Is it worth the time
+; to use this slot, and make it so that the char rendered for the checked item can be changed, or also that multiple items can be checked,
+; etc.?
+
+(defclass menu-item (easygui::menu-item-view view view-text-via-title-mixin easygui::text-fonting-mixin action-view-mixin easygui::decline-menu-mixin)
+  ((easygui::text :initarg :menu-item-title)
+   (style :initarg :style)
+   (menu-item-checked :initarg :menu-item-checked :initform nil))
+  (:default-initargs :specifically 'easygui::cocoa-menu-item))
+
+(defmethod initialize-instance :around ((view menu-view) &rest args &key default-item menu-items)
+  (if menu-items
+    (apply #'call-next-method view :selection (nth (1- default-item) menu-items) args)
+    (call-next-method)))
+
+(defclass pop-up-menu (easygui::pop-up-menu menu-view) ())
+
+; ----------------------------------------------------------------------
+; Building methods that allow CCL to understand basic MCL drawing commands
+
+; Many of the functions/methods for basic MCL drawing are available in CCL's 
+; easygui package. For the functions, import them into the current package.
+; For the methods, add a generic method to the current CCL package
+; that calls the generic method in the easygui package. Don't import the 
+; generic functions from the easygui package, because this will cause 
+; symbol collisions for the generic methods in the current package that are
+; already defined (might be because they are an act-r interface method, or
+; because they are an already-defined CCL method)
+; ----------------------------------------------------------------------
+
+(defun point-h (pt)
+  (easygui:point-x pt))
+
+(defun point-v (pt)
+  (easygui:point-y pt))
+
+(defun point-x (pt)
+  (easygui:point-x pt))
+
+(defun point-y (pt)
+  (easygui:point-y pt))
+
+(ccl::register-character-name "UpArrow" #\U+F700)
+(ccl::register-character-name "DownArrow" #\U+F701)
+(ccl::register-character-name "BackArrow" #\U+F702)
+(ccl::register-character-name "ForwardArrow" #\U+F703)
+(ccl::register-character-name "CheckMark" #\t)
+
+(defparameter *arrow-cursor* (#/arrowCursor ns:ns-cursor))
+(defparameter *crosshair-cursor* (#/crosshairCursor ns:ns-cursor))
+(defparameter *i-beam-cursor* (#/IBeamCursor ns:ns-cursor))
+(defparameter *black-pattern* 'black-pattern-fixme)
+
+(defun make-point (x y)
+  (easygui::point x y :allow-negative-p t))
+
+(defmethod add-points ((p1 easygui::eg-point) (p2 easygui::eg-point))
+  (make-point
+    (+ (point-x p1) (point-x p2))
+    (+ (point-y p1) (point-y p2))))
+
+(defmethod subtract-points ((p1 easygui::eg-point) (p2 easygui::eg-point))
+  (make-point
+    (- (point-x p1) (point-x p2))
+    (- (point-y p1) (point-y p2))))
+
+(defmethod as-list ((p easygui::eg-point))
+  (list (point-h p)
+        (point-v p)))
+
+(defmethod as-list ((r ns:ns-range))
+  (list (ns:ns-range-location r)
+        (ns:ns-range-length r)))
+
+(defmethod as-list ((r ns:ns-rect))
+  (list (ns:ns-rect-width r)
+        (ns:ns-rect-height r)
+        (ns:ns-rect-x r)
+        (ns:ns-rect-y r)))
+
+(defmethod as-list ((s ns:ns-size))
+  (list (ns:ns-size-width s)
+        (ns:ns-size-height s)))
+
+(defmethod points-equal-p ((p1 easygui::eg-point) (p2 easygui::eg-point))
+  (destructuring-bind (x1 y1) (as-list p1)
+    (destructuring-bind (x2 y2) (as-list p2)
+      (and (eq x1 x2)
+           (eq y1 y2)))))
+
+; This reverse engineering was done entirely by pattern matching.
+; I need to learn more about how bit shifting works if I want to 
+; be completely confident that this implementation is correct.
+
+(defun mcl-point-h (pt)
+  (logand (lsh pt 0) #xffff))
+
+(defun mcl-point-v (pt)
+  (logand (lsh pt -16) #xffff))
+
+(defun mcl-point->system-point (mcl-point)
+  (etypecase mcl-point
+    (integer (make-point
+               (mcl-point-h mcl-point)
+               (mcl-point-v mcl-point)))
+    (easygui::eg-point mcl-point)))
+
+(defmethod point-string ((point easygui::eg-point))
+  (format nil "#@(~a ~a)" (point-x point) (point-y point)))
+
+(defmethod add-subviews ((view simple-view) &rest subviews)
+  (when subviews
+    (apply #'easygui:add-subviews view subviews)))
+
+(defmethod remove-subviews ((view simple-view) &rest subviews)
+  (when subviews
+    (apply #'easygui:remove-subviews view subviews)))
+
+(defmethod subviews ((view simple-view) &optional subview-type)
+  (declare (ignore subview-type))
+  (easygui:view-subviews view))
+
+(defmethod view-subviews ((view simple-view))
+  (easygui:view-subviews view))
+
+(defmethod view-named (name (view simple-view))
+  (acond ((easygui:view-named name view)
+          it)
+         (t
+           (sv-log "no subview with view-nick-name ~a found in ~a" name view)
+           nil)))
+
+(defmethod find-named-sibling ((view simple-view) name)
+  (let ((container (view-container view)))
+    (and container (view-named name container))))
+
+(defmethod view-nick-name ((view simple-view))
+  (easygui:view-nick-name view))
+
+(defmethod window-select ((win window))
+  (easygui:window-show win))
+
+(defmethod window-show ((win window))
+  (easygui:window-show win))
+
+(defmethod window-hide ((win window))
+  (easygui::window-hide win))
+
+(defmethod window-shown-p ((window window))
+  (not (easygui::window-hidden window)))
+
+(defun find-window (title &optional class)
+  (let ((title (format nil "~a" title)))
+    (do-array (cocoa-win (#/windows (#/sharedApplication ns:ns-application)))
+      (when (easygui::cocoa-win-p cocoa-win)
+        (let* ((wintitle (objc:lisp-string-from-nsstring (#/title cocoa-win)))
+               (clos-win (easygui::easygui-window-of cocoa-win))
+               (winclass (class-name (class-of clos-win)))
+               (prefix (subseq wintitle 0 (min (length wintitle) (length title)))))
+          (when (string-equal prefix title)
+            (when (or (not class) (eq class winclass))
+              (return-from find-window clos-win)))))))
+  nil)
+
+(defun front-window (&key class include-invisibles include-windoids)
+  (guard ((null include-invisibles)))
+  (when class 
+    (when (symbolp class)
+      (setq class (find-class class)))
+    (when (class-inherit-from-p class (find-class 'windoid))
+      (setq include-windoids t)))
+  (let ((wins (gui::windows)))
+    (dolist (win wins)
+      (when (easygui::cocoa-win-p win)
+        (let ((wob (easygui::easygui-window-of win)))
+          (when (and wob
+                     (initialized-p wob)
+                     (or include-windoids
+                         (not (windoid-p wob)))
+                     (or (null class)
+                         (inherit-from-p wob class)))
+            (return wob)))))))
+
+(defun inherit-from-p (ob parent)
+  (ccl::inherit-from-p ob parent))
+
+(defun class-inherit-from-p (class parent-class)
+  (flet ((get-class (value)
+           (if (symbolp value) (find-class value nil) value)))
+    (let ((pclass (get-class parent-class)))
+      (memq pclass
+        (ccl::%inited-class-cpl (get-class class))))))
+
+;FIXME: This looks very strange. Prob related to Phaser's floating window
+(defun ccl::window-bring-to-front (w &optional (wptr (wptr w)))
+  #-:sv-dev (declare (ignore wptr))
+  nil)
+
+(defmethod set-window-layer ((window window) new-layer &optional include-invisibles)
+  #-:sv-dev (declare (ignore new-layer include-invisibles))
+  'fixme)
+
+(defmethod window-title ((view window))
+  ;TODO: Maybe use easygui:view-text method here?
+  (easygui::window-title view))
+
+(defmethod dialog-item-text ((view view-text-mixin))
+  (easygui:view-text view))
+
+(defmethod set-dialog-item-text ((view view-text-mixin) text)
+  (easygui::running-on-main-thread ()
+    (setf (easygui:view-text view) text)))
+
+(defmethod easygui::view-text ((view editable-text-dialog-item))
+  (easygui::view-text (content-view view)))
+
+(defmethod (setf easygui::view-text) (new-text (view editable-text-dialog-item))
+  (setf (easygui::view-text (content-view view)) new-text))
+
+(defmethod text-just ((view view-text-mixin))
+  (text-justification view))
+
+(defun convert-justification (justification)
+  (let ((mapping (list (cons $tejustleft #$NSLeftTextAlignment)
+                       (cons nil #$NSLeftTextAlignment)
+                       (cons $tejustcenter #$NSCenterTextAlignment)
+                       (cons $tejustright #$NSRightTextAlignment))))
+    (guard (it1 "No mapping found for justification ~a" justification)
+      (cdr (assoc justification mapping)))))
+
+(defmethod set-text-justification ((view view-text-mixin) justification)
+  (#/setAlignment: (easygui:cocoa-ref view) (convert-justification justification))
+  (setf (text-justification view) justification))
+
+(defmethod initialize-instance :after ((view view-text-mixin) &key)
+  (when (slot-boundp view 'text-justification)
+    (set-text-justification view (text-justification view))))
+
+(defmethod selection-range ((view easygui::content-view-mixin))
+  (selection-range (content-view view)))
+
+(defmethod selection-range ((view simple-view))
+  (destructuring-bind (start length) (as-list (#/selectedRange (cocoa-ref view)))
+    (values start (+ start length))))
+
+(defmethod set-selection-range ((view easygui::content-view-mixin) &optional position cursorpos)
+  (set-selection-range (content-view view) position cursorpos))
+
+(defmethod set-selection-range ((view view-text-mixin) &optional position cursorpos)
+  (destructuring-bind (position cursorpos) (if position
+                                             (list position cursorpos)
+                                             (list 0 0))
+    (easygui::running-on-main-thread ()
+      (#/setSelectedRange: (cocoa-ref view)
+       (ns:make-ns-range position (- cursorpos position))))))
+
+(defmethod set-selection-range :after ((view editable-text-dialog-item) &optional position cursorpos)
+  (declare (ignore position cursorpos))
+  (easygui::running-on-main-thread ()
+    (#/becomeFirstResponder (cocoa-ref view))))
+
+(defmethod dialog-item-enable ((view action-view-mixin))
+  (easygui:set-dialog-item-enabled-p view t))
+
+(defmethod dialog-item-disable ((view action-view-mixin))
+  (easygui:set-dialog-item-enabled-p view nil))
+
+; FIXME: What now to do about these, since etdi is a text-view, which is not an NSControl
+
+(defmethod dialog-item-enable ((view editable-text-dialog-item))
+  ())
+
+(defmethod dialog-item-disable ((view editable-text-dialog-item))
+  ())
+
+(defmethod check-box-check ((item check-box-dialog-item))
+  (easygui:check-box-check item nil))
+
+(defmethod check-box-uncheck ((item check-box-dialog-item))
+  (easygui:check-box-uncheck item nil))
+
+(defmethod check-box-checked-p ((item check-box-dialog-item))
+  (easygui:check-box-checked-p item))
+
+(defmethod radio-button-unpush ((item radio-button-dialog-item))
+  (easygui:radio-button-deselect item))
+
+(defmethod radio-button-push ((item radio-button-dialog-item))
+  (easygui:radio-button-select item))
+
+(defmethod radio-button-pushed-p ((item radio-button-dialog-item))
+  (easygui:radio-button-selected-p item))
+
+(defmethod view-position ((view simple-view))
+  (easygui:view-position view))
+
+(defmethod view-position :before ((window window))
+  (let ((frame (#/frame (cocoa-ref window))))
+    (let ((position 
+            (make-point
+              (ns:ns-rect-x frame)
+              (easygui::convert-if-screen-flipped
+                (ns:ns-rect-y frame)
+                (point-y (view-size window))))))
+      (setf (slot-value window 'easygui::position) position))))
+
+(defmethod view-global-position ((view simple-view))
+  (local-to-global view (make-point 0 0)))
+
+(defmethod view-center ((view simple-view))
+  (destructuring-bind (x y) (as-list (view-position view))
+    (destructuring-bind (sizex sizey) (as-list (view-size view))
+      (make-point (+ x (/ sizex 2))
+                  (+ y (/ sizey 2))))))
+
+(defmethod view-global-center ((view simple-view))
+  (local-to-global
+    view
+    (subtract-points (view-center view) (view-position view))))
+
+; FIXME: This seems to work properly, but I don't currently understand why,
+; or what view-origin is supposed to do in MCL
+(defmethod view-origin ((view simple-view))
+  (let ((bounds (#/bounds (cocoa-ref view))))
+    (make-point (ns:ns-rect-x bounds)
+                (ns:ns-rect-y bounds))))
+
+(defmethod origin ((view simple-view))
+  (view-origin view))
+
+(defmethod set-origin ((view simple-view) h &optional v)
+  (destructuring-bind (h v) (canonicalize-point h v)
+    (#/setBoundsOrigin: (cocoa-ref view) (ns:make-ns-point h v))))
+
+; Note that this is MCL's arglist spec. The erase-p isn't needed for CCL,
+; but it should be kept here so that MCL code calling invalidate-view still works.
+(defmethod invalidate-view ((view simple-view) &optional erase-p)
+  (declare (ignore erase-p))
+  (easygui:invalidate-view view))
+
+; FIXME: What is validate-view supposed to do differently than invalidate-view?
+; And is that difference already handled within cocoa?
+(defmethod validate-view ((view simple-view))
+  (invalidate-view view))
+
+(defun canonicalize-point (x y)
+  (cond (y (list x y))
+        (t (list (point-h x) (point-v x)))))
+
+(defmethod set-view-position ((view simple-view) x &optional (y nil))
+  (destructuring-bind (x y) (canonicalize-point x y)
+    (let ((pos (make-point x y)))
+      (setf (easygui:view-position view) pos))))
+
+(defmethod set-view-size ((view simple-view) x &optional (y nil))
+  (destructuring-bind (x y) (canonicalize-point x y)
+    (let ((size (make-point x y)))
+      (setf (easygui:view-size view) size))))
+
+(defmethod view-size ((view simple-view))
+  (easygui:view-size view))
+
+(defmethod width ((view simple-view))
+  (point-h (view-size view)))
+
+(defmethod height ((view simple-view))
+  (point-v (view-size view)))
+
+(defmethod view-container ((view simple-view))
+  (easygui:view-container view))
+
+(defmethod view-window ((view simple-view))
+  (easygui::easygui-window-of view))
+
+(defmethod content-view ((view easygui::content-view-mixin))
+  (easygui:content-view view))
+
+(defmethod content-view ((view simple-view))
+  view)
+
+; Other MCL drawing methods are not available in the easygui package.
+; For these, move down a layer below easygui, and implement the functionality
+; using CCL's Objective C bridge. Most bridge calls will have #/ or #_ reader
+; macros in the expression
+
+; A few with- macros to handle setup/teardown, and make programming a bit easier
+
+; This one uses Doug Hoyte's "defmacro!" and ",g!" syntax to easily handle unwanted variable capture. 
+(defmacro! with-graphics-context (&body body)
+  "Any changes to the graphics environment by body, will be valid only in body"
+  `(let ((,g!context (#/currentContext ns:ns-graphics-context)))
+     (unwind-protect (progn 
+                       (#/saveGraphicsState ,g!context)
+                       ,@body)
+       (#/restoreGraphicsState ,g!context))))
+
+; ----------------------------------------------------------------------
+; Section to handle current focused view and font focused view.
+; 
+; The dynamic variables are used to keep track of any views that are focused in the dynamic environment.
+; Code could call with-focused-view explicitly, or a view might become focused because code called paint-rect
+; and passed a view to that function. The goal is to have the code do the right thing and try to
+; figure out which view has focus. If it can't figure this out, then an exception will be thrown.
+; These can be seen where the guard macros are used.
+; ----------------------------------------------------------------------
+
+(defparameter *current-graphics-context-stroke-color* nil)
+
+(defmacro! with-fore-color (o!color &body body)
+  `(progn
+     (guard ((eq (type-of ,g!color) 'ns:ns-color) "color ~a is not a system color" ,g!color) ())
+     (let ((*current-graphics-context-stroke-color* ,g!color))
+       (with-graphics-context
+         (#/set ,g!color)
+         ,@body))))
+
+(defmacro with-fallback-fore-color (color &body body)
+  `(if (null *current-graphics-context-stroke-color*)
+     (with-fore-color ,color
+       ,@body)
+     (progn ,@body)))
+
+(defmacro with-window-fallback-fore-color (view &body body)
+  `(with-fallback-fore-color (get-fore-color (view-window ,view))
+     ,@body))
+
+(defparameter *current-focused-view* nil)
+(defparameter *current-font-view* nil)
+(defparameter *current-graphics-context-font* nil)
+
+(defmacro! with-focused-view (o!view &body body)
+  "Any changes to the graphics environment by body will be directed to the view object"
+  `(let ((*current-focused-view* (content-view ,g!view)))
+     (easygui:with-focused-view (easygui:cocoa-ref (content-view ,g!view))
+       ,@body)))
+
+(defmacro! with-font-view (o!view &body body)
+  `(let ((*current-font-view* ,g!view))
+     ,@body))
+
+(defmacro! with-font-focused-view (o!view &body body)
+  `(with-font-view ,g!view
+     (with-focused-view ,g!view
+       ,@body)))
+
+(defmacro with-fallback-focused-view (view &body body)
+  `(if (null *current-focused-view*)
+     (with-focused-view ,view
+       ,@body)
+     (progn ,@body)))
+
+(defmacro with-fallback-font-view (view &body body)
+  `(if (null *current-font-view*)
+     (with-font-view ,view
+       ,@body)
+     (progn ,@body)))
+
+(defmacro! with-fallback-font-focused-view (o!view &body body)
+  `(with-fallback-font-view ,g!view
+     (with-fallback-focused-view ,g!view
+       ,@body)))
+
+(defmacro with-window-of-focused-view-fallback-fore-color (&body body)
+  `(with-window-fallback-fore-color (guard-!nil *current-focused-view*)
+     ,@body))
+
+(defmacro with-font-view-fallback-font (&body body)
+  `(let ((*current-graphics-context-font* (view-font (guard-!nil *current-font-view*))))
+     ,@body))
+
+(defmethod wptr ((view window))
+  (slot-boundp view 'easygui::ref))
+
+(defmethod local-to-global ((win window) local-pos)
+  (let ((eg-point (add-points (view-position win) local-pos)))
+    eg-point))
+
+(defmethod local-to-global ((view simple-view) local-pos)
+  (let* ((ns-converted-point (#/convertPoint:fromView:
+                              (cocoa-ref (content-view (view-window view)))
+                              (ns:make-ns-point (point-h local-pos) (point-v local-pos))
+                              (cocoa-ref view))))
+    (let ((eg-point (easygui::point-from-ns-point ns-converted-point)))
+      eg-point)))
+
+(defmethod part-color ((view view-text-mixin) (part (eql :text)))
+  (declare (ignore part))
+  (get-fore-color view))
+
+(defmethod set-part-color ((view dialog-item) (part (eql :body)) new-color)
+  (set-back-color view new-color))
+
+(defmethod set-part-color ((view dialog-item) (part (eql :text)) new-color)
+  (set-fore-color view new-color))
+
+; FIXME: Keep this as a compiler warning until you figure out how to color a border with Cocoa
+(defmethod set-part-color ((view dialog-item) (part (eql :frame)) new-color)
+  #-:sv-dev (declare (ignore new-color))
+  (setf (bordered-p view) t))
+
+(defmethod get-fore-color ((view simple-view))
+  (easygui:get-fore-color view))
+
+(defmethod get-back-color ((view view))
+  (easygui:get-back-color view))
+
+(defmethod set-fore-color ((view simple-view) new-color)
+  (easygui:set-fore-color view new-color))
+
+(defmethod set-back-color ((view simple-view) new-color)
+  (easygui:set-back-color view new-color))
+
+; FIXME: What does this do? Keep as compiler warning until you figure it out
+(defmethod window-update-cursor ((window window) point)
+  #-:sv-dev (declare (ignore point))
+  nil)
+
+; Handling mouse movement/interaction
+
+(defmethod easygui::mouse-down :after ((view simple-view) &key location &allow-other-keys)
+  (let ((win (guard-!nil
+               (guard-!null-ptr
+                 (view-window view)))))
+    (let ((global-location (local-to-global view location)))
+      (view-click-event-handler view location)
+      (view-click-event-handler win global-location)
+      (post-view-click-event-handler win global-location)))) 
+
+(defmethod post-view-click-event-handler ((view window) position)
+  (declare (ignore position))
+  (values))
+
+(defmethod view-click-event-handler :around ((device simple-view) position)
+  (declare (ignore position))
+  (sv-log-n 1 "starting view-click-event-handler for ~a" device)
+  (unwind-protect (call-next-method)
+    (sv-log-n 1 "ending view-click-event-handler for ~a" device)))
+
+(defmethod view-click-event-handler ((device simple-view) position)
+  (declare (ignore position))
+  ; Default primary method is to do nothing
+  (values))
+
+(objc:defmethod (#/reflectScrolledClipView: :void) ((self easygui::cocoa-scroll-view) (clip :ID))
+  (call-next-method clip)
+  (let ((view (easygui::easygui-view-of self)))
+    (view-scroll-event-handler view) 
+    (let ((win (#/window self)))
+      (unless (ccl:%null-ptr-p win)
+        (let ((win (easygui::easygui-window-of win)))
+          (view-scroll-event-handler win)
+          (post-view-scroll-event-handler win))))))
+
+(defmethod view-scroll-event-handler ((view simple-view))
+  ())
+
+(defmethod post-view-scroll-event-handler ((view simple-view))
+  ())
+
+(defmethod view-mouse-position ((view simple-view))
+  (easygui:view-mouse-position view :allow-negative-position-p t))
+
+(defparameter *default-scroll-speed* 5)
+
+(defun create-scroll-event (speed)
+  (let ((event
+          (#_CGEventCreateScrollWheelEvent
+           ccl:+null-ptr+
+           #$kCGScrollEventUnitLine
+           1
+           speed)))
+    event))
+
+(defun scroll-mouse-up (&optional (speed *default-scroll-speed*))
+  (guard ((>= speed 0)))
+  (let ((event (create-scroll-event speed)))
+    (#_CGEventPost 0 event)
+    (#_CFRelease event)))
+
+(defun scroll-mouse-down (&optional (speed *default-scroll-speed*))
+  (guard ((>= speed 0)))
+  (let ((event (create-scroll-event (* -1 speed))))
+    (#_CGEventPost 0 event)
+    (#_CFRelease event)))
+
+(defun create-mouse-event (event pos)
+  (#_CGEventCreateMouseEvent
+   ccl:+null-ptr+
+   event
+   pos
+   0))
+
+(defun left-mouse-up (pos)
+  (let ((event
+          (create-mouse-event #$NSLeftMouseUp pos)))
+    (sv-log-n 1 "posting mouse-up event ~a" event)
+    (#_CGEventPost 0 event) 
+    (sv-log-n 1 "releasing mouse-up event ~a" event)
+    (#_CFRelease event)))
+
+(defun left-mouse-down (pos)
+  (let ((event
+          (create-mouse-event #$NSLeftMouseDown pos)))
+    (sv-log-n 1 "posting mouse-down event ~a" event)
+    (#_CGEventPost 0 event) 
+    (sv-log-n 1 "releasing mouse-down event ~a" event)
+    (#_CFRelease event)))
+
+; It takes roughly 1 ms for an event to hit the application's run loop, so sleep for 50x 
+; longer than this, to make extra extra sure that the event has hit the run loop before returning.
+
+(defun left-mouse-click (pos &optional (delay t))
+  (sv-log-n 1 "starting left mouse click")
+  (easygui::running-on-main-thread ()
+    (let ((pos (easygui::ns-point-from-point pos)))
+      (left-mouse-down pos)
+      (left-mouse-up pos)))
+  (sv-log-n 1 "sleeping so that mouse click enters nsrun loop")
+  (when delay (spin-for-fct 50))
+  (sv-log-n 1 "ending left mouse click"))
+
+; Handling keyboard interaction
+
+(defun create-keyboard-event (event key)
+  (let ((key (format nil "~a" key)))
+    (guard ((eq (length key) 1) "key: ~a is not a single character; not supporting command/control key events" key) ())
+    (let ((ret (#_CGEventCreateKeyboardEvent
+                ccl:+null-ptr+
+                0
+                event)))
+      (#_CGEventKeyboardSetUnicodeString
+       ret
+       (length key)
+       (#/cStringUsingEncoding: (objc:make-nsstring key) #$NSUTF8StringEncoding))
+      ret)))
+
+(defun keypress-down (key)
+  (let ((event 
+          (create-keyboard-event #$YES key)))
+    (sv-log-n 1 "posting keypress-down event ~a" event)
+    (#_CGEventPost 0 event) 
+    (sv-log-n 1 "releasing keypress-down event ~a" event)
+    (#_CFRelease event)))
+
+(defun keypress-up (key)
+  (let ((event 
+          (create-keyboard-event #$NO key)))
+    (sv-log-n 1 "posting keypress-up event ~a" event)
+    (#_CGEventPost 0 event) 
+    (sv-log-n 1 "releasing keypress-up event ~a" event)
+    (#_CFRelease event)))
+
+; Same sleep time here.
+
+(defun keypress (key &optional (delay t))
+  (sv-log-n 1 "starting keypress")
+  (easygui::running-on-main-thread ()
+    (keypress-down key)
+    (keypress-up key))
+  (sv-log-n 1 "sleeping so that keypress enters nsrun loop")
+  (when delay (spin-for-fct 50))
+  (sv-log-n 1 "ending keypress"))
+
+; Relay keypress events in editable text views to the view and the window, after allowing the text field to handle the keypress properly.
+
+; http://stackoverflow.com/questions/2484072/how-can-i-make-the-tab-key-move-focus-out-of-a-nstextview
+(objc:defmethod (#/doCommandBySelector: :void) ((cocoa-self easygui::cocoa-text-view) (selector :<SEL>))
+  (unless (cond ((ccl::%ptr-eql selector (ccl::@selector #/insertTab:))
+                 (select-next-key-view (easygui::easygui-view-of cocoa-self)))
+                ((ccl::%ptr-eql selector (ccl::@selector #/insertBacktab:))
+                 (select-prev-key-view (easygui::easygui-view-of cocoa-self))))
+    (call-next-method selector)))
+
+(defmethod select-next-key-view ((view dialog-item))
+  (unless (allow-tabs view)
+    (select-next-key-view (view-window view))))
+
+(defmethod select-next-key-view ((win window))
+  (unwind-protect t
+    (#/selectNextKeyView: (cocoa-ref win) ccl:+null-ptr+)))
+
+(defmethod select-prev-key-view ((view dialog-item))
+  (unless (allow-tabs view)
+    (select-prev-key-view (view-window view))))
+
+(defmethod select-prev-key-view ((win window))
+  (unwind-protect t
+    (#/selectPreviousKeyView: (cocoa-ref win) ccl:+null-ptr+)))
+
+; http://superuser.com/questions/473143/how-to-tab-between-buttons-on-an-mac-os-x-dialog-box
+; Tabbing does not cycle through buttons by default, but this can be changed in system preferences
+; If this is changed and an NSButton becomes key, then (currently) the NSButton does not respond by pressing a tab.
+; As a workaround subclass the #/keyDown: method and explicitly cycle through previous and next views if tab or backtab is pressed.
+; I wouldn't think that you would need to explicitly write this method, but I can't find the setting/issue with the NSButtons
+; to make this behavior default.
+
+; I could not get #/setKeyEquivalent: to work for NSButtons, so as a workaround,
+; explicitly call #/performClick: when the user presses the #\space key.
+; This allows the user to navigate the UI by using the keyboard only, and also 
+; press buttons with the keyboard. The #\space as the action button seems to be 
+; the fairly consistent technique across OS X Cocoa apps and web-browser apps
+
+(defparameter *view-of-keypress* nil)
+
+(objc:defmethod (#/keyDown: :void) ((cocoa-self easygui::cocoa-button) the-event)
+  (let ((*view-of-keypress* (easygui::easygui-view-of cocoa-self)))
+    (unwind-protect (call-next-method the-event)
+      (let* ((str (objc:lisp-string-from-nsstring (#/charactersIgnoringModifiers the-event)))
+             (char (char str 0)))
+        (case char
+          (#\tab (select-next-key-view (easygui::easygui-view-of cocoa-self)))
+          (#\^Y (select-prev-key-view (easygui::easygui-view-of cocoa-self)))
+          (#\space (#/performClick: cocoa-self ccl:+null-ptr+)))))))
+
+(objc:defmethod (#/keyDown: :void) ((cocoa-self easygui::cocoa-text-view) the-event)
+  (call-next-method the-event)
+  (handle-keypress-in-editable-text
+    (view-container
+      (easygui::easygui-view-of cocoa-self))
+    the-event))
+
+(defmethod handle-keypress-in-editable-text ((view dialog-item) the-event)
+  (let ((*view-of-keypress* view))
+    (#/keyDown: (#/window (cocoa-ref view)) the-event)))
+
+; #/keyDown: method on cocoa-window calls easygui::view-key-event-handler on the window (see views.lisp in easygui)
+
+; The default first responder when the window is created is the reference to the window
+; If the user presses the #\tab key, select the next key view in the responder loop
+; This technique usually does the right thing, for instance, it will select the top-most
+; editable text in the view after the first tab press
+
+(defmethod easygui::view-key-event-handler :after ((device window) key)
+  (when (eq key #\tab)
+    (when (equal (cocoa-ref device) (#/firstResponder (cocoa-ref device)))
+      (select-next-key-view device)))
+  (when *view-of-keypress*
+    (view-key-event-handler *view-of-keypress* key))
+  (view-key-event-handler device key)
+  (post-view-key-event-handler device key))
+
+(defmethod post-view-key-event-handler ((device window) key)
+  (declare (ignore key))
+  (values))
+
+(defmethod view-key-event-handler :around ((device simple-view) key)
+  (declare (ignore key))
+  (sv-log-n 1 "starting view-key-event-handler")
+  (unwind-protect (call-next-method)
+    (sv-log-n 1 "ending view-key-event-handler")))
+
+(defmethod view-key-event-handler ((device simple-view) key)
+  (declare (ignore key))
+  ; Default primary method on the window is to do nothing
+  (values))
+
+; MCL's Pen
+
+(defclass pen-mixin ()
+  ((pen-mode :accessor pen-mode)
+   (pen-size :accessor pen-size)
+   (pen-position :accessor pen-position :initform (make-point 0 0))
+   (pen-pattern :accessor pen-pattern)))
+
+(defmethod initialize-instance :after ((view pen-mixin) &key)
+  (pen-normal view))
+
+(defmethod set-pen-mode ((view simple-view) newmode)
+  (setf (pen-mode view) newmode))
+
+(defmethod set-pen-pattern ((view simple-view) newpattern)
+  (setf (pen-pattern view) newpattern))
+
+(defmethod set-pen-size ((view simple-view) h &optional v)
+  (destructuring-bind (h v) (canonicalize-point h v)
+    (setf (pen-size view) (make-point h v))))
+
+(defmethod pen-normal ((view simple-view))
+  (setf (pen-mode view) :patCopy)
+  (setf (pen-size view) (make-point 1 1))
+  (setf (pen-pattern view) *black-pattern*))
+
+; ----------------------------------------------------------------------
+; Triggering MCL's view-draw-contents method on a Cocoa redraw of views.
+;
+; CCL's Objective C bridge provides an interface to define objective c 
+; methods. Use this to define a method that will be called any time
+; an object on the screen needs to be redrawn. This will in turn call
+; view-draw-contents in CCL, which means that the way to describe how an 
+; object is drawn in CCL is the same way that it is in MCL: Add a view-draw-contents
+; method that dispatches on the object type, and code to draw that type of object
+; to the display
+; ----------------------------------------------------------------------
+
+
+; Note that Cocoa focuses the view before calling #/drawRect, so there's no reason to have a
+; with-focused-view inside of the lisp code. But in order for the with-fallback-focused-view stuff to 
+; work, it needs to know that a view is already focused. So just set the global var to the view
+; in order to do this.
+
+(objc:defmethod (#/drawRect: :void) ((self easygui::cocoa-drawing-view) (rect :<NSR>ect))
+  (let* ((view (easygui::easygui-view-of self))
+         (*current-focused-view* view))
+    (easygui::dcc
+      (view-draw-contents view))))
+
+; Drawing methods
+
+(defmacro with-rectangle-arg ((var left &optional top right bottom) &body body)
+  `(let ((,var (make-rect :from-mcl-spec ,left ,top ,right ,bottom)))
+     ,@body))
+
+(defmethod make-rect ((mode (eql :from-mcl-spec)) &rest args)
+  (destructuring-bind (left top right bottom) args
+    (destructuring-bind (left top right bottom) (canonicalize-rect left top right bottom)
+      (destructuring-bind (startx starty width height) (list left top (- right left) (- bottom top))
+        (ns:make-ns-rect startx starty width height)))))
+
+(defun canonicalize-rect (left top right bottom)
+  (cond (bottom (list left top right bottom))
+        (top (list (point-h left)
+                   (point-v left)
+                   (point-h top)
+                   (point-v top)))
+        (t (list (ns:ns-rect-x left)
+                 (ns:ns-rect-y left)
+                 (+ (ns:ns-rect-x left) (ns:ns-rect-width left))
+                 (+ (ns:ns-rect-y left) (ns:ns-rect-height left))))))
+
+(defmethod view-draw-contents ((view simple-view))
+  ())
+
+(defmethod get-start ((view liner))
+  (get-start-using-liner-type view (liner-type view)))
+
+(defmethod get-end ((view liner))
+  (get-end-using-liner-type view (liner-type view)))
+
+(defmethod get-start-using-liner-type ((view liner) (liner-type (eql 'bu)))
+  (make-point 0 (point-y (view-size view))))
+
+(defmethod get-start-using-liner-type ((view liner) (liner-type (eql 'td)))
+  (make-point 0 0))
+
+(defmethod get-end-using-liner-type ((view liner) (liner-type (eql 'bu)))
+  (make-point (point-x (view-size view)) 0))
+
+(defmethod get-end-using-liner-type ((view liner) (liner-type (eql 'td)))
+  (view-size view))
+
+(defmethod view-draw-contents ((view liner))
+  (move-to view (get-start view))
+  (with-fore-color (get-fore-color view) 
+    (line-to view (get-end view))))
+
+; Drawing commands on windows are directed to the window's content view.
+; This is achieved by having with-focused-view focus on the window's content
+; view (if it's a window), and also by specializing on the accessors that are 
+; used when drawing. The window's pen-position and bezier-path are never used;
+; instead, those are directed to the content view of the window.
+;
+; Another approach would have been to write a specialized method for the window
+; for each public drawing method, and have that method call the method with the
+; same name on the window's content view, but this would require adding a 
+; window-specialized method for each public drawing method. So instead I looked
+; at what accessors the public methods are using, and specialized on those, so that
+; the necessary code changes for drawing to window's content view could be isolated
+; in the few methods below. Adding/removing this functionality can be archived by
+; adding/deleting the few methods here.
+
+(defmethod pen-position ((view window))
+  (pen-position (content-view view)))
+
+(defmethod (setf pen-position) (new (view window))
+  (setf (pen-position (content-view view)) new))
+
+(defmethod bezier-path ((view window))
+  (bezier-path (content-view view)))
+
+(defmethod (setf bezier-path) (new (view window))
+  (setf (bezier-path (content-view view)) new))
+
+; Actual drawing methods
+
+(defmethod move-to ((view simple-view) x &optional (y nil))
+  (with-fallback-focused-view view
+    (destructuring-bind (x y) (canonicalize-point x y)
+      (qd-move-to x y))))
+
+(defmethod qd-move-to ((val1 (eql :long)) (val2 easygui::eg-point))
+  (destructuring-bind (endx endy) (as-list val2)
+    (qd-move-to endx endy)))
+
+(defmethod qd-move-to ((x number) (y number))
+  (let ((view *current-focused-view*))
+    (unless (points-equal-p (pen-position view) (make-point x y))
+      (let ((position (make-point x y)))
+        (when (bezier-path view)
+          (#/moveToPoint: (bezier-path view) (ns:make-ns-point x y)))
+        (setf (pen-position view) position)))))
+
+(defmethod line ((view simple-view) x &optional (y nil))
+  (with-fallback-focused-view view
+    (destructuring-bind (x y) (canonicalize-point x y)
+      (line-to view (add-points
+                      (pen-position view)
+                      (make-point x y))))))
+
+(defmethod line-to ((view simple-view) x &optional (y nil))
+  (with-fallback-focused-view view
+    (destructuring-bind (endx endy) (canonicalize-point x y)
+      (qd-line-to endx endy))))
+
+(defmethod qd-line-to ((val1 (eql :long)) (val2 easygui::eg-point))
+  (destructuring-bind (endx endy) (as-list val2)
+    (qd-line-to endx endy)))
+
+(defmethod qd-line-to ((endx number) (endy number))
+  (let ((view *current-focused-view*))
+    (unless (points-equal-p (pen-position view) (make-point endx endy))
+      (destructuring-bind (startx starty) (list (point-x (pen-position view))
+                                                (point-y (pen-position view)))
+        (when (bezier-path view)
+          (#/lineToPoint: (bezier-path view) (ns:make-ns-point endx endy)))
+        (setf (pen-position view) (make-point endx endy))
+        (with-window-of-focused-view-fallback-fore-color
+          (#/strokeLineFromPoint:toPoint:
+           ns:ns-bezier-path
+           (ns:make-ns-point startx starty) 
+           (ns:make-ns-point endx endy)))))))
+
+(defmethod frame-oval ((view simple-view) left &optional top right bottom)
+  (let* ((rect (make-rect :from-mcl-spec left top right bottom))
+         (path (#/bezierPathWithOvalInRect: ns:ns-bezier-path rect)))
+    (with-fallback-focused-view view
+      (with-window-of-focused-view-fallback-fore-color
+        (#/stroke path)))))
+
+(defmethod paint-oval ((view simple-view) left &optional top right bottom)
+  (with-fallback-focused-view view
+    (fill-oval view (pen-pattern view) left top right bottom)))
+
+(defmethod fill-oval ((view simple-view) pattern left &optional top right bottom)
+  #-:sv-dev (declare (ignore pattern))
+  (let* ((rect (make-rect :from-mcl-spec left top right bottom)))
+    (with-fallback-focused-view view
+      (qd-paint-oval rect))))
+
+(defmethod qd-paint-oval ((rect ns:ns-rect))
+  (let ((path (#/bezierPathWithOvalInRect: ns:ns-bezier-path rect)))
+    (with-window-of-focused-view-fallback-fore-color
+      (#/fill path))))
+
+(defmethod frame-rect ((view simple-view) left &optional top right bottom)
+  (let* ((rect (make-rect :from-mcl-spec left top right bottom)))
+    (with-fallback-focused-view view
+      (qd-frame-rect rect))))
+
+(defmethod qd-frame-rect ((rect ns:ns-rect))
+  (with-window-of-focused-view-fallback-fore-color
+    (#/strokeRect: ns:ns-bezier-path rect)))
+
+(defmethod paint-rect ((view simple-view) left &optional top right bottom)
+  (with-fallback-focused-view view
+    (fill-rect view (pen-pattern view) left top right bottom)))
+
+(defmethod fill-rect ((view simple-view) pattern left &optional top right bottom)
+  (with-fallback-focused-view view
+    (let* ((rect (make-rect :from-mcl-spec left top right bottom)))
+      (qd-paint-rect rect pattern))))
+
+(defmethod qd-paint-rect ((rect ns:ns-rect) &optional pattern)
+  #-:sv-dev (declare (ignore pattern))
+  (with-window-of-focused-view-fallback-fore-color
+    (#/fillRect: ns:ns-bezier-path rect)))
+
+(defmethod erase-rect ((view simple-view) left &optional top right bottom)
+  (let* ((rect (make-rect :from-mcl-spec left top right bottom)))
+    (with-fallback-focused-view view
+      (with-fore-color (get-back-color (content-view view))
+        (qd-paint-rect rect)))))
+
+(defmethod start-polygon ((view simple-view))
+  (setf (bezier-path view) (#/bezierPath ns:ns-bezier-path))
+  (#/retain (bezier-path view))
+  (#/moveToPoint: (bezier-path view)
+   (easygui::ns-point-from-point (pen-position view))))
+
+(defun pattern->system-color (pattern)
+  (color-symbol->system-color
+    (guard-!nil
+      (cond ((eq pattern *black-pattern*) 'black)))))
+
+(defmethod paint-polygon ((view simple-view) polygon)
+  (with-fallback-focused-view view
+    (fill-polygon view (pen-pattern view) polygon)))
+
+(defmethod erase-polygon ((view simple-view) polygon)
+  (with-fallback-focused-view view 
+    (with-fore-color (get-back-color (content-view view))
+      (fill-polygon view (pen-pattern view) polygon))))
+
+(defmethod fill-polygon ((view simple-view) pattern polygon)
+  #-:sv-dev (declare (ignore pattern))
+  (with-fallback-focused-view view
+    (with-window-of-focused-view-fallback-fore-color
+      (#/fill polygon))))
+
+(defmethod frame-polygon ((view simple-view) polygon)
+  (with-fallback-focused-view view
+    (with-window-of-focused-view-fallback-fore-color
+      (#/stroke polygon))))
+
+(defmethod kill-polygon ((polygon ns:ns-bezier-path))
+  (#/release polygon)
+  (setf polygon nil))
+
+(defmethod get-polygon ((view simple-view))
+  (prog1 (bezier-path view)
+    (start-polygon view)))
+
+; FIXME: Currently it's expected that a format call to a view is done only once per view-draw-contents. So write
+; a single string to the view, etc. But CCL calls write-char when the string has a negative sign at the beginning.
+; So the current workaround is to keep a dynamic variable around that keeps track of all of this, and throw in a few
+; guard statements to make sure that things are being called in a way that won't break the formatting.
+
+(defparameter *stream-prefix-char* nil)
+
+(defmethod stream-write-char ((v simple-view) char)
+  (guard ((null *stream-prefix-char*) "expecting only a single prefix char before the string; prefix was ~a; new char is ~a" *stream-prefix-char* char) ())
+  (setf *stream-prefix-char* char))
+
+(defun draw-string (string)
+  (with-window-of-focused-view-fallback-fore-color
+    (with-font-view-fallback-font
+      (let ((dict (#/dictionaryWithObjectsAndKeys: ns:ns-mutable-dictionary
+                   *current-graphics-context-font* #$NSFontAttributeName
+                   *current-graphics-context-stroke-color* #$NSForegroundColorAttributeName
+                   ccl:+null-ptr+))
+            (pt (pen-position *current-focused-view*)))
+        (unwind-protect (#/drawAtPoint:withAttributes: string
+                         (ns:make-ns-point
+                           (point-h pt)
+                           ; To mimic MCL positioning, I had to subtract of the ascend pixels from the y position of the pen
+                           (- (point-v pt)
+                              (first (multiple-value-list (font-info *current-graphics-context-font*)))))
+                         dict)
+          (setf *stream-prefix-char* nil))))))
+
+(defmethod stream-write-string ((v simple-view) string &optional start end)
+  (with-fallback-font-focused-view v
+    (let* ((string
+             (objc:make-nsstring
+               (format nil "~a~a" (aif *stream-prefix-char* it "")
+                       (if start
+                         (subseq string start end)
+                         string)))))
+      (draw-string string))))
+
+; Handling fonts and string width/height in pixels
+
+(defmethod view-font ((view easygui::content-view-mixin))
+  (view-font (content-view view)))
+
+(defmethod view-font ((view simple-view))
+  (guard-!null-ptr
+    (guard-!nil
+      (easygui:view-font view))))
+
+(defun font-info (font-spec)
+  (values (guard-!null-ptr (#/ascender font-spec))
+          (abs (guard-!null-ptr (#/descender font-spec)))))
+
+(defun get-dict-for-font (font)
+  (#/dictionaryWithObjectsAndKeys: ns:ns-mutable-dictionary
+   font #$NSFontAttributeName 
+   ccl:+null-ptr+))
+
+(defun string-width (str font)
+  (let* ((dict (get-dict-for-font font))
+         (attr (#/initWithString:attributes: (#/alloc ns:ns-attributed-string)
+                (objc:make-nsstring str)
+                dict))
+         (size (#/size attr)))
+    (ns:ns-size-width size)))
+
+(defun font-point (font)
+  (#/pointSize font))
+
+(defun font-name (font)
+  (objc:lisp-string-from-nsstring (#/fontName font)))
+
+; Miscellaneous wrappers
+
+; Provide the :quickdraw package on *modules*. Keeps from having to comment out the (require :quickdraw) lines in the MCL code.
+; Also since the file here implements the quickdraw interface, it makes since to announce that the quickdraw library is available to use.
+
+(provide :quickdraw)
+
+; To implement event-dispatch for Clozure, send a dummy function over to
+; the main Cocoa thread to be evaluated, and block until that function is 
+; processed. This guarantees that all current event code in the Cocoa run loop
+; has been processed before event-dispatch returns.
+
+(defun event-dispatch ()
+  (sv-log-n 1 "starting event dispatch")
+  (let ((time
+          (return-time-ms
+            (unless (eq ccl::*current-process* ccl::*initial-process*)
+              (dotimes (i 2)
+                (let ((sema (make-semaphore)))
+                  (gui::queue-for-gui 
+                    (lambda ()
+                      (signal-semaphore sema))
+                    :at-start nil)
+                  (wait-on-semaphore sema nil "semaphore event-dispatch wait")))))))
+    (sv-log-n 1 "ending event dispatch after ~,2f ms" time)))
+
+(defparameter *current-dialog-directory* nil)
+
+(defun get-directory-with-fallback (directory)
+  (setf *current-dialog-directory*
+        (acond (directory it)
+               (*current-dialog-directory* it)
+               (*load-truename* (directory-namestring it))
+               (t nil))))
+
+; It turns out that objc functions are defined in the symbol table. So in order to set the title of
+; the panel that is opened in the dialog, dynamically shadow the #/openPanel objc function. 
+; And in that shadowed function, call the original, and then set the title of the resulting panel to prompt
+
+(defun make-panel-and-set-prompt (fun-orig prompt)
+  (lambda (&rest args)
+    (let ((panel (apply fun-orig args)))
+      (when prompt
+        (#/setTitle: panel (objc:make-nsstring prompt)))
+      panel)))
+
+(ensure-defined
+ (defun choose-file-dialog (&key directory mac-file-type button-string prompt file)
+   (with-shadow (#/openPanel (make-panel-and-set-prompt fun-orig prompt))
+     (gui::cocoa-choose-file-dialog :directory (get-directory-with-fallback directory)
+                                    :file-types (aif mac-file-type (os-type->extensions it))
+                                    :file file
+                                    :button-string button-string))))
+
+; FIXME: Write this
+(defun os-type->extensions (os-type)
+  #-:sv-dev (declare (ignore os-type))
+  ())
+
+; And use the shadowing technique here.
+
+(ensure-defined
+ (defun choose-new-file-dialog (&key directory mac-file-type button-string prompt file)
+   #-:sv-dev (declare (ignore button-string))
+   (with-shadow (#/savePanel (make-panel-and-set-prompt fun-orig prompt))
+     (gui::cocoa-choose-new-file-dialog :directory (get-directory-with-fallback directory)
+                                        :file-types (aif mac-file-type (os-type->extensions it))
+                                        :file file))))
+ 
+; And here as well. Except in this case latch into the #/setTitle: method, since that is being used in the
+; cocoa-choose-directory-dialog function.
+
+(defun set-title-and-use-prompt (fun-orig prompt)
+  (lambda (panel string)
+    (funcall fun-orig 
+             panel 
+             (aif prompt
+               (objc:make-nsstring it)
+               string))))
+
+(ensure-defined
+ (defun choose-directory-dialog (&key directory prompt)
+   (with-shadow (#/setTitle: (set-title-and-use-prompt fun-orig prompt))
+     (gui::cocoa-choose-directory-dialog :directory (get-directory-with-fallback directory)))))
+
+(labels ((gen-dict-for-immutable-attr (bool)
+           (#/dictionaryWithObject:forKey: ns:ns-dictionary
+            (#/numberWithBool: ns:ns-number bool)
+            #$NSFileImmutable))
+         (set-immutable-attr (path bool)
+           (#/setAttributes:ofItemAtPath:error: (#/defaultManager ns:ns-file-manager)
+            (gen-dict-for-immutable-attr bool)
+            (objc:make-nsstring path)
+            ccl:+null-ptr+)))
+  (defun file-locked-p (path)
+    (let ((dict (guard-!null-ptr 
+                  (#/attributesOfItemAtPath:error: (#/defaultManager ns:ns-file-manager)
+                   (objc:make-nsstring path)
+                   ccl:+null-ptr+))))
+      (guard-t-or-nil
+        (#/boolValue
+         (#/objectForKey: dict (objc:make-nsstring "NSFileImmutable"))))))
+  (defun lock-file (path)
+    (let ((path (namestring path)))
+      (unless (file-locked-p path)
+        (guard-!nil
+          (set-immutable-attr path #$YES)))))
+  (defun unlock-file (path)
+    (let ((path (namestring path)))
+      (when (file-locked-p path)
+        (guard-!nil
+          (set-immutable-attr path #$NO))))))
+
+; FIXME: Write this
+(defun set-mac-file-creator (path mac-file-creator)
+  (declare (ignore path mac-file-creator))
+  t)
+
+; FIXME: And maybe write this
+(defun set-mac-file-type (path mac-file-type)
+  (declare (ignore path mac-file-type))
+  t)
+
+(defparameter *current-cursor* *arrow-cursor*)
+
+(defmethod set-cursor ((cursor ns:ns-cursor))
+  (unwind-protect (setf *current-cursor* cursor)
+    (awhen (front-window)
+      (sv-log "setting cursor for window ~a to ~a" it cursor)
+      (#/invalidateCursorRectsForView: (cocoa-ref it)
+       (cocoa-ref (content-view it))))))
+
+(objc:defmethod (#/resetCursorRects :void) ((self easygui::cocoa-contained-view))
+  (call-next-method)
+  (#/addCursorRect:cursor: self
+   (#/bounds self)
+   *current-cursor*))
+
+; Another option here is to call #/currentCursor on ns-cursor class, but since 
+; *current-cursor* is (currently) the current cursor for all windows of the application,
+; just use this.
+
+(defmethod window-cursor ((window window))
+  *current-cursor*)
+
+(defmethod color ((cursor ns:ns-cursor))
+  (guard-!nil
+    (cond ((eq cursor *i-beam-cursor*) *black-color*)
+          ((eq cursor *arrow-cursor*) *black-color*)
+          ((eq cursor *crosshair-cursor*) *black-color*))))
+
+(defmethod create-resource ((type (eql 'cursor)) id)
+  (make-instance
+    'resource
+    :alloc-fn
+    (lambda ()
+      (#/initWithImage:hotSpot: (#/alloc ns:ns-cursor)
+       (get-resource-val id 'image)
+       (#/hotSpot *arrow-cursor*)))))
+
+(defmethod get-cursor :before (id)
+  (unless (resource-present-p id 'cursor)
+    (add-resource
+      (create-resource 'cursor id)
+      id)))
+
+(defmethod get-cursor (id)
+  (get-resource-val id 'cursor))
+
+(defun hide-cursor ()
+  (#_CGDisplayHideCursor
+   (#_CGMainDisplayID)))
+
+(defun show-cursor ()
+  (#_CGDisplayShowCursor
+   (#_CGMainDisplayID)))
+
+; Running on main GUI thread is required for the menubar functions. Otherwise Cocoa crashes fairly often when these are called.
+
+(defun hide-menubar ()
+  (easygui::running-on-main-thread ()
+    (#/setPresentationOptions: (#/sharedApplication ns:ns-application)
+     (logior
+       #$NSApplicationPresentationHideDock
+       #$NSApplicationPresentationHideMenuBar))))
+
+(defun show-menubar ()
+  (easygui::running-on-main-thread ()
+    (#/setPresentationOptions: (#/sharedApplication ns:ns-application)
+     #$NSApplicationPresentationDefault)))
+
+(defun beep ()
+  (#_NSBeep))
+
+; ----------------------------------------------------------------------
+; Manipulate the read table so that MCL's #@(a b) make-point shorthand works. 
+;
+; CCL does not support this by default, and the objective-c bridge uses #@ to make an NSString.
+; So the #@ read macro defined below performs both tasks: If a list is passed, it 
+; will convert the points in the list to a point representation. If a string is
+; passed, it will call the CCL default read function for #@
+; 
+; Examples:
+; #@"a string" -> #<NS-CONSTANT-STRING "hello"
+; #@(5 4) -> #<EG-POINT (5.00/4.00)>)
+; ----------------------------------------------------------------------
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *nonhacked-readtable* (copy-readtable))
+  (set-dispatch-macro-character 
+    #\# #\@
+    (defun |#@-reader| (stream char arg)
+      (let ((first-char (peek-char nil stream)))
+        (ecase first-char
+          (#\( (unless *read-suppress*
+                 `(make-point ,@(read stream))))
+          (#\" (funcall (get-dispatch-macro-character #\# #\@ *nonhacked-readtable*)
+                        stream char arg)))))))
+
+; ----------------------------------------------------------------------
+; Manipulate reader functionality so that references to foreign functions that no longer exist can
+; be defined as native functions, while keeping the same access syntax
+;
+; I did not want to have to modify the source code in the Phaser task where all of these carbon foreign 
+; functions were used. CCL does not support the carbon framework, as far as I can tell. So in order to 
+; trick CCL into thinking that these foreign functions are defined, add a bit of a 'before' section of 
+; code to the load-external-function call. If the symbol name of the external function being loaded is
+; in the list of function names that are being defined natively, then just return the symbol that maps
+; to that function in the function symbol table. Otherwise, call the usual load-external-function function,
+; and have CCL do the standard thing to try to find the foreign function
+; ----------------------------------------------------------------------
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *load-external-function-orig* #'ccl::load-external-function)
+  (with-continue 
+    (defun ccl::load-external-function (sym query)
+      (let* ((fun-names (list "showmenubar" "hidemenubar" "getcursor" "showcursor" "ShowCursor" "hidecursor" "HideCursor"
+                              "paintrect" "PaintRect" "framerect" "drawstring" "moveto" "MoveTo" "lineto" "PaintOval"))
+             (the-package (find-package :X86-Darwin64))
+             (fun-syms (mapcar (lambda (name)
+                                 (intern name the-package))
+                               fun-names)))
+        (if (member sym fun-syms)
+          sym
+          (funcall *load-external-function-orig* sym query))))))
+
+; Use the same approach to define foreign constants that MCL uses that no longer exist for CCL
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *load-os-constant-orig* #'ccl::load-os-constant)
+  (with-continue
+    (defun ccl::load-os-constant (sym &optional query)
+      (let* ((con-names (list "tejustleft" "tejustcenter" "tejustright" "crossCursor"))
+             (the-package (find-package :X86-Darwin64))
+             (con-syms (mapcar (lambda (name)
+                                 (intern name the-package))
+                               con-names)))
+        (if (member sym con-syms)
+          sym
+          (funcall *load-os-constant-orig* sym query))))))
+
+; All of the functions being natively defined are here
+
+(defun X86-Darwin64::|showmenubar| ()
+  (show-menubar))
+
+(defun X86-Darwin64::|hidemenubar| ()
+  (hide-menubar))
+
+(defun X86-Darwin64::|getcursor| (id)
+  (get-cursor id))
+
+(defun X86-Darwin64::|showcursor| ()
+  (show-cursor))
+
+(defun X86-Darwin64::|ShowCursor| ()
+  (show-cursor))
+
+(defun X86-Darwin64::|hidecursor| ()
+  (hide-cursor))
+
+(defun X86-Darwin64::|HideCursor| ()
+  (hide-cursor))
+
+(defun X86-Darwin64::|paintrect| (rect)
+  (qd-paint-rect rect))
+
+(defun X86-Darwin64::|PaintRect| (rect)
+  (qd-paint-rect rect))
+
+(defun X86-Darwin64::|framerect| (rect)
+  (qd-frame-rect rect))
+
+(defun X86-Darwin64::|drawstring| (str)
+  (draw-string str))
+
+(defun X86-Darwin64::|lineto| (x y)
+  (qd-line-to x y))
+
+(defun X86-Darwin64::|moveto| (x y)
+  (qd-move-to x y))
+
+(defun X86-Darwin64::|MoveTo| (x y)
+  (qd-move-to x y))
+
+(defun X86-DARWIN64::|PaintOval| (rect)
+  (qd-paint-oval rect))
+
+; And the constants are here
+(defparameter X86-Darwin64::|tejustleft| $tejustleft)
+(defparameter X86-Darwin64::|tejustcenter| $tejustcenter)
+(defparameter X86-Darwin64::|tejustright| $tejustright)
+(defparameter X86-Darwin64::|crossCursor| *crosshair-cursor*)
+
+
+
+; ----------------------------------------------------------------------
+; End file: actr6/devices/ccl/share.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: rmcl/level-1/l1-init.lisp
+; ----------------------------------------------------------------------
+
+
+(defparameter *menubar-bottom* 38) ;the location of the line under the menu bar.
+
+(defparameter *modal-dialog-on-top* nil)
+
+
+
+; ----------------------------------------------------------------------
+; End file: rmcl/level-1/l1-init.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: rmcl/lib/color.lisp
+; ----------------------------------------------------------------------
+
+
+(defparameter *tool-back-color* 15658734)
+
+
+
+; ----------------------------------------------------------------------
+; End file: rmcl/lib/color.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: rmcl/lib/dialogs.lisp
+; ----------------------------------------------------------------------
+
+
+
+; FIXME: Is there any way not to use a global for this? The problem is that *modal-dialog-ret* is 
+; set on a different thread than the modal dialog thread, so the cleanest way that I've
+; found to communicate between threads is to use a shared global
+(defparameter *modal-dialog-ret* nil)
+
+; Use #/abortModal and not #/stopModal
+; https://groups.google.com/forum/#!msg/wx-commits-diffs/fB0pl10Kw90/jZtHXQkkVxEJ
+(defun stop-modal ()
+  (#/abortModal (#/sharedApplication ns:ns-application))
+  )
+
+; Form could be (values ...), which is why this is a macro. Don't eval form
+; until it's wrapped in a multiple-value-list call
+(defmacro return-from-modal-dialog (form)
+  `(progn
+     (sv-log "returning from modal dialog with form ~a" ',form)
+     (guard ((null *modal-dialog-ret*)
+             "modal dialog system on thread ~a in inconsistent state; about to set val; but it's already set as ~a"
+             *current-process*
+             *modal-dialog-ret*) ())
+     (setf *modal-dialog-ret* (cons :return (multiple-value-list ,form)))
+     (stop-modal)
+     (pop *modal-dialog-on-top*)
+     (values)))
+
+(defmethod modal-dialog ((dialog window) &optional (close-on-exit t))
+  (push dialog *modal-dialog-on-top*)
+  (guard ((null *modal-dialog-ret*)
+          "modal dialog system on thread ~a in inconsistent state; val should be clear at this point, but it's set as ~a" 
+          *current-process*
+          *modal-dialog-ret*) ())
+  (guard ((null *modal-dialog-ret*) "modal dialog system in inconsistent state; aborting"))
+  (#/runModalForWindow: (#/sharedApplication ns:ns-application) (cocoa-ref dialog))
+  (unwind-protect (apply #'values (cdr *modal-dialog-ret*))
+    (when close-on-exit
+      (window-close dialog))
+    (guard (*modal-dialog-ret* "modal dialog system in inconsistent state; ret should be nil but it's ~a; aborting" *modal-dialog-ret*))
+    (setf *modal-dialog-ret* nil)))
+
+(defmethod find-subview-of-type ((view easygui::view) subview-type)
+  (dolist (sub (view-subviews view) nil)
+    (when (typep sub subview-type)
+      (return sub))))
+
+
+
+; ----------------------------------------------------------------------
+; End file: rmcl/lib/dialogs.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: rmcl/lib/ccl-menus.lisp
+; ----------------------------------------------------------------------
+
+
+(defun return-cancel (i)
+  (declare (ignore i))
+  (return-from-modal-dialog :cancel))
+
+(defclass string-dialog (dialog)
+  ((allow-empty-strings :initform nil :initarg :allow-empty-strings)))
+
+(defclass get-string-dialog (string-dialog)())
+
+(defmethod set-view-size ((dialog get-string-dialog) h &optional v)
+  (declare (ignore h v))
+  (let* ((old-size (view-size dialog)))
+    (call-next-method)
+    (let* ((new-size (view-size dialog))
+           (hdelta (make-point (- (point-h old-size)(point-h new-size)) 0))
+           (subs (view-subviews dialog))
+           (len (length subs)))
+      (dotimes (i len)
+        (let ((sub (elt subs i)))
+          (if (typep sub 'button-dialog-item)
+            (set-view-position sub (subtract-points (view-position sub) hdelta))
+            (if (typep sub 'editable-text-dialog-item)
+              (set-view-size sub (subtract-points (view-size sub) hdelta)))))))))
+
+;; could be prettier, need a set-view-size method - move buttons, resize editable-text - done
+; 140 x 80 is about minimum useful size - neg size is invisible
+(with-continue
+  (defun get-string-from-user (message 
+                                &key
+                                initial-string
+                                (size #@(365 100))
+                                (position '(:bottom 140))
+                                (ok-text "OK")
+                                (cancel-text "Cancel")
+                                (modeless nil)
+                                (window-title "")
+                                (window-type :document-with-grow)
+                                (back-color *tool-back-color*)
+                                (allow-empty-strings nil)
+                                (action-function #'identity)
+                                cancel-function
+                                (theme-background t)
+                                &aux dialog (delta 0) (message-len 0) message-item)
+    (when (not initial-string) (setq initial-string ""))
+    (if t (setq delta 20)(setq delta 10))  
+    (when message 
+      (setq message-item (make-instance 'static-text-dialog-item
+                                        :text-truncation :end
+                                        :view-position (make-point 6 (- (point-v size) 54 delta))
+                                        :dialog-item-text message))
+      (let* ((msize (view-size message-item))
+             (mh (point-h msize)))  ;; would be nice if static text had a truncate option -now it does
+        (setq mh (min mh (- (point-h size) 100))) 
+        (set-view-size message-item (make-point mh (point-v msize))))
+      (setq message-len (+ 6 (point-h (view-size message-item)))))
+    (flet ((act-on-text (item)
+             (let ((e-item
+                     (find-subview-of-type (view-container item)
+                                           'editable-text-dialog-item)))
+               (funcall action-function (dialog-item-text e-item)))))    
+      (setq dialog (make-instance 
+                     'get-string-dialog
+                     :view-position position
+                     :view-size size
+                     :close-box-p (if modeless t nil)
+                     :grow-box-p t
+                     :window-type window-type
+                     :window-title window-title
+                     :window-show nil
+                     :back-color back-color
+                     :theme-background theme-background
+                     :allow-empty-strings allow-empty-strings
+                     :view-subviews
+                     (list
+                       (make-dialog-item
+                         'default-button-dialog-item
+                         (make-point (- (point-h size) 74)
+                                     (- (point-v size) 20 delta))
+                         #@(62 25)
+                         ok-text
+                         (if (not modeless)
+                           #'(lambda (item)
+                               (return-from-modal-dialog (act-on-text item)))
+                           #'act-on-text))                     
+                       (make-dialog-item 'button-dialog-item
+                                         (make-point (- (point-h size) 154)
+                                                     (- (point-v size) 20 delta))
+                                         #@(70 25)
+                                         cancel-text
+                                         (or cancel-function
+                                             #'(lambda (item)
+                                                 (if (not modeless) 
+                                                   (return-from-modal-dialog :cancel)
+                                                   (window-close (view-window item)))))
+                                         :cancel-button t)
+                       (make-dialog-item 'editable-text-dialog-item
+                                         (make-point (+ 6 message-len) (- (point-v size) 54 delta))
+                                         (make-point (- (point-h size) delta message-len) 23)
+                                         initial-string))))
+      (when message (add-subviews  dialog  message-item))
+      (update-default-button dialog)
+      (cond ((not modeless)         
+              (modal-dialog dialog))
+            (t (window-show dialog)
+             dialog)))))
+
+
+(defmethod update-default-button ((obj string-dialog)) ())
+
+; need close box if modal nil 
+(defun message-dialog (message &key (ok-text "OK")
+                               (size #@(335 100))
+                               (modal t)   ; if not modal its callers job to select
+                               (title "Warning")
+                               window-type
+                               (on-ok-click
+                                 #'(lambda (item)
+                                     (declare (ignore item))
+                                     (return-from-modal-dialog t)))
+                               (back-color *tool-back-color*)
+                               (theme-background t)
+                               (position (list :top (+ *menubar-bottom* 10))))
+  (let* ((message-width (- (point-h size) 85))
+         (new-dialog
+           (make-instance
+             'dialog
+             :view-position position
+             :view-size size
+             :window-title title
+             :window-type (or window-type (if modal :movable-dialog :document))
+             :close-box-p (if modal nil t)
+             :window-show nil
+             :back-color back-color
+             :theme-background theme-background
+             :view-subviews
+             `(,(make-instance
+                  'static-text-dialog-item
+                  :dialog-item-text message
+                  :text-truncation #$NSLineBreakByWordWrapping
+                  :view-size (make-point
+                               message-width
+                               (- (point-v size)
+                                  30)))
+                ,@(if modal
+                    (list (make-dialog-item
+                            'default-button-dialog-item
+                            (subtract-points size #@(75 35))
+                            #@(62 25)
+                            ok-text
+                            on-ok-click)))))))
+    (if modal
+      (modal-dialog new-dialog)
+      new-dialog)))
+
+(defclass select-dialog (window) ())
+
+(with-continue
+  (defun select-item-from-list (the-list &key (window-title "Select an Item")
+                                         (selection-type :single)
+                                         table-print-function 
+                                         (action-function #'identity)
+                                         (default-button-text "OK")
+                                         (sequence-item-class 'sequence-dialog-item)
+                                         (view-size (make-point 400 (+ 80 (* (length the-list) 20))))
+                                         (view-position '(:top 90) pos-p)
+                                         (theme-background t)
+                                         dialog-class
+                                         modeless
+                                         (help-spec 14086)
+                                         (list-spec 14087)
+                                         (button-spec 14088))
+    "Displays the elements of a list, and returns the item chosen by the user"
+    (let (debutton dialog)
+      (flet ((act-on-items (item)
+               (let ((s-item (find-subview-of-type (view-container item)
+                                                   'sequence-dialog-item)))
+                 (funcall action-function 
+                          (mapcar #'(lambda (c) (cell-contents s-item c))
+                                  (selected-cells s-item))))))
+        (when (and dialog-class (not pos-p) modeless)
+          (let ((w (front-window :class 'select-dialog)))  ; or dialog-class?
+            (when w (setq view-position (add-points (view-position w) #@(15 15))))))
+        (setq debutton
+              (make-instance 
+                'default-button-dialog-item
+                :dialog-item-text default-button-text
+                :dialog-item-enabled-p the-list
+                :help-spec button-spec
+                :dialog-item-action
+                (cond 
+                  ((not modeless)
+                   #'(lambda (item)
+                       (return-from-modal-dialog (act-on-items item))))
+                  (t
+                   #'act-on-items ))))
+        (let* ((bsize (view-default-size debutton))
+               bpos)
+          (setq bsize (make-point (max 60 (point-h bsize)) (point-v bsize))
+            bpos (make-point (- (point-h view-size) 25 (point-h bsize))
+                             (- (point-v view-size) 7 (point-v bsize))))
+          (set-view-size debutton bsize)
+          (set-view-position debutton bpos)
+          (setq dialog
+            (make-instance
+              (or dialog-class 'select-dialog)
+              :window-type :document-with-grow
+              :close-box-p (if modeless t nil)
+              :window-title window-title
+              :view-size view-size
+              :view-position view-position
+              :window-show nil ;modeless
+              :back-color *tool-back-color*
+              :theme-background theme-background
+              :help-spec help-spec
+              :view-subviews
+              (list*
+                (make-instance
+                  sequence-item-class
+                  :view-position #@(4 4)
+                  :view-size (make-point (- (point-h view-size) 8)
+                                         (+ 50 (- (point-v view-size) (point-v bsize) 20)))
+                  ;:table-hscrollp nil
+                  :table-sequence the-list
+                  :table-print-function table-print-function
+                  :selection-type selection-type
+                  :help-spec list-spec)
+                debutton
+                (if (not modeless)
+                  (list
+                    (make-dialog-item 'button-dialog-item
+                                      (make-point (- (point-h bpos) 80)
+                                                  (point-v bpos))
+                                      (make-point (if t #|(osx-p)|# 74 60) (point-v bsize))
+                                      "Cancel"
+                                      #'return-cancel
+                                      :cancel-button t
+                                      :help-spec 15012))
+                  nil))))
+          ;(when the-list (cell-select sdi (index-to-cell sdi 0))) ; let arrow-dialog-item do this
+          (cond (modeless ; select first then show is prettier
+                  (window-show dialog)
+                  dialog)
+
+                (t ;(#_changewindowattributes (wptr dialog) 0 #$kWindowCollapseBoxAttribute)
+                 (modal-dialog dialog))))))))
+
+
+
+; ----------------------------------------------------------------------
+; End file: rmcl/lib/ccl-menus.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: build/post-code.lisp
+; ----------------------------------------------------------------------
+
+
+
+(provide "CCL-SIMPLE-VIEW")
+
+
+
+; ----------------------------------------------------------------------
+; End file: build/post-code.lisp
+; ----------------------------------------------------------------------
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     (#Y(si::bytecodes nil nil (1 0 16 1 1 0 16 2 76 39 4 75 52 0 15 0 15 3 15 4 15 5 19 4 6 1 0 73 29) #1=#A(t (217) (common-lisp-user::*subsymbolic-parameter-values* si::*make-special boundp ext::location (defvar common-lisp-user::*subsymbolic-parameter-values*) (#2=#P"/opt/actr/actr7.x/support/central-parameters.lisp" . 0) ext::annotate common-lisp-user::*spv-lock* (defvar common-lisp-user::*spv-lock*) (#2# . 4266) common-lisp-user::*user-default-parameter-list* (defvar common-lisp-user::*user-default-parameter-list*) (#2# . 4332) common-lisp-user::test-user-defaults-parameter (defun common-lisp-user::test-user-defaults-parameter) (#2# . 4377) :lambda-list (common-lisp-user::params) common-lisp-user::params listp length evenp common-lisp-user::i common-lisp-user::x #:g6080 + #Y(nil nil nil (24 45 23 26 8 1 45 24 13 2 13 0 19 2 25 51 2 43 1 10 1 16 21 73 39 6 10 0 6 1 73 29) #1# #2# 4377) mapcan common-lisp-user::names keywordp every common-lisp-user::current-model common-lisp-user::y :bad-parameter-name common-lisp-user::printing-module common-lisp-user::get-module-fct #:g6082 #:g6081 #:g6083 common-lisp-user::printing-module-suppress-cmds #:g6085 t #:g6086 (setf common-lisp-user::printing-module-suppress-cmds) common-lisp-user::sgp-fct #:g6087 #:g6088 (setf common-lisp-user::printing-module-suppress-cmds) eq #Y(nil nil nil (24 45 32 26 14 33 15 34 19 1 35 47 1 36 45 37 10 1 39 65 75 45 38 13 1 19 1 39 51 0 10 1 45 40 11 41 45 42 13 0 13 1 33 43 18 2 43 1 43 1 64 10 10 3 6 1 12 19 1 44 65 10 1 45 45 10 1 45 46 13 0 13 1 33 47 18 2 43 1 43 1 66 43 1 43 2 4 17 48 29) #1# #2# 4377) notany gensym common-lisp-user::define-model-fct common-lisp-user::res common-lisp-user::name common-lisp-user::current-mp #:g6089 common-lisp-user::valid-model-name #:g6090 common-lisp-user::*current-act-r-model* #:g6093 #:g6092 #:g6094 #:g6096 #:g6097 (setf common-lisp-user::printing-module-suppress-cmds) #:g6098 #:g6099 (setf common-lisp-user::printing-module-suppress-cmds) #Y(nil nil nil (24 45 32 26 14 33 15 34 19 1 35 47 1 60 45 61 10 1 39 65 75 45 62 13 1 19 1 39 51 0 10 1 45 63 11 41 45 64 13 0 13 1 33 65 18 2 43 1 43 1 64 10 10 3 6 1 12 19 1 44 65 10 1 45 66 10 1 45 67 13 0 13 1 33 68 18 2 43 1 43 1 66 43 1 43 2 4 17 48 29) #1# #2# 4377) "print-warning" "~@?" "~S does not name a model in the current meta-process" format common-lisp-user::evaluate-act-r-command "No actions taken in with-model because there is no current meta-process" common-lisp-user::delete-model-fct #Y(common-lisp-user::test-user-defaults-parameter nil nil (24 45 18 26 10 0 16 19 73 39 157 10 0 16 20 16 21 73 39 148 10 0 76 73 40 142 8 -1 45 22 34 26 12 13 1 19 2 27 43 1 45 28 15 29 13 0 19 2 30 73 39 114 19 0 31 39 11 34 49 12 13 0 19 2 50 38 99 19 0 51 12 77 19 2 52 12 77 46 53 46 54 19 0 55 45 56 10 0 39 50 13 1 19 1 57 45 58 10 0 39 19 10 0 48 59 34 69 12 13 4 19 2 50 51 3 44 1 38 17 15 70 77 15 71 15 72 13 0 19 4 73 12 19 2 74 43 1 38 15 15 70 77 15 71 15 75 19 3 73 12 19 2 74 43 1 13 0 19 1 76 10 1 73 43 2 43 1 29) #1# #2# 4377) si::fset :starting-parameters :handler common-lisp-user::set-or-get common-lisp-user::value #Y(nil nil nil (24 45 81 24 45 82 26 10 1 39 8 10 0 52 10 73 38 4 11 10 73 29) #1# #2# 5264) :documentation "Parameter settings to apply at the start of every model." :valid-test :warning "A list that is valid for passing to sgp-fct" :default-value common-lisp-user::create-system-parameter common-lisp-user::central-parameters "CENTRAL-PARAMETERS-" (common-lisp-user::esc common-lisp-user::ol common-lisp-user::er (common-lisp-user::lock #3=(bordeaux-threads::make-lock #4="central-parameters"))) ((common-lisp-user::esc nil t nil 0 nil) (common-lisp-user::ol nil t nil 1 nil) (common-lisp-user::er nil t nil 2 nil) (common-lisp-user::lock #3# t nil 3 nil)) common-lisp-user::copy-central-parameters (common-lisp-user::make-central-parameters) common-lisp-user::central-parameters-p si::define-structure (defstruct common-lisp-user::central-parameters) (#2# . 5671) common-lisp-user::make-central-parameters (defun common-lisp-user::make-central-parameters) (#2# . 5671) (&key #5=#:esc #6=#:ol #7=#:er (#8=#:lock (bordeaux-threads::make-lock #4#))) (nil :lock :er :ol :esc) #5# #6# #7# #8# 0 si::make-structure #Y(common-lisp-user::make-central-parameters nil nil (28 105 22 40 2 77 46 106 22 40 2 77 46 107 22 40 2 77 46 108 22 40 2 77 46 109 15 110 13 3 13 2 13 1 13 0 19 5 111 29) #1# #2# 5671) find-class common-lisp-user::central-parameters-reset (defun common-lisp-user::central-parameters-reset) (#2# . 5758) (common-lisp-user::instance) common-lisp-user::instance common-lisp-user::check-for-esc-nil :maintenance :output :priority :max :params common-lisp-user::schedule-event-now #Y(common-lisp-user::central-parameters-reset nil nil (24 45 118 26 15 119 14 120 14 41 14 121 77 14 122 14 123 14 124 10 0 6 1 12 19 9 125 11 10 73 39 6 14 10 19 1 44 29) #1# #2# 5758) (defun common-lisp-user::check-for-esc-nil) (#2# . 6022) (common-lisp-user::instance) common-lisp-user::central-parameters-esc common-lisp-user::param #:g6114 #:g6113 #:g6115 #:g6117 #:g6118 (setf common-lisp-user::printing-module-suppress-cmds) #:g6119 #:g6120 (setf common-lisp-user::printing-module-suppress-cmds) common-lisp-user::current common-lisp-user::get-parameter-default-value equalp #Y(nil nil nil (24 45 131 26 15 34 19 1 35 47 1 132 45 133 10 1 39 65 75 45 134 13 1 19 1 39 51 0 10 1 45 135 11 41 45 136 13 0 13 1 33 137 18 2 43 1 43 1 64 10 10 3 6 1 12 19 1 44 65 10 1 45 138 10 1 45 139 13 0 13 1 33 140 18 2 43 1 43 1 66 43 1 43 2 4 45 141 13 0 11 33 17 48 76 73 39 12 13 0 13 1 19 1 142 17 143 76 73 43 1 29) #1# #2# 6022) some #:g6122 #:g6121 #:g6123 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "Subsymbolic parameters have been set but :esc is currently nil." #Y(common-lisp-user::check-for-esc-nil nil nil (24 45 118 26 13 0 19 1 130 76 39 9 34 144 12 14 0 19 2 145 73 39 60 15 34 19 1 35 47 1 146 45 147 10 1 39 42 75 45 148 13 1 19 1 149 12 19 1 150 39 6 13 1 19 1 151 51 0 10 0 39 15 15 152 77 15 153 15 154 19 3 73 12 19 2 74 43 1 75 73 43 2 29) #1# #2# 6022) common-lisp-user::register-subsymbolic-parameters (defun common-lisp-user::register-subsymbolic-parameters) (#2# . 6614) (&rest common-lisp-user::params) si::%dolist-var common-lisp-user::valid-parameter-name find #Y(common-lisp-user::register-subsymbolic-parameters nil nil (27 45 18 10 0 45 160 38 37 10 0 4 45 131 13 0 19 1 161 39 9 13 0 14 0 19 2 162 76 39 8 13 0 11 0 3 52 0 10 1 5 51 1 43 1 10 0 40 -39 75 73 43 1 29) #1# #2# 6614) common-lisp-user::remote-register-subsymbolic-parameters (defun common-lisp-user::remote-register-subsymbolic-parameters) (#2# . 6901) (&rest common-lisp-user::params) common-lisp-user::string->name-recursive apply #Y(common-lisp-user::remote-register-subsymbolic-parameters nil nil (27 45 18 15 156 13 0 19 1 168 12 19 2 169 29) #1# #2# 6901) "register-subsymbolic-parameters" "Specify parameters which require :esc to be t so that the system can warn if it is nil when they are used. Params: param-name*" common-lisp-user::add-act-r-command common-lisp-user::create-central-params (defun common-lisp-user::create-central-params) (#2# . 7264) (common-lisp-user::model-name) common-lisp-user::model-name #Y(common-lisp-user::create-central-params nil nil (24 45 178 26 19 0 101 29) #1# #2# 7264) common-lisp-user::central-parameters-params (defun common-lisp-user::central-parameters-params) (#2# . 7369) (common-lisp-user::instance common-lisp-user::param) consp :esc #:g6135 #:g6136 si::structure-set :ol #:g6137 #:g6138 :er #:g6139 #:g6140 common-lisp-user::central-parameters-ol common-lisp-user::central-parameters-er #Y(common-lisp-user::central-parameters-params nil nil (24 45 118 24 45 131 26 10 0 16 184 39 95 10 0 4 42 185 27 10 1 45 186 10 1 5 45 187 13 1 15 91 9 0 13 0 19 4 188 43 1 43 1 38 61 42 189 27 10 1 45 190 10 1 5 45 191 13 1 15 91 9 1 13 0 19 4 188 43 1 43 1 38 32 42 192 27 10 1 45 193 10 1 5 45 194 13 1 15 91 9 2 13 0 19 4 188 43 1 43 1 38 3 75 73 38 35 10 0 42 185 8 13 1 19 1 130 38 23 42 189 8 13 1 19 1 195 38 13 42 192 8 13 1 19 1 196 38 3 75 73 29) #1# #2# 7369) :owner common-lisp-user::tornil "either t or nil" "Enable Subsymbolic Computations" common-lisp-user::define-parameter "either t or nil" "Enable Randomness" common-lisp-user::posnumorbool "either t, nil, or a positive number" "Optimized Learning" :version "2.0" "a module that maintains parameters used by other modules" :creation :reset :required common-lisp-user::define-module-fct "CENTRAL-PARAMETERS" provide)) #2# 0) #Y(si::bytecodes nil nil (1 7 16 1 1 7 16 2 76 39 4 75 52 7 15 7 15 3 15 8 15 9 19 4 6 1 7 73 29) #1# #2# 4266) #Y(si::bytecodes nil nil (1 10 16 1 1 10 16 2 76 39 4 75 52 10 15 10 15 3 15 11 15 12 19 4 6 1 10 73 29) #1# #2# 4332) #Y(si::bytecodes nil nil (15 13 15 3 15 14 15 15 19 4 6 15 13 14 16 77 15 17 19 4 6 15 13 1 77 12 19 2 78 1 13 73 29) #1# #2# 4377) #Y(si::bytecodes nil nil (14 79 14 80 1 83 12 14 84 15 85 14 86 15 13 14 87 15 88 14 89 77 19 11 90 29) #1# #2# 5264) #Y(si::bytecodes nil nil (15 91 15 92 77 77 15 93 15 94 15 95 77 77 77 15 96 9 4 77 77 15 97 19 15 98 15 91 15 3 15 99 15 100 19 4 6 15 101 15 3 15 102 15 103 19 4 6 15 101 14 16 77 15 104 19 4 6 15 91 19 1 113 78 110 15 101 1 112 12 19 2 78 1 91 73 29) #1# #2# 5671) #Y(si::bytecodes nil nil (15 114 15 3 15 115 15 116 19 4 6 15 114 14 16 77 15 117 19 4 6 15 114 1 126 12 19 2 78 1 114 73 29) #1# #2# 5758) #Y(si::bytecodes nil nil (15 119 15 3 15 127 15 128 19 4 6 15 119 14 16 77 15 129 19 4 6 15 119 1 155 12 19 2 78 1 119 73 29) #1# #2# 6022) #Y(si::bytecodes nil nil (15 156 15 3 15 157 15 158 19 4 6 15 156 14 16 77 15 159 19 4 6 15 156 1 163 12 19 2 78 1 156 73 29) #1# #2# 6614) #Y(si::bytecodes nil nil (15 164 15 3 15 165 15 166 19 4 6 15 164 14 16 77 15 167 19 4 6 15 164 1 170 12 19 2 78 1 164 73 29) #1# #2# 6901) #Y(si::bytecodes nil nil (15 171 15 164 15 172 19 3 173 29) #1# #2# 7040) #Y(si::bytecodes nil nil (15 174 15 3 15 175 15 176 19 4 6 15 174 14 16 77 15 177 19 4 6 15 174 1 179 12 19 2 78 1 174 73 29) #1# #2# 7264) #Y(si::bytecodes nil nil (15 180 15 3 15 181 15 182 19 4 6 15 180 14 16 77 15 183 19 4 6 15 180 1 197 12 19 2 78 1 180 73 29) #1# #2# 7369) #Y(si::bytecodes nil nil (15 91 77 14 185 14 198 14 41 14 86 15 199 14 89 77 14 87 15 200 14 84 15 201 19 11 202 12 14 192 14 198 14 41 14 86 15 199 14 89 77 14 87 15 203 14 84 15 204 19 11 202 12 14 189 14 198 14 41 14 86 15 205 14 89 14 41 14 87 15 206 14 84 15 207 19 11 202 6 3 12 14 208 15 209 14 84 15 210 14 211 15 174 14 124 15 180 14 212 77 1 114 6 2 12 14 213 14 41 19 15 214 29) #1# #2# 7948) #Y(si::bytecodes nil nil (1 215 16 216 29) #1# #2# 8696))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : central-parameters.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : A module to hold parameters that could be used by more than
+;;;               one module.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.10.17 Dan
+;;;             : Creation.
+;;; 2005.01.09 Dan
+;;;             : Moved the provide to the end.
+;;; 2006.01.17 Dan
+;;;             : * Updated the version to 1.0 and modified the description.
+;;; 2008.07.23 Dan
+;;;             : * Adding the register-subsymbolic-parameters command and the 
+;;;             :   necessary changes to the module to record and verify that.
+;;; 2008.07.24 [1.1]
+;;;             : * Updated the version number because of the change.
+;;; 2013.07.16 Dan [1.2]
+;;;             : * Adding a system parameter :custom-defaults and changing the
+;;;             :   reset to secondary.  Setting :custom-defaults to a list of 
+;;;             :   parameter-value pairs as acceptable for sgp causes those 
+;;;             :   to be set at the start of every model.
+;;; 2013.08.06 Dan
+;;;             : * Renaming custom-defaults to starting-parameters since it 
+;;;             :   doesn't actually change the default values and this name
+;;;             :   feels like a better description.
+;;; 2014.09.03 Dan
+;;;             : * When testing the :starting-parameters param names need to
+;;;             :   make sure there is a current meta-process.
+;;; 2015.06.05 Dan
+;;;             : * Use schedule-event-now for initial check.
+;;; 2016.09.28 Dan
+;;;             : * Removed a with-meta-process from test-user-defaults-parameter.
+;;; 2017.08.07 Dan
+;;;             : * Add a lock for the *subsymbolic-parameter-values* variable.
+;;; 2017.08.15 Dan
+;;;             : * Add a lock for the central-parameters parameters.
+;;; 2018.04.10 Dan
+;;;             : * Add a remote version of register-subsymbolic-parameters.
+;;; 2018.06.22 Dan
+;;;             : * Fixed a bug with the remote register-subsymbolic-parameters.
+;;; 2019.02.15 Dan
+;;;             : * If :starting-parameters is set to nil don't try to create
+;;;             :   a model to test the values since there aren't any to check.
+;;; 2020.01.10 Dan [1.3]
+;;;             : * Removed the #' and lambdas from the module interface functions
+;;;             :   since that's not allowed in the general system now.
+;;; 2021.10.19 Dan [2.0]
+;;;             : * Set the :required flag on the module.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Creates a module to hold some of the critical parameters that may
+;;; be used by multiple modules:
+;;;
+;;; :esc Enable Subsymbolic Computation
+;;; :ol  Optimized Learning
+;;; :er  Enable Randomness
+;;;
+;;; Also sets the model parameters to the values provided in the :starting-parameters
+;;; system parameter for every model during the secondary reset.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; The three parameters :esc, :ol, and :er and also the system parameter :starting-parameters.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(defvar *subsymbolic-parameter-values* nil)
+(defvar *spv-lock* (bt:make-lock "subsymbolic-parameter-values"))
+
+
+(defvar *user-default-parameter-list* nil)
+
+
+(defun test-user-defaults-parameter (params)
+  (and (listp params)
+       (evenp (length params))
+       (or (null params)
+           (let ((names (let ((i -1)) (mapcan (lambda (x) (incf i) (when (evenp i) (list x))) params))))
+             (and
+              (every 'keywordp names)
+              (if (current-model)
+                  (notany (lambda (y)
+                            (eq :bad-parameter-name (car (no-output (sgp-fct (list y))))))
+                          names)
+                (let ((name (define-model-fct (gensym) nil))
+                      (res nil))
+                  (with-model-eval name
+                    (setf res (notany (lambda (y)
+                                        (eq :bad-parameter-name (car (no-output (sgp-fct (list y))))))
+                                      names)))
+                  (delete-model-fct name)
+                  res)))))))
+
+(create-system-parameter :starting-parameters :handler (simple-system-param-handler *user-default-parameter-list*)
+                         :documentation "Parameter settings to apply at the start of every model."
+                         :valid-test 'test-user-defaults-parameter
+                         :warning "A list that is valid for passing to sgp-fct"
+                         :default-value nil)
+
+(defstruct central-parameters
+  esc ol er (lock (bt:make-lock "central-parameters")))
+
+(defun central-parameters-reset (instance)
+  (schedule-event-now 'check-for-esc-nil :maintenance t :output nil 
+                           :priority :max :params (list instance))
+  (when *user-default-parameter-list*
+    (sgp-fct *user-default-parameter-list*)))
+
+(defun check-for-esc-nil (instance)
+  (when (and (null (bt:with-lock-held ((central-parameters-lock instance)) (central-parameters-esc instance)))
+             (some (lambda (param)
+                     (let ((current (car (no-output (sgp-fct (list param))))))
+                       (and (not (eq current :BAD-PARAMETER-NAME))
+                            (not (equalp current (get-parameter-default-value param))))))
+                   (bt:with-lock-held (*spv-lock*) *subsymbolic-parameter-values*)))
+    (model-warning "Subsymbolic parameters have been set but :esc is currently nil.")))
+
+(defun register-subsymbolic-parameters (&rest params)
+  (bt:with-lock-held (*spv-lock*)
+    (dolist (param params)
+      (when (and (valid-parameter-name param) 
+                 (not (find param *subsymbolic-parameter-values*)))
+        (push param *subsymbolic-parameter-values*)))))
+
+
+(defun remote-register-subsymbolic-parameters (&rest params)
+  (apply 'register-subsymbolic-parameters (string->name-recursive params)))
+
+(add-act-r-command "register-subsymbolic-parameters" 'remote-register-subsymbolic-parameters "Specify parameters which require :esc to be t so that the system can warn if it is nil when they are used. Params: param-name*")
+
+
+(defun create-central-params (model-name)
+  (declare (ignore model-name))
+  (make-central-parameters))
+
+(defun central-parameters-params (instance param)
+  (bt:with-lock-held ((central-parameters-lock instance))
+    (cond ((consp param)
+           (case (car param)
+             (:esc (setf (central-parameters-esc instance) (cdr param)))
+             (:ol (setf (central-parameters-ol instance) (cdr param)))
+             (:er (setf (central-parameters-er instance) (cdr param)))))
+          (t
+           (case param
+             (:esc (central-parameters-esc instance))
+             (:ol (central-parameters-ol instance))
+             (:er (central-parameters-er instance)))))))
+
+(define-module-fct 'central-parameters nil
+  (list
+   (define-parameter :esc :owner t :valid-test 'tornil :default-value nil
+     :warning "either t or nil" :documentation "Enable Subsymbolic Computations")
+   (define-parameter :er :owner t :valid-test 'tornil :default-value nil
+     :warning "either t or nil" :documentation "Enable Randomness")
+   (define-parameter :ol :owner t :valid-test 'posnumorbool 
+     :default-value t :warning "either t, nil, or a positive number"
+     :documentation "Optimized Learning"))
+  :version "2.0"
+  :documentation "a module that maintains parameters used by other modules"
+  :creation 'create-central-params
+  :params 'central-parameters-params
+  :reset (list nil 'central-parameters-reset)
+  :required t)
+
+
+(provide "CENTRAL-PARAMETERS")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 77 15 5 15 6 15 7 15 8 15 9 15 10 15 11 15 12 15 13 15 14 15 15 15 16 15 17 15 18 15 19 14 20 1 21 12 1 22 7 3 12 14 20 1 23 12 1 24 7 3 12 14 20 1 25 12 1 26 7 3 6 18 12 77 19 4 27 29) #1=#A(t (676) (common-lisp-user::pm-module ext::location (defclass common-lisp-user::pm-module) (#2=#P"/opt/actr/actr7.x/support/general-pm.lisp" . 0) ext::annotate (:initargs (:modality) :initform 'common-lisp-user::free :writers ((setf common-lisp-user::mode-s)) :readers (common-lisp-user::mode-s) :name common-lisp-user::modality-state) (:initargs (:processor) :initform 'common-lisp-user::free :writers ((setf common-lisp-user::proc-s)) :readers (common-lisp-user::proc-s) :name common-lisp-user::processor-state) (:initargs (:preparation) :initform 'common-lisp-user::free :writers ((setf common-lisp-user::prep-s)) :readers (common-lisp-user::prep-s) :name common-lisp-user::preparation-state) (:initargs (:execution) :initform 'common-lisp-user::free :writers ((setf common-lisp-user::exec-s)) :readers (common-lisp-user::exec-s) :name common-lisp-user::execution-state) (:initform nil :initargs (:state-change) :writers ((setf common-lisp-user::state-change)) :readers (common-lisp-user::state-change) :name common-lisp-user::state-change-flag) (:initform nil :initargs (:name) :writers ((setf common-lisp-user::my-name)) :readers (common-lisp-user::my-name) :name common-lisp-user::module-name) (:initargs (:last-command) :initform nil :writers ((setf common-lisp-user::last-cmd)) :readers (common-lisp-user::last-cmd) :name common-lisp-user::last-command) (:initform nil :initargs (:last-prep) :writers ((setf common-lisp-user::last-prep)) :readers (common-lisp-user::last-prep) :name common-lisp-user::last-prep) (:initform nil :initargs (:exec-queue) :writers ((setf common-lisp-user::exec-queue)) :readers (common-lisp-user::exec-queue) :name common-lisp-user::exec-queue) (:initform 0.05 :initargs (:feat-prep-time) :writers ((setf common-lisp-user::feat-prep-time)) :readers (common-lisp-user::feat-prep-time) :name common-lisp-user::feature-prep-time) (:initform 0.05 :initargs (:init-time) :writers ((setf common-lisp-user::init-time)) :readers (common-lisp-user::init-time) :name common-lisp-user::movement-initiation-time) (:initform -0.1 :initargs (:init-stamp) :writers ((setf common-lisp-user::init-stamp)) :readers (common-lisp-user::init-stamp) :name common-lisp-user::init-stamp) (:initform 0.05 :initargs (:burst-time) :writers ((setf common-lisp-user::burst-time)) :readers (common-lisp-user::burst-time) :name common-lisp-user::burst-time) (:initform "" :initargs (:version-string) :writers ((setf common-lisp-user::version-string)) :readers (common-lisp-user::version-string) :name common-lisp-user::version-string) (:initform "" :writers ((setf common-lisp-user::prepare-spec)) :readers (common-lisp-user::prepare-spec) :name common-lisp-user::prepare-spec) :initfunction #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-recursive-lock "state-lock") :writers ((setf common-lisp-user::state-lock)) :readers (common-lisp-user::state-lock) :name common-lisp-user::state-lock) #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-lock "prep-spec") :writers ((setf common-lisp-user::prep-spec-lock)) :readers (common-lisp-user::prep-spec-lock) :name common-lisp-user::prep-spec-lock) #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-recursive-lock "pm-param-lock") :writers ((setf common-lisp-user::param-lock)) :readers (common-lisp-user::param-lock) :name common-lisp-user::param-lock) clos::load-defclass common-lisp-user::change-state (defgeneric common-lisp-user::change-state) (#2# . 16787) :lambda-list (common-lisp-user::module &key common-lisp-user::proc common-lisp-user::exec common-lisp-user::prep last) :delete-methods t :documentation "Change one or more of a module's state flags." ensure-generic-function (defmethod common-lisp-user::change-state (common-lisp-user::module common-lisp-user::pm-module) &key common-lisp-user::proc commo

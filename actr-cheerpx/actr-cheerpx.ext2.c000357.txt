@@ -1,0 +1,3308 @@
+		    delete $hit{help};
+		}
+	    }
+	    # Now see if it really is ambiguous.
+	    unless ( keys(%hit) == 1 ) {
+		return (0) if $passthrough;
+		warn ("Option ", $opt, " is ambiguous (",
+		      join(", ", @hits), ")\n");
+		$error++;
+		return (1, undef);
+	    }
+	    @hits = keys(%hit);
+	}
+
+	# Complete the option name, if appropriate.
+	if ( @hits == 1 && $hits[0] ne $opt ) {
+	    $tryopt = $hits[0];
+	    $tryopt = lc ($tryopt)
+	      if $ignorecase > (($bundling && length($tryopt) == 1) ? 1 : 0);
+	    print STDERR ("=> option \"$opt\" -> \"$tryopt\"\n")
+		if $debug;
+	}
+    }
+
+    # Map to all lowercase if ignoring case.
+    elsif ( $ignorecase ) {
+	$tryopt = lc ($opt);
+    }
+
+    # Check validity by fetching the info.
+    my $ctl = $opctl->{$tryopt};
+    unless  ( defined $ctl ) {
+	return (0) if $passthrough;
+	# Pretend one char when bundling.
+	if ( $bundling == 1 && length($starter) == 1 ) {
+	    $opt = substr($opt,0,1);
+            unshift (@$argv, $starter.$rest) if defined $rest;
+	}
+	if ( $opt eq "" ) {
+	    warn ("Missing option after ", $starter, "\n");
+	}
+	else {
+	    warn ("Unknown option: ", $opt, "\n");
+	}
+	$error++;
+	return (1, undef);
+    }
+    # Apparently valid.
+    $opt = $tryopt;
+    print STDERR ("=> found ", OptCtl($ctl),
+		  " for \"", $opt, "\"\n") if $debug;
+
+    #### Determine argument status ####
+
+    # If it is an option w/o argument, we're almost finished with it.
+    my $type = $ctl->[CTL_TYPE];
+    my $arg;
+
+    if ( $type eq '' || $type eq '!' || $type eq '+' ) {
+	if ( defined $optarg ) {
+	    return (0) if $passthrough;
+	    warn ("Option ", $opt, " does not take an argument\n");
+	    $error++;
+	    undef $opt;
+	    undef $optarg if $bundling_values;
+	}
+	elsif ( $type eq '' || $type eq '+' ) {
+	    # Supply explicit value.
+	    $arg = 1;
+	}
+	else {
+	    $opt =~ s/^no-?//i;	# strip NO prefix
+	    $arg = 0;		# supply explicit value
+	}
+	unshift (@$argv, $starter.$rest) if defined $rest;
+	return (1, $opt, $ctl, $arg);
+    }
+
+    # Get mandatory status and type info.
+    my $mand = $ctl->[CTL_AMIN];
+
+    # Check if there is an option argument available.
+    if ( $gnu_compat ) {
+	my $optargtype = 0; # none, 1 = empty, 2 = nonempty, 3 = aux
+	if ( defined($optarg) ) {
+	    $optargtype = (length($optarg) == 0) ? 1 : 2;
+	}
+	elsif ( defined $rest || @$argv > 0 ) {
+	    # GNU getopt_long() does not accept the (optional)
+	    # argument to be passed to the option without = sign.
+	    # We do, since not doing so breaks existing scripts.
+	    $optargtype = 3;
+	}
+	if(($optargtype == 0) && !$mand) {
+	    if ( $type eq 'I' ) {
+		# Fake incremental type.
+		my @c = @$ctl;
+		$c[CTL_TYPE] = '+';
+		return (1, $opt, \@c, 1);
+	    }
+	    my $val
+	      = defined($ctl->[CTL_DEFAULT]) ? $ctl->[CTL_DEFAULT]
+	      : $type eq 's'                 ? ''
+	      :                                0;
+	    return (1, $opt, $ctl, $val);
+	}
+	return (1, $opt, $ctl, $type eq 's' ? '' : 0)
+	  if $optargtype == 1;  # --foo=  -> return nothing
+    }
+
+    # Check if there is an option argument available.
+    if ( defined $optarg
+	 ? ($optarg eq '')
+	 : !(defined $rest || @$argv > 0) ) {
+	# Complain if this option needs an argument.
+#	if ( $mand && !($type eq 's' ? defined($optarg) : 0) ) {
+	if ( $mand || $ctl->[CTL_DEST] == CTL_DEST_HASH ) {
+	    return (0) if $passthrough;
+	    warn ("Option ", $opt, " requires an argument\n");
+	    $error++;
+	    return (1, undef);
+	}
+	if ( $type eq 'I' ) {
+	    # Fake incremental type.
+	    my @c = @$ctl;
+	    $c[CTL_TYPE] = '+';
+	    return (1, $opt, \@c, 1);
+	}
+	return (1, $opt, $ctl,
+		defined($ctl->[CTL_DEFAULT]) ? $ctl->[CTL_DEFAULT] :
+		$type eq 's' ? '' : 0);
+    }
+
+    # Get (possibly optional) argument.
+    $arg = (defined $rest ? $rest
+	    : (defined $optarg ? $optarg : shift (@$argv)));
+
+    # Get key if this is a "name=value" pair for a hash option.
+    my $key;
+    if ($ctl->[CTL_DEST] == CTL_DEST_HASH && defined $arg) {
+	($key, $arg) = ($arg =~ /^([^=]*)=(.*)$/s) ? ($1, $2)
+	  : ($arg, defined($ctl->[CTL_DEFAULT]) ? $ctl->[CTL_DEFAULT] :
+	     ($mand ? undef : ($type eq 's' ? "" : 1)));
+	if (! defined $arg) {
+	    warn ("Option $opt, key \"$key\", requires a value\n");
+	    $error++;
+	    # Push back.
+	    unshift (@$argv, $starter.$rest) if defined $rest;
+	    return (1, undef);
+	}
+    }
+
+    #### Check if the argument is valid for this option ####
+
+    my $key_valid = $ctl->[CTL_DEST] == CTL_DEST_HASH ? "[^=]+=" : "";
+
+    if ( $type eq 's' ) {	# string
+	# A mandatory string takes anything.
+	return (1, $opt, $ctl, $arg, $key) if $mand;
+
+	# Same for optional string as a hash value
+	return (1, $opt, $ctl, $arg, $key)
+	  if $ctl->[CTL_DEST] == CTL_DEST_HASH;
+
+	# An optional string takes almost anything.
+	return (1, $opt, $ctl, $arg, $key)
+	  if defined $optarg || defined $rest;
+	return (1, $opt, $ctl, $arg, $key) if $arg eq "-"; # ??
+
+	# Check for option or option list terminator.
+	if ($arg eq $argend ||
+	    $arg =~ /^$prefix.+/) {
+	    # Push back.
+	    unshift (@$argv, $arg);
+	    # Supply empty value.
+	    $arg = '';
+	}
+    }
+
+    elsif ( $type eq 'i'	# numeric/integer
+            || $type eq 'I'	# numeric/integer w/ incr default
+	    || $type eq 'o' ) { # dec/oct/hex/bin value
+
+	my $o_valid = $type eq 'o' ? PAT_XINT : PAT_INT;
+
+	if ( $bundling && defined $rest
+	     && $rest =~ /^($key_valid)($o_valid)(.*)$/si ) {
+	    ($key, $arg, $rest) = ($1, $2, $+);
+	    chop($key) if $key;
+	    $arg = ($type eq 'o' && $arg =~ /^0/) ? oct($arg) : 0+$arg;
+	    unshift (@$argv, $starter.$rest) if defined $rest && $rest ne '';
+	}
+	elsif ( $arg =~ /^$o_valid$/si ) {
+	    $arg =~ tr/_//d;
+	    $arg = ($type eq 'o' && $arg =~ /^0/) ? oct($arg) : 0+$arg;
+	}
+	else {
+	    if ( defined $optarg || $mand ) {
+		if ( $passthrough ) {
+		    unshift (@$argv, defined $rest ? $starter.$rest : $arg)
+		      unless defined $optarg;
+		    return (0);
+		}
+		warn ("Value \"", $arg, "\" invalid for option ",
+		      $opt, " (",
+		      $type eq 'o' ? "extended " : '',
+		      "number expected)\n");
+		$error++;
+		# Push back.
+		unshift (@$argv, $starter.$rest) if defined $rest;
+		return (1, undef);
+	    }
+	    else {
+		# Push back.
+		unshift (@$argv, defined $rest ? $starter.$rest : $arg);
+		if ( $type eq 'I' ) {
+		    # Fake incremental type.
+		    my @c = @$ctl;
+		    $c[CTL_TYPE] = '+';
+		    return (1, $opt, \@c, 1);
+		}
+		# Supply default value.
+		$arg = defined($ctl->[CTL_DEFAULT]) ? $ctl->[CTL_DEFAULT] : 0;
+	    }
+	}
+    }
+
+    elsif ( $type eq 'f' ) { # real number, int is also ok
+	my $o_valid = PAT_FLOAT;
+	if ( $bundling && defined $rest &&
+	     $rest =~ /^($key_valid)($o_valid)(.*)$/s ) {
+	    $arg =~ tr/_//d;
+	    ($key, $arg, $rest) = ($1, $2, $+);
+	    chop($key) if $key;
+	    unshift (@$argv, $starter.$rest) if defined $rest && $rest ne '';
+	}
+	elsif ( $arg =~ /^$o_valid$/ ) {
+	    $arg =~ tr/_//d;
+	}
+	else {
+	    if ( defined $optarg || $mand ) {
+		if ( $passthrough ) {
+		    unshift (@$argv, defined $rest ? $starter.$rest : $arg)
+		      unless defined $optarg;
+		    return (0);
+		}
+		warn ("Value \"", $arg, "\" invalid for option ",
+		      $opt, " (real number expected)\n");
+		$error++;
+		# Push back.
+		unshift (@$argv, $starter.$rest) if defined $rest;
+		return (1, undef);
+	    }
+	    else {
+		# Push back.
+		unshift (@$argv, defined $rest ? $starter.$rest : $arg);
+		# Supply default value.
+		$arg = 0.0;
+	    }
+	}
+    }
+    else {
+	die("Getopt::Long internal error (Can't happen)\n");
+    }
+    return (1, $opt, $ctl, $arg, $key);
+}
+
+sub ValidValue ($$$$$) {
+    my ($ctl, $arg, $mand, $argend, $prefix) = @_;
+
+    if ( $ctl->[CTL_DEST] == CTL_DEST_HASH ) {
+	return 0 unless $arg =~ /[^=]+=(.*)/;
+	$arg = $1;
+    }
+
+    my $type = $ctl->[CTL_TYPE];
+
+    if ( $type eq 's' ) {	# string
+	# A mandatory string takes anything.
+	return (1) if $mand;
+
+	return (1) if $arg eq "-";
+
+	# Check for option or option list terminator.
+	return 0 if $arg eq $argend || $arg =~ /^$prefix.+/;
+	return 1;
+    }
+
+    elsif ( $type eq 'i'	# numeric/integer
+            || $type eq 'I'	# numeric/integer w/ incr default
+	    || $type eq 'o' ) { # dec/oct/hex/bin value
+
+	my $o_valid = $type eq 'o' ? PAT_XINT : PAT_INT;
+	return $arg =~ /^$o_valid$/si;
+    }
+
+    elsif ( $type eq 'f' ) { # real number, int is also ok
+	my $o_valid = PAT_FLOAT;
+	return $arg =~ /^$o_valid$/;
+    }
+    die("ValidValue: Cannot happen\n");
+}
+
+# Getopt::Long Configuration.
+sub Configure (@) {
+    my (@options) = @_;
+
+    my $prevconfig =
+      [ $error, $debug, $major_version, $minor_version, $caller,
+	$autoabbrev, $getopt_compat, $ignorecase, $bundling, $order,
+	$gnu_compat, $passthrough, $genprefix, $auto_version, $auto_help,
+	$longprefix, $bundling_values ];
+
+    if ( ref($options[0]) eq 'ARRAY' ) {
+	( $error, $debug, $major_version, $minor_version, $caller,
+	  $autoabbrev, $getopt_compat, $ignorecase, $bundling, $order,
+	  $gnu_compat, $passthrough, $genprefix, $auto_version, $auto_help,
+	  $longprefix, $bundling_values ) = @{shift(@options)};
+    }
+
+    my $opt;
+    foreach $opt ( @options ) {
+	my $try = lc ($opt);
+	my $action = 1;
+	if ( $try =~ /^no_?(.*)$/s ) {
+	    $action = 0;
+	    $try = $+;
+	}
+	if ( ($try eq 'default' or $try eq 'defaults') && $action ) {
+	    ConfigDefaults ();
+	}
+	elsif ( ($try eq 'posix_default' or $try eq 'posix_defaults') ) {
+	    local $ENV{POSIXLY_CORRECT};
+	    $ENV{POSIXLY_CORRECT} = 1 if $action;
+	    ConfigDefaults ();
+	}
+	elsif ( $try eq 'auto_abbrev' or $try eq 'autoabbrev' ) {
+	    $autoabbrev = $action;
+	}
+	elsif ( $try eq 'getopt_compat' ) {
+	    $getopt_compat = $action;
+            $genprefix = $action ? "(--|-|\\+)" : "(--|-)";
+	}
+	elsif ( $try eq 'gnu_getopt' ) {
+	    if ( $action ) {
+		$gnu_compat = 1;
+		$bundling = 1;
+		$getopt_compat = 0;
+                $genprefix = "(--|-)";
+		$order = $PERMUTE;
+		$bundling_values = 0;
+	    }
+	}
+	elsif ( $try eq 'gnu_compat' ) {
+	    $gnu_compat = $action;
+	    $bundling = 0;
+	    $bundling_values = 1;
+	}
+	elsif ( $try =~ /^(auto_?)?version$/ ) {
+	    $auto_version = $action;
+	}
+	elsif ( $try =~ /^(auto_?)?help$/ ) {
+	    $auto_help = $action;
+	}
+	elsif ( $try eq 'ignorecase' or $try eq 'ignore_case' ) {
+	    $ignorecase = $action;
+	}
+	elsif ( $try eq 'ignorecase_always' or $try eq 'ignore_case_always' ) {
+	    $ignorecase = $action ? 2 : 0;
+	}
+	elsif ( $try eq 'bundling' ) {
+	    $bundling = $action;
+	    $bundling_values = 0 if $action;
+	}
+	elsif ( $try eq 'bundling_override' ) {
+	    $bundling = $action ? 2 : 0;
+	    $bundling_values = 0 if $action;
+	}
+	elsif ( $try eq 'bundling_values' ) {
+	    $bundling_values = $action;
+	    $bundling = 0 if $action;
+	}
+	elsif ( $try eq 'require_order' ) {
+	    $order = $action ? $REQUIRE_ORDER : $PERMUTE;
+	}
+	elsif ( $try eq 'permute' ) {
+	    $order = $action ? $PERMUTE : $REQUIRE_ORDER;
+	}
+	elsif ( $try eq 'pass_through' or $try eq 'passthrough' ) {
+	    $passthrough = $action;
+	}
+	elsif ( $try =~ /^prefix=(.+)$/ && $action ) {
+	    $genprefix = $1;
+	    # Turn into regexp. Needs to be parenthesized!
+	    $genprefix = "(" . quotemeta($genprefix) . ")";
+	    eval { '' =~ /$genprefix/; };
+	    die("Getopt::Long: invalid pattern \"$genprefix\"\n") if $@;
+	}
+	elsif ( $try =~ /^prefix_pattern=(.+)$/ && $action ) {
+	    $genprefix = $1;
+	    # Parenthesize if needed.
+	    $genprefix = "(" . $genprefix . ")"
+	      unless $genprefix =~ /^\(.*\)$/;
+	    eval { '' =~ m"$genprefix"; };
+	    die("Getopt::Long: invalid pattern \"$genprefix\"\n") if $@;
+	}
+	elsif ( $try =~ /^long_prefix_pattern=(.+)$/ && $action ) {
+	    $longprefix = $1;
+	    # Parenthesize if needed.
+	    $longprefix = "(" . $longprefix . ")"
+	      unless $longprefix =~ /^\(.*\)$/;
+	    eval { '' =~ m"$longprefix"; };
+	    die("Getopt::Long: invalid long prefix pattern \"$longprefix\"\n") if $@;
+	}
+	elsif ( $try eq 'debug' ) {
+	    $debug = $action;
+	}
+	else {
+	    die("Getopt::Long: unknown or erroneous config parameter \"$opt\"\n")
+	}
+    }
+    $prevconfig;
+}
+
+# Deprecated name.
+sub config (@) {
+    Configure (@_);
+}
+
+# Issue a standard message for --version.
+#
+# The arguments are mostly the same as for Pod::Usage::pod2usage:
+#
+#  - a number (exit value)
+#  - a string (lead in message)
+#  - a hash with options. See Pod::Usage for details.
+#
+sub VersionMessage(@) {
+    # Massage args.
+    my $pa = setup_pa_args("version", @_);
+
+    my $v = $main::VERSION;
+    my $fh = $pa->{-output} ||
+      ( ($pa->{-exitval} eq "NOEXIT" || $pa->{-exitval} < 2) ? \*STDOUT : \*STDERR );
+
+    print $fh (defined($pa->{-message}) ? $pa->{-message} : (),
+	       $0, defined $v ? " version $v" : (),
+	       "\n",
+	       "(", __PACKAGE__, "::", "GetOptions",
+	       " version ",
+	       defined($Getopt::Long::VERSION_STRING)
+	         ? $Getopt::Long::VERSION_STRING : $VERSION, ";",
+	       " Perl version ",
+	       $] >= 5.006 ? sprintf("%vd", $^V) : $],
+	       ")\n");
+    exit($pa->{-exitval}) unless $pa->{-exitval} eq "NOEXIT";
+}
+
+# Issue a standard message for --help.
+#
+# The arguments are the same as for Pod::Usage::pod2usage:
+#
+#  - a number (exit value)
+#  - a string (lead in message)
+#  - a hash with options. See Pod::Usage for details.
+#
+sub HelpMessage(@) {
+    eval {
+	require Pod::Usage;
+	import Pod::Usage;
+	1;
+    } || die("Cannot provide help: cannot load Pod::Usage\n");
+
+    # Note that pod2usage will issue a warning if -exitval => NOEXIT.
+    pod2usage(setup_pa_args("help", @_));
+
+}
+
+# Helper routine to set up a normalized hash ref to be used as
+# argument to pod2usage.
+sub setup_pa_args($@) {
+    my $tag = shift;		# who's calling
+
+    # If called by direct binding to an option, it will get the option
+    # name and value as arguments. Remove these, if so.
+    @_ = () if @_ == 2 && $_[0] eq $tag;
+
+    my $pa;
+    if ( @_ > 1 ) {
+	$pa = { @_ };
+    }
+    else {
+	$pa = shift || {};
+    }
+
+    # At this point, $pa can be a number (exit value), string
+    # (message) or hash with options.
+
+    if ( UNIVERSAL::isa($pa, 'HASH') ) {
+	# Get rid of -msg vs. -message ambiguity.
+	$pa->{-message} = $pa->{-msg};
+	delete($pa->{-msg});
+    }
+    elsif ( $pa =~ /^-?\d+$/ ) {
+	$pa = { -exitval => $pa };
+    }
+    else {
+	$pa = { -message => $pa };
+    }
+
+    # These are _our_ defaults.
+    $pa->{-verbose} = 0 unless exists($pa->{-verbose});
+    $pa->{-exitval} = 0 unless exists($pa->{-exitval});
+    $pa;
+}
+
+# Sneak way to know what version the user requested.
+sub VERSION {
+    $requested_version = $_[1] if @_ > 1;
+    shift->SUPER::VERSION(@_);
+}
+
+package Getopt::Long::CallBack;
+
+sub new {
+    my ($pkg, %atts) = @_;
+    bless { %atts }, $pkg;
+}
+
+sub name {
+    my $self = shift;
+    ''.$self->{name};
+}
+
+sub given {
+    my $self = shift;
+    $self->{given};
+}
+
+use overload
+  # Treat this object as an ordinary string for legacy API.
+  '""'	   => \&name,
+  fallback => 1;
+
+1;
+
+################ Documentation ################
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Ö   .   k   ..  Ü  ËUtil.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         package Hash::Util;
+
+require 5.007003;
+use strict;
+use Carp;
+use warnings;
+no warnings 'uninitialized';
+use warnings::register;
+no warnings 'experimental::builtin';
+use builtin qw(reftype);
+
+require Exporter;
+our @EXPORT_OK  = qw(
+                     fieldhash fieldhashes
+
+                     all_keys
+                     lock_keys unlock_keys
+                     lock_value unlock_value
+                     lock_hash unlock_hash
+                     lock_keys_plus
+                     hash_locked hash_unlocked
+                     hashref_locked hashref_unlocked
+                     hidden_keys legal_keys
+
+                     lock_ref_keys unlock_ref_keys
+                     lock_ref_value unlock_ref_value
+                     lock_hashref unlock_hashref
+                     lock_ref_keys_plus
+                     hidden_ref_keys legal_ref_keys
+
+                     hash_seed hash_value hv_store
+                     bucket_stats bucket_stats_formatted bucket_info bucket_array
+                     lock_hash_recurse unlock_hash_recurse
+                     lock_hashref_recurse unlock_hashref_recurse
+
+                     hash_traversal_mask
+
+                     bucket_ratio
+                     used_buckets
+                     num_buckets
+                    );
+BEGIN {
+    # make sure all our XS routines are available early so their prototypes
+    # are correctly applied in the following code.
+    our $VERSION = '0.28';
+    require XSLoader;
+    XSLoader::load();
+}
+
+sub import {
+    my $class = shift;
+    if ( grep /fieldhash/, @_ ) {
+        require Hash::Util::FieldHash;
+        Hash::Util::FieldHash->import(':all'); # for re-export
+    }
+    unshift @_, $class;
+    goto &Exporter::import;
+}
+
+sub lock_ref_keys {
+    my($hash, @keys) = @_;
+
+    _clear_placeholders(%$hash);
+    if( @keys ) {
+        my %keys = map { ($_ => 1) } @keys;
+        my %original_keys = map { ($_ => 1) } keys %$hash;
+        foreach my $k (keys %original_keys) {
+            croak "Hash has key '$k' which is not in the new key set"
+              unless $keys{$k};
+        }
+
+        foreach my $k (@keys) {
+            $hash->{$k} = undef unless exists $hash->{$k};
+        }
+        Internals::SvREADONLY %$hash, 1;
+
+        foreach my $k (@keys) {
+            delete $hash->{$k} unless $original_keys{$k};
+        }
+    }
+    else {
+        Internals::SvREADONLY %$hash, 1;
+    }
+
+    return $hash;
+}
+
+sub unlock_ref_keys {
+    my $hash = shift;
+
+    Internals::SvREADONLY %$hash, 0;
+    return $hash;
+}
+
+sub   lock_keys (\%;@) {   lock_ref_keys(@_) }
+sub unlock_keys (\%)   { unlock_ref_keys(@_) }
+
+#=item B<_clear_placeholders>
+#
+# This function removes any placeholder keys from a hash. See Perl_hv_clear_placeholders()
+# in hv.c for what it does exactly. It is currently exposed as XS by universal.c and
+# injected into the Hash::Util namespace.
+#
+# It is not intended for use outside of this module, and may be changed
+# or removed without notice or deprecation cycle.
+#
+#=cut
+#
+# sub _clear_placeholders {} # just in case someone searches...
+
+sub lock_ref_keys_plus {
+    my ($hash,@keys) = @_;
+    my @delete;
+    _clear_placeholders(%$hash);
+    foreach my $key (@keys) {
+        unless (exists($hash->{$key})) {
+            $hash->{$key}=undef;
+            push @delete,$key;
+        }
+    }
+    Internals::SvREADONLY(%$hash,1);
+    delete @{$hash}{@delete};
+    return $hash
+}
+
+sub lock_keys_plus(\%;@) { lock_ref_keys_plus(@_) }
+
+sub lock_ref_value {
+    my($hash, $key) = @_;
+    # I'm doubtful about this warning, as it seems not to be true.
+    # Marking a value in the hash as RO is useful, regardless
+    # of the status of the hash itself.
+    carp "Cannot usefully lock values in an unlocked hash"
+      if !Internals::SvREADONLY(%$hash) && warnings::enabled;
+    Internals::SvREADONLY $hash->{$key}, 1;
+    return $hash
+}
+
+sub unlock_ref_value {
+    my($hash, $key) = @_;
+    Internals::SvREADONLY $hash->{$key}, 0;
+    return $hash
+}
+
+sub   lock_value (\%$) {   lock_ref_value(@_) }
+sub unlock_value (\%$) { unlock_ref_value(@_) }
+
+sub lock_hashref {
+    my $hash = shift;
+
+    lock_ref_keys($hash);
+
+    foreach my $value (values %$hash) {
+        Internals::SvREADONLY($value,1);
+    }
+
+    return $hash;
+}
+
+sub unlock_hashref {
+    my $hash = shift;
+
+    foreach my $value (values %$hash) {
+        Internals::SvREADONLY($value, 0);
+    }
+
+    unlock_ref_keys($hash);
+
+    return $hash;
+}
+
+sub   lock_hash (\%) {   lock_hashref(@_) }
+sub unlock_hash (\%) { unlock_hashref(@_) }
+
+sub lock_hashref_recurse {
+    my $hash = shift;
+
+    lock_ref_keys($hash);
+    foreach my $value (values %$hash) {
+        my $type = reftype($value);
+        if (defined($type) and $type eq 'HASH') {
+            lock_hashref_recurse($value);
+        }
+        Internals::SvREADONLY($value,1);
+    }
+    return $hash
+}
+
+sub unlock_hashref_recurse {
+    my $hash = shift;
+
+    foreach my $value (values %$hash) {
+        my $type = reftype($value);
+        if (defined($type) and $type eq 'HASH') {
+            unlock_hashref_recurse($value);
+        }
+        Internals::SvREADONLY($value,0);
+    }
+    unlock_ref_keys($hash);
+    return $hash;
+}
+
+sub   lock_hash_recurse (\%) {   lock_hashref_recurse(@_) }
+sub unlock_hash_recurse (\%) { unlock_hashref_recurse(@_) }
+
+sub hashref_locked {
+    my $hash=shift;
+    Internals::SvREADONLY(%$hash);
+}
+
+sub hash_locked(\%) { hashref_locked(@_) }
+
+sub hashref_unlocked {
+    my $hash=shift;
+    !Internals::SvREADONLY(%$hash);
+}
+
+sub hash_unlocked(\%) { hashref_unlocked(@_) }
+
+sub legal_keys(\%) { legal_ref_keys(@_)  }
+sub hidden_keys(\%){ hidden_ref_keys(@_) }
+
+sub bucket_stats {
+    my ($hash) = @_;
+    my ($keys, $buckets, $used, @length_counts) = bucket_info($hash);
+    my $sum;
+    my $score;
+    for (1 .. $#length_counts) {
+        $sum += ($length_counts[$_] * $_);
+        $score += $length_counts[$_] * ( $_ * ($_ + 1 ) / 2 );
+    }
+    $score = $score /
+             (( $keys / (2 * $buckets )) * ( $keys + ( 2 * $buckets ) - 1 ))
+                 if $keys;
+    my ($mean, $stddev)= (0, 0);
+    if ($used) {
+        $mean= $sum / $used;
+        $sum= 0;
+        $sum += ($length_counts[$_] * (($_-$mean)**2)) for 1 .. $#length_counts;
+
+        $stddev= sqrt($sum/$used);
+    }
+    return $keys, $buckets, $used, $keys ? ($score, $used/$buckets, ($keys-$used)/$keys, $mean, $stddev, @length_counts) : ();
+}
+
+sub _bucket_stats_formatted_bars {
+    my ($total, $ary, $start_idx, $title, $row_title)= @_;
+
+    my $return = "";
+    my $max_width= $total > 64 ? 64 : $total;
+    my $bar_width= $max_width / $total;
+
+    my $str= "";
+    if ( @$ary < 10) {
+        for my $idx ($start_idx .. $#$ary) {
+            $str .= $idx x sprintf("%.0f", ($ary->[$idx] * $bar_width));
+        }
+    } else {
+        $str= "-" x $max_width;
+    }
+    $return .= sprintf "%-7s         %6d [%s]\n",$title, $total, $str;
+
+    foreach my $idx ($start_idx .. $#$ary) {
+        $return .= sprintf "%-.3s %3d %6.2f%% %6d [%s]\n",
+            $row_title,
+            $idx,
+            $ary->[$idx] / $total * 100,
+            $ary->[$idx],
+            "#" x sprintf("%.0f", ($ary->[$idx] * $bar_width)),
+        ;
+    }
+    return $return;
+}
+
+sub bucket_stats_formatted {
+    my ($hashref)= @_;
+    my ($keys, $buckets, $used, $score, $utilization_ratio, $collision_pct,
+        $mean, $stddev, @length_counts) = bucket_stats($hashref);
+
+    my $return= sprintf   "Keys: %d Buckets: %d/%d Quality-Score: %.2f (%s)\n"
+                        . "Utilized Buckets: %.2f%% Optimal: %.2f%% Keys In Collision: %.2f%%\n"
+                        . "Chain Length - mean: %.2f stddev: %.2f\n",
+                $keys, $used, $buckets, $score, $score <= 1.05 ? "Good" : $score < 1.2 ? "Poor" : "Bad",
+                $utilization_ratio * 100,
+                $keys/$buckets * 100,
+                $collision_pct * 100,
+                $mean, $stddev;
+
+    my @key_depth;
+    $key_depth[$_]= $length_counts[$_] + ( $key_depth[$_+1] || 0 )
+        for reverse 1 .. $#length_counts;
+
+    if ($keys) {
+        $return .= _bucket_stats_formatted_bars($buckets, \@length_counts, 0, "Buckets", "Len");
+        $return .= _bucket_stats_formatted_bars($keys, \@key_depth, 1, "Keys", "Pos");
+    }
+    return $return
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 á   .   k   ..  à   File.pm â   	Handle.pm   ä   Pipe.pm ã   Seekable.pm å   	Select.pm   ç   Socket  ë  |	Socket.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           #
+
+package IO::File;
+
+use 5.008_001;
+use strict;
+use Carp;
+use Symbol;
+use SelectSaver;
+use IO::Seekable;
+
+require Exporter;
+
+our @ISA = qw(IO::Handle IO::Seekable Exporter);
+
+our $VERSION = "1.48";
+
+our @EXPORT = @IO::Seekable::EXPORT;
+
+eval {
+    # Make all Fcntl O_XXX constants available for importing
+    require Fcntl;
+    my @O = grep /^O_/, @Fcntl::EXPORT;
+    Fcntl->import(@O);  # first we import what we want to export
+    push(@EXPORT, @O);
+};
+
+################################################
+## Constructor
+##
+
+sub new {
+    my $type = shift;
+    my $class = ref($type) || $type || "IO::File";
+    @_ >= 0 && @_ <= 3
+	or croak "usage: $class->new([FILENAME [,MODE [,PERMS]]])";
+    my $fh = $class->SUPER::new();
+    if (@_) {
+	$fh->open(@_)
+	    or return undef;
+    }
+    $fh;
+}
+
+################################################
+## Open
+##
+
+sub open {
+    @_ >= 2 && @_ <= 4 or croak 'usage: $fh->open(FILENAME [,MODE [,PERMS]])';
+    my ($fh, $file) = @_;
+    if (@_ > 2) {
+	my ($mode, $perms) = @_[2, 3];
+	if ($mode =~ /^\d+$/) {
+	    defined $perms or $perms = 0666;
+	    return sysopen($fh, $file, $mode, $perms);
+	} elsif ($mode =~ /:/) {
+	    return open($fh, $mode, $file) if @_ == 3;
+	    croak 'usage: $fh->open(FILENAME, IOLAYERS)';
+	} else {
+            return open($fh, IO::Handle::_open_mode_string($mode), $file);
+        }
+    }
+    open($fh, $file);
+}
+
+################################################
+## Binmode
+##
+
+sub binmode {
+    ( @_ == 1 or @_ == 2 ) or croak 'usage $fh->binmode([LAYER])';
+
+    my($fh, $layer) = @_;
+
+    return binmode $$fh unless $layer;
+    return binmode $$fh, $layer;
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            package IO::Handle;
+
+use 5.008_001;
+use strict;
+use Carp;
+use Symbol;
+use SelectSaver;
+use IO ();	# Load the XS module
+
+require Exporter;
+our @ISA = qw(Exporter);
+
+our $VERSION = "1.48";
+
+our @EXPORT_OK = qw(
+    autoflush
+    output_field_separator
+    output_record_separator
+    input_record_separator
+    input_line_number
+    format_page_number
+    format_lines_per_page
+    format_lines_left
+    format_name
+    format_top_name
+    format_line_break_characters
+    format_formfeed
+    format_write
+
+    print
+    printf
+    say
+    getline
+    getlines
+
+    printflush
+    flush
+
+    SEEK_SET
+    SEEK_CUR
+    SEEK_END
+    _IOFBF
+    _IOLBF
+    _IONBF
+);
+
+################################################
+## Constructors, destructors.
+##
+
+sub new {
+    my $class = ref($_[0]) || $_[0] || "IO::Handle";
+    if (@_ != 1) {
+	# Since perl will automatically require IO::File if needed, but
+	# also initialises IO::File's @ISA as part of the core we must
+	# ensure IO::File is loaded if IO::Handle is. This avoids effect-
+	# ively "half-loading" IO::File.
+	if ($] > 5.013 && $class eq 'IO::File' && !$INC{"IO/File.pm"}) {
+	    require IO::File;
+	    shift;
+	    return IO::File::->new(@_);
+	}
+	croak "usage: $class->new()";
+    }
+    my $io = gensym;
+    bless $io, $class;
+}
+
+sub new_from_fd {
+    my $class = ref($_[0]) || $_[0] || "IO::Handle";
+    @_ == 3 or croak "usage: $class->new_from_fd(FD, MODE)";
+    my $io = gensym;
+    shift;
+    IO::Handle::fdopen($io, @_)
+	or return undef;
+    bless $io, $class;
+}
+
+#
+# There is no need for DESTROY to do anything, because when the
+# last reference to an IO object is gone, Perl automatically
+# closes its associated files (if any).  However, to avoid any
+# attempts to autoload DESTROY, we here define it to do nothing.
+#
+sub DESTROY {}
+
+################################################
+## Open and close.
+##
+
+sub _open_mode_string {
+    my ($mode) = @_;
+    $mode =~ /^\+?(<|>>?)$/
+      or $mode =~ s/^r(\+?)$/$1</
+      or $mode =~ s/^w(\+?)$/$1>/
+      or $mode =~ s/^a(\+?)$/$1>>/
+      or croak "IO::Handle: bad open mode: $mode";
+    $mode;
+}
+
+sub fdopen {
+    @_ == 3 or croak 'usage: $io->fdopen(FD, MODE)';
+    my ($io, $fd, $mode) = @_;
+    local(*GLOB);
+
+    if (ref($fd) && "$fd" =~ /GLOB\(/o) {
+	# It's a glob reference; Alias it as we cannot get name of anon GLOBs
+	my $n = qualify(*GLOB);
+	*GLOB = *{*$fd};
+	$fd =  $n;
+    } elsif ($fd =~ m#^\d+$#) {
+	# It's an FD number; prefix with "=".
+	$fd = "=$fd";
+    }
+
+    open($io, _open_mode_string($mode) . '&' . $fd)
+	? $io : undef;
+}
+
+sub close {
+    @_ == 1 or croak 'usage: $io->close()';
+    my($io) = @_;
+
+    close($io);
+}
+
+################################################
+## Normal I/O functions.
+##
+
+# flock
+# select
+
+sub opened {
+    @_ == 1 or croak 'usage: $io->opened()';
+    defined fileno($_[0]);
+}
+
+sub fileno {
+    @_ == 1 or croak 'usage: $io->fileno()';
+    fileno($_[0]);
+}
+
+sub getc {
+    @_ == 1 or croak 'usage: $io->getc()';
+    getc($_[0]);
+}
+
+sub eof {
+    @_ == 1 or croak 'usage: $io->eof()';
+    eof($_[0]);
+}
+
+sub print {
+    @_ or croak 'usage: $io->print(ARGS)';
+    my $this = shift;
+    print $this @_;
+}
+
+sub printf {
+    @_ >= 2 or croak 'usage: $io->printf(FMT,[ARGS])';
+    my $this = shift;
+    printf $this @_;
+}
+
+sub say {
+    @_ or croak 'usage: $io->say(ARGS)';
+    my $this = shift;
+    local $\ = "\n";
+    print $this @_;
+}
+
+sub truncate {
+    @_ == 2 or croak 'usage: $io->truncate(LEN)';
+    truncate($_[0], $_[1]);
+}
+
+sub read {
+    @_ == 3 || @_ == 4 or croak 'usage: $io->read(BUF, LEN [, OFFSET])';
+    read($_[0], $_[1], $_[2], $_[3] || 0);
+}
+
+sub sysread {
+    @_ == 3 || @_ == 4 or croak 'usage: $io->sysread(BUF, LEN [, OFFSET])';
+    sysread($_[0], $_[1], $_[2], $_[3] || 0);
+}
+
+sub write {
+    @_ >= 2 && @_ <= 4 or croak 'usage: $io->write(BUF [, LEN [, OFFSET]])';
+    local($\) = "";
+    $_[2] = length($_[1]) unless defined $_[2];
+    print { $_[0] } substr($_[1], $_[3] || 0, $_[2]);
+}
+
+sub syswrite {
+    @_ >= 2 && @_ <= 4 or croak 'usage: $io->syswrite(BUF [, LEN [, OFFSET]])';
+    if (defined($_[2])) {
+	syswrite($_[0], $_[1], $_[2], $_[3] || 0);
+    } else {
+	syswrite($_[0], $_[1]);
+    }
+}
+
+sub stat {
+    @_ == 1 or croak 'usage: $io->stat()';
+    stat($_[0]);
+}
+
+################################################
+## State modification functions.
+##
+
+sub autoflush {
+    my $old = SelectSaver->new(qualify($_[0], caller));
+    my $prev = $|;
+    $| = @_ > 1 ? $_[1] : 1;
+    $prev;
+}
+
+sub output_field_separator {
+    carp "output_field_separator is not supported on a per-handle basis"
+	if ref($_[0]);
+    my $prev = $,;
+    $, = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub output_record_separator {
+    carp "output_record_separator is not supported on a per-handle basis"
+	if ref($_[0]);
+    my $prev = $\;
+    $\ = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub input_record_separator {
+    carp "input_record_separator is not supported on a per-handle basis"
+	if ref($_[0]);
+    my $prev = $/;
+    $/ = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub input_line_number {
+    local $.;
+    () = tell qualify($_[0], caller) if ref($_[0]);
+    my $prev = $.;
+    $. = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub format_page_number {
+    my $old;
+    $old = SelectSaver->new(qualify($_[0], caller)) if ref($_[0]);
+    my $prev = $%;
+    $% = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub format_lines_per_page {
+    my $old;
+    $old = SelectSaver->new(qualify($_[0], caller)) if ref($_[0]);
+    my $prev = $=;
+    $= = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub format_lines_left {
+    my $old;
+    $old = SelectSaver->new(qualify($_[0], caller)) if ref($_[0]);
+    my $prev = $-;
+    $- = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub format_name {
+    my $old;
+    $old = SelectSaver->new(qualify($_[0], caller)) if ref($_[0]);
+    my $prev = $~;
+    $~ = qualify($_[1], caller) if @_ > 1;
+    $prev;
+}
+
+sub format_top_name {
+    my $old;
+    $old = SelectSaver->new(qualify($_[0], caller)) if ref($_[0]);
+    my $prev = $^;
+    $^ = qualify($_[1], caller) if @_ > 1;
+    $prev;
+}
+
+sub format_line_break_characters {
+    carp "format_line_break_characters is not supported on a per-handle basis"
+	if ref($_[0]);
+    my $prev = $:;
+    $: = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub format_formfeed {
+    carp "format_formfeed is not supported on a per-handle basis"
+	if ref($_[0]);
+    my $prev = $^L;
+    $^L = $_[1] if @_ > 1;
+    $prev;
+}
+
+sub formline {
+    my $io = shift;
+    my $picture = shift;
+    local($^A) = $^A;
+    local($\) = "";
+    formline($picture, @_);
+    print $io $^A;
+}
+
+sub format_write {
+    @_ < 3 || croak 'usage: $io->write( [FORMAT_NAME] )';
+    if (@_ == 2) {
+	my ($io, $fmt) = @_;
+	my $oldfmt = $io->format_name(qualify($fmt,caller));
+	CORE::write($io);
+	$io->format_name($oldfmt);
+    } else {
+	CORE::write($_[0]);
+    }
+}
+
+sub fcntl {
+    @_ == 3 || croak 'usage: $io->fcntl( OP, VALUE );';
+    my ($io, $op) = @_;
+    return fcntl($io, $op, $_[2]);
+}
+
+sub ioctl {
+    @_ == 3 || croak 'usage: $io->ioctl( OP, VALUE );';
+    my ($io, $op) = @_;
+    return ioctl($io, $op, $_[2]);
+}
+
+# this sub is for compatibility with older releases of IO that used
+# a sub called constant to determine if a constant existed -- GMB
+#
+# The SEEK_* and _IO?BF constants were the only constants at that time
+# any new code should just check defined(&CONSTANT_NAME)
+
+sub constant {
+    no strict 'refs';
+    my $name = shift;
+    (($name =~ /^(SEEK_(SET|CUR|END)|_IO[FLN]BF)$/) && defined &{$name})
+	? &{$name}() : undef;
+}
+
+# so that flush.pl can be deprecated
+
+sub printflush {
+    my $io = shift;
+    my $old;
+    $old = SelectSaver->new(qualify($io, caller)) if ref($io);
+    local $| = 1;
+    if(ref($io)) {
+        print $io @_;
+    }
+    else {
+	print @_;
+    }
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # IO::Pipe.pm
+#
+# Copyright (c) 1996-8 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+
+package IO::Pipe;
+
+use 5.008_001;
+
+use IO::Handle;
+use strict;
+use Carp;
+use Symbol;
+
+our $VERSION = "1.49";
+
+sub new {
+    my $type = shift;
+    my $class = ref($type) || $type || "IO::Pipe";
+    @_ == 0 || @_ == 2 or croak "usage: $class->([READFH, WRITEFH])";
+
+    my $me = bless gensym(), $class;
+
+    my($readfh,$writefh) = @_ ? @_ : $me->handles;
+
+    pipe($readfh, $writefh)
+	or return undef;
+
+    @{*$me} = ($readfh, $writefh);
+
+    $me;
+}
+
+sub handles {
+    @_ == 1 or croak 'usage: $pipe->handles()';
+    (IO::Pipe::End->new(), IO::Pipe::End->new());
+}
+
+my $do_spawn = $^O eq 'os2' || $^O eq 'MSWin32';
+
+sub _doit {
+    my $me = shift;
+    my $rw = shift;
+
+    my $pid = $do_spawn ? 0 : fork();
+
+    if($pid) { # Parent
+        return $pid;
+    }
+    elsif(defined $pid) { # Child or spawn
+        my $fh;
+        my $io = $rw ? \*STDIN : \*STDOUT;
+        my ($mode, $save) = $rw ? "r" : "w";
+        if ($do_spawn) {
+          require Fcntl;
+          $save = IO::Handle->new_from_fd($io, $mode);
+	  my $handle = shift;
+          # Close in child:
+	  unless ($^O eq 'MSWin32') {
+            fcntl($handle, Fcntl::F_SETFD(), 1) or croak "fcntl: $!";
+	  }
+          $fh = $rw ? ${*$me}[0] : ${*$me}[1];
+        } else {
+          shift;
+          $fh = $rw ? $me->reader() : $me->writer(); # close the other end
+        }
+        bless $io, "IO::Handle";
+        $io->fdopen($fh, $mode);
+	$fh->close;
+
+        if ($do_spawn) {
+          $pid = eval { system 1, @_ }; # 1 == P_NOWAIT
+          my $err = $!;
+    
+          $io->fdopen($save, $mode);
+          $save->close or croak "Cannot close $!";
+          croak "IO::Pipe: Cannot spawn-NOWAIT: $err" if not $pid or $pid < 0;
+          return $pid;
+        } else {
+          exec @_ or
+            croak "IO::Pipe: Cannot exec: $!";
+        }
+    }
+    else {
+        croak "IO::Pipe: Cannot fork: $!";
+    }
+
+    # NOT Reached
+}
+
+sub reader {
+    @_ >= 1 or croak 'usage: $pipe->reader( [SUB_COMMAND_ARGS] )';
+    my $me = shift;
+
+    return undef
+	unless(ref($me) || ref($me = $me->new));
+
+    my $fh  = ${*$me}[0];
+    my $pid;
+    $pid = $me->_doit(0, $fh, @_)
+        if(@_);
+
+    close ${*$me}[1];
+    bless $me, ref($fh);
+    *$me = *$fh;          # Alias self to handle
+    $me->fdopen($fh->fileno,"r")
+	unless defined($me->fileno);
+    bless $fh;                  # Really wan't un-bless here
+    ${*$me}{'io_pipe_pid'} = $pid
+        if defined $pid;
+
+    $me;
+}
+
+sub writer {
+    @_ >= 1 or croak 'usage: $pipe->writer( [SUB_COMMAND_ARGS] )';
+    my $me = shift;
+
+    return undef
+	unless(ref($me) || ref($me = $me->new));
+
+    my $fh  = ${*$me}[1];
+    my $pid;
+    $pid = $me->_doit(1, $fh, @_)
+        if(@_);
+
+    close ${*$me}[0];
+    bless $me, ref($fh);
+    *$me = *$fh;          # Alias self to handle
+    $me->fdopen($fh->fileno,"w")
+	unless defined($me->fileno);
+    bless $fh;                  # Really wan't un-bless here
+    ${*$me}{'io_pipe_pid'} = $pid
+        if defined $pid;
+
+    $me;
+}
+
+package IO::Pipe::End;
+
+our(@ISA);
+
+@ISA = qw(IO::Handle);
+
+sub close {
+    my $fh = shift;
+    my $r = $fh->SUPER::close(@_);
+
+    waitpid(${*$fh}{'io_pipe_pid'},0)
+	if(defined ${*$fh}{'io_pipe_pid'});
+
+    $r;
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          #
+
+package IO::Seekable;
+
+use 5.008_001;
+use Carp;
+use strict;
+use IO::Handle ();
+# XXX we can't get these from IO::Handle or we'll get prototype
+# mismatch warnings on C<use POSIX; use IO::File;> :-(
+use Fcntl qw(SEEK_SET SEEK_CUR SEEK_END);
+require Exporter;
+
+our @EXPORT = qw(SEEK_SET SEEK_CUR SEEK_END);
+our @ISA = qw(Exporter);
+
+our $VERSION = "1.48";
+
+sub seek {
+    @_ == 3 or croak 'usage: $io->seek(POS, WHENCE)';
+    seek($_[0], $_[1], $_[2]);
+}
+
+sub sysseek {
+    @_ == 3 or croak 'usage: $io->sysseek(POS, WHENCE)';
+    sysseek($_[0], $_[1], $_[2]);
+}
+
+sub tell {
+    @_ == 1 or croak 'usage: $io->tell()';
+    tell($_[0]);
+}
+
+1;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              # IO::Select.pm
+#
+# Copyright (c) 1997-8 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+
+package IO::Select;
+
+use     strict;
+use warnings::register;
+require Exporter;
+
+our $VERSION = "1.49";
+
+our @ISA = qw(Exporter); # This is only so we can do version checking
+
+sub VEC_BITS () {0}
+sub FD_COUNT () {1}
+sub FIRST_FD () {2}
+
+sub new
+{
+ my $self = shift;
+ my $type = ref($self) || $self;
+
+ my $vec = bless [undef,0], $type;
+
+ $vec->add(@_)
+    if @_;
+
+ $vec;
+}
+
+sub add
+{
+ shift->_update('add', @_);
+}
+
+sub remove
+{
+ shift->_update('remove', @_);
+}
+
+sub exists
+{
+ my $vec = shift;
+ my $fno = $vec->_fileno(shift);
+ return undef unless defined $fno;
+ $vec->[$fno + FIRST_FD];
+}
+
+sub _fileno
+{
+ my($self, $f) = @_;
+ return unless defined $f;
+ $f = $f->[0] if ref($f) eq 'ARRAY';
+ if($f =~ /^[0-9]+$/) { # plain file number
+  return $f;
+ }
+ elsif(defined(my $fd = fileno($f))) {
+  return $fd;
+ }
+ else {
+  # Neither a plain file number nor an opened filehandle; but maybe it was
+  # previously registered and has since been closed. ->remove still wants to
+  # know what fileno it had
+  foreach my $i ( FIRST_FD .. $#$self ) {
+   return $i - FIRST_FD if defined $self->[$i] && $self->[$i] == $f;
+  }
+  return undef;
+ }
+}
+
+sub _update
+{
+ my $vec = shift;
+ my $add = shift eq 'add';
+
+ my $bits = $vec->[VEC_BITS];
+ $bits = '' unless defined $bits;
+
+ my $count = 0;
+ my $f;
+ foreach $f (@_)
+  {
+   my $fn = $vec->_fileno($f);
+   if ($add) {
+     next unless defined $fn;
+     my $i = $fn + FIRST_FD;
+     if (defined $vec->[$i]) {
+	 $vec->[$i] = $f;  # if array rest might be different, so we update
+	 next;
+     }
+     $vec->[FD_COUNT]++;
+     vec($bits, $fn, 1) = 1;
+     $vec->[$i] = $f;
+   } else {      # remove
+     if ( ! defined $fn ) { # remove if fileno undef'd
+       $fn = 0;
+       for my $fe (@{$vec}[FIRST_FD .. $#$vec]) {
+         if (defined($fe) && $fe == $f) {
+	   $vec->[FD_COUNT]--;
+	   $fe = undef;
+	   vec($bits, $fn, 1) = 0;
+	   last;
+	 }
+	 ++$fn;
+       }
+     }
+     else {
+       my $i = $fn + FIRST_FD;
+       next unless defined $vec->[$i];
+       $vec->[FD_COUNT]--;
+       vec($bits, $fn, 1) = 0;
+       $vec->[$i] = undef;
+     }
+   }
+   $count++;
+  }
+ $vec->[VEC_BITS] = $vec->[FD_COUNT] ? $bits : undef;
+ $count;
+}
+
+sub can_read
+{
+ my $vec = shift;
+ my $timeout = shift;
+ my $r = $vec->[VEC_BITS];
+
+ defined($r) && (select($r,undef,undef,$timeout) > 0)
+    ? handles($vec, $r)
+    : ();
+}
+
+sub can_write
+{
+ my $vec = shift;
+ my $timeout = shift;
+ my $w = $vec->[VEC_BITS];
+
+ defined($w) && (select(undef,$w,undef,$timeout) > 0)
+    ? handles($vec, $w)
+    : ();
+}
+
+sub has_exception
+{
+ my $vec = shift;
+ my $timeout = shift;
+ my $e = $vec->[VEC_BITS];
+
+ defined($e) && (select(undef,undef,$e,$timeout) > 0)
+    ? handles($vec, $e)
+    : ();
+}
+
+sub has_error
+{
+ warnings::warn("Call to deprecated method 'has_error', use 'has_exception'")
+	if warnings::enabled();
+ goto &has_exception;
+}
+
+sub count
+{
+ my $vec = shift;
+ $vec->[FD_COUNT];
+}
+
+sub bits
+{
+ my $vec = shift;
+ $vec->[VEC_BITS];
+}
+
+sub as_string  # for debugging
+{
+ my $vec = shift;
+ my $str = ref($vec) . ": ";
+ my $bits = $vec->bits;
+ my $count = $vec->count;
+ $str .= defined($bits) ? unpack("b*", $bits) : "undef";
+ $str .= " $count";
+ my @handles = @$vec;
+ splice(@handles, 0, FIRST_FD);
+ for (@handles) {
+     $str .= " " . (defined($_) ? "$_" : "-");
+ }
+ $str;
+}
+
+sub _max
+{
+ my($a,$b,$c) = @_;
+ $a > $b
+    ? $a > $c
+        ? $a
+        : $c
+    : $b > $c
+        ? $b
+        : $c;
+}
+
+sub select
+{
+ shift
+   if defined $_[0] && !ref($_[0]);
+
+ my($r,$w,$e,$t) = @_;
+ my @result = ();
+
+ my $rb = defined $r ? $r->[VEC_BITS] : undef;
+ my $wb = defined $w ? $w->[VEC_BITS] : undef;
+ my $eb = defined $e ? $e->[VEC_BITS] : undef;
+
+ if(select($rb,$wb,$eb,$t) > 0)
+  {
+   my @r = ();
+   my @w = ();
+   my @e = ();
+   my $i = _max(defined $r ? scalar(@$r)-1 : 0,
+                defined $w ? scalar(@$w)-1 : 0,
+                defined $e ? scalar(@$e)-1 : 0);
+
+   for( ; $i >= FIRST_FD ; $i--)
+    {
+     my $j = $i - FIRST_FD;
+     push(@r, $r->[$i])
+        if defined $rb && defined $r->[$i] && vec($rb, $j, 1);
+     push(@w, $w->[$i])
+        if defined $wb && defined $w->[$i] && vec($wb, $j, 1);
+     push(@e, $e->[$i])
+        if defined $eb && defined $e->[$i] && vec($eb, $j, 1);
+    }
+
+   @result = (\@r, \@w, \@e);
+  }
+ @result;
+}
+
+sub handles
+{
+ my $vec = shift;
+ my $bits = shift;
+ my @h = ();
+ my $i;
+ my $max = scalar(@$vec) - 1;
+
+ for ($i = FIRST_FD; $i <= $max; $i++)
+  {
+   next unless defined $vec->[$i];
+   push(@h, $vec->[$i])
+      if !defined($bits) || vec($bits, $i - FIRST_FD, 1);
+  }
+ 
+ @h;
+}
+
+1;
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ç   .   á   ..  é   INET.pm è   IP.pm   ê  »UNIX.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         # IO::Socket::INET.pm
+#
+# Copyright (c) 1997-8 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+
+package IO::Socket::INET;
+
+use strict;
+use IO::Socket;
+use Socket;
+use Carp;
+use Exporter;
+use Errno;
+
+our @ISA = qw(IO::Socket);
+our $VERSION = "1.49";
+
+my $EINVAL = exists(&Errno::EINVAL) ? Errno::EINVAL() : 1;
+
+IO::Socket::INET->register_domain( AF_INET );
+
+my %socket_type = ( tcp  => SOCK_STREAM,
+		    udp  => SOCK_DGRAM,
+		    icmp => SOCK_RAW
+		  );
+my %proto_number;
+$proto_number{tcp}  = Socket::IPPROTO_TCP()  if defined &Socket::IPPROTO_TCP;
+$proto_number{udp}  = Socket::IPPROTO_UDP()  if defined &Socket::IPPROTO_UDP;
+$proto_number{icmp} = Socket::IPPROTO_ICMP() if defined &Socket::IPPROTO_ICMP;
+my %proto_name = reverse %proto_number;
+
+sub new {
+    my $class = shift;
+    unshift(@_, "PeerAddr") if @_ == 1;
+    return $class->SUPER::new(@_);
+}
+
+sub _cache_proto {
+    my @proto = @_;
+    for (map lc($_), $proto[0], split(' ', $proto[1])) {
+	$proto_number{$_} = $proto[2];
+    }
+    $proto_name{$proto[2]} = $proto[0];
+}
+
+sub _get_proto_number {
+    my $name = lc(shift);
+    return undef unless defined $name;
+    return $proto_number{$name} if exists $proto_number{$name};
+
+    my @proto = eval { getprotobyname($name) };
+    return undef unless @proto;
+    _cache_proto(@proto);
+
+    return $proto[2];
+}
+
+sub _get_proto_name {
+    my $num = shift;
+    return undef unless defined $num;
+    return $proto_name{$num} if exists $proto_name{$num};
+
+    my @proto = eval { getprotobynumber($num) };
+    return undef unless @proto;
+    _cache_proto(@proto);
+
+    return $proto[0];
+}
+
+sub _sock_info {
+  my($addr,$port,$proto) = @_;
+  my $origport = $port;
+  my @serv = ();
+
+  $port = $1
+	if(defined $addr && $addr =~ s,:([\w\(\)/]+)$,,);
+
+  if(defined $proto  && $proto =~ /\D/) {
+    my $num = _get_proto_number($proto);
+    unless (defined $num) {
+      $IO::Socket::errstr = $@ = "Bad protocol '$proto'";
+      return;
+    }
+    $proto = $num;
+  }
+
+  if(defined $port) {
+    my $defport = ($port =~ s,\((\d+)\)$,,) ? $1 : undef;
+    my $pnum = ($port =~ m,^(\d+)$,)[0];
+
+    @serv = getservbyname($port, _get_proto_name($proto) || "")
+	if ($port =~ m,\D,);
+
+    $port = $serv[2] || $defport || $pnum;
+    unless (defined $port) {
+	$IO::Socket::errstr = $@ = "Bad service '$origport'";
+	return;
+    }
+
+    $proto = _get_proto_number($serv[3]) if @serv && !$proto;
+  }
+
+ return ($addr || undef,
+	 $port || undef,
+	 $proto || undef
+	);
+}
+
+sub _error {
+    my $sock = shift;
+    my $err = shift;
+    {
+      local($!);
+      my $title = ref($sock).": ";
+      $IO::Socket::errstr = $@ = join("", $_[0] =~ /^$title/ ? "" : $title, @_);
+      $sock->close()
+	if(defined fileno($sock));
+    }
+    $! = $err;
+    return undef;
+}
+
+sub _get_addr {
+    my($sock,$addr_str, $multi) = @_;
+    my @addr;
+    if ($multi && $addr_str !~ /^\d+(?:\.\d+){3}$/) {
+	(undef, undef, undef, undef, @addr) = gethostbyname($addr_str);
+    } else {
+	my $h = inet_aton($addr_str);
+	push(@addr, $h) if defined $h;
+    }
+    @addr;
+}
+
+sub configure {
+    my($sock,$arg) = @_;
+    my($lport,$rport,$laddr,$raddr,$proto,$type);
+
+    $arg->{LocalAddr} = $arg->{LocalHost}
+	if exists $arg->{LocalHost} && !exists $arg->{LocalAddr};
+
+    ($laddr,$lport,$proto) = _sock_info($arg->{LocalAddr},
+					$arg->{LocalPort},
+					$arg->{Proto})
+			or return _error($sock, $!, $@);
+
+    $laddr = defined $laddr ? inet_aton($laddr)
+			    : INADDR_ANY;
+
+    return _error($sock, $EINVAL, "Bad hostname '",$arg->{LocalAddr},"'")
+	unless(defined $laddr);
+
+    $arg->{PeerAddr} = $arg->{PeerHost}
+	if exists $arg->{PeerHost} && !exists $arg->{PeerAddr};
+
+    unless(exists $arg->{Listen}) {
+	($raddr,$rport,$proto) = _sock_info($arg->{PeerAddr},
+					    $arg->{PeerPort},
+					    $proto)
+			or return _error($sock, $!, $@);
+    }
+
+    $proto ||= _get_proto_number('tcp');
+
+    $type = $arg->{Type} || $socket_type{lc _get_proto_name($proto)};
+
+    my @raddr = ();
+
+    if(defined $raddr) {
+	@raddr = $sock->_get_addr($raddr, $arg->{MultiHomed});
+	return _error($sock, $EINVAL, "Bad hostname '",$arg->{PeerAddr},"'")
+	    unless @raddr;
+    }
+
+    while(1) {
+
+	$sock->socket(AF_INET, $type, $proto) or
+	    return _error($sock, $!, "$!");
+
+        if (defined $arg->{Blocking}) {
+	    defined $sock->blocking($arg->{Blocking})
+		or return _error($sock, $!, "$!");
+	}
+
+	if ($arg->{Reuse} || $arg->{ReuseAddr}) {
+	    $sock->sockopt(SO_REUSEADDR,1) or
+		    return _error($sock, $!, "$!");
+	}
+
+	if ($arg->{ReusePort}) {
+	    $sock->sockopt(SO_REUSEPORT,1) or
+		    return _error($sock, $!, "$!");
+	}
+
+	if ($arg->{Broadcast}) {
+		$sock->sockopt(SO_BROADCAST,1) or
+		    return _error($sock, $!, "$!");
+	}
+
+	if($lport || ($laddr ne INADDR_ANY) || exists $arg->{Listen}) {
+	    $sock->bind($lport || 0, $laddr) or
+		    return _error($sock, $!, "$!");
+	}
+
+	if(exists $arg->{Listen}) {
+	    $sock->listen($arg->{Listen} || 5) or
+		return _error($sock, $!, "$!");
+	    last;
+	}
+
+ 	# don't try to connect unless we're given a PeerAddr
+ 	last unless exists($arg->{PeerAddr});
+ 
+        $raddr = shift @raddr;
+
+	return _error($sock, $EINVAL, 'Cannot determine remote port')
+		unless($rport || $type == SOCK_DGRAM || $type == SOCK_RAW);
+
+	last
+	    unless($type == SOCK_STREAM || defined $raddr);
+
+	return _error($sock, $EINVAL, "Bad hostname '",$arg->{PeerAddr},"'")
+	    unless defined $raddr;
+
+#        my $timeout = ${*$sock}{'io_socket_timeout'};
+#        my $before = time() if $timeout;
+
+	undef $@;
+        if ($sock->connect(pack_sockaddr_in($rport, $raddr))) {
+#            ${*$sock}{'io_socket_timeout'} = $timeout;
+            return $sock;
+        }
+
+	return _error($sock, $!, $@ || "Timeout")
+	    unless @raddr;
+
+#	if ($timeout) {
+#	    my $new_timeout = $timeout - (time() - $before);
+#	    return _error($sock,
+#                         (exists(&Errno::ETIMEDOUT) ? Errno::ETIMEDOUT() : $EINVAL),
+#                         "Timeout") if $new_timeout <= 0;
+#	    ${*$sock}{'io_socket_timeout'} = $new_timeout;
+#        }
+
+    }
+
+    $sock;
+}
+
+sub connect {
+    @_ == 2 || @_ == 3 or
+       croak 'usage: $sock->connect(NAME) or $sock->connect(PORT, ADDR)';
+    my $sock = shift;
+    return $sock->SUPER::connect(@_ == 1 ? shift : pack_sockaddr_in(@_));
+}
+
+sub bind {
+    @_ == 2 || @_ == 3 or
+       croak 'usage: $sock->bind(NAME) or $sock->bind(PORT, ADDR)';
+    my $sock = shift;
+    return $sock->SUPER::bind(@_ == 1 ? shift : pack_sockaddr_in(@_))
+}
+
+sub sockaddr {
+    @_ == 1 or croak 'usage: $sock->sockaddr()';
+    my($sock) = @_;
+    my $name = $sock->sockname;
+    $name ? (sockaddr_in($name))[1] : undef;
+}
+
+sub sockport {
+    @_ == 1 or croak 'usage: $sock->sockport()';
+    my($sock) = @_;
+    my $name = $sock->sockname;
+    $name ? (sockaddr_in($name))[0] : undef;
+}
+
+sub sockhost {
+    @_ == 1 or croak 'usage: $sock->sockhost()';
+    my($sock) = @_;
+    my $addr = $sock->sockaddr;
+    $addr ? inet_ntoa($addr) : undef;
+}
+
+sub peeraddr {
+    @_ == 1 or croak 'usage: $sock->peeraddr()';
+    my($sock) = @_;
+    my $name = $sock->peername;
+    $name ? (sockaddr_in($name))[1] : undef;
+}
+
+sub peerport {
+    @_ == 1 or croak 'usage: $sock->peerport()';
+    my($sock) = @_;
+    my $name = $sock->peername;
+    $name ? (sockaddr_in($name))[0] : undef;
+}
+
+sub peerhost {
+    @_ == 1 or croak 'usage: $sock->peerhost()';
+    my($sock) = @_;
+    my $addr = $sock->peeraddr;
+    $addr ? inet_ntoa($addr) : undef;
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         #  You may distribute under the terms of either the GNU General Public License
+#  or the Artistic License (the same terms as Perl itself)
+#
+#  (C) Paul Evans, 2010-2020 -- leonerd@leonerd.org.uk
+
+package IO::Socket::IP;
+
+use v5;
+use strict;
+use warnings;
+
+# $VERSION needs to be set before  use base 'IO::Socket'
+#  - https://rt.cpan.org/Ticket/Display.html?id=92107
+BEGIN {
+   our $VERSION = '0.41';
+}
+
+use base qw( IO::Socket );
+
+use Carp;
+
+use Socket 1.97 qw(
+   getaddrinfo getnameinfo
+   sockaddr_family
+   AF_INET
+   AI_PASSIVE
+   IPPROTO_TCP IPPROTO_UDP
+   IPPROTO_IPV6 IPV6_V6ONLY
+   NI_DGRAM NI_NUMERICHOST NI_NUMERICSERV NIx_NOHOST NIx_NOSERV
+   SO_REUSEADDR SO_REUSEPORT SO_BROADCAST SO_ERROR
+   SOCK_DGRAM SOCK_STREAM
+   SOL_SOCKET
+);
+my $AF_INET6 = eval { Socket::AF_INET6() }; # may not be defined
+my $AI_ADDRCONFIG = eval { Socket::AI_ADDRCONFIG() } || 0;
+my $AI_NUMERICHOST = eval { Socket::AI_NUMERICHOST() } || 0;
+use POSIX qw( dup2 );
+use Errno qw( EINVAL EINPROGRESS EISCONN ENOTCONN ETIMEDOUT EWOULDBLOCK EOPNOTSUPP );
+
+use constant HAVE_MSWIN32 => ( $^O eq "MSWin32" );
+
+# At least one OS (Android) is known not to have getprotobyname()
+use constant HAVE_GETPROTOBYNAME => defined eval { getprotobyname( "tcp" ) };
+
+my $IPv6_re = do {
+   # translation of RFC 3986 3.2.2 ABNF to re
+   my $IPv4address = do {
+      my $dec_octet = q<(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])>;
+      qq<$dec_octet(?: \\. $dec_octet){3}>;
+   };
+   my $IPv6address = do {
+      my $h16  = qq<[0-9A-Fa-f]{1,4}>;
+      my $ls32 = qq<(?: $h16 : $h16 | $IPv4address)>;
+      qq<(?:
+                                            (?: $h16 : ){6} $ls32
+         |                               :: (?: $h16 : ){5} $ls32
+         | (?:                   $h16 )? :: (?: $h16 : ){4} $ls32
+         | (?: (?: $h16 : ){0,1} $h16 )? :: (?: $h16 : ){3} $ls32
+         | (?: (?: $h16 : ){0,2} $h16 )? :: (?: $h16 : ){2} $ls32
+         | (?: (?: $h16 : ){0,3} $h16 )? ::     $h16 :      $ls32
+         | (?: (?: $h16 : ){0,4} $h16 )? ::                 $ls32
+         | (?: (?: $h16 : ){0,5} $h16 )? ::                 $h16
+         | (?: (?: $h16 : ){0,6} $h16 )? ::
+      )>
+   };
+   qr<$IPv6address>xo;
+};
+
+sub import
+{
+   my $pkg = shift;
+   my @symbols;
+
+   foreach ( @_ ) {
+      if( $_ eq "-register" ) {
+         IO::Socket::IP::_ForINET->register_domain( AF_INET );
+         IO::Socket::IP::_ForINET6->register_domain( $AF_INET6 ) if defined $AF_INET6;
+      }
+      else {
+         push @symbols, $_;
+      }
+   }
+
+   @_ = ( $pkg, @symbols );
+   goto &IO::Socket::import;
+}
+
+# Convenient capability test function
+{
+   my $can_disable_v6only;
+   sub CAN_DISABLE_V6ONLY
+   {
+      return $can_disable_v6only if defined $can_disable_v6only;
+
+      socket my $testsock, Socket::PF_INET6(), SOCK_STREAM, 0 or
+         die "Cannot socket(PF_INET6) - $!";
+
+      if( setsockopt $testsock, IPPROTO_IPV6, IPV6_V6ONLY, 0 ) {
+         return $can_disable_v6only = 1;
+      }
+      elsif( $! == EINVAL || $! == EOPNOTSUPP ) {
+         return $can_disable_v6only = 0;
+      }
+      else {
+         die "Cannot setsockopt() - $!";
+      }
+   }
+}
+
+sub new
+{
+   my $class = shift;
+   my %arg = (@_ == 1) ? (PeerHost => $_[0]) : @_;
+   return $class->SUPER::new(%arg);
+}
+
+# IO::Socket may call this one; neaten up the arguments from IO::Socket::INET
+# before calling our real _configure method
+sub configure
+{
+   my $self = shift;
+   my ( $arg ) = @_;
+
+   $arg->{PeerHost} = delete $arg->{PeerAddr}
+      if exists $arg->{PeerAddr} && !exists $arg->{PeerHost};
+
+   $arg->{PeerService} = delete $arg->{PeerPort}
+      if exists $arg->{PeerPort} && !exists $arg->{PeerService};
+
+   $arg->{LocalHost} = delete $arg->{LocalAddr}
+      if exists $arg->{LocalAddr} && !exists $arg->{LocalHost};
+
+   $arg->{LocalService} = delete $arg->{LocalPort}
+      if exists $arg->{LocalPort} && !exists $arg->{LocalService};
+
+   for my $type (qw(Peer Local)) {
+      my $host    = $type . 'Host';
+      my $service = $type . 'Service';
+
+      if( defined $arg->{$host} ) {
+         ( $arg->{$host}, my $s ) = $self->split_addr( $arg->{$host} );
+         # IO::Socket::INET compat - *Host parsed port always takes precedence
+         $arg->{$service} = $s if defined $s;
+      }
+   }
+
+   $self->_io_socket_ip__configure( $arg );
+}
+
+# Avoid simply calling it _configure, as some subclasses of IO::Socket::INET on CPAN already take that
+sub _io_socket_ip__configure
+{
+   my $self = shift;
+   my ( $arg ) = @_;
+
+   my %hints;
+   my $localflags;
+   my $peerflags;
+   my @localinfos;
+   my @peerinfos;
+
+   my $listenqueue = $arg->{Listen};
+   if( defined $listenqueue and
+       ( defined $arg->{PeerHost} || defined $arg->{PeerService} || defined $arg->{PeerAddrInfo} ) ) {
+      croak "Cannot Listen with a peer address";
+   }
+
+   if( defined $arg->{GetAddrInfoFlags} ) {
+      $hints{flags} = $arg->{GetAddrInfoFlags};
+      $localflags  = $arg->{GetAddrInfoFlags};
+      $peerflags  = $arg->{GetAddrInfoFlags};
+   }
+   else {
+      if (defined $arg->{LocalHost} and $arg->{LocalHost} =~ /^\d+\.\d+\.\d+\.\d+$/) {
+              $localflags = $AI_NUMERICHOST;
+      } else {
+              $localflags = $AI_ADDRCONFIG;
+      }
+      if (defined $arg->{PeerHost} and $arg->{PeerHost} =~ /^\d+\.\d+\.\d+\.\d+$/) {
+              $peerflags = $AI_NUMERICHOST;
+      } elsif (defined $arg->{PeerHost} and $arg->{PeerHost} ne 'localhost') {
+              $peerflags = $AI_ADDRCONFIG;
+      }
+   }
+
+   if( defined( my $family = $arg->{Family} ) ) {
+      $hints{family} = $family;
+   }
+
+   if( defined( my $type = $arg->{Type} ) ) {
+      $hints{socktype} = $type;
+   }
+
+   if( defined( my $proto = $arg->{Proto} ) ) {
+      unless( $proto =~ m/^\d+$/ ) {
+         my $protonum = HAVE_GETPROTOBYNAME
+            ? getprotobyname( $proto )
+            : eval { Socket->${\"IPPROTO_\U$proto"}() };
+         defined $protonum or croak "Unrecognised protocol $proto";
+         $proto = $protonum;
+      }
+
+      $hints{protocol} = $proto;
+   }
+
+   # To maintain compatibility with IO::Socket::INET, imply a default of
+   # SOCK_STREAM + IPPROTO_TCP if neither hint is given
+   if( !defined $hints{socktype} and !defined $hints{protocol} ) {
+      $hints{socktype} = SOCK_STREAM;
+      $hints{protocol} = IPPROTO_TCP;
+   }
+
+   # Some OSes (NetBSD) don't seem to like just a protocol hint without a
+   # socktype hint as well. We'll set a couple of common ones
+   if( !defined $hints{socktype} and defined $hints{protocol} ) {
+      $hints{socktype} = SOCK_STREAM if $hints{protocol} == IPPROTO_TCP;
+      $hints{socktype} = SOCK_DGRAM  if $hints{protocol} == IPPROTO_UDP;
+   }
+
+   if( my $info = $arg->{LocalAddrInfo} ) {
+      ref $info eq "ARRAY" or croak "Expected 'LocalAddrInfo' to be an ARRAY ref";
+      @localinfos = @$info;
+   }
+   elsif( defined $arg->{LocalHost} or
+          defined $arg->{LocalService} or
+          HAVE_MSWIN32 and $arg->{Listen} ) {
+      # Either may be undef
+      my $host = $arg->{LocalHost};
+      my $service = $arg->{LocalService};
+
+      unless ( defined $host or defined $service ) {
+         $service = 0;
+      }
+
+      local $1; # Placate a taint-related bug; [perl #67962]
+      defined $service and $service =~ s/\((\d+)\)$// and
+         my $fallback_port = $1;
+
+      my %localhints = %hints;
+      $localhints{flags} = $localflags;
+      $localhints{flags} |= AI_PASSIVE;
+      ( my $err, @localinfos ) = getaddrinfo( $host, $service, \%localhints );
+
+      if( $err and defined $fallback_port ) {
+         ( $err, @localinfos ) = getaddrinfo( $host, $fallback_port, \%localhints );
+      }
+
+      if( $err ) {
+         $@ = "$err";
+         $! = EINVAL;
+         return;
+      }
+   }
+
+   if( my $info = $arg->{PeerAddrInfo} ) {
+      ref $info eq "ARRAY" or croak "Expected 'PeerAddrInfo' to be an ARRAY ref";
+      @peerinfos = @$info;
+   }
+   elsif( defined $arg->{PeerHost} or defined $arg->{PeerService} ) {
+      defined( my $host = $arg->{PeerHost} ) or
+         croak "Expected 'PeerHost'";
+      defined( my $service = $arg->{PeerService} ) or
+         croak "Expected 'PeerService'";
+
+      local $1; # Placate a taint-related bug; [perl #67962]
+      defined $service and $service =~ s/\((\d+)\)$// and
+         my $fallback_port = $1;
+
+      my %peerhints = %hints;
+      $peerhints{flags} = $peerflags;
+      ( my $err, @peerinfos ) = getaddrinfo( $host, $service, \%peerhints );
+
+      if( $err and defined $fallback_port ) {
+         ( $err, @peerinfos ) = getaddrinfo( $host, $fallback_port, \%peerhints );
+      }
+
+      if( $err ) {
+         $@ = "$err";
+         $! = EINVAL;
+         return;
+      }
+   }
+
+   my $INT_1 = pack "i", 1;
+
+   my @sockopts_enabled;
+   push @sockopts_enabled, [ SOL_SOCKET, SO_REUSEADDR, $INT_1 ] if $arg->{ReuseAddr};
+   push @sockopts_enabled, [ SOL_SOCKET, SO_REUSEPORT, $INT_1 ] if $arg->{ReusePort};
+   push @sockopts_enabled, [ SOL_SOCKET, SO_BROADCAST, $INT_1 ] if $arg->{Broadcast};
+
+   if( my $sockopts = $arg->{Sockopts} ) {
+      ref $sockopts eq "ARRAY" or croak "Expected 'Sockopts' to be an ARRAY ref";
+      foreach ( @$sockopts ) {
+         ref $_ eq "ARRAY" or croak "Bad Sockopts item - expected ARRAYref";
+         @$_ >= 2 and @$_ <= 3 or
+            croak "Bad Sockopts item - expected 2 or 3 elements";
+
+         my ( $level, $optname, $value ) = @$_;
+         # TODO: consider more sanity checking on argument values
+
+         defined $value or $value = $INT_1;
+         push @sockopts_enabled, [ $level, $optname, $value ];
+      }
+   }
+
+   my $blocking = $arg->{Blocking};
+   defined $blocking or $blocking = 1;
+
+   my $v6only = $arg->{V6Only};
+
+   # IO::Socket::INET defines this key. IO::Socket::IP always implements the
+   # behaviour it requests, so we can ignore it, unless the caller is for some
+   # reason asking to disable it.
+   if( defined $arg->{MultiHomed} and !$arg->{MultiHomed} ) {
+      croak "Cannot disable the MultiHomed parameter";
+   }
+
+   my @infos;
+   foreach my $local ( @localinfos ? @localinfos : {} ) {
+      foreach my $peer ( @peerinfos ? @peerinfos : {} ) {
+         next if defined $local->{family}   and defined $peer->{family}   and
+            $local->{family} != $peer->{family};
+         next if defined $local->{socktype} and defined $peer->{socktype} and
+            $local->{socktype} != $peer->{socktype};
+         next if defined $local->{protocol} and defined $peer->{protocol} and
+            $local->{protocol} != $peer->{protocol};
+
+         my $family   = $local->{family}   || $peer->{family}   or next;
+         my $socktype = $local->{socktype} || $peer->{socktype} or next;
+         my $protocol = $local->{protocol} || $peer->{protocol} || 0;
+
+         push @infos, {
+            family    => $family,
+            socktype  => $socktype,
+            protocol  => $protocol,
+            localaddr => $local->{addr},
+            peeraddr  => $peer->{addr},
+         };
+      }
+   }
+
+   if( !@infos ) {
+      # If there was a Family hint then create a plain unbound, unconnected socket
+      if( defined $hints{family} ) {
+         @infos = ( {
+            family   => $hints{family},
+            socktype => $hints{socktype},
+            protocol => $hints{protocol},
+         } );
+      }
+      # If there wasn't, use getaddrinfo()'s AI_ADDRCONFIG side-effect to guess a
+      # suitable family first.
+      else {
+         $hints{flags} |= $AI_ADDRCONFIG;
+         ( my $err, @infos ) = getaddrinfo( "", "0", \%hints );
+         if( $err ) {
+            $@ = "$err";
+            $! = EINVAL;
+            return;
+         }
+
+         # We'll take all the @infos anyway, because some OSes (HPUX) are known to
+         # ignore the AI_ADDRCONFIG hint and return AF_INET6 even if they don't
+         # support them
+      }
+   }
+
+   # In the nonblocking case, caller will be calling ->setup multiple times.
+   # Store configuration in the object for the ->setup method
+   # Yes, these are messy. Sorry, I can't help that...
+
+   ${*$self}{io_socket_ip_infos} = \@infos;
+
+   ${*$self}{io_socket_ip_idx} = -1;
+
+   ${*$self}{io_socket_ip_sockopts} = \@sockopts_enabled;
+   ${*$self}{io_socket_ip_v6only} = $v6only;
+   ${*$self}{io_socket_ip_listenqueue} = $listenqueue;
+   ${*$self}{io_socket_ip_blocking} = $blocking;
+
+   ${*$self}{io_socket_ip_errors} = [ undef, undef, undef ];
+
+   # ->setup is allowed to return false in nonblocking mode
+   $self->setup or !$blocking or return undef;
+
+   return $self;
+}
+
+sub setup
+{
+   my $self = shift;
+
+   while(1) {
+      ${*$self}{io_socket_ip_idx}++;
+      last if ${*$self}{io_socket_ip_idx} >= @{ ${*$self}{io_socket_ip_infos} };
+
+      my $info = ${*$self}{io_socket_ip_infos}->[${*$self}{io_socket_ip_idx}];
+
+      $self->socket( @{$info}{qw( family socktype protocol )} ) or
+         ( ${*$self}{io_socket_ip_errors}[2] = $!, next );
+
+      $self->blocking( 0 ) unless ${*$self}{io_socket_ip_blocking};
+
+      foreach my $sockopt ( @{ ${*$self}{io_socket_ip_sockopts} } ) {
+         my ( $level, $optname, $value ) = @$sockopt;
+         $self->setsockopt( $level, $optname, $value ) or ( $@ = "$!", return undef );
+      }
+
+      if( defined ${*$self}{io_socket_ip_v6only} and defined $AF_INET6 and $info->{family} == $AF_INET6 ) {
+         my $v6only = ${*$self}{io_socket_ip_v6only};
+         $self->setsockopt( IPPROTO_IPV6, IPV6_V6ONLY, pack "i", $v6only ) or ( $@ = "$!", return undef );
+      }
+
+      if( defined( my $addr = $info->{localaddr} ) ) {
+         $self->bind( $addr ) or
+            ( ${*$self}{io_socket_ip_errors}[1] = $!, next );
+      }
+
+      if( defined( my $listenqueue = ${*$self}{io_socket_ip_listenqueue} ) ) {
+         $self->listen( $listenqueue ) or ( $@ = "$!", return undef );
+      }
+
+      if( defined( my $addr = $info->{peeraddr} ) ) {
+         if( $self->connect( $addr ) ) {
+            $! = 0;
+            return 1;
+         }
+
+         if( $! == EINPROGRESS or $! == EWOULDBLOCK ) {
+            ${*$self}{io_socket_ip_connect_in_progress} = 1;
+            return 0;
+         }
+
+         # If connect failed but we have no system error there must be an error
+         # at the application layer, like a bad certificate with
+         # IO::Socket::SSL.
+         # In this case don't continue IP based multi-homing because the problem
+         # cannot be solved at the IP layer.
+         return 0 if ! $!;
+
+         ${*$self}{io_socket_ip_errors}[0] = $!;
+         next;
+      }
+
+      return 1;
+   }
+
+   # Pick the most appropriate error, stringified
+   $! = ( grep defined, @{ ${*$self}{io_socket_ip_errors}} )[0];
+   $@ = "$!";
+   return undef;
+}
+
+sub connect :method
+{
+   my $self = shift;
+
+   # It seems that IO::Socket hides EINPROGRESS errors, making them look like
+   # a success. This is annoying here.
+   # Instead of putting up with its frankly-irritating intentional breakage of
+   # useful APIs I'm just going to end-run around it and call core's connect()
+   # directly
+
+   if( @_ ) {
+      my ( $addr ) = @_;
+
+      # Annoyingly IO::Socket's connect() is where the timeout logic is
+      # implemented, so we'll have to reinvent it here
+      my $timeout = ${*$self}{'io_socket_timeout'};
+
+      return connect( $self, $addr ) unless defined $timeout;
+
+      my $was_blocking = $self->blocking( 0 );
+
+      my $err = defined connect( $self, $addr ) ? 0 : $!+0;
+
+      if( !$err ) {
+         # All happy
+         $self->blocking( $was_blocking );
+         return 1;
+      }
+      elsif( not( $err == EINPROGRESS or $err == EWOULDBLOCK ) ) {
+         # Failed for some other reason
+         $self->blocking( $was_blocking );
+         return undef;
+      }
+      elsif( !$was_blocking ) {
+         # We shouldn't block anyway
+         return undef;
+      }
+
+      my $vec = ''; vec( $vec, $self->fileno, 1 ) = 1;
+      if( !select( undef, $vec, $vec, $timeout ) ) {
+         $self->blocking( $was_blocking );
+         $! = ETIMEDOUT;
+         return undef;
+      }
+
+      # Hoist the error by connect()ing a second time
+      $err = $self->getsockopt( SOL_SOCKET, SO_ERROR );
+      $err = 0 if $err == EISCONN; # Some OSes give EISCONN
+
+      $self->blocking( $was_blocking );
+
+      $! = $err, return undef if $err;
+      return 1;
+   }
+
+   return 1 if !${*$self}{io_socket_ip_connect_in_progress};
+
+   # See if a connect attempt has just failed with an error
+   if( my $errno = $self->getsockopt( SOL_SOCKET, SO_ERROR ) ) {
+      delete ${*$self}{io_socket_ip_connect_in_progress};
+      ${*$self}{io_socket_ip_errors}[0] = $! = $errno;
+      return $self->setup;
+   }
+
+   # No error, so either connect is still in progress, or has completed
+   # successfully. We can tell by trying to connect() again; either it will
+   # succeed or we'll get EISCONN (connected successfully), or EALREADY
+   # (still in progress). This even works on MSWin32.
+   my $addr = ${*$self}{io_socket_ip_infos}[${*$self}{io_socket_ip_idx}]{peeraddr};
+
+   if( connect( $self, $addr ) or $! == EISCONN ) {
+      delete ${*$self}{io_socket_ip_connect_in_progress};
+      $! = 0;
+      return 1;
+   }
+   else {
+      $! = EINPROGRESS;
+      return 0;
+   }
+}
+
+sub connected
+{
+   my $self = shift;
+   return defined $self->fileno &&
+          !${*$self}{io_socket_ip_connect_in_progress} &&
+          defined getpeername( $self ); # ->peername caches, we need to detect disconnection
+}
+
+sub _get_host_service
+{
+   my $self = shift;
+   my ( $addr, $flags, $xflags ) = @_;
+
+   defined $addr or
+      $! = ENOTCONN, return;
+
+   $flags |= NI_DGRAM if $self->socktype == SOCK_DGRAM;
+
+   my ( $err, $host, $service ) = getnameinfo( $addr, $flags, $xflags || 0 );
+   croak "getnameinfo - $err" if $err;
+
+   return ( $host, $service );
+}
+
+sub _unpack_sockaddr
+{
+   my ( $addr ) = @_;
+   my $family = sockaddr_family $addr;
+
+   if( $family == AF_INET ) {
+      return ( Socket::unpack_sockaddr_in( $addr ) )[1];
+   }
+   elsif( defined $AF_INET6 and $family == $AF_INET6 ) {
+      return ( Socket::unpack_sockaddr_in6( $addr ) )[1];
+   }
+   else {
+      croak "Unrecognised address family $family";
+   }
+}
+
+sub sockhost_service
+{
+   my $self = shift;
+   my ( $numeric ) = @_;
+
+   $self->_get_host_service( $self->sockname, $numeric ? NI_NUMERICHOST|NI_NUMERICSERV : 0 );
+}
+
+sub sockhost { my $self = shift; scalar +( $self->_get_host_service( $self->sockname, NI_NUMERICHOST, NIx_NOSERV ) )[0] }
+sub sockport { my $self = shift; scalar +( $self->_get_host_service( $self->sockname, NI_NUMERICSERV, NIx_NOHOST ) )[1] }
+
+sub sockhostname { my $self = shift; scalar +( $self->_get_host_service( $self->sockname, 0, NIx_NOSERV ) )[0] }
+sub sockservice  { my $self = shift; scalar +( $self->_get_host_service( $self->sockname, 0, NIx_NOHOST ) )[1] }
+
+sub sockaddr { my $self = shift; _unpack_sockaddr $self->sockname }
+
+sub peerhost_service
+{
+   my $self = shift;
+   my ( $numeric ) = @_;
+
+   $self->_get_host_service( $self->peername, $numeric ? NI_NUMERICHOST|NI_NUMERICSERV : 0 );
+}
+
+sub peerhost { my $self = shift; scalar +( $self->_get_host_service( $self->peername, NI_NUMERICHOST, NIx_NOSERV ) )[0] }
+sub peerport { my $self = shift; scalar +( $self->_get_host_service( $self->peername, NI_NUMERICSERV, NIx_NOHOST ) )[1] }
+
+sub peerhostname { my $self = shift; scalar +( $self->_get_host_service( $self->peername, 0, NIx_NOSERV ) )[0] }
+sub peerservice  { my $self = shift; scalar +( $self->_get_host_service( $self->peername, 0, NIx_NOHOST ) )[1] }
+
+sub peeraddr { my $self = shift; _unpack_sockaddr $self->peername }
+
+# This unbelievably dodgy hack works around the bug that IO::Socket doesn't do
+# it
+#    https://rt.cpan.org/Ticket/Display.html?id=61577
+sub accept
+{
+   my $self = shift;
+   my ( $new, $peer ) = $self->SUPER::accept( @_ ) or return;
+
+   ${*$new}{$_} = ${*$self}{$_} for qw( io_socket_domain io_socket_type io_socket_proto );
+
+   return wantarray ? ( $new, $peer )
+                    : $new;
+}
+
+# This second unbelievably dodgy hack guarantees that $self->fileno doesn't
+# change, which is useful during nonblocking connect
+sub socket :method
+{
+   my $self = shift;
+   return $self->SUPER::socket(@_) if not defined $self->fileno;
+
+   # I hate core prototypes sometimes...
+   socket( my $tmph, $_[0], $_[1], $_[2] ) or return undef;
+
+   dup2( $tmph->fileno, $self->fileno ) or die "Unable to dup2 $tmph onto $self - $!";
+}
+
+# Versions of IO::Socket before 1.35 may leave socktype undef if from, say, an
+#   ->fdopen call. In this case we'll apply a fix
+BEGIN {
+   if( eval($IO::Socket::VERSION) < 1.35 ) {
+      *socktype = sub {
+         my $self = shift;
+         my $type = $self->SUPER::socktype;
+         if( !defined $type ) {
+            $type = $self->sockopt( Socket::SO_TYPE() );
+         }
+         return $type;
+      };
+   }
+}
+
+sub as_inet
+{
+   my $self = shift;
+   croak "Cannot downgrade a non-PF_INET socket to IO::Socket::INET" unless $self->sockdomain == AF_INET;
+   return IO::Socket::INET->new_from_fd( $self->fileno, "r+" );
+}
+
+sub split_addr
+{
+   shift;
+   my ( $addr ) = @_;
+
+   local ( $1, $2 ); # Placate a taint-related bug; [perl #67962]
+   if( $addr =~ m/\A\[($IPv6_re)\](?::([^\s:]*))?\z/ or
+       $addr =~ m/\A([^\s:]*):([^\s:]*)\z/ ) {
+      return ( $1, $2 ) if defined $2 and length $2;
+      return ( $1, undef );
+   }
+
+   return ( $addr, undef );
+}
+
+sub join_addr
+{
+   shift;
+   my ( $host, $port ) = @_;
+
+   $host = "[$host]" if $host =~ m/:/;
+
+   return join ":", $host, $port if defined $port;
+   return $host;
+}
+
+# Since IO::Socket->new( Domain => ... ) will delete the Domain parameter
+# before calling ->configure, we need to keep track of which it was
+
+package # hide from indexer
+   IO::Socket::IP::_ForINET;
+use base qw( IO::Socket::IP );
+
+sub configure
+{
+   # This is evil
+   my $self = shift;
+   my ( $arg ) = @_;
+
+   bless $self, "IO::Socket::IP";
+   $self->configure( { %$arg, Family => Socket::AF_INET() } );
+}
+
+package # hide from indexer
+   IO::Socket::IP::_ForINET6;
+use base qw( IO::Socket::IP );
+
+sub configure
+{
+   # This is evil
+   my $self = shift;
+   my ( $arg ) = @_;
+
+   bless $self, "IO::Socket::IP";
+   $self->configure( { %$arg, Family => Socket::AF_INET6() } );
+}
+
+0x55AA;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     # IO::Socket::UNIX.pm
+#
+# Copyright (c) 1997-8 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+
+package IO::Socket::UNIX;
+
+use strict;
+use IO::Socket;
+use Carp;
+
+our @ISA = qw(IO::Socket);
+our $VERSION = "1.49";
+
+IO::Socket::UNIX->register_domain( AF_UNIX );
+
+sub new {
+    my $class = shift;
+    unshift(@_, "Peer") if @_ == 1;
+    return $class->SUPER::new(@_);
+}
+
+sub configure {
+    my($sock,$arg) = @_;
+    my($bport,$cport);
+
+    my $type = $arg->{Type} || SOCK_STREAM;
+
+    $sock->socket(AF_UNIX, $type, 0) or
+	return undef;
+
+    if(exists $arg->{Blocking}) {
+        $sock->blocking($arg->{Blocking}) or
+	    return undef;
+    }
+    if(exists $arg->{Local}) {
+	my $addr = sockaddr_un($arg->{Local});
+	$sock->bind($addr) or
+	    return undef;
+    }
+    if(exists $arg->{Listen} && $type != SOCK_DGRAM) {
+	$sock->listen($arg->{Listen} || 5) or
+	    return undef;
+    }
+    elsif(exists $arg->{Peer}) {
+	my $addr = sockaddr_un($arg->{Peer});
+	$sock->connect($addr) or
+	    return undef;
+    }
+
+    $sock;
+}
+
+sub hostpath {
+    @_ == 1 or croak 'usage: $sock->hostpath()';
+    my $n = $_[0]->sockname || return undef;
+    (sockaddr_un($n))[0];
+}
+
+sub peerpath {
+    @_ == 1 or croak 'usage: $sock->peerpath()';
+    my $n = $_[0]->peername || return undef;
+    (sockaddr_un($n))[0];
+}
+
+1; # Keep require happy
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                # IO::Socket.pm
+#
+# Copyright (c) 1997-8 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+
+package IO::Socket;
+
+use 5.008_001;
+
+use IO::Handle;
+use Socket 1.3;
+use Carp;
+use strict;
+use Exporter;
+use Errno;
+
+# legacy
+
+require IO::Socket::INET;
+require IO::Socket::UNIX if ($^O ne 'epoc' && $^O ne 'symbian');
+
+our @ISA = qw(IO::Handle);
+
+our $VERSION = "1.49";
+
+our @EXPORT_OK = qw(sockatmark);
+
+our $errstr;
+
+sub import {
+    my $pkg = shift;
+    if (@_ && $_[0] eq 'sockatmark') { # not very extensible but for now, fast
+	Exporter::export_to_level('IO::Socket', 1, $pkg, 'sockatmark');
+    } else {
+	my $callpkg = caller;
+	Exporter::export 'Socket', $callpkg, @_;
+    }
+}
+
+sub new {
+    my($class,%arg) = @_;
+    my $sock = $class->SUPER::new();
+
+    $sock->autoflush(1);
+
+    ${*$sock}{'io_socket_timeout'} = delete $arg{Timeout};
+
+    return scalar(%arg) ? $sock->configure(\%arg)
+			: $sock;
+}
+
+my @domain2pkg;
+
+sub register_domain {
+    my($p,$d) = @_;
+    $domain2pkg[$d] = $p;
+}
+
+sub configure {
+    my($sock,$arg) = @_;
+    my $domain = delete $arg->{Domain};
+
+    croak 'IO::Socket: Cannot configure a generic socket'
+	unless defined $domain;
+
+    croak "IO::Socket: Unsupported socket domain"
+	unless defined $domain2pkg[$domain];
+
+    croak "IO::Socket: Cannot configure socket in domain '$domain'"
+	unless ref($sock) eq "IO::Socket";
+
+    bless($sock, $domain2pkg[$domain]);
+    $sock->configure($arg);
+}
+
+sub socket {
+    @_ == 4 or croak 'usage: $sock->socket(DOMAIN, TYPE, PROTOCOL)';
+    my($sock,$domain,$type,$protocol) = @_;
+
+    socket($sock,$domain,$type,$protocol) or
+    	return undef;
+
+    ${*$sock}{'io_socket_domain'} = $domain;
+    ${*$sock}{'io_socket_type'}   = $type;
+
+    # "A value of 0 for protocol will let the system select an
+    # appropriate protocol"
+    # so we need to look up what the system selected,
+    # not cache PF_UNSPEC.
+    ${*$sock}{'io_socket_proto'} = $protocol if $protocol;
+
+    $sock;
+}
+
+sub socketpair {
+    @_ == 4 || croak 'usage: IO::Socket->socketpair(DOMAIN, TYPE, PROTOCOL)';
+    my($class,$domain,$type,$protocol) = @_;
+    my $sock1 = $class->new();
+    my $sock2 = $class->new();
+
+    socketpair($sock1,$sock2,$domain,$type,$protocol) or
+    	return ();
+
+    ${*$sock1}{'io_socket_type'}  = ${*$sock2}{'io_socket_type'}  = $type;
+    ${*$sock1}{'io_socket_proto'} = ${*$sock2}{'io_socket_proto'} = $protocol;
+
+    ($sock1,$sock2);
+}
+
+sub connect {
+    @_ == 2 or croak 'usage: $sock->connect(NAME)';
+    my $sock = shift;
+    my $addr = shift;
+    my $timeout = ${*$sock}{'io_socket_timeout'};
+    my $err;
+    my $blocking;
+
+    $blocking = $sock->blocking(0) if $timeout;
+    if (!connect($sock, $addr)) {
+	if (defined $timeout && ($!{EINPROGRESS} || $!{EWOULDBLOCK})) {
+	    require IO::Select;
+
+	    my $sel = IO::Select->new( $sock );
+
+	    undef $!;
+	    my($r,$w,$e) = IO::Select::select(undef,$sel,$sel,$timeout);
+	    if(@$e[0]) {
+		# Windows return from select after the timeout in case of
+		# WSAECONNREFUSED(10061) if exception set is not used.
+		# This behavior is different from Linux.
+		# Using the exception
+		# set we now emulate the behavior in Linux
+		#    - Karthik Rajagopalan
+		$err = $sock->getsockopt(SOL_SOCKET,SO_ERROR);
+		$errstr = $@ = "connect: $err";
+	    }
+	    elsif(!@$w[0]) {
+		$err = $! || (exists &Errno::ETIMEDOUT ? &Errno::ETIMEDOUT : 1);
+		$errstr = $@ = "connect: timeout";
+	    }
+	    elsif (!connect($sock,$addr) &&
+                not ($!{EISCONN} || ($^O eq 'MSWin32' &&
+                ($! == (($] < 5.019004) ? 10022 : Errno::EINVAL))))
+            ) {
+		# Some systems refuse to re-connect() to
+		# an already open socket and set errno to EISCONN.
+		# Windows sets errno to WSAEINVAL (10022) (pre-5.19.4) or
+		# EINVAL (22) (5.19.4 onwards).
+		$err = $!;
+		$errstr = $@ = "connect: $!";
+	    }
+	}
+        elsif ($blocking || !($!{EINPROGRESS} || $!{EWOULDBLOCK}))  {
+	    $err = $!;
+	    $errstr = $@ = "connect: $!";
+	}
+    }
+
+    $sock->blocking(1) if $blocking;
+
+    $! = $err if $err;
+
+    $err ? undef : $sock;
+}
+
+# Enable/disable blocking IO on sockets.
+# Without args return the current status of blocking,
+# with args change the mode as appropriate, returning the
+# old setting, or in case of error during the mode change
+# undef.
+
+sub blocking {
+    my $sock = shift;
+
+    return $sock->SUPER::blocking(@_)
+        if $^O ne 'MSWin32' && $^O ne 'VMS';
+
+    # Windows handles blocking differently
+    #
+    # http://groups.google.co.uk/group/perl.perl5.porters/browse_thread/thread/b4e2b1d88280ddff/630b667a66e3509f?#630b667a66e3509f
+    # http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winsock/winsock/ioctlsocket_2.asp
+    #
+    # 0x8004667e is FIONBIO
+    #
+    # which is used to set blocking behaviour.
+
+    # NOTE:
+    # This is a little confusing, the perl keyword for this is
+    # 'blocking' but the OS level behaviour is 'non-blocking', probably
+    # because sockets are blocking by default.
+    # Therefore internally we have to reverse the semantics.
+
+    my $orig= !${*$sock}{io_sock_nonblocking};
+
+    return $orig unless @_;
+
+    my $block = shift;
+
+    if ( !$block != !$orig ) {
+        ${*$sock}{io_sock_nonblocking} = $block ? 0 : 1;
+        ioctl($sock, 0x8004667e, pack("L!",${*$sock}{io_sock_nonblocking}))
+            or return undef;
+    }
+
+    return $orig;
+}
+
+sub close {
+    @_ == 1 or croak 'usage: $sock->close()';
+    my $sock = shift;
+    ${*$sock}{'io_socket_peername'} = undef;
+    $sock->SUPER::close();
+}
+
+sub bind {
+    @_ == 2 or croak 'usage: $sock->bind(NAME)';
+    my $sock = shift;
+    my $addr = shift;
+
+    return bind($sock, $addr) ? $sock
+			      : undef;
+}
+
+sub listen {
+    @_ >= 1 && @_ <= 2 or croak 'usage: $sock->listen([QUEUE])';
+    my($sock,$queue) = @_;
+    $queue = 5
+	unless $queue && $queue > 0;
+
+    return listen($sock, $queue) ? $sock
+				 : undef;
+}
+
+sub accept {
+    @_ == 1 || @_ == 2 or croak 'usage $sock->accept([PKG])';
+    my $sock = shift;
+    my $pkg = shift || $sock;
+    my $timeout = ${*$sock}{'io_socket_timeout'};
+    my $new = $pkg->new(Timeout => $timeout);
+    my $peer = undef;
+
+    if(defined $timeout) {
+	require IO::Select;
+
+	my $sel = IO::Select->new( $sock );
+
+	unless ($sel->can_read($timeout)) {
+	    $errstr = $@ = 'accept: timeout';
+	    $! = (exists &Errno::ETIMEDOUT ? &Errno::ETIMEDOUT : 1);
+	    return;
+	}
+    }
+
+    $peer = accept($new,$sock)
+	or return;
+
+    ${*$new}{$_} = ${*$sock}{$_} for qw( io_socket_domain io_socket_type io_socket_proto );
+
+    return wantarray ? ($new, $peer)
+    	      	     : $new;
+}
+
+sub sockname {
+    @_ == 1 or croak 'usage: $sock->sockname()';
+    getsockname($_[0]);
+}
+
+sub peername {
+    @_ == 1 or croak 'usage: $sock->peername()';
+    my($sock) = @_;
+    ${*$sock}{'io_socket_peername'} ||= getpeername($sock);
+}
+
+sub connected {
+    @_ == 1 or croak 'usage: $sock->connected()';
+    my($sock) = @_;
+    getpeername($sock);
+}
+
+sub send {
+    @_ >= 2 && @_ <= 4 or croak 'usage: $sock->send(BUF, [FLAGS, [TO]])';
+    my $sock  = $_[0];
+    my $flags = $_[2] || 0;
+    my $peer;
+
+    if ($_[3]) {
+        # the caller explicitly requested a TO, so use it
+        # this is non-portable for "connected" UDP sockets
+        $peer = $_[3];
+    }
+    elsif (!defined getpeername($sock)) {
+        # we're not connected, so we require a peer from somewhere
+        $peer = $sock->peername;
+
+	croak 'send: Cannot determine peer address'
+	    unless(defined $peer);
+    }
+
+    my $r = $peer
+      ? send($sock, $_[1], $flags, $peer)
+      : send($sock, $_[1], $flags);
+
+    # remember who we send to, if it was successful
+    ${*$sock}{'io_socket_peername'} = $peer
+	if(@_ == 4 && defined $r);
+
+    $r;
+}
+
+sub recv {
+    @_ == 3 || @_ == 4 or croak 'usage: $sock->recv(BUF, LEN [, FLAGS])';
+    my $sock  = $_[0];
+    my $len   = $_[2];
+    my $flags = $_[3] || 0;
+
+    # remember who we recv'd from
+    ${*$sock}{'io_socket_peername'} = recv($sock, $_[1]='', $len, $flags);
+}
+
+sub shutdown {
+    @_ == 2 or croak 'usage: $sock->shutdown(HOW)';
+    my($sock, $how) = @_;
+    ${*$sock}{'io_socket_peername'} = undef;
+    shutdown($sock, $how);
+}
+
+sub setsockopt {
+    @_ == 4 or croak '$sock->setsockopt(LEVEL, OPTNAME, OPTVAL)';
+    setsockopt($_[0],$_[1],$_[2],$_[3]);
+}
+
+my $intsize = length(pack("i",0));
+
+sub getsockopt {
+    @_ == 3 or croak '$sock->getsockopt(LEVEL, OPTNAME)';
+    my $r = getsockopt($_[0],$_[1],$_[2]);
+    # Just a guess
+    $r = unpack("i", $r)
+	if(defined $r && length($r) == $intsize);
+    $r;
+}
+
+sub sockopt {
+    my $sock = shift;
+    @_ == 1 ? $sock->getsockopt(SOL_SOCKET,@_)
+	    : $sock->setsockopt(SOL_SOCKET,@_);
+}
+
+sub atmark {
+    @_ == 1 or croak 'usage: $sock->atmark()';
+    my($sock) = @_;
+    sockatmark($sock);
+}
+
+sub timeout {
+    @_ == 1 || @_ == 2 or croak 'usage: $sock->timeout([VALUE])';
+    my($sock,$val) = @_;
+    my $r = ${*$sock}{'io_socket_timeout'};
+
+    ${*$sock}{'io_socket_timeout'} = defined $val ? 0 + $val : $val
+	if(@_ == 2);
+
+    $r;
+}
+
+sub sockdomain {
+    @_ == 1 or croak 'usage: $sock->sockdomain()';
+    my $sock = shift;
+    if (!defined(${*$sock}{'io_socket_domain'})) {
+	my $addr = $sock->sockname();
+	${*$sock}{'io_socket_domain'} = sockaddr_family($addr)
+	    if (defined($addr));
+    }
+    ${*$sock}{'io_socket_domain'};
+}
+
+sub socktype {
+    @_ == 1 or croak 'usage: $sock->socktype()';
+    my $sock = shift;
+    ${*$sock}{'io_socket_type'} = $sock->sockopt(Socket::SO_TYPE)
+	if (!defined(${*$sock}{'io_socket_type'}) && defined(eval{Socket::SO_TYPE}));
+    ${*$sock}{'io_socket_type'}
+}
+
+sub protocol {
+    @_ == 1 or croak 'usage: $sock->protocol()';
+    my($sock) = @_;
+    ${*$sock}{'io_socket_proto'} = $sock->sockopt(Socket::SO_PROTOCOL)
+	if (!defined(${*$sock}{'io_socket_proto'}) && defined(eval{Socket::SO_PROTOCOL}));
+    ${*$sock}{'io_socket_proto'};
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              #
+
+package IO;
+
+use XSLoader ();
+use Carp;
+use strict;
+use warnings;
+
+our $VERSION = "1.50";
+XSLoader::load 'IO', $VERSION;
+
+sub import {
+    shift;
+
+    warnings::warnif('deprecated', qq{Parameterless "use IO" deprecated})
+        if @_ == 0 ;
+    
+    my @l = @_ ? @_ : qw(Handle Seekable File Pipe Socket Dir);
+
+    local @INC = @INC;
+    pop @INC if $INC[-1] eq '.';
+    eval join("", map { "require IO::" . (/(\w+)/)[0] . ";\n" } @l)
+	or croak $@;
+}
+
+1;
+
+__END__
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ì   .   k   ..  î   Open2.pmï  ÿOpen3.pm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        package IPC::Open2;
+
+use strict;
+
+require 5.006;
+use Exporter 'import';
+
+our $VERSION	= 1.06;
+our @EXPORT		= qw(open2);
+
+# &open2: tom christiansen, <tchrist@convex.com>
+#
+# usage: $pid = open2('rdr', 'wtr', 'some cmd and args');
+#    or  $pid = open2('rdr', 'wtr', 'some', 'cmd', 'and', 'args');
+#
+# spawn the given $cmd and connect $rdr for
+# reading and $wtr for writing.  return pid
+# of child, or 0 on failure.  
+# 
+# WARNING: this is dangerous, as you may block forever
+# unless you are very careful.  
+# 
+# $wtr is left unbuffered.
+# 
+# abort program if
+#	rdr or wtr are null
+# 	a system call fails
+
+require IPC::Open3;
+
+sub open2 {
+    local $Carp::CarpLevel = $Carp::CarpLevel + 1;
+    return IPC::Open3::_open3('open2', $_[1], $_[0], '>&STDERR', @_[2 .. $#_]);
+}
+
+1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

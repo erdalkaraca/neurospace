@@ -1,0 +1,7169 @@
+{1F2E}\x{0399}",         # U+1F96 => 1F2E 0399
+"\xE1\xBE\x97" => "\x{1F2F}\x{0399}",         # U+1F97 => 1F2F 0399
+"\xE1\xBE\x98" => "\x{1F28}\x{0399}",         # U+1F98 => 1F28 0399
+"\xE1\xBE\x99" => "\x{1F29}\x{0399}",         # U+1F99 => 1F29 0399
+"\xE1\xBE\x9A" => "\x{1F2A}\x{0399}",         # U+1F9A => 1F2A 0399
+"\xE1\xBE\x9B" => "\x{1F2B}\x{0399}",         # U+1F9B => 1F2B 0399
+"\xE1\xBE\x9C" => "\x{1F2C}\x{0399}",         # U+1F9C => 1F2C 0399
+"\xE1\xBE\x9D" => "\x{1F2D}\x{0399}",         # U+1F9D => 1F2D 0399
+"\xE1\xBE\x9E" => "\x{1F2E}\x{0399}",         # U+1F9E => 1F2E 0399
+"\xE1\xBE\x9F" => "\x{1F2F}\x{0399}",         # U+1F9F => 1F2F 0399
+"\xE1\xBE\xA0" => "\x{1F68}\x{0399}",         # U+1FA0 => 1F68 0399
+"\xE1\xBE\xA1" => "\x{1F69}\x{0399}",         # U+1FA1 => 1F69 0399
+"\xE1\xBE\xA2" => "\x{1F6A}\x{0399}",         # U+1FA2 => 1F6A 0399
+"\xE1\xBE\xA3" => "\x{1F6B}\x{0399}",         # U+1FA3 => 1F6B 0399
+"\xE1\xBE\xA4" => "\x{1F6C}\x{0399}",         # U+1FA4 => 1F6C 0399
+"\xE1\xBE\xA5" => "\x{1F6D}\x{0399}",         # U+1FA5 => 1F6D 0399
+"\xE1\xBE\xA6" => "\x{1F6E}\x{0399}",         # U+1FA6 => 1F6E 0399
+"\xE1\xBE\xA7" => "\x{1F6F}\x{0399}",         # U+1FA7 => 1F6F 0399
+"\xE1\xBE\xA8" => "\x{1F68}\x{0399}",         # U+1FA8 => 1F68 0399
+"\xE1\xBE\xA9" => "\x{1F69}\x{0399}",         # U+1FA9 => 1F69 0399
+"\xE1\xBE\xAA" => "\x{1F6A}\x{0399}",         # U+1FAA => 1F6A 0399
+"\xE1\xBE\xAB" => "\x{1F6B}\x{0399}",         # U+1FAB => 1F6B 0399
+"\xE1\xBE\xAC" => "\x{1F6C}\x{0399}",         # U+1FAC => 1F6C 0399
+"\xE1\xBE\xAD" => "\x{1F6D}\x{0399}",         # U+1FAD => 1F6D 0399
+"\xE1\xBE\xAE" => "\x{1F6E}\x{0399}",         # U+1FAE => 1F6E 0399
+"\xE1\xBE\xAF" => "\x{1F6F}\x{0399}",         # U+1FAF => 1F6F 0399
+"\xE1\xBE\xB2" => "\x{1FBA}\x{0399}",         # U+1FB2 => 1FBA 0399
+"\xE1\xBE\xB3" => "\x{0391}\x{0399}",         # U+1FB3 => 0391 0399
+"\xE1\xBE\xB4" => "\x{0386}\x{0399}",         # U+1FB4 => 0386 0399
+"\xE1\xBE\xB6" => "\x{0391}\x{0342}",         # U+1FB6 => 0391 0342
+"\xE1\xBE\xB7" => "\x{0391}\x{0342}\x{0399}", # U+1FB7 => 0391 0342 0399
+"\xE1\xBE\xBC" => "\x{0391}\x{0399}",         # U+1FBC => 0391 0399
+"\xE1\xBF\x82" => "\x{1FCA}\x{0399}",         # U+1FC2 => 1FCA 0399
+"\xE1\xBF\x83" => "\x{0397}\x{0399}",         # U+1FC3 => 0397 0399
+"\xE1\xBF\x84" => "\x{0389}\x{0399}",         # U+1FC4 => 0389 0399
+"\xE1\xBF\x86" => "\x{0397}\x{0342}",         # U+1FC6 => 0397 0342
+"\xE1\xBF\x87" => "\x{0397}\x{0342}\x{0399}", # U+1FC7 => 0397 0342 0399
+"\xE1\xBF\x8C" => "\x{0397}\x{0399}",         # U+1FCC => 0397 0399
+"\xE1\xBF\x92" => "\x{0399}\x{0308}\x{0300}", # U+1FD2 => 0399 0308 0300
+"\xE1\xBF\x93" => "\x{0399}\x{0308}\x{0301}", # U+1FD3 => 0399 0308 0301
+"\xE1\xBF\x96" => "\x{0399}\x{0342}",         # U+1FD6 => 0399 0342
+"\xE1\xBF\x97" => "\x{0399}\x{0308}\x{0342}", # U+1FD7 => 0399 0308 0342
+"\xE1\xBF\xA2" => "\x{03A5}\x{0308}\x{0300}", # U+1FE2 => 03A5 0308 0300
+"\xE1\xBF\xA3" => "\x{03A5}\x{0308}\x{0301}", # U+1FE3 => 03A5 0308 0301
+"\xE1\xBF\xA4" => "\x{03A1}\x{0313}",         # U+1FE4 => 03A1 0313
+"\xE1\xBF\xA6" => "\x{03A5}\x{0342}",         # U+1FE6 => 03A5 0342
+"\xE1\xBF\xA7" => "\x{03A5}\x{0308}\x{0342}", # U+1FE7 => 03A5 0308 0342
+"\xE1\xBF\xB2" => "\x{1FFA}\x{0399}",         # U+1FF2 => 1FFA 0399
+"\xE1\xBF\xB3" => "\x{03A9}\x{0399}",         # U+1FF3 => 03A9 0399
+"\xE1\xBF\xB4" => "\x{038F}\x{0399}",         # U+1FF4 => 038F 0399
+"\xE1\xBF\xB6" => "\x{03A9}\x{0342}",         # U+1FF6 => 03A9 0342
+"\xE1\xBF\xB7" => "\x{03A9}\x{0342}\x{0399}", # U+1FF7 => 03A9 0342 0399
+"\xE1\xBF\xBC" => "\x{03A9}\x{0399}",         # U+1FFC => 03A9 0399
+"\xEF\xAC\x80" => "\x{0046}\x{0046}",         # U+FB00 => 0046 0046
+"\xEF\xAC\x81" => "\x{0046}\x{0049}",         # U+FB01 => 0046 0049
+"\xEF\xAC\x82" => "\x{0046}\x{004C}",         # U+FB02 => 0046 004C
+"\xEF\xAC\x83" => "\x{0046}\x{0046}\x{0049}", # U+FB03 => 0046 0046 0049
+"\xEF\xAC\x84" => "\x{0046}\x{0046}\x{004C}", # U+FB04 => 0046 0046 004C
+"\xEF\xAC\x85" => "\x{0053}\x{0054}",         # U+FB05 => 0053 0054
+"\xEF\xAC\x86" => "\x{0053}\x{0054}",         # U+FB06 => 0053 0054
+"\xEF\xAC\x93" => "\x{0544}\x{0546}",         # U+FB13 => 0544 0546
+"\xEF\xAC\x94" => "\x{0544}\x{0535}",         # U+FB14 => 0544 0535
+"\xEF\xAC\x95" => "\x{0544}\x{053B}",         # U+FB15 => 0544 053B
+"\xEF\xAC\x96" => "\x{054E}\x{0546}",         # U+FB16 => 054E 0546
+"\xEF\xAC\x97" => "\x{0544}\x{053D}",         # U+FB17 => 0544 053D
+);
+
+return <<'END';
+61	7A	41
+B5		39C
+E0	F6	C0
+F8	FE	D8
+FF		178
+101		100
+103		102
+105		104
+107		106
+109		108
+10B		10A
+10D		10C
+10F		10E
+111		110
+113		112
+115		114
+117		116
+119		118
+11B		11A
+11D		11C
+11F		11E
+121		120
+123		122
+125		124
+127		126
+129		128
+12B		12A
+12D		12C
+12F		12E
+131		49
+133		132
+135		134
+137		136
+13A		139
+13C		13B
+13E		13D
+140		13F
+142		141
+144		143
+146		145
+148		147
+14B		14A
+14D		14C
+14F		14E
+151		150
+153		152
+155		154
+157		156
+159		158
+15B		15A
+15D		15C
+15F		15E
+161		160
+163		162
+165		164
+167		166
+169		168
+16B		16A
+16D		16C
+16F		16E
+171		170
+173		172
+175		174
+177		176
+17A		179
+17C		17B
+17E		17D
+17F		53
+180		243
+183		182
+185		184
+188		187
+18C		18B
+192		191
+195		1F6
+199		198
+19A		23D
+19E		220
+1A1		1A0
+1A3		1A2
+1A5		1A4
+1A8		1A7
+1AD		1AC
+1B0		1AF
+1B4		1B3
+1B6		1B5
+1B9		1B8
+1BD		1BC
+1BF		1F7
+1C5		1C4
+1C6		1C4
+1C8		1C7
+1C9		1C7
+1CB		1CA
+1CC		1CA
+1CE		1CD
+1D0		1CF
+1D2		1D1
+1D4		1D3
+1D6		1D5
+1D8		1D7
+1DA		1D9
+1DC		1DB
+1DD		18E
+1DF		1DE
+1E1		1E0
+1E3		1E2
+1E5		1E4
+1E7		1E6
+1E9		1E8
+1EB		1EA
+1ED		1EC
+1EF		1EE
+1F2		1F1
+1F3		1F1
+1F5		1F4
+1F9		1F8
+1FB		1FA
+1FD		1FC
+1FF		1FE
+201		200
+203		202
+205		204
+207		206
+209		208
+20B		20A
+20D		20C
+20F		20E
+211		210
+213		212
+215		214
+217		216
+219		218
+21B		21A
+21D		21C
+21F		21E
+223		222
+225		224
+227		226
+229		228
+22B		22A
+22D		22C
+22F		22E
+231		230
+233		232
+23C		23B
+23F	240	2C7E
+242		241
+247		246
+249		248
+24B		24A
+24D		24C
+24F		24E
+250		2C6F
+251		2C6D
+252		2C70
+253		181
+254		186
+256	257	189
+259		18F
+25B		190
+25C		A7AB
+260		193
+261		A7AC
+263		194
+265		A78D
+266		A7AA
+268		197
+269		196
+26A		A7AE
+26B		2C62
+26C		A7AD
+26F		19C
+271		2C6E
+272		19D
+275		19F
+27D		2C64
+280		1A6
+282		A7C5
+283		1A9
+287		A7B1
+288		1AE
+289		244
+28A	28B	1B1
+28C		245
+292		1B7
+29D		A7B2
+29E		A7B0
+345		399
+371		370
+373		372
+377		376
+37B	37D	3FD
+3AC		386
+3AD	3AF	388
+3B1	3C1	391
+3C2		3A3
+3C3	3CB	3A3
+3CC		38C
+3CD	3CE	38E
+3D0		392
+3D1		398
+3D5		3A6
+3D6		3A0
+3D7		3CF
+3D9		3D8
+3DB		3DA
+3DD		3DC
+3DF		3DE
+3E1		3E0
+3E3		3E2
+3E5		3E4
+3E7		3E6
+3E9		3E8
+3EB		3EA
+3ED		3EC
+3EF		3EE
+3F0		39A
+3F1		3A1
+3F2		3F9
+3F3		37F
+3F5		395
+3F8		3F7
+3FB		3FA
+430	44F	410
+450	45F	400
+461		460
+463		462
+465		464
+467		466
+469		468
+46B		46A
+46D		46C
+46F		46E
+471		470
+473		472
+475		474
+477		476
+479		478
+47B		47A
+47D		47C
+47F		47E
+481		480
+48B		48A
+48D		48C
+48F		48E
+491		490
+493		492
+495		494
+497		496
+499		498
+49B		49A
+49D		49C
+49F		49E
+4A1		4A0
+4A3		4A2
+4A5		4A4
+4A7		4A6
+4A9		4A8
+4AB		4AA
+4AD		4AC
+4AF		4AE
+4B1		4B0
+4B3		4B2
+4B5		4B4
+4B7		4B6
+4B9		4B8
+4BB		4BA
+4BD		4BC
+4BF		4BE
+4C2		4C1
+4C4		4C3
+4C6		4C5
+4C8		4C7
+4CA		4C9
+4CC		4CB
+4CE		4CD
+4CF		4C0
+4D1		4D0
+4D3		4D2
+4D5		4D4
+4D7		4D6
+4D9		4D8
+4DB		4DA
+4DD		4DC
+4DF		4DE
+4E1		4E0
+4E3		4E2
+4E5		4E4
+4E7		4E6
+4E9		4E8
+4EB		4EA
+4ED		4EC
+4EF		4EE
+4F1		4F0
+4F3		4F2
+4F5		4F4
+4F7		4F6
+4F9		4F8
+4FB		4FA
+4FD		4FC
+4FF		4FE
+501		500
+503		502
+505		504
+507		506
+509		508
+50B		50A
+50D		50C
+50F		50E
+511		510
+513		512
+515		514
+517		516
+519		518
+51B		51A
+51D		51C
+51F		51E
+521		520
+523		522
+525		524
+527		526
+529		528
+52B		52A
+52D		52C
+52F		52E
+561	586	531
+10D0	10FA	1C90
+10FD	10FF	1CBD
+13F8	13FD	13F0
+1C80		412
+1C81		414
+1C82		41E
+1C83	1C84	421
+1C85		422
+1C86		42A
+1C87		462
+1C88		A64A
+1D79		A77D
+1D7D		2C63
+1D8E		A7C6
+1E01		1E00
+1E03		1E02
+1E05		1E04
+1E07		1E06
+1E09		1E08
+1E0B		1E0A
+1E0D		1E0C
+1E0F		1E0E
+1E11		1E10
+1E13		1E12
+1E15		1E14
+1E17		1E16
+1E19		1E18
+1E1B		1E1A
+1E1D		1E1C
+1E1F		1E1E
+1E21		1E20
+1E23		1E22
+1E25		1E24
+1E27		1E26
+1E29		1E28
+1E2B		1E2A
+1E2D		1E2C
+1E2F		1E2E
+1E31		1E30
+1E33		1E32
+1E35		1E34
+1E37		1E36
+1E39		1E38
+1E3B		1E3A
+1E3D		1E3C
+1E3F		1E3E
+1E41		1E40
+1E43		1E42
+1E45		1E44
+1E47		1E46
+1E49		1E48
+1E4B		1E4A
+1E4D		1E4C
+1E4F		1E4E
+1E51		1E50
+1E53		1E52
+1E55		1E54
+1E57		1E56
+1E59		1E58
+1E5B		1E5A
+1E5D		1E5C
+1E5F		1E5E
+1E61		1E60
+1E63		1E62
+1E65		1E64
+1E67		1E66
+1E69		1E68
+1E6B		1E6A
+1E6D		1E6C
+1E6F		1E6E
+1E71		1E70
+1E73		1E72
+1E75		1E74
+1E77		1E76
+1E79		1E78
+1E7B		1E7A
+1E7D		1E7C
+1E7F		1E7E
+1E81		1E80
+1E83		1E82
+1E85		1E84
+1E87		1E86
+1E89		1E88
+1E8B		1E8A
+1E8D		1E8C
+1E8F		1E8E
+1E91		1E90
+1E93		1E92
+1E95		1E94
+1E9B		1E60
+1EA1		1EA0
+1EA3		1EA2
+1EA5		1EA4
+1EA7		1EA6
+1EA9		1EA8
+1EAB		1EAA
+1EAD		1EAC
+1EAF		1EAE
+1EB1		1EB0
+1EB3		1EB2
+1EB5		1EB4
+1EB7		1EB6
+1EB9		1EB8
+1EBB		1EBA
+1EBD		1EBC
+1EBF		1EBE
+1EC1		1EC0
+1EC3		1EC2
+1EC5		1EC4
+1EC7		1EC6
+1EC9		1EC8
+1ECB		1ECA
+1ECD		1ECC
+1ECF		1ECE
+1ED1		1ED0
+1ED3		1ED2
+1ED5		1ED4
+1ED7		1ED6
+1ED9		1ED8
+1EDB		1EDA
+1EDD		1EDC
+1EDF		1EDE
+1EE1		1EE0
+1EE3		1EE2
+1EE5		1EE4
+1EE7		1EE6
+1EE9		1EE8
+1EEB		1EEA
+1EED		1EEC
+1EEF		1EEE
+1EF1		1EF0
+1EF3		1EF2
+1EF5		1EF4
+1EF7		1EF6
+1EF9		1EF8
+1EFB		1EFA
+1EFD		1EFC
+1EFF		1EFE
+1F00	1F07	1F08
+1F10	1F15	1F18
+1F20	1F27	1F28
+1F30	1F37	1F38
+1F40	1F45	1F48
+1F51		1F59
+1F53		1F5B
+1F55		1F5D
+1F57		1F5F
+1F60	1F67	1F68
+1F70	1F71	1FBA
+1F72	1F75	1FC8
+1F76	1F77	1FDA
+1F78	1F79	1FF8
+1F7A	1F7B	1FEA
+1F7C	1F7D	1FFA
+1F80	1F87	1F88
+1F90	1F97	1F98
+1FA0	1FA7	1FA8
+1FB0	1FB1	1FB8
+1FB3		1FBC
+1FBE		399
+1FC3		1FCC
+1FD0	1FD1	1FD8
+1FE0	1FE1	1FE8
+1FE5		1FEC
+1FF3		1FFC
+214E		2132
+2170	217F	2160
+2184		2183
+24D0	24E9	24B6
+2C30	2C5F	2C00
+2C61		2C60
+2C65		23A
+2C66		23E
+2C68		2C67
+2C6A		2C69
+2C6C		2C6B
+2C73		2C72
+2C76		2C75
+2C81		2C80
+2C83		2C82
+2C85		2C84
+2C87		2C86
+2C89		2C88
+2C8B		2C8A
+2C8D		2C8C
+2C8F		2C8E
+2C91		2C90
+2C93		2C92
+2C95		2C94
+2C97		2C96
+2C99		2C98
+2C9B		2C9A
+2C9D		2C9C
+2C9F		2C9E
+2CA1		2CA0
+2CA3		2CA2
+2CA5		2CA4
+2CA7		2CA6
+2CA9		2CA8
+2CAB		2CAA
+2CAD		2CAC
+2CAF		2CAE
+2CB1		2CB0
+2CB3		2CB2
+2CB5		2CB4
+2CB7		2CB6
+2CB9		2CB8
+2CBB		2CBA
+2CBD		2CBC
+2CBF		2CBE
+2CC1		2CC0
+2CC3		2CC2
+2CC5		2CC4
+2CC7		2CC6
+2CC9		2CC8
+2CCB		2CCA
+2CCD		2CCC
+2CCF		2CCE
+2CD1		2CD0
+2CD3		2CD2
+2CD5		2CD4
+2CD7		2CD6
+2CD9		2CD8
+2CDB		2CDA
+2CDD		2CDC
+2CDF		2CDE
+2CE1		2CE0
+2CE3		2CE2
+2CEC		2CEB
+2CEE		2CED
+2CF3		2CF2
+2D00	2D25	10A0
+2D27		10C7
+2D2D		10CD
+A641		A640
+A643		A642
+A645		A644
+A647		A646
+A649		A648
+A64B		A64A
+A64D		A64C
+A64F		A64E
+A651		A650
+A653		A652
+A655		A654
+A657		A656
+A659		A658
+A65B		A65A
+A65D		A65C
+A65F		A65E
+A661		A660
+A663		A662
+A665		A664
+A667		A666
+A669		A668
+A66B		A66A
+A66D		A66C
+A681		A680
+A683		A682
+A685		A684
+A687		A686
+A689		A688
+A68B		A68A
+A68D		A68C
+A68F		A68E
+A691		A690
+A693		A692
+A695		A694
+A697		A696
+A699		A698
+A69B		A69A
+A723		A722
+A725		A724
+A727		A726
+A729		A728
+A72B		A72A
+A72D		A72C
+A72F		A72E
+A733		A732
+A735		A734
+A737		A736
+A739		A738
+A73B		A73A
+A73D		A73C
+A73F		A73E
+A741		A740
+A743		A742
+A745		A744
+A747		A746
+A749		A748
+A74B		A74A
+A74D		A74C
+A74F		A74E
+A751		A750
+A753		A752
+A755		A754
+A757		A756
+A759		A758
+A75B		A75A
+A75D		A75C
+A75F		A75E
+A761		A760
+A763		A762
+A765		A764
+A767		A766
+A769		A768
+A76B		A76A
+A76D		A76C
+A76F		A76E
+A77A		A779
+A77C		A77B
+A77F		A77E
+A781		A780
+A783		A782
+A785		A784
+A787		A786
+A78C		A78B
+A791		A790
+A793		A792
+A794		A7C4
+A797		A796
+A799		A798
+A79B		A79A
+A79D		A79C
+A79F		A79E
+A7A1		A7A0
+A7A3		A7A2
+A7A5		A7A4
+A7A7		A7A6
+A7A9		A7A8
+A7B5		A7B4
+A7B7		A7B6
+A7B9		A7B8
+A7BB		A7BA
+A7BD		A7BC
+A7BF		A7BE
+A7C1		A7C0
+A7C3		A7C2
+A7C8		A7C7
+A7CA		A7C9
+A7D1		A7D0
+A7D7		A7D6
+A7D9		A7D8
+A7F6		A7F5
+AB53		A7B3
+AB70	ABBF	13A0
+FF41	FF5A	FF21
+10428	1044F	10400
+104D8	104FB	104B0
+10597	105A1	10570
+105A3	105B1	1057C
+105B3	105B9	1058C
+105BB	105BC	10594
+10CC0	10CF2	10C80
+118C0	118DF	118A0
+16E60	16E7F	16E40
+1E922	1E943	1E900
+END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  # !!!!!!!   DO NOT EDIT THIS FILE   !!!!!!!
+# This file is machine-generated by lib/unicore/mktables from the Unicode
+# database, Version 14.0.0.  Any changes made here will be lost!
+
+# !!!!!!!   INTERNAL PERL USE ONLY   !!!!!!!
+# This file is for internal use by core Perl only.  The format and even the
+# name or existence of this file are subject to change without notice.  Don't
+# use it directly.  Use Unicode::UCD to access the Unicode character data
+# base.
+
+
+
+# The name this table is to be known by, with the format of the mappings in
+# the main body of the table, and what all code points missing from this file
+# map to.
+$Unicode::UCD::SwashInfo{'ToVo'}{'format'} = 's'; # string
+$Unicode::UCD::SwashInfo{'ToVo'}{'missing'} = 'R';
+
+return <<'END';
+0	A6	Rotated
+A7		U
+A8		Rotated
+A9		U
+AA	AD	Rotated
+AE		U
+AF	B0	Rotated
+B1		U
+B2	BB	Rotated
+BC	BE	U
+BF	D6	Rotated
+D7		U
+D8	F6	Rotated
+F7		U
+F8	2E9	Rotated
+2EA	2EB	U
+2EC	377	Rotated
+37A	37F	Rotated
+384	38A	Rotated
+38C		Rotated
+38E	3A1	Rotated
+3A3	52F	Rotated
+531	556	Rotated
+559	58A	Rotated
+58D	58F	Rotated
+591	5C7	Rotated
+5D0	5EA	Rotated
+5EF	5F4	Rotated
+600	70D	Rotated
+70F	74A	Rotated
+74D	7B1	Rotated
+7C0	7FA	Rotated
+7FD	82D	Rotated
+830	83E	Rotated
+840	85B	Rotated
+85E		Rotated
+860	86A	Rotated
+870	88E	Rotated
+890	891	Rotated
+898	983	Rotated
+985	98C	Rotated
+98F	990	Rotated
+993	9A8	Rotated
+9AA	9B0	Rotated
+9B2		Rotated
+9B6	9B9	Rotated
+9BC	9C4	Rotated
+9C7	9C8	Rotated
+9CB	9CE	Rotated
+9D7		Rotated
+9DC	9DD	Rotated
+9DF	9E3	Rotated
+9E6	9FE	Rotated
+A01	A03	Rotated
+A05	A0A	Rotated
+A0F	A10	Rotated
+A13	A28	Rotated
+A2A	A30	Rotated
+A32	A33	Rotated
+A35	A36	Rotated
+A38	A39	Rotated
+A3C		Rotated
+A3E	A42	Rotated
+A47	A48	Rotated
+A4B	A4D	Rotated
+A51		Rotated
+A59	A5C	Rotated
+A5E		Rotated
+A66	A76	Rotated
+A81	A83	Rotated
+A85	A8D	Rotated
+A8F	A91	Rotated
+A93	AA8	Rotated
+AAA	AB0	Rotated
+AB2	AB3	Rotated
+AB5	AB9	Rotated
+ABC	AC5	Rotated
+AC7	AC9	Rotated
+ACB	ACD	Rotated
+AD0		Rotated
+AE0	AE3	Rotated
+AE6	AF1	Rotated
+AF9	AFF	Rotated
+B01	B03	Rotated
+B05	B0C	Rotated
+B0F	B10	Rotated
+B13	B28	Rotated
+B2A	B30	Rotated
+B32	B33	Rotated
+B35	B39	Rotated
+B3C	B44	Rotated
+B47	B48	Rotated
+B4B	B4D	Rotated
+B55	B57	Rotated
+B5C	B5D	Rotated
+B5F	B63	Rotated
+B66	B77	Rotated
+B82	B83	Rotated
+B85	B8A	Rotated
+B8E	B90	Rotated
+B92	B95	Rotated
+B99	B9A	Rotated
+B9C		Rotated
+B9E	B9F	Rotated
+BA3	BA4	Rotated
+BA8	BAA	Rotated
+BAE	BB9	Rotated
+BBE	BC2	Rotated
+BC6	BC8	Rotated
+BCA	BCD	Rotated
+BD0		Rotated
+BD7		Rotated
+BE6	BFA	Rotated
+C00	C0C	Rotated
+C0E	C10	Rotated
+C12	C28	Rotated
+C2A	C39	Rotated
+C3C	C44	Rotated
+C46	C48	Rotated
+C4A	C4D	Rotated
+C55	C56	Rotated
+C58	C5A	Rotated
+C5D		Rotated
+C60	C63	Rotated
+C66	C6F	Rotated
+C77	C8C	Rotated
+C8E	C90	Rotated
+C92	CA8	Rotated
+CAA	CB3	Rotated
+CB5	CB9	Rotated
+CBC	CC4	Rotated
+CC6	CC8	Rotated
+CCA	CCD	Rotated
+CD5	CD6	Rotated
+CDD	CDE	Rotated
+CE0	CE3	Rotated
+CE6	CEF	Rotated
+CF1	CF2	Rotated
+D00	D0C	Rotated
+D0E	D10	Rotated
+D12	D44	Rotated
+D46	D48	Rotated
+D4A	D4F	Rotated
+D54	D63	Rotated
+D66	D7F	Rotated
+D81	D83	Rotated
+D85	D96	Rotated
+D9A	DB1	Rotated
+DB3	DBB	Rotated
+DBD		Rotated
+DC0	DC6	Rotated
+DCA		Rotated
+DCF	DD4	Rotated
+DD6		Rotated
+DD8	DDF	Rotated
+DE6	DEF	Rotated
+DF2	DF4	Rotated
+E01	E3A	Rotated
+E3F	E5B	Rotated
+E81	E82	Rotated
+E84		Rotated
+E86	E8A	Rotated
+E8C	EA3	Rotated
+EA5		Rotated
+EA7	EBD	Rotated
+EC0	EC4	Rotated
+EC6		Rotated
+EC8	ECD	Rotated
+ED0	ED9	Rotated
+EDC	EDF	Rotated
+F00	F47	Rotated
+F49	F6C	Rotated
+F71	F97	Rotated
+F99	FBC	Rotated
+FBE	FCC	Rotated
+FCE	FDA	Rotated
+1000	10C5	Rotated
+10C7		Rotated
+10CD		Rotated
+10D0	10FF	Rotated
+1100	11FF	U
+1200	1248	Rotated
+124A	124D	Rotated
+1250	1256	Rotated
+1258		Rotated
+125A	125D	Rotated
+1260	1288	Rotated
+128A	128D	Rotated
+1290	12B0	Rotated
+12B2	12B5	Rotated
+12B8	12BE	Rotated
+12C0		Rotated
+12C2	12C5	Rotated
+12C8	12D6	Rotated
+12D8	1310	Rotated
+1312	1315	Rotated
+1318	135A	Rotated
+135D	137C	Rotated
+1380	1399	Rotated
+13A0	13F5	Rotated
+13F8	13FD	Rotated
+1400		Rotated
+1401	167F	U
+1680	169C	Rotated
+16A0	16F8	Rotated
+1700	1715	Rotated
+171F	1736	Rotated
+1740	1753	Rotated
+1760	176C	Rotated
+176E	1770	Rotated
+1772	1773	Rotated
+1780	17DD	Rotated
+17E0	17E9	Rotated
+17F0	17F9	Rotated
+1800	1819	Rotated
+1820	1878	Rotated
+1880	18AA	Rotated
+18B0	18FF	U
+1900	191E	Rotated
+1920	192B	Rotated
+1930	193B	Rotated
+1940		Rotated
+1944	196D	Rotated
+1970	1974	Rotated
+1980	19AB	Rotated
+19B0	19C9	Rotated
+19D0	19DA	Rotated
+19DE	1A1B	Rotated
+1A1E	1A5E	Rotated
+1A60	1A7C	Rotated
+1A7F	1A89	Rotated
+1A90	1A99	Rotated
+1AA0	1AAD	Rotated
+1AB0	1ACE	Rotated
+1B00	1B4C	Rotated
+1B50	1B7E	Rotated
+1B80	1BF3	Rotated
+1BFC	1C37	Rotated
+1C3B	1C49	Rotated
+1C4D	1C88	Rotated
+1C90	1CBA	Rotated
+1CBD	1CC7	Rotated
+1CD0	1CFA	Rotated
+1D00	1F15	Rotated
+1F18	1F1D	Rotated
+1F20	1F45	Rotated
+1F48	1F4D	Rotated
+1F50	1F57	Rotated
+1F59		Rotated
+1F5B		Rotated
+1F5D		Rotated
+1F5F	1F7D	Rotated
+1F80	1FB4	Rotated
+1FB6	1FC4	Rotated
+1FC6	1FD3	Rotated
+1FD6	1FDB	Rotated
+1FDD	1FEF	Rotated
+1FF2	1FF4	Rotated
+1FF6	1FFE	Rotated
+2000	2015	Rotated
+2016		U
+2017	201F	Rotated
+2020	2021	U
+2022	202F	Rotated
+2030	2031	U
+2032	203A	Rotated
+203B	203C	U
+203D	2041	Rotated
+2042		U
+2043	2046	Rotated
+2047	2049	U
+204A	2050	Rotated
+2051		U
+2052	2064	Rotated
+2065		U
+2066	2071	Rotated
+2074	208E	Rotated
+2090	209C	Rotated
+20A0	20C0	Rotated
+20D0	20DC	Rotated
+20DD	20E0	U
+20E1		Rotated
+20E2	20E4	U
+20E5	20F0	Rotated
+2100	2101	U
+2102		Rotated
+2103	2109	U
+210A	210E	Rotated
+210F		U
+2110	2112	Rotated
+2113	2114	U
+2115		Rotated
+2116	2117	U
+2118	211D	Rotated
+211E	2123	U
+2124		Rotated
+2125		U
+2126		Rotated
+2127		U
+2128		Rotated
+2129		U
+212A	212D	Rotated
+212E		U
+212F	2134	Rotated
+2135	213F	U
+2140	2144	Rotated
+2145	214A	U
+214B		Rotated
+214C	214D	U
+214E		Rotated
+214F	2189	U
+218A	218B	Rotated
+218C	218F	U
+2190	221D	Rotated
+221E		U
+221F	2233	Rotated
+2234	2235	U
+2236	22FF	Rotated
+2300	2307	U
+2308	230B	Rotated
+230C	231F	U
+2320	2323	Rotated
+2324	2328	U
+2329	232A	Tr
+232B		U
+232C	237C	Rotated
+237D	239A	U
+239B	23BD	Rotated
+23BE	23CD	U
+23CE		Rotated
+23CF		U
+23D0		Rotated
+23D1	23DB	U
+23DC	23E1	Rotated
+23E2	2422	U
+2423		Rotated
+2424	24FF	U
+2500	259F	Rotated
+25A0	2619	U
+261A	261F	Rotated
+2620	2767	U
+2768	2775	Rotated
+2776	2793	U
+2794	2B11	Rotated
+2B12	2B2F	U
+2B30	2B4F	Rotated
+2B50	2B59	U
+2B5A	2B73	Rotated
+2B76	2B95	Rotated
+2B97		U
+2B98	2BB7	Rotated
+2BB8	2BD1	U
+2BD2		Rotated
+2BD3	2BEB	U
+2BEC	2BEF	Rotated
+2BF0	2BFF	U
+2C00	2CF3	Rotated
+2CF9	2D25	Rotated
+2D27		Rotated
+2D2D		Rotated
+2D30	2D67	Rotated
+2D6F	2D70	Rotated
+2D7F	2D96	Rotated
+2DA0	2DA6	Rotated
+2DA8	2DAE	Rotated
+2DB0	2DB6	Rotated
+2DB8	2DBE	Rotated
+2DC0	2DC6	Rotated
+2DC8	2DCE	Rotated
+2DD0	2DD6	Rotated
+2DD8	2DDE	Rotated
+2DE0	2E4F	Rotated
+2E50	2E51	U
+2E52	2E5D	Rotated
+2E80	3000	U
+3001	3002	Tu
+3003	3007	U
+3008	3011	Tr
+3012	3013	U
+3014	301F	Tr
+3020	302F	U
+3030		Tr
+3031	3040	U
+3041		Tu
+3042		U
+3043		Tu
+3044		U
+3045		Tu
+3046		U
+3047		Tu
+3048		U
+3049		Tu
+304A	3062	U
+3063		Tu
+3064	3082	U
+3083		Tu
+3084		U
+3085		Tu
+3086		U
+3087		Tu
+3088	308D	U
+308E		Tu
+308F	3094	U
+3095	3096	Tu
+3097	309A	U
+309B	309C	Tu
+309D	309F	U
+30A0		Tr
+30A1		Tu
+30A2		U
+30A3		Tu
+30A4		U
+30A5		Tu
+30A6		U
+30A7		Tu
+30A8		U
+30A9		Tu
+30AA	30C2	U
+30C3		Tu
+30C4	30E2	U
+30E3		Tu
+30E4		U
+30E5		Tu
+30E6		U
+30E7		Tu
+30E8	30ED	U
+30EE		Tu
+30EF	30F4	U
+30F5	30F6	Tu
+30F7	30FB	U
+30FC		Tr
+30FD	3126	U
+3127		Tu
+3128	31EF	U
+31F0	31FF	Tu
+3200	32FE	U
+32FF	3357	Tu
+3358	337A	U
+337B	337F	Tu
+3380	A4CF	U
+A4D0	A62B	Rotated
+A640	A6F7	Rotated
+A700	A7CA	Rotated
+A7D0	A7D1	Rotated
+A7D3		Rotated
+A7D5	A7D9	Rotated
+A7F2	A82C	Rotated
+A830	A839	Rotated
+A840	A877	Rotated
+A880	A8C5	Rotated
+A8CE	A8D9	Rotated
+A8E0	A953	Rotated
+A95F		Rotated
+A960	A97F	U
+A980	A9CD	Rotated
+A9CF	A9D9	Rotated
+A9DE	A9FE	Rotated
+AA00	AA36	Rotated
+AA40	AA4D	Rotated
+AA50	AA59	Rotated
+AA5C	AAC2	Rotated
+AADB	AAF6	Rotated
+AB01	AB06	Rotated
+AB09	AB0E	Rotated
+AB11	AB16	Rotated
+AB20	AB26	Rotated
+AB28	AB2E	Rotated
+AB30	AB6B	Rotated
+AB70	ABED	Rotated
+ABF0	ABF9	Rotated
+AC00	D7FF	U
+D800	DFFF	Rotated
+E000	FAFF	U
+FB00	FB06	Rotated
+FB13	FB17	Rotated
+FB1D	FB36	Rotated
+FB38	FB3C	Rotated
+FB3E		Rotated
+FB40	FB41	Rotated
+FB43	FB44	Rotated
+FB46	FBC2	Rotated
+FBD3	FD8F	Rotated
+FD92	FDC7	Rotated
+FDCF		Rotated
+FDF0	FE0F	Rotated
+FE10	FE1F	U
+FE20	FE2F	Rotated
+FE30	FE48	U
+FE49	FE4F	Rotated
+FE50	FE52	Tu
+FE53	FE57	U
+FE58		Rotated
+FE59	FE5E	Tr
+FE5F	FE62	U
+FE63	FE66	Rotated
+FE67	FE6F	U
+FE70	FE74	Rotated
+FE76	FEFC	Rotated
+FEFF		Rotated
+FF01		Tu
+FF02	FF07	U
+FF08	FF09	Tr
+FF0A	FF0B	U
+FF0C		Tu
+FF0D		Rotated
+FF0E		Tu
+FF0F	FF19	U
+FF1A	FF1B	Tr
+FF1C	FF1E	Rotated
+FF1F		Tu
+FF20	FF3A	U
+FF3B		Tr
+FF3C		U
+FF3D		Tr
+FF3E		U
+FF3F		Tr
+FF40	FF5A	U
+FF5B	FF60	Tr
+FF61	FFBE	Rotated
+FFC2	FFC7	Rotated
+FFCA	FFCF	Rotated
+FFD2	FFD7	Rotated
+FFDA	FFDC	Rotated
+FFE0	FFE2	U
+FFE3		Tr
+FFE4	FFE7	U
+FFE8	FFEE	Rotated
+FFF0	FFF8	U
+FFF9	FFFB	Rotated
+FFFC	FFFD	U
+10000	1000B	Rotated
+1000D	10026	Rotated
+10028	1003A	Rotated
+1003C	1003D	Rotated
+1003F	1004D	Rotated
+10050	1005D	Rotated
+10080	100FA	Rotated
+10100	10102	Rotated
+10107	10133	Rotated
+10137	1018E	Rotated
+10190	1019C	Rotated
+101A0		Rotated
+101D0	101FD	Rotated
+10280	1029C	Rotated
+102A0	102D0	Rotated
+102E0	102FB	Rotated
+10300	10323	Rotated
+1032D	1034A	Rotated
+10350	1037A	Rotated
+10380	1039D	Rotated
+1039F	103C3	Rotated
+103C8	103D5	Rotated
+10400	1049D	Rotated
+104A0	104A9	Rotated
+104B0	104D3	Rotated
+104D8	104FB	Rotated
+10500	10527	Rotated
+10530	10563	Rotated
+1056F	1057A	Rotated
+1057C	1058A	Rotated
+1058C	10592	Rotated
+10594	10595	Rotated
+10597	105A1	Rotated
+105A3	105B1	Rotated
+105B3	105B9	Rotated
+105BB	105BC	Rotated
+10600	10736	Rotated
+10740	10755	Rotated
+10760	10767	Rotated
+10780	10785	Rotated
+10787	107B0	Rotated
+107B2	107BA	Rotated
+10800	10805	Rotated
+10808		Rotated
+1080A	10835	Rotated
+10837	10838	Rotated
+1083C		Rotated
+1083F	10855	Rotated
+10857	1089E	Rotated
+108A7	108AF	Rotated
+108E0	108F2	Rotated
+108F4	108F5	Rotated
+108FB	1091B	Rotated
+1091F	10939	Rotated
+1093F		Rotated
+10980	1099F	U
+109A0	109B7	Rotated
+109BC	109CF	Rotated
+109D2	10A03	Rotated
+10A05	10A06	Rotated
+10A0C	10A13	Rotated
+10A15	10A17	Rotated
+10A19	10A35	Rotated
+10A38	10A3A	Rotated
+10A3F	10A48	Rotated
+10A50	10A58	Rotated
+10A60	10A9F	Rotated
+10AC0	10AE6	Rotated
+10AEB	10AF6	Rotated
+10B00	10B35	Rotated
+10B39	10B55	Rotated
+10B58	10B72	Rotated
+10B78	10B91	Rotated
+10B99	10B9C	Rotated
+10BA9	10BAF	Rotated
+10C00	10C48	Rotated
+10C80	10CB2	Rotated
+10CC0	10CF2	Rotated
+10CFA	10D27	Rotated
+10D30	10D39	Rotated
+10E60	10E7E	Rotated
+10E80	10EA9	Rotated
+10EAB	10EAD	Rotated
+10EB0	10EB1	Rotated
+10F00	10F27	Rotated
+10F30	10F59	Rotated
+10F70	10F89	Rotated
+10FB0	10FCB	Rotated
+10FE0	10FF6	Rotated
+11000	1104D	Rotated
+11052	11075	Rotated
+1107F	110C2	Rotated
+110CD		Rotated
+110D0	110E8	Rotated
+110F0	110F9	Rotated
+11100	11134	Rotated
+11136	11147	Rotated
+11150	11176	Rotated
+11180	111DF	Rotated
+111E1	111F4	Rotated
+11200	11211	Rotated
+11213	1123E	Rotated
+11280	11286	Rotated
+11288		Rotated
+1128A	1128D	Rotated
+1128F	1129D	Rotated
+1129F	112A9	Rotated
+112B0	112EA	Rotated
+112F0	112F9	Rotated
+11300	11303	Rotated
+11305	1130C	Rotated
+1130F	11310	Rotated
+11313	11328	Rotated
+1132A	11330	Rotated
+11332	11333	Rotated
+11335	11339	Rotated
+1133B	11344	Rotated
+11347	11348	Rotated
+1134B	1134D	Rotated
+11350		Rotated
+11357		Rotated
+1135D	11363	Rotated
+11366	1136C	Rotated
+11370	11374	Rotated
+11400	1145B	Rotated
+1145D	11461	Rotated
+11480	114C7	Rotated
+114D0	114D9	Rotated
+11580	115FF	U
+11600	11644	Rotated
+11650	11659	Rotated
+11660	1166C	Rotated
+11680	116B9	Rotated
+116C0	116C9	Rotated
+11700	1171A	Rotated
+1171D	1172B	Rotated
+11730	11746	Rotated
+11800	1183B	Rotated
+118A0	118F2	Rotated
+118FF	11906	Rotated
+11909		Rotated
+1190C	11913	Rotated
+11915	11916	Rotated
+11918	11935	Rotated
+11937	11938	Rotated
+1193B	11946	Rotated
+11950	11959	Rotated
+119A0	119A7	Rotated
+119AA	119D7	Rotated
+119DA	119E4	Rotated
+11A00	11ABF	U
+11AC0	11AF8	Rotated
+11C00	11C08	Rotated
+11C0A	11C36	Rotated
+11C38	11C45	Rotated
+11C50	11C6C	Rotated
+11C70	11C8F	Rotated
+11C92	11CA7	Rotated
+11CA9	11CB6	Rotated
+11D00	11D06	Rotated
+11D08	11D09	Rotated
+11D0B	11D36	Rotated
+11D3A		Rotated
+11D3C	11D3D	Rotated
+11D3F	11D47	Rotated
+11D50	11D59	Rotated
+11D60	11D65	Rotated
+11D67	11D68	Rotated
+11D6A	11D8E	Rotated
+11D90	11D91	Rotated
+11D93	11D98	Rotated
+11DA0	11DA9	Rotated
+11EE0	11EF8	Rotated
+11FB0		Rotated
+11FC0	11FF1	Rotated
+11FFF	12399	Rotated
+12400	1246E	Rotated
+12470	12474	Rotated
+12480	12543	Rotated
+12F90	12FF2	Rotated
+13000	1343F	U
+14400	1467F	U
+16800	16A38	Rotated
+16A40	16A5E	Rotated
+16A60	16A69	Rotated
+16A6E	16ABE	Rotated
+16AC0	16AC9	Rotated
+16AD0	16AED	Rotated
+16AF0	16AF5	Rotated
+16B00	16B45	Rotated
+16B50	16B59	Rotated
+16B5B	16B61	Rotated
+16B63	16B77	Rotated
+16B7D	16B8F	Rotated
+16E40	16E9A	Rotated
+16F00	16F4A	Rotated
+16F4F	16F87	Rotated
+16F8F	16F9F	Rotated
+16FE0	18D7F	U
+1AFF0	1B2FF	U
+1BC00	1BC6A	Rotated
+1BC70	1BC7C	Rotated
+1BC80	1BC88	Rotated
+1BC90	1BC99	Rotated
+1BC9C	1BCA3	Rotated
+1CF00	1CFCF	U
+1D000	1D1FF	U
+1D200	1D245	Rotated
+1D2E0	1D37F	U
+1D400	1D454	Rotated
+1D456	1D49C	Rotated
+1D49E	1D49F	Rotated
+1D4A2		Rotated
+1D4A5	1D4A6	Rotated
+1D4A9	1D4AC	Rotated
+1D4AE	1D4B9	Rotated
+1D4BB		Rotated
+1D4BD	1D4C3	Rotated
+1D4C5	1D505	Rotated
+1D507	1D50A	Rotated
+1D50D	1D514	Rotated
+1D516	1D51C	Rotated
+1D51E	1D539	Rotated
+1D53B	1D53E	Rotated
+1D540	1D544	Rotated
+1D546		Rotated
+1D54A	1D550	Rotated
+1D552	1D6A5	Rotated
+1D6A8	1D7CB	Rotated
+1D7CE	1D7FF	Rotated
+1D800	1DAAF	U
+1DF00	1DF1E	Rotated
+1E000	1E006	Rotated
+1E008	1E018	Rotated
+1E01B	1E021	Rotated
+1E023	1E024	Rotated
+1E026	1E02A	Rotated
+1E100	1E12C	Rotated
+1E130	1E13D	Rotated
+1E140	1E149	Rotated
+1E14E	1E14F	Rotated
+1E290	1E2AE	Rotated
+1E2C0	1E2F9	Rotated
+1E2FF		Rotated
+1E7E0	1E7E6	Rotated
+1E7E8	1E7EB	Rotated
+1E7ED	1E7EE	Rotated
+1E7F0	1E7FE	Rotated
+1E800	1E8C4	Rotated
+1E8C7	1E8D6	Rotated
+1E900	1E94B	Rotated
+1E950	1E959	Rotated
+1E95E	1E95F	Rotated
+1EC71	1ECB4	Rotated
+1ED01	1ED3D	Rotated
+1EE00	1EE03	Rotated
+1EE05	1EE1F	Rotated
+1EE21	1EE22	Rotated
+1EE24		Rotated
+1EE27		Rotated
+1EE29	1EE32	Rotated
+1EE34	1EE37	Rotated
+1EE39		Rotated
+1EE3B		Rotated
+1EE42		Rotated
+1EE47		Rotated
+1EE49		Rotated
+1EE4B		Rotated
+1EE4D	1EE4F	Rotated
+1EE51	1EE52	Rotated
+1EE54		Rotated
+1EE57		Rotated
+1EE59		Rotated
+1EE5B		Rotated
+1EE5D		Rotated
+1EE5F		Rotated
+1EE61	1EE62	Rotated
+1EE64		Rotated
+1EE67	1EE6A	Rotated
+1EE6C	1EE72	Rotated
+1EE74	1EE77	Rotated
+1EE79	1EE7C	Rotated
+1EE7E		Rotated
+1EE80	1EE89	Rotated
+1EE8B	1EE9B	Rotated
+1EEA1	1EEA3	Rotated
+1EEA5	1EEA9	Rotated
+1EEAB	1EEBB	Rotated
+1EEF0	1EEF1	Rotated
+1F000	1F1FF	U
+1F200	1F201	Tu
+1F202	1F7FF	U
+1F800	1F80B	Rotated
+1F810	1F847	Rotated
+1F850	1F859	Rotated
+1F860	1F887	Rotated
+1F890	1F8AD	Rotated
+1F8B0	1F8B1	Rotated
+1F900	1FAFF	U
+1FB00	1FB92	Rotated
+1FB94	1FBCA	Rotated
+1FBF0	1FBF9	Rotated
+20000	2FFFD	U
+30000	3FFFD	U
+E0001		Rotated
+E0020	E007F	Rotated
+E0100	E01EF	Rotated
+F0000	FFFFD	U
+100000	10FFFD	U
+END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 # !!!!!!!   DO NOT EDIT THIS FILE   !!!!!!!
+# This file is machine-generated by lib/unicore/mktables from the Unicode
+# database, Version 14.0.0.  Any changes made here will be lost!
+
+# !!!!!!!   INTERNAL PERL USE ONLY   !!!!!!!
+# This file is for internal use by core Perl only.  The format and even the
+# name or existence of this file are subject to change without notice.  Don't
+# use it directly.  Use Unicode::UCD to access the Unicode character data
+# base.
+
+
+
+# The name this table is to be known by, with the format of the mappings in
+# the main body of the table, and what all code points missing from this file
+# map to.
+$Unicode::UCD::SwashInfo{'ToWB'}{'format'} = 's'; # string
+$Unicode::UCD::SwashInfo{'ToWB'}{'missing'} = 'Other';
+
+return <<'END';
+9		Perl_Tailored_HSpace
+A		LF
+B	C	Newline
+D		CR
+20		Perl_Tailored_HSpace
+22		Double_Quote
+27		Single_Quote
+2C		MidNum
+2E		MidNumLet
+30	39	Numeric
+3A		MidLetter
+3B		MidNum
+41	5A	ALetter
+5F		ExtendNumLet
+61	7A	ALetter
+85		Newline
+A0		Perl_Tailored_HSpace
+A9		ExtPict_XX
+AA		ALetter
+AD		Format
+AE		ExtPict_XX
+B5		ALetter
+B7		MidLetter
+BA		ALetter
+C0	D6	ALetter
+D8	F6	ALetter
+F8	2D7	ALetter
+2DE	2FF	ALetter
+300	36F	Extend
+370	374	ALetter
+376	377	ALetter
+37A	37D	ALetter
+37E		MidNum
+37F		ALetter
+386		ALetter
+387		MidLetter
+388	38A	ALetter
+38C		ALetter
+38E	3A1	ALetter
+3A3	3F5	ALetter
+3F7	481	ALetter
+483	489	Extend
+48A	52F	ALetter
+531	556	ALetter
+559	55C	ALetter
+55E		ALetter
+55F		MidLetter
+560	588	ALetter
+589		MidNum
+58A		ALetter
+591	5BD	Extend
+5BF		Extend
+5C1	5C2	Extend
+5C4	5C5	Extend
+5C7		Extend
+5D0	5EA	Hebrew_Letter
+5EF	5F2	Hebrew_Letter
+5F3		ALetter
+5F4		MidLetter
+600	605	Format
+60C	60D	MidNum
+610	61A	Extend
+61C		Format
+620	64A	ALetter
+64B	65F	Extend
+660	669	Numeric
+66B		Numeric
+66C		MidNum
+66E	66F	ALetter
+670		Extend
+671	6D3	ALetter
+6D5		ALetter
+6D6	6DC	Extend
+6DD		Format
+6DF	6E4	Extend
+6E5	6E6	ALetter
+6E7	6E8	Extend
+6EA	6ED	Extend
+6EE	6EF	ALetter
+6F0	6F9	Numeric
+6FA	6FC	ALetter
+6FF		ALetter
+70F		Format
+710		ALetter
+711		Extend
+712	72F	ALetter
+730	74A	Extend
+74D	7A5	ALetter
+7A6	7B0	Extend
+7B1		ALetter
+7C0	7C9	Numeric
+7CA	7EA	ALetter
+7EB	7F3	Extend
+7F4	7F5	ALetter
+7F8		MidNum
+7FA		ALetter
+7FD		Extend
+800	815	ALetter
+816	819	Extend
+81A		ALetter
+81B	823	Extend
+824		ALetter
+825	827	Extend
+828		ALetter
+829	82D	Extend
+840	858	ALetter
+859	85B	Extend
+860	86A	ALetter
+870	887	ALetter
+889	88E	ALetter
+890	891	Format
+898	89F	Extend
+8A0	8C9	ALetter
+8CA	8E1	Extend
+8E2		Format
+8E3	903	Extend
+904	939	ALetter
+93A	93C	Extend
+93D		ALetter
+93E	94F	Extend
+950		ALetter
+951	957	Extend
+958	961	ALetter
+962	963	Extend
+966	96F	Numeric
+971	980	ALetter
+981	983	Extend
+985	98C	ALetter
+98F	990	ALetter
+993	9A8	ALetter
+9AA	9B0	ALetter
+9B2		ALetter
+9B6	9B9	ALetter
+9BC		Extend
+9BD		ALetter
+9BE	9C4	Extend
+9C7	9C8	Extend
+9CB	9CD	Extend
+9CE		ALetter
+9D7		Extend
+9DC	9DD	ALetter
+9DF	9E1	ALetter
+9E2	9E3	Extend
+9E6	9EF	Numeric
+9F0	9F1	ALetter
+9FC		ALetter
+9FE		Extend
+A01	A03	Extend
+A05	A0A	ALetter
+A0F	A10	ALetter
+A13	A28	ALetter
+A2A	A30	ALetter
+A32	A33	ALetter
+A35	A36	ALetter
+A38	A39	ALetter
+A3C		Extend
+A3E	A42	Extend
+A47	A48	Extend
+A4B	A4D	Extend
+A51		Extend
+A59	A5C	ALetter
+A5E		ALetter
+A66	A6F	Numeric
+A70	A71	Extend
+A72	A74	ALetter
+A75		Extend
+A81	A83	Extend
+A85	A8D	ALetter
+A8F	A91	ALetter
+A93	AA8	ALetter
+AAA	AB0	ALetter
+AB2	AB3	ALetter
+AB5	AB9	ALetter
+ABC		Extend
+ABD		ALetter
+ABE	AC5	Extend
+AC7	AC9	Extend
+ACB	ACD	Extend
+AD0		ALetter
+AE0	AE1	ALetter
+AE2	AE3	Extend
+AE6	AEF	Numeric
+AF9		ALetter
+AFA	AFF	Extend
+B01	B03	Extend
+B05	B0C	ALetter
+B0F	B10	ALetter
+B13	B28	ALetter
+B2A	B30	ALetter
+B32	B33	ALetter
+B35	B39	ALetter
+B3C		Extend
+B3D		ALetter
+B3E	B44	Extend
+B47	B48	Extend
+B4B	B4D	Extend
+B55	B57	Extend
+B5C	B5D	ALetter
+B5F	B61	ALetter
+B62	B63	Extend
+B66	B6F	Numeric
+B71		ALetter
+B82		Extend
+B83		ALetter
+B85	B8A	ALetter
+B8E	B90	ALetter
+B92	B95	ALetter
+B99	B9A	ALetter
+B9C		ALetter
+B9E	B9F	ALetter
+BA3	BA4	ALetter
+BA8	BAA	ALetter
+BAE	BB9	ALetter
+BBE	BC2	Extend
+BC6	BC8	Extend
+BCA	BCD	Extend
+BD0		ALetter
+BD7		Extend
+BE6	BEF	Numeric
+C00	C04	Extend
+C05	C0C	ALetter
+C0E	C10	ALetter
+C12	C28	ALetter
+C2A	C39	ALetter
+C3C		Extend
+C3D		ALetter
+C3E	C44	Extend
+C46	C48	Extend
+C4A	C4D	Extend
+C55	C56	Extend
+C58	C5A	ALetter
+C5D		ALetter
+C60	C61	ALetter
+C62	C63	Extend
+C66	C6F	Numeric
+C80		ALetter
+C81	C83	Extend
+C85	C8C	ALetter
+C8E	C90	ALetter
+C92	CA8	ALetter
+CAA	CB3	ALetter
+CB5	CB9	ALetter
+CBC		Extend
+CBD		ALetter
+CBE	CC4	Extend
+CC6	CC8	Extend
+CCA	CCD	Extend
+CD5	CD6	Extend
+CDD	CDE	ALetter
+CE0	CE1	ALetter
+CE2	CE3	Extend
+CE6	CEF	Numeric
+CF1	CF2	ALetter
+D00	D03	Extend
+D04	D0C	ALetter
+D0E	D10	ALetter
+D12	D3A	ALetter
+D3B	D3C	Extend
+D3D		ALetter
+D3E	D44	Extend
+D46	D48	Extend
+D4A	D4D	Extend
+D4E		ALetter
+D54	D56	ALetter
+D57		Extend
+D5F	D61	ALetter
+D62	D63	Extend
+D66	D6F	Numeric
+D7A	D7F	ALetter
+D81	D83	Extend
+D85	D96	ALetter
+D9A	DB1	ALetter
+DB3	DBB	ALetter
+DBD		ALetter
+DC0	DC6	ALetter
+DCA		Extend
+DCF	DD4	Extend
+DD6		Extend
+DD8	DDF	Extend
+DE6	DEF	Numeric
+DF2	DF3	Extend
+E31		Extend
+E34	E3A	Extend
+E47	E4E	Extend
+E50	E59	Numeric
+EB1		Extend
+EB4	EBC	Extend
+EC8	ECD	Extend
+ED0	ED9	Numeric
+F00		ALetter
+F18	F19	Extend
+F20	F29	Numeric
+F35		Extend
+F37		Extend
+F39		Extend
+F3E	F3F	Extend
+F40	F47	ALetter
+F49	F6C	ALetter
+F71	F84	Extend
+F86	F87	Extend
+F88	F8C	ALetter
+F8D	F97	Extend
+F99	FBC	Extend
+FC6		Extend
+102B	103E	Extend
+1040	1049	Numeric
+1056	1059	Extend
+105E	1060	Extend
+1062	1064	Extend
+1067	106D	Extend
+1071	1074	Extend
+1082	108D	Extend
+108F		Extend
+1090	1099	Numeric
+109A	109D	Extend
+10A0	10C5	ALetter
+10C7		ALetter
+10CD		ALetter
+10D0	10FA	ALetter
+10FC	1248	ALetter
+124A	124D	ALetter
+1250	1256	ALetter
+1258		ALetter
+125A	125D	ALetter
+1260	1288	ALetter
+128A	128D	ALetter
+1290	12B0	ALetter
+12B2	12B5	ALetter
+12B8	12BE	ALetter
+12C0		ALetter
+12C2	12C5	ALetter
+12C8	12D6	ALetter
+12D8	1310	ALetter
+1312	1315	ALetter
+1318	135A	ALetter
+135D	135F	Extend
+1380	138F	ALetter
+13A0	13F5	ALetter
+13F8	13FD	ALetter
+1401	166C	ALetter
+166F	167F	ALetter
+1680		Perl_Tailored_HSpace
+1681	169A	ALetter
+16A0	16EA	ALetter
+16EE	16F8	ALetter
+1700	1711	ALetter
+1712	1715	Extend
+171F	1731	ALetter
+1732	1734	Extend
+1740	1751	ALetter
+1752	1753	Extend
+1760	176C	ALetter
+176E	1770	ALetter
+1772	1773	Extend
+17B4	17D3	Extend
+17DD		Extend
+17E0	17E9	Numeric
+180B	180D	Extend
+180E		Format
+180F		Extend
+1810	1819	Numeric
+1820	1878	ALetter
+1880	1884	ALetter
+1885	1886	Extend
+1887	18A8	ALetter
+18A9		Extend
+18AA		ALetter
+18B0	18F5	ALetter
+1900	191E	ALetter
+1920	192B	Extend
+1930	193B	Extend
+1946	194F	Numeric
+19D0	19D9	Numeric
+1A00	1A16	ALetter
+1A17	1A1B	Extend
+1A55	1A5E	Extend
+1A60	1A7C	Extend
+1A7F		Extend
+1A80	1A89	Numeric
+1A90	1A99	Numeric
+1AB0	1ACE	Extend
+1B00	1B04	Extend
+1B05	1B33	ALetter
+1B34	1B44	Extend
+1B45	1B4C	ALetter
+1B50	1B59	Numeric
+1B6B	1B73	Extend
+1B80	1B82	Extend
+1B83	1BA0	ALetter
+1BA1	1BAD	Extend
+1BAE	1BAF	ALetter
+1BB0	1BB9	Numeric
+1BBA	1BE5	ALetter
+1BE6	1BF3	Extend
+1C00	1C23	ALetter
+1C24	1C37	Extend
+1C40	1C49	Numeric
+1C4D	1C4F	ALetter
+1C50	1C59	Numeric
+1C5A	1C7D	ALetter
+1C80	1C88	ALetter
+1C90	1CBA	ALetter
+1CBD	1CBF	ALetter
+1CD0	1CD2	Extend
+1CD4	1CE8	Extend
+1CE9	1CEC	ALetter
+1CED		Extend
+1CEE	1CF3	ALetter
+1CF4		Extend
+1CF5	1CF6	ALetter
+1CF7	1CF9	Extend
+1CFA		ALetter
+1D00	1DBF	ALetter
+1DC0	1DFF	Extend
+1E00	1F15	ALetter
+1F18	1F1D	ALetter
+1F20	1F45	ALetter
+1F48	1F4D	ALetter
+1F50	1F57	ALetter
+1F59		ALetter
+1F5B		ALetter
+1F5D		ALetter
+1F5F	1F7D	ALetter
+1F80	1FB4	ALetter
+1FB6	1FBC	ALetter
+1FBE		ALetter
+1FC2	1FC4	ALetter
+1FC6	1FCC	ALetter
+1FD0	1FD3	ALetter
+1FD6	1FDB	ALetter
+1FE0	1FEC	ALetter
+1FF2	1FF4	ALetter
+1FF6	1FFC	ALetter
+2000	200A	Perl_Tailored_HSpace
+200C		Extend
+200D		ZWJ
+200E	200F	Format
+2018	2019	MidNumLet
+2024		MidNumLet
+2027		MidLetter
+2028	2029	Newline
+202A	202E	Format
+202F		ExtendNumLet
+203C		ExtPict_XX
+203F	2040	ExtendNumLet
+2044		MidNum
+2049		ExtPict_XX
+2054		ExtendNumLet
+205F		Perl_Tailored_HSpace
+2060	2064	Format
+2066	206F	Format
+2071		ALetter
+207F		ALetter
+2090	209C	ALetter
+20D0	20F0	Extend
+2102		ALetter
+2107		ALetter
+210A	2113	ALetter
+2115		ALetter
+2119	211D	ALetter
+2122		ExtPict_XX
+2124		ALetter
+2126		ALetter
+2128		ALetter
+212A	212D	ALetter
+212F	2138	ALetter
+2139		ExtPict_LE
+213C	213F	ALetter
+2145	2149	ALetter
+214E		ALetter
+2160	2188	ALetter
+2194	2199	ExtPict_XX
+21A9	21AA	ExtPict_XX
+231A	231B	ExtPict_XX
+2328		ExtPict_XX
+2388		ExtPict_XX
+23CF		ExtPict_XX
+23E9	23F3	ExtPict_XX
+23F8	23FA	ExtPict_XX
+24B6	24C1	ALetter
+24C2		ExtPict_LE
+24C3	24E9	ALetter
+25AA	25AB	ExtPict_XX
+25B6		ExtPict_XX
+25C0		ExtPict_XX
+25FB	25FE	ExtPict_XX
+2600	2605	ExtPict_XX
+2607	2612	ExtPict_XX
+2614	2685	ExtPict_XX
+2690	2705	ExtPict_XX
+2708	2712	ExtPict_XX
+2714		ExtPict_XX
+2716		ExtPict_XX
+271D		ExtPict_XX
+2721		ExtPict_XX
+2728		ExtPict_XX
+2733	2734	ExtPict_XX
+2744		ExtPict_XX
+2747		ExtPict_XX
+274C		ExtPict_XX
+274E		ExtPict_XX
+2753	2755	ExtPict_XX
+2757		ExtPict_XX
+2763	2767	ExtPict_XX
+2795	2797	ExtPict_XX
+27A1		ExtPict_XX
+27B0		ExtPict_XX
+27BF		ExtPict_XX
+2934	2935	ExtPict_XX
+2B05	2B07	ExtPict_XX
+2B1B	2B1C	ExtPict_XX
+2B50		ExtPict_XX
+2B55		ExtPict_XX
+2C00	2CE4	ALetter
+2CEB	2CEE	ALetter
+2CEF	2CF1	Extend
+2CF2	2CF3	ALetter
+2D00	2D25	ALetter
+2D27		ALetter
+2D2D		ALetter
+2D30	2D67	ALetter
+2D6F		ALetter
+2D7F		Extend
+2D80	2D96	ALetter
+2DA0	2DA6	ALetter
+2DA8	2DAE	ALetter
+2DB0	2DB6	ALetter
+2DB8	2DBE	ALetter
+2DC0	2DC6	ALetter
+2DC8	2DCE	ALetter
+2DD0	2DD6	ALetter
+2DD8	2DDE	ALetter
+2DE0	2DFF	Extend
+2E2F		ALetter
+3000		Perl_Tailored_HSpace
+3005		ALetter
+302A	302F	Extend
+3030		ExtPict_XX
+3031	3035	Katakana
+303B	303C	ALetter
+303D		ExtPict_XX
+3099	309A	Extend
+309B	309C	Katakana
+30A0	30FA	Katakana
+30FC	30FF	Katakana
+3105	312F	ALetter
+3131	318E	ALetter
+31A0	31BF	ALetter
+31F0	31FF	Katakana
+3297		ExtPict_XX
+3299		ExtPict_XX
+32D0	32FE	Katakana
+3300	3357	Katakana
+A000	A48C	ALetter
+A4D0	A4FD	ALetter
+A500	A60C	ALetter
+A610	A61F	ALetter
+A620	A629	Numeric
+A62A	A62B	ALetter
+A640	A66E	ALetter
+A66F	A672	Extend
+A674	A67D	Extend
+A67F	A69D	ALetter
+A69E	A69F	Extend
+A6A0	A6EF	ALetter
+A6F0	A6F1	Extend
+A708	A7CA	ALetter
+A7D0	A7D1	ALetter
+A7D3		ALetter
+A7D5	A7D9	ALetter
+A7F2	A801	ALetter
+A802		Extend
+A803	A805	ALetter
+A806		Extend
+A807	A80A	ALetter
+A80B		Extend
+A80C	A822	ALetter
+A823	A827	Extend
+A82C		Extend
+A840	A873	ALetter
+A880	A881	Extend
+A882	A8B3	ALetter
+A8B4	A8C5	Extend
+A8D0	A8D9	Numeric
+A8E0	A8F1	Extend
+A8F2	A8F7	ALetter
+A8FB		ALetter
+A8FD	A8FE	ALetter
+A8FF		Extend
+A900	A909	Numeric
+A90A	A925	ALetter
+A926	A92D	Extend
+A930	A946	ALetter
+A947	A953	Extend
+A960	A97C	ALetter
+A980	A983	Extend
+A984	A9B2	ALetter
+A9B3	A9C0	Extend
+A9CF		ALetter
+A9D0	A9D9	Numeric
+A9E5		Extend
+A9F0	A9F9	Numeric
+AA00	AA28	ALetter
+AA29	AA36	Extend
+AA40	AA42	ALetter
+AA43		Extend
+AA44	AA4B	ALetter
+AA4C	AA4D	Extend
+AA50	AA59	Numeric
+AA7B	AA7D	Extend
+AAB0		Extend
+AAB2	AAB4	Extend
+AAB7	AAB8	Extend
+AABE	AABF	Extend
+AAC1		Extend
+AAE0	AAEA	ALetter
+AAEB	AAEF	Extend
+AAF2	AAF4	ALetter
+AAF5	AAF6	Extend
+AB01	AB06	ALetter
+AB09	AB0E	ALetter
+AB11	AB16	ALetter
+AB20	AB26	ALetter
+AB28	AB2E	ALetter
+AB30	AB69	ALetter
+AB70	ABE2	ALetter
+ABE3	ABEA	Extend
+ABEC	ABED	Extend
+ABF0	ABF9	Numeric
+AC00	D7A3	ALetter
+D7B0	D7C6	ALetter
+D7CB	D7FB	ALetter
+FB00	FB06	ALetter
+FB13	FB17	ALetter
+FB1D		Hebrew_Letter
+FB1E		Extend
+FB1F	FB28	Hebrew_Letter
+FB2A	FB36	Hebrew_Letter
+FB38	FB3C	Hebrew_Letter
+FB3E		Hebrew_Letter
+FB40	FB41	Hebrew_Letter
+FB43	FB44	Hebrew_Letter
+FB46	FB4F	Hebrew_Letter
+FB50	FBB1	ALetter
+FBD3	FD3D	ALetter
+FD50	FD8F	ALetter
+FD92	FDC7	ALetter
+FDF0	FDFB	ALetter
+FE00	FE0F	Extend
+FE10		MidNum
+FE13		MidLetter
+FE14		MidNum
+FE20	FE2F	Extend
+FE33	FE34	ExtendNumLet
+FE4D	FE4F	ExtendNumLet
+FE50		MidNum
+FE52		MidNumLet
+FE54		MidNum
+FE55		MidLetter
+FE70	FE74	ALetter
+FE76	FEFC	ALetter
+FEFF		Format
+FF07		MidNumLet
+FF0C		MidNum
+FF0E		MidNumLet
+FF10	FF19	Numeric
+FF1A		MidLetter
+FF1B		MidNum
+FF21	FF3A	ALetter
+FF3F		ExtendNumLet
+FF41	FF5A	ALetter
+FF66	FF9D	Katakana
+FF9E	FF9F	Extend
+FFA0	FFBE	ALetter
+FFC2	FFC7	ALetter
+FFCA	FFCF	ALetter
+FFD2	FFD7	ALetter
+FFDA	FFDC	ALetter
+FFF9	FFFB	Format
+10000	1000B	ALetter
+1000D	10026	ALetter
+10028	1003A	ALetter
+1003C	1003D	ALetter
+1003F	1004D	ALetter
+10050	1005D	ALetter
+10080	100FA	ALetter
+10140	10174	ALetter
+101FD		Extend
+10280	1029C	ALetter
+102A0	102D0	ALetter
+102E0		Extend
+10300	1031F	ALetter
+1032D	1034A	ALetter
+10350	10375	ALetter
+10376	1037A	Extend
+10380	1039D	ALetter
+103A0	103C3	ALetter
+103C8	103CF	ALetter
+103D1	103D5	ALetter
+10400	1049D	ALetter
+104A0	104A9	Numeric
+104B0	104D3	ALetter
+104D8	104FB	ALetter
+10500	10527	ALetter
+10530	10563	ALetter
+10570	1057A	ALetter
+1057C	1058A	ALetter
+1058C	10592	ALetter
+10594	10595	ALetter
+10597	105A1	ALetter
+105A3	105B1	ALetter
+105B3	105B9	ALetter
+105BB	105BC	ALetter
+10600	10736	ALetter
+10740	10755	ALetter
+10760	10767	ALetter
+10780	10785	ALetter
+10787	107B0	ALetter
+107B2	107BA	ALetter
+10800	10805	ALetter
+10808		ALetter
+1080A	10835	ALetter
+10837	10838	ALetter
+1083C		ALetter
+1083F	10855	ALetter
+10860	10876	ALetter
+10880	1089E	ALetter
+108E0	108F2	ALetter
+108F4	108F5	ALetter
+10900	10915	ALetter
+10920	10939	ALetter
+10980	109B7	ALetter
+109BE	109BF	ALetter
+10A00		ALetter
+10A01	10A03	Extend
+10A05	10A06	Extend
+10A0C	10A0F	Extend
+10A10	10A13	ALetter
+10A15	10A17	ALetter
+10A19	10A35	ALetter
+10A38	10A3A	Extend
+10A3F		Extend
+10A60	10A7C	ALetter
+10A80	10A9C	ALetter
+10AC0	10AC7	ALetter
+10AC9	10AE4	ALetter
+10AE5	10AE6	Extend
+10B00	10B35	ALetter
+10B40	10B55	ALetter
+10B60	10B72	ALetter
+10B80	10B91	ALetter
+10C00	10C48	ALetter
+10C80	10CB2	ALetter
+10CC0	10CF2	ALetter
+10D00	10D23	ALetter
+10D24	10D27	Extend
+10D30	10D39	Numeric
+10E80	10EA9	ALetter
+10EAB	10EAC	Extend
+10EB0	10EB1	ALetter
+10F00	10F1C	ALetter
+10F27		ALetter
+10F30	10F45	ALetter
+10F46	10F50	Extend
+10F70	10F81	ALetter
+10F82	10F85	Extend
+10FB0	10FC4	ALetter
+10FE0	10FF6	ALetter
+11000	11002	Extend
+11003	11037	ALetter
+11038	11046	Extend
+11066	1106F	Numeric
+11070		Extend
+11071	11072	ALetter
+11073	11074	Extend
+11075		ALetter
+1107F	11082	Extend
+11083	110AF	ALetter
+110B0	110BA	Extend
+110BD		Format
+110C2		Extend
+110CD		Format
+110D0	110E8	ALetter
+110F0	110F9	Numeric
+11100	11102	Extend
+11103	11126	ALetter
+11127	11134	Extend
+11136	1113F	Numeric
+11144		ALetter
+11145	11146	Extend
+11147		ALetter
+11150	11172	ALetter
+11173		Extend
+11176		ALetter
+11180	11182	Extend
+11183	111B2	ALetter
+111B3	111C0	Extend
+111C1	111C4	ALetter
+111C9	111CC	Extend
+111CE	111CF	Extend
+111D0	111D9	Numeric
+111DA		ALetter
+111DC		ALetter
+11200	11211	ALetter
+11213	1122B	ALetter
+1122C	11237	Extend
+1123E		Extend
+11280	11286	ALetter
+11288		ALetter
+1128A	1128D	ALetter
+1128F	1129D	ALetter
+1129F	112A8	ALetter
+112B0	112DE	ALetter
+112DF	112EA	Extend
+112F0	112F9	Numeric
+11300	11303	Extend
+11305	1130C	ALetter
+1130F	11310	ALetter
+11313	11328	ALetter
+1132A	11330	ALetter
+11332	11333	ALetter
+11335	11339	ALetter
+1133B	1133C	Extend
+1133D		ALetter
+1133E	11344	Extend
+11347	11348	Extend
+1134B	1134D	Extend
+11350		ALetter
+11357		Extend
+1135D	11361	ALetter
+11362	11363	Extend
+11366	1136C	Extend
+11370	11374	Extend
+11400	11434	ALetter
+11435	11446	Extend
+11447	1144A	ALetter
+11450	11459	Numeric
+1145E		Extend
+1145F	11461	ALetter
+11480	114AF	ALetter
+114B0	114C3	Extend
+114C4	114C5	ALetter
+114C7		ALetter
+114D0	114D9	Numeric
+11580	115AE	ALetter
+115AF	115B5	Extend
+115B8	115C0	Extend
+115D8	115DB	ALetter
+115DC	115DD	Extend
+11600	1162F	ALetter
+11630	11640	Extend
+11644		ALetter
+11650	11659	Numeric
+11680	116AA	ALetter
+116AB	116B7	Extend
+116B8		ALetter
+116C0	116C9	Numeric
+1171D	1172B	Extend
+11730	11739	Numeric
+11800	1182B	ALetter
+1182C	1183A	Extend
+118A0	118DF	ALetter
+118E0	118E9	Numeric
+118FF	11906	ALetter
+11909		ALetter
+1190C	11913	ALetter
+11915	11916	ALetter
+11918	1192F	ALetter
+11930	11935	Extend
+11937	11938	Extend
+1193B	1193E	Extend
+1193F		ALetter
+11940		Extend
+11941		ALetter
+11942	11943	Extend
+11950	11959	Numeric
+119A0	119A7	ALetter
+119AA	119D0	ALetter
+119D1	119D7	Extend
+119DA	119E0	Extend
+119E1		ALetter
+119E3		ALetter
+119E4		Extend
+11A00		ALetter
+11A01	11A0A	Extend
+11A0B	11A32	ALetter
+11A33	11A39	Extend
+11A3A		ALetter
+11A3B	11A3E	Extend
+11A47		Extend
+11A50		ALetter
+11A51	11A5B	Extend
+11A5C	11A89	ALetter
+11A8A	11A99	Extend
+11A9D		ALetter
+11AB0	11AF8	ALetter
+11C00	11C08	ALetter
+11C0A	11C2E	ALetter
+11C2F	11C36	Extend
+11C38	11C3F	Extend
+11C40		ALetter
+11C50	11C59	Numeric
+11C72	11C8F	ALetter
+11C92	11CA7	Extend
+11CA9	11CB6	Extend
+11D00	11D06	ALetter
+11D08	11D09	ALetter
+11D0B	11D30	ALetter
+11D31	11D36	Extend
+11D3A		Extend
+11D3C	11D3D	Extend
+11D3F	11D45	Extend
+11D46		ALetter
+11D47		Extend
+11D50	11D59	Numeric
+11D60	11D65	ALetter
+11D67	11D68	ALetter
+11D6A	11D89	ALetter
+11D8A	11D8E	Extend
+11D90	11D91	Extend
+11D93	11D97	Extend
+11D98		ALetter
+11DA0	11DA9	Numeric
+11EE0	11EF2	ALetter
+11EF3	11EF6	Extend
+11FB0		ALetter
+12000	12399	ALetter
+12400	1246E	ALetter
+12480	12543	ALetter
+12F90	12FF0	ALetter
+13000	1342E	ALetter
+13430	13438	Format
+14400	14646	ALetter
+16800	16A38	ALetter
+16A40	16A5E	ALetter
+16A60	16A69	Numeric
+16A70	16ABE	ALetter
+16AC0	16AC9	Numeric
+16AD0	16AED	ALetter
+16AF0	16AF4	Extend
+16B00	16B2F	ALetter
+16B30	16B36	Extend
+16B40	16B43	ALetter
+16B50	16B59	Numeric
+16B63	16B77	ALetter
+16B7D	16B8F	ALetter
+16E40	16E7F	ALetter
+16F00	16F4A	ALetter
+16F4F		Extend
+16F50		ALetter
+16F51	16F87	Extend
+16F8F	16F92	Extend
+16F93	16F9F	ALetter
+16FE0	16FE1	ALetter
+16FE3		ALetter
+16FE4		Extend
+16FF0	16FF1	Extend
+1AFF0	1AFF3	Katakana
+1AFF5	1AFFB	Katakana
+1AFFD	1AFFE	Katakana
+1B000		Katakana
+1B120	1B122	Katakana
+1B164	1B167	Katakana
+1BC00	1BC6A	ALetter
+1BC70	1BC7C	ALetter
+1BC80	1BC88	ALetter
+1BC90	1BC99	ALetter
+1BC9D	1BC9E	Extend
+1BCA0	1BCA3	Format
+1CF00	1CF2D	Extend
+1CF30	1CF46	Extend
+1D165	1D169	Extend
+1D16D	1D172	Extend
+1D173	1D17A	Format
+1D17B	1D182	Extend
+1D185	1D18B	Extend
+1D1AA	1D1AD	Extend
+1D242	1D244	Extend
+1D400	1D454	ALetter
+1D456	1D49C	ALetter
+1D49E	1D49F	ALetter
+1D4A2		ALetter
+1D4A5	1D4A6	ALetter
+1D4A9	1D4AC	ALetter
+1D4AE	1D4B9	ALetter
+1D4BB		ALetter
+1D4BD	1D4C3	ALetter
+1D4C5	1D505	ALetter
+1D507	1D50A	ALetter
+1D50D	1D514	ALetter
+1D516	1D51C	ALetter
+1D51E	1D539	ALetter
+1D53B	1D53E	ALetter
+1D540	1D544	ALetter
+1D546		ALetter
+1D54A	1D550	ALetter
+1D552	1D6A5	ALetter
+1D6A8	1D6C0	ALetter
+1D6C2	1D6DA	ALetter
+1D6DC	1D6FA	ALetter
+1D6FC	1D714	ALetter
+1D716	1D734	ALetter
+1D736	1D74E	ALetter
+1D750	1D76E	ALetter
+1D770	1D788	ALetter
+1D78A	1D7A8	ALetter
+1D7AA	1D7C2	ALetter
+1D7C4	1D7CB	ALetter
+1D7CE	1D7FF	Numeric
+1DA00	1DA36	Extend
+1DA3B	1DA6C	Extend
+1DA75		Extend
+1DA84		Extend
+1DA9B	1DA9F	Extend
+1DAA1	1DAAF	Extend
+1DF00	1DF1E	ALetter
+1E000	1E006	Extend
+1E008	1E018	Extend
+1E01B	1E021	Extend
+1E023	1E024	Extend
+1E026	1E02A	Extend
+1E100	1E12C	ALetter
+1E130	1E136	Extend
+1E137	1E13D	ALetter
+1E140	1E149	Numeric
+1E14E		ALetter
+1E290	1E2AD	ALetter
+1E2AE		Extend
+1E2C0	1E2EB	ALetter
+1E2EC	1E2EF	Extend
+1E2F0	1E2F9	Numeric
+1E7E0	1E7E6	ALetter
+1E7E8	1E7EB	ALetter
+1E7ED	1E7EE	ALetter
+1E7F0	1E7FE	ALetter
+1E800	1E8C4	ALetter
+1E8D0	1E8D6	Extend
+1E900	1E943	ALetter
+1E944	1E94A	Extend
+1E94B		ALetter
+1E950	1E959	Numeric
+1EE00	1EE03	ALetter
+1EE05	1EE1F	ALetter
+1EE21	1EE22	ALetter
+1EE24		ALetter
+1EE27		ALetter
+1EE29	1EE32	ALetter
+1EE34	1EE37	ALetter
+1EE39		ALetter
+1EE3B		ALetter
+1EE42		ALetter
+1EE47		ALetter
+1EE49		ALetter
+1EE4B		ALetter
+1EE4D	1EE4F	ALetter
+1EE51	1EE52	ALetter
+1EE54		ALetter
+1EE57		ALetter
+1EE59		ALetter
+1EE5B		ALetter
+1EE5D		ALetter
+1EE5F		ALetter
+1EE61	1EE62	ALetter
+1EE64		ALetter
+1EE67	1EE6A	ALetter
+1EE6C	1EE72	ALetter
+1EE74	1EE77	ALetter
+1EE79	1EE7C	ALetter
+1EE7E		ALetter
+1EE80	1EE89	ALetter
+1EE8B	1EE9B	ALetter
+1EEA1	1EEA3	ALetter
+1EEA5	1EEA9	ALetter
+1EEAB	1EEBB	ALetter
+1F000	1F0FF	ExtPict_XX
+1F10D	1F10F	ExtPict_XX
+1F12F		ExtPict_XX
+1F130	1F149	ALetter
+1F150	1F169	ALetter
+1F16C	1F16F	ExtPict_XX
+1F170	1F171	ExtPict_LE
+1F172	1F17D	ALetter
+1F17E	1F17F	ExtPict_LE
+1F180	1F189	ALetter
+1F18E		ExtPict_XX
+1F191	1F19A	ExtPict_XX
+1F1AD	1F1E5	ExtPict_XX
+1F1E6	1F1FF	Regional_Indicator
+1F201	1F20F	ExtPict_XX
+1F21A		ExtPict_XX
+1F22F		ExtPict_XX
+1F232	1F23A	ExtPict_XX
+1F23C	1F23F	ExtPict_XX
+1F249	1F3FA	ExtPict_XX
+1F3FB	1F3FF	Extend
+1F400	1F53D	ExtPict_XX
+1F546	1F64F	ExtPict_XX
+1F680	1F6FF	ExtPict_XX
+1F774	1F77F	ExtPict_XX
+1F7D5	1F7FF	ExtPict_XX
+1F80C	1F80F	ExtPict_XX
+1F848	1F84F	ExtPict_XX
+1F85A	1F85F	ExtPict_XX
+1F888	1F88F	ExtPict_XX
+1F8AE	1F8FF	ExtPict_XX
+1F90C	1F93A	ExtPict_XX
+1F93C	1F945	ExtPict_XX
+1F947	1FAFF	ExtPict_XX
+1FBF0	1FBF9	Numeric
+1FC00	1FFFD	ExtPict_XX
+E0001		Format
+E0020	E007F	Extend
+E0100	E01EF	Extend
+END
+                                                                                                                                                                                                                                                                                                                                                                                                                    # !!!!!!!   DO NOT EDIT THIS FILE   !!!!!!!
+# This file is machine-generated by lib/unicore/mktables from the Unicode
+# database, Version 14.0.0.  Any changes made here will be lost!
+
+# !!!!!!!   INTERNAL PERL USE ONLY   !!!!!!!
+# This file is for internal use by core Perl only.  The format and even the
+# name or existence of this file are subject to change without notice.  Don't
+# use it directly.  Use Unicode::UCD to access the Unicode character data
+# base.
+
+
+
+# The name this table is to be known by, with the format of the mappings in
+# the main body of the table, and what all code points missing from this file
+# map to.
+$Unicode::UCD::SwashInfo{'To_PerlLB'}{'format'} = 's'; # string
+$Unicode::UCD::SwashInfo{'To_PerlLB'}{'missing'} = 'Alphabetic';
+
+return <<'END';
+0	8	Combining_Mark
+9		Break_After
+A		Line_Feed
+B	C	Mandatory_Break
+D		Carriage_Return
+E	1F	Combining_Mark
+20		Space
+21		Exclamation
+22		Quotation
+24		Prefix_Numeric
+25		Postfix_Numeric
+27		Quotation
+28		Open_Punctuation
+29		Close_Parenthesis
+2B		Prefix_Numeric
+2C		Infix_Numeric
+2D		Hyphen
+2E		Infix_Numeric
+2F		Break_Symbols
+30	39	Numeric
+3A	3B	Infix_Numeric
+3F		Exclamation
+5B		Open_Punctuation
+5C		Prefix_Numeric
+5D		Close_Parenthesis
+7B		Open_Punctuation
+7C		Break_After
+7D		Close_Punctuation
+7F	84	Combining_Mark
+85		Next_Line
+86	9F	Combining_Mark
+A0		Glue
+A1		Open_Punctuation
+A2		Postfix_Numeric
+A3	A5	Prefix_Numeric
+AB		Quotation
+AD		Break_After
+B0		Postfix_Numeric
+B1		Prefix_Numeric
+B4		Break_Before
+BB		Quotation
+BF		Open_Punctuation
+2C8		Break_Before
+2CC		Break_Before
+2DF		Break_Before
+300	34E	Combining_Mark
+34F		Glue
+350	35B	Combining_Mark
+35C	362	Glue
+363	36F	Combining_Mark
+37E		Infix_Numeric
+483	489	Combining_Mark
+589		Infix_Numeric
+58A		Break_After
+58F		Prefix_Numeric
+591	5BD	Combining_Mark
+5BE		Break_After
+5BF		Combining_Mark
+5C1	5C2	Combining_Mark
+5C4	5C5	Combining_Mark
+5C6		Exclamation
+5C7		Combining_Mark
+5D0	5EA	Hebrew_Letter
+5EF	5F2	Hebrew_Letter
+609	60B	Postfix_Numeric
+60C	60D	Infix_Numeric
+610	61A	Combining_Mark
+61B		Exclamation
+61C		Combining_Mark
+61D	61F	Exclamation
+64B	65F	Combining_Mark
+660	669	Numeric
+66A		Postfix_Numeric
+66B	66C	Numeric
+670		Combining_Mark
+6D4		Exclamation
+6D6	6DC	Combining_Mark
+6DF	6E4	Combining_Mark
+6E7	6E8	Combining_Mark
+6EA	6ED	Combining_Mark
+6F0	6F9	Numeric
+711		Combining_Mark
+730	74A	Combining_Mark
+7A6	7B0	Combining_Mark
+7C0	7C9	Numeric
+7EB	7F3	Combining_Mark
+7F8		Infix_Numeric
+7F9		Exclamation
+7FD		Combining_Mark
+7FE	7FF	Prefix_Numeric
+816	819	Combining_Mark
+81B	823	Combining_Mark
+825	827	Combining_Mark
+829	82D	Combining_Mark
+859	85B	Combining_Mark
+898	89F	Combining_Mark
+8CA	8E1	Combining_Mark
+8E3	903	Combining_Mark
+93A	93C	Combining_Mark
+93E	94F	Combining_Mark
+951	957	Combining_Mark
+962	963	Combining_Mark
+964	965	Break_After
+966	96F	Numeric
+981	983	Combining_Mark
+9BC		Combining_Mark
+9BE	9C4	Combining_Mark
+9C7	9C8	Combining_Mark
+9CB	9CD	Combining_Mark
+9D7		Combining_Mark
+9E2	9E3	Combining_Mark
+9E6	9EF	Numeric
+9F2	9F3	Postfix_Numeric
+9F9		Postfix_Numeric
+9FB		Prefix_Numeric
+9FE		Combining_Mark
+A01	A03	Combining_Mark
+A3C		Combining_Mark
+A3E	A42	Combining_Mark
+A47	A48	Combining_Mark
+A4B	A4D	Combining_Mark
+A51		Combining_Mark
+A66	A6F	Numeric
+A70	A71	Combining_Mark
+A75		Combining_Mark
+A81	A83	Combining_Mark
+ABC		Combining_Mark
+ABE	AC5	Combining_Mark
+AC7	AC9	Combining_Mark
+ACB	ACD	Combining_Mark
+AE2	AE3	Combining_Mark
+AE6	AEF	Numeric
+AF1		Prefix_Numeric
+AFA	AFF	Combining_Mark
+B01	B03	Combining_Mark
+B3C		Combining_Mark
+B3E	B44	Combining_Mark
+B47	B48	Combining_Mark
+B4B	B4D	Combining_Mark
+B55	B57	Combining_Mark
+B62	B63	Combining_Mark
+B66	B6F	Numeric
+B82		Combining_Mark
+BBE	BC2	Combining_Mark
+BC6	BC8	Combining_Mark
+BCA	BCD	Combining_Mark
+BD7		Combining_Mark
+BE6	BEF	Numeric
+BF9		Prefix_Numeric
+C00	C04	Combining_Mark
+C3C		Combining_Mark
+C3E	C44	Combining_Mark
+C46	C48	Combining_Mark
+C4A	C4D	Combining_Mark
+C55	C56	Combining_Mark
+C62	C63	Combining_Mark
+C66	C6F	Numeric
+C77		Break_Before
+C81	C83	Combining_Mark
+C84		Break_Before
+CBC		Combining_Mark
+CBE	CC4	Combining_Mark
+CC6	CC8	Combining_Mark
+CCA	CCD	Combining_Mark
+CD5	CD6	Combining_Mark
+CE2	CE3	Combining_Mark
+CE6	CEF	Numeric
+D00	D03	Combining_Mark
+D3B	D3C	Combining_Mark
+D3E	D44	Combining_Mark
+D46	D48	Combining_Mark
+D4A	D4D	Combining_Mark
+D57		Combining_Mark
+D62	D63	Combining_Mark
+D66	D6F	Numeric
+D79		Postfix_Numeric
+D81	D83	Combining_Mark
+DCA		Combining_Mark
+DCF	DD4	Combining_Mark
+DD6		Combining_Mark
+DD8	DDF	Combining_Mark
+DE6	DEF	Numeric
+DF2	DF3	Combining_Mark
+E31		Combining_Mark
+E34	E3A	Combining_Mark
+E3F		Prefix_Numeric
+E47	E4E	Combining_Mark
+E50	E59	Numeric
+E5A	E5B	Break_After
+EB1		Combining_Mark
+EB4	EBC	Combining_Mark
+EC8	ECD	Combining_Mark
+ED0	ED9	Numeric
+F01	F04	Break_Before
+F06	F07	Break_Before
+F08		Glue
+F09	F0A	Break_Before
+F0B		Break_After
+F0C		Glue
+F0D	F11	Exclamation
+F12		Glue
+F14		Exclamation
+F18	F19	Combining_Mark
+F20	F29	Numeric
+F34		Break_After
+F35		Combining_Mark
+F37		Combining_Mark
+F39		Combining_Mark
+F3A		Open_Punctuation
+F3B		Close_Punctuation
+F3C		Open_Punctuation
+F3D		Close_Punctuation
+F3E	F3F	Combining_Mark
+F71	F7E	Combining_Mark
+F7F		Break_After
+F80	F84	Combining_Mark
+F85		Break_After
+F86	F87	Combining_Mark
+F8D	F97	Combining_Mark
+F99	FBC	Combining_Mark
+FBE	FBF	Break_After
+FC6		Combining_Mark
+FD0	FD1	Break_Before
+FD2		Break_After
+FD3		Break_Before
+FD9	FDA	Glue
+102B	103E	Combining_Mark
+1040	1049	Numeric
+104A	104B	Break_After
+1056	1059	Combining_Mark
+105E	1060	Combining_Mark
+1062	1064	Combining_Mark
+1067	106D	Combining_Mark
+1071	1074	Combining_Mark
+1082	108D	Combining_Mark
+108F		Combining_Mark
+1090	1099	Numeric
+109A	109D	Combining_Mark
+1100	115F	JL
+1160	11A7	JV
+11A8	11FF	JT
+135D	135F	Combining_Mark
+1361		Break_After
+1400		Break_After
+1680		Break_After
+169B		Open_Punctuation
+169C		Close_Punctuation
+16EB	16ED	Break_After
+1712	1715	Combining_Mark
+1732	1734	Combining_Mark
+1735	1736	Break_After
+1752	1753	Combining_Mark
+1772	1773	Combining_Mark
+17B4	17D3	Combining_Mark
+17D4	17D5	Break_After
+17D6		Nonstarter
+17D8		Break_After
+17DA		Break_After
+17DB		Prefix_Numeric
+17DD		Combining_Mark
+17E0	17E9	Numeric
+1802	1803	Exclamation
+1804	1805	Break_After
+1806		Break_Before
+1808	1809	Exclamation
+180B	180D	Combining_Mark
+180E		Glue
+180F		Combining_Mark
+1810	1819	Numeric
+1885	1886	Combining_Mark
+18A9		Combining_Mark
+1920	192B	Combining_Mark
+1930	193B	Combining_Mark
+1944	1945	Exclamation
+1946	194F	Numeric
+19D0	19D9	Numeric
+1A17	1A1B	Combining_Mark
+1A55	1A5E	Combining_Mark
+1A60	1A7C	Combining_Mark
+1A7F		Combining_Mark
+1A80	1A89	Numeric
+1A90	1A99	Numeric
+1AB0	1ACE	Combining_Mark
+1B00	1B04	Combining_Mark
+1B34	1B44	Combining_Mark
+1B50	1B59	Numeric
+1B5A	1B5B	Break_After
+1B5D	1B60	Break_After
+1B6B	1B73	Combining_Mark
+1B7D	1B7E	Break_After
+1B80	1B82	Combining_Mark
+1BA1	1BAD	Combining_Mark
+1BB0	1BB9	Numeric
+1BE6	1BF3	Combining_Mark
+1C24	1C37	Combining_Mark
+1C3B	1C3F	Break_After
+1C40	1C49	Numeric
+1C50	1C59	Numeric
+1C7E	1C7F	Break_After
+1CD0	1CD2	Combining_Mark
+1CD4	1CE8	Combining_Mark
+1CED		Combining_Mark
+1CF4		Combining_Mark
+1CF7	1CF9	Combining_Mark
+1DC0	1DFF	Combining_Mark
+1FFD		Break_Before
+2000	2006	Break_After
+2007		Glue
+2008	200A	Break_After
+200B		ZWSpace
+200C		Combining_Mark
+200D		ZWJ
+200E	200F	Combining_Mark
+2010		Break_After
+2011		Glue
+2012	2013	Break_After
+2014		Break_Both
+2018	2019	Quotation
+201A		Open_Punctuation
+201B	201D	Quotation
+201E		Open_Punctuation
+201F		Quotation
+2024	2026	Inseparable
+2027		Break_After
+2028	2029	Mandatory_Break
+202A	202E	Combining_Mark
+202F		Glue
+2030	2037	Postfix_Numeric
+2039	203A	Quotation
+203C	203D	Nonstarter
+2044		Infix_Numeric
+2045		Open_Punctuation
+2046		Close_Punctuation
+2047	2049	Nonstarter
+2056		Break_After
+2058	205B	Break_After
+205D	205F	Break_After
+2060		Word_Joiner
+2066	206F	Combining_Mark
+207D		Open_Punctuation
+207E		Close_Punctuation
+208D		Open_Punctuation
+208E		Close_Punctuation
+20A0	20A6	Prefix_Numeric
+20A7		Postfix_Numeric
+20A8	20B5	Prefix_Numeric
+20B6		Postfix_Numeric
+20B7	20BA	Prefix_Numeric
+20BB		Postfix_Numeric
+20BC	20BD	Prefix_Numeric
+20BE		Postfix_Numeric
+20BF		Prefix_Numeric
+20C0		Postfix_Numeric
+20C1	20CF	Prefix_Numeric
+20D0	20F0	Combining_Mark
+2103		Postfix_Numeric
+2109		Postfix_Numeric
+2116		Prefix_Numeric
+2212	2213	Prefix_Numeric
+22EF		Inseparable
+2308		Open_Punctuation
+2309		Close_Punctuation
+230A		Open_Punctuation
+230B		Close_Punctuation
+231A	231B	Ideographic
+2329		East_Asian_OP
+232A		Close_Punctuation
+23F0	23F3	Ideographic
+2600	2603	Ideographic
+2614	2615	Ideographic
+2618		Ideographic
+261A	261C	Ideographic
+261D		E_Base
+261E	261F	Ideographic
+2639	263B	Ideographic
+2668		Ideographic
+267F		Ideographic
+26BD	26C8	Ideographic
+26CD		Ideographic
+26CF	26D1	Ideographic
+26D3	26D4	Ideographic
+26D8	26D9	Ideographic
+26DC		Ideographic
+26DF	26E1	Ideographic
+26EA		Ideographic
+26F1	26F5	Ideographic
+26F7	26F8	Ideographic
+26F9		E_Base
+26FA		Ideographic
+26FD	2704	Ideographic
+2708	2709	Ideographic
+270A	270D	E_Base
+275B	2760	Quotation
+2762	2763	Exclamation
+2764		Ideographic
+2768		Open_Punctuation
+2769		Close_Punctuation
+276A		Open_Punctuation
+276B		Close_Punctuation
+276C		Open_Punctuation
+276D		Close_Punctuation
+276E		Open_Punctuation
+276F		Close_Punctuation
+2770		Open_Punctuation
+2771		Close_Punctuation
+2772		Open_Punctuation
+2773		Close_Punctuation
+2774		Open_Punctuation
+2775		Close_Punctuation
+27C5		Open_Punctuation
+27C6		Close_Punctuation
+27E6		Open_Punctuation
+27E7		Close_Punctuation
+27E8		Open_Punctuation
+27E9		Close_Punctuation
+27EA		Open_Punctuation
+27EB		Close_Punctuation
+27EC		Open_Punctuation
+27ED		Close_Punctuation
+27EE		Open_Punctuation
+27EF		Close_Punctuation
+2983		Open_Punctuation
+2984		Close_Punctuation
+2985		Open_Punctuation
+2986		Close_Punctuation
+2987		Open_Punctuation
+2988		Close_Punctuation
+2989		Open_Punctuation
+298A		Close_Punctuation
+298B		Open_Punctuation
+298C		Close_Punctuation
+298D		Open_Punctuation
+298E		Close_Punctuation
+298F		Open_Punctuation
+2990		Close_Punctuation
+2991		Open_Punctuation
+2992		Close_Punctuation
+2993		Open_Punctuation
+2994		Close_Punctuation
+2995		Open_Punctuation
+2996		Close_Punctuation
+2997		Open_Punctuation
+2998		Close_Punctuation
+29D8		Open_Punctuation
+29D9		Close_Punctuation
+29DA		Open_Punctuation
+29DB		Close_Punctuation
+29FC		Open_Punctuation
+29FD		Close_Punctuation
+2CEF	2CF1	Combining_Mark
+2CF9		Exclamation
+2CFA	2CFC	Break_After
+2CFE		Exclamation
+2CFF		Break_After
+2D70		Break_After
+2D7F		Combining_Mark
+2DE0	2DFF	Combining_Mark
+2E00	2E0D	Quotation
+2E0E	2E15	Break_After
+2E17		Break_After
+2E18		Open_Punctuation
+2E19		Break_After
+2E1C	2E1D	Quotation
+2E20	2E21	Quotation
+2E22		Open_Punctuation
+2E23		Close_Punctuation
+2E24		Open_Punctuation
+2E25		Close_Punctuation
+2E26		Open_Punctuation
+2E27		Close_Punctuation
+2E28		Open_Punctuation
+2E29		Close_Punctuation
+2E2A	2E2D	Break_After
+2E2E		Exclamation
+2E30	2E31	Break_After
+2E33	2E34	Break_After
+2E3A	2E3B	Break_Both
+2E3C	2E3E	Break_After
+2E40	2E41	Break_After
+2E42		Open_Punctuation
+2E43	2E4A	Break_After
+2E4C		Break_After
+2E4E	2E4F	Break_After
+2E53	2E54	Exclamation
+2E55		Open_Punctuation
+2E56		Close_Punctuation
+2E57		Open_Punctuation
+2E58		Close_Punctuation
+2E59		Open_Punctuation
+2E5A		Close_Punctuation
+2E5B		Open_Punctuation
+2E5C		Close_Punctuation
+2E5D		Break_After
+2E80	2E99	Ideographic
+2E9B	2EF3	Ideographic
+2F00	2FD5	Ideographic
+2FF0	2FFB	Ideographic
+3000		Break_After
+3001	3002	Close_Punctuation
+3003	3004	Ideographic
+3005		Nonstarter
+3006	3007	Ideographic
+3008		East_Asian_OP
+3009		Close_Punctuation
+300A		East_Asian_OP
+300B		Close_Punctuation
+300C		East_Asian_OP
+300D		Close_Punctuation
+300E		East_Asian_OP
+300F		Close_Punctuation
+3010		East_Asian_OP
+3011		Close_Punctuation
+3012	3013	Ideographic
+3014		East_Asian_OP
+3015		Close_Punctuation
+3016		East_Asian_OP
+3017		Close_Punctuation
+3018		East_Asian_OP
+3019		Close_Punctuation
+301A		East_Asian_OP
+301B		Close_Punctuation
+301C		Nonstarter
+301D		East_Asian_OP
+301E	301F	Close_Punctuation
+3020	3029	Ideographic
+302A	302F	Combining_Mark
+3030	3034	Ideographic
+3035		Combining_Mark
+3036	303A	Ideographic
+303B	303C	Nonstarter
+303D	303F	Ideographic
+3041		Nonstarter
+3042		Ideographic
+3043		Nonstarter
+3044		Ideographic
+3045		Nonstarter
+3046		Ideographic
+3047		Nonstarter
+3048		Ideographic
+3049		Nonstarter
+304A	3062	Ideographic
+3063		Nonstarter
+3064	3082	Ideographic
+3083		Nonstarter
+3084		Ideographic
+3085		Nonstarter
+3086		Ideographic
+3087		Nonstarter
+3088	308D	Ideographic
+308E		Nonstarter
+308F	3094	Ideographic
+3095	3096	Nonstarter
+3099	309A	Combining_Mark
+309B	309E	Nonstarter
+309F		Ideographic
+30A0	30A1	Nonstarter
+30A2		Ideographic
+30A3		Nonstarter
+30A4		Ideographic
+30A5		Nonstarter
+30A6		Ideographic
+30A7		Nonstarter
+30A8		Ideographic
+30A9		Nonstarter
+30AA	30C2	Ideographic
+30C3		Nonstarter
+30C4	30E2	Ideographic
+30E3		Nonstarter
+30E4		Ideographic
+30E5		Nonstarter
+30E6		Ideographic
+30E7		Nonstarter
+30E8	30ED	Ideographic
+30EE		Nonstarter
+30EF	30F4	Ideographic
+30F5	30F6	Nonstarter
+30F7	30FA	Ideographic
+30FB	30FE	Nonstarter
+30FF		Ideographic
+3105	312F	Ideographic
+3131	318E	Ideographic
+3190	31E3	Ideographic
+31F0	31FF	Nonstarter
+3200	321E	Ideographic
+3220	3247	Ideographic
+3250	4DBF	Ideographic
+4E00	A014	Ideographic
+A015		Nonstarter
+A016	A48C	Ideographic
+A490	A4C6	Ideographic
+A4FE	A4FF	Break_After
+A60D		Break_After
+A60E		Exclamation
+A60F		Break_After
+A620	A629	Numeric
+A66F	A672	Combining_Mark
+A674	A67D	Combining_Mark
+A69E	A69F	Combining_Mark
+A6F0	A6F1	Combining_Mark
+A6F3	A6F7	Break_After
+A802		Combining_Mark
+A806		Combining_Mark
+A80B		Combining_Mark
+A823	A827	Combining_Mark
+A82C		Combining_Mark
+A838		Postfix_Numeric
+A874	A875	Break_Before
+A876	A877	Exclamation
+A880	A881	Combining_Mark
+A8B4	A8C5	Combining_Mark
+A8CE	A8CF	Break_After
+A8D0	A8D9	Numeric
+A8E0	A8F1	Combining_Mark
+A8FC		Break_Before
+A8FF		Combining_Mark
+A900	A909	Numeric
+A926	A92D	Combining_Mark
+A92E	A92F	Break_After
+A947	A953	Combining_Mark
+A960	A97C	JL
+A980	A983	Combining_Mark
+A9B3	A9C0	Combining_Mark
+A9C7	A9C9	Break_After
+A9D0	A9D9	Numeric
+A9E5		Combining_Mark
+A9F0	A9F9	Numeric
+AA29	AA36	Combining_Mark
+AA43		Combining_Mark
+AA4C	AA4D	Combining_Mark
+AA50	AA59	Numeric
+AA5D	AA5F	Break_After
+AA7B	AA7D	Combining_Mark
+AAB0		Combining_Mark
+AAB2	AAB4	Combining_Mark
+AAB7	AAB8	Combining_Mark
+AABE	AABF	Combining_Mark
+AAC1		Combining_Mark
+AAEB	AAEF	Combining_Mark
+AAF0	AAF1	Break_After
+AAF5	AAF6	Combining_Mark
+ABE3	ABEA	Combining_Mark
+ABEB		Break_After
+ABEC	ABED	Combining_Mark
+ABF0	ABF9	Numeric
+AC00		H2
+AC01	AC1B	H3
+AC1C		H2
+AC1D	AC37	H3
+AC38		H2
+AC39	AC53	H3
+AC54		H2
+AC55	AC6F	H3
+AC70		H2
+AC71	AC8B	H3
+AC8C		H2
+AC8D	ACA7	H3
+ACA8		H2
+ACA9	ACC3	H3
+ACC4		H2
+ACC5	ACDF	H3
+ACE0		H2
+ACE1	ACFB	H3
+ACFC		H2
+ACFD	AD17	H3
+AD18		H2
+AD19	AD33	H3
+AD34		H2
+AD35	AD4F	H3
+AD50		H2
+AD51	AD6B	H3
+AD6C		H2
+AD6D	AD87	H3
+AD88		H2
+AD89	ADA3	H3
+ADA4		H2
+ADA5	ADBF	H3
+ADC0		H2
+ADC1	ADDB	H3
+ADDC		H2
+ADDD	ADF7	H3
+ADF8		H2
+ADF9	AE13	H3
+AE14		H2
+AE15	AE2F	H3
+AE30		H2
+AE31	AE4B	H3
+AE4C		H2
+AE4D	AE67	H3
+AE68		H2
+AE69	AE83	H3
+AE84		H2
+AE85	AE9F	H3
+AEA0		H2
+AEA1	AEBB	H3
+AEBC		H2
+AEBD	AED7	H3
+AED8		H2
+AED9	AEF3	H3
+AEF4		H2
+AEF5	AF0F	H3
+AF10		H2
+AF11	AF2B	H3
+AF2C		H2
+AF2D	AF47	H3
+AF48		H2
+AF49	AF63	H3
+AF64		H2
+AF65	AF7F	H3
+AF80		H2
+AF81	AF9B	H3
+AF9C		H2
+AF9D	AFB7	H3
+AFB8		H2
+AFB9	AFD3	H3
+AFD4		H2
+AFD5	AFEF	H3
+AFF0		H2
+AFF1	B00B	H3
+B00C		H2
+B00D	B027	H3
+B028		H2
+B029	B043	H3
+B044		H2
+B045	B05F	H3
+B060		H2
+B061	B07B	H3
+B07C		H2
+B07D	B097	H3
+B098		H2
+B099	B0B3	H3
+B0B4		H2
+B0B5	B0CF	H3
+B0D0		H2
+B0D1	B0EB	H3
+B0EC		H2
+B0ED	B107	H3
+B108		H2
+B109	B123	H3
+B124		H2
+B125	B13F	H3
+B140		H2
+B141	B15B	H3
+B15C		H2
+B15D	B177	H3
+B178		H2
+B179	B193	H3
+B194		H2
+B195	B1AF	H3
+B1B0		H2
+B1B1	B1CB	H3
+B1CC		H2
+B1CD	B1E7	H3
+B1E8		H2
+B1E9	B203	H3
+B204		H2
+B205	B21F	H3
+B220		H2
+B221	B23B	H3
+B23C		H2
+B23D	B257	H3
+B258		H2
+B259	B273	H3
+B274		H2
+B275	B28F	H3
+B290		H2
+B291	B2AB	H3
+B2AC		H2
+B2AD	B2C7	H3
+B2C8		H2
+B2C9	B2E3	H3
+B2E4		H2
+B2E5	B2FF	H3
+B300		H2
+B301	B31B	H3
+B31C		H2
+B31D	B337	H3
+B338		H2
+B339	B353	H3
+B354		H2
+B355	B36F	H3
+B370		H2
+B371	B38B	H3
+B38C		H2
+B38D	B3A7	H3
+B3A8		H2
+B3A9	B3C3	H3
+B3C4		H2
+B3C5	B3DF	H3
+B3E0		H2
+B3E1	B3FB	H3
+B3FC		H2
+B3FD	B417	H3
+B418		H2
+B419	B433	H3
+B434		H2
+B435	B44F	H3
+B450		H2
+B451	B46B	H3
+B46C		H2
+B46D	B487	H3
+B488		H2
+B489	B4A3	H3
+B4A4		H2
+B4A5	B4BF	H3
+B4C0		H2
+B4C1	B4DB	H3
+B4DC		H2
+B4DD	B4F7	H3
+B4F8		H2
+B4F9	B513	H3
+B514		H2
+B515	B52F	H3
+B530		H2
+B531	B54B	H3
+B54C		H2
+B54D	B567	H3
+B568		H2
+B569	B583	H3
+B584		H2
+B585	B59F	H3
+B5A0		H2
+B5A1	B5BB	H3
+B5BC		H2
+B5BD	B5D7	H3
+B5D8		H2
+B5D9	B5F3	H3
+B5F4		H2
+B5F5	B60F	H3
+B610		H2
+B611	B62B	H3
+B62C		H2
+B62D	B647	H3
+B648		H2
+B649	B663	H3
+B664		H2
+B665	B67F	H3
+B680		H2
+B681	B69B	H3
+B69C		H2
+B69D	B6B7	H3
+B6B8		H2
+B6B9	B6D3	H3
+B6D4		H2
+B6D5	B6EF	H3
+B6F0		H2
+B6F1	B70B	H3
+B70C		H2
+B70D	B727	H3
+B728		H2
+B729	B743	H3
+B744		H2
+B745	B75F	H3
+B760		H2
+B761	B77B	H3
+B77C		H2
+B77D	B797	H3
+B798		H2
+B799	B7B3	H3
+B7B4		H2
+B7B5	B7CF	H3
+B7D0		H2
+B7D1	B7EB	H3
+B7EC		H2
+B7ED	B807	H3
+B808		H2
+B809	B823	H3
+B824		H2
+B825	B83F	H3
+B840		H2
+B841	B85B	H3
+B85C		H2
+B85D	B877	H3
+B878		H2
+B879	B893	H3
+B894		H2
+B895	B8AF	H3
+B8B0		H2
+B8B1	B8CB	H3
+B8CC		H2
+B8CD	B8E7	H3
+B8E8		H2
+B8E9	B903	H3
+B904		H2
+B905	B91F	H3
+B920		H2
+B921	B93B	H3
+B93C		H2
+B93D	B957	H3
+B958		H2
+B959	B973	H3
+B974		H2
+B975	B98F	H3
+B990		H2
+B991	B9AB	H3
+B9AC		H2
+B9AD	B9C7	H3
+B9C8		H2
+B9C9	B9E3	H3
+B9E4		H2
+B9E5	B9FF	H3
+BA00		H2
+BA01	BA1B	H3
+BA1C		H2
+BA1D	BA37	H3
+BA38		H2
+BA39	BA53	H3
+BA54		H2
+BA55	BA6F	H3
+BA70		H2
+BA71	BA8B	H3
+BA8C		H2
+BA8D	BAA7	H3
+BAA8		H2
+BAA9	BAC3	H3
+BAC4		H2
+BAC5	BADF	H3
+BAE0		H2
+BAE1	BAFB	H3
+BAFC		H2
+BAFD	BB17	H3
+BB18		H2
+BB19	BB33	H3
+BB34		H2
+BB35	BB4F	H3
+BB50		H2
+BB51	BB6B	H3
+BB6C		H2
+BB6D	BB87	H3
+BB88		H2
+BB89	BBA3	H3
+BBA4		H2
+BBA5	BBBF	H3
+BBC0		H2
+BBC1	BBDB	H3
+BBDC		H2
+BBDD	BBF7	H3
+BBF8		H2
+BBF9	BC13	H3
+BC14		H2
+BC15	BC2F	H3
+BC30		H2
+BC31	BC4B	H3
+BC4C		H2
+BC4D	BC67	H3
+BC68		H2
+BC69	BC83	H3
+BC84		H2
+BC85	BC9F	H3
+BCA0		H2
+BCA1	BCBB	H3
+BCBC		H2
+BCBD	BCD7	H3
+BCD8		H2
+BCD9	BCF3	H3
+BCF4		H2
+BCF5	BD0F	H3
+BD10		H2
+BD11	BD2B	H3
+BD2C		H2
+BD2D	BD47	H3
+BD48		H2
+BD49	BD63	H3
+BD64		H2
+BD65	BD7F	H3
+BD80		H2
+BD81	BD9B	H3
+BD9C		H2
+BD9D	BDB7	H3
+BDB8		H2
+BDB9	BDD3	H3
+BDD4		H2
+BDD5	BDEF	H3
+BDF0		H2
+BDF1	BE0B	H3
+BE0C		H2
+BE0D	BE27	H3
+BE28		H2
+BE29	BE43	H3
+BE44		H2
+BE45	BE5F	H3
+BE60		H2
+BE61	BE7B	H3
+BE7C		H2
+BE7D	BE97	H3
+BE98		H2
+BE99	BEB3	H3
+BEB4		H2
+BEB5	BECF	H3
+BED0		H2
+BED1	BEEB	H3
+BEEC		H2
+BEED	BF07	H3
+BF08		H2
+BF09	BF23	H3
+BF24		H2
+BF25	BF3F	H3
+BF40		H2
+BF41	BF5B	H3
+BF5C		H2
+BF5D	BF77	H3
+BF78		H2
+BF79	BF93	H3
+BF94		H2
+BF95	BFAF	H3
+BFB0		H2
+BFB1	BFCB	H3
+BFCC		H2
+BFCD	BFE7	H3
+BFE8		H2
+BFE9	C003	H3
+C004		H2
+C005	C01F	H3
+C020		H2
+C021	C03B	H3
+C03C		H2
+C03D	C057	H3
+C058		H2
+C059	C073	H3
+C074		H2
+C075	C08F	H3
+C090		H2
+C091	C0AB	H3
+C0AC		H2
+C0AD	C0C7	H3
+C0C8		H2
+C0C9	C0E3	H3
+C0E4		H2
+C0E5	C0FF	H3
+C100		H2
+C101	C11B	H3
+C11C		H2
+C11D	C137	H3
+C138		H2
+C139	C153	H3
+C154		H2
+C155	C16F	H3
+C170		H2
+C171	C18B	H3
+C18C		H2
+C18D	C1A7	H3
+C1A8		H2
+C1A9	C1C3	H3
+C1C4		H2
+C1C5	C1DF	H3
+C1E0		H2
+C1E1	C1FB	H3
+C1FC		H2
+C1FD	C217	H3
+C218		H2
+C219	C233	H3
+C234		H2
+C235	C24F	H3
+C250		H2
+C251	C26B	H3
+C26C		H2
+C26D	C287	H3
+C288		H2
+C289	C2A3	H3
+C2A4		H2
+C2A5	C2BF	H3
+C2C0		H2
+C2C1	C2DB	H3
+C2DC		H2
+C2DD	C2F7	H3
+C2F8		H2
+C2F9	C313	H3
+C314		H2
+C315	C32F	H3
+C330		H2
+C331	C34B	H3
+C34C		H2
+C34D	C367	H3
+C368		H2
+C369	C383	H3
+C384		H2
+C385	C39F	H3
+C3A0		H2
+C3A1	C3BB	H3
+C3BC		H2
+C3BD	C3D7	H3
+C3D8		H2
+C3D9	C3F3	H3
+C3F4		H2
+C3F5	C40F	H3
+C410		H2
+C411	C42B	H3
+C42C		H2
+C42D	C447	H3
+C448		H2
+C449	C463	H3
+C464		H2
+C465	C47F	H3
+C480		H2
+C481	C49B	H3
+C49C		H2
+C49D	C4B7	H3
+C4B8		H2
+C4B9	C4D3	H3
+C4D4		H2
+C4D5	C4EF	H3
+C4F0		H2
+C4F1	C50B	H3
+C50C		H2
+C50D	C527	H3
+C528		H2
+C529	C543	H3
+C544		H2
+C545	C55F	H3
+C560		H2
+C561	C57B	H3
+C57C		H2
+C57D	C597	H3
+C598		H2
+C599	C5B3	H3
+C5B4		H2
+C5B5	C5CF	H3
+C5D0		H2
+C5D1	C5EB	H3
+C5EC		H2
+C5ED	C607	H3
+C608		H2
+C609	C623	H3
+C624		H2
+C625	C63F	H3
+C640		H2
+C641	C65B	H3
+C65C		H2
+C65D	C677	H3
+C678		H2
+C679	C693	H3
+C694		H2
+C695	C6AF	H3
+C6B0		H2
+C6B1	C6CB	H3
+C6CC		H2
+C6CD	C6E7	H3
+C6E8		H2
+C6E9	C703	H3
+C704		H2
+C705	C71F	H3
+C720		H2
+C721	C73B	H3
+C73C		H2
+C73D	C757	H3
+C758		H2
+C759	C773	H3
+C774		H2
+C775	C78F	H3
+C790		H2
+C791	C7AB	H3
+C7AC		H2
+C7AD	C7C7	H3
+C7C8		H2
+C7C9	C7E3	H3
+C7E4		H2
+C7E5	C7FF	H3
+C800		H2
+C801	C81B	H3
+C81C		H2
+C81D	C837	H3
+C838		H2
+C839	C853	H3
+C854		H2
+C855	C86F	H3
+C870		H2
+C871	C88B	H3
+C88C		H2
+C88D	C8A7	H3
+C8A8		H2
+C8A9	C8C3	H3
+C8C4		H2
+C8C5	C8DF	H3
+C8E0		H2
+C8E1	C8FB	H3
+C8FC		H2
+C8FD	C917	H3
+C918		H2
+C919	C933	H3
+C934		H2
+C935	C94F	H3
+C950		H2
+C951	C96B	H3
+C96C		H2
+C96D	C987	H3
+C988		H2
+C989	C9A3	H3
+C9A4		H2
+C9A5	C9BF	H3
+C9C0		H2
+C9C1	C9DB	H3
+C9DC		H2
+C9DD	C9F7	H3
+C9F8		H2
+C9F9	CA13	H3
+CA14		H2
+CA15	CA2F	H3
+CA30		H2
+CA31	CA4B	H3
+CA4C		H2
+CA4D	CA67	H3
+CA68		H2
+CA69	CA83	H3
+CA84		H2
+CA85	CA9F	H3
+CAA0		H2
+CAA1	CABB	H3
+CABC		H2
+CABD	CAD7	H3
+CAD8		H2
+CAD9	CAF3	H3
+CAF4		H2
+CAF5	CB0F	H3
+CB10		H2
+CB11	CB2B	H3
+CB2C		H2
+CB2D	CB47	H3
+CB48		H2
+CB49	CB63	H3
+CB64		H2
+CB65	CB7F	H3
+CB80		H2
+CB81	CB9B	H3
+CB9C		H2
+CB9D	CBB7	H3
+CBB8		H2
+CBB9	CBD3	H3
+CBD4		H2
+CBD5	CBEF	H3
+CBF0		H2
+CBF1	CC0B	H3
+CC0C		H2
+CC0D	CC27	H3
+CC28		H2
+CC29	CC43	H3
+CC44		H2
+CC45	CC5F	H3
+CC60		H2
+CC61	CC7B	H3
+CC7C		H2
+CC7D	CC97	H3
+CC98		H2
+CC99	CCB3	H3
+CCB4		H2
+CCB5	CCCF	H3
+CCD0		H2
+CCD1	CCEB	H3
+CCEC		H2
+CCED	CD07	H3
+CD08		H2
+CD09	CD23	H3
+CD24		H2
+CD25	CD3F	H3
+CD40		H2
+CD41	CD5B	H3
+CD5C		H2
+CD5D	CD77	H3
+CD78		H2
+CD79	CD93	H3
+CD94		H2
+CD95	CDAF	H3
+CDB0		H2
+CDB1	CDCB	H3
+CDCC		H2
+CDCD	CDE7	H3
+CDE8		H2
+CDE9	CE03	H3
+CE04		H2
+CE05	CE1F	H3
+CE20		H2
+CE21	CE3B	H3
+CE3C		H2
+CE3D	CE57	H3
+CE58		H2
+CE59	CE73	H3
+CE74		H2
+CE75	CE8F	H3
+CE90		H2
+CE91	CEAB	H3
+CEAC		H2
+CEAD	CEC7	H3
+CEC8		H2
+CEC9	CEE3	H3
+CEE4		H2
+CEE5	CEFF	H3
+CF00		H2
+CF01	CF1B	H3
+CF1C		H2
+CF1D	CF37	H3
+CF38		H2
+CF39	CF53	H3
+CF54		H2
+CF55	CF6F	H3
+CF70		H2
+CF71	CF8B	H3
+CF8C		H2
+CF8D	CFA7	H3
+CFA8		H2
+CFA9	CFC3	H3
+CFC4		H2
+CFC5	CFDF	H3
+CFE0		H2
+CFE1	CFFB	H3
+CFFC		H2
+CFFD	D017	H3
+D018		H2
+D019	D033	H3
+D034		H2
+D035	D04F	H3
+D050		H2
+D051	D06B	H3
+D06C		H2
+D06D	D087	H3
+D088		H2
+D089	D0A3	H3
+D0A4		H2
+D0A5	D0BF	H3
+D0C0		H2
+D0C1	D0DB	H3
+D0DC		H2
+D0DD	D0F7	H3
+D0F8		H2
+D0F9	D113	H3
+D114		H2
+D115	D12F	H3
+D130		H2
+D131	D14B	H3
+D14C		H2
+D14D	D167	H3
+D168		H2
+D169	D183	H3
+D184		H2
+D185	D19F	H3
+D1A0		H2
+D1A1	D1BB	H3
+D1BC		H2
+D1BD	D1D7	H3
+D1D8		H2
+D1D9	D1F3	H3
+D1F4		H2
+D1F5	D20F	H3
+D210		H2
+D211	D22B	H3
+D22C		H2
+D22D	D247	H3
+D248		H2
+D249	D263	H3
+D264		H2
+D265	D27F	H3
+D280		H2
+D281	D29B	H3
+D29C		H2
+D29D	D2B7	H3
+D2B8		H2
+D2B9	D2D3	H3
+D2D4		H2
+D2D5	D2EF	H3
+D2F0		H2
+D2F1	D30B	H3
+D30C		H2
+D30D	D327	H3
+D328		H2
+D329	D343	H3
+D344		H2
+D345	D35F	H3
+D360		H2
+D361	D37B	H3
+D37C		H2
+D37D	D397	H3
+D398		H2
+D399	D3B3	H3
+D3B4		H2
+D3B5	D3CF	H3
+D3D0		H2
+D3D1	D3EB	H3
+D3EC		H2
+D3ED	D407	H3
+D408		H2
+D409	D423	H3
+D424		H2
+D425	D43F	H3
+D440		H2
+D441	D45B	H3
+D45C		H2
+D45D	D477	H3
+D478		H2
+D479	D493	H3
+D494		H2
+D495	D4AF	H3
+D4B0		H2
+D4B1	D4CB	H3
+D4CC		H2
+D4CD	D4E7	H3
+D4E8		H2
+D4E9	D503	H3
+D504		H2
+D505	D51F	H3
+D520		H2
+D521	D53B	H3
+D53C		H2
+D53D	D557	H3
+D558		H2
+D559	D573	H3
+D574		H2
+D575	D58F	H3
+D590		H2
+D591	D5AB	H3
+D5AC		H2
+D5AD	D5C7	H3
+D5C8		H2
+D5C9	D5E3	H3
+D5E4		H2
+D5E5	D5FF	H3
+D600		H2
+D601	D61B	H3
+D61C		H2
+D61D	D637	H3
+D638		H2
+D639	D653	H3
+D654		H2
+D655	D66F	H3
+D670		H2
+D671	D68B	H3
+D68C		H2
+D68D	D6A7	H3
+D6A8		H2
+D6A9	D6C3	H3
+D6C4		H2
+D6C5	D6DF	H3
+D6E0		H2
+D6E1	D6FB	H3
+D6FC		H2
+D6FD	D717	H3
+D718		H2
+D719	D733	H3
+D734		H2
+D735	D74F	H3
+D750		H2
+D751	D76B	H3
+D76C		H2
+D76D	D787	H3
+D788		H2
+D789	D7A3	H3
+D7B0	D7C6	JV
+D7CB	D7FB	JT
+F900	FAFF	Ideographic
+FB1D		Hebrew_Letter
+FB1E		Combining_Mark
+FB1F	FB28	Hebrew_Letter
+FB2A	FB36	Hebrew_Letter
+FB38	FB3C	Hebrew_Letter
+FB3E		Hebrew_Letter
+FB40	FB41	Hebrew_Letter
+FB43	FB44	Hebrew_Letter
+FB46	FB4F	Hebrew_Letter
+FD3E		Close_Punctuation
+FD3F		Open_Punctuation
+FDFC		Postfix_Numeric
+FE00	FE0F	Combining_Mark
+FE10		Infix_Numeric
+FE11	FE12	Close_Punctuation
+FE13	FE14	Infix_Numeric
+FE15	FE16	Exclamation
+FE17		East_Asian_OP
+FE18		Close_Punctuation
+FE19		Inseparable
+FE20	FE2F	Combining_Mark
+FE30	FE34	Ideographic
+FE35		East_Asian_OP
+FE36		Close_Punctuation
+FE37		East_Asian_OP
+FE38		Close_Punctuation
+FE39		East_Asian_OP
+FE3A		Close_Punctuation
+FE3B		East_Asian_OP
+FE3C		Close_Punctuation
+FE3D		East_Asian_OP
+FE3E		Close_Punctuation
+FE3F		East_Asian_OP
+FE40		Close_Punctuation
+FE41		East_Asian_OP
+FE42		Close_Punctuation
+FE43		East_Asian_OP
+FE44		Close_Punctuation
+FE45	FE46	Ideographic
+FE47		East_Asian_OP
+FE48		Close_Punctuation
+FE49	FE4F	Ideographic
+FE50		Close_Punctuation
+FE51		Ideographic
+FE52		Close_Punctuation
+FE54	FE55	Nonstarter
+FE56	FE57	Exclamation
+FE58		Ideographic
+FE59		East_Asian_OP
+FE5A		Close_Punctuation
+FE5B		East_Asian_OP
+FE5C		Close_Punctuation
+FE5D		East_Asian_OP
+FE5E		Close_Punctuation
+FE5F	FE66	Ideographic
+FE68		Ideographic
+FE69		Prefix_Numeric
+FE6A		Postfix_Numeric
+FE6B		Ideographic
+FEFF		Word_Joiner
+FF01		Exclamation
+FF02	FF03	Ideographic
+FF04		Prefix_Numeric
+FF05		Postfix_Numeric
+FF06	FF07	Ideographic
+FF08		East_Asian_OP
+FF09		Close_Punctuation
+FF0A	FF0B	Ideographic
+FF0C		Close_Punctuation
+FF0D		Ideographic
+FF0E		Close_Punctuation
+FF0F	FF19	Ideographic
+FF1A	FF1B	Nonstarter
+FF1C	FF1E	Ideographic
+FF1F		Exclamation
+FF20	FF3A	Ideographic
+FF3B		East_Asian_OP
+FF3C		Ideographic
+FF3D		Close_Punctuation
+FF3E	FF5A	Ideographic
+FF5B		East_Asian_OP
+FF5C		Ideographic
+FF5D		Close_Punctuation
+FF5E		Ideographic
+FF5F		East_Asian_OP
+FF60	FF61	Close_Punctuation
+FF62		East_Asian_OP
+FF63	FF64	Close_Punctuation
+FF65		Nonstarter
+FF66		Ideographic
+FF67	FF70	Nonstarter
+FF71	FF9D	Ideographic
+FF9E	FF9F	Nonstarter
+FFA0	FFBE	Ideographic
+FFC2	FFC7	Ideographic
+FFCA	FFCF	Ideographic
+FFD2	FFD7	Ideographic
+FFDA	FFDC	Ideographic
+FFE0		Postfix_Numeric
+FFE1		Prefix_Numeric
+FFE2	FFE4	Ideographic
+FFE5	FFE6	Prefix_Numeric
+FFF9	FFFB	Combining_Mark
+FFFC		Contingent_Break
+10100	10102	Break_After
+101FD		Combining_Mark
+102E0		Combining_Mark
+10376	1037A	Combining_Mark
+1039F		Break_After
+103D0		Break_After
+104A0	104A9	Numeric
+10857		Break_After
+1091F		Break_After
+10A01	10A03	Combining_Mark
+10A05	10A06	Combining_Mark
+10A0C	10A0F	Combining_Mark
+10A38	10A3A	Combining_Mark
+10A3F		Combining_Mark
+10A50	10A57	Break_After
+10AE5	10AE6	Combining_Mark
+10AF0	10AF5	Break_After
+10AF6		Inseparable
+10B39	10B3F	Break_After
+10D24	10D27	Combining_Mark
+10D30	10D39	Numeric
+10EAB	10EAC	Combining_Mark
+10EAD		Break_After
+10F46	10F50	Combining_Mark
+10F82	10F85	Combining_Mark
+11000	11002	Combining_Mark
+11038	11046	Combining_Mark
+11047	11048	Break_After
+11066	1106F	Numeric
+11070		Combining_Mark
+11073	11074	Combining_Mark
+1107F	11082	Combining_Mark
+110B0	110BA	Combining_Mark
+110BE	110C1	Break_After
+110C2		Combining_Mark
+110F0	110F9	Numeric
+11100	11102	Combining_Mark
+11127	11134	Combining_Mark
+11136	1113F	Numeric
+11140	11143	Break_After
+11145	11146	Combining_Mark
+11173		Combining_Mark
+11175		Break_Before
+11180	11182	Combining_Mark
+111B3	111C0	Combining_Mark
+111C5	111C6	Break_After
+111C8		Break_After
+111C9	111CC	Combining_Mark
+111CE	111CF	Combining_Mark
+111D0	111D9	Numeric
+111DB		Break_Before
+111DD	111DF	Break_After
+1122C	11237	Combining_Mark
+11238	11239	Break_After
+1123B	1123C	Break_After
+1123E		Combining_Mark
+112A9		Break_After
+112DF	112EA	Combining_Mark
+112F0	112F9	Numeric
+11300	11303	Combining_Mark
+1133B	1133C	Combining_Mark
+1133E	11344	Combining_Mark
+11347	11348	Combining_Mark
+1134B	1134D	Combining_Mark
+11357		Combining_Mark
+11362	11363	Combining_Mark
+11366	1136C	Combining_Mark
+11370	11374	Combining_Mark
+11435	11446	Combining_Mark
+1144B	1144E	Break_After
+11450	11459	Numeric
+1145A	1145B	Break_After
+1145E		Combining_Mark
+114B0	114C3	Combining_Mark
+114D0	114D9	Numeric
+115AF	115B5	Combining_Mark
+115B8	115C0	Combining_Mark
+115C1		Break_Before
+115C2	115C3	Break_After
+115C4	115C5	Exclamation
+115C9	115D7	Break_After
+115DC	115DD	Combining_Mark
+11630	11640	Combining_Mark
+11641	11642	Break_After
+11650	11659	Numeric
+11660	1166C	Break_Before
+116AB	116B7	Combining_Mark
+116C0	116C9	Numeric
+1171D	1172B	Combining_Mark
+11730	11739	Numeric
+1173C	1173E	Break_After
+1182C	1183A	Combining_Mark
+118E0	118E9	Numeric
+11930	11935	Combining_Mark
+11937	11938	Combining_Mark
+1193B	1193E	Combining_Mark
+11940		Combining_Mark
+11942	11943	Combining_Mark
+11944	11946	Break_After
+11950	11959	Numeric
+119D1	119D7	Combining_Mark
+119DA	119E0	Combining_Mark
+119E2		Break_Before
+119E4		Combining_Mark
+11A01	11A0A	Combining_Mark
+11A33	11A39	Combining_Mark
+11A3B	11A3E	Combining_Mark
+11A3F		Break_Before
+11A41	11A44	Break_After
+11A45		Break_Before
+11A47		Combining_Mark
+11A51	11A5B	Combining_Mark
+11A8A	11A99	Combining_Mark
+11A9A	11A9C	Break_After
+11A9E	11AA0	Break_Before
+11AA1	11AA2	Break_After
+11C2F	11C36	Combining_Mark
+11C38	11C3F	Combining_Mark
+11C41	11C45	Break_After
+11C50	11C59	Numeric
+11C70		Break_Before
+11C71		Exclamation
+11C92	11CA7	Combining_Mark
+11CA9	11CB6	Combining_Mark
+11D31	11D36	Combining_Mark
+11D3A		Combining_Mark
+11D3C	11D3D	Combining_Mark
+11D3F	11D45	Combining_Mark
+11D47		Combining_Mark
+11D50	11D59	Numeric
+11D8A	11D8E	Combining_Mark
+11D90	11D91	Combining_Mark
+11D93	11D97	Combining_Mark
+11DA0	11DA9	Numeric
+11EF3	11EF6	Combining_Mark
+11FDD	11FE0	Postfix_Numeric
+11FFF		Break_After
+12470	12474	Break_After
+13258	1325A	Open_Punctuation
+1325B	1325D	Close_Punctuation
+13282		Close_Punctuation
+13286		Open_Punctuation
+13287		Close_Punctuation
+13288		Open_Punctuation
+13289		Close_Punctuation
+13379		Open_Punctuation
+1337A	1337B	Close_Punctuation
+13430	13436	Glue
+13437		Open_Punctuation
+13438		Close_Punctuation
+145CE		Open_Punctuation
+145CF		Close_Punctuation
+16A60	16A69	Numeric
+16A6E	16A6F	Break_After
+16AC0	16AC9	Numeric
+16AF0	16AF4	Combining_Mark
+16AF5		Break_After
+16B30	16B36	Combining_Mark
+16B37	16B39	Break_After
+16B44		Break_After
+16B50	16B59	Numeric
+16E97	16E98	Break_After
+16F4F		Combining_Mark
+16F51	16F87	Combining_Mark
+16F8F	16F92	Combining_Mark
+16FE0	16FE3	Nonstarter
+16FE4		Glue
+16FF0	16FF1	Combining_Mark
+17000	187F7	Ideographic
+18800	18AFF	Ideographic
+18D00	18D08	Ideographic
+1B000	1B122	Ideographic
+1B150	1B152	Nonstarter
+1B164	1B167	Nonstarter
+1B170	1B2FB	Ideographic
+1BC9D	1BC9E	Combining_Mark
+1BC9F		Break_After
+1BCA0	1BCA3	Combining_Mark
+1CF00	1CF2D	Combining_Mark
+1CF30	1CF46	Combining_Mark
+1D165	1D169	Combining_Mark
+1D16D	1D182	Combining_Mark
+1D185	1D18B	Combining_Mark
+1D1AA	1D1AD	Combining_Mark
+1D242	1D244	Combining_Mark
+1D7CE	1D7FF	Numeric
+1DA00	1DA36	Combining_Mark
+1DA3B	1DA6C	Combining_Mark
+1DA75		Combining_Mark
+1DA84		Combining_Mark
+1DA87	1DA8A	Break_After
+1DA9B	1DA9F	Combining_Mark
+1DAA1	1DAAF	Combining_Mark
+1E000	1E006	Combining_Mark
+1E008	1E018	Combining_Mark
+1E01B	1E021	Combining_Mark
+1E023	1E024	Combining_Mark
+1E026	1E02A	Combining_Mark
+1E130	1E136	Combining_Mark
+1E140	1E149	Numeric
+1E2AE		Combining_Mark
+1E2EC	1E2EF	Combining_Mark
+1E2F0	1E2F9	Numeric
+1E2FF		Prefix_Numeric
+1E8D0	1E8D6	Combining_Mark
+1E944	1E94A	Combining_Mark
+1E950	1E959	Numeric
+1E95E	1E95F	Open_Punctuation
+1ECAC		Postfix_Numeric
+1ECB0		Postfix_Numeric
+1F000	1F02B	Ideographic
+1F02C	1F02F	Unassigned_Extended_Pictographic_Ideographic
+1F030	1F093	Ideographic
+1F094	1F09F	Unassigned_Extended_Pictographic_Ideographic
+1F0A0	1F0AE	Ideographic
+1F0AF	1F0B0	Unassigned_Extended_Pictographic_Ideographic
+1F0B1	1F0BF	Ideographic
+1F0C0		Unassigned_Extended_Pictographic_Ideographic
+1F0C1	1F0CF	Ideographic
+1F0D0		Unassigned_Extended_Pictographic_Ideographic
+1F0D1	1F0F5	Ideographic
+1F0F6	1F0FF	Unassigned_Extended_Pictographic_Ideographic
+1F10D	1F10F	Ideographic
+1F16D	1F16F	Ideographic
+1F1AD		Ideographic
+1F1AE	1F1E5	Unassigned_Extended_Pictographic_Ideographic
+1F1E6	1F1FF	Regional_Indicator
+1F200	1F202	Ideographic
+1F203	1F20F	Unassigned_Extended_Pictographic_Ideographic
+1F210	1F23B	Ideographic
+1F23C	1F23F	Unassigned_Extended_Pictographic_Ideographic
+1F240	1F248	Ideographic
+1F249	1F24F	Unassigned_Extended_Pictographic_Ideographic
+1F250	1F251	Ideographic
+1F252	1F25F	Unassigned_Extended_Pictographic_Ideographic
+1F260	1F265	Ideographic
+1F266	1F2FF	Unassigned_Extended_Pictographic_Ideographic
+1F300	1F384	Ideographic
+1F385		E_Base
+1F386	1F39B	Ideographic
+1F39E	1F3B4	Ideographic
+1F3B7	1F3BB	Ideographic
+1F3BD	1F3C1	Ideographic
+1F3C2	1F3C4	E_Base
+1F3C5	1F3C6	Ideographic
+1F3C7		E_Base
+1F3C8	1F3C9	Ideographic
+1F3CA	1F3CC	E_Base
+1F3CD	1F3FA	Ideographic
+1F3FB	1F3FF	E_Modifier
+1F400	1F441	Ideographic
+1F442	1F443	E_Base
+1F444	1F445	Ideographic
+1F446	1F450	E_Base
+1F451	1F465	Ideographic
+1F466	1F478	E_Base
+1F479	1F47B	Ideographic
+1F47C		E_Base
+1F47D	1F480	Ideographic
+1F481	1F483	E_Base
+1F484		Ideographic
+1F485	1F487	E_Base
+1F488	1F48E	Ideographic
+1F48F		E_Base
+1F490		Ideographic
+1F491		E_Base
+1F492	1F49F	Ideographic
+1F4A1		Ideographic
+1F4A3		Ideographic
+1F4A5	1F4A9	Ideographic
+1F4AA		E_Base
+1F4AB	1F4AE	Ideographic
+1F4B0		Ideographic
+1F4B3	1F4FF	Ideographic
+1F507	1F516	Ideographic
+1F525	1F531	Ideographic
+1F54A	1F573	Ideographic
+1F574	1F575	E_Base
+1F576	1F579	Ideographic
+1F57A		E_Base
+1F57B	1F58F	Ideographic
+1F590		E_Base
+1F591	1F594	Ideographic
+1F595	1F596	E_Base
+1F597	1F5D3	Ideographic
+1F5DC	1F5F3	Ideographic
+1F5FA	1F644	Ideographic
+1F645	1F647	E_Base
+1F648	1F64A	Ideographic
+1F64B	1F64F	E_Base
+1F676	1F678	Quotation
+1F679	1F67B	Nonstarter
+1F680	1F6A2	Ideographic
+1F6A3		E_Base
+1F6A4	1F6B3	Ideographic
+1F6B4	1F6B6	E_Base
+1F6B7	1F6BF	Ideographic
+1F6C0		E_Base
+1F6C1	1F6CB	Ideographic
+1F6CC		E_Base
+1F6CD	1F6D7	Ideographic
+1F6D8	1F6DC	Unassigned_Extended_Pictographic_Ideographic
+1F6DD	1F6EC	Ideographic
+1F6ED	1F6EF	Unassigned_Extended_Pictographic_Ideographic
+1F6F0	1F6FC	Ideographic
+1F6FD	1F6FF	Unassigned_Extended_Pictographic_Ideographic
+1F774	1F77F	Unassigned_Extended_Pictographic_Ideographic
+1F7D5	1F7D8	Ideographic
+1F7D9	1F7DF	Unassigned_Extended_Pictographic_Ideographic
+1F7E0	1F7EB	Ideographic
+1F7EC	1F7EF	Unassigned_Extended_Pictographic_Ideographic
+1F7F0		Ideographic
+1F7F1	1F7FF	Unassigned_Extended_Pictographic_Ideographic
+1F80C	1F80F	Unassigned_Extended_Pictographic_Ideographic
+1F848	1F84F	Unassigned_Extended_Pictographic_Ideographic
+1F85A	1F85F	Unassigned_Extended_Pictographic_Ideographic
+1F888	1F88F	Unassigned_Extended_Pictographic_Ideographic
+1F8AE	1F8AF	Unassigned_Extended_Pictographic_Ideographic
+1F8B0	1F8B1	Ideographic
+1F8B2	1F8FF	Unassigned_Extended_Pictographic_Ideographic
+1F90C		E_Base
+1F90D	1F90E	Ideographic
+1F90F		E_Base
+1F910	1F917	Ideographic
+1F918	1F91F	E_Base
+1F920	1F925	Ideographic
+1F926		E_Base
+1F927	1F92F	Ideographic
+1F930	1F939	E_Base
+1F93A	1F93B	Ideographic
+1F93C	1F93E	E_Base
+1F93F	1F976	Ideographic
+1F977		E_Base
+1F978	1F9B4	Ideographic
+1F9B5	1F9B6	E_Base
+1F9B7		Ideographic
+1F9B8	1F9B9	E_Base
+1F9BA		Ideographic
+1F9BB		E_Base
+1F9BC	1F9CC	Ideographic
+1F9CD	1F9CF	E_Base
+1F9D0		Ideographic
+1F9D1	1F9DD	E_Base
+1F9DE	1F9FF	Ideographic
+1FA54	1FA5F	Unassigned_Extended_Pictographic_Ideographic
+1FA60	1FA6D	Ideographic
+1FA6E	1FA6F	Unassigned_Extended_Pictographic_Ideographic
+1FA70	1FA74	Ideographic
+1FA75	1FA77	Unassigned_Extended_Pictographic_Ideographic
+1FA78	1FA7C	Ideographic
+1FA7D	1FA7F	Unassigned_Extended_Pictographic_Ideographic
+1FA80	1FA86	Ideographic
+1FA87	1FA8F	Unassigned_Extended_Pictographic_Ideographic
+1FA90	1FAAC	Ideographic
+1FAAD	1FAAF	Unassigned_Extended_Pictographic_Ideographic
+1FAB0	1FABA	Ideographic
+1FABB	1FABF	Unassigned_Extended_Pictographic_Ideographic
+1FAC0	1FAC2	Ideographic
+1FAC3	1FAC5	E_Base
+1FAC6	1FACF	Unassigned_Extended_Pictographic_Ideographic
+1FAD0	1FAD9	Ideographic
+1FADA	1FADF	Unassigned_Extended_Pictographic_Ideographic
+1FAE0	1FAE7	Ideographic
+1FAE8	1FAEF	Unassigned_Extended_Pictographic_Ideographic
+1FAF0	1FAF6	E_Base
+1FAF7	1FAFF	Unassigned_Extended_Pictographic_Ideographic
+1FBF0	1FBF9	Numeric
+1FC00	1FFFD	Unassigned_Extended_Pictographic_Ideographic
+20000	2FFFD	Ideographic
+30000	3FFFD	Ideographic
+E0001		Combining_Mark
+E0020	E007F	Combining_Mark
+E0100	E01EF	Combining_Mark
+END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     # !!!!!!!   DO NOT EDIT THIS FILE   !!!!!!!
+# This file is machine-generated by lib/unicore/mktables from the Unicode
+# database, Version 14.0.0.  Any changes made here will be lost!
+
+# !!!!!!!   INTERNAL PERL USE ONLY   !!!!!!!
+# This file is for internal use by core Perl only.  The format and even the
+# name or existence of this file are subject to change without notice.  Don't
+# use it directly.  Use Unicode::UCD to access the Unicode character data
+# base.
+
+
+
+# The name this table is to be known by, with the format of the mappings in
+# the main body of the table, and what all code points missing from this file
+# map to.
+$Unicode::UCD::SwashInfo{'To_PerlSCX'}{'format'} = 'sw'; # string, but some elements are interpreted as a list; white space occurs only as list item separators
+$Unicode::UCD::SwashInfo{'To_PerlSCX'}{'missing'} = 'Unknown';
+
+return <<'END';
+0	40	Common
+41	5A	Latin
+5B	60	Common
+61	7A	Latin
+7B	A9	Common
+AA		Latin
+AB	B9	Common
+BA		Latin
+BB	BF	Common
+C0	D6	Latin
+D7		Common
+D8	F6	Latin
+F7		Common
+F8	2B8	Latin
+2B9	2DF	Common
+2E0	2E4	Latin
+2E5	2E9	Common
+2EA	2EB	Bopomofo Hanb
+2EC	2FF	Common
+300	341	Inherited
+342		Greek
+343	344	Inherited
+345		Greek
+346	362	Inherited
+363	36F	Latin
+370	373	Greek
+374		Common
+375	377	Greek
+37A	37D	Greek
+37E		Common
+37F		Greek
+384		Greek
+385		Common
+386		Greek
+387		Common
+388	38A	Greek
+38C		Greek
+38E	3A1	Greek
+3A3	3E1	Greek
+3E2	3EF	Coptic
+3F0	3FF	Greek
+400	482	Cyrillic
+483		Cyrillic Old_Permic
+484		Cyrillic Glagolitic
+485	486	Cyrillic Latin
+487		Cyrillic Glagolitic
+488	52F	Cyrillic
+531	556	Armenian
+559	58A	Armenian
+58D	58F	Armenian
+591	5C7	Hebrew
+5D0	5EA	Hebrew
+5EF	5F4	Hebrew
+600	604	Arabic
+605		Common
+606	60B	Arabic
+60C		Arabic Nko Hanifi_Rohingya Syriac Thaana Yezidi
+60D	61A	Arabic
+61B		Arabic Nko Hanifi_Rohingya Syriac Thaana Yezidi
+61C		Arabic Syriac Thaana
+61D	61E	Arabic
+61F		Adlam Arabic Nko Hanifi_Rohingya Syriac Thaana Yezidi
+620	63F	Arabic
+640		Adlam Arabic Mandaic Manichaean Old_Uyghur Psalter_Pahlavi Hanifi_Rohingya Sogdian Syriac
+641	64A	Arabic
+64B	655	Arabic Syriac
+656	65F	Arabic
+660	669	Arabic Thaana Yezidi
+66A	66F	Arabic
+670		Arabic Syriac
+671	6D3	Arabic
+6D4		Arabic Hanifi_Rohingya
+6D5	6DC	Arabic
+6DD		Common
+6DE	6FF	Arabic
+700	70D	Syriac
+70F	74A	Syriac
+74D	74F	Syriac
+750	77F	Arabic
+780	7B1	Thaana
+7C0	7FA	Nko
+7FD	7FF	Nko
+800	82D	Samaritan
+830	83E	Samaritan
+840	85B	Mandaic
+85E		Mandaic
+860	86A	Syriac
+870	88E	Arabic
+890	891	Arabic
+898	8E1	Arabic
+8E2		Common
+8E3	8FF	Arabic
+900	950	Devanagari
+951		Bengali Devanagari Grantha Gujarati Gurmukhi Kannada Latin Malayalam Oriya Sharada Tamil Telugu Tirhuta
+952		Bengali Devanagari Grantha Gujarati Gurmukhi Kannada Latin Malayalam Oriya Tamil Telugu Tirhuta
+953	954	Inherited
+955	963	Devanagari
+964		Bengali Devanagari Dogra Gunjala_Gondi Masaram_Gondi Grantha Gujarati Gurmukhi Kannada Mahajani Malayalam Nandinagari Oriya Khudawadi Sinhala Syloti_Nagri Takri Tamil Telugu Tirhuta
+965		Bengali Devanagari Dogra Gunjala_Gondi Masaram_Gondi Grantha Gujarati Gurmukhi Kannada Limbu Mahajani Malayalam Nandinagari Oriya Khudawadi Sinhala Syloti_Nagri Takri Tamil Telugu Tirhuta
+966	96F	Devanagari Dogra Kaithi Mahajani
+970	97F	Devanagari
+980	983	Bengali
+985	98C	Bengali
+98F	990	Bengali
+993	9A8	Bengali
+9AA	9B0	Bengali
+9B2		Bengali
+9B6	9B9	Bengali
+9BC	9C4	Bengali
+9C7	9C8	Bengali
+9CB	9CE	Bengali
+9D7		Bengali
+9DC	9DD	Bengali
+9DF	9E3	Bengali
+9E6	9EF	Bengali Chakma Syloti_Nagri
+9F0	9FE	Bengali
+A01	A03	Gurmukhi
+A05	A0A	Gurmukhi
+A0F	A10	Gurmukhi
+A13	A28	Gurmukhi
+A2A	A30	Gurmukhi
+A32	A33	Gurmukhi
+A35	A36	Gurmukhi
+A38	A39	Gurmukhi
+A3C		Gurmukhi
+A3E	A42	Gurmukhi
+A47	A48	Gurmukhi
+A4B	A4D	Gurmukhi
+A51		Gurmukhi
+A59	A5C	Gurmukhi
+A5E		Gurmukhi
+A66	A6F	Gurmukhi Multani
+A70	A76	Gurmukhi
+A81	A83	Gujarati
+A85	A8D	Gujarati
+A8F	A91	Gujarati
+A93	AA8	Gujarati
+AAA	AB0	Gujarati
+AB2	AB3	Gujarati
+AB5	AB9	Gujarati
+ABC	AC5	Gujarati
+AC7	AC9	Gujarati
+ACB	ACD	Gujarati
+AD0		Gujarati
+AE0	AE3	Gujarati
+AE6	AEF	Gujarati Khojki
+AF0	AF1	Gujarati
+AF9	AFF	Gujarati
+B01	B03	Oriya
+B05	B0C	Oriya
+B0F	B10	Oriya
+B13	B28	Oriya
+B2A	B30	Oriya
+B32	B33	Oriya
+B35	B39	Oriya
+B3C	B44	Oriya
+B47	B48	Oriya
+B4B	B4D	Oriya
+B55	B57	Oriya
+B5C	B5D	Oriya
+B5F	B63	Oriya
+B66	B77	Oriya
+B82	B83	Tamil
+B85	B8A	Tamil
+B8E	B90	Tamil
+B92	B95	Tamil
+B99	B9A	Tamil
+B9C		Tamil
+B9E	B9F	Tamil
+BA3	BA4	Tamil
+BA8	BAA	Tamil
+BAE	BB9	Tamil
+BBE	BC2	Tamil
+BC6	BC8	Tamil
+BCA	BCD	Tamil
+BD0		Tamil
+BD7		Tamil
+BE6	BF3	Grantha Tamil
+BF4	BFA	Tamil
+C00	C0C	Telugu
+C0E	C10	Telugu
+C12	C28	Telugu
+C2A	C39	Telugu
+C3C	C44	Telugu
+C46	C48	Telugu
+C4A	C4D	Telugu
+C55	C56	Telugu
+C58	C5A	Telugu
+C5D		Telugu
+C60	C63	Telugu
+C66	C6F	Telugu
+C77	C7F	Telugu
+C80	C8C	Kannada
+C8E	C90	Kannada
+C92	CA8	Kannada
+CAA	CB3	Kannada
+CB5	CB9	Kannada
+CBC	CC4	Kannada
+CC6	CC8	Kannada
+CCA	CCD	Kannada
+CD5	CD6	Kannada
+CDD	CDE	Kannada
+CE0	CE3	Kannada
+CE6	CEF	Kannada Nandinagari
+CF1	CF2	Kannada
+D00	D0C	Malayalam
+D0E	D10	Malayalam
+D12	D44	Malayalam
+D46	D48	Malayalam
+D4A	D4F	Malayalam
+D54	D63	Malayalam
+D66	D7F	Malayalam
+D81	D83	Sinhala
+D85	D96	Sinhala
+D9A	DB1	Sinhala
+DB3	DBB	Sinhala
+DBD		Sinhala
+DC0	DC6	Sinhala
+DCA		Sinhala
+DCF	DD4	Sinhala
+DD6		Sinhala
+DD8	DDF	Sinhala
+DE6	DEF	Sinhala
+DF2	DF4	Sinhala
+E01	E3A	Thai
+E3F		Common
+E40	E5B	Thai
+E81	E82	Lao
+E84		Lao
+E86	E8A	Lao
+E8C	EA3	Lao
+EA5		Lao
+EA7	EBD	Lao
+EC0	EC4	Lao
+EC6		Lao
+EC8	ECD	Lao
+ED0	ED9	Lao
+EDC	EDF	Lao
+F00	F47	Tibetan
+F49	F6C	Tibetan
+F71	F97	Tibetan
+F99	FBC	Tibetan
+FBE	FCC	Tibetan
+FCE	FD4	Tibetan
+FD5	FD8	Common
+FD9	FDA	Tibetan
+1000	103F	Myanmar
+1040	1049	Chakma Myanmar Tai_Le
+104A	109F	Myanmar
+10A0	10C5	Georgian
+10C7		Georgian
+10CD		Georgian
+10D0	10FA	Georgian
+10FB		Georgian Latin
+10FC	10FF	Georgian
+1100	11FF	Hangul Kore
+1200	1248	Ethiopic
+124A	124D	Ethiopic
+1250	1256	Ethiopic
+1258		Ethiopic
+125A	125D	Ethiopic
+1260	1288	Ethiopic
+128A	128D	Ethiopic
+1290	12B0	Ethiopic
+12B2	12B5	Ethiopic
+12B8	12BE	Ethiopic
+12C0		Ethiopic
+12C2	12C5	Ethiopic
+12C8	12D6	Ethiopic
+12D8	1310	Ethiopic
+1312	1315	Ethiopic
+1318	135A	Ethiopic
+135D	137C	Ethiopic
+1380	1399	Ethiopic
+13A0	13F5	Cherokee
+13F8	13FD	Cherokee
+1400	167F	Canadian_Aboriginal
+1680	169C	Ogham
+16A0	16EA	Runic
+16EB	16ED	Common
+16EE	16F8	Runic
+1700	1715	Tagalog
+171F		Tagalog
+1720	1734	Hanunoo
+1735	1736	Buhid Hanunoo Tagbanwa Tagalog
+1740	1753	Buhid
+1760	176C	Tagbanwa
+176E	1770	Tagbanwa
+1772	1773	Tagbanwa
+1780	17DD	Khmer
+17E0	17E9	Khmer
+17F0	17F9	Khmer
+1800	1801	Mongolian
+1802	1803	Mongolian Phags_Pa
+1804		Mongolian
+1805		Mongolian Phags_Pa
+1806	1819	Mongolian
+1820	1878	Mongolian
+1880	18AA	Mongolian
+18B0	18F5	Canadian_Aboriginal
+1900	191E	Limbu
+1920	192B	Limbu
+1930	193B	Limbu
+1940		Limbu
+1944	194F	Limbu
+1950	196D	Tai_Le
+1970	1974	Tai_Le
+1980	19AB	New_Tai_Lue
+19B0	19C9	New_Tai_Lue
+19D0	19DA	New_Tai_Lue
+19DE	19DF	New_Tai_Lue
+19E0	19FF	Khmer
+1A00	1A1B	Buginese
+1A1E	1A1F	Buginese
+1A20	1A5E	Tai_Tham
+1A60	1A7C	Tai_Tham
+1A7F	1A89	Tai_Tham
+1A90	1A99	Tai_Tham
+1AA0	1AAD	Tai_Tham
+1AB0	1ACE	Inherited
+1B00	1B4C	Balinese
+1B50	1B7E	Balinese
+1B80	1BBF	Sundanese
+1BC0	1BF3	Batak
+1BFC	1BFF	Batak
+1C00	1C37	Lepcha
+1C3B	1C49	Lepcha
+1C4D	1C4F	Lepcha
+1C50	1C7F	Ol_Chiki
+1C80	1C88	Cyrillic
+1C90	1CBA	Georgian
+1CBD	1CBF	Georgian
+1CC0	1CC7	Sundanese
+1CD0		Bengali Devanagari Grantha Kannada
+1CD1		Devanagari
+1CD2		Bengali Devanagari Grantha Kannada
+1CD3		Devanagari Grantha
+1CD4		Devanagari
+1CD5	1CD6	Bengali Devanagari
+1CD7		Devanagari Sharada
+1CD8		Bengali Devanagari
+1CD9		Devanagari Sharada
+1CDA		Devanagari Kannada Malayalam Oriya Tamil Telugu
+1CDB		Devanagari
+1CDC	1CDD	Devanagari Sharada
+1CDE	1CDF	Devanagari
+1CE0		Devanagari Sharada
+1CE1		Bengali Devanagari
+1CE2	1CE8	Devanagari
+1CE9		Devanagari Nandinagari
+1CEA		Bengali Devanagari
+1CEB	1CEC	Devanagari
+1CED		Bengali Devanagari
+1CEE	1CF1	Devanagari
+1CF2		Bengali Devanagari Grantha Kannada Nandinagari Oriya Telugu Tirhuta
+1CF3		Devanagari Grantha
+1CF4		Devanagari Grantha Kannada
+1CF5	1CF6	Bengali Devanagari
+1CF7		Bengali
+1CF8	1CF9	Devanagari Grantha
+1CFA		Nandinagari
+1D00	1D25	Latin
+1D26	1D2A	Greek
+1D2B		Cyrillic
+1D2C	1D5C	Latin
+1D5D	1D61	Greek
+1D62	1D65	Latin
+1D66	1D6A	Greek
+1D6B	1D77	Latin
+1D78		Cyrillic
+1D79	1DBE	Latin
+1DBF	1DC1	Greek
+1DC2	1DF7	Inherited
+1DF8		Cyrillic Syriac
+1DF9		Inherited
+1DFA		Syriac
+1DFB	1DFF	Inherited
+1E00	1EFF	Latin
+1F00	1F15	Greek
+1F18	1F1D	Greek
+1F20	1F45	Greek
+1F48	1F4D	Greek
+1F50	1F57	Greek
+1F59		Greek
+1F5B		Greek
+1F5D		Greek
+1F5F	1F7D	Greek
+1F80	1FB4	Greek
+1FB6	1FC4	Greek
+1FC6	1FD3	Greek
+1FD6	1FDB	Greek
+1FDD	1FEF	Greek
+1FF2	1FF4	Greek
+1FF6	1FFE	Greek
+2000	200B	Common
+200C	200D	Inherited
+200E	202E	Common
+202F		Latin Mongolian
+2030	2064	Common
+2066	2070	Common
+2071		Latin
+2074	207E	Common
+207F		Latin
+2080	208E	Common
+2090	209C	Latin
+20A0	20C0	Common
+20D0	20EF	Inherited
+20F0		Devanagari Grantha Latin
+2100	2125	Common
+2126		Greek
+2127	2129	Common
+212A	212B	Latin
+212C	2131	Common
+2132		Latin
+2133	214D	Common
+214E		Latin
+214F	215F	Common
+2160	2188	Latin
+2189	218B	Common
+2190	2426	Common
+2440	244A	Common
+2460	27FF	Common
+2800	28FF	Braille
+2900	2B73	Common
+2B76	2B95	Common
+2B97	2BFF	Common
+2C00	2C5F	Glagolitic
+2C60	2C7F	Latin
+2C80	2CF3	Coptic
+2CF9	2CFF	Coptic
+2D00	2D25	Georgian
+2D27		Georgian
+2D2D		Georgian
+2D30	2D67	Tifinagh
+2D6F	2D70	Tifinagh
+2D7F		Tifinagh
+2D80	2D96	Ethiopic
+2DA0	2DA6	Ethiopic
+2DA8	2DAE	Ethiopic
+2DB0	2DB6	Ethiopic
+2DB8	2DBE	Ethiopic
+2DC0	2DC6	Ethiopic
+2DC8	2DCE	Ethiopic
+2DD0	2DD6	Ethiopic
+2DD8	2DDE	Ethiopic
+2DE0	2DFF	Cyrillic
+2E00	2E42	Common
+2E43		Cyrillic Glagolitic
+2E44	2E5D	Common
+2E80	2E99	Han Hanb Jpan Kore
+2E9B	2EF3	Han Hanb Jpan Kore
+2F00	2FD5	Han Hanb Jpan Kore
+2FF0	2FFB	Common
+3000		Common
+3001	3002	Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana Yi
+3003		Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana
+3004		Common
+3005	3007	Han Hanb Jpan Kore
+3008	3011	Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana Yi
+3012		Common
+3013		Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana
+3014	301B	Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana Yi
+301C	301F	Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana
+3020		Common
+3021	3029	Han Hanb Jpan Kore
+302A	302D	Bopomofo Hanb Han Jpan Kore
+302E	302F	Hangul Kore
+3030		Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana
+3031	3035	Hiragana Jpan Katakana
+3036		Common
+3037		Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana
+3038	303B	Han Hanb Jpan Kore
+303C	303D	Han Hanb Jpan Kore Hiragana Katakana
+303E	303F	Han Hanb Jpan Kore
+3041	3096	Hiragana Jpan
+3099	309C	Hiragana Jpan Katakana
+309D	309F	Hiragana Jpan
+30A0		Hiragana Jpan Katakana
+30A1	30FA	Katakana Jpan
+30FB		Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana Yi
+30FC		Hiragana Jpan Katakana
+30FD	30FF	Katakana Jpan
+3105	312F	Bopomofo Hanb
+3131	318E	Hangul Kore
+3190	319F	Han Hanb Jpan Kore
+31A0	31BF	Bopomofo Hanb
+31C0	31E3	Han Hanb Jpan Kore
+31F0	31FF	Katakana Jpan
+3200	321E	Hangul Kore
+3220	3247	Han Hanb Jpan Kore
+3248	325F	Common
+3260	327E	Hangul Kore
+327F		Common
+3280	32B0	Han Hanb Jpan Kore
+32B1	32BF	Common
+32C0	32CB	Han Hanb Jpan Kore
+32CC	32CF	Common
+32D0	32FE	Katakana Jpan
+32FF		Han Hanb Jpan Kore
+3300	3357	Katakana Jpan
+3358	3370	Han Hanb Jpan Kore
+3371	337A	Common
+337B	337F	Han Hanb Jpan Kore
+3380	33DF	Common
+33E0	33FE	Han Hanb Jpan Kore
+33FF		Common
+3400	4DBF	Han Hanb Jpan Kore
+4DC0	4DFF	Common
+4E00	9FFF	Han Hanb Jpan Kore
+A000	A48C	Yi
+A490	A4C6	Yi
+A4D0	A4FF	Lisu
+A500	A62B	Vai
+A640	A66E	Cyrillic
+A66F		Cyrillic Glagolitic
+A670	A69F	Cyrillic
+A6A0	A6F7	Bamum
+A700	A707	Han Hanb Jpan Kore Latin
+A708	A721	Common
+A722	A787	Latin
+A788	A78A	Common
+A78B	A7CA	Latin
+A7D0	A7D1	Latin
+A7D3		Latin
+A7D5	A7D9	Latin
+A7F2	A7FF	Latin
+A800	A82C	Syloti_Nagri
+A830	A832	Devanagari Dogra Gujarati Gurmukhi Khojki Kannada Kaithi Mahajani Malayalam Modi Nandinagari Khudawadi Takri Tirhuta
+A833	A835	Devanagari Dogra Gujarati Gurmukhi Khojki Kannada Kaithi Mahajani Modi Nandinagari Khudawadi Takri Tirhuta
+A836	A839	Devanagari Dogra Gujarati Gurmukhi Khojki Kaithi Mahajani Modi Khudawadi Takri Tirhuta
+A840	A877	Phags_Pa
+A880	A8C5	Saurashtra
+A8CE	A8D9	Saurashtra
+A8E0	A8F0	Devanagari
+A8F1		Bengali Devanagari
+A8F2		Devanagari
+A8F3		Devanagari Tamil
+A8F4	A8FF	Devanagari
+A900	A92D	Kayah_Li
+A92E		Kayah_Li Latin Myanmar
+A92F		Kayah_Li
+A930	A953	Rejang
+A95F		Rejang
+A960	A97C	Hangul Kore
+A980	A9CD	Javanese
+A9CF		Buginese Javanese
+A9D0	A9D9	Javanese
+A9DE	A9DF	Javanese
+A9E0	A9FE	Myanmar
+AA00	AA36	Cham
+AA40	AA4D	Cham
+AA50	AA59	Cham
+AA5C	AA5F	Cham
+AA60	AA7F	Myanmar
+AA80	AAC2	Tai_Viet
+AADB	AADF	Tai_Viet
+AAE0	AAF6	Meetei_Mayek
+AB01	AB06	Ethiopic
+AB09	AB0E	Ethiopic
+AB11	AB16	Ethiopic
+AB20	AB26	Ethiopic
+AB28	AB2E	Ethiopic
+AB30	AB5A	Latin
+AB5B		Common
+AB5C	AB64	Latin
+AB65		Greek
+AB66	AB69	Latin
+AB6A	AB6B	Common
+AB70	ABBF	Cherokee
+ABC0	ABED	Meetei_Mayek
+ABF0	ABF9	Meetei_Mayek
+AC00	D7A3	Hangul Kore
+D7B0	D7C6	Hangul Kore
+D7CB	D7FB	Hangul Kore
+F900	FA6D	Han Hanb Jpan Kore
+FA70	FAD9	Han Hanb Jpan Kore
+FB00	FB06	Latin
+FB13	FB17	Armenian
+FB1D	FB36	Hebrew
+FB38	FB3C	Hebrew
+FB3E		Hebrew
+FB40	FB41	Hebrew
+FB43	FB44	Hebrew
+FB46	FB4F	Hebrew
+FB50	FBC2	Arabic
+FBD3	FD3D	Arabic
+FD3E	FD3F	Arabic Nko
+FD40	FD8F	Arabic
+FD92	FDC7	Arabic
+FDCF		Arabic
+FDF0	FDF1	Arabic
+FDF2		Arabic Thaana
+FDF3	FDFC	Arabic
+FDFD		Arabic Thaana
+FDFE	FDFF	Arabic
+FE00	FE0F	Inherited
+FE10	FE19	Common
+FE20	FE2D	Inherited
+FE2E	FE2F	Cyrillic
+FE30	FE44	Common
+FE45	FE46	Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana
+FE47	FE52	Common
+FE54	FE66	Common
+FE68	FE6B	Common
+FE70	FE74	Arabic
+FE76	FEFC	Arabic
+FEFF		Common
+FF01	FF20	Common
+FF21	FF3A	Latin
+FF3B	FF40	Common
+FF41	FF5A	Latin
+FF5B	FF60	Common
+FF61	FF65	Bopomofo Hanb Hangul Kore Han Jpan Hiragana Katakana Yi
+FF66	FF6F	Katakana Jpan
+FF70		Hiragana Jpan Katakana
+FF71	FF9D	Katakana Jpan
+FF9E	FF9F	Hiragana Jpan Katakana
+FFA0	FFBE	Hangul Kore
+FFC2	FFC7	Hangul Kore
+FFCA	FFCF	Hangul Kore
+FFD2	FFD7	Hangul Kore
+FFDA	FFDC	Hangul Kore
+FFE0	FFE6	Common
+FFE8	FFEE	Common
+FFF9	FFFD	Common
+10000	1000B	Linear_B
+1000D	10026	Linear_B
+10028	1003A	Linear_B
+1003C	1003D	Linear_B
+1003F	1004D	Linear_B
+10050	1005D	Linear_B
+10080	100FA	Linear_B
+10100	10101	Cypro_Minoan Cypriot Linear_B
+10102		Cypriot Linear_B
+10107	10133	Cypriot Linear_A Linear_B
+10137	1013F	Cypriot Linear_B
+10140	1018E	Greek
+10190	1019C	Common
+101A0		Greek
+101D0	101FC	Common
+101FD		Inherited
+10280	1029C	Lycian
+102A0	102D0	Carian
+102E0	102FB	Arabic Coptic
+10300	10323	Old_Italic
+1032D	1032F	Old_Italic
+10330	1034A	Gothic
+10350	1037A	Old_Permic
+10380	1039D	Ugaritic
+1039F		Ugaritic
+103A0	103C3	Old_Persian
+103C8	103D5	Old_Persian
+10400	1044F	Deseret
+10450	1047F	Shavian
+10480	1049D	Osmanya
+104A0	104A9	Osmanya
+104B0	104D3	Osage
+104D8	104FB	Osage
+10500	10527	Elbasan
+10530	10563	Caucasian_Albanian
+1056F		Caucasian_Albanian
+10570	1057A	Vithkuqi
+1057C	1058A	Vithkuqi
+1058C	10592	Vithkuqi
+10594	10595	Vithkuqi
+10597	105A1	Vithkuqi
+105A3	105B1	Vithkuqi
+105B3	105B9	Vithkuqi
+105BB	105BC	Vithkuqi
+10600	10736	Linear_A
+10740	10755	Linear_A
+10760	10767	Linear_A
+10780	10785	Latin
+10787	107B0	Latin
+107B2	107BA	Latin
+10800	10805	Cypriot
+10808		Cypriot
+1080A	10835	Cypriot
+10837	10838	Cypriot
+1083C		Cypriot
+1083F		Cypriot
+10840	10855	Imperial_Aramaic
+10857	1085F	Imperial_Aramaic
+10860	1087F	Palmyrene
+10880	1089E	Nabataean
+108A7	108AF	Nabataean
+108E0	108F2	Hatran
+108F4	108F5	Hatran
+108FB	108FF	Hatran
+10900	1091B	Phoenician
+1091F		Phoenician
+10920	10939	Lydian
+1093F		Lydian
+10980	1099F	Meroitic_Hieroglyphs
+109A0	109B7	Meroitic_Cursive
+109BC	109CF	Meroitic_Cursive
+109D2	109FF	Meroitic_Cursive
+10A00	10A03	Kharoshthi
+10A05	10A06	Kharoshthi
+10A0C	10A13	Kharoshthi
+10A15	10A17	Kharoshthi
+10A19	10A35	Kharoshthi
+10A38	10A3A	Kharoshthi
+10A3F	10A48	Kharoshthi
+10A50	10A58	Kharoshthi
+10A60	10A7F	Old_South_Arabian
+10A80	10A9F	Old_North_Arabian
+10AC0	10AE6	Manichaean
+10AEB	10AF1	Manichaean
+10AF2		Manichaean Old_Uyghur
+10AF3	10AF6	Manichaean
+10B00	10B35	Avestan
+10B39	10B3F	Avestan
+10B40	10B55	Inscriptional_Parthian
+10B58	10B5F	Inscriptional_Parthian
+10B60	10B72	Inscriptional_Pahlavi
+10B78	10B7F	Inscriptional_Pahlavi
+10B80	10B91	Psalter_Pahlavi
+10B99	10B9C	Psalter_Pahlavi
+10BA9	10BAF	Psalter_Pahlavi
+10C00	10C48	Old_Turkic
+10C80	10CB2	Old_Hungarian
+10CC0	10CF2	Old_Hungarian
+10CFA	10CFF	Old_Hungarian
+10D00	10D27	Hanifi_Rohingya
+10D30	10D39	Hanifi_Rohingya
+10E60	10E7E	Arabic
+10E80	10EA9	Yezidi
+10EAB	10EAD	Yezidi
+10EB0	10EB1	Yezidi
+10F00	10F27	Old_Sogdian
+10F30	10F59	Sogdian
+10F70	10F89	Old_Uyghur
+10FB0	10FCB	Chorasmian
+10FE0	10FF6	Elymaic
+11000	1104D	Brahmi
+11052	11075	Brahmi
+1107F		Brahmi
+11080	110C2	Kaithi
+110CD		Kaithi
+110D0	110E8	Sora_Sompeng
+110F0	110F9	Sora_Sompeng
+11100	11134	Chakma
+11136	11147	Chakma
+11150	11176	Mahajani
+11180	111DF	Sharada
+111E1	111F4	Sinhala
+11200	11211	Khojki
+11213	1123E	Khojki
+11280	11286	Multani
+11288		Multani
+1128A	1128D	Multani
+1128F	1129D	Multani
+1129F	112A9	Multani
+112B0	112EA	Khudawadi
+112F0	112F9	Khudawadi
+11300		Grantha
+11301		Grantha Tamil
+11302		Grantha
+11303		Grantha Tamil
+11305	1130C	Grantha
+1130F	11310	Grantha
+11313	11328	Grantha
+1132A	11330	Grantha
+11332	11333	Grantha
+11335	11339	Grantha
+1133B	1133C	Grantha Tamil
+1133D	11344	Grantha
+11347	11348	Grantha
+1134B	1134D	Grantha
+11350		Grantha
+11357		Grantha
+1135D	11363	Grantha
+11366	1136C	Grantha
+11370	11374	Grantha
+11400	1145B	Newa
+1145D	11461	Newa
+11480	114C7	Tirhuta
+114D0	114D9	Tirhuta
+11580	115B5	Siddham
+115B8	115DD	Siddham
+11600	11644	Modi
+11650	11659	Modi
+11660	1166C	Mongolian
+11680	116B9	Takri
+116C0	116C9	Takri
+11700	1171A	Ahom
+1171D	1172B	Ahom
+11730	11746	Ahom
+11800	1183B	Dogra
+118A0	118F2	Warang_Citi
+118FF		Warang_Citi
+11900	11906	Dives_Akuru
+11909		Dives_Akuru
+1190C	11913	Dives_Akuru
+11915	11916	Dives_Akuru
+11918	11935	Dives_Akuru
+11937	11938	Dives_Akuru
+1193B	11946	Dives_Akuru
+11950	11959	Dives_Akuru
+119A0	119A7	Nandinagari
+119AA	119D7	Nandinagari
+119DA	119E4	Nandinagari
+11A00	11A47	Zanabazar_Square
+11A50	11AA2	Soyombo
+11AB0	11ABF	Canadian_Aboriginal
+11AC0	11AF8	Pau_Cin_Hau
+11C00	11C08	Bhaiksuki
+11C0A	11C36	Bhaiksuki
+11C38	11C45	Bhaiksuki
+11C50	11C6C	Bhaiksuki
+11C70	11C8F	Marchen
+11C92	11CA7	Marchen
+11CA9	11CB6	Marchen
+11D00	11D06	Masaram_Gondi
+11D08	11D09	Masaram_Gondi
+11D0B	11D36	Masaram_Gondi
+11D3A		Masaram_Gondi
+11D3C	11D3D	Masaram_Gondi
+11D3F	11D47	Masaram_Gondi
+11D50	11D59	Masaram_Gondi
+11D60	11D65	Gunjala_Gondi
+11D67	11D68	Gunjala_Gondi
+11D6A	11D8E	Gunjala_Gondi
+11D90	11D91	Gunjala_Gondi
+11D93	11D98	Gunjala_Gondi
+11DA0	11DA9	Gunjala_Gondi
+11EE0	11EF8	Makasar
+11FB0		Lisu
+11FC0	11FCF	Tamil
+11FD0	11FD1	Grantha Tamil
+11FD2		Tamil
+11FD3		Grantha Tamil
+11FD4	11FF1	Tamil
+11FFF		Tamil
+12000	12399	Cuneiform
+12400	1246E	Cuneiform
+12470	12474	Cuneiform
+12480	12543	Cuneiform
+12F90	12FF2	Cypro_Minoan
+13000	1342E	Egyptian_Hieroglyphs
+13430	13438	Egyptian_Hieroglyphs
+14400	14646	Anatolian_Hieroglyphs
+16800	16A38	Bamum
+16A40	16A5E	Mro
+16A60	16A69	Mro
+16A6E	16A6F	Mro
+16A70	16ABE	Tangsa
+16AC0	16AC9	Tangsa
+16AD0	16AED	Bassa_Vah
+16AF0	16AF5	Bassa_Vah
+16B00	16B45	Pahawh_Hmong
+16B50	16B59	Pahawh_Hmong
+16B5B	16B61	Pahawh_Hmong
+16B63	16B77	Pahawh_Hmong
+16B7D	16B8F	Pahawh_Hmong
+16E40	16E9A	Medefaidrin
+16F00	16F4A	Miao
+16F4F	16F87	Miao
+16F8F	16F9F	Miao
+16FE0		Tangut
+16FE1		Nushu
+16FE2	16FE3	Han Hanb Jpan Kore
+16FE4		Khitan_Small_Script
+16FF0	16FF1	Han Hanb Jpan Kore
+17000	187F7	Tangut
+18800	18AFF	Tangut
+18B00	18CD5	Khitan_Small_Script
+18D00	18D08	Tangut
+1AFF0	1AFF3	Katakana Jpan
+1AFF5	1AFFB	Katakana Jpan
+1AFFD	1AFFE	Katakana Jpan
+1B000		Katakana Jpan
+1B001	1B11F	Hiragana Jpan
+1B120	1B122	Katakana Jpan
+1B150	1B152	Hiragana Jpan
+1B164	1B167	Katakana Jpan
+1B170	1B2FB	Nushu
+1BC00	1BC6A	Duployan
+1BC70	1BC7C	Duployan
+1BC80	1BC88	Duployan
+1BC90	1BC99	Duployan
+1BC9C	1BCA3	Duployan
+1CF00	1CF2D	Inherited
+1CF30	1CF46	Inherited
+1CF50	1CFC3	Common
+1D000	1D0F5	Common
+1D100	1D126	Common
+1D129	1D166	Common
+1D167	1D169	Inherited
+1D16A	1D17A	Common
+1D17B	1D182	Inherited
+1D183	1D184	Common
+1D185	1D18B	Inherited
+1D18C	1D1A9	Common
+1D1AA	1D1AD	Inherited
+1D1AE	1D1EA	Common
+1D200	1D245	Greek
+1D2E0	1D2F3	Common
+1D300	1D356	Common
+1D360	1D371	Han Hanb Jpan Kore
+1D372	1D378	Common
+1D400	1D454	Common
+1D456	1D49C	Common
+1D49E	1D49F	Common
+1D4A2		Common
+1D4A5	1D4A6	Common
+1D4A9	1D4AC	Common
+1D4AE	1D4B9	Common
+1D4BB		Common
+1D4BD	1D4C3	Common
+1D4C5	1D505	Common
+1D507	1D50A	Common
+1D50D	1D514	Common
+1D516	1D51C	Common
+1D51E	1D539	Common
+1D53B	1D53E	Common
+1D540	1D544	Common
+1D546		Common
+1D54A	1D550	Common
+1D552	1D6A5	Common
+1D6A8	1D7CB	Common
+1D7CE	1D7FF	Common
+1D800	1DA8B	SignWriting
+1DA9B	1DA9F	SignWriting
+1DAA1	1DAAF	SignWriting
+1DF00	1DF1E	Latin
+1E000	1E006	Glagolitic
+1E008	1E018	Glagolitic
+1E01B	1E021	Glagolitic
+1E023	1E024	Glagolitic
+1E026	1E02A	Glagolitic
+1E100	1E12C	Nyiakeng_Puachue_Hmong
+1E130	1E13D	Nyiakeng_Puachue_Hmong
+1E140	1E149	Nyiakeng_Puachue_Hmong
+1E14E	1E14F	Nyiakeng_Puachue_Hmong
+1E290	1E2AE	Toto
+1E2C0	1E2F9	Wancho
+1E2FF		Wancho
+1E7E0	1E7E6	Ethiopic
+1E7E8	1E7EB	Ethiopic
+1E7ED	1E7EE	Ethiopic
+1E7F0	1E7FE	Ethiopic
+1E800	1E8C4	Mende_Kikakui
+1E8C7	1E8D6	Mende_Kikakui
+1E900	1E94B	Adlam
+1E950	1E959	Adlam
+1E95E	1E95F	Adlam
+1EC71	1ECB4	Common
+1ED01	1ED3D	Common
+1EE00	1EE03	Arabic
+1EE05	1EE1F	Arabic
+1EE21	1EE22	Arabic
+1EE24		Arabic
+1EE27		Arabic
+1EE29	1EE32	Arabic
+1EE34	1EE37	Arabic
+1EE39		Arabic
+1EE3B		Arabic
+1EE42		Arabic
+1EE47		Arabic
+1EE49		Arabic
+1EE4B		Arabic
+1EE4D	1EE4F	Arabic
+1EE51	1EE52	Arabic
+1EE54		Arabic
+1EE57		Arabic
+1EE59		Arabic
+1EE5B		Arabic
+1EE5D		Arabic
+1EE5F		Arabic
+1EE61	1EE62	Arabic
+1EE64		Arabic
+1EE67	1EE6A	Arabic
+1EE6C	1EE72	Arabic
+1EE74	1EE77	Arabic
+1EE79	1EE7C	Arabic
+1EE7E		Arabic
+1EE80	1EE89	Arabic
+1EE8B	1EE9B	Arabic
+1EEA1	1EEA3	Arabic
+1EEA5	1EEA9	Arabic
+1EEAB	1EEBB	Arabic
+1EEF0	1EEF1	Arabic
+1F000	1F02B	Common
+1F030	1F093	Common
+1F0A0	1F0AE	Common
+1F0B1	1F0BF	Common
+1F0C1	1F0CF	Common
+1F0D1	1F0F5	Common
+1F100	1F1AD	Common
+1F1E6	1F1FF	Common
+1F200		Hiragana Jpan
+1F201	1F202	Common
+1F210	1F23B	Common
+1F240	1F248	Common
+1F250	1F251	Han Hanb Jpan Kore
+1F260	1F265	Common
+1F300	1F6D7	Common
+1F6DD	1F6EC	Common
+1F6F0	1F6FC	Common
+1F700	1F773	Common
+1F780	1F7D8	Common
+1F7E0	1F7EB	Common
+1F7F0		Common
+1F800	1F80B	Common
+1F810	1F847	Common
+1F850	1F859	Common
+1F860	1F887	Common
+1F890	1F8AD	Common
+1F8B0	1F8B1	Common
+1F900	1FA53	Common
+1FA60	1FA6D	Common
+1FA70	1FA74	Common
+1FA78	1FA7C	Common
+1FA80	1FA86	Common
+1FA90	1FAAC	Common
+1FAB0	1FABA	Common
+1FAC0	1FAC5	Common
+1FAD0	1FAD9	Common
+1FAE0	1FAE7	Common
+1FAF0	1FAF6	Common
+1FB00	1FB92	Common
+1FB94	1FBCA	Common
+1FBF0	1FBF9	Common
+20000	2A6DF	Han Hanb Jpan Kore
+2A700	2B738	Han Hanb Jpan Kore
+2B740	2B81D	Han Hanb Jpan Kore
+2B820	2CEA1	Han Hanb Jpan Kore
+2CEB0	2EBE0	Han Hanb Jpan Kore
+2F800	2FA1D	Han Hanb Jpan Kore
+30000	3134A	Han Hanb Jpan Kore
+E0001		Common
+E0020	E007F	Common
+E0100	E01EF	Inherited
+END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ö   .   Í   ..  ÷   Age    Alpha      Bc     BidiC      BidiM   !   Blk #   Bpt '   CE  )   CI  +   CWCF-   CWCM/   CWKCF   1   CWL 3   CWT 5   CWU 7   Cased   9   Ccc E   CompEx  G   DI  I   DashK   Dep M   Dia O   Dt  ^   EBase   `   EComp   b   EPres   d   Ea  j   Emoji   l   Ext n   ExtPict p   GCB x   Gc  ™   GrBase  ›   GrExt      Hex Ÿ   Hst ¡   Hyphen  £   IDC ¥   IDS §   IdStatusª   IdType  ¶   Ideo¸   In  Ğ   InPCŞ   InSCö   Jg     Jt     Lb  '   Lower   )   Math+   NFCQC   .   NFDQC   1   NFKCQC  4   NFKDQC  7   Nt  ;   Nv  }   PCM    PatSyn     Perl™   QMark   ›   SB  ¨   SD  ª   STerm   ¬   Sc  Í   Scx 	   Term	   UIdeo   	   Upper   	   VS  	   Vo  !	   WB  .	   XIDC0	   XIDS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ÷   .   ö   ..  ø   NA.pl   ù   V100.pl ú   V11.pl  û   V110.pl ü   V120.pl ı   V130.pl ş   V140.pl ÿ   V20.pl      V30.pl     V31.pl     V32.pl     V40.pl     V41.pl     V50.pl     V51.pl     V52.pl     V60.pl  	   V61.pl  
+   V70.pl     V80.pl    ¨V90.pl                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          # !!!!!!!   DO NOT EDIT THIS FILE   !!!!!!!
+# This file is machine-generated by lib/unicore/mktables from the Unicode
+# database, Version 14.0.0.  Any changes made here will be lost!
+
+# !!!!!!!   INTERNAL PERL USE ONLY   !!!!!!!
+# This file is for internal use by core Perl only.  The format and even the
+# name or existence of this file are subject to change without notice.  Don't
+# use it directly.  Use Unicode::UCD to access the Unicode character data
+# base.
+
+
+return <<'END';
+V1411
+888
+890
+896
+900
+907
+908
+909
+910
+930
+931
+1328
+1329
+1367
+1369
+1419
+1421
+1424
+1425
+1480
+1488
+1515
+1519
+1525
+1536
+1806
+1807
+1867
+1869
+1970
+1984
+2043
+2045
+2094
+2096
+2111
+2112
+2140
+2142
+2143
+2144
+2155
+2160
+2191
+2192
+2194
+2200
+2436
+2437
+2445
+2447
+2449
+2451
+2473
+2474
+2481
+2482
+2483
+2486
+2490
+2492
+2501
+2503
+2505
+2507
+2511
+2519
+2520
+2524
+2526
+2527
+2532
+2534
+2559
+2561
+2564
+2565
+2571
+2575
+2577
+2579
+2601
+2602
+2609
+2610
+2612
+2613
+2615
+2616
+2618
+2620
+2621
+2622
+2627
+2631
+2633
+2635
+2638
+2641
+2642
+2649
+2653
+2654
+2655
+2662
+2679
+2689
+2692
+2693
+2702
+2703
+2706
+2707
+2729
+2730
+2737
+2738
+2740
+2741
+2746
+2748
+2758
+2759
+2762
+2763
+2766
+2768
+2769
+2784
+2788
+2790
+2802
+2809
+2816
+2817
+2820
+2821
+2829
+2831
+2833
+2835
+2857
+2858
+2865
+2866
+2868
+2869
+2874
+2876
+2885
+2887
+2889
+2891
+2894
+2901
+2904
+2908
+2910
+2911
+2916
+2918
+2936
+2946
+2948
+2949
+2955
+2958
+2961
+2962
+2966
+2969
+2971
+2972
+2973
+2974
+2976
+2979
+2981
+2984
+2987
+2990
+3002
+3006
+3011
+3014
+3017
+3018
+3022
+3024
+3025
+3031
+3032
+3046
+3067
+3072
+3085
+3086
+3089
+3090
+3113
+3114
+3130
+3132
+3141
+3142
+3145
+3146
+3150
+3157
+3159
+3160
+3163
+3165
+3166
+3168
+3172
+3174
+3184
+3191
+3213
+3214
+3217
+3218
+3241
+3242
+3252
+3253
+3258
+3260
+3269
+3270
+3273
+3274
+3278
+3285
+3287
+3293
+3295
+3296
+3300
+3302
+3312
+3313
+3315
+3328
+3341
+3342
+3345
+3346
+3397
+3398
+3401
+3402
+3408
+3412
+3428
+3430
+3456
+3457
+3460
+3461
+3479
+3482
+3506
+3507
+3516
+3517
+3518
+3520
+3527
+3530
+3531
+3535
+3541
+3542
+3543
+3544
+3552
+3558
+3568
+3570
+3573
+3585
+3643
+3647
+3676
+3713
+3715
+3716
+3717
+3718
+3723
+3724
+3748
+3749
+3750
+3751
+3774
+3776
+3781
+3782
+3783
+3784
+3790
+3792
+3802
+3804
+3808
+3840
+3912
+3913
+3949
+3953
+3992
+3993
+4029
+4030
+4045
+4046
+4059
+4096
+4294
+4295
+4296
+4301
+4302
+4304
+4681
+4682
+4686
+4688
+4695
+4696
+4697
+4698
+4702
+4704
+4745
+4746
+4750
+4752
+4785
+4786
+4790
+4792
+4799
+4800
+4801
+4802
+4806
+4808
+4823
+4824
+4881
+4882
+4886
+4888
+4955
+4957
+4989
+4992
+5018
+5024
+5110
+5112
+5118
+5120
+5789
+5792
+5881
+5888
+5910
+5919
+5943
+5952
+5972
+5984
+5997
+5998
+6001
+6002
+6004
+6016
+6110
+6112
+6122
+6128
+6138
+6144
+6170
+6176
+6265
+6272
+6315
+6320
+6390
+6400
+6431
+6432
+6444
+6448
+6460
+6464
+6465
+6468
+6510
+6512
+6517
+6528
+6572
+6576
+6602
+6608
+6619
+6622
+6684
+6686
+6751
+6752
+6781
+6783
+6794
+6800
+6810
+6816
+6830
+6832
+6863
+6912
+6989
+6992
+7039
+7040
+7156
+7164
+7224
+7227
+7242
+7245
+7305
+7312
+7355
+7357
+7368
+7376
+7419
+7424
+7958
+7960
+7966
+7968
+8006
+8008
+8014
+8016
+8024
+8025
+8026
+8027
+8028
+8029
+8030
+8031
+8062
+8064
+8117
+8118
+8133
+8134
+8148
+8150
+8156
+8157
+8176
+8178
+8181
+8182
+8191
+8192
+8293
+8294
+8306
+8308
+8335
+8336
+8349
+8352
+8385
+8400
+8433
+8448
+8588
+8592
+9255
+9280
+9291
+9312
+11124
+11126
+11158
+11159
+11508
+11513
+11558
+11559
+11560
+11565
+11566
+11568
+11624
+11631
+11633
+11647
+11671
+11680
+11687
+11688
+11695
+11696
+11703
+11704
+11711
+11712
+11719
+11720
+11727
+11728
+11735
+11736
+11743
+11744
+11870
+11904
+11930
+11931
+12020
+12032
+12246
+12272
+12284
+12288
+12352
+12353
+12439
+12441
+12544
+12549
+12592
+12593
+12687
+12688
+12772
+12784
+12831
+12832
+42125
+42128
+42183
+42192
+42540
+42560
+42744
+42752
+42955
+42960
+42962
+42963
+42964
+42965
+42970
+42994
+43053
+43056
+43066
+43072
+43128
+43136
+43206
+43214
+43226
+43232
+43348
+43359
+43389
+43392
+43470
+43471
+43482
+43486
+43519
+43520
+43575
+43584
+43598
+43600
+43610
+43612
+43715
+43739
+43767
+43777
+43783
+43785
+43791
+43793
+43799
+43808
+43815
+43816
+43823
+43824
+43884
+43888
+44014
+44016
+44026
+44032
+55204
+55216
+55239
+55243
+55292
+55296
+64110
+64112
+64218
+64256
+64263
+64275
+64280
+64285
+64311
+64312
+64317
+64318
+64319
+64320
+64322
+64323
+64325
+64326
+64451
+64467
+64912
+64914
+64968
+64975
+65050
+65056
+65107
+65108
+65127
+65128
+65132
+65136
+65141
+65142
+65277
+65279
+65280
+65281
+65471
+65474
+65480
+65482
+65488
+65490
+65496
+65498
+65501
+65504
+65511
+65512
+65519
+65529
+65548
+65549
+65575
+65576
+65595
+65596
+65598
+65599
+65614
+65616
+65630
+65664
+65787
+65792
+65795
+65799
+65844
+65847
+65935
+65936
+65949
+65952
+65953
+66000
+66046
+66176
+66205
+66208
+66257
+66272
+66300
+66304
+66340
+66349
+66379
+66384
+66427
+66432
+66462
+66463
+66500
+66504
+66518
+66560
+66718
+66720
+66730
+66736
+66772
+66776
+66812
+66816
+66856
+66864
+66916
+66927
+66939
+66940
+66955
+66956
+66963
+66964
+66966
+66967
+66978
+66979
+66994
+66995
+67002
+67003
+67005
+67072
+67383
+67392
+67414
+67424
+67432
+67456
+67462
+67463
+67505
+67506
+67515
+67584
+67590
+67592
+67593
+67594
+67638
+67639
+67641
+67644
+67645
+67647
+67670
+67671
+67743
+67751
+67760
+67808
+67827
+67828
+67830
+67835
+67868
+67871
+67898
+67903
+67904
+67968
+68024
+68028
+68048
+68050
+68100
+68101
+68103
+68108
+68116
+68117
+68120
+68121
+68150
+68152
+68155
+68159
+68169
+68176
+68185
+68192
+68256
+68288
+68327
+68331
+68343
+68352
+68406
+68409
+68438
+68440
+68467
+68472
+68498
+68505
+68509
+68521
+68528
+68608
+68681
+68736
+68787
+68800
+68851
+68858
+68904
+68912
+68922
+69216
+69247
+69248
+69290
+69291
+69294
+69296
+69298
+69376
+69416
+69424
+69466
+69488
+69514
+69552
+69580
+69600
+69623
+69632
+69710
+69714
+69750
+69759
+69827
+69837
+69838
+69840
+69865
+69872
+69882
+69888
+69941
+69942
+69960
+69968
+70007
+70016
+70112
+70113
+70133
+70144
+70162
+70163
+70207
+70272
+70279
+70280
+70281
+70282
+70286
+70287
+70302
+70303
+70314
+70320
+70379
+70384
+70394
+70400
+70404
+70405
+70413
+70415
+70417
+70419
+70441
+70442
+70449
+70450
+70452
+70453
+70458
+70459
+70469
+70471
+70473
+70475
+70478
+70480
+70481
+70487
+70488
+70493
+70500
+70502
+70509
+70512
+70517
+70656
+70748
+70749
+70754
+70784
+70856
+70864
+70874
+71040
+71094
+71096
+71134
+71168
+71237
+71248
+71258
+71264
+71277
+71296
+71354
+71360
+71370
+71424
+71451
+71453
+71468
+71472
+71495
+71680
+71740
+71840
+71923
+71935
+71943
+71945
+71946
+71948
+71956
+71957
+71959
+71960
+71990
+71991
+71993
+71995
+72007
+72016
+72026
+72096
+72104
+72106
+72152
+72154
+72165
+72192
+72264
+72272
+72355
+72368
+72441
+72704
+72713
+72714
+72759
+72760
+72774
+72784
+72813
+72816
+72848
+72850
+72872
+72873
+72887
+72960
+72967
+72968
+72970
+72971
+73015
+73018
+73019
+73020
+73022
+73023
+73032
+73040
+73050
+73056
+73062
+73063
+73065
+73066
+73103
+73104
+73106
+73107
+73113
+73120
+73130
+73440
+73465
+73648
+73649
+73664
+73714
+73727
+74650
+74752
+74863
+74864
+74869
+74880
+75076
+77712
+77811
+77824
+78895
+78896
+78905
+82944
+83527
+92160
+92729
+92736
+92767
+92768
+92778
+92782
+92863
+92864
+92874
+92880
+92910
+92912
+92918
+92928
+92998
+93008
+93018
+93019
+93026
+93027
+93048
+93053
+93072
+93760
+93851
+93952
+94027
+94031
+94088
+94095
+94112
+94176
+94181
+94192
+94194
+94208
+100344
+100352
+101590
+101632
+101641
+110576
+110580
+110581
+110588
+110589
+110591
+110592
+110883
+110928
+110931
+110948
+110952
+110960
+111356
+113664
+113771
+113776
+113789
+113792
+113801
+113808
+113818
+113820
+113828
+118528
+118574
+118576
+118599
+118608
+118724
+118784
+119030
+119040
+119079
+119081
+119275
+119296
+119366
+119520
+119540
+119552
+119639
+119648
+119673
+119808
+119893
+119894
+119965
+119966
+119968
+119970
+119971
+119973
+119975
+119977
+119981
+119982
+119994
+119995
+119996
+119997
+120004
+120005
+120070
+120071
+120075
+120077
+120085
+120086
+120093
+120094
+120122
+120123
+120127
+120128
+120133
+120134
+120135
+120138
+120145
+120146
+120486
+120488
+120780
+120782
+121484
+121499
+121504
+121505
+121520
+122624
+122655
+122880
+122887
+122888
+122905
+122907
+122914
+122915
+122917
+122918
+122923
+123136
+123181
+123184
+123198
+123200
+123210
+123214
+123216
+123536
+123567
+123584
+123642
+123647
+123648
+124896
+124903
+124904
+124908
+124909
+124911
+124912
+124927
+124928
+125125
+125127
+125143
+125184
+125260
+125264
+125274
+125278
+125280
+126065
+126133
+126209
+126270
+126464
+126468
+126469
+126496
+126497
+126499
+126500
+126501
+126503
+126504
+126505
+126515
+126516
+126520
+126521
+126522
+126523
+126524
+126530
+126531
+126535
+126536
+126537
+126538
+126539
+126540
+126541
+126544
+126545
+126547
+126548
+126549
+126551
+126552
+126553
+126554
+126555
+126556
+126557
+126558
+126559
+126560
+126561
+126563
+126564
+126565
+126567
+126571
+126572
+126579
+126580
+126584
+126585
+126589
+126590
+126591
+126592
+126602
+126603
+126620
+126625
+126628
+126629
+126634
+126635
+126652
+126704
+126706
+126976
+127020
+127024
+127124
+127136
+127151
+127153
+127168
+127169
+127184
+127185
+127222
+127232
+127406
+127462
+127491
+127504
+127548
+127552
+127561
+127568
+127570
+127584
+127590
+127744
+128728
+128733
+128749
+128752
+128765
+128768
+128884
+128896
+128985
+128992
+129004
+129008
+129009
+129024
+129036
+129040
+129096
+129104
+129114
+129120
+129160
+129168
+129198
+129200
+129202
+129280
+129620
+129632
+129646
+129648
+129653
+129656
+129661
+129664
+129671
+129680
+129709
+129712
+129723
+129728
+129734
+129744
+129754
+129760
+129768
+129776
+129783
+129792
+129939
+129940
+129995
+130032
+130042
+131070
+173792
+173824
+177977
+177984
+178206
+178208
+183970
+183984
+191457
+194560
+195102
+196606
+201547
+262142
+262144
+327678
+327680
+393214
+393216
+458750
+458752
+524286
+524288
+589822
+589824
+655358
+655360
+720894
+720896
+786430
+786432
+851966
+851968
+917502
+917504
+917505
+917506
+917536
+917632
+917760
+918000
+983038
+1114112
+END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

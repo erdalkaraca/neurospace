@@ -1,0 +1,1869 @@
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+
+License: BSD-4-clause-POWERDOG
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+ 3. All advertising materials mentioning features or use of this
+    software must display the following acknowledgement:
+      This product includes software developed by Powerdog Industries.
+ 4. The name of Powerdog Industries may not be used to endorse or
+    promote products derived from this software without specific prior
+    written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY POWERDOG INDUSTRIES ``AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE POWERDOG INDUSTRIES BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License: Unicode
+  EXHIBIT 1
+  UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
+ .
+   Unicode Data Files include all data files under the directories
+   http://www.unicode.org/Public/, http://www.unicode.org/reports/,
+   and http://www.unicode.org/cldr/data/ . Unicode Data Files
+   do not include PDF online code charts under the directory
+   http://www.unicode.org/Public/. Software includes any
+   source code published in the Unicode Standard or under the directories
+   http://www.unicode.org/Public/, http://www.unicode.org/reports/,
+   and http://www.unicode.org/cldr/data/.
+ .
+      NOTICE TO USER: Carefully read the following legal agreement. BY
+      DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE
+      INC.'S DATA FILES ("DATA FILES"), AND/OR SOFTWARE ("SOFTWARE"), YOU
+      UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE TERMS AND
+      CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD,
+      INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
+ .
+      COPYRIGHT AND PERMISSION NOTICE
+ .
+      Copyright © 1991-2011 Unicode, Inc. All rights
+      reserved. Distributed under the Terms of Use in
+      http://www.unicode.org/copyright.html.
+ .
+      Permission is hereby granted, free of charge, to any person
+      obtaining a copy of the Unicode data files and any associated
+      documentation (the "Data Files") or Unicode software and any
+      associated documentation (the "Software") to deal in the Data Files
+      or Software without restriction, including without limitation
+      the rights to use, copy, modify, merge, publish, distribute,
+      and/or sell copies of the Data Files or Software, and to permit
+      persons to whom the Data Files or Software are furnished to do so,
+      provided that (a) the above copyright notice(s) and this permission
+      notice appear with all copies of the Data Files or Software,
+      (b) both the above copyright notice(s) and this permission notice
+      appear in associated documentation, and (c) there is clear notice
+      in each modified Data File or in the Software as well as in the
+      documentation associated with the Data File(s) or Software that
+      the data or software has been modified.
+ .
+      THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY
+      OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+      WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+      AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE
+      COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE
+      FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+      OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+      PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+      TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+      PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+ .
+      Except as contained in this notice, the name of a copyright holder
+      shall not be used in advertising or otherwise to promote the sale,
+      use or other dealings in these Data Files or Software without
+      prior written authorization of the copyright holder.
+
+License: BSD-3-clause-GENERIC
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The names of the authors may not be used to endorse or promote
+    products derived from this software without specific prior written
+    permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. Neither the name of the University nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+
+License: REGCOMP
+  Permission is granted to anyone to use this software for any
+  purpose on any computer system, and to redistribute it freely,
+  subject to the following restrictions:
+ .
+  1. The author is not responsible for the consequences of use of
+          this software, no matter how awful, even if they arise
+          from defects in it.
+ .
+  2. The origin of this software must not be misrepresented, either
+          by explicit claim or by omission.
+ .
+  3. Altered versions must be plainly marked as such, and must not
+          be misrepresented as being the original software.
+
+License: TEXT-TABS
+ This module may be modified, used, copied, and redistributed at your own risk.
+ .
+ Although allowed by the preceding license, please do not publicly
+ redistribute modified versions of this code with the name "Text::Tabs"
+ unless it passes the unmodified Text::Tabs test suite.
+
+License: DONT-CHANGE-THE-GPL
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+License: SDBM-PUBLIC-DOMAIN
+ From ext/SDBM_File/sdbm/README:
+ .
+  The entire sdbm  library package, as authored by me, Ozan S.  Yigit,
+  is  hereby placed in the public domain. As such, the author is not
+  responsible for the  consequences  of  use  of this  software, no
+  matter how awful, even if they arise from defects in it. There is no
+  expressed or implied warranty for the sdbm library.
+ .
+  Since the sdbm library package is in the public domain, this   original
+  release  or  any  additional  public-domain releases of the modified
+  original cannot possibly (by definition) be withheld from you. Also
+  by definition, You (singular) have all the rights to this code
+  (including  the  right to sell without permission, the right to
+  hoard[3]  and  the right  to  do  other  icky  things as you see fit)
+  but those rights are also granted to everyone else.
+ .
+  Please note that all  previous  distributions  of  this software
+  contained  a  copyright  (which is now dropped) to protect its origins
+  and its  current  public  domain  status against any possible claims
+  and/or challenges.
+
+License: GPL-3+-WITH-BISON-EXCEPTION
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ As a special exception, you may create a larger work that contains
+ part or all of the Bison parser skeleton and distribute that work
+ under terms of your choice, so long as that work isn't itself a
+ parser generator using the skeleton or a modified version thereof
+ as a parser skeleton.  Alternatively, if you modify or redistribute
+ the parser skeleton itself, you may (at your option) remove this
+ special exception, which will cause the skeleton and the resulting
+ Bison output files to be licensed under the GNU General Public
+ License without this special exception.
+ .
+ This special exception was added by the Free Software Foundation in
+ version 2.2 of Bison.
+
+License: HSIEH-DERIVATIVE
+ The derivative content includes raw computer source code, ideas,
+ opinions, and excerpts whose original source is covered under another
+ license and transformations of such derivatives. Note that mere excerpts
+ by themselves (with the exception of raw source code) are not considered
+ derivative works under this license. Use and redistribution is limited
+ to the following conditions:
+ .
+    One may not create a derivative work which, in any way, violates the
+    Paul Hsieh exposition license described above on the original content.
+ .
+    One may not apply a license to a derivative work that precludes
+    anyone else from using and redistributing derivative content.
+ .
+    One may not attribute any derivative content to authors not involved
+    in the creation of the content, though an attribution to the author
+    is not necessary.
+
+License: HSIEH-BSD
+ Copyright (c) 2010, Paul Hsieh
+ All rights reserved.
+ .
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ .
+     Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+ .
+     Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in the
+     documentation and/or other materials provided with the distribution.
+ .
+     Neither my name, Paul Hsieh, nor the names of any other contributors
+     to the code use may not be used to endorse or promote products
+     derived from this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License:  CC0-1.0
+ Statatement of Purpose
+ .
+ The laws of most jurisdictions throughout the world automatically confer
+ exclusive Copyright and Related Rights (defined below) upon the creator
+ and subsequent owner(s) (each and all, an "owner") of an original work
+ of authorship and/or a database (each, a "Work").
+ .
+ Certain owners wish to permanently relinquish those rights to a Work
+ for the purpose of contributing to a commons of creative, cultural and
+ scientific works ("Commons") that the public can reliably and without
+ fear of later claims of infringement build upon, modify, incorporate in
+ other works, reuse and redistribute as freely as possible in any form
+ whatsoever and for any purposes, including without limitation commercial
+ purposes. These owners may contribute to the Commons to promote the ideal
+ of a free culture and the further production of creative, cultural and
+ scientific works, or to gain reputation or greater distribution for
+ their Work in part through the use and efforts of others.
+ .
+ For these and/or other purposes and motivations, and without any
+ expectation of additional consideration or compensation, the person
+ associating CC0 with a Work (the "Affirmer"), to the extent that
+ he or she is an owner of Copyright and Related Rights in the Work,
+ voluntarily elects to apply CC0 to the Work and publicly distribute
+ the Work under its terms, with knowledge of his or her Copyright and
+ Related Rights in the Work and the meaning and intended legal effect
+ of CC0 on those rights.
+ .
+ 1. Copyright and Related Rights. A Work made available under CC0 may be
+ protected by copyright and related or neighboring rights ("Copyright
+ and Related Rights"). Copyright and Related Rights include, but are
+ not limited to, the following:
+ .
+    the right to reproduce, adapt, distribute, perform, display,
+    communicate, and translate a Work;
+ .
+    moral rights retained by the original author(s) and/or performer(s);
+ .
+    publicity and privacy rights pertaining to a person's image or
+    likeness depicted in a Work;
+ .
+    rights protecting against unfair competition in regards to a Work,
+    subject to the limitations in paragraph 4(a), below;
+ .
+    rights protecting the extraction, dissemination, use and reuse of data in a Work;
+ .
+    database rights (such as those arising under Directive 96/9/EC
+    of the European Parliament and of the Council of 11 March 1996
+    on the legal protection of databases, and under any national
+    implementation thereof, including any amended or successor version
+    of such directive); and
+ .
+    other similar, equivalent or corresponding rights throughout the world
+    based on applicable law or treaty, and any national implementations
+    thereof.
+ .
+ 2. Waiver. To the greatest extent permitted by, but not in contravention
+ of, applicable law, Affirmer hereby overtly, fully, permanently,
+ irrevocably and unconditionally waives, abandons, and surrenders all
+ of Affirmer's Copyright and Related Rights and associated claims and
+ causes of action, whether now known or unknown (including existing
+ as well as future claims and causes of action), in the Work (i) in
+ all territories worldwide, (ii) for the maximum duration provided by
+ applicable law or treaty (including future time extensions), (iii)
+ in any current or future medium and for any number of copies, and (iv)
+ for any purpose whatsoever, including without limitation commercial,
+ advertising or promotional purposes (the "Waiver"). Affirmer makes the
+ Waiver for the benefit of each member of the public at large and to the
+ detriment of Affirmer's heirs and successors, fully intending that such
+ Waiver shall not be subject to revocation, rescission, cancellation,
+ termination, or any other legal or equitable action to disrupt the
+ quiet enjoyment of the Work by the public as contemplated by Affirmer's
+ express Statement of Purpose.
+ .
+ 3. Public License Fallback. Should any part of the Waiver for any
+ reason be judged legally invalid or ineffective under applicable law,
+ then the Waiver shall be preserved to the maximum extent permitted
+ taking into account Affirmer's express Statement of Purpose. In
+ addition, to the extent the Waiver is so judged Affirmer hereby
+ grants to each affected person a royalty-free, non transferable, non
+ sublicensable, non exclusive, irrevocable and unconditional license
+ to exercise Affirmer's Copyright and Related Rights in the Work (i)
+ in all territories worldwide, (ii) for the maximum duration provided
+ by applicable law or treaty (including future time extensions), (iii)
+ in any current or future medium and for any number of copies, and (iv)
+ for any purpose whatsoever, including without limitation commercial,
+ advertising or promotional purposes (the "License"). The License shall
+ be deemed effective as of the date CC0 was applied by Affirmer to the
+ Work. Should any part of the License for any reason be judged legally
+ invalid or ineffective under applicable law, such partial invalidity
+ or ineffectiveness shall not invalidate the remainder of the License,
+ and in such case Affirmer hereby affirms that he or she will not (i)
+ exercise any of his or her remaining Copyright and Related Rights in
+ the Work or (ii) assert any associated claims and causes of action
+ with respect to the Work, in either case contrary to Affirmer's express
+ Statement of Purpose.
+ .
+ 4. Limitations and Disclaimers.
+ .
+    No trademark or patent rights held by Affirmer are waived,
+    abandoned, surrendered, licensed or otherwise affected by this
+    document.
+ .
+    Affirmer offers the Work as-is and makes no representations or
+    warranties of any kind concerning the Work, express, implied,
+    statutory or otherwise, including without limitation warranties
+    of title, merchantability, fitness for a particular purpose, non
+    infringement, or the absence of latent or other defects, accuracy,
+    or the present or absence of errors, whether or not discoverable,
+    all to the greatest extent permissible under applicable law.
+ .
+    Affirmer disclaims responsibility for clearing rights of other
+    persons that may apply to the Work or any use thereof, including
+    without limitation any person's Copyright and Related Rights in the
+    Work. Further, Affirmer disclaims responsibility for obtaining any
+    necessary consents, permissions or other rights required for any
+    use of the Work.
+ .
+    Affirmer understands and acknowledges that Creative Commons is not
+    a party to this document and has no duty or obligation with respect
+    to this CC0 or use of the Work.
+Comment:
+ This license text was retrieved from
+ <http://creativecommons.org/publicdomain/zero/1.0/>
+ on Fri, 05 Feb 2016 20:30:28 +0200
+
+License: RRA-KEEP-THIS-NOTICE
+ Copying and distribution of this file, with or without modification, are
+ permitted in any medium without royalty provided the copyright notice and
+ this notice are preserved.  This file is offered as-is, without any
+ warranty.
+
+License: Artistic-dist
+                       The "Artistic License"
+ .
+                              Preamble
+ .
+ The intent of this document is to state the conditions under which a
+ Package may be copied, such that the Copyright Holder maintains some
+ semblance of artistic control over the development of the Package,
+ while giving the users of the package the right to use and distribute
+ the Package in a more-or-less customary fashion, plus the right to make
+ reasonable modifications.
+ .
+ It also grants you the rights to reuse parts of a Package in your own
+ programs without transferring this License to those programs, provided
+ that you meet some reasonable requirements.
+ .
+ Definitions:
+ .
+         "Package" refers to the collection of files distributed by the
+         Copyright Holder, and derivatives of that collection of files
+         created through textual modification.
+ .
+         "Standard Version" refers to such a Package if it has not been
+         modified, or has been modified in accordance with the wishes
+         of the Copyright Holder as specified below.
+ .
+         "Copyright Holder" is whoever is named in the copyright or
+         copyrights for the package.
+ .
+         "You" is you, if you're thinking about copying or distributing
+         this Package.
+ .
+         "Reasonable copying fee" is whatever you can justify on the
+         basis of media cost, duplication charges, time of people involved,
+         and so on.  (You will not be required to justify it to the
+         Copyright Holder, but only to the computing community at large
+         as a market that must bear the fee.)
+ .
+         "Freely Available" means that no fee is charged for the item
+         itself, though there may be fees involved in handling the item.
+         It also means that recipients of the item may redistribute it
+         under the same conditions they received it.
+ .
+ 1. You may make and give away verbatim copies of the source form of the
+ Standard Version of this Package without restriction, provided that you
+ duplicate all of the original copyright notices and associated disclaimers.
+ .
+ 2. You may apply bug fixes, portability fixes and other modifications
+ derived from the Public Domain or from the Copyright Holder.  A Package
+ modified in such a way shall still be considered the Standard Version.
+ .
+ 3. You may otherwise modify your copy of this Package in any way, provided
+ that you insert a prominent notice in each changed file stating how and
+ when you changed that file, and provided that you do at least ONE of the
+ following:
+ .
+     a) place your modifications in the Public Domain or otherwise make them
+     Freely Available, such as by posting said modifications to Usenet or
+     an equivalent medium, or placing the modifications on a major archive
+     site such as uunet.uu.net, or by allowing the Copyright Holder to include
+     your modifications in the Standard Version of the Package.
+ .
+     b) use the modified Package only within your corporation or organization.
+ .
+     c) rename any non-standard executables so the names do not conflict
+     with standard executables, which must also be provided, and provide
+     a separate manual page for each non-standard executable that clearly
+     documents how it differs from the Standard Version.
+ .
+     d) make other distribution arrangements with the Copyright Holder.
+ .
+ 4. You may distribute the programs of this Package in object code or
+ executable form, provided that you do at least ONE of the following:
+ .
+     a) distribute a Standard Version of the executables and library files,
+     together with instructions (in the manual page or equivalent) on where
+     to get the Standard Version.
+ .
+     b) accompany the distribution with the machine-readable source of
+     the Package with your modifications.
+ .
+     c) give non-standard executables non-standard names, and clearly
+     document the differences in manual pages (or equivalent), together
+     with instructions on where to get the Standard Version.
+ .
+     d) make other distribution arrangements with the Copyright Holder.
+ .
+ 5. You may charge a reasonable copying fee for any distribution of this
+ Package.  You may charge any fee you choose for support of this
+ Package.  You may not charge a fee for this Package itself.  However,
+ you may distribute this Package in aggregate with other (possibly
+ commercial) programs as part of a larger (possibly commercial) software
+ distribution provided that you do not advertise this Package as a
+ product of your own.
+ .
+ 6. The scripts and library files supplied as input to or produced as
+ output from the programs of this Package do not automatically fall
+ under the copyright of this Package, but belong to whoever generated
+ them, and may be sold commercially, and may be aggregated with this
+ Package.  If such scripts or library files are aggregated with this
+ Package via the so-called "undump" or "unexec" methods of producing a
+ binary executable image, then distribution of such an image shall
+ neither be construed as a distribution of this Package nor shall it
+ fall under the restrictions of Paragraphs 3 and 4, provided that you do
+ not represent such an executable image as a Standard Version of this
+ Package.
+ .
+ 7. You may reuse parts of this Package in your own programs, provided that
+ you explicitly state where you got them from, in the source code (and, left
+ to your courtesy, in the documentation), duplicating all the associated
+ copyright notices and disclaimers. Besides your changes, if any, must be
+ clearly marked as such. Parts reused that way will no longer fall under this
+ license if, and only if, the name of your program(s) have no immediate
+ connection with the name of the Package itself or its associated programs.
+ You may then apply whatever restrictions you wish on the reused parts or
+ choose to place them in the Public Domain--this will apply only within the
+ context of your package.
+ .
+ 8. The name of the Copyright Holder may not be used to endorse or promote
+ products derived from this software without specific prior written permission.
+ .
+ 9. THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ .
+                                 The End
+Comment:
+ This license was copied from the upstream 'dist' repository,
+  https://github.com/rmanfredi/dist.git
+ at Sun, 15 Oct 2017 13:07:36 +0300.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    5   .   �   ..  6  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: GNU sed
+Source: ftp://ftp.gnu.org/gnu/sed/
+Comment: This is the Debian GNU/Linux prepackaged version of sed.
+ It is currently maintained by Clint Adams <clint@debian.org>.
+
+Files: *
+       doc/local.mk
+Copyright: 1989-2020 Free Software Foundation, Inc.
+License: GPL-3+
+
+License: GPL-3+
+ GNU sed is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free
+ Software Foundation; either version 3, or (at your option) any later
+ version.
+ .
+ On Debian GNU/Linux systems you can find a copy of the GPL in
+ /usr/share/common-licenses/GPL-3
+
+Files: build-aux/install-sh
+Copyright: 1994 X Consortium
+License: X11
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to
+ deal in the Software without restriction, including without limitation the
+ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+ X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNEC-
+ TION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ .
+ Except as contained in this notice, the name of the X Consortium shall not
+ be used in advertising or otherwise to promote the sale, use or other deal-
+ ings in this Software without prior written authorization from the X Consor-
+ tium.
+Comment: FSF changes to this file are in the public domain.
+
+Files: doc/*
+Copyright: 1998-2020 Free Software Foundation, Inc.
+License: GFDL-NIV-1.3+
+ Permission is granted to copy, distribute and/or modify this
+ document under the terms of the GNU Free Documentation License,
+ Version 1.3 or any later version published by the Free Software
+ Foundation; with no Invariant Sections, no Front-Cover Texts, and
+ no Back-Cover Texts.  A copy of the license is included in the
+ section entitled "GNU Free Documentation License".
+ .
+ On Debian GNU/Linux systems you can find a copy of the GFDL in
+ /usr/share/common-licenses/GFDL-1.3
+
+Files: gnulib-tests/inet_pton.c
+Copyright: (C) 2006, 2008-2020 Free Software Foundation, Inc.
+           (c) 1996,1999 by Internet Software Consortium.
+License: GPL-3+ and ISC
+
+License: ISC
+ Permission to use, copy, modify, and distribute this software for any
+ purpose with or without fee is hereby granted, provided that the above
+ copyright notice and this permission notice appear in all copies.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS" AND INTERNET SOFTWARE CONSORTIUM DISCLAIMS
+ ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL INTERNET SOFTWARE
+ CONSORTIUM BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+ PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
+ ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+ SOFTWARE.
+
+Files: testsuite/bsd.sh
+Copyright: (c) 1992 Diomidis Spinellis.
+           (c) 1992, 1993 The Regents of the University of California.  All rights reserved.
+License: BSD-4-clause-UC
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. <deleted>
+ 4. Neither the name of the University nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+
+Files: testsuite/BOOST.tests
+Copyright: 2004 John Maddock
+Comment: Tests taken from BOOST testsuite and adapted to glibc regex.
+License: BSL-1
+ Boost Software License - Version 1.0 - August 17th, 2003
+ .
+ Permission is hereby granted, free of charge, to any person or organization
+ obtaining a copy of the software and accompanying documentation covered by
+ this license (the "Software") to use, reproduce, display, distribute,
+ execute, and transmit the Software, and to prepare derivative works of the
+ Software, and to permit third-parties to whom the Software is furnished to
+ do so, all subject to the following:
+ .
+ The copyright notices in the Software and this entire statement, including
+ the above license grant, this restriction and the following disclaimer,
+ must be included in all copies of the Software, in whole or in part, and
+ all derivative works of the Software, unless such copies or derivative
+ works are solely in the form of machine-executable object code generated by
+ a source language processor.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+ FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ DEALINGS IN THE SOFTWARE.
+
+Files: testsuite/PCRE.tests
+Copyright: 1997-2003 University of Cambridge
+License: pcre
+ Permission is granted to anyone to use this software for any purpose on any
+ computer system, and to redistribute it freely, subject to the following
+ restrictions:
+ .
+ 1. This software is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ .
+ 2. The origin of this software must not be misrepresented, either by
+    explicit claim or by omission. In practice, this means that if you use
+    PCRE in software that you distribute to others, commercially or
+    otherwise, you must put a sentence like this
+ .
+      Regular expression support is provided by the PCRE library package,
+      which is open source software, written by Philip Hazel, and copyright
+      by the University of Cambridge, England.
+ .
+    somewhere reasonably visible in your documentation and in any relevant
+    files or online help data or similar. A reference to the ftp site for
+    the source, that is, to
+ .
+      ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
+ .
+    should also be given in the documentation. However, this condition is not
+    intended to apply to whole chains of software. If package A includes PCRE,
+    it must acknowledge it, but if package B is software that includes package
+    A, the condition is not imposed on package B (unless it uses PCRE
+    independently).
+ .
+ 3. Altered versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+ .
+ 4. If PCRE is embedded in any software that is released under the GNU
+    General Purpose Licence (GPL), or Lesser General Purpose Licence (LGPL),
+    then the terms of that licence shall supersede any condition above with
+    which it is incompatible.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      7   .   �   ..  8  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: sysvinit
+Upstream-Contact: sysvinit-devel@nongnu.org
+Source: https://download.savannah.gnu.org/releases/sysvinit/
+
+Files: *
+Copyright: 1989, 1991 Free Software Foundation, Inc.
+           1997-2005 Miquel van Smoorenburg <miquels@cistron.nl>
+           1998 Danek Duvall
+           2003 Theodore Ts'o
+           2009, 2011, 2012 the sysvinit's copyright holder
+           2010 Michael Krapp
+           2011 SuSE LINUX Products GmbH
+           2017-2019 Jesse Smith
+License: GPL-2.0+
+
+Files: debian/*
+Copyright: 1996-2004 Miquel van Smoorenburg <miquels@cistron.nl>
+           2005-2010, 2014 Petter Reinholdtsen <pere@debian.org>
+           2006 Henrique de Moraes Holschuh <hmh@debian.org>
+           2006 Thomas Hood <jdthood@yahoo.co.uk>
+           2006-2007 Steinar H. Gunderson <sesse@debian.org>
+           2009 Software in the Public Interest
+           2009 Hideki Yamane <henrich@debian.or.jp>
+           2009 Free Software Foundation, Inc.
+           2009 Clytie Siddall <clytie@riverland.net.au>
+           2009-2020 Adriano Rafael Gomes <adrianorg@debian.org>
+           2010-2012 Christian Perrier <bubulle@debian.org>
+           2010-2019 Joe Hansen <joedalton2@yahoo.dk>
+           2011, 2016 Ben Hutchings <ben@decadent.org.uk>
+           2011-2013 Roger Leigh <rleigh@debian.org>
+           2012 Martin Bagge <brother@bsnet.se>
+           2012 Debian French l10n Team
+           2012-2013 Steve Langasek <vorlon@debian.org>
+           2014 Robert Millan <rmh@debian.org>
+           2014 Thomas Goirand <zigo@debian.org>
+           2014-2018 Michael Biebl <biebl@debian.org>
+           2015 Adam Conrad <adconrad@debian.org>
+           2015-2016 Andreas Henriksson <andreas@fatal.se>
+           2015-2016 Martin Pitt <mpitt@debian.org>
+           2017 Ian Jackson <ijackson@chiark.greenend.org.uk>
+           2018 Dmitry Bogatov <KAction@gnu.org>
+           2018 Vincenzo (KatolaZ) Nicosia <katolaz@freaknet.org>
+           2021 Mark Hindley <leepen@debian.org>
+License: GPL-2.0+
+
+Files: contrib/sysd2v.sh
+Copyright: 2019 Trek http://www.trek.eu.org/devel/sysd2v
+License: GPL-3.0
+
+Files: doc/Install
+       man/fstab-decode.8
+       man/initctl.5
+       src/fstab-decode.c
+       src/runlevellog.h
+       src/runlevellog.c
+Copyright: 2006 Red Hat, Inc.
+           2018 Jesse Smith
+License: GPL-2.0
+
+License: GPL-2.0+
+ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ .
+ On Debian systems you can find a local copy of the GNU General Public License
+ in /usr/share/common-licenses/GPL-2.
+
+License: GPL-3.0
+ This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
+ .
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+ .
+ On Debian systems you can find a local copy of the GNU General Public License
+ in /usr/share/common-licenses/GPL-3.
+
+License: GPL-2.0
+ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; version 2.
+ .
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ .
+ On Debian systems you can find a local copy of the GNU General Public License
+ in /usr/share/common-licenses/GPL-2.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               9   .   �   ..  :  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Comment:
+  This is the Debian GNU/Linux prepackaged version of GNU tar.
+  GNU tar, heavily based on John Gilmore's public domain version of tar,
+  was originally written by Graham Todd.
+  It is now maintained by Sergey Poznyakoff.
+ .
+  This package is maintained for Debian by Janos Lenart <ocsi@debian.org>.
+Upstream-Contact: bug-tar@gnu.org
+Source:
+  ftp://ftp.gnu.org/gnu/tar/
+  http://git.savannah.gnu.org/cgit/tar.git
+
+Files: *
+Copyright:
+   Copyright (C) 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1999, 2000,
+   2001, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+License: GPL-3+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 3, or (at your option) any later
+   version.
+Comment:
+ On Debian GNU/Linux systems, the complete text of the GNU General Public 
+ License version 3 can be found in /usr/share/common-licenses/GPL-3.
+
+Files:
+   gnu/parse-datetime-gen.h
+   gnu/parse-datetime.c
+Copyright:
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+License: GPL-3+ with Bison exception
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+ .
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+ .
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ .
+   As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+ .
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.
+Comment:
+ On Debian GNU/Linux systems, the complete text of the GNU General Public 
+ License version 3 can be found in /usr/share/common-licenses/GPL-3.
+
+Files:
+   tests/argcv.*
+Copyright:
+   Copyright (C) 1999, 2000, 2001, 2007, 2009, 2010 Free Software
+   Foundation, Inc.
+License: LGPL-3+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 3 of the License, or (at your option) any later version.
+Comment:
+ On Debian GNU/Linux systems, the complete text of the GNU Lesser General
+ Public License version 3 can be found in /usr/share/common-licenses/LGPL-3.
+
+Files:
+   debian/*
+Copyright:
+   Copyright (C) 2006, 2007 Bdale Garbee <bdale@gag.com>
+License: GPL-2+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any later
+   version.
+Comment:
+ On Debian GNU/Linux systems, the complete text of the GNU General Public 
+ License version 2 can be found in /usr/share/common-licenses/GPL-2.
+                                                                                                                                                                                                                                                                                                          ;   .   �   ..  <  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://www.iana.org/time-zones
+Upstream-Contact: The Internet Assigned Numbers Authority (IANA)
+                  Commentary should be addressed to tz@iana.org
+
+Files: *
+Copyright: The Internet Assigned Numbers Authority (IANA)
+License: public-domain
+ This database is in the public domain.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         =   .   �   ..  >  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Comment:
+ This package was created by Marco d'Itri <md@linux.it> on
+ Sat Nov  1 04:27:59 CET 2014.
+
+Files: *
+Copyright: 2014-2022 Marco d'Itri <md@linux.it>
+License: GPL-2+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Comment:
+ On Debian systems the complete text of the license can be found in
+ /usr/share/common-licenses/GPL-2 .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ?   .   �   ..  @  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: util-linux
+Upstream-Contact: util-linux@vger.kernel.org
+Source: https://www.kernel.org/pub/linux/utils/util-linux/
+
+Files: *
+Copyright:      Michal Luscon <mluscon@redhat.com>
+           1986 Gary S. Brown
+           1990 Gordon Irlam (gordoni@cs.ua.oz.au)
+           1991, 1992 Linus Torvalds
+           1991-2004 Miquel van Smoorenburg
+           1992  A. V. Le Blanc (LeBlanc@mcc.ac.uk)
+           1992-1997 Michael K. Johnson, johnsonm@redhat.com
+           1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
+                 2003, 2004, 2005, 2008 Theodore Ts'o <tytso@mit.edu>
+           1994 Kevin E. Martin (martin@cs.unc.edu)
+           1994 Salvatore Valente <svalente@mit.edu>
+           1994,1996 Alessandro Rubini (rubini@ipvvis.unipv.it)
+           1994-2005 Jeff Tranter (tranter@pobox.com)
+           1995, 1999, 2000 Andries E. Brouwer <aeb@cwi.nl>
+           1997-2005 Frodo Looijaard <frodo@frodo.looijaard.name>
+           1998 Danek Duvall <duvall@alumni.princeton.edu>
+           1999 Andreas Dilger
+           1999-2002 Transmeta Corporation
+           1999, 2000, 2002-2009, 2010, 2011, 2012, 2014 Red Hat, Inc.
+           2000 Werner Almesberger
+           2004-2006 Michael Holzt, kju -at- fqdn.org
+           2005 Adrian Bunk
+           2007-2020 Karel Zak <kzak@redhat.com>
+           2007, 2011, 2012, 2016 SuSE LINUX Products GmbH
+           2008 Cai Qian <qcai@redhat.com>
+           2008 Hayden A. James (hayden.james@gmail.com)
+           2008 James Youngman <jay@gnu.org>
+           2008 Roy Peled, the.roy.peled  -at-  gmail.com
+           2009 Mikhail Gusarov <dottedmag@dottedmag.net>
+           2010, 2011, 2012 Davidlohr Bueso <dave@gnu.org>
+           2010 Jason Borden <jborden@bluehost.com>A
+           2010 Hajime Taira <htaira@redhat.com>
+           2010 Masatake Yamato <yamato@redhat.com>
+           2011 IBM Corp.
+           2012 Andy Lutomirski <luto@amacapital.net>
+           2012 Lennart Poettering
+           2012 Sami Kerola <kerolasa@iki.fi>
+           2012 Cody Maloney <cmaloney@theoreticalchaos.com>
+           2012 Werner Fink <werner@suse.de>
+           2013,2014 Ondrej Oprala <ooprala@redhat.com>
+License: GPL-2+
+
+Files: schedutils/ionice.c
+Copyright: 2005 Jens Axboe <jens@axboe.dk>
+License: GPL-2
+
+Files: schedutils/chrt.c
+       schedutils/taskset.c
+Copyright: 2004 Robert Love <rml@tech9.net>
+           2010 Karel Zak <kzak@redhat.com>
+License: GPL-2
+
+Files: disk-utils/raw.c
+Copyright: 1999, 2000, Red Hat Software
+License: GPL-2
+
+Files: sys-utils/hwclock-parse-date.y
+Copyright: Steven M. Bellovin <smb@research.att.com>
+           Unknown Authors on Usenet
+           1990 Rich $alz <rsalz@bbn.com>
+           1990 Jim Berets <jberets@bbn.com>
+           1999, 2004 Paul Eggert <eggert@twinsun.com>
+License: GPL-3+
+
+Files: sys-utils/nsenter.c
+Copyright: 2012-2013 Eric Biederman <ebiederm@xmission.com>
+License: GPL-2
+
+Files: disk-utils/mkfs.minix.c
+       disk-utils/mkswap.c
+Copyright: 1991, 1992 Linus Torvalds
+License: GPL-2
+
+Files: lib/blkdev.c
+       lib/loopdev.c
+       lib/sysfs.c
+       lib/ttyutils.c
+       misc-utils/mcookie.c
+       sys-utils/setsid.c
+       text-utils/line.c
+Copyright: n/a
+License: public-domain
+
+Files: login-utils/vipw.c
+       misc-utils/cal.c
+       misc-utils/kill.c
+       misc-utils/logger.c
+       misc-utils/look.c
+       misc-utils/whereis.c
+       sys-utils/renice.c
+       term-utils/mesg.c
+       term-utils/script.c
+       term-utils/ttymsg.c
+       term-utils/wall.c
+       term-utils/write.c
+       text-utils/col.c
+       text-utils/colcrt.c
+       text-utils/colrm.c
+       text-utils/column.c
+       text-utils/hexdump.c
+       text-utils/hexdump.h
+       text-utils/hexdump-conv.c
+       text-utils/hexdump-display.c
+       text-utils/hexdump-parse.c
+       text-utils/rev.c
+       text-utils/ul.c
+Copyright: 1980, 1983, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994
+                The Regents of the University of California
+           2014 Sami Kerola <kerolasa@iki.fi>
+           2014 Karel Zak <kzak@redhat.com>
+License: BSD-4-clause
+
+Files: sys-utils/flock.c
+Copyright: 2003-2005 H. Peter Anvin
+License: MIT
+
+Files: text-utils/pg.c
+Copyright: 2000-2001 Gunnar Ritter
+License: BSD-3-clause
+
+Files: login-utils/login.c
+Copyright: 1980, 1987, 1988 The Regents of the University of California.
+           2011 Karel Zak <kzak@redhat.com>
+License: BSLA
+
+Files: login-utils/logindefs.c
+Copyright: 2003, 2004, 2005 Thorsten Kukuk
+License: BSD-3-clause
+
+Files: libuuid/*
+       libuuid/src/*
+       libuuid/man/*
+Copyright: 1996, 1997, 1998, 1999, 2007 Theodore Ts'o.
+           1999 Andreas Dilger (adilger@enel.ucalgary.ca)
+License: BSD-3-clause
+
+Files: lib/procutils.c
+       include/xalloc.h
+Copyright: 2010, 2011 Davidlohr Bueso <dave@gnu.org>
+License: LGPL-2+
+
+Files: */colors.*
+Copyright: 2012 Ondrej Oprala <ooprala@redhat.com>
+           2012-2014 Karel Zak <kzak@redhat.com>
+License: LGPL-2+
+
+Files: login-utils/setpwnam.h
+       login-utils/setpwnam.c
+Copyright: 1994 Martin Schulze <joey@infodrom.north.de>
+           1994 Salvatore Valente <svalente@mit.edu>
+License: LGPL-2+
+
+Files: libfdisk/*
+       libfdisk/src/*
+Copyright: 2007-2013 Karel Zak <kzak@redhat.com>
+           2012 Davidlohr Bueso <dave@gnu.org>
+License: LGPL-2.1+
+
+Files: lib/cpuset.c
+       */match.*
+       lib/canonicalize.c
+Copyright: 2008-2009, 2010, 2011, 2012 Karel Zak <kzak@redhat.com>
+License: LGPL-2.1+
+
+Files: */mbsalign.*
+Copyright: 2009-2010 Free Software Foundation, Inc.
+           2010-2013 Karel Zak <kzak@redhat.com>
+License: LGPL-2.1+
+
+Files: */timeutils.*
+Copyright: 2010 Lennart Poettering
+License: LGPL-2.1+
+
+Files: include/list.h
+Copyright: 2008 Karel Zak <kzak@redhat.com>
+           1999-2008 by Theodore Ts'o
+License: LGPL
+
+Files: libblkid/*
+       libblkid/src/*
+       libblkid/samples/*
+       libblkid/src/partitions/*
+       libblkid/src/superblocks/*
+       libblkid/src/topology/*
+Copyright: 1999, 2001 Andries Brouwer
+           1995, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003, 2004
+               Theodore Ts'o.
+           2001 Andreas Dilger (adilger@turbolinux.com)
+           2004-2008 Kay Sievers <kay.sievers@vrfy.org>
+           2008-2013 Karel Zak <kzak@redhat.com>
+           2009 Bastian Friedrich <bastian.friedrich@collax.com>
+           2009 Corentin Chary <corentincj@iksaif.net>
+           2009 Mike Hommey <mh@glandium.org>
+           2009 Red Hat, Inc.
+           2009-2010 Andreas Dilger <adilger@sun.com>
+           2010 Andrew Nayenko <resver@gmail.com>
+           2010 Jeroen Oortwijn <oortwijn@gmail.com>
+           2010 Jiro SEKIBA <jir@unicus.jp>
+           2011 Philipp Marek <philipp.marek@linbit.com>
+           2012 Milan Broz <mbroz@redhat.com>
+           2013 Alejandro Martinez Ruiz <alex@nowcomputing.com>
+           2013 Eric Sandeen <sandeen@redhat.com>
+           2013 Rolf Fokkens <rolf@fokkens.nl>
+           2013 Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+License: LGPL-2.1+
+
+Files: include/cpuset.h
+       lib/randutils.c
+Copyright: *unknown*
+License: LGPL
+
+Files: misc-utils/blkid.c
+Copyright: 2001 Andreas Dilger
+License: LGPL
+
+Files: libmount/*
+       libmount/src/*
+Copyright: 2008-2012 Karel Zak <kzak@redhat.com>
+License: LGPL-2.1+
+
+Files: libmount/python/*
+Copyright: 2013, Red Hat, Inc.
+License: LGPL-3+
+
+Files: libsmartcols/*
+Copyright:  2009-2014 Karel Zak <kzak@redhat.com>
+            2014 Ondrej Oprala <ooprala@redhat.com>
+License: LGPL-2.1+
+
+Files: debian/*
+Copyright:           Guy Maor <maor@debian.org>
+                     Sean 'Shaleh' Perry <shaleh@debian.org>
+                     Adrian Bunk <bunk@stusta.de>
+                     LaMont Jones <lamont@debian.org>
+           1996-2003 Martin Mitchell (martin@debian.org)
+           2008-2012 Frank Lichtenheld (djpig@debian.org)
+           2014      Andreas Henriksson <andreas@fatal.se>
+           2017-2020 Michael Biebl <biebl@debian.org>
+           2019      Petter Reinholdtsen <pere@debian.org>
+           2017-2020 Chris Hofstaedtler <zeha@debian.org>
+License: GPL-2+
+
+Files: debian/po/*
+Copyright:           Aiet Kolkhi <aietkolkhi@gmail.com>
+                     Anton Gladky <gladky.anton@gmail.com>
+                     Arief S F (arief@gurame.fisika.ui.ac.id>
+                     Armin Beširović <armin@linux.org.ba>
+                     astur <malditoastur@gmail.com>
+                     Axel Bojer <axelb@skolelinux.no>
+                     Bart Cornelis <cobaco@skolelinux.no>
+                     Bartosz Fe�ski <fenio@o2.pl>
+                     Basil Shubin <bashu@surgut.ru>
+                     Baurzhan Muftakhidinov <baurthefirst@gmail.com>
+                     Bjorn Steensrud <bjornst@powertech.no>
+                     Claus Hindsgaul <claus_h@image.dk>
+                     Clytie Siddall <clytie@riverland.net.au>
+                     Dafydd Tomos <l10n@da.fydd.org>
+                     Damyan Ivanov <dam@modsoftsys.com>
+                     Daniel Franganillo <dfranganillo@gmail.com>
+                     Daniel Nylander <po@danielnylander.se>
+                     Danishka Navin <danishka@gmail.com>
+                     Dauren Sarsenov <daur88@inbox.ru>
+                     Dominik Zablotny <dominz@wp.pl>
+                     Dr.T.Vasudevan <agnihot3@gmail.com>
+                     Eddy Petrisor <eddy.petrisor@gmail.com>
+                     Eder L. Marques <frolic@debian-ce.org>
+                     Elian Myftiu <elian.myftiu@gmail.com>
+                     Emmanuel Galatoulas <galas@tee.gr>
+                     Esko Arajärvi <edu@iki.fi>
+                     Frank Lichtenheld <djpig@debian.org>
+                     Frédéric Bothamy <frederic.bothamy@free.fr>
+                     Gabor Burjan <buga@buvoshetes.hu>
+                     George Papamichelakis <george@step.gr>
+                     Hans Fredrik Nordhaug <hans@nordhaug.priv.no>
+                     Håvard Korsvoll <korsvoll@gmail.com>
+                     Hideki Yamane <henrich@samba.gr.jp>
+                     Hleb Rubanau <g.rubanau@gmail.com>
+                     I Gede Wijaya S <gwijayas@yahoo.com>
+                     Ivan Masár <helix84@centrum.sk>
+                     Jacobo Tarrio <jtarrio@debian.org>
+                     Jamil Ahmed <jamil@ankur.org.bd>
+                     Janos Guljas <janos@resenje.org>
+                     Jordi Mallach <jordi@debian.org>
+                     Josip Rodin <joy+ditrans@linux.hr>
+                     Karolina Kalic <karolina@resenje.org>
+                     Kartik Mistry <kartik.mistry@gmail.com>
+                     Kęstutis Biliūnas <kebil@kaunas.init.lt>
+                     Kevin Scannell <kscanne@gmail.com>
+                     Khoem Sokhem <khoemsokhem@khmeros.info>
+                     Klaus Ade Johnstad <klaus@skolelinux.no>
+                     Knut Yrvin <knuty@skolelinux.no>
+                     Konstantinos Margaritis <markos@debian.org>
+                     Kostas Papadimas <pkst@gnome.org>
+                     Kumar Appaiah <a.kumar@alumni.iitm.ac.in>
+                     Lior Kaplan <kaplan@debian.org>
+                     Luiz Portella <lfpor@lujz.org>
+                     Mallikarjuna <Mallikarjunasj@gmail.com>
+                     Mert Dirik <mertdirik@gmail.com>
+                     Milo Casagrande <milo@ubuntu.com>
+                     Ming Hua <minghua@ubuntu.com>
+                     Miroslav Kure <kurem@debian.cz>
+                     Mouhamadou Mamoune Mbacke <mouhamadoumamoune@gmail.com>
+                     Nabin Gautam <nabin@mpp.org.np>
+                     Ossama M. Khayat <okhayat@yahoo.com>
+                     Ovidiu Damian <deelerious@gmail.com>
+                     Parlin Imanuel Toh <parlin_i@yahoo.com>
+                     Pavel Piatruk <berserker@neolocation.com>
+                     Piarres Beobide <pi@beobide.net>
+                     Praveen|പ്രവീണ്‍ A|എ <pravi.a@gmail.com>
+                     Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>
+                     Sahran <Sahran.ug@gmail.com>
+                     Sampada Nakhare <sampadanakhare@gmail.com>
+                     Setyo Nugroho <setyo@gmx.net>
+                     Simão Pedro Cardoso <pthell@gmail.com>
+                     Stefano Melchior <stefano.melchior@openlabs.it>
+                     Sunjae Park <darehanl@gmail.com>
+                     Sveinn í Felli <sveinki@nett.is>
+                     Tetralet <tetralet@gmail.com>
+                     Theppitak Karoonboonyanan <thep@linux.thai.net>
+                     Tshewang Norbu <bumthap2006@hotmail.com>
+                     Vahid Ghaderi <vahid_male1384@yahoo.com>
+                     Vanja Cvelbar <cvelbar@gmail.com>
+                     Veeven <veeven@gmail.com>
+                     Vikram Vincent <vincentvikram@gmail.com>
+                     Yoppy Hidayanto <yoppy.hidayanto@gmail.com>
+License: GPL-2+
+
+
+License: public-domain
+ The files tagged with this license contains the following paragraphs:
+ .
+ No copyright is claimed.  This code is in the public domain; do with
+ it what you wish.
+ .
+ Written by Karel Zak <kzak@redhat.com>
+
+License: GPL-2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License, v2, as
+ published by the Free Software Foundation
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 3 can be found in `/usr/share/common-licenses/GPL-3'.
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ .
+ 1) Redistributions of source code must retain the above copyright notice,
+ this list of conditions and the following disclaimer.
+ .
+ 2) Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
+ .
+ 3) Neither the name of the ORGANIZATION nor the names of its contributors
+ may be used to endorse or promote products derived from this software
+ without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+
+License: BSD-4-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. All advertising materials mentioning features or use of this software
+    must display the following acknowledgement:
+    This product includes software developed by the University of
+    California, Berkeley and its contributors.
+ 4. Neither the name of the University nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+
+License: BSLA
+ Redistribution and use in source and binary forms are permitted
+ provided that the above copyright notice and this paragraph are
+ duplicated in all such forms and that any documentation,
+ advertising materials, and other materials related to such
+ distribution and use acknowledge that the software was developed
+ by the University of California, Berkeley.  The name of the
+ University may not be used to endorse or promote products derived
+ from this software without specific prior written permission.
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+License: LGPL
+ This file may be redistributed under the terms of the
+ GNU Lesser General Public License.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License can be found in ‘/usr/share/common-licenses/LGPL’.
+
+License: LGPL-2+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ The complete text of the GNU Lesser General Public License
+ can be found in /usr/share/common-licenses/LGPL-2 file.
+
+License: LGPL-2.1+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation; either version 2.1, or (at your option)
+ any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public License along
+ with this program; if not, write to the Free Software Foundation,
+ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License version 2.1 can be found in ‘/usr/share/common-licenses/LGPL-2.1’.
+
+License: LGPL-3+
+ This package is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 3 of the License, or (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License can be found in "/usr/share/common-licenses/LGPL-3".
+
+License: MIT
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation files
+ (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge,
+ publish, distribute, sublicense, and/or sell copies of the Software,
+ and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           A   .   �   ..  B  �	copyright                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: util-linux
+Upstream-Contact: util-linux@vger.kernel.org
+Source: https://www.kernel.org/pub/linux/utils/util-linux/
+
+Files: *
+Copyright:      Michal Luscon <mluscon@redhat.com>
+           1986 Gary S. Brown
+           1990 Gordon Irlam (gordoni@cs.ua.oz.au)
+           1991, 1992 Linus Torvalds
+           1991-2004 Miquel van Smoorenburg
+           1992  A. V. Le Blanc (LeBlanc@mcc.ac.uk)
+           1992-1997 Michael K. Johnson, johnsonm@redhat.com
+           1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
+                 2003, 2004, 2005, 2008 Theodore Ts'o <tytso@mit.edu>
+           1994 Kevin E. Martin (martin@cs.unc.edu)
+           1994 Salvatore Valente <svalente@mit.edu>
+           1994,1996 Alessandro Rubini (rubini@ipvvis.unipv.it)
+           1994-2005 Jeff Tranter (tranter@pobox.com)
+           1995, 1999, 2000 Andries E. Brouwer <aeb@cwi.nl>
+           1997-2005 Frodo Looijaard <frodo@frodo.looijaard.name>
+           1998 Danek Duvall <duvall@alumni.princeton.edu>
+           1999 Andreas Dilger
+           1999-2002 Transmeta Corporation
+           1999, 2000, 2002-2009, 2010, 2011, 2012, 2014 Red Hat, Inc.
+           2000 Werner Almesberger
+           2004-2006 Michael Holzt, kju -at- fqdn.org
+           2005 Adrian Bunk
+           2007-2020 Karel Zak <kzak@redhat.com>
+           2007, 2011, 2012, 2016 SuSE LINUX Products GmbH
+           2008 Cai Qian <qcai@redhat.com>
+           2008 Hayden A. James (hayden.james@gmail.com)
+           2008 James Youngman <jay@gnu.org>
+           2008 Roy Peled, the.roy.peled  -at-  gmail.com
+           2009 Mikhail Gusarov <dottedmag@dottedmag.net>
+           2010, 2011, 2012 Davidlohr Bueso <dave@gnu.org>
+           2010 Jason Borden <jborden@bluehost.com>A
+           2010 Hajime Taira <htaira@redhat.com>
+           2010 Masatake Yamato <yamato@redhat.com>
+           2011 IBM Corp.
+           2012 Andy Lutomirski <luto@amacapital.net>
+           2012 Lennart Poettering
+           2012 Sami Kerola <kerolasa@iki.fi>
+           2012 Cody Maloney <cmaloney@theoreticalchaos.com>
+           2012 Werner Fink <werner@suse.de>
+           2013,2014 Ondrej Oprala <ooprala@redhat.com>
+License: GPL-2+
+
+Files: schedutils/ionice.c
+Copyright: 2005 Jens Axboe <jens@axboe.dk>
+License: GPL-2
+
+Files: schedutils/chrt.c
+       schedutils/taskset.c
+Copyright: 2004 Robert Love <rml@tech9.net>
+           2010 Karel Zak <kzak@redhat.com>
+License: GPL-2
+
+Files: disk-utils/raw.c
+Copyright: 1999, 2000, Red Hat Software
+License: GPL-2
+
+Files: sys-utils/hwclock-parse-date.y
+Copyright: Steven M. Bellovin <smb@research.att.com>
+           Unknown Authors on Usenet
+           1990 Rich $alz <rsalz@bbn.com>
+           1990 Jim Berets <jberets@bbn.com>
+           1999, 2004 Paul Eggert <eggert@twinsun.com>
+License: GPL-3+
+
+Files: sys-utils/nsenter.c
+Copyright: 2012-2013 Eric Biederman <ebiederm@xmission.com>
+License: GPL-2
+
+Files: disk-utils/mkfs.minix.c
+       disk-utils/mkswap.c
+Copyright: 1991, 1992 Linus Torvalds
+License: GPL-2
+
+Files: lib/blkdev.c
+       lib/loopdev.c
+       lib/sysfs.c
+       lib/ttyutils.c
+       misc-utils/mcookie.c
+       sys-utils/setsid.c
+       text-utils/line.c
+Copyright: n/a
+License: public-domain
+
+Files: login-utils/vipw.c
+       misc-utils/cal.c
+       misc-utils/kill.c
+       misc-utils/logger.c
+       misc-utils/look.c
+       misc-utils/whereis.c
+       sys-utils/renice.c
+       term-utils/mesg.c
+       term-utils/script.c
+       term-utils/ttymsg.c
+       term-utils/wall.c
+       term-utils/write.c
+       text-utils/col.c
+       text-utils/colcrt.c
+       text-utils/colrm.c
+       text-utils/column.c
+       text-utils/hexdump.c
+       text-utils/hexdump.h
+       text-utils/hexdump-conv.c
+       text-utils/hexdump-display.c
+       text-utils/hexdump-parse.c
+       text-utils/rev.c
+       text-utils/ul.c
+Copyright: 1980, 1983, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994
+                The Regents of the University of California
+           2014 Sami Kerola <kerolasa@iki.fi>
+           2014 Karel Zak <kzak@redhat.com>
+License: BSD-4-clause
+
+Files: sys-utils/flock.c
+Copyright: 2003-2005 H. Peter Anvin
+License: MIT
+
+Files: text-utils/pg.c
+Copyright: 2000-2001 Gunnar Ritter
+License: BSD-3-clause
+
+Files: login-utils/login.c
+Copyright: 1980, 1987, 1988 The Regents of the University of California.
+           2011 Karel Zak <kzak@redhat.com>
+License: BSLA
+
+Files: login-utils/logindefs.c
+Copyright: 2003, 2004, 2005 Thorsten Kukuk
+License: BSD-3-clause
+
+Files: libuuid/*
+       libuuid/src/*
+       libuuid/man/*
+Copyright: 1996, 1997, 1998, 1999, 2007 Theodore Ts'o.
+           1999 Andreas Dilger (adilger@enel.ucalgary.ca)
+License: BSD-3-clause
+
+Files: lib/procutils.c
+       include/xalloc.h
+Copyright: 2010, 2011 Davidlohr Bueso <dave@gnu.org>
+License: LGPL-2+
+
+Files: */colors.*
+Copyright: 2012 Ondrej Oprala <ooprala@redhat.com>
+           2012-2014 Karel Zak <kzak@redhat.com>
+License: LGPL-2+
+
+Files: login-utils/setpwnam.h
+       login-utils/setpwnam.c
+Copyright: 1994 Martin Schulze <joey@infodrom.north.de>
+           1994 Salvatore Valente <svalente@mit.edu>
+License: LGPL-2+
+
+Files: libfdisk/*
+       libfdisk/src/*
+Copyright: 2007-2013 Karel Zak <kzak@redhat.com>
+           2012 Davidlohr Bueso <dave@gnu.org>
+License: LGPL-2.1+
+
+Files: lib/cpuset.c
+       */match.*
+       lib/canonicalize.c
+Copyright: 2008-2009, 2010, 2011, 2012 Karel Zak <kzak@redhat.com>
+License: LGPL-2.1+
+
+Files: */mbsalign.*
+Copyright: 2009-2010 Free Software Foundation, Inc.
+           2010-2013 Karel Zak <kzak@redhat.com>
+License: LGPL-2.1+
+
+Files: */timeutils.*
+Copyright: 2010 Lennart Poettering
+License: LGPL-2.1+
+
+Files: include/list.h
+Copyright: 2008 Karel Zak <kzak@redhat.com>
+           1999-2008 by Theodore Ts'o
+License: LGPL
+
+Files: libblkid/*
+       libblkid/src/*
+       libblkid/samples/*
+       libblkid/src/partitions/*
+       libblkid/src/superblocks/*
+       libblkid/src/topology/*
+Copyright: 1999, 2001 Andries Brouwer
+           1995, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003, 2004
+               Theodore Ts'o.
+           2001 Andreas Dilger (adilger@turbolinux.com)
+           2004-2008 Kay Sievers <kay.sievers@vrfy.org>
+           2008-2013 Karel Zak <kzak@redhat.com>
+           2009 Bastian Friedrich <bastian.friedrich@collax.com>
+           2009 Corentin Chary <corentincj@iksaif.net>
+           2009 Mike Hommey <mh@glandium.org>
+           2009 Red Hat, Inc.
+           2009-2010 Andreas Dilger <adilger@sun.com>
+           2010 Andrew Nayenko <resver@gmail.com>
+           2010 Jeroen Oortwijn <oortwijn@gmail.com>
+           2010 Jiro SEKIBA <jir@unicus.jp>
+           2011 Philipp Marek <philipp.marek@linbit.com>
+           2012 Milan Broz <mbroz@redhat.com>
+           2013 Alejandro Martinez Ruiz <alex@nowcomputing.com>
+           2013 Eric Sandeen <sandeen@redhat.com>
+           2013 Rolf Fokkens <rolf@fokkens.nl>
+           2013 Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+License: LGPL-2.1+
+
+Files: include/cpuset.h
+       lib/randutils.c
+Copyright: *unknown*
+License: LGPL
+
+Files: misc-utils/blkid.c
+Copyright: 2001 Andreas Dilger
+License: LGPL
+
+Files: libmount/*
+       libmount/src/*
+Copyright: 2008-2012 Karel Zak <kzak@redhat.com>
+License: LGPL-2.1+
+
+Files: libmount/python/*
+Copyright: 2013, Red Hat, Inc.
+License: LGPL-3+
+
+Files: libsmartcols/*
+Copyright:  2009-2014 Karel Zak <kzak@redhat.com>
+            2014 Ondrej Oprala <ooprala@redhat.com>
+License: LGPL-2.1+
+
+Files: debian/*
+Copyright:           Guy Maor <maor@debian.org>
+                     Sean 'Shaleh' Perry <shaleh@debian.org>
+                     Adrian Bunk <bunk@stusta.de>
+                     LaMont Jones <lamont@debian.org>
+           1996-2003 Martin Mitchell (martin@debian.org)
+           2008-2012 Frank Lichtenheld (djpig@debian.org)
+           2014      Andreas Henriksson <andreas@fatal.se>
+           2017-2020 Michael Biebl <biebl@debian.org>
+           2019      Petter Reinholdtsen <pere@debian.org>
+           2017-2020 Chris Hofstaedtler <zeha@debian.org>
+License: GPL-2+
+
+Files: debian/po/*
+Copyright:           Aiet Kolkhi <aietkolkhi@gmail.com>
+                     Anton Gladky <gladky.anton@gmail.com>
+                     Arief S F (arief@gurame.fisika.ui.ac.id>
+                     Armin Beširović <armin@linux.org.ba>
+                     astur <malditoastur@gmail.com>
+                     Axel Bojer <axelb@skolelinux.no>
+                     Bart Cornelis <cobaco@skolelinux.no>
+                     Bartosz Fe�ski <fenio@o2.pl>
+                     Basil Shubin <bashu@surgut.ru>
+                     Baurzhan Muftakhidinov <baurthefirst@gmail.com>
+                     Bjorn Steensrud <bjornst@powertech.no>
+                     Claus Hindsgaul <claus_h@image.dk>
+                     Clytie Siddall <clytie@riverland.net.au>
+                     Dafydd Tomos <l10n@da.fydd.org>
+                     Damyan Ivanov <dam@modsoftsys.com>
+                     Daniel Franganillo <dfranganillo@gmail.com>
+                     Daniel Nylander <po@danielnylander.se>
+                     Danishka Navin <danishka@gmail.com>
+                     Dauren Sarsenov <daur88@inbox.ru>
+                     Dominik Zablotny <dominz@wp.pl>
+                     Dr.T.Vasudevan <agnihot3@gmail.com>
+                     Eddy Petrisor <eddy.petrisor@gmail.com>
+                     Eder L. Marques <frolic@debian-ce.org>
+                     Elian Myftiu <elian.myftiu@gmail.com>
+                     Emmanuel Galatoulas <galas@tee.gr>
+                     Esko Arajärvi <edu@iki.fi>
+                     Frank Lichtenheld <djpig@debian.org>
+                     Frédéric Bothamy <frederic.bothamy@free.fr>
+                     Gabor Burjan <buga@buvoshetes.hu>
+                     George Papamichelakis <george@step.gr>
+                     Hans Fredrik Nordhaug <hans@nordhaug.priv.no>
+                     Håvard Korsvoll <korsvoll@gmail.com>
+                     Hideki Yamane <henrich@samba.gr.jp>
+                     Hleb Rubanau <g.rubanau@gmail.com>
+                     I Gede Wijaya S <gwijayas@yahoo.com>
+                     Ivan Masár <helix84@centrum.sk>
+                     Jacobo Tarrio <jtarrio@debian.org>
+                     Jamil Ahmed <jamil@ankur.org.bd>
+                     Janos Guljas <janos@resenje.org>
+                     Jordi Mallach <jordi@debian.org>
+                     Josip Rodin <joy+ditrans@linux.hr>
+                     Karolina Kalic <karolina@resenje.org>
+                     Kartik Mistry <kartik.mistry@gmail.com>
+                     Kęstutis Biliūnas <kebil@kaunas.init.lt>
+                     Kevin Scannell <kscanne@gmail.com>
+                     Khoem Sokhem <khoemsokhem@khmeros.info>
+                     Klaus Ade Johnstad <klaus@skolelinux.no>
+                     Knut Yrvin <knuty@skolelinux.no>
+                     Konstantinos Margaritis <markos@debian.org>
+                     Kostas Papadimas <pkst@gnome.org>
+                     Kumar Appaiah <a.kumar@alumni.iitm.ac.in>
+                     Lior Kaplan <kaplan@debian.org>
+                     Luiz Portella <lfpor@lujz.org>
+                     Mallikarjuna <Mallikarjunasj@gmail.com>
+                     Mert Dirik <mertdirik@gmail.com>
+                     Milo Casagrande <milo@ubuntu.com>
+                     Ming Hua <minghua@ubuntu.com>
+                     Miroslav Kure <kurem@debian.cz>
+                     Mouhamadou Mamoune Mbacke <mouhamadoumamoune@gmail.com>
+                     Nabin Gautam <nabin@mpp.org.np>
+                     Ossama M. Khayat <okhayat@yahoo.com>
+                     Ovidiu Damian <deelerious@gmail.com>
+                     Parlin Imanuel Toh <parlin_i@yahoo.com>
+                     Pavel Piatruk <berserker@neolocation.com>
+                     Piarres Beobide <pi@beobide.net>
+                     Praveen|പ്രവീണ്‍ A|എ <pravi.a@gmail.com>
+                     Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>
+                     Sahran <Sahran.ug@gmail.com>
+                     Sampada Nakhare <sampadanakhare@gmail.com>
+                     Setyo Nugroho <setyo@gmx.net>
+                     Simão Pedro Cardoso <pthell@gmail.com>
+                     Stefano Melchior <stefano.melchior@openlabs.it>
+                     Sunjae Park <darehanl@gmail.com>
+                     Sveinn í Felli <sveinki@nett.is>
+                     Tetralet <tetralet@gmail.com>
+                     Theppitak Karoonboonyanan <thep@linux.thai.net>
+                     Tshewang Norbu <bumthap2006@hotmail.com>
+                     Vahid Ghaderi <vahid_male1384@yahoo.com>
+                     Vanja Cvelbar <cvelbar@gmail.com>
+                     Veeven <veeven@gmail.com>
+                     Vikram Vincent <vincentvikram@gmail.com>
+                     Yoppy Hidayanto <yoppy.hidayanto@gmail.com>
+License: GPL-2+
+
+
+License: public-domain
+ The files tagged with this license contains the following paragraphs:
+ .
+ No copyright is claimed.  This code is in the public domain; do with
+ it what you wish.
+ .
+ Written by Karel Zak <kzak@redhat.com>
+
+License: GPL-2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License, v2, as
+ published by the Free Software Foundation
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 3 can be found in `/usr/share/common-licenses/GPL-3'.
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ .
+ 1) Redistributions of source code must retain the above copyright notice,
+ this list of conditions and the following disclaimer.
+ .
+ 2) Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
+ .
+ 3) Neither the name of the ORGANIZATION nor the names of its contributors
+ may be used to endorse or promote products derived from this software
+ without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY E

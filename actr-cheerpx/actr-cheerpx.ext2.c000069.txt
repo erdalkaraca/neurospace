@@ -1,0 +1,1656 @@
+                                                         (>= 'safe>=)
+                                                                                           (<= 'safe<=))
+                                                                                   :result t)))
+                                                     (if search
+                                                         (push-last condition search-other)
+                                                       (push-last condition others))
+                                                     
+                                                     (awhen (must-be implicit nil) (push-last it implicit))))))))))))))
+                               (#\?
+                                (dolist (slot-spec (act-r-chunk-spec-slots spec))
+                                  
+                                  (when (eq (act-r-slot-spec-name slot-spec) 'buffer)
+                                    (cond ((eq (act-r-slot-spec-value slot-spec) 'empty)
+                                           (if (eq '= (act-r-slot-spec-modifier slot-spec))
+                                               (setf (production-buffer-empty production) (logior (production-buffer-empty production) bm))
+                                             (setf (production-buffer-full production) (logior (production-buffer-full production) bm))))
+                                          ((eq (act-r-slot-spec-value slot-spec) 'full)
+                                           (if (eq '= (act-r-slot-spec-modifier slot-spec))
+                                               (setf (production-buffer-full production) (logior (production-buffer-full production) bm))
+                                             (setf (production-buffer-empty production) (logior (production-buffer-empty production) bm))))
+                                          ((eq (act-r-slot-spec-value slot-spec) 'failure)
+                                           (when (eq '= (act-r-slot-spec-modifier slot-spec)) ;; a test for failure requires the buffer be empty
+                                             (setf (production-buffer-empty production) (logior (production-buffer-empty production) bm)))))
+                                    (pushnew (cons buffer (buffer-mask buffer)) (production-buffer-list production) :key 'car))
+                                  
+                                  (let ((cr (make-cr-condition :type 'query :buffer buffer 
+                                                               :slot (act-r-slot-spec-name slot-spec) 
+                                                               :value (act-r-slot-spec-value slot-spec) 
+                                                               :test (define-chunk-spec-fct (list (act-r-slot-spec-name slot-spec) (act-r-slot-spec-value slot-spec)))
+                                                               :result (if (eq '= (act-r-slot-spec-modifier slot-spec)) t nil))))
+                                    
+                                    (if (act-r-slot-spec-variable slot-spec) 
+                                        (push-last cr search-other)
+                                      (push-last cr constants))))
+                                
+                                (push-last (list 'query-buffer buffer spec) selection))
+                               
+                               (t ;#\!
+                                (case buffer ;; (really the command)
+                                  ((eval safe-eval)
+                                   (push-last (make-cr-condition :type 'eval :value (first definition)) search-other))
+                                  
+                                  ((bind safe-bind)
+                                   
+                                   (setf unbound-vars (remove (first definition) unbound-vars))
+                                   
+                                   (push-last (cons
+                                               (assoc (first definition) dependencies)
+                                               (make-cr-condition :type 'bind :value (first definition) :result (second definition)))
+                                              binds))
+                                  (mv-bind
+                                   
+                                   (let ((bind-vars (first definition))
+                                         (depends nil))
+                                     
+                                     (dolist (x bind-vars)
+                                       (setf unbound-vars (remove x unbound-vars)))
+                                     
+                                     (dolist (x bind-vars)
+                                       (setf depends (append depends (cdr (assoc x dependencies)))))
+                                     
+                                     (push-last (cons
+                                                 (cons bind-vars (remove-duplicates depends))
+                                                 (make-cr-condition :type 'mv-bind :value bind-vars :result (second definition)))
+                                                binds))))))))
+                         
+                         
+                         ;;; sort the binding operations based on dependency
+                         
+                         (setf binds (sort-for-bind-order binds))
+                         
+                         ;; split the binds if any need search vars...
+                         
+                         (let ((split (position-if (lambda (x) 
+                                                     (some (lambda (y)
+                                                             (or (eq (gethash y var-table) 'search)
+                                                                 (eq (gethash y var-table) 'search-slot)))
+                                                           (cdr x))) 
+                                                   binds :key 'car)))
+                           
+                           (if split
+                               (progn
+                                 (setf search-bind (append search-bind (mapcar 'cdr (subseq binds split))))
+                                 (setf binds (mapcar 'cdr (subseq binds 0 split))))
+                             (setf binds (mapcar 'cdr binds))))
+                         
+                         ;;; Now set the production slots
+                         
+                         (setf (production-constants production) constants)
+                         (setf (production-binds production) (append vars var2s binds))
+                         (setf (production-others production) others)
+                         (setf (production-searches production) search)
+                         (setf (production-search-binds production) search-bind)
+                         (setf (production-search-others production) search-other)
+                         
+                         (setf (production-selection-code production) selection)
+                         (setf (production-implicit production) implicit))))
+                   
+                   (let ((rhs-binds nil))
+                     (dolist (action rhs)
+                       (let ((op (production-statement-op action))
+                             (target (production-statement-target action))
+                             (definition (production-statement-definition action))
+                             (spec (production-statement-spec action)))
+                         
+                         (case op
+                           (#\=
+                            (cond ((null definition)
+                                   ;; That's a dummy action to keep the
+                                   ;; buffer alive
+                                   )
+                                  ((= (length definition) 1) ;; it's a chunk so it won't need to extend
+                                   (push-last 
+                                    (lambda () 
+                                      (schedule-mod-buffer-chunk target (define-chunk-spec-fct 
+                                                                            (replace-variables definition (production-bindings production)))
+                                                                 0
+                                                                 :time-in-ms t
+                                                                 :module 'procedural
+                                                                 :priority 100
+                                                                 :output (procedural-rhst prod)))
+                                    (production-actions production)))
+                                  (t
+                                   (push-last 
+                                    (lambda () 
+                                      (multiple-value-bind (spec extended)
+                                          (instantiate-chunk-spec spec (production-bindings production))
+                                        (schedule-mod-buffer-chunk target spec 0
+                                                                   :time-in-ms t
+                                                                   :module 'procedural
+                                                                   :priority 100
+                                                                   :output (procedural-rhst prod))
+                                        (when extended
+                                          (schedule-event-now 'extend-buffer-chunk
+                                                              :module 'procedural
+                                                              :priority 101
+                                                              :params (list target)
+                                                              :output (procedural-rhst prod)))))
+                                    (production-actions production)))))
+                           (#\*
+                            (cond  ; an empty mod-request should be treated just like a full one now
+                             ; ((null definition)
+                             ;; not really allowed, but do these even get through?
+                             ;)
+                             ((= (length definition) 1)
+                              (push-last 
+                               (lambda () 
+                                 (schedule-module-mod-request target 
+                                                              (define-chunk-spec-fct 
+                                                                  (replace-variables definition (production-bindings production)))
+                                                              0
+                                                              :time-in-ms t
+                                                              :module 'procedural
+                                                              :priority 60
+                                                              :output (procedural-rhst prod)))
+                               (production-actions production)))
+                             (t
+                              (push-last 
+                               (lambda () 
+                                 (multiple-value-bind (spec extended)
+                                     (instantiate-chunk-spec spec (production-bindings production))
+                                   (schedule-module-mod-request target spec 0
+                                                                :time-in-ms t 
+                                                                :module 'procedural
+                                                                :priority 60
+                                                                :output (procedural-rhst prod))
+                                   (when extended
+                                     (schedule-event-now 'extend-buffer-chunk
+                                                         :module 'procedural
+                                                         :priority 61
+                                                         :params (list target)
+                                                         :output (procedural-rhst prod)))))
+                               (production-actions production)))))
+                           (#\@
+                            (cond ((null definition) 
+                                   (push-last 
+                                    (lambda () 
+                                      (schedule-event-now 'erase-buffer 
+                                                          :params (list target)
+                                                          :module 'procedural
+                                                          :priority 90
+                                                          :output (procedural-rhst prod)))
+                                    (production-actions production)))
+                                  
+                                  ((= (length definition) 1)
+                                   (push-last 
+                                    (lambda () 
+                                      (schedule-overwrite-buffer-chunk target
+                                                                       (replace-variables (first definition) (production-bindings production))
+                                                                       0
+                                                                       :time-in-ms t
+                                                                       :module 'procedural
+                                                                       :priority 90
+                                                                       :requested nil
+                                                                       :output (procedural-rhst prod)))
+                                    (production-actions production)))
+                                  (t
+                                   (push-last 
+                                    (lambda () 
+                                      (multiple-value-bind (spec extended)
+                                          (instantiate-chunk-spec spec (production-bindings production))
+                                        (schedule-overwrite-buffer-chunk target spec 0
+                                                                         :time-in-ms t
+                                                                         :module 'procedural
+                                                                         :priority 90
+                                                                         :requested nil
+                                                                         :output (procedural-rhst prod))
+                                        (when extended
+                                          (schedule-event-now 'extend-buffer-chunk
+                                                              :module 'procedural
+                                                              :priority 91
+                                                              :params (list target)
+                                                              :output (procedural-rhst prod)))))
+                                    (production-actions production)))))
+                           (#\-
+                            (push-last 
+                             (lambda () 
+                               (schedule-clear-buffer target
+                                                      0
+                                                      :time-in-ms t
+                                                      :module 'procedural
+                                                      :priority 10
+                                                      :output (when (procedural-rhst prod) 'medium)))
+                             (production-actions production)))
+                           
+                           (#\+  ;; The "direct" requests need to schedule an event to schedule the event
+                            ;; instead of scheduling it directly because it has to delay the evaluation
+                            ;; of the chunk->chunk-spec expansion since the production modifications
+                            ;; need to happen first and they have a priority of 100.
+                            ;; Is there a better way to handle that?
+                            (cond ((null spec) ;; request specifying only a chunk/variable
+                                   (push-last 
+                                    (lambda () 
+                                      (schedule-event-now 'direct-request-single-item 
+                                                          :params (list target definition production (procedural-rhst prod))
+                                                          :module 'procedural
+                                                          :priority 99
+                                                          :output nil))
+                                    (production-actions production)))
+                                  ((= (length definition) 1) ;; a request specifying a chunk and params
+                                   (let ((chunk (first (first definition))))
+                                     (push-last 
+                                      (lambda () 
+                                        (schedule-event-now 'direct-request-with-params
+                                                            :params (list target chunk production spec (procedural-rhst prod))
+                                                            :module 'procedural
+                                                            :priority 99
+                                                            :output nil))
+                                      (production-actions production))))
+                                  
+                                  (t  ;; a full request 
+                                   (push-last 
+                                    (lambda ()
+                                      (schedule-module-request target
+                                                               (instantiate-chunk-spec spec (production-bindings production))
+                                                               0
+                                                               :time-in-ms t
+                                                               :module 'procedural
+                                                               :priority 50
+                                                               :output (procedural-rhst prod)))
+                                    (production-actions production)))))
+                           
+                           (t ;; #\!
+                            (case target
+                              (stop
+                               (push-last 
+                                (lambda ()
+                                  (schedule-break-relative 0 :priority :min :details "Stopped by !stop!"))
+                                (production-actions production)))
+                              
+                              ((eval safe-eval)
+                               (push-last 
+                                (cons
+                                 (cons nil (find-variables definition))
+                                 (lambda ()
+                                   (dispatch-eval (replace-variables-for-eval (first definition) (production-bindings production)))))
+                                rhs-binds))
+                              
+                              (output
+                               (push-last 
+                                (cons
+                                 (cons nil (find-variables definition))
+                                 (lambda ()
+                                   (print-production-output (first definition) (replace-variables definition (production-bindings production)))))
+                                rhs-binds))
+                              
+                              
+                              ((bind safe-bind)
+                               (push-last 
+                                (cons
+                                 (cons (first definition) (find-variables (rest definition)))
+                                 (lambda ()
+                                   (rhs-bind-variable (first definition)
+                                                      (dispatch-eval-names (replace-variables-for-eval (second definition) (production-bindings production)))
+                                                      production)))
+                                rhs-binds))
+                              
+                              ((mv-bind)
+                               (let ((bind-vars (first definition)))
+                                 (push-last 
+                                  (cons
+                                   (cons bind-vars (find-variables (rest definition)))
+                                   (lambda ()
+                                     (let ((vals (multiple-value-list 
+                                                  (dispatch-eval-names (replace-variables-for-eval (second definition) (production-bindings production))))))
+                                       (dolist (x bind-vars)
+                                         (rhs-bind-variable x (if vals (pop vals) nil) production)))))
+                                  rhs-binds))))))))
+                     
+                     
+                     ;; just get the dependencies set right -- I know there aren't any circularities
+                     (circular-references (mapcar 'car rhs-binds))
+                     
+                     (let ((original-binds (copy-list rhs-binds)))
+                       
+                       (setf rhs-binds (sort-for-bind-order rhs-binds))
+                       (unless (equalp rhs-binds original-binds)
+                         (print-warning "RHS !bind!, !eval!, and/or !output! actions of production ~s had to be reordered because of interdependencies of variables." 
+                                        (production-name production))
+                         (print-warning "If those actions have side effects check the actions carefully to ensure proper operation." (production-name production))))
+                     
+                     ;; make sure the bindings happen first
+                     (setf (production-actions production) (append (mapcar 'cdr rhs-binds) (production-actions production))))
+                   
+                   ;;; Add explicit state free queries for buffers that are
+                   ;;; not on the do-not-query list and have a request or modification request
+                   ;;; on the RHS of the production
+                   
+                   (dolist (y rhs)
+                     (let ((buffer (production-statement-target y)))
+                       (when (and (or (eql #\+ (production-statement-op y)) 
+                                      (eql #\* (production-statement-op y)))
+                                  
+                                  (not (find buffer (procedural-do-not-query prod)))
+                                  (not (find-if (lambda (x)
+                                                  (and (eql #\? (production-statement-op x))
+                                                       (eql buffer (production-statement-target x))))
+                                                lhs)))
+                         (let* ((spec (define-chunk-spec-fct '(state free)))
+                                (cr (make-cr-condition :type 'query :buffer buffer
+                                                       :slot 'state
+                                                       :value 'free
+                                                       :test spec
+                                                       :result t)))
+                           
+                           
+                           ;; these production slots are already set with other values above
+                           
+                           (push-last cr (production-constants production))
+                           (push-last (list 'query-buffer buffer spec) (production-selection-code production))
+                           
+                           ;; Add the statement to the lhs
+                           (push-last (make-production-statement
+                                       :op #\?
+                                       :target buffer
+                                       :definition (list 'state 'free)
+                                       :spec spec)
+                                      (production-lhs production))))))
+                   
+                   
+                   ;;; Add the implicit clears for strict harvesting
+                   (dolist (y lhs)
+                     (when (or (eql #\= (production-statement-op y))
+                               ;; test for the buffer failure queries
+                               ;; don't worry about doubling up on this
+                               ;; since a buffer can't both have a chunk and
+                               ;; a failure so even if it's done it'll never
+                               ;; actually happen.
+                               
+                               (and (eql #\? (production-statement-op y))
+                                    (find (list '= 'buffer 'failure)
+                                          (chunk-spec-slot-spec (production-statement-spec y) 'buffer)
+                                          :test 'equalp)))
+                       (let ((target (production-statement-target y)))
+                         (unless (or (find target (procedural-unharvested-buffers prod))
+                                     (find target rhs :key 'production-statement-target))
+                           (push-last 
+                            (lambda () 
+                              (schedule-clear-buffer target
+                                                     0
+                                                     :time-in-ms t
+                                                     :module 'procedural
+                                                     :priority 10
+                                                     :output (when (procedural-rhst prod) 'medium)))
+                            (production-actions production))))))
+                   
+                   ;;; Add the implicit clears for requests
+                   (dolist (y rhs)
+                     (let ((target (production-statement-target y)))
+                       (when (and (eql #\+ (production-statement-op y)) 
+                                  (not (find-if (lambda (x)
+                                                  (and (eql #\- (production-statement-op x))
+                                                       (eql target (production-statement-target x))))
+                                                rhs)))
+                         (push-last 
+                          (lambda () 
+                            (schedule-clear-buffer target
+                                                   0
+                                                   :time-in-ms t
+                                                   :module 'procedural
+                                                   :priority 10
+                                                   :output (when (procedural-rhst prod) 'medium)))
+                          (production-actions production)))))
+                   
+                   ;;; Parse LHS for unknown chunks
+                   
+                   (dolist (x lhs)
+                     (when (or (eql #\= (production-statement-op x))
+                               (eql #\? (production-statement-op x)))
+                       (dolist (slot (act-r-chunk-spec-slots (production-statement-spec x)))
+                         (let ((value (act-r-slot-spec-value slot)))
+                           (unless (or (chunk-spec-variable-p value)
+                                       (chunk-p-fct value)
+                                       (stringp value)
+                                       (listp value)
+                                       (numberp value)
+                                       (keywordp value)
+                                       (eq t value))
+                             (create-undefined-chunk value))))))
+                   
+                   ;;; Parse RHS for unknown chunks
+                   ;;; Only in modifications, overwrites, and indirect requests (+ or *)
+                   ;;; anything in a full + or * is up to the module to figure out
+                   ;;; which allows for things like &variable in visual-location
+                   ;;; requests 
+                   
+                   (dolist (x rhs)
+                     (let ((op (production-statement-op x))
+                           (definition (production-statement-definition x))
+                           (spec (production-statement-spec x)))
+                       (cond ((or (eql #\= op)
+                                  (eql #\@ op))
+                              (cond ((= (length definition) 1)
+                                     (unless (or (chunk-spec-variable-p (first definition))
+                                                 (chunk-p-fct (first definition)))
+                                       (create-undefined-chunk (first definition))))
+                                    (spec
+                                     (dolist (slot (act-r-chunk-spec-slots spec))
+                                       (let ((val (act-r-slot-spec-value slot)))
+                                         
+                                         (unless (or (chunk-spec-variable-p val)
+                                                     (chunk-p-fct val)
+                                                     (numberp val)
+                                                     (stringp val)
+                                                     (listp val)
+                                                     (keywordp val)
+                                                     (eq t val))
+                                           (when (symbolp val)
+                                             (create-undefined-chunk val))))))))
+                             ((and (or (eql #\+ op)
+                                       (eql #\* op))
+                                   (= (length definition) 1))
+                              (if (atom (first definition))
+                                  (unless (or (chunk-spec-variable-p (first definition))
+                                              (chunk-p-fct (first definition)))
+                                    (create-undefined-chunk (first definition)))
+                                (let ((val (first (first definition))))
+                                  (unless (or (chunk-spec-variable-p val)
+                                              (chunk-p-fct val))
+                                    (create-undefined-chunk val))))))))
+                   
+                   ;; Send any module which needs it a warning after conflict resolution
+                   ;; only for + requests right now, but should that change to allow * too?
+                   
+                   (dolist (x rhs)
+                     (let ((op (production-statement-op x))
+                           (target (production-statement-target x))
+                           (definition (production-statement-definition x))
+                           (spec (production-statement-spec x)))
+                       
+                       (when (and (eql #\+ op)
+                                  (require-module-warning? target))
+                         
+                         (cond ((null spec) ;; request specifying only a chunk/variable
+                                (push-last 
+                                 (lambda () 
+                                   (module-warning target (define-chunk-spec-fct (replace-variables definition (production-bindings production)))))
+                                 (production-conflict-code production)))
+                               ((= (length definition) 1) 
+                                (let ((chunk (first (first definition))))
+                                  (push-last 
+                                   (lambda () 
+                                     (module-warning target (merge-chunk-specs (chunk-name-to-chunk-spec (replace-variables chunk (production-bindings production)))
+                                                                               spec)))
+                                   (production-conflict-code production))))
+                               (t  ;; a full request
+                                (push-last 
+                                 (lambda ()
+                                   (module-warning target (instantiate-chunk-spec spec (production-bindings production))))
+                                 (production-conflict-code production)))))))
+                   
+                   ;; warn if it exists
+                   (awhen (get-production-internal (production-name production) prod)
+                          (print-warning "Production ~S already exists and it is being redefined." (production-name production))
+                          (remove-production it prod))
+                   
+                   (add-production production prod) 
+                   
+                   ;; If a new production is created and conflict resolution 
+                   ;; is waiting put it back on the queue
+                   
+                   (un-delay-conflict-resolution)
+                   
+                   ;; record which buffers are used for searches 
+                   
+                   (bt:with-lock-held ((procedural-cr-lock prod))
+                     (dolist (x searched-buffers)
+                       (pushnew x (procedural-used-search-buffers prod))))
+                   
+                   ;; print any warnings which occurred in order
+                   
+                   (let ((warnings (unsuppress-warnings error-key t)))
+                     (dolist (x warnings)
+                       (print-warning x)))
+                   
+                   (when (and (procedural-style-check prod)
+                              (bt:with-lock-held ((procedural-param-lock prod)) 
+                                (procedural-style-warnings prod)))
+                     (check-production-for-style prod production)
+                     (check-between-production-style prod))
+                   
+                   (production-name production))
+                 (bad-production-exit "Production is missing the ==> separator.")))
+        
+        
+        (error (x) (bad-production-exit (let ((*print-circle* t))
+                                          (format nil "Error ~/print-error-message/." x))))))))
+
+(defun parse-conditions (procedural p-name definition buffers)
+  (aif (gethash definition (procedural-condition-parse-table procedural))
+       (progn
+         (when (cdr it)
+           (dolist (x (cdr it))
+             (if (listp x)
+                 (model-warning "Production ~s tests invalid slot ~s for type ~s." p-name (third x) (second x))
+               (unless (valid-slot-name x)
+                 (model-warning "Production ~s uses previously undefined slot ~s." p-name x)
+                 (extend-possible-slots x nil)))))
+         
+         (car it))
+       (flet ((bad-condition-exit (string)
+                                  (print-warning string)
+                                  (return-from parse-conditions :error)))
+
+         (let ((segments (segment-production definition buffers))
+               (conditions nil)
+               (new-slots nil))
+           (if (eq segments :error)
+               (bad-condition-exit "First item on LHS is not a valid command")
+             (dolist (seg segments)
+               (let ((statement (parse-statement seg)))
+               
+               (case (production-statement-op statement) 
+                 (#\=
+                  (cond ((find statement conditions :test (lambda (x y) 
+                                                           (and (eql (production-statement-op x) (production-statement-op y))
+                                                                (eql (production-statement-target x) (production-statement-target y)))))
+                         (bad-condition-exit (format nil "Only one ~s condition allowed." (car seg))))
+                                                                         
+                        ;; Don't allow a "direct" chunk comparison to the buffer -- Should that be allowed now?
+                        ((= (length (production-statement-definition statement)) 1)
+                         (bad-condition-exit (format nil "Insufficient conditions specified in ~s" seg)))
+                        ((= (length (production-statement-definition statement)) 0)
+                         (setf (production-statement-definition statement) (list 'isa 'chunk))
+                         (setf (production-statement-spec statement) (define-chunk-spec isa chunk))
+                         (push-last statement conditions))
+                        (t
+                         (multiple-value-bind (spec slots)
+                             (define-chunk-spec-fct (production-statement-definition statement) t nil)
+                           (if spec
+                               (if (= 0 (act-r-chunk-spec-request-param-slots spec))
+                                   (progn
+                                     (when slots
+                                       (let ((extended-slots (remove-if 'listp slots))
+                                             (invalid-type-slots (remove-if-not 'listp slots)))
+                                         (when extended-slots
+                                           (model-warning "Production ~s uses previously undefined slots ~s." p-name extended-slots))
+                                         (dolist (x invalid-type-slots)
+                                           (model-warning "Production ~s tests invalid slot ~s for type ~s." p-name (third x) (second x))))
+                                       
+                                       (dolist (x slots) (pushnew x new-slots)))
+                                     (setf (production-statement-spec statement) spec)
+                                     (push-last statement conditions))
+                                 (bad-condition-exit (format nil "Request parameters not allowed in production conditions: ~s" seg)))
+                             (bad-condition-exit (format nil "Invalid syntax in ~s condition." seg)))))))
+                 (#\?
+                  (cond ((find statement conditions :test (lambda (x y) 
+                                                           (and (eql (production-statement-op x) (production-statement-op y))
+                                                                (eql (production-statement-target x) (production-statement-target y)))))
+                         (bad-condition-exit (format nil "Only one ~s condition allowed." (car seg))))
+                        
+                        ;; query must be of the form {mod} query value
+                        ((< (length (production-statement-definition statement)) 2)
+                         (bad-condition-exit (format nil "Insufficient conditions specified in ~s" seg)))
+                        
+                        (t
+                         (aif (define-query-spec-fct (production-statement-definition statement))
+                              (cond ((not (zerop (act-r-chunk-spec-relative-slots it)))
+                                     (bad-condition-exit (format nil "Invalid buffer query uses modifiers other than = or -: ~s" seg)))
+                                    ((act-r-chunk-spec-slot-vars it)
+                                     (bad-condition-exit (format nil "Invalid buffer query uses variables in query names: ~s" seg)))
+                                    ((not (every (lambda (x)
+                                                  (member (act-r-slot-spec-name x) (valid-buffer-queries (production-statement-target statement))))
+                                                 (act-r-chunk-spec-slots it)))
+                                     (bad-condition-exit (format nil "Production ~s makes invalid query of buffer ~S.~%Only available queries for buffer ~s are ~S." 
+                                                           p-name
+                                                           (production-statement-target statement)
+                                                           (production-statement-target statement) 
+                                                           (valid-buffer-queries (production-statement-target statement)))))
+                                    (t
+                                     (setf (production-statement-spec statement) it)
+                                     (push-last statement conditions)))
+                              (bad-condition-exit (format nil "Invalid syntax in ~s condition." seg))))))
+                 (#\! 
+                  (case (production-statement-target statement)
+                    ((bind safe-bind)
+                     (if (and (= (length (production-statement-definition statement)) 2)
+                              (chunk-spec-variable-p (first (production-statement-definition statement))))
+                         (push-last statement conditions)
+                       (bad-condition-exit (format nil "Invalid bind command: ~s" seg))))
+                    ((mv-bind)
+                     (if (and (= (length (production-statement-definition statement)) 2)
+                              (listp (first (production-statement-definition statement)))
+                              (every 'chunk-spec-variable-p (first (production-statement-definition statement))))
+                         (push-last statement conditions)
+                       (bad-condition-exit (format nil "Invalid mv-bind command: ~s" seg))))
+                    ((eval safe-eval)
+                     (if (= (length (production-statement-definition statement)) 1)
+                         (push-last statement conditions)
+                       (bad-condition-exit (format nil "Invalid eval command: ~s" seg))))
+                    (t
+                     (bad-condition-exit (format nil "Invalid condition: ~s" seg)))))
+                 (t
+                  (bad-condition-exit (format nil "Invalid condition: ~s" seg)))))))
+             
+             (car (setf (gethash definition (procedural-condition-parse-table procedural)) (cons conditions (sort new-slots '< :key (lambda (x) (if (atom x) (slot-name->index x) (slot-name->index (third x))))))))))))
+
+
+
+(defun parse-actions (procedural p-name definition conditions buffers)
+  (aif (gethash (cons definition conditions) (procedural-action-parse-table procedural))
+       (progn
+         (when (cdr it)
+           (dolist (x (cdr it))
+             (if (listp x)
+                 (model-warning "Production ~s action has invalid slot ~s for type ~s." p-name (third x) (second x))
+               (unless (valid-slot-name x)
+                 (model-warning "Production ~s uses previously undefined slot ~s." p-name x)
+                 (extend-possible-slots x nil)))))
+         
+         (car it))
+       (flet ((bad-action-exit (string)
+                               (print-warning string)
+                               (return-from parse-actions :error)))
+
+         (let ((segments (segment-production definition buffers))
+               (actions nil)
+               (new-slots nil))
+           (if (eq segments :error)
+               (bad-action-exit "First item on RHS is not a valid command")
+             (dolist (seg segments)
+               (let ((statement (parse-statement seg)))
+                  
+                 (case (production-statement-op statement) 
+                   (#\-
+                    (if (= (length (production-statement-definition statement)) 0)
+                        (push-last statement actions)
+                      (bad-action-exit (format nil "Invalid - buffer command: ~s" seg))))
+                   
+                   (#\@ ;; now this is the specific overwrite action instead of =buffer> <chunk>
+                    (cond ;; an erase instead of overwrite for empty case now
+                          ((= (length (production-statement-definition statement)) 0) ;; empty operation
+                           (setf (production-statement-spec statement) (define-chunk-spec isa chunk))
+                           (push-last statement actions))
+                          ;; the indirect overwrite situation (the only option prior to 7.0.2)
+                          ((= (length (production-statement-definition statement)) 1)
+                           (let ((chunk? (first (production-statement-definition statement))))
+                             (if (or (chunk-spec-variable-p chunk?) (chunk-p-fct chunk?))
+                                 (push-last statement actions)
+                               (bad-action-exit (format nil "Invalid overwrite action: ~s.  Must provide a variable or chunk name." seg)))))
+                          (t ;; now allow this for an overwrite too!
+                           (multiple-value-bind (spec slots)
+                             (define-chunk-spec-fct (production-statement-definition statement) t nil)
+                           (if spec
+                               (if (zerop (act-r-chunk-spec-request-param-slots spec))
+                                   (progn 
+                                     (when slots
+                                       (let ((extended-slots (remove-if 'listp slots))
+                                             (invalid-type-slots (remove-if-not 'listp slots)))
+                                         (when extended-slots
+                                           (model-warning "Production ~s uses previously undefined slots ~s." p-name extended-slots))
+                                         (dolist (x invalid-type-slots)
+                                           (model-warning "Production ~s action has invalid slot ~s for type ~s." p-name (third x) (second x))))
+                                       
+                                       (dolist (x slots) (pushnew x new-slots)))
+                                     
+                                     (setf (production-statement-spec statement) spec)
+                                     (push-last statement actions))
+                                 (bad-action-exit (format nil "Request parameters used in overwrite action ~s." seg)))
+                             (bad-action-exit (format nil "Invalid buffer overwrite ~s." seg)))))))
+
+                   ((#\= #\*)  ;; production modifications and module modifications 
+                               ;; have the same requirements and allow the same syntax
+                               ;; Now allow an empty * as well as an empty =, but
+                               ;; the * will still go to the module so could do more
+                               ;; than just avoid strict harvesting
+                    
+                    ;; must test buffer on LHS
+                    (unless (or (find-if (lambda (x)
+                                           (and (eql (production-statement-op x) #\=)
+                                                (eql (production-statement-target x) (production-statement-target statement))))
+                                         conditions)
+                                
+                                ;; a buffer failure query allows the empty modifications
+                                
+                                (and (= (length (production-statement-definition statement)) 0)
+                                     (eql (production-statement-op statement) #\=)
+                                     
+                                     (find-if (lambda (x)
+                                                (and (eql (production-statement-op x) #\?)
+                                                     (eql (production-statement-target x) (production-statement-target statement))
+                                                     (find (list '= 'buffer 'failure)
+                                                           (chunk-spec-slot-spec (production-statement-spec x) 'buffer)
+                                                           :test 'equalp)))
+                                              conditions)))
+                      (bad-action-exit (format nil "Buffer modification action for untested buffer ~s." seg)))
+                    
+                    (cond ((= (length (production-statement-definition statement)) 0) ;; empty operation
+                           (setf (production-statement-spec statement) (define-chunk-spec isa chunk))
+                           (push-last statement actions))
+                          ;; this is not an overwrite anymore!
+                          ((= (length (production-statement-definition statement)) 1)
+                           (let ((chunk? (first (production-statement-definition statement))))
+                             (if (or (chunk-spec-variable-p chunk?) (chunk-p-fct chunk?))
+                                 (push-last statement actions)
+                               (bad-action-exit (format nil "Invalid single operator modification action: ~s.  Must be a variable or chunk name." seg)))))
+                          (t ;; it should be a full modification
+                           ;; now that's allowed to have an ISA !!!
+                           ;; and there's no "carry over" of the LHS isa to the RHS validity testing
+                           
+                           (multiple-value-bind (spec slots)
+                             (define-chunk-spec-fct (production-statement-definition statement) t nil)
+                           (if spec
+                               (if (or (zerop (act-r-chunk-spec-request-param-slots spec))
+                                        (and (eql #\* (production-statement-op statement))
+                                             (valid-request-params-for-buffer (production-statement-target statement) (act-r-chunk-spec-request-param-slots spec))))
+                                    (progn 
+                                      (when slots
+                                       (let ((extended-slots (remove-if 'listp slots))
+                                             (invalid-type-slots (remove-if-not 'listp slots)))
+                                         (when extended-slots
+                                           (model-warning "Production ~s uses previously undefined slots ~s." p-name extended-slots))
+                                         (dolist (x invalid-type-slots)
+                                           (model-warning "Production ~s action has invalid slot ~s for type ~s." p-name (third x) (second x))))
+                                       
+                                       (dolist (x slots) (pushnew x new-slots)))
+                                      
+                                      (setf (production-statement-spec statement) spec)
+                                      (push-last statement actions))
+                                  (bad-action-exit (format nil "Invalid request parameters in modification action ~s." seg)))
+                               (bad-action-exit (format nil "Invalid buffer modification ~s." seg)))))))
+                   (#\+
+                    (cond ((= (length (production-statement-definition statement)) 0)
+                           ; Don't error out now -- just make it "isa chunk" because production compilation
+                           ; can result in requests which have no specified slots and they should still result
+                           ; in a production being defined.
+                           ;(bad-action-exit (format nil "Buffer request ~s requires some parameters." (car seg)))
+                           (setf (production-statement-spec statement) (define-chunk-spec isa chunk))
+                           (push-last statement actions))
+                          ((= (length (production-statement-definition statement)) 1)
+                           (let ((chunk? (first (production-statement-definition statement))))
+                             (if (or (chunk-spec-variable-p chunk?) (chunk-p-fct chunk?))
+                                 (push-last statement actions)
+                               (if (listp chunk?)
+                                   (let ((c2? (first chunk?))
+                                         (request-spec (define-chunk-spec-fct (cdr chunk?) nil)))
+                                     (if (and (or (chunk-spec-variable-p c2?) (chunk-p-fct c2?))
+                                              request-spec
+                                              (valid-request-params-for-buffer (production-statement-target statement) (act-r-chunk-spec-request-param-slots request-spec)))
+                                         (progn 
+                                           (setf (production-statement-spec statement) request-spec)
+                                           (push-last statement actions))
+                                       (bad-action-exit (format nil "Invalid indirect request list: ~s.  Must be a list with a chunk or variable and a valid request parameters settings." seg))))
+                                 (bad-action-exit (format nil "Invalid single operator modification action: ~s.  Must be a variable or chunk name." seg))))))
+                          (t ;; a full request which may or may not have an isa
+                           
+                           (multiple-value-bind (spec slots)
+                               (define-chunk-spec-fct (production-statement-definition statement) t nil)
+                             (if spec
+                                 (if (or (zerop (act-r-chunk-spec-request-param-slots spec))
+                                         (valid-request-params-for-buffer (production-statement-target statement) (act-r-chunk-spec-request-param-slots spec)))
+                                     (progn 
+                                       (when slots
+                                       (let ((extended-slots (remove-if 'listp slots))
+                                             (invalid-type-slots (remove-if-not 'listp slots)))
+                                         (when extended-slots
+                                           (model-warning "Production ~s uses previously undefined slots ~s." p-name extended-slots))
+                                         (dolist (x invalid-type-slots)
+                                           (model-warning "Production ~s action has invalid slot ~s for type ~s." p-name (third x) (second x))))
+                                       
+                                         (dolist (x slots) (pushnew x new-slots)))
+                                       
+                                       (setf (production-statement-spec statement) spec)
+                                       (push-last statement actions))
+                                   (bad-action-exit (format nil "Invalid request parameters in request ~s." seg)))
+                               (bad-action-exit (format nil "Invalid buffer request ~s." seg)))))))
+                   (#\!
+                    (case (production-statement-target statement)
+                      ((bind safe-bind)
+                       (if (and (= (length (production-statement-definition statement)) 2)
+                                (chunk-spec-variable-p (first (production-statement-definition statement))))
+                           (push-last statement actions)
+                         (bad-action-exit (format nil "Invalid bind command: ~s" seg))))
+                      ((mv-bind)
+                       (if (and (= (length (production-statement-definition statement)) 2)
+                                (listp (first (production-statement-definition statement)))
+                                (every 'chunk-spec-variable-p (first (production-statement-definition statement))))
+                           (push-last statement actions)
+                         (bad-action-exit (format nil "Invalid mv-bind command: ~s" seg))))
+                      ((eval safe-eval output)
+                       (if (= (length (production-statement-definition statement)) 1)
+                           (push-last statement actions)
+                         (bad-action-exit (format nil "Invalid ~s command: ~s" (production-statement-target statement) (cdr seg)))))
+                      (stop
+                       (if (zerop (length (production-statement-definition statement)))
+                           (push-last statement actions)
+                         (bad-action-exit (format nil "Invalid stop command: ~s" seg))))
+                      (t
+                       (bad-action-exit (format nil "Invalid action: ~s" seg)))))
+                   (t (bad-action-exit (format nil "Invalid command on RHS: ~S" seg)))))))
+                              
+           (car (setf (gethash (cons definition conditions) (procedural-action-parse-table procedural)) (cons actions (sort new-slots '< :key (lambda (x) (if (atom x) (slot-name->index x) (slot-name->index (third x))))))))))))
+
+
+(defun sort-for-binding (condition-list) ;; eval and binds before buffers and queries, regular buffers before searchable buffers
+  (stable-sort (copy-tree condition-list) 
+               (lambda (x y) 
+                 (or (and (eq (production-statement-op x) #\!) (not (eq (production-statement-op y) #\!)))  
+                     (and (eq (production-statement-op x) #\=) (not (searchable-buffer (production-statement-target x))) 
+                          (eq (production-statement-op y) #\=) (searchable-buffer (production-statement-target y)))))))
+
+
+(defun number-test (val ignore)
+  (declare (ignore ignore))
+  (if (numberp val) t nil))
+
+
+(defun sort-for-bind-order (ordering)
+  (let ((result nil))
+    (dolist (x ordering result)
+      (aif (or (and (symbolp (caar x)) (position-if (lambda (y) (find (caar x) (cdar y))) result))
+               (and (listp (caar x)) (position-if (lambda (y) (intersection (caar x) (cdar y))) result)))
+           (splice-into-position-des result it x)
+           (push-last x result)))))
+
+
+(defun print-production-output (original data)
+  (let* ((vals (car data))
+         (text (cond ((atom vals)
+                      (format nil "~s" vals))
+                     ((stringp (car original))
+                      (format nil "~?" (car vals) (cdr vals)))
+                     (t
+                      (format nil "~{~S ~}" vals)))))
+    (add-buffer-trace-notes 'production text)
+    (model-output text)))
+    
+
+(defun find-variables (arg)
+  (cond ((listp arg) (remove-duplicates (mapcan 'find-variables arg)))
+        ((chunk-spec-variable-p arg) (list arg))
+        (t nil)))
+
+
+(defun replace-variables-for-eval (arg bindings)
+  (cond ((listp arg) 
+         (cond ((listp (car arg))
+                ;; If the head is a list just parse the whole thing
+                (mapcar (lambda (x)
+                          (replace-variables-for-eval x bindings))
+                  arg))
+               ((eq (car arg) 'quote)
+                ;; If it's already quoted don't requote
+                (mapcar (lambda (x)
+                          (replace-variables x bindings))
+                  arg))
+               (t
+                (cons (replace-variables (car arg) bindings)
+                      (mapcar (lambda (x)
+                                (replace-variables-for-eval x bindings))
+                        (cdr arg))))))
+        
+        ((chunk-spec-variable-p arg) 
+         (aif (assoc arg bindings)
+              (if (or (chunk-spec-variable-p (cdr it))
+                      (stringp (cdr it)))
+                  (cdr it)
+                (list 'quote (cdr it)))
+              arg))
+        (t arg)))
+
+
+(defun segment-production (definition buffers)
+  (when definition
+    (do ((res nil (push-last where res))
+         (where (position-if (lambda (x) (command-symbol-p x buffers)) definition)
+                (position-if (lambda (x) (command-symbol-p x buffers)) definition :start (1+ where))))
+        ((null where)
+         (if (and res (zerop (car res)))
+             (mapcar (lambda (start end)
+                       (subseq definition start end))
+               res (push-last nil (cdr res)))
+           :error)))))
+
+(defun command-symbol-p (cmd buffers 
+                        &key (operators '(#\? #\= #\- #\+ #\* #\@))
+                             (commands '(eval safe-eval bind safe-bind mv-bind stop output)))
+  (and (symbolp cmd)
+       (let* ((name (symbol-name cmd))
+              (len (length name)))
+         (and (> len 2)
+              (let ((cmd-name (intern (subseq name 1 (1- len))))
+                    (first-char (aref name 0))
+                    (last-char (aref name (1- len))))
+                (or (and (eql first-char #\!) 
+                         (eql last-char #\!)
+                         (find cmd-name commands))
+                    (and (eql last-char #\>)
+                         (find first-char operators)
+                         (find cmd-name buffers))))))))
+
+
+;; know it's valid since it has already passed segment-production
+;; but might be something like =goal> =var so don't want to make
+;; the spec here since that's not a valid spec but fine for the RHS action
+
+(defun parse-statement (segment)  
+  (let ((name (symbol-name (car segment))))
+    (make-production-statement :op (aref name 0) 
+                               :target (intern (subseq name 1 (1- (length name))))
+                               :definition (cdr segment))))
+
+
+;; Dummy function for showing in the trace from an = or * action
+
+(defun extend-buffer-chunk (buffer-name)
+  "just a dummy function now"
+  (declare (ignore buffer-name)))
+
+(provide "PRODUCTION-PARSING")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (#Y(si::bytecodes nil nil (15 0 15 1 77 77 15 2 15 3 15 4 77 77 77 15 5 9 4 77 15 6 15 7 19 15 8 15 0 15 9 15 10 15 11 19 4 12 15 13 15 9 15 14 15 15 19 4 12 15 13 14 16 77 15 17 19 4 12 15 0 19 1 27 78 23 15 13 1 25 12 19 2 26 1 0 73 29) #1=#A(t (181) (common-lisp-user::act-r-production-parameter "ACT-R-PRODUCTION-PARAMETER-" (#2="The internal structure of a production parameter" common-lisp-user::name common-lisp-user::default-value common-lisp-user::default-function common-lisp-user::accessor) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::default-value nil t nil 1 nil) (common-lisp-user::default-function nil t nil 2 nil) (common-lisp-user::accessor nil t nil 3 nil)) common-lisp-user::copy-act-r-production-parameter (common-lisp-user::make-act-r-production-parameter) #2# common-lisp-user::act-r-production-parameter-p si::define-structure ext::location (defstruct common-lisp-user::act-r-production-parameter) (#3=#P"/opt/actr/actr7.x/support/productions.lisp" . 0) ext::annotate common-lisp-user::make-act-r-production-parameter (defun common-lisp-user::make-act-r-production-parameter) (#3# . 0) :lambda-list (&key #4=#:name #5=#:default-value #6=#:default-function #7=#:accessor) (nil :accessor :default-function :default-value :name) #4# #5# #6# #7# 0 si::make-structure #Y(common-lisp-user::make-act-r-production-parameter nil nil (28 18 22 40 2 77 46 19 22 40 2 77 46 20 22 40 2 77 46 21 22 40 2 77 46 22 15 23 13 3 13 2 13 1 13 0 19 5 24 29) #1# #3# 0) si::fset find-class common-lisp-user::production "PRODUCTION-" (common-lisp-user::text common-lisp-user::name documentation common-lisp-user::variables common-lisp-user::bindings common-lisp-user::actions common-lisp-user::lhs common-lisp-user::rhs common-lisp-user::lhs-buffers common-lisp-user::rhs-buffers common-lisp-user::conflict-code break common-lisp-user::disabled common-lisp-user::buffer-indices common-lisp-user::conflict-val (common-lisp-user::parameter-values #8=(make-hash-table :size 23)) common-lisp-user::constants common-lisp-user::binds common-lisp-user::others common-lisp-user::selection-code common-lisp-user::implicit common-lisp-user::failure-condition common-lisp-user::partial-matched-slots common-lisp-user::searches common-lisp-user::search-binds common-lisp-user::search-others (common-lisp-user::buffer-full 0) (common-lisp-user::buffer-empty 0) (common-lisp-user::buffer-list nil) (common-lisp-user::lock #9=(bordeaux-threads::make-recursive-lock #10="production-struct"))) ((common-lisp-user::text nil t nil 0 nil) (common-lisp-user::name nil t nil 1 nil) (documentation nil t nil 2 nil) (common-lisp-user::variables nil t nil 3 nil) (common-lisp-user::bindings nil t nil 4 nil) (common-lisp-user::actions nil t nil 5 nil) (common-lisp-user::lhs nil t nil 6 nil) (common-lisp-user::rhs nil t nil 7 nil) (common-lisp-user::lhs-buffers nil t nil 8 nil) (common-lisp-user::rhs-buffers nil t nil 9 nil) (common-lisp-user::conflict-code nil t nil 10 nil) (break nil t nil 11 nil) (common-lisp-user::disabled nil t nil 12 nil) (common-lisp-user::buffer-indices nil t nil 13 nil) (common-lisp-user::conflict-val nil t nil 14 nil) (common-lisp-user::parameter-values #8# t nil 15 nil) (common-lisp-user::constants nil t nil 16 nil) (common-lisp-user::binds nil t nil 17 nil) (common-lisp-user::others nil t nil 18 nil) (common-lisp-user::selection-code nil t nil 19 nil) (common-lisp-user::implicit nil t nil 20 nil) (common-lisp-user::failure-condition nil t nil 21 nil) (common-lisp-user::partial-matched-slots nil t nil 22 nil) (common-lisp-user::searches nil t nil 23 nil) (common-lisp-user::search-binds nil t nil 24 nil) (common-lisp-user::search-others nil t nil 25 nil) (common-lisp-user::buffer-full 0 t nil 26 nil) (common-lisp-user::buffer-empty 0 t nil 27 nil) (common-lisp-user::buffer-list nil t nil 28 nil) (common-lisp-user::lock #9# t nil 29 nil)) common-lisp-user::copy-production (common-lisp-user::make-production) common-lisp-user::production? #11=(common-lisp-user::production (:predicate common-lisp-user::production?)) (defstruct #11#) (#3# . 2713) common-lisp-user::make-production (defun common-lisp-user::make-production) (#3# . 2713) (&key #12=#:text #13=#:name #14=#:documentation #15=#:variables #16=#:bindings #17=#:actions #18=#:lhs #19=#:rhs #20=#:lhs-buffers #21=#:rhs-buffers #22=#:conflict-code #23=#:break #24=#:disabled #25=#:buffer-indices #26=#:conflict-val (#27=#:parameter-values (make-hash-table :size 23)) #28=#:constants #29=#:binds #30=#:others #31=#:selection-code #32=#:implicit #33=#:failure-condition #34=#:partial-matched-slots #35=#:searches #36=#:search-binds #37=#:search-others (#38=#:buffer-full 0) (#39=#:buffer-empty 0) #40=#:buffer-list (#41=#:lock (bordeaux-threads::make-recursive-lock #10#))) (nil :lock :buffer-list :buffer-empty :buffer-full :search-others :search-binds :searches :partial-matched-slots :failure-condition :implicit :selection-code :others :binds :constants :parameter-values :conflict-val :buffer-indices :disabled :break :conflict-code :rhs-buffers :lhs-buffers :rhs :lhs :actions :bindings :variables :documentation :name :text) #12# #13# #14# #15# #16# #17# #18# #19# #20# #21# #22# #23# #24# #25# #26# :size make-hash-table #27# #28# #29# #30# #31# #32# #33# #34# #35# #36# #37# #38# #39# #40# #41# 0 #Y(common-lisp-user::make-production nil nil (28 42 22 40 2 77 46 43 22 40 2 77 46 44 22 40 2 77 46 45 22 40 2 77 46 46 22 40 2 77 46 47 22 40 2 77 46 48 22 40 2 77 46 49 22 40 2 77 46 50 22 40 2 77 46 51 22 40 2 77 46 52 22 40 2 77 46 53 22 40 2 77 46 54 22 40 2 77 46 55 22 40 2 77 46 56 22 40 2 77 46 57 22 40 9 14 58 9 23 19 2 59 12 46 60 22 40 2 77 46 61 22 40 2 77 46 62 22 40 2 77 46 63 22 40 2 77 46 64 22 40 2 77 46 65 22 40 2 77 46 66 22 40 2 77 46 67 22 40 2 77 46 68 22 40 2 77 46 69 22 40 2 77 46 70 22 40 3 9 0 46 71 22 40 3 9 0 46 72 22 40 2 77 46 73 22 40 2 77 46 74 15 75 13 29 13 28 13 27 13 26 13 25 13 24 13 23 13 22 13 21 13 20 13 19 13 18 13 17 13 16 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 31 24 29) #1# #3# 2713) common-lisp-user::*production-parameters-list* si::*make-special boundp (defvar common-lisp-user::*production-parameters-list*) (#3# . 3292) common-lisp-user::extend-productions (defmacro common-lisp-user::extend-productions) (#3# . 3336) (common-lisp-user::parameter-name &key (common-lisp-user::default-value nil) (common-lisp-user::default-function nil)) #:g8765 #:g8764 #:g8766 si::dm-too-few-arguments common-lisp-user::parameter-name :default-value si::search-keyword #:g8767 si::missing-keyword eq common-lisp-user::default-value :default-function #:g8768 common-lisp-user::default-function (:default-function :default-value) si::check-keyword symbolp keywordp "print-warning" "~@?" "~s is not a valid symbol for specifying a production parameter." format common-lisp-user::evaluate-act-r-command string "PRODUCTION-" string-upcase concatenate intern "PRODUCTION-" "-SETF" common-lisp-user::setf-name common-lisp-user::accessor-name :key common-lisp-user::act-r-production-parameter-name find "Parameter ~s already defined for productions" :duplicate-parameter eval-when (:compile-toplevel :load-toplevel :execute) unless common-lisp-user::*suppress-extend-item-warning* when fboundp quote common-lisp-user::print-warning "Function ~s already exists and is being redefined." "Function ~s already exists and is being redefined." (common-lisp-user::*production-parameters-list* :key 'common-lisp-user::act-r-production-parameter-name) setf remove (common-lisp-user::*production-parameters-list* :key 'common-lisp-user::act-r-production-parameter-name) push :name :accessor defun (common-lisp-user::production-name) let ((common-lisp-user::production (common-lisp-user::get-production common-lisp-user::production-name))) if (common-lisp-user::production? common-lisp-user::production) bordeaux-threads::with-recursive-lock-held ((common-lisp-user::production-lock common-lisp-user::production)) multiple-value-bind (common-lisp-user::value common-lisp-user::exists) gethash (common-lisp-user::production-parameter-values common-lisp-user::production) common-lisp-user::exists common-lisp-user::value (common-lisp-user::production-parameter-values common-lisp-user::production) common-lisp-user::production-parameter-default (common-lisp-user::*production-parameters-list* :key 'common-lisp-user::act-r-production-parameter-name) "~S called with invalid production name." (common-lisp-user::production-name common-lisp-user::new-value) ((common-lisp-user::production (common-lisp-user::get-production common-lisp-user::production-name))) (common-lisp-user::production? common-lisp-user::production) ((common-lisp-user::production-lock common-lisp-user::production)) (common-lisp-user::production-parameter-values common-lisp-user::production) common-lisp-user::new-value "Setf of ~S called with invalid production." defsetf #Y(common-lisp-user::extend-productions nil nil (24 45 86 24 45 87 26 10 1 5 45 88 10 0 76 39 6 13 2 19 1 89 10 0 4 12 10 0 5 51 0 22 45 90 13 1 15 91 19 2 92 45 93 13 0 1 94 17 95 39 4 75 38 3 10 0 45 96 13 3 15 97 19 2 92 45 98 13 0 1 94 17 95 39 4 75 38 3 10 0 45 99 13 5 15 100 19 2 101 10 4 16 102 76 40 5 10 4 16 103 39 21 15 104 77 15 105 15 106 13 4 19 4 107 12 19 2 108 75 73 38 414 15 109 15 110 13 4 19 1 111 12 19 3 112 12 19 1 113 12 15 109 15 114 13 4 19 1 111 12 15 115 19 4 112 12 19 1 113 12 46 116 46 117 13 6 14 77 14 118 15 119 19 4 120 39 22 15 104 77 15 105 15 121 13 6 19 4 107 12 19 2 108 11 122 73 38 336 15 123 15 124 15 125 15 126 15 127 15 128 15 129 10 0 6 2 6 2 12 15 130 15 131 15 129 10 0 6 2 6 3 6 3 12 15 127 15 128 15 129 10 1 6 2 6 2 12 15 130 15 132 15 129 10 1 6 2 6 3 6 3 6 4 12 15 127 15 120 15 129 10 6 6 2 12 1 133 7 3 12 15 134 15 77 15 135 15 129 10 6 6 2 12 1 136 7 3 6 3 6 3 12 15 137 15 13 14 138 15 129 10 6 6 2 12 14 91 15 129 10 4 6 2 12 14 97 15 129 10 2 6 2 12 14 139 15 129 10 0 6 2 6 9 12 1 77 6 3 12 15 140 13 0 15 141 15 142 15 143 15 144 15 145 15 146 15 147 15 148 15 149 15 150 15 129 10 6 6 2 12 1 151 6 3 12 15 144 15 152 15 153 15 134 15 150 15 129 10 6 6 2 12 1 154 6 3 12 15 155 15 120 15 129 10 6 6 2 12 1 156 7 3 12 1 28 6 3 6 3 6 4 6 4 6 3 12 15 130 15 157 15 129 10 0 6 2 6 3 6 4 6 3 6 4 12 15 140 13 1 15 158 15 142 15 159 15 144 15 160 15 146 15 161 15 134 15 150 15 129 10 6 6 2 12 1 162 6 3 12 1 163 6 3 6 3 12 15 130 15 164 15 129 10 0 6 2 6 3 6 4 6 3 6 4 12 15 165 13 0 10 1 6 3 12 15 129 10 0 6 2 6 9 73 43 2 29) #1# #3# 3336) t function "Add new parameters to all productions" si::set-documentation (defun common-lisp-user::production-parameter-default) (#3# . 6952) (common-lisp-user::param common-lisp-user::production) common-lisp-user::param common-lisp-user::act-r-production-parameter-default-function common-lisp-user::act-r-production-parameter-default-value #Y(common-lisp-user::production-parameter-default nil nil (24 45 174 24 45 28 26 13 1 19 1 175 39 14 13 1 19 1 175 12 13 0 20 1 23 38 6 13 1 19 1 176 29) #1# #3# 6952) "Return a default value for a parameter in a production" "PRODUCTIONS" provide)) #3# 0) #Y(si::bytecodes nil nil (15 28 15 29 77 77 15 30 15 31 15 32 77 77 77 15 33 9 30 77 77 15 34 19 15 8 15 35 15 9 15 36 15 37 19 4 12 15 38 15 9 15 39 15 40 19 4 12 15 38 14 16 77 15 41 19 4 12 15 28 19 1 27 78 75 15 38 1 76 12 19 2 26 1 28 73 29) #1# #3# 2713) #Y(si::bytecodes nil nil (1 77 16 78 1 77 16 79 76 39 4 75 52 77 15 77 15 9 15 80 15 81 19 4 12 1 77 73 29) #1# #3# 3292) #Y(si::bytecodes nil nil (15 82 15 9 15 83 15 84 19 4 12 15 82 14 16 77 15 85 19 4 12 15 82 1 166 12 14 167 9 2 19 4 26 15 82 15 168 15 169 19 3 170 1 82 73 29) #1# #3# 3336) #Y(si::bytecodes nil nil (15 155 15 9 15 171 15 172 19 4 12 15 155 14 16 77 15 173 19 4 12 15 155 1 177 12 19 2 26 15 155 15 168 15 178 19 3 170 1 155 73 29) #1# #3# 6952) #Y(si::bytecodes nil nil (1 179 16 180 29) #1# #3# 7259))
+                                                                                                                                                                                                                                                                                                                                                                                                   ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2015 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : productions.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : The structure and extension macros for productions and their
+;;;             : parameters.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2015.09.11 Dan [1.0]
+;;;             : * Separating this from the procedural module code so that I
+;;;             :   can add parameters there and avoid some warning issues.
+;;; 2017.08.11 Dan [2.0]
+;;;             : * Adding a lock to the structure and grabbing that in the
+;;;             :   parameter creation macros.
+;;;             : * Removed the conditions and dynamic slots from production 
+;;;             :   struct since they are unused.
+;;; 2019.02.13 Dan
+;;;             : * Adding slots to the production structure to hold the mask
+;;;             :   of full buffers, empty buffers, and list of buffer masks.
+;;; 2020.08.26 Dan
+;;;             : * Removing an "if nil ..." from extend-productions since SBCL
+;;;             :   complains about unreachable code.
+;;; 2020.11.11 Dan
+;;;             : * Removed the standard-rep slot from productions because it's
+;;;             :   only used in production compilation so should be a parameter
+;;;             :   added by the module.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+
+(defstruct act-r-production-parameter
+  "The internal structure of a production parameter"
+  name default-value default-function accessor)
+
+
+;; The internal rep. of a production is not considered public
+
+(defstruct (production (:predicate production?))
+  text name documentation 
+  variables bindings actions
+  lhs rhs lhs-buffers rhs-buffers
+  conflict-code
+  break
+  disabled
+  buffer-indices
+  
+  conflict-val
+  (parameter-values (make-hash-table :size 23))
+  constants binds others selection-code implicit
+    
+  failure-condition
+  
+  partial-matched-slots
+  
+  searches search-binds search-others
+  
+  (buffer-full 0)
+  (buffer-empty 0)
+  (buffer-list nil)
+  (lock (bt:make-recursive-lock "production-struct")))
+
+
+(defvar *production-parameters-list* nil)
+
+
+;;; Instead of pre-specifying the paramters for a production
+;;; move it to a system like chunks that allows for extending
+;;; things "on the fly" so that alternative utility equations
+;;; can be tried out without having to muck around with the
+;;; base definitions.  All changes can then be confined to the
+;;; utility-and-reward file.
+
+
+(defmacro extend-productions (parameter-name &key (default-value nil)(default-function nil))
+  "Add new parameters to all productions"
+  (if (or (not (symbolp parameter-name)) (keywordp parameter-name))
+      (print-warning "~s is not a valid symbol for specifying a production parameter." parameter-name)
+    (let ((accessor-name (intern (concatenate 'string "PRODUCTION-" (string-upcase parameter-name))))
+          (setf-name (intern (concatenate 'string "PRODUCTION-" (string-upcase parameter-name) "-SETF"))))
+      
+      (if (find parameter-name *production-parameters-list* :key 'act-r-production-parameter-name)
+          (progn
+            (print-warning "Parameter ~s already defined for productions" parameter-name)
+            :duplicate-parameter)
+        `(eval-when (:compile-toplevel :load-toplevel :execute) 
+           (unless *suppress-extend-item-warning*
+             (when (fboundp ',accessor-name)
+               (print-warning "Function ~s already exists and is being redefined." ',accessor-name))
+             (when (fboundp ',setf-name)
+               (print-warning "Function ~s already exists and is being redefined." ',setf-name)))
+           
+           (when (find ',parameter-name *production-parameters-list* :key 'act-r-production-parameter-name)
+             (setf *production-parameters-list* (remove ',parameter-name *production-parameters-list* :key 'act-r-production-parameter-name)))
+           
+           (push (make-act-r-production-parameter :name ',parameter-name
+                                                  :default-value ',default-value
+                                                  :default-function ',default-function
+                                                  :accessor ',accessor-name)
+                 *production-parameters-list*)
+           
+           (defun ,accessor-name (production-name)
+             (let ((production (get-production production-name)))
+               (if (production? production) 
+                   (bt:with-recursive-lock-held ((production-lock production))
+                     (multiple-value-bind (value exists)
+                         (gethash ',parameter-name (production-parameter-values production))
+                       (if exists
+                           value
+                         (setf (gethash ',parameter-name (production-parameter-values production)) 
+                           (production-parameter-default 
+                            (find ',parameter-name *production-parameters-list* 
+                                  :key 'act-r-production-parameter-name)
+                            production)))))
+                 (print-warning "~S called with invalid production name." ',accessor-name))))
+           
+           (defun ,setf-name (production-name new-value)
+             (let ((production (get-production production-name)))
+               (if (production? production)
+                   (bt:with-recursive-lock-held ((production-lock production))
+                     (setf (gethash ',parameter-name (production-parameter-values production)) new-value))
+                 (print-warning "Setf of ~S called with invalid production." ',accessor-name))))
+           
+           (defsetf ,accessor-name ,setf-name)
+           ',accessor-name)))))
+
+(defun production-parameter-default (param production)
+  "Return a default value for a parameter in a production"
+  (if (act-r-production-parameter-default-function param)
+      (funcall (act-r-production-parameter-default-function param) production)
+    (act-r-production-parameter-default-value param)))
+
+
+
+(provide "PRODUCTIONS")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                        (("PRODUCTION-PARSING" . :SINGLE) ("GENERAL-PM" . :SINGLE)
+ ("PRODUCTIONS" . :SINGLE) ("GOAL-STYLE-MODULE" . :SINGLE)
+ ("CENTRAL-PARAMETERS" . :SINGLE))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        (#Y(si::bytecodes nil nil (14 0 14 1 19 2 2 52 1 73 29) #1=#A(t (306) (:standalone *features* adjoin :bordeaux-threads find-package :dummy-bordeaux find t "~&Overriding the existing Bordeaux threads package while loading ACT-R.~%" format :restore-bordeaux :backup-bordeaux rename-package "BORDEAUX-THREADS" (#2="BT") (#3="CL") (#4="MAKE-LOCK" #5="WITH-LOCK-HELD" #6="MAKE-RECURSIVE-LOCK" #7="WITH-RECURSIVE-LOCK-HELD" #8="MAKE-CONDITION-VARIABLE" #9="CONDITION-NOTIFY" #10="CONDITION-WAIT" #11="MAKE-THREAD" #12="THREADP" #13="THREAD-ALIVE-P" #14="DESTROY-THREAD" #15="THREAD-YIELD" #16="START-MULTIPROCESSING") si::dodefpackage (#2#) (#3#) (#4# #5# #6# #7# #8# #9# #10# #11# #12# #13# #14# #15# #16#) bordeaux-threads::with-lock-held ext::location (defmacro bordeaux-threads::with-lock-held) (#17=#P"/opt/actr/actr7.x/support/single-threaded.lisp" . 5838) ext::annotate :lambda-list ((common-lisp-user::place) &body common-lisp-user::body) #:g35 #:g34 #:g36 si::dm-too-few-arguments #:g37 #:g38 common-lisp-user::place common-lisp-user::body si::dm-too-many-arguments progn #Y(bordeaux-threads::with-lock-held nil nil (24 45 28 24 45 29 26 10 1 5 45 30 10 0 76 39 6 13 2 19 1 31 10 0 4 12 10 0 5 51 0 22 45 32 10 0 45 33 10 0 76 39 6 13 4 19 1 31 10 0 4 12 10 0 5 51 0 22 45 34 10 3 45 35 10 2 39 6 13 6 19 1 36 15 37 10 0 7 2 73 29) #1# #17# 5838) si::fset bordeaux-threads::with-recursive-lock-held (defmacro bordeaux-threads::with-recursive-lock-held) (#17# . 5963) ((common-lisp-user::place &key common-lisp-user::timeout) &body common-lisp-user::body) #:g40 #:g39 #:g41 #:g42 #:g43 :timeout si::search-keyword #:g44 si::missing-keyword eq common-lisp-user::timeout (:timeout) si::check-keyword #Y(bordeaux-threads::with-recursive-lock-held nil nil (24 45 44 24 45 45 26 10 1 5 45 46 10 0 76 39 6 13 2 19 1 31 10 0 4 12 10 0 5 51 0 22 45 47 10 0 45 48 10 0 76 39 6 13 4 19 1 31 10 0 4 12 10 0 5 51 0 22 45 34 13 1 15 49 19 2 50 45 51 13 0 1 52 17 53 39 4 75 38 3 10 0 45 54 10 5 45 35 13 4 15 55 19 2 56 15 37 10 0 7 2 73 29) #1# #17# 5963) bordeaux-threads::make-lock (defmacro bordeaux-threads::make-lock) (#17# . 6115) (&optional common-lisp-user::x) #:g46 #:g45 #:g47 common-lisp-user::x #Y(bordeaux-threads::make-lock nil nil (24 45 62 24 45 63 26 10 1 5 45 64 10 0 39 13 10 0 4 12 10 0 5 51 0 22 38 2 75 45 65 10 1 39 6 13 3 19 1 36 75 73 29) #1# #17# 6115) bordeaux-threads::make-recursive-lock (defmacro bordeaux-threads::make-recursive-lock) (#17# . 6196) (&optional common-lisp-user::x) #:g49 #:g48 #:g50 #Y(bordeaux-threads::make-recursive-lock nil nil (24 45 71 24 45 72 26 10 1 5 45 73 10 0 39 13 10 0 4 12 10 0 5 51 0 22 38 2 75 45 65 10 1 39 6 13 3 19 1 36 75 73 29) #1# #17# 6196) bordeaux-threads::make-condition-variable (defmacro bordeaux-threads::make-condition-variable) (#17# . 6285) (&rest common-lisp-user::x) #:g52 #:g51 #:g53 #Y(bordeaux-threads::make-condition-variable nil nil (24 45 79 24 45 80 26 10 1 5 45 81 10 0 45 65 75 73 29) #1# #17# 6285) bordeaux-threads::make-thread (defmacro bordeaux-threads::make-thread) (#17# . 6374) (&rest common-lisp-user::x) #:g55 #:g54 #:g56 #Y(bordeaux-threads::make-thread nil nil (24 45 87 24 45 88 26 10 1 5 45 89 10 0 45 65 11 7 73 29) #1# #17# 6374) bordeaux-threads::condition-notify (defmacro bordeaux-threads::condition-notify) (#17# . 6449) (&rest common-lisp-user::x) #:g58 #:g57 #:g59 (progn t) #Y(bordeaux-threads::condition-notify nil nil (24 45 95 24 45 96 26 10 1 5 45 97 10 0 45 65 1 98 73 29) #1# #17# 6449) bordeaux-threads::condition-wait (defmacro bordeaux-threads::condition-wait) (#17# . 6540) (&rest common-lisp-user::x) #:g61 #:g60 #:g62 (progn t) #Y(bordeaux-threads::condition-wait nil nil (24 45 104 24 45 105 26 10 1 5 45 106 10 0 45 65 1 107 73 29) #1# #17# 6540) bordeaux-threads::threadp (defmacro bordeaux-threads::threadp) (#17# . 6627) (&rest common-lisp-user::x) #:g64 #:g63 #:g65 #Y(bordeaux-threads::threadp nil nil (24 45 113 24 45 114 26 10 1 5 45 115 10 0 45 65 11 7 73 29) #1# #17# 6627) bordeaux-threads::thread-alive-p (defmacro bordeaux-threads::thread-alive-p) (#17# . 6700) (&rest common-lisp-user::x) #:g67 #:g66 #:g68 #Y(bordeaux-threads::thread-alive-p nil nil (24 45 121 24 45 122 26 10 1 5 45 123 10 0 45 65 11 7 73 29) #1# #17# 6700) bordeaux-threads::destroy-thread (defmacro bordeaux-threads::destroy-thread) (#17# . 6778) (&rest common-lisp-user::x) #:g70 #:g69 #:g71 (progn t) #Y(bordeaux-threads::destroy-thread nil nil (24 45 129 24 45 130 26 10 1 5 45 131 10 0 45 65 1 132 73 29) #1# #17# 6778) bordeaux-threads::thread-yield (defmacro bordeaux-threads::thread-yield) (#17# . 6865) (&rest common-lisp-user::x) #:g73 #:g72 #:g74 (progn t) #Y(bordeaux-threads::thread-yield nil nil (24 45 138 24 45 139 26 10 1 5 45 140 10 0 45 65 1 141 73 29) #1# #17# 6865) bordeaux-threads::start-multiprocessing (defmacro bordeaux-threads::start-multiprocessing) (#17# . 6950) (&rest common-lisp-user::x) #:g76 #:g75 #:g77 (progn t) #Y(bordeaux-threads::start-multiprocessing nil nil (24 45 147 24 45 148 26 10 1 5 45 149 10 0 45 65 1 150 73 29) #1# #17# 6950) :usocket :dummy-usocket "~&Overriding the existing Usocket package while loading ACT-R.~%" :restore-usocket :backup-usocket "USOCKET" (#3#) (#18="SOCKET-STREAM" #19="SOCKET-CLOSE" #20="SOCKET-LISTEN" #21="SOCKET-ACCEPT" #22="IP=") (#3#) (#18# #19# #20# #21# #22#) usocket::socket-stream (defmacro usocket::socket-stream) (#17# . 7917) (&rest common-lisp-user::x) #:g85 #:g84 #:g86 #Y(usocket::socket-stream nil nil (24 45 166 24 45 167 26 10 1 5 45 168 10 0 45 65 75 73 29) #1# #17# 7917) usocket::socket-close (defmacro usocket::socket-close) (#17# . 7989) (&rest common-lisp-user::x) #:g88 #:g87 #:g89 #Y(usocket::socket-close nil nil (24 45 174 24 45 175 26 10 1 5 45 176 10 0 45 65 11 7 73 29) #1# #17# 7989) usocket::socket-listen (defmacro usocket::socket-listen) (#17# . 8056) (&rest common-lisp-user::x) #:g91 #:g90 #:g92 #Y(usocket::socket-listen nil nil (24 45 182 24 45 183 26 10 1 5 45 184 10 0 45 65 11 7 73 29) #1# #17# 8056) usocket::socket-accept (defmacro usocket::socket-accept) (#17# . 8124) (&rest common-lisp-user::x) #:g94 #:g93 #:g95 #Y(usocket::socket-accept nil nil (24 45 190 24 45 191 26 10 1 5 45 192 10 0 45 65 11 7 73 29) #1# #17# 8124) usocket::ip= (defmacro usocket::ip=) (#17# . 8192) (&rest common-lisp-user::x) #:g97 #:g96 #:g98 #Y(usocket::ip= nil nil (24 45 198 24 45 199 26 10 1 5 45 200 10 0 45 65 11 7 73 29) #1# #17# 8192) usocket::get-peer-port (defmacro usocket::get-peer-port) (#17# . 8250) (&rest common-lisp-user::x) #:g100 #:g99 #:g101 #Y(usocket::get-peer-port nil nil (24 45 206 24 45 207 26 10 1 5 45 208 10 0 45 65 11 7 73 29) #1# #17# 8250) usocket::get-peer-address (defmacro usocket::get-peer-address) (#17# . 8324) (&rest common-lisp-user::x) #:g103 #:g102 #:g104 #Y(usocket::get-peer-address nil nil (24 45 214 24 45 215 26 10 1 5 45 216 10 0 45 65 11 7 73 29) #1# #17# 8324) usocket::get-hosts-by-name (defmacro usocket::get-hosts-by-name) (#17# . 8395) (&rest common-lisp-user::x) #:g106 #:g105 #:g107 #Y(usocket::get-hosts-by-name nil nil (24 45 222 24 45 223 26 10 1 5 45 224 10 0 45 65 75 73 29) #1# #17# 8395) usocket::get-host-name (defmacro usocket::get-host-name) (#17# . 8469) (&rest common-lisp-user::x) #:g109 #:g108 #:g110 #Y(usocket::get-host-name nil nil (24 45 230 24 45 231 26 10 1 5 45 232 10 0 45 65 75 73 29) #1# #17# 8469) usocket::vector-quad-to-dotted-quad (defmacro usocket::vector-quad-to-dotted-quad) (#17# . 8539) (&rest common-lisp-user::x) #:g112 #:g111 #:g113 #Y(usocket::vector-quad-to-dotted-quad nil nil (24 45 238 24 45 239 26 10 1 5 45 240 10 0 45 65 75 73 29) #1# #17# 8539) usocket::usocket-p (defmacro usocket::usocket-p) (#17# . 8622) (&rest common-lisp-user::x) #:g115 #:g114 #:g116 #Y(usocket::usocket-p nil nil (24 45 246 24 45 247 26 10 1 5 45 248 10 0 45 65 11 7 73 29) #1# #17# 8622) usocket::address-in-use-error (defclass usocket::address-in-use-error) (#17# . 8686) (condition) clos::load-defclass :json :dummy-json "~&Overriding the existing Json package while loading ACT-R.~%" "~&~%***~%The ACT-R history tools will not use JSON encoding in single-threaded model.~%***~%" :restore-json :backup-json "JSON" (#23="CL-JSON") (#3#) (#24="ENCODE-JSON-TO-STRING" #25="DECODE-JSON-FROM-STRING") "~&The history tools will not use JSON encoding in single-threaded model.~%" (#23#) (#3#) (#24# #25#) json::encode-json-to-string (defmacro json::encode-json-to-string) (#17# . 9775) (common-lisp-user::s) #:g124 #:g123 #:g125 common-lisp-user::s #Y(json::encode-json-to-string nil nil (24 45 273 24 45 274 26 10 1 5 45 275 10 0 76 39 6 13 2 19 1 31 10 0 4 12 10 0 5 51 0 22 45 276 10 1 39 6 13 3 19 1 36 15 37 10 0 6 2 73 29) #1# #17# 9775) json::decode-json-from-string (defmacro json::decode-json-from-string) (#17# . 9840) (common-lisp-user::s) #:g127 #:g126 #:g128 #Y(json::decode-json-from-string nil nil (24 45 282 24 45 283 26 10 1 5 45 284 10 0 76 39 6 13 2 19 1 31 10 0 4 12 10 0 5 51 0 22 45 276 10 1 39 6 13 3 19 1 36 15 37 10 0 6 2 73 29) #1# #17# 9840) json::write-json-string (defmacro json::write-json-string) (#17# . 9898) (common-lisp-user::s stream) #:g130 #:g129 #:g131 stream (progn nil) #Y(json::write-json-string nil nil (24 45 290 24 45 291 26 10 1 5 45 292 10 0 76 39 6 13 2 19 1 31 10 0 4 12 10 0 5 51 0 22 45 276 10 1 76 39 6 13 3 19 1 31 10 1 4 12 10 1 5 51 1 22 45 293 10 2 39 6 13 4 19 1 36 1 294 73 29) #1# #17# 9898) json::*json-output* si::*make-special (defparameter json::*json-output*) (#17# . 9986) json::+json-lisp-symbol-tokens+ (defparameter json::+json-lisp-symbol-tokens+) (#17# . 10028) json::*lisp-identifier-name-to-json* (defparameter json::*lisp-identifier-name-to-json*) (#17# . 10081))) #17# 0) #Y(si::bytecodes nil nil (11 3 16 4 39 66 14 5 14 1 19 2 6 76 73 39 53 14 7 15 8 19 2 9 14 10 14 1 19 2 2 52 1 14 3 14 11 19 2 12 15 13 15 14 77 77 15 15 77 77 77 15 16 77 77 77 19 12 17 14 5 14 1 19 2 2 52 1 73 38 30 15 13 15 18 77 77 15 19 77 77 77 15 20 77 77 77 19 12 17 14 5 14 1 19 2 2 52 1 73 29) #1# #17# 4238) #Y(si::bytecodes nil nil (15 21 15 22 15 23 15 24 19 4 25 15 21 14 26 77 15 27 19 4 25 15 21 1 38 12 14 7 9 2 19 4 39 1 21 73 29) #1# #17# 5838) #Y(si::bytecodes nil nil (15 40 15 22 15 41 15 42 19 4 25 15 40 14 26 77 15 43 19 4 25 15 40 1 57 12 14 7 9 2 19 4 39 1 40 73 29) #1# #17# 5963) #Y(si::bytecodes nil nil (15 58 15 22 15 59 15 60 19 4 25 15 58 14 26 77 15 61 19 4 25 15 58 1 66 12 14 7 9 2 19 4 39 1 58 73 29) #1# #17# 6115) #Y(si::bytecodes nil nil (15 67 15 22 15 68 15 69 19 4 25 15 67 14 26 77 15 70 19 4 25 15 67 1 74 12 14 7 9 2 19 4 39 1 67 73 29) #1# #17# 6196) #Y(si::bytecodes nil nil (15 75 15 22 15 76 15 77 19 4 25 15 75 14 26 77 15 78 19 4 25 15 75 1 82 12 14 7 9 1 19 4 39 1 75 73 29) #1# #17# 6285) #Y(si::bytecodes nil nil (15 83 15 22 15 84 15 85 19 4 25 15 83 14 26 77 15 86 19 4 25 15 83 1 90 12 14 7 9 1 19 4 39 1 83 73 29) #1# #17# 6374) #Y(si::bytecodes nil nil (15 91 15 22 15 92 15 93 19 4 25 15 91 14 26 77 15 94 19 4 25 15 91 1 99 12 14 7 9 1 19 4 39 1 91 73 29) #1# #17# 6449) #Y(si::bytecodes nil nil (15 100 15 22 15 101 15 102 19 4 25 15 100 14 26 77 15 103 19 4 25 15 100 1 108 12 14 7 9 1 19 4 39 1 100 73 29) #1# #17# 6540) #Y(si::bytecodes nil nil (15 109 15 22 15 110 15 111 19 4 25 15 109 14 26 77 15 112 19 4 25 15 109 1 116 12 14 7 9 1 19 4 39 1 109 73 29) #1# #17# 6627) #Y(si::bytecodes nil nil (15 117 15 22 15 118 15 119 19 4 25 15 117 14 26 77 15 120 19 4 25 15 117 1 124 12 14 7 9 1 19 4 39 1 117 73 29) #1# #17# 6700) #Y(si::bytecodes nil nil (15 125 15 22 15 126 15 127 19 4 25 15 125 14 26 77 15 128 19 4 25 15 125 1 133 12 14 7 9 1 19 4 39 1 125 73 29) #1# #17# 6778) #Y(si::bytecodes nil nil (15 134 15 22 15 135 15 136 19 4 25 15 134 14 26 77 15 137 19 4 25 15 134 1 142 12 14 7 9 1 19 4 39 1 134 73 29) #1# #17# 6865) #Y(si::bytecodes nil nil (15 143 15 22 15 144 15 145 19 4 25 15 143 14 26 77 15 146 19 4 25 15 143 1 151 12 14 7 9 1 19 4 39 1 143 73 29) #1# #17# 6950) #Y(si::bytecodes nil nil (11 152 16 4 39 65 14 153 14 1 19 2 6 76 73 39 52 14 7 15 154 19 2 9 14 155 14 1 19 2 2 52 1 14 152 14 156 19 2 12 15 157 77 77 77 15 158 77 77 77 15 159 77 77 77 19 12 17 14 153 14 1 19 2 2 52 1 73 38 29 15 157 77 77 77 15 160 77 77 77 15 161 77 77 77 19 12 17 14 153 14 1 19 2 2 52 1 73 29) #1# #17# 7044) #Y(si::bytecodes nil nil (15 162 15 22 15 163 15 164 19 4 25 15 162 14 26 77 15 165 19 4 25 15 162 1 169 12 14 7 9 1 19 4 39 1 162 73 29) #1# #17# 7917) #Y(si::bytecodes nil nil (15 170 15 22 15 171 15 172 19 4 25 15 170 14 26 77 15 173 19 4 25 15 170 1 177 12 14 7 9 1 19 4 39 1 170 73 29) #1# #17# 7989) #Y(si::bytecodes nil nil (15 178 15 22 15 179 15 180 19 4 25 15 178 14 26 77 15 181 19 4 25 15 178 1 185 12 14 7 9 1 19 4 39 1 178 73 29) #1# #17# 8056) #Y(si::bytecodes nil nil (15 186 15 22 15 187 15 188 19 4 25 15 186 14 26 77 15 189 19 4 25 15 186 1 193 12 14 7 9 1 19 4 39 1 186 73 29) #1# #17# 8124) #Y(si::bytecodes nil nil (15 194 15 22 15 195 15 196 19 4 25 15 194 14 26 77 15 197 19 4 25 15 194 1 201 12 14 7 9 1 19 4 39 1 194 73 29) #1# #17# 8192) #Y(si::bytecodes nil nil (15 202 15 22 15 203 15 204 19 4 25 15 202 14 26 77 15 205 19 4 25 15 202 1 209 12 14 7 9 1 19 4 39 1 202 73 29) #1# #17# 8250) #Y(si::bytecodes nil nil (15 210 15 22 15 211 15 212 19 4 25 15 210 14 26 77 15 213 19 4 25 15 210 1 217 12 14 7 9 1 19 4 39 1 210 73 29) #1# #17# 8324) #Y(si::bytecodes nil nil (15 218 15 22 15 219 15 220 19 4 25 15 218 14 26 77 15 221 19 4 25 15 218 1 225 12 14 7 9 1 19 4 39 1 218 73 29) #1# #17# 8395) #Y(si::bytecodes nil nil (15 226 15 22 15 227 15 228 19 4 25 15 226 14 26 77 15 229 19 4 25 15 226 1 233 12 14 7 9 1 19 4 39 1 226 73 29) #1# #17# 8469) #Y(si::bytecodes nil nil (15 234 15 22 15 235 15 236 19 4 25 15 234 14 26 77 15 237 19 4 25 15 234 1 241 12 14 7 9 1 19 4 39 1 234 73 29) #1# #17# 8539) #Y(si::bytecodes nil nil (15 242 15 22 15 243 15 244 19 4 25 15 242 14 26 77 15 245 19 4 25 15 242 1 249 12 14 7 9 1 19 4 39 1 242 73 29) #1# #17# 8622) #Y(si::bytecodes nil nil (15 250 15 22 15 251 15 252 19 4 25 15 250 15 253 77 77 19 4 254 1 250 73 29) #1# #17# 8686) #Y(si::bytecodes nil nil (11 255 16 4 39 73 14 256 14 1 19 2 6 76 73 39 60 14 7 15 257 19 2 9 14 7 15 258 19 2 9 14 259 14 1 19 2 2 52 1 14 255 14 260 19 2 12 15 261 15 262 77 77 15 263 77 77 77 15 264 77 77 77 19 12 17 14 256 14 1 19 2 2 52 1 73 38 37 14 7 15 265 19 2 9 15 261 15 266 77 77 15 267 77 77 77 15 268 77 77 77 19 12 17 14 256 14 1 19 2 2 52 1 73 29) #1# #17# 8748) #Y(si::bytecodes nil nil (15 269 15 22 15 270 15 271 19 4 25 15 269 14 26 77 15 272 19 4 25 15 269 1 277 12 14 7 9 2 19 4 39 1 269 73 29) #1# #17# 9775) #Y(si::bytecodes nil nil (15 278 15 22 15 279 15 280 19 4 25 15 278 14 26 77 15 281 19 4 25 15 278 1 285 12 14 7 9 2 19 4 39 1 278 73 29) #1# #17# 9840) #Y(si::bytecodes nil nil (15 286 15 22 15 287 15 288 19 4 25 15 286 14 26 77 15 289 19 4 25 15 286 1 295 12 14 7 9 3 19 4 39 1 286 73 29) #1# #17# 9898) #Y(si::bytecodes nil nil (1 296 16 297 75 52 296 15 296 15 22 15 298 15 299 19 4 25 1 296 73 29) #1# #17# 9986) #Y(si::bytecodes nil nil (1 300 16 297 75 52 300 15 300 15 22 15 301 15 302 19 4 25 1 300 73 29) #1# #17# 10028) #Y(si::bytecodes nil nil (1 303 16 297 75 52 303 15 303 15 22 15 304 15 305 19 4 25 1 303 73 29) #1# #17# 10081))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2019 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : single-threaded.lisp
+;;; Version     : 4.0
+;;; 
+;;; Description : No-op all the quicklisp loaded package actions.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2019.04.09 Dan
+;;;             : * Created this to provide a fast single threaded version.
+;;; 2019.04.17 Dan
+;;;             : * Didn't add the acquire/release-recursive-lock functions.
+;;; 2019.05.29 Dan [2.0]
+;;;             : * Actually define the packages and all the Quicklisp library
+;;;             :   functions used in the code so I can skip Quicklisp for the
+;;;             :   single-threaded version.
+;;; 2019.05.30 Dan
+;;;             : * Remove the jsown package and stub.
+;;; 2019.11.12 Dan
+;;;             : * The stubs for acquire-lock and acquire-recursive-lock need
+;;;             :   to return t otherwise it looks like a failure.
+;;; 2024.07.02 Dan [3.0]
+;;;             : * Only create the stubs if the packages don't already exist
+;;;             :   by checking for the package names (I'd prefer a feature
+;;;             :   test, but usocket doesn't seem to have one and don't want
+;;;             :   to use different mechanisms based on package).
+;;; 2024.09.12 Dan [4.0]
+;;;             : * To be safe with respect to loading quicklisp libraries 
+;;;             :   always create the dummy package and rename the original
+;;;             :   if it exists and restore it after.  Also rename the dummies
+;;;             :   when done so that they can be switched back in when
+;;;             :   require-extra is used.
+;;;             : * If cl-json isn't loaded, then it needs to be better about
+;;;             :   how it handles encoding/decoding so that the history tools
+;;;             :   still work since they can still be used in a Lisp only 
+;;;             :   mode.  So, just return the original Lisp from encoding and
+;;;             :   similarly decoding does nothing to the data passed to it.
+;;; 2024.09.18 Dan
+;;;             : * Don't use split-sequence in usocket to avoid any potential
+;;;             :   problems with it having been loaded on its own.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Allows the ACT-R code to compile and run properly while ignoring all of the
+;;; locking actions and other Quicklisp library code.  This of course means that
+;;; the code is no longer thread safe.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; None.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; [originally]
+;;; Just make the lock based actions no-ops by redefining the functions and
+;;; macros from the :bordeaux-threads package with dummies.
+;;;
+;;; Create dummy stubs for all the other functions referenced in the code.
+;;;
+;;; [4.0]
+;;; 
+;;; To be safer with the dummy packages define the functions as macros before
+;;; loading the ACT-R code, and then rename them afterwards for use during
+;;; require-extra.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;; Make sure not to start the dispatcher
+
+(pushnew :standalone *features*)
+
+;; define the packages which would come from Quicklisp loads
+;; if they don't already exist.
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (progn
+    (if (find-package :bordeaux-threads)
+        (unless (find :dummy-bordeaux *features*)
+          (format t "~&Overriding the existing Bordeaux threads package while loading ACT-R.~%")
+          (pushnew :restore-bordeaux *features*)
+          (rename-package :bordeaux-threads :backup-bordeaux)
+          (defpackage :bordeaux-threads
+            (:nicknames :bt)
+            (:use :cl)
+            (:export
+             :make-lock
+             :with-lock-held
+             :make-recursive-lock
+             :with-recursive-lock-held
+             :make-condition-variable
+             :condition-notify
+             :condition-wait
+             :make-thread
+             :threadp
+             :thread-alive-p
+             :destroy-thread
+             :thread-yield
+             :start-multiprocessing))
+          (pushnew :dummy-bordeaux *features*))
+      (progn
+        (defpackage :bordeaux-threads
+          (:nicknames :bt)
+          (:use :cl)
+          (:export
+           :make-lock
+           :with-lock-held
+           :make-recursive-lock
+           :with-recursive-lock-held
+           :make-condition-variable
+           :condition-notify
+           :condition-wait
+           :make-thread
+           :threadp
+           :thread-alive-p
+           :destroy-thread
+           :thread-yield
+           :start-multiprocessing))
+        (pushnew :dummy-bordeaux *features*)))))
+
+  
+(defmacro bordeaux-threads::with-lock-held ((place) &body body)
+  (declare (ignore place))
+  `(progn
+     ,@body))
+
+(defmacro bordeaux-threads::with-recursive-lock-held ((place &key timeout) &body body)
+  (declare (ignore place timeout))
+  `(progn
+     ,@body))
+
+(defmacro bordeaux-threads::make-lock (&optional x) (declare (ignore x)) nil)
+(defmacro bordeaux-threads::make-recursive-lock (&optional x) (declare (ignore x)) nil)
+(defmacro bordeaux-threads::make-condition-variable (&rest x) (declare (ignore x)) nil)
+(defmacro bordeaux-threads::make-thread (&rest x) (declare (ignore x)) t)
+
+(defmacro bordeaux-threads::condition-notify (&rest x) (declare (ignore x)) `(progn t))
+(defmacro bordeaux-threads::condition-wait (&rest x) (declare (ignore x)) `(progn t))
+
+(defmacro bordeaux-threads::threadp (&rest x) (declare (ignore x)) t)
+(defmacro bordeaux-threads::thread-alive-p (&rest x) (declare (ignore x)) t)
+(defmacro bordeaux-threads::destroy-thread (&rest x) (declare (ignore x)) `(progn t))
+(defmacro bordeaux-threads::thread-yield (&rest x) (declare (ignore x)) `(progn t))
+(defmacro bordeaux-threads::start-multiprocessing (&rest x) (declare (ignore x)) `(progn t))
+
+
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (progn
+    (if (find-package :usocket)
+        (unless (find :dummy-usocket *features*)
+          (format t "~&Overriding the existing Usocket package while loading ACT-R.~%")
+          (pushnew :restore-usocket *features*)
+          (rename-package :usocket :backup-usocket)
+          (defpackage :usocket
+            (:use :cl)
+            (:export 
+             :socket-stream
+             :socket-close
+             :socket-listen
+             :socket-accept
+             :ip=))
+          (pushnew :dummy-usocket *features*))
+      (progn
+        (defpackage :usocket
+          (:use :cl)
+          (:export 
+           :socket-stream
+           :socket-close
+           :socket-listen
+           :socket-accept
+           :ip=))
+        (pushnew :dummy-usocket *features*)))))
+
+(defmacro usocket::socket-stream (&rest x) (declare (ignore x)) nil)
+(defmacro usocket::socket-close (&rest x) (declare (ignore x)) t)
+(defmacro usocket::socket-listen (&rest x) (declare (ignore x)) t)
+(defmacro usocket::socket-accept (&rest x) (declare (ignore x)) t)
+(defmacro usocket::ip= (&rest x) (declare (ignore x)) t)
+    
+(defmacro usocket::get-peer-port (&rest x) (declare (ignore x)) t)
+(defmacro usocket::get-peer-address (&rest x) (declare (ignore x)) t)
+(defmacro usocket::get-hosts-by-name (&rest x) (declare (ignore x)) nil)
+(defmacro usocket::get-host-name (&rest x) (declare (ignore x)) nil)
+(defmacro usocket::vector-quad-to-dotted-quad (&rest x) (declare (ignore x)) nil)
+(defmacro usocket::usocket-p (&rest x) (declare (ignore x)) t)
+    
+(define-condition usocket::address-in-use-error () ())
+    
+    
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (progn
+    (if (find-package :json)
+        (unless (find :dummy-json *features*)
+          (format t "~&Overriding the existing Json package while loading ACT-R.~%")
+          (format t "~&~%***~%The ACT-R history tools will not use JSON encoding in single-threaded model.~%***~%")
+          (pushnew :restore-json *features*)
+          (rename-package :json :backup-json)
+          (defpackage :json
+            (:nicknames :cl-json)
+            (:use :cl)
+            (:export
+             :encode-json-to-string
+             :decode-json-from-string))
+          (pushnew :dummy-json *features*))
+      (progn
+        (format t "~&The history tools will not use JSON encoding in single-threaded model.~%")
+        (defpackage :json
+            (:nicknames :cl-json)
+            (:use :cl)
+            (:export
+             :encode-json-to-string
+             :decode-json-from-string))
+        (pushnew :dummy-json *features*)))))
+
+    
+(defmacro json::encode-json-to-string (s)  `(progn ,s))
+(defmacro json::decode-json-from-string (s) `(progn ,s))
+(defmacro json::write-json-string (s stream) (declare (ignore s stream)) `(progn nil))
+
+(defparameter json::*json-output* nil) 
+(defparameter json::+json-lisp-symbol-tokens+ nil)
+(defparameter json::*lisp-identifier-name-to-json* nil)
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2013 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : time-functions.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : Macro to execute code and record the time spent in specified
+;;;             : functions.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2013.10.31 Dan [1.0]
+;;;            : * Initial creation.
+;;; 2013.11.12 Dan
+;;;            : * Added (provide "TIME-FUNCTIONS") because it's now in the
+;;;            :   ACT-R support directory.
+;;; 2015.07.28 Dan
+;;;             : * Changed the logical to ACT-R-support in the require-compiled
+;;;             :   in the docs.
+;;; 2020.08.26 Dan
+;;;             : * Removed the path for require-compiled doc since it's not needed
+;;;             :   and results in warnings in SBCL.
+;;; 2021.04.21 Dan [2.0]
+;;;             : * Added an alterative version that just records the cumulative
+;;;             :   time and a count instead of the individual ones becasue the
+;;;             :   extra storage requirements may affect the timing.
+;;; 2021.06.14 Dan
+;;;             : * Don't need to pass the function name to create-ctimed-closure.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Execute code and record the time spent in specified functions as measured by 
+;;; get-internal-real-time.
+;;;
+;;; When being used with ACT-R, code that needs it can include this:
+;;; (require-compiled "TIME-FUNCTIONS")
+;;; to make sure it gets loaded.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; time-functions
+;;;
+;;; Takes a list of function names which may end with a keyword parameter
+;;; :save-params that specifies whether or not to record the parameters along
+;;; with the times for the recorded functions (the default is nil) and any number 
+;;; of forms to evaluate. 
+;;; It returns two values.  The first is an alist of the function times recorded
+;;; where the function name is the car of an entry and the cdr is either a list
+;;; of times if :save-params is nil or a list of lists where each sublist has 
+;;; the time as the car and the parameters which were passed to the function as
+;;; the cdr.  The second value returned is the result of evaluating the forms
+;;; provided.
+;;; Examples found in comment at end of file.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Only records the total time for a recursive function i.e. the time from 
+;;; the start of the first call until it returns.
+;;; 
+;;; The functions which are being timed are not "thread safe".  So this won't 
+;;; work to time functions which are being run in multiple threads simultaneously.
+;;; In particular, if one is using my parallel-* functions this can't be used to
+;;; time the functions being run, but it could record the parallel-* function 
+;;; itself i.e. this would be fine:
+;;;
+;;; (time-functions (parallel-mapcar)
+;;;      (parallel-mapcar team 'compute-vals data1)
+;;;      (parallel-mapcar team 'compute-vals data2)
+;;;      ...)
+;;;
+;;; but this would not and may result in errors:
+;;;
+;;; (time-functions (compute-vals)
+;;;      (parallel-mapcar team 'compute-vals data1)
+;;;      (parallel-mapcar team 'compute-vals data2)
+;;;      ...)
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmacro create-timed-closure (f c save results)
+  (let ((start (gensym)))
+    `(let ((,start nil))
+       (lambda (&rest rest)
+         (if ,start
+             (apply ,c rest)
+           (unwind-protect
+               (progn
+                 (setf ,start (get-internal-real-time))
+                 (apply ,c rest))
+             (progn
+               (if ,save
+                   (push (cons (- (get-internal-real-time) ,start) rest) (cdr (assoc ,f ,results)))
+                 (push (- (get-internal-real-time) ,start) (cdr (assoc ,f ,results))))
+               (setf ,start nil))))))))
+
+(defmacro time-functions ((&rest fns) &body body)
+  (let ((results (gensym))
+        (old-defs (gensym))
+        (fn (gensym))
+        (f (gensym))
+        (c (gensym))
+        (save nil))
+    (when (and (>= (length fns) 2) (eq :save-params (nth (- (length fns) 2) fns)))
+      (setf save (nth (1- (length fns)) fns))
+      (setf fns (butlast fns 2)))
+    `(let ((,results nil)
+           (,old-defs (mapcan (lambda (x) (when (fboundp x) (list (cons x (fdefinition x))))) ',fns)))
+       (unwind-protect 
+           (progn
+             (dolist (,fn ,old-defs)
+               (let ((,f (car ,fn))
+                     (,c (cdr ,fn)))
+                 (push (cons ,f nil) ,results)
+                 (setf (fdefinition ,f)
+                   (create-timed-closure ,f ,c ,save ,results))
+                 (compile ,f)))
+             (values ,results (progn ,@body)))
+         (dolist (,fn ,old-defs)
+           (setf (fdefinition (car ,fn)) (cdr ,fn)))))))
+
+
+
+
+(defmacro create-ctimed-closure (c results)
+  (let ((start (gensym)))
+    `(let ((,start nil))
+       (lambda (&rest rest)
+         (if ,start
+             (apply ,c rest)
+           (unwind-protect
+               (progn
+                 (setf ,start (get-internal-real-time))
+                 (apply ,c rest))
+             (progn
+               (incf (first ,results))
+               (incf (second ,results) (- (get-internal-real-time) ,start))
+               (setf ,start nil))))))))
+
+(defmacro ctime-functions ((&rest fns) &body body)
+  (let ((results (gensym))
+        (old-defs (gensym))
+        (fn (gensym))
+        (f (gensym))
+        (c (gensym))
+        (d (gensym)))
+    
+    `(let ((,results nil)
+           (,old-defs (mapcan (lambda (x) (when (fboundp x) (list (cons x (fdefinition x))))) ',fns)))
+       (unwind-protect 
+           (progn
+             (dolist (,fn ,old-defs)
+               (let ((,f (car ,fn))
+                     (,c (cdr ,fn))
+                     (,d (list 0 0)))
+                 (push (cons ,f ,d) ,results)
+                 (setf (fdefinition ,f)
+                   (create-ctimed-closure ,c ,d))
+                 (compile ,f)))
+             (values ,results (progn ,@body)))
+         (dolist (,fn ,old-defs)
+           (setf (fdefinition (car ,fn)) (cdr ,fn)))))))
+
+
+(provide "TIME-FUNCTIONS")
+
+#| Example:
+
+CG-USER(31): (defun recursive-sleep (n)
+               (unless (< n 1)
+                (sleep 1)
+                (recursive-sleep (1- n))))
+RECURSIVE-SLEEP
+CG-USER(32): (defun special-sleep (n)
+               (recursive-sleep n)
+               n)
+SPECIAL-SLEEP
+CG-USER(33): (time-functions (special-sleep recursive-sleep :save-params t)
+                             (special-sleep 3)
+                             (special-sleep 2))
+((RECURSIVE-SLEEP (2000 2) (3000 3)) (SPECIAL-SLEEP (2000 2) (3000 3)))
+2
+CG-USER(34): (time-functions (special-sleep recursive-sleep)
+                             (special-sleep 2)
+                             (special-sleep 1))
+((RECURSIVE-SLEEP 1000 2000) (SPECIAL-SLEEP 1000 2000))
+1
+
+|#
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

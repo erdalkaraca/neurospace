@@ -1,0 +1,2105 @@
+hird data) :test 'member :key 'phn-color-ends)))
+                    (used nil))
+                
+                
+                (command-output "    \"~s\" [ color = green ];" (cdr (assoc start-node node-names))) 
+                (unless (eq start-node end-node)
+                  (command-output "    \"~s\" [ color = red ];" (cdr (assoc end-node node-names))))
+                
+                (pushnew (assoc start-node node-names) used)
+                (pushnew (assoc end-node node-names) used)
+                
+                (dolist (node (third data))
+             
+                  (let* ((transitions (remove-duplicates (remove-if-not (lambda (x) (= (phl-color x) i)) (phn-links node)) :test (lambda (x y) (and (eq (phl-target x) (phl-target y)) (eql (phl-count x) (phl-count y))))))
+                         (links (remove-if (lambda (x) (and (null (phl-count x)) (find (phl-target x) (remove x transitions) :key 'phl-target))) transitions)))
+                    (dolist (link links)
+                      (pushnew (assoc (phl-target link) node-names) used)
+                      
+                      (if (phl-count link)
+                          (command-output "    \"~s\" -> \"~s\" ;" (cdr (assoc (phn-name node) node-names)) (cdr (assoc (phl-target link) node-names)))
+                        (command-output "    \"~s\" -> \"~s\" [ color = gray style = dashed ] ;" (cdr (assoc (phn-name node) node-names)) (cdr (assoc (phl-target link) node-names)))))))
+                
+                (dolist (x used)
+                  (command-output "    \"~s\" [ label = \"~s\" ];" (cdr x) (car x)))
+                
+                (command-output "  }")))
+            (command-output "}"))
+           ((or (eq which :cycle) (eq which :run))
+            
+            (command-output "digraph \"~s\" {" (current-model))
+            (dotimes (i max-loops)
+              (command-output "  subgraph cluster_~d {~%    label = \"~a ~d\";" i which (1+ i))
+              (let ((node-names (mapcar (lambda (x) (cons x (new-name-fct x))) (mapcar 'phn-name (third data))))
+                    (start-node (phn-name (find i (third data) :test 'member :key (lambda (y) (mapcar 'car (phn-cycle-starts y))))))
+                    (end-node (phn-name (find i (third data) :test 'member :key (lambda (y) (mapcar 'car (phn-cycle-ends y))))))
+                    (used nil))
+                
+                
+                (command-output "    \"~s\" [ color = green ];" (cdr (assoc start-node node-names))) 
+                (unless (eq start-node end-node)
+                  (command-output "    \"~s\" [ color = red ];" (cdr (assoc end-node node-names))))
+                
+                (pushnew (assoc start-node node-names) used)
+                (pushnew (assoc end-node node-names) used)
+                
+                (dolist (node (third data))
+             
+                  (let* ((transitions (remove-duplicates (remove-if-not (lambda (x) (= (phl-cycle x) i)) (phn-links node)) :test (lambda (x y) (and (eq (phl-target x) (phl-target y)) (eql (phl-count x) (phl-count y))))))
+                         (links (remove-if (lambda (x) (and (null (phl-cycle x)) (find (phl-target x) (remove x transitions) :key 'phl-target))) transitions)))
+                    (dolist (link links)
+                      (pushnew (assoc (phl-target link) node-names) used)
+                      
+                      (if (phl-count link)
+                          (command-output "    \"~s\" -> \"~s\" ;" (cdr (assoc (phn-name node) node-names)) (cdr (assoc (phl-target link) node-names)))
+                        (command-output "    \"~s\" -> \"~s\" [ color = gray style = dashed ] ;" (cdr (assoc (phn-name node) node-names)) (cdr (assoc (phl-target link) node-names)))))))
+                
+                (dolist (x used)
+                  (command-output "    \"~s\" [ label = \"~s\" ];" (cdr x) (car x)))
+                
+                (command-output "  }")))
+            (command-output "}"))))))
+
+|#
+
+
+(defun reset-p-history-module (module)
+  (bt:with-lock-held ((p-history-module-lock module))
+    (setf (p-history-module-history module) nil)
+    (setf (p-history-module-why-not-list module) nil)))
+  
+
+(defun create-production-history-module (x)
+  (declare (ignore x))
+  (make-p-history-module))
+
+(defun delete-production-history-module (x)
+  (bt:with-lock-held ((p-history-module-lock x))
+    (setf (p-history-module-alive x) nil)))
+
+(define-module-fct 'production-history nil nil  
+  :creation 'create-production-history-module
+  :delete 'delete-production-history-module
+  :reset 'reset-p-history-module
+  :run-start 'production-history-start-markers
+  :run-end 'production-history-stop-markers
+  :version "2.1"
+  :documentation "Module to record production history for display in the environment.")
+  
+
+
+(defun get-p-history-data ()
+  (let ((module (get-module production-history)))
+    (when module
+      (bt:with-lock-held ((p-history-module-lock module))
+        (let (data)
+          (dolist (x (p-history-module-history module))
+            (push 
+             (case (p-history-tag x)
+               (:start (list (p-history-time x) "start"))
+               (:stop (list (p-history-time x) "stop" (p-history-info x)))
+               (:reward (list (p-history-time x) "reward" (p-history-reward x) (p-history-info x)))
+               (t (list (p-history-time x) "conflict-resolution" (p-history-selected x) (p-history-matched x) (p-history-mismatched x) (p-history-info x))))
+             data))
+          (push (list 0 "info" (p-history-module-why-not-list module) (mapcar (lambda (x) (list x (printed-production-text x nil))) (all-productions))) data)
+          data)))))
+
+
+(defun enable-p-history () 
+  (no-output
+   (unless (find 'production-history-recorder (car (sgp :conflict-set-hook)))
+     (sgp :conflict-set-hook production-history-recorder))
+   (unless (find 'production-history-reward-markers (car (sgp :reward-notify-hook)))
+     (sgp :reward-notify-hook production-history-reward-markers)))
+  (let ((m (get-module production-history)))
+    (bt:with-lock-held ((p-history-module-lock m))
+      (setf (p-history-module-enabled m) t))))
+
+(defun disable-p-history ()
+  (no-output
+   (let ((old-hooks (car (sgp :conflict-set-hook))))
+     (when (find 'production-history-recorder old-hooks)
+       (sgp :conflict-set-hook (:remove production-history-recorder)))
+     (setf old-hooks (car (sgp :reward-notify-hook)))
+     (when (find 'production-history-reward-markers old-hooks)
+       (sgp :reward-notify-hook (:remove production-history-reward-markers)))))
+  (let ((m (get-module production-history)))
+    (bt:with-lock-held ((p-history-module-lock m))
+      (setf (p-history-module-enabled m) nil))))
+
+(defun p-history-status ()
+  (let ((m (get-module production-history)))
+    (if m
+        (bt:with-lock-held ((p-history-module-lock m))
+          (no-output 
+           (values 
+            (and (find 'production-history-recorder (car (sgp :conflict-set-hook)))
+                 (find 'production-history-reward-markers (car (sgp :reward-notify-hook)))
+                 t)
+            (when (p-history-module-history m) t)
+            (p-history-module-alive m))))
+      (values nil nil nil))))
+
+
+(define-history "production-history" enable-p-history disable-p-history p-history-status get-p-history-data t)
+
+
+(defun compute-production-grid (p-data)
+  (let ((data (json:decode-json-from-string p-data))
+        (results nil)
+        (p-list nil))
+    (dolist (x data)
+      (case (read-from-string (second x))
+        (info
+         (push-last x results)
+         (setf p-list (mapcar 'first (fourth x))))
+        (conflict-resolution
+         (push-last (list (first x)
+                          "conflict-resolution"
+                          (if (third x) t)
+                          (let (r)
+                            (dolist (y p-list)
+                              (push-last (cond ((string-equal y (third x))
+                                                (let ((details (find y (sixth x) :key 'first :test 'string-equal)))
+                                                  (list 0 (second details) (third details))))
+                                               ((find y (fourth x) :test 'string-equal)
+                                                (let ((details (find y (sixth x) :key 'first :test 'string-equal)))
+                                                  (list 1 (second details) (third details))))
+                                               ((find y (fifth x) :test 'string-equal)
+                                                (let ((details (find y (sixth x) :key 'first :test 'string-equal)))
+                                                  (list 2 (second details))))
+                                               (t
+                                                (list -1)))
+                                         r))
+                            r))
+                    results))))
+    results))
+    
+
+(define-history-processor "production-history" "production-grid" compute-production-grid)
+
+(defun production-graph-all (x) 
+  (create-production-graph-coords x :all))
+(defun production-graph-freq (x) 
+  (create-production-graph-coords x :freq))
+(defun production-graph-cycles (x) 
+  (create-production-graph-coords x :cycle))
+(defun production-graph-u-cycles (x) 
+  (create-production-graph-coords x :color))
+(defun production-graph-runs (x) 
+  (create-production-graph-coords x :run))
+(defun production-graph-u-runs (x) 
+  (create-production-graph-coords x :run-color))
+(defun production-graph-utility (x) 
+  (create-production-graph-coords x :utility))
+
+(define-history-processor-fct "production-history" "production-graph-all" 'production-graph-all)
+(define-history-processor-fct "production-history" "production-graph-freq" 'production-graph-freq)
+(define-history-processor-fct "production-history" "production-graph-cycles" 'production-graph-cycles)
+(define-history-processor-fct "production-history" "production-graph-u-cycles" 'production-graph-u-cycles)
+(define-history-processor-fct "production-history" "production-graph-runs" 'production-graph-runs)
+(define-history-processor-fct "production-history" "production-graph-u-runs" 'production-graph-u-runs)
+(define-history-processor-fct "production-history" "production-graph-utility" 'production-graph-utility)
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    (#Y(si::bytecodes nil nil (15 0 15 1 77 77 15 2 15 3 15 4 77 77 77 15 5 9 3 77 77 15 6 19 15 7 15 0 15 8 15 9 15 10 19 4 11 15 12 15 8 15 13 15 14 19 4 11 15 12 14 15 77 15 16 19 4 11 15 0 19 1 26 78 22 15 12 1 24 12 19 2 25 1 0 73 29) #1=#A(t (268) (common-lisp-user::dm-history-module "DM-HISTORY-MODULE-" (common-lisp-user::history (common-lisp-user::lock #2=(bordeaux-threads::make-lock #3="dm-history-module")) (common-lisp-user::alive t)) ((common-lisp-user::history nil t nil 0 nil) (common-lisp-user::lock #2# t nil 1 nil) (common-lisp-user::alive t t nil 2 nil)) common-lisp-user::copy-dm-history-module (common-lisp-user::make-dm-history-module) common-lisp-user::dm-history-module-p si::define-structure ext::location (defstruct common-lisp-user::dm-history-module) (#4=#P"/opt/actr/actr7.x/other-files/retrieval-history.lisp" . 0) ext::annotate common-lisp-user::make-dm-history-module (defun common-lisp-user::make-dm-history-module) (#4# . 0) :lambda-list (&key #5=#:history (#6=#:lock (bordeaux-threads::make-lock #3#)) (#7=#:alive t)) (nil :alive :lock :history) #5# #6# t #7# 0 si::make-structure #Y(common-lisp-user::make-dm-history-module nil nil (28 17 22 40 2 77 46 18 22 40 2 77 46 19 22 40 3 14 20 46 21 15 22 13 2 13 1 13 0 19 4 23 29) #1# #4# 0) si::fset find-class common-lisp-user::dm-history "DM-HISTORY-" (time common-lisp-user::request common-lisp-user::chunks common-lisp-user::chunk-texts common-lisp-user::params common-lisp-user::activation-trace) ((time nil t nil 0 nil) (common-lisp-user::request nil t nil 1 nil) (common-lisp-user::chunks nil t nil 2 nil) (common-lisp-user::chunk-texts nil t nil 3 nil) (common-lisp-user::params nil t nil 4 nil) (common-lisp-user::activation-trace nil t nil 5 nil)) common-lisp-user::copy-dm-history (common-lisp-user::make-dm-history) common-lisp-user::dm-history-p (defstruct common-lisp-user::dm-history) (#4# . 4374) common-lisp-user::make-dm-history (defun common-lisp-user::make-dm-history) (#4# . 4374) (&key #8=#:time #9=#:request #10=#:chunks #11=#:chunk-texts #12=#:params #13=#:activation-trace) (nil :activation-trace :params :chunk-texts :chunks :request :time) #8# #9# #10# #11# #12# #13# 0 #Y(common-lisp-user::make-dm-history nil nil (28 40 22 40 2 77 46 41 22 40 2 77 46 42 22 40 2 77 46 43 22 40 2 77 46 44 22 40 2 77 46 45 22 40 2 77 46 46 15 47 13 5 13 4 13 3 13 2 13 1 13 0 19 7 23 29) #1# #4# 4374) common-lisp-user::dm-request-recorder (defun common-lisp-user::dm-request-recorder) (#4# . 4478) (common-lisp-user::request) common-lisp-user::request common-lisp-user::retrieval-history common-lisp-user::get-module-fct :time common-lisp-user::mp-time-ms :request common-lisp-user::printed-chunk-spec block common-lisp-user::history #:g23583 #:g23581 common-lisp-user::dm-history-module-history #:g23582 si::structure-set #Y(common-lisp-user::dm-request-recorder nil nil (24 45 53 26 15 54 77 19 2 55 12 14 56 19 0 57 12 14 58 13 0 19 1 59 12 19 4 36 12 46 60 46 61 10 1 45 62 10 1 45 63 13 1 13 0 19 1 64 3 45 65 13 1 15 0 9 0 13 0 19 4 66 43 3 75 73 43 2 29) #1# #4# 4478) common-lisp-user::dm-retrieval-set-recorder (defun common-lisp-user::dm-retrieval-set-recorder) (#4# . 4790) (set) set common-lisp-user::best common-lisp-user::record #:g23652 :retrieval-failure #:g23653 :esc common-lisp-user::get-parameter-value common-lisp-user::printing-module #:g23655 #:g23654 #:g23656 common-lisp-user::printing-module-suppress-cmds #:g23658 #:g23659 (setf common-lisp-user::printing-module-suppress-cmds) :last-retrieval-activation common-lisp-user::sdp-fct caar #:g23660 #:g23661 (setf common-lisp-user::printing-module-suppress-cmds) common-lisp-user::a numberp :rt < #:g23662 #:g23663 #:g23664 #:g23665 common-lisp-user::dm-history-chunks si::%dolist-var common-lisp-user::x eq #:g23693 "" #:g23695 common-lisp-user::dm-history-chunk-texts nconc #:g23694 #:g23696 "" #:g23698 common-lisp-user::dm-history-activation-trace #:g23697 #:g23699 "" #:g23701 common-lisp-user::dm-history-params #:g23700 #:g23702 common-lisp-user::printed-chunk #:g23704 #:g23703 #:g23705 common-lisp-user::printed-chunk-activation-trace #:g23707 #:g23706 common-lisp-user::suppress-and-capture-warnings #:g23708 #:g23710 #:g23709 make-string-output-stream common-lisp-user::printing-module-c #:g23711 #:g23712 #:g23713 :stream common-lisp-user::make-act-r-output #:g23714 (setf common-lisp-user::printing-module-c) #:g23715 #:g23716 (setf common-lisp-user::printing-module-c) get-output-stream-string close common-lisp-user::unsuppress-warnings common-lisp-user::s #:g23717 #:g23719 #:g23718 #Y(common-lisp-user::dm-retrieval-set-recorder nil nil (24 45 72 26 15 54 77 19 2 55 12 10 0 4 12 46 73 46 61 13 0 19 1 64 4 45 74 10 3 76 39 28 10 0 45 75 11 76 6 1 45 77 13 1 15 27 9 2 13 0 19 4 66 43 1 43 1 38 170 10 2 39 113 14 78 19 1 79 39 106 15 80 19 1 55 47 1 81 45 82 10 1 39 69 75 45 83 13 1 19 1 84 51 0 10 1 45 85 11 20 45 86 13 0 13 1 33 87 18 2 43 1 43 1 64 14 13 5 11 88 6 2 12 19 1 89 16 90 65 10 1 45 91 10 1 45 92 13 0 13 1 33 93 18 2 43 1 43 1 66 43 1 43 2 45 94 10 0 16 95 39 12 13 0 14 96 19 1 79 12 19 2 97 43 1 39 29 10 0 45 98 14 76 10 4 3 45 99 13 1 15 27 9 2 13 0 19 4 66 43 1 43 1 38 24 10 0 45 100 10 4 45 101 13 1 15 27 9 2 13 0 19 4 66 43 1 43 1 13 0 19 1 102 45 103 38 373 10 0 4 45 104 13 0 11 76 17 105 39 111 10 2 45 106 1 107 6 1 45 108 13 1 19 1 109 12 13 0 19 2 110 45 111 13 2 15 27 9 3 13 0 19 4 66 43 3 10 2 45 112 1 113 6 1 45 114 13 1 19 1 115 12 13 0 19 2 110 45 116 13 2 15 27 9 5 13 0 19 4 66 43 3 10 2 45 117 1 118 6 1 45 119 13 1 19 1 120 12 13 0 19 2 110 45 121 13 2 15 27 9 4 13 0 19 4 66 43 3 38 243 10 2 45 122 13 1 19 1 123 6 1 45 124 13 1 19 1 109 12 13 0 19 2 110 45 125 13 2 15 27 9 3 13 0 19 4 66 43 3 10 2 45 126 13 1 19 0 57 12 14 20 19 3 127 6 1 45 128 13 1 19 1 115 12 13 0 19 2 110 45 129 13 2 15 27 9 5 13 0 19 4 66 43 3 19 0 130 45 131 64 104 15 80 19 1 55 47 1 132 45 133 10 1 73 39 86 19 0 134 12 13 0 19 1 135 12 46 136 46 137 10 2 45 138 14 139 13 1 19 2 140 45 141 13 0 13 1 33 142 18 2 43 1 43 1 64 10 10 5 6 1 12 19 1 89 65 10 2 45 143 10 2 45 144 13 0 13 1 33 145 18 2 43 1 43 1 66 10 0 16 146 12 13 0 19 1 147 22 73 43 2 43 2 65 13 0 19 1 148 66 43 1 45 149 10 3 45 150 10 1 6 1 45 151 13 1 19 1 120 12 13 0 19 2 110 45 152 13 2 15 27 9 4 13 0 19 4 66 43 3 43 1 10 1 5 51 1 43 1 10 0 40 -375 43 1 43 1 43 2 75 73 29) #1# #4# 4790) common-lisp-user::reset-dm-history-module (defun common-lisp-user::reset-dm-history-module) (#4# . 6348) (common-lisp-user::module) common-lisp-user::module #:g23722 #:g23723 #Y(common-lisp-user::reset-dm-history-module nil nil (24 45 158 26 10 0 45 159 75 45 160 13 1 15 0 9 0 13 0 19 4 66 43 1 43 1 29) #1# #4# 6348) common-lisp-user::delete-dm-history-module (defun common-lisp-user::delete-dm-history-module) (#4# . 6503) (common-lisp-user::module) #:g23726 #:g23727 #Y(common-lisp-user::delete-dm-history-module nil nil (24 45 158 26 10 0 45 166 75 45 167 13 1 15 0 9 2 13 0 19 4 66 43 1 43 1 29) #1# #4# 6503) common-lisp-user::enable-retrieval-history (defun common-lisp-user::enable-retrieval-history) (#4# . 6654) #:g23737 #:g23736 #:g23738 #:g23740 #:g23741 (setf common-lisp-user::printing-module-suppress-cmds) (:retrieval-request-hook) common-lisp-user::sgp-fct find (:retrieval-request-hook common-lisp-user::dm-request-recorder) (:retrieval-set-hook) (:retrieval-set-hook common-lisp-user::dm-retrieval-set-recorder) (:sact) (:sact t) #:g23742 #:g23743 (setf common-lisp-user::printing-module-suppress-cmds) #Y(common-lisp-user::enable-retrieval-history nil nil (26 15 80 19 1 55 47 1 172 45 173 10 1 73 39 112 75 45 174 13 1 19 1 84 51 0 10 1 45 175 11 20 45 176 13 0 13 1 33 177 18 2 43 1 43 1 64 57 15 49 15 178 19 1 179 4 12 19 2 180 76 39 6 15 181 19 1 179 15 68 15 182 19 1 179 4 12 19 2 180 76 39 6 15 183 19 1 179 15 184 19 1 179 4 76 73 39 6 15 185 19 1 179 65 10 1 45 186 10 1 45 187 13 0 13 1 33 188 18 2 43 1 43 1 66 43 1 43 2 29) #1# #4# 6654) common-lisp-user::disable-retrieval-history (defun common-lisp-user::disable-retrieval-history) (#4# . 7029) #:g23754 #:g23753 #:g23755 #:g23757 #:g23758 (setf common-lisp-user::printing-module-suppress-cmds) (:retrieval-request-hook) common-lisp-user::current-hooks (:retrieval-request-hook (:remove common-lisp-user::dm-request-recorder)) (:retrieval-set-hook) (:retrieval-set-hook (:remove common-lisp-user::dm-retrieval-set-recorder)) #:g23760 #:g23761 (setf common-lisp-user::printing-module-suppress-cmds) #Y(common-lisp-user::disable-retrieval-history nil nil (26 15 80 19 1 55 47 1 193 45 194 10 1 73 39 104 75 45 195 13 1 19 1 84 51 0 10 1 45 196 11 20 45 197 13 0 13 1 33 198 18 2 43 1 43 1 64 49 15 199 19 1 179 4 45 200 15 49 13 0 19 2 180 39 6 15 201 19 1 179 15 202 19 1 179 4 51 0 15 68 13 0 19 2 180 73 39 6 15 203 19 1 179 43 1 65 10 1 45 204 10 1 45 205 13 0 13 1 33 206 18 2 43 1 43 1 66 43 1 43 2 29) #1# #4# 7029) common-lisp-user::retrieval-history-status (defun common-lisp-user::retrieval-history-status) (#4# . 7467) (&optional time) time common-lisp-user::m #:g23771 #:g23770 #:g23772 #:g23774 #:g23775 (setf common-lisp-user::printing-module-suppress-cmds) (:sact) (:retrieval-request-hook) (:retrieval-set-hook) :key common-lisp-user::dm-history-time common-lisp-user::dm-history-module-alive #:g23776 #:g23777 (setf common-lisp-user::printing-module-suppress-cmds) #Y(common-lisp-user::retrieval-history-status nil nil (25 40 2 77 46 212 26 15 54 77 19 2 55 45 213 10 0 39 168 15 80 19 1 55 47 1 214 45 215 10 1 73 39 149 75 45 216 13 1 19 1 84 51 0 10 1 45 217 11 20 45 218 13 0 13 1 33 219 18 2 43 1 43 1 64 94 15 220 19 1 179 4 73 39 34 15 49 15 221 19 1 179 4 12 19 2 180 73 39 19 15 68 15 222 19 1 179 4 12 19 2 180 73 39 4 11 20 73 12 10 4 16 95 39 24 13 4 13 3 19 1 64 12 14 223 15 224 19 4 180 73 39 4 11 20 73 38 12 13 3 19 1 64 73 39 4 11 20 73 12 13 3 19 1 225 12 72 3 65 10 1 45 226 10 1 45 227 13 0 13 1 33 228 18 2 43 1 43 1 66 43 1 43 2 38 6 77 77 77 72 3 43 1 29) #1# #4# 7467) common-lisp-user::create-retrieval-history-module (defun common-lisp-user::create-retrieval-history-module) (#4# . 8151) (common-lisp-user::x) #Y(common-lisp-user::create-retrieval-history-module nil nil (24 45 104 26 19 0 12 29) #1# #4# 8151) :creation :reset :delete :version "2.1" :documentation "Module to record retrieval history data." common-lisp-user::define-module-fct common-lisp-user::get-retrieval-history (defun common-lisp-user::get-retrieval-history) (#4# . 8499) (&optional time) common-lisp-user::it common-lisp-user::dm-history-request list mapcar #Y(nil nil nil (24 45 104 26 13 0 19 1 224 12 13 0 19 1 248 12 15 249 13 0 19 1 102 12 13 0 19 1 109 12 13 0 19 1 120 12 13 0 19 1 115 12 19 5 250 6 3 73 29) #1# #4# 8499) reverse #Y(common-lisp-user::get-retrieval-history nil nil (25 40 2 77 46 212 26 15 54 77 19 2 55 45 213 10 0 73 39 96 10 1 16 95 39 76 13 1 13 0 19 1 64 12 14 223 15 224 19 4 180 45 247 10 0 39 49 13 0 19 1 224 12 13 0 19 1 248 12 15 249 13 0 19 1 102 12 13 0 19 1 109 12 13 0 19 1 120 12 13 0 19 1 115 12 19 5 250 6 3 6 1 73 38 3 75 73 43 1 38 15 34 251 12 13 0 19 1 64 16 252 12 19 2 250 43 1 29) #1# #4# 8499) "retrieval-history" common-lisp-user::define-history-fct common-lisp-user::retrieval-times (defun common-lisp-user::retrieval-times) (#4# . 9767) (common-lisp-user::history) common-lisp-user::data car third #Y(nil nil nil (24 45 104 26 10 0 4 12 15 261 10 0 16 262 12 19 2 250 6 2 73 29) #1# #4# 9767) #Y(common-lisp-user::retrieval-times nil nil (24 45 61 26 10 0 45 260 34 263 12 13 0 19 2 250 43 1 29) #1# #4# 9767) "retrieval-history" "retrieval-times" common-lisp-user::define-history-processor-fct)) #4# 0) #Y(si::bytecodes nil nil (15 27 15 28 77 77 15 29 15 30 15 31 77 77 77 15 32 9 6 77 77 15 33 19 15 7 15 27 15 8 15 34 15 35 19 4 11 15 36 15 8 15 37 15 38 19 4 11 15 36 14 15 77 15 39 19 4 11 15 27 19 1 26 78 47 15 36 1 48 12 19 2 25 1 27 73 29) #1# #4# 4374) #Y(si::bytecodes nil nil (15 49 15 8 15 50 15 51 19 4 11 15 49 14 15 77 15 52 19 4 11 15 49 1 67 12 19 2 25 1 49 73 29) #1# #4# 4478) #Y(si::bytecodes nil nil (15 68 15 8 15 69 15 70 19 4 11 15 68 14 15 77 15 71 19 4 11 15 68 1 153 12 19 2 25 1 68 73 29) #1# #4# 4790) #Y(si::bytecodes nil nil (15 154 15 8 15 155 15 156 19 4 11 15 154 14 15 77 15 157 19 4 11 15 154 1 161 12 19 2 25 1 154 73 29) #1# #4# 6348) #Y(si::bytecodes nil nil (15 162 15 8 15 163 15 164 19 4 11 15 162 14 15 77 15 165 19 4 11 15 162 1 168 12 19 2 25 1 162 73 29) #1# #4# 6503) #Y(si::bytecodes nil nil (15 169 15 8 15 170 15 171 19 4 11 15 169 14 15 77 77 19 4 11 15 169 1 189 12 19 2 25 1 169 73 29) #1# #4# 6654) #Y(si::bytecodes nil nil (15 190 15 8 15 191 15 192 19 4 11 15 190 14 15 77 77 19 4 11 15 190 1 207 12 19 2 25 1 190 73 29) #1# #4# 7029) #Y(si::bytecodes nil nil (15 208 15 8 15 209 15 210 19 4 11 15 208 14 15 77 15 211 19 4 11 15 208 1 229 12 19 2 25 1 208 73 29) #1# #4# 7467) #Y(si::bytecodes nil nil (15 230 15 8 15 231 15 232 19 4 11 15 230 14 15 77 15 233 19 4 11 15 230 1 234 12 19 2 25 1 230 73 29) #1# #4# 8151) #Y(si::bytecodes nil nil (15 54 77 77 14 235 15 230 14 236 15 154 14 237 15 162 14 238 15 239 14 240 15 241 19 13 242 29) #1# #4# 8250) #Y(si::bytecodes nil nil (15 243 15 8 15 244 15 245 19 4 11 15 243 14 15 77 15 246 19 4 11 15 243 1 253 12 19 2 25 1 243 73 29) #1# #4# 8499) #Y(si::bytecodes nil nil (15 254 15 169 15 190 15 208 15 243 15 20 19 6 255 29) #1# #4# 9627) #Y(si::bytecodes nil nil (15 256 15 8 15 257 15 258 19 4 11 15 256 14 15 77 15 259 19 4 11 15 256 1 264 12 19 2 25 1 256 73 29) #1# #4# 9767) #Y(si::bytecodes nil nil (15 265 15 266 15 256 19 3 267 29) #1# #4# 9980))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2008 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : retrieval-history.lisp
+;;; Version     : 2.1
+;;; 
+;;; Description : Code to record retrieval history data.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2008.08.14 Dan
+;;;             : * Initial creation.
+;;; 2011.06.22 Dan [1.1]
+;;;             : * Added another pane to the display which shows the activation
+;;;             :   trace information as saved with the new :sact parameter.
+;;; 2012.02.08 Dan
+;;;             : * Added checks so that trying to get information from an old
+;;;             :   display no longer throws an error.
+;;; 2012.02.09 Dan
+;;;             : * Explicitly close streams made with make-string-output-stream 
+;;;             :   to be safe.
+;;; 2012.03.21 Dan
+;;;             : * Use with-parameters instead of saving and setting :cmdt 
+;;;             :   explicitly.
+;;; 2012.03.27 Dan
+;;;             : * Fixed dm-history-chunk-display so that it doesn't show 
+;;;             :   "History no longer available" when there was a failure.
+;;; 2015.05.05 Dan
+;;;             : * Added a suppress-warnings to the recording of the sdp info
+;;;             :   in dm-retrieval-set-recorder since there might be issues 
+;;;             :   with negative Sjis that don't matter in the actual model
+;;;             :   so don't want to see those warnings from the recorder.
+;;; 2015.06.09 Dan
+;;;             : * Record time in ms internally, but still show seconds to the
+;;;             :   user in the list.
+;;; 2016.04.22 Dan 
+;;;             : * Start of the work to support the new history tools that 
+;;;             :   allow saving data and then displaying that saved data.
+;;;             : * Now also turn on :sact automatically with :save-dm-history.
+;;; 2016.04.28 Dan
+;;;             : * Use the key from the environment to access the appropriate
+;;;             :   underlying data source.
+;;; 2017.08.09 Dan
+;;;             : * Replacing calls to capture-model-output with the corresponding
+;;;             :   direct output capture functions: printed-chunk-spec, printed-chunk,
+;;;             :   and printed-chunk-activation-trace.
+;;; 2017.09.22 Dan [2.0]
+;;;             : * Making this a history stream and eliminating the parameter
+;;;             :   for enabling it.
+;;; 2018.04.18 Dan
+;;;             : * Adding an optional parameter for the history stream to allow
+;;;             :   getting a single request's data.
+;;; 2018.04.27 Dan
+;;;             : * Moved the retrieval-times processor for the history here.
+;;; 2020.01.13 Dan [2.1]
+;;;             : * Removed the lambdas from the module interface.
+;;;             : * Use the (:remove <>) option for the hook functions.
+;;; 2020.08.27 Dan
+;;;             : * Switch from (no-output (sgp ...)) to get-parameter and cast
+;;;             :   the result as a real to avoid a warning in SBCL.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(defstruct dm-history-module
+  history
+  (lock (bt:make-lock "dm-history-module"))
+  (alive t))
+  
+
+(defstruct dm-history
+  time
+  request
+  chunks
+  chunk-texts
+  params
+  activation-trace)
+
+(defun dm-request-recorder (request)
+  (let ((history (get-module retrieval-history))
+        (block (make-dm-history :time (mp-time-ms) :request (printed-chunk-spec request))))
+    (bt:with-lock-held ((dm-history-module-lock history))
+      (push block (dm-history-module-history history))
+      nil)))
+
+(defun dm-retrieval-set-recorder (set)
+  (let ((history (get-module retrieval-history))
+        (best (car set)))
+    (bt:with-lock-held ((dm-history-module-lock history))
+      (let ((record (car (dm-history-module-history history))))
+    
+        (cond ((null set)
+               (setf (dm-history-chunks record) (list :retrieval-failure)))
+              ((and best (get-parameter-value :esc)
+                    (let ((a (no-output (caar (sdp-fct (list best :last-retrieval-activation))))))
+                      (when (numberp a) ;; will always be true, but testing to avoid an SBCL compiler warning
+                        (< a (the real (get-parameter-value :rt))))))
+               (setf (dm-history-chunks record) (cons :retrieval-failure set)))
+              (t 
+               (setf (dm-history-chunks record) set)))
+        
+        (dolist (x (dm-history-chunks record))
+          (if (eq x :retrieval-failure)
+              (progn
+                (push-last "" (dm-history-chunk-texts record))
+                (push-last "" (dm-history-activation-trace record))
+                (push-last "" (dm-history-params record)))
+            (progn
+              (push-last (printed-chunk x) (dm-history-chunk-texts record))
+              (push-last (printed-chunk-activation-trace x (mp-time-ms) t)
+                         (dm-history-activation-trace record))
+              (let ((s (suppress-warnings (capture-command-output (sdp-fct (list x))))))
+                (push-last s (dm-history-params record)))))))))
+  nil)
+
+
+
+(defun reset-dm-history-module (module)
+  (bt:with-lock-held ((dm-history-module-lock module))
+   (setf (dm-history-module-history module) nil)))
+
+(defun delete-dm-history-module (module)
+  (bt:with-lock-held ((dm-history-module-lock module))
+    (setf (dm-history-module-alive module) nil)))
+
+(defun enable-retrieval-history ()
+  (no-output
+   (unless (find 'dm-request-recorder (car (sgp :retrieval-request-hook)))
+     (sgp :retrieval-request-hook dm-request-recorder))
+   (unless (find 'dm-retrieval-set-recorder (car (sgp :retrieval-set-hook)))
+     (sgp :retrieval-set-hook dm-retrieval-set-recorder))
+   (unless (car (sgp :sact))
+     (sgp :sact t))))
+
+  
+(defun disable-retrieval-history ()  
+  (no-output
+   (let ((current-hooks (car (sgp :retrieval-request-hook))))
+     (when (find 'dm-request-recorder current-hooks)
+       (sgp :retrieval-request-hook (:remove dm-request-recorder)))
+     (setf current-hooks (car (sgp :retrieval-set-hook)))
+     (when (find 'dm-retrieval-set-recorder current-hooks)
+       (sgp :retrieval-set-hook (:remove dm-retrieval-set-recorder))))))
+
+(defun retrieval-history-status (&optional time)
+  (let ((m (get-module retrieval-history)))
+    (if m
+        (bt:with-lock-held ((dm-history-module-lock m))
+          (no-output 
+           (values 
+            (and (car (sgp :sact))
+                 (find 'dm-request-recorder (car (sgp :retrieval-request-hook)))
+                 (find 'dm-retrieval-set-recorder (car (sgp :retrieval-set-hook)))
+                 t)
+            (if (numberp time)
+                (when (find time (dm-history-module-history m) :key 'dm-history-time) t)
+              (when (dm-history-module-history m) t))
+            (dm-history-module-alive m))))
+      (values nil nil nil))))
+
+(defun create-retrieval-history-module (x)
+  (declare (ignore x))
+  (make-dm-history-module))
+
+
+(define-module-fct 'retrieval-history nil nil
+  :creation 'create-retrieval-history-module
+  :reset 'reset-dm-history-module
+  :delete 'delete-dm-history-module
+  :version "2.1"
+  :documentation "Module to record retrieval history data.")
+
+(defun get-retrieval-history (&optional time)
+  (let ((m (get-module retrieval-history)))
+    (when m
+      (bt:with-lock-held ((dm-history-module-lock m))
+        (if (numberp time)
+            (awhen (find time (dm-history-module-history m) :key 'dm-history-time)
+                   (list (list (dm-history-time it)
+                               (dm-history-request it)
+                               (mapcar 'list 
+                                 (dm-history-chunks it)
+                                 (dm-history-chunk-texts it)
+                                 (dm-history-params it)
+                                 (dm-history-activation-trace it)))))
+          (mapcar (lambda (x)
+                    (list (dm-history-time x)
+                          (dm-history-request x)
+                          (mapcar 'list 
+                            (dm-history-chunks x)
+                            (dm-history-chunk-texts x)
+                            (dm-history-params x)
+                            (dm-history-activation-trace x))))
+            (reverse (dm-history-module-history m))))))))
+
+(define-history "retrieval-history" enable-retrieval-history disable-retrieval-history retrieval-history-status get-retrieval-history t)
+
+
+(defun retrieval-times (history)
+  (let ((data (json::decode-json-from-string history)))
+    (mapcar (lambda (x)
+              (list (first x)
+                    (mapcar 'car (third x))))
+      data)))
+(define-history-processor "retrieval-history" "retrieval-times" retrieval-times)
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (#Y(si::bytecodes nil nil (14 0 14 1 1 9 12 14 10 15 11 14 12 15 13 14 14 15 15 14 16 1 20 12 19 11 21 29) #1=#A(t (22) (:safe-perceptual-buffers :valid-test common-lisp-user::x listp common-lisp-user::y common-lisp-user::buffers find #Y(nil nil nil (24 45 4 26 13 0 19 0 5 12 19 2 6 29) #1# #2=#P"/opt/actr/actr7.x/other-files/system-param-init.lisp" 0) every #Y(nil nil nil (24 45 2 26 10 0 16 3 73 39 9 34 7 12 13 0 19 2 8 29) #1# #2# 0) :default-value (common-lisp-user::temporal common-lisp-user::visual-location common-lisp-user::aural-location) :warning "a list of buffer names" :documentation "Perceptual buffers that shouldn't show a style warning when requested without a query" :handler common-lisp-user::set-or-get common-lisp-user::value common-lisp-user::*safe-perceptual-buffers* #Y(nil nil nil (24 45 17 24 45 18 26 10 1 39 8 10 0 52 19 73 38 4 11 19 73 29) #1# #2# 0) common-lisp-user::create-system-parameter)) #2# 0))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : system-param-init.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Create system parameters that need to reference/use modules
+;;;             : that aren't available when the code that uses the parameter is
+;;;             : loaded.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2013.07.31 Dan [1.0]
+;;;             : * Create the safe-perceptual-buffers parameter here.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; This file provides a place for creating system parameters that have to wait
+;;; for other things to be loaded/defined first.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; Nothing, other than the parameters which get defined here, and those are
+;;; probably going to be described elsewhere.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(create-system-parameter :safe-perceptual-buffers 
+                         :valid-test (lambda (x)
+                                       (and (listp x)
+                                            (every (lambda (y) 
+                                                     (find y (buffers)))
+                                                   x)))
+                         :default-value '(temporal visual-location aural-location)
+                         :warning "a list of buffer names"
+                         :documentation "Perceptual buffers that shouldn't show a style warning when requested without a query"
+                         :handler (simple-system-param-handler *safe-perceptual-buffers*))
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           This is the ACT-R 7 source code distribution.
+
+These directories contain all of the Lisp code needed to run ACT-R 7 and
+also include a tutorial introduction to using ACT-R, a GUI for inspecting 
+and debugging models called the ACT-R Environment, software documentation 
+for ACT-R and the Environment, optional extensions which have been written 
+for ACT-R, and also some example code showing ways of extending the system
+and connecting other programming languages to the ACT-R remote interface.
+
+To use the ACT-R Environment or connect ACT-R to other programming languages
+requires that QuickLisp be installed for the Lisp being used to get the
+libraries for network communication and threading.  QuickLisp isa available
+from: <https://www.quicklisp.org>.  If the external connections are not
+needed, ACT-R can also be run in a "Lisp only" mode without the need for
+QuickLisp to be installed.  The "Lisp only" mode is typically much faster
+at running models than the full system that allows for external connections. 
+
+Instructions on how to load and run ACT-R and the ACT-R Environment can be
+found in the QuickStart.txt file in the docs directory.  The tutorial units
+are located in the tutorial directory, and that is the recommended starting 
+point for those new to ACT-R.  More detailed information about the software 
+can be found in the reference manual and the Environment manual which are 
+located in the docs directory.
+
+For more information or to download the most recent version of the ACT-R 
+software please visit the ACT-R website at: <http://act-r.psy.cmu.edu>.
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2020 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : recompile-act-r.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Load main ACT-R loader forcing it to recompile everything.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2020.01.30 Dan [1.0]
+;;;             : * Pretty simple setup -- push the actr-recompile feature and 
+;;;             :   then load the main load file.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(push :actr-recompile *features*)
+
+(load (merge-pathnames "load-act-r.lisp" *load-truename*))
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }   .      ..  ~   ccl-simple-view.lisp    central-parameters.fasc €    central-parameters.lisp    general-pm.fasc ‚   general-pm.lisp ƒ    goal-style-module.fasc  „    goal-style-module.lisp  …  (  hirschberg-diff-calculation.lisp†   load-mode.lisp  ‡    production-parsing.fasc ˆ    production-parsing.lisp ‰   productions.fascŠ   productions.lisp‹   require-mode.lisp   Œ   single-threaded.fasc   single-threaded.lispŽ   time-functions.lisp    tutorial-trace.lisp   àuni-files.lisp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;;;  -*- mode: LISP; Package: CL-USER; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Clayton Stanley 
+;;; Copyright   : (c)2003-7 CMU/Rice U./Mike Byrne, All Rights Reserved
+;;; Availability: public domain
+;;; Address     : Rice University
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;;             : clayton.stanley@rice.edu 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : ccl-simple-view.lisp
+;;; Version     : 1.0 
+;;; 
+;;; Description : Provides an interface for CCL that allows the implementation to
+;;;               read in GUI source code written for Macintosh Common Lisp. 
+;;;               This enables task environments written in MCL (e.g., Phaser, 
+;;;               Votebox, NextGen from Mike's lab) to work with CCL with 
+;;;               minimal code modifications
+;;;
+;;;		  This file is a concatenation of all bootstrap and feature code
+;;;		  so that the file can be loaded from a base/standard CCL core file.
+;;;		  
+;;;		  The file was built on Tue Nov 25 14:45:28 CST 2014 using GNU Make and Bash.
+;;;               Editing was done with vim+slimv, and lisp code was auto indented using
+;;;               vim+slimv's auto-indention algorithm.
+;;;
+;;;		  Git commit hash associated with build: 5875c091ec81f54501cf14f844d7c32a9e4a3e01
+;;;
+;;;		
+;;;
+;;; Bugs        : []
+;;; 
+;;; Todo        : Lots
+;;;             : 
+;;; 
+;;; ----- History -----
+;;; 2012.06.29 cts 
+;;;             : Initial build that allows Votebox MCL GUI to be read in  and used by CCL
+;;; 2012.08.13 cts
+;;;             : Release build that works with Votebox, NextGen, and Phaser from Mike's lab
+;;; 2013.02.04 cts
+;;;             : Fixed bug that did not update window position after window moved with
+;;;               mouse drag. Window position is correctly tracked, and a call to
+;;;               view-position on the window works correctly both before and after
+;;;               the window position is moved with a mouse drag on the window pane.
+;;; 2013.02.11 cts
+;;;             : Removed easygui::drawing-view dependency in codebase.
+;;;               Simplifies OO hierarchy, removes unnecessary cruft, and decreases technical debt
+;;; 2013.02.16 cts
+;;;             : Changes to ensure code is compatible with CCL 1.8 through CCL 1.9rc2
+;;; 2013.04.10 cts
+;;;             : Added feature: You can now change the color of the text shown for button objects
+;;;               (button-dialog-item, check-box-dialog-item, radio-button-dialog-item) in the usual
+;;;               MCL way for dialog items (passing :fore-color #color# or :part-color (list :text #color#)
+;;;               to initialize-instance)
+;;; 2013.04.20 cts
+;;;             : #@ read macro no longer clobbers CCL's original version that created NSString objects.
+;;;               The #@ read macro now creates MCL points when provided with a list, and an NSString object
+;;;               when provided with a string.
+;;;             : Reordered loading a few subcomponent files and renamed a few subcomponent files.
+;;;             : Removed stray commented out code that is no longer necessary.
+;;;             : Now spell checking comments and strings in the code.
+;;; 2013.05.13 cts
+;;;             : Added implementation for sequence-dialog-item.
+;;;             : Added quickdraw functions for paint-polygon and fill-polygon.
+;;;             : Removed extra cruft from file: no longer including thermometer.lisp since
+;;;               this library code is not part of the core MCL GUI interface.
+;;;             : Also removed unused code (all of the pandoric functions) from lol-subset.lisp
+;;;             : Added MCL's :centered keyword for windows.
+;;;             : Fixed quickdraw polygon functions to use the polygon provided as input to the function, 
+;;;               instead of using the polygon stored within the view. This change matches the MCL spec.
+;;; 2013.06.02 cts
+;;;             : Added MCL's :top and :bottom list arguments to :view-position for windows
+;;;             : Enabled :dialog-item-action initarg from MCL spec to work, and map correctly to 
+;;;               :action initarg for CCL spec.
+;;;             : Cleaned up :parse-mcl-initarg methods. Created a proper generic method signature for the
+;;;               methods, so that they have the needed flexibility to work in all cases.
+;;;             : Plugged memory leaks by creating an autorelease pool at the beginning of this file.
+;;;               This ensures that any autoreleased objects during both compilation and runtime have 
+;;;               a pool to release to. This was only an issue when running CCL via SVN (e.g., with common SLIME setup),
+;;;               and not via the Clozure CL.app, because the App already has an autorelease pool set up on startup.
+;;; 2013.07.31 cts
+;;;             : Incorporated additional functionality needed for a recent project into the ccl-simple-view library:
+;;;               -Sequence dialog item now defaults to nil sequence if none specified on init
+;;;               -menu-view and menu-item objects now set font correctly
+;;;             : Refactored and simplified image-view code 
+;;;             : Everything works on 10.6.8 - 10.8.4 (newest Mountain Lion install as of testing date)
+;;;               -required a fix for radio buttons. Clustering did not work on 10.8 prior to fix
+;;;             : Code-coverage report is now generated for each build. 
+;;;               -Used report to remove stray code and discover/fix a few minor bugs
+;;; 2013.09.17 cts
+;;;             : Swapped cocoa class for editable-text-dialog-item from NSTextField to NSTextView
+;;;               -Ensures that keypresses on the view that are relayed to view-key-event-handler are accurate
+;;;               -Allows for more control over keypresses in the view, so that for example, the next responder
+;;;                can be called when a #\tab is pressed in the view.
+;;;             : Reworked #\tab presses for UI, so that tabbing moves between all of the views on the window
+;;;               that can become first responder.
+;;;             : Reworked #\space presses for buttons, so that if a #\space is pressed when a button is
+;;;               first responder, then the action for that button fires (i.e., the button is clicked).
+;;;             : Ensured that the window is always the starting first responder when the view is created.
+;;;               Afterwards, if the user presses #\tab, then the next responder is activated, and tabbing
+;;;               then cycles through all available first responders. This is to ensure that no particular view
+;;;               is the first responder in the simplest case: for a basic window where the user does not
+;;;               wish to tab between views.
+;;;             : If tabbing across buttons is enabled at the OS level:
+;;;               http://superuser.com/questions/473143/how-to-tab-between-buttons-on-an-mac-os-x-dialog-box
+;;;               then a user can work through most tasks involving editing text views and pressing buttons
+;;;               using only the keyboard. #\tab to navigate and #\space to select
+;;; 2014.02.08 cts
+;;;             : Implemented :close-box-p initarg for windows, so that the red close button does not display
+;;;               when this is set to t when initializing the window
+;;;             : Fixed a bug where incorrect mouse locations were passed to view-click-event-handler for views.
+;;;               All locations where correct for view-click-event-handlers defined on windows, and for 
+;;;               rpm-window-click-event-handlers (since those are defined on the window).
+;;;               So this does not apply to act-r models using the act-r device interface (i.e., rpm-window-click-event-handler).
+;;;               This only applied to view-click-event-handlers defined on views (e.g., buttons).
+;;;               MCL spec sets location for view-click-event-handler to the mouse click location relative to that 
+;;;               view's local coordinate system, not relative to the window's coordinate system. So if a button
+;;;               responds to a mouse click that is 10 by 10 pixels within that button's view rectangle, then
+;;;               the location for view-click-event-handler will by 10 by 10, and not 10 by 10 plus that view's
+;;;               position within the window for example.
+;;;               The prior code e.g., passed 10 by 10 plus the view's position to view-click-event-handler, regardless of view type.
+;;; 2014.02.10 Dan Bothell
+;;;             : Swapped the order of grey and gray in rgb-list because ACT-R
+;;;               uses gray as the color name for things and this: 
+;;;               (system-color->symbol (color-symbol->system-color 'gray))
+;;;               should return gray.  [Since those are basically ACT-R 
+;;;               interface functions they should probably be moved to the uwi
+;;;               file.]
+;;; 2014.02.11 cts
+;;;             : Added mcl-GUI-layer methods to scroll the mouse up and down. When executed, mouse scroll events
+;;;               are sent to the OS to relay to the front application, similar to how mouse clicks and keypresses are done.
+;;;             : Added a guard to ensure that all views are using proper "flipped" MCL-style (top-left to bottom-right) coordinate systems.
+;;; 2014.04.09 cts
+;;;             : Using integers for points when possible, even after converting positions from local to window coordinates, adding
+;;;               and subtracting points, etc.
+;;; 2014.05.02 cts
+;;;             : Added ability to extend color symbol rgb mapping by turning data structure into a hash table
+;;;             : Ensured gray is always returned for gray/grey rgb color, regardless of order in the rgb-list.
+;;;               This is needed since the color data structure is now a hash table and
+;;;               insertion order is not guaranteed to be consistent in a cl hash table
+;;; 2014.10.14 cts
+;;;             : Code is compatible with ccl-1.8 thru ccl-1.10 on OS X SL thru Mavericks
+;;;             : Using #/abortModal instead of #/stopModal to close modal dialog windows so
+;;;               that close requests can be made on any thread, and not just the new modal dialog window thread.
+;;;               Otherwise, strange things were happening on SL and ML where the modal window would not close after a request when that request
+;;;               was made on a thread other than the modal dialog's thread (e.g., the REPL ACT-R thread).
+;;;               In this case, the window did close once the mouse moved or keyboard was pressed after that request was made.
+;;;               Using #/abortModal instead of #/stopModal ensures that the window closes in all cases tested.
+;;; 2014.11.25 cts
+;;;             : Ensured that image-views are properly sized if the image was provided when the view was created.
+;;;               
+;;; 2015.11.13 Dan Bothell
+;;;             : Wrapped choose-file-dialog with ensure-defined as suggested by
+;;;             : Mike Byrne since CCL 1.11 now includes such a function.  Also
+;;;             : did choose-new-file-dialog and choose-directory-dialog to be
+;;;             : safe.
+;;; 2015.11.18 Dan Bothell
+;;;             : Removed a spurious - which was accidentally added with the last
+;;;             : update, but didn't break anything.
+;;; 2016.06.16 Dan Bothell
+;;;            : Changed rgb->color-symbol because there are more pairs in the list than
+;;;            : just gray and grey.  Always returns the same result each time for each of
+;;;            : the current 8 pairs but any new pairs may return mixed results unless
+;;;            : additional changes are made to rgb->color-symbol (or some other fix is
+;;;            : implemented, like another table preferences).
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ----------------------------------------------------------------------
+; Begin file: build/pre-code.lisp
+; ----------------------------------------------------------------------
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (require :cocoa)
+  (require :easygui)
+  (ccl::create-autorelease-pool))
+
+
+
+; ----------------------------------------------------------------------
+; End file: build/pre-code.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: bincarbon/sv-language-layer.lisp
+; ----------------------------------------------------------------------
+
+
+(defmacro %ensure-defined (form)
+  (destructuring-bind (symb name (&rest arglist) &body body) form
+    (declare (ignore arglist body))
+    (unless
+      (funcall
+        (case symb
+          (defun #'fboundp)
+          (defgeneric #'fboundp)
+          (defmacro #'macro-function)
+          (defvar #'boundp))
+        name)
+      form)))
+
+(defmacro ensure-defined (&body body)
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
+     ,@(mapcar (lambda (form)
+                 `(%ensure-defined ,form))
+               body)))
+
+(defmacro with-continue (&body body)
+  `(handler-bind ((error #'continue))
+     ,@body))
+
+(provide :sv-language-layer)
+
+
+
+; ----------------------------------------------------------------------
+; End file: bincarbon/sv-language-layer.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: bincarbon/lol-subset.lisp
+; ----------------------------------------------------------------------
+
+
+;; Antiweb (C) Doug Hoyte
+
+;; This is a "production" version of LOL with bug-fixes
+;; and new features in the spirit of the book.
+
+;; See http://letoverlambda.com
+
+;; This is the source code for the book
+;; _Let_Over_Lambda_ by Doug Hoyte.
+;; This code is (C) 2002-2008, Doug Hoyte.
+;;
+;; You are free to use, modify, and re-distribute
+;; this code however you want, except that any
+;; modifications must be clearly indicated before
+;; re-distribution. There is no warranty,
+;; expressed nor implied.
+;;
+;; Attribution of this code to me, Doug Hoyte, is
+;; appreciated but not necessary. If you find the
+;; code useful, or would like documentation,
+;; please consider buying the book!
+;;
+;; 2012-06-29: Clayton Stanley. I took only a subset
+;; of Doug Hoyte's LOL production code, which is included
+;; below. I did not modify any code within this subset,
+;; except to change a few &rest to &body keywords in macro definitions,
+;; so that slimv could handle auto-indenting properly. The behavior
+;; of the code 'was not changed'.
+
+(require :sv-language-layer)
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (ensure-defined
+    (defun mkstr (&rest args)
+      (with-output-to-string (s)
+        (dolist (a args) (princ a s))))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun symb (&rest args)
+    (values (intern (apply #'mkstr args)))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun group (source n)
+    (if (zerop n) (error "zero length"))
+    (labels ((rec (source acc)
+               (let ((rest (nthcdr n source)))
+                 (if (consp rest)
+                   (rec rest (cons
+                               (subseq source 0 n)
+                               acc))
+                   (nreverse
+                     (cons source acc))))))
+      (if source (rec source nil) nil))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (ensure-defined
+    (defun flatten (lis)
+      "Takes a nested list and makes in into a single-level list"
+      (declare (list lis))
+      (labels ((rec (lis acc)
+                 (cond ((null lis) acc)
+                       ((atom lis) (cons lis acc))
+                       (t (rec (car lis) (rec (cdr lis) acc))))))
+        (rec lis nil)))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun g!-symbol-p (s)
+    (and (symbolp s)
+         (> (length (symbol-name s)) 2)
+         (string= (symbol-name s)
+                  "G!"
+                  :start1 0
+                  :end1 2))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defmacro defmacro/g! (name args &body body)
+    (let ((syms (remove-duplicates
+                  (remove-if-not #'g!-symbol-p
+                                 (flatten body)))))
+      `(defmacro ,name ,args
+         (let ,(mapcar
+                (lambda (s)
+                  `(,s (gensym ,(subseq
+                                  (symbol-name s)
+                                  2))))
+                syms)
+           ,@body)))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun o!-symbol-p (s)
+    (and (symbolp s)
+         (> (length (symbol-name s)) 2)
+         (string= (symbol-name s)
+                  "O!"
+                  :start1 0
+                  :end1 2))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun o!-symbol-to-g!-symbol (s)
+    (symb "G!"
+          (subseq (symbol-name s) 2))))
+
+(defmacro defmacro! (name args &body body)
+  (let* ((os (remove-if-not #'o!-symbol-p args))
+         (gs (mapcar #'o!-symbol-to-g!-symbol os)))
+    `(defmacro/g! ,name ,args
+       `(let ,(mapcar #'list (list ,@gs) (list ,@os))
+          ,(progn ,@body)))))
+
+;; Graham's alambda
+(defmacro alambda (parms &body body)
+  `(labels ((self ,parms ,@body))
+     #'self))
+
+;; Graham's aif
+(ensure-defined
+  (defmacro aif (test then &optional else)
+    `(let ((it ,test))
+       (if it ,then ,else))))
+
+(provide :lol-subset)
+
+
+
+; ----------------------------------------------------------------------
+; End file: bincarbon/lol-subset.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: bincarbon/sv-utilities.lisp
+; ----------------------------------------------------------------------
+
+
+(require :sv-language-layer)
+(require :lol-subset)
+
+(ensure-defined
+  (defmacro push-to-end (item place)
+    "analogous to the push macro; just places 'item' at the end of 'place', instead of the front"
+    `(setf ,place (nconc ,place (list ,item)))))
+
+(defun spin-for-fct (ms-delay)
+  (without-interrupts
+    (let ((start (internal-real-time->ms
+                   (get-internal-real-time))))
+      (loop until (< ms-delay (- (internal-real-time->ms
+                                   (get-internal-real-time))
+                                 start))))))
+
+(defun internal-real-time->ms (&optional (internal-real-time (get-internal-real-time)))
+  (* 1000
+     (/ internal-real-time
+        internal-time-units-per-second)))
+
+(defun file-string (path)
+  "Sucks up an entire file from PATH into a freshly-allocated string returning two values: the string and the number of bytes read."
+  (if path
+    (with-open-file (s path)
+      (let* ((len (file-length s))
+             (data (make-string len)))
+        (values data (read-sequence data s))))))
+
+(ensure-defined
+  (defmacro awhen (test-form &body body)
+    `(aif ,test-form
+       (progn ,@body))))
+
+(defmacro! acond (&rest clauses)
+  "works just like cond, but stores the value of each condition as 'it', which is accessible in the code following the condition"
+  (if clauses
+    (let ((cl1 (car clauses)))
+      `(let ((,g!sym ,(car cl1)))
+         (if ,g!sym
+           (let ((it ,g!sym)) 
+             (declare (ignorable it)) 
+             ,@(cdr cl1))
+           (acond ,@(cdr clauses)))))))
+
+(ensure-defined
+  (defmacro while (test &body body)
+    "loops through body, evaluating test each time until test returns false"
+    `(do ()
+       ((not ,test)) 
+       ,@body)))
+
+(defmacro aand (&rest args)
+  (cond ((null args) t)
+        ((null (cdr args)) (car args))
+        (t `(aif ,(car args) (aand ,@(cdr args))))))
+
+(defmacro! guard ((guard &rest errstr) &body body)
+  (let ((errstr (if errstr 
+                  errstr
+                  (list "guard ~a failed" `',guard))))
+    `(let* ((it (multiple-value-list (progn ,@body)))
+            (it1 (first it)))
+       (declare (ignorable it it1))
+       (assert ,guard nil ,@errstr)
+       (apply #'values it))))
+
+(defmacro! with-shadow ((fname fun) &body body)
+  "Shadow the function named fname with fun
+   Any call to fname within body will use fun, instead of the default function for fname.
+   This macro is intentionally unhygienic:
+   fun-orig is the anaphor, and can be used in body to access the shadowed function"
+  `(let ((fun-orig))
+     (cond ((fboundp ',fname) 
+            (setf fun-orig (symbol-function ',fname))
+            (setf (symbol-function ',fname) ,fun)
+            (unwind-protect (progn ,@body)
+              (setf (symbol-function ',fname) fun-orig)))
+           (t
+            (setf (symbol-function ',fname) ,fun)
+            (unwind-protect (progn ,@body)
+              (fmakunbound ',fname))))))
+
+(defmethod getf-include-key (place key)
+  (aif (getf place key)
+    (list key it)))
+
+(defmethod getf-include-key (place (keys list))
+  (loop for key in keys
+        append (getf-include-key place key))) 
+
+(provide :sv-utilities)
+
+
+
+; ----------------------------------------------------------------------
+; End file: bincarbon/sv-utilities.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: bincarbon/logger.lisp
+; ----------------------------------------------------------------------
+
+
+#-:clozure (error "This file only works with Clozure Common Lisp and not RMCL")
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (require :cocoa)
+  (require :easygui))
+
+(defparameter *sv-log-level* 0) 
+
+(defun get-cur-timestring ()
+  (multiple-value-bind (second minute hour date month year day-of-week dst-p tz) (get-decoded-time)
+    (declare (ignore day-of-week dst-p tz))
+    (let ((ms (floor (mod (internal-real-time->ms) 1000))))
+      (format nil "~a-~2,'0d-~2,'0d ~2,'0d:~2,'0d:~2,'0d:~a" year month date hour minute second ms))))
+
+(defun sv-log (&rest args)
+  (#_NSLog 
+   (objc:make-nsstring
+     (with-output-to-string (strm) 
+       (format strm "sv-log: ~a: on thread ~a: " (get-cur-timestring) *current-process*)
+       (unwind-protect (apply #'format strm args)
+         (fresh-line strm))))))
+
+(defun sv-log-n (log-level &rest args)
+  (when (<= log-level *sv-log-level*)
+    (apply #'sv-log args)))
+
+
+
+; ----------------------------------------------------------------------
+; End file: bincarbon/logger.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: easygui/patches.lisp
+; ----------------------------------------------------------------------
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (shadowing-import 'easygui:cocoa-ref)
+  (shadowing-import 'easygui:dcc)
+  (shadowing-import 'easygui::running-on-main-thread))
+
+(defclass easygui::cocoa-extension-mixin ()
+  ((easygui::easygui-view :initarg :eg-view :reader easygui::easygui-view-of)
+   (easygui::flipped :initarg :flipped :initform easygui::*screen-flipped*)))
+
+; Providing a keyword argument to allow negative points
+(defun easygui::point (x y &key (allow-negative-p t))
+  (unless allow-negative-p
+    (assert (>= x 0))
+    (assert (>= y 0)))
+  (make-instance 'easygui::eg-point :x x :y y))
+
+; Patching the function to provide a keyword argument that allows for negative mouse coordinates
+(defun easygui::view-mouse-position (view &key (allow-negative-position-p nil))
+  (let* ((w (cocoa-ref (easygui::easygui-window-of view)))
+         (mouselocation (dcc (#/mouseLocationOutsideOfEventStream w)))
+         (cview (if (typep view 'window) (easygui::content-view view) view))
+         (nspt (dcc (#/convertPoint:fromView: (cocoa-ref cview) mouselocation NIL))))
+    ;; TODO: check point is inside bounds, lest negative coordinates
+    (easygui:point (ns:ns-point-x nspt)
+                   (ns:ns-point-y nspt)
+                   :allow-negative-p allow-negative-position-p)))
+
+; I think I found a bug in these two methods in the easygui package, so redefining them here with correct setNeedsDisplay: call
+(defmethod (setf easygui::view-position) (point (self easygui::view))
+  (running-on-main-thread ()
+    (setf (slot-value self 'easygui::position) point)
+    (when (slot-value self 'easygui::frame-inited-p)
+      (dcc (#/setFrame: (cocoa-ref self) (easygui::view-content-rect self)))
+      (dcc (#/setNeedsDisplay: (cocoa-ref self) t)))))
+
+(defmethod (setf easygui::view-size) (point (self easygui::view))
+  (running-on-main-thread ()
+    (setf (slot-value self 'easygui::size) point)
+    (when (slot-value self 'easygui::frame-inited-p)
+      (dcc (#/setFrame: (cocoa-ref self) (easygui::view-content-rect self)))
+      (dcc (#/setNeedsDisplay: (cocoa-ref self) t)))))
+
+; I wanted to instantiate my own extended contained-view class, but I didn't see an easy way to do this given the current
+; easygui code. So adding a contained-view-specifically slot to the mixin class, defaulting it to the contained-view class
+; defined in easygui. If you want to instantiate a different class for the contained view, just overwrite this default.
+(defclass easygui::content-view-mixin ()
+  ((easygui::content-view :initarg :content-view)
+   (easygui::objc-content-view-accessor :reader easygui::objc-content-view-accessor :initarg :objc-content-view-accessor :initform #'#/contentView)
+   (easygui::flipped :initarg :flipped :initform easygui::*screen-flipped*)
+   (easygui::contained-view-specifically :initarg :contained-view-specifically :initform 'easygui::contained-view)))
+
+(defmethod easygui::content-view ((view easygui::content-view-mixin))
+  (assert (eql (cocoa-ref (slot-value view 'easygui::content-view))
+               (dcc (funcall (easygui::objc-content-view-accessor view) (cocoa-ref view)))))
+  (slot-value view 'easygui::content-view))
+
+; Added code to instantiate the contained view class that is stored as a slot on the mixin object
+(defmethod easygui::initialize-view :after ((view easygui::content-view-mixin))
+  (unless (slot-boundp view 'easygui::content-view)
+    (let ((containee (make-instance (slot-value view 'easygui::contained-view-specifically) 
+                                    :cocoa-ref (dcc (#/contentView (cocoa-ref view)))
+                                    :view-nick-name 'easygui::%CONTENT-OF-CONTENT-VIEW%
+                                    :flipped (slot-value view 'easygui::flipped))))
+      (setf (slot-value view 'easygui::content-view) containee
+            (slot-value containee 'easygui::parent) view))))
+
+; Redefining to use the &body body pairing instead of &rest body, so that Slime auto indenting works properly
+(defmacro easygui::running-on-this-thread ((&key (waitp t)) &body body)
+  ;; The purpose of this trivial macro is to mark places where it is thought possible that
+  ;; it may be preferable to use running-on-main-thread.
+  (declare (ignore waitp))
+  `(progn ,@body))
+
+; Radio buttons in 10.8 require being enclosed within an NSMatrix.
+; If not (default easygui implementation), each one is assigned to the
+; same virtual NSMatrix, which means they are all part of the same cluster,
+; which means that the common lisp clustering implementation breaks since
+; Cocoa is now forcing all radio buttons to be part of the same cluster.
+; The fix is to use NSSwitchButton Cocoa functionality for radio buttons,
+; but use NSRadioButton images (for selected and deselected) for the implementation.
+; Another approach would have been to embed each radio button in its own NSMatrix,
+; but this required much more code than the image switching technique, and it messed up the overall
+; easygui design, since the cocoa-ref of a radio-button object would have been an NSMatrix,
+; which breaks the view-text and (setf view-text) mixin methods, as well as auto sizing the
+; view to the text it contains on init, etc. So, I went with the simple image switching hack.
+
+(let ((alternate-radio-button-image)
+      (radio-button-image)
+      (radio-button))
+  (defmethod easygui::initialize-view :after ((self easygui::radio-button-view))
+    (labels ((init-images ()
+               (setf radio-button (make-instance 'easygui::cocoa-button))
+               (#/setButtonType: radio-button #$NSRadioButton)
+               (setf radio-button-image (#/image radio-button))
+               (setf alternate-radio-button-image (#/alternateImage radio-button))))
+      (when (cocoa-ref self)
+        (unless radio-button
+          (init-images))
+        (dcc (#/setButtonType: (cocoa-ref self) #$NSSwitchButton))
+        (dcc (#/setImage: (cocoa-ref self) radio-button-image))
+        (dcc (#/setAlternateImage: (cocoa-ref self) alternate-radio-button-image))
+        (when (slot-value self 'easygui::selected) (easygui::radio-button-select self))
+        (setf (slot-value (cocoa-ref self) 'easygui::easygui-view) self)))))
+
+
+
+; ----------------------------------------------------------------------
+; End file: easygui/patches.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: easygui/extensions.lisp
+; ----------------------------------------------------------------------
+
+
+(defun round-if-integer (double)
+  (if (equalp double (round double))
+    (round double)
+    double))
+
+(defun easygui::point-from-ns-point (point)
+  (easygui::point 
+    (round-if-integer (ns:ns-point-x point))
+    (round-if-integer (ns:ns-point-y point))
+    :allow-negative-p t))
+
+; easygui by default starts position 0,0 at bottom left, going to the right and up for positive values
+; This flips the screen vertically, so that it matches MCL's default. That is, position 0,0 is at top left
+(setf easygui::*screen-flipped* t)
+
+(setf easygui::*debug-cocoa-calls* nil)
+(setf easygui::*report-flipping-errors* t)
+
+; There are particular window configurations that keep the window from becoming key or main (borderless windows for example).
+; And this causes odd behavior for these types of windows (can't select the win when using command `, window is backgrounded behind
+; the listener window after a dialog window opens and closes).
+;
+; For the time being, there are no types of cocoa windows that should not be able to become key or main. So until customization is
+; needed, override these methods for cocoa windows and allow everyone the ability to become key and main.
+
+(objc:defmethod (#/canBecomeKeyWindow #>BOOL) ((self easygui::cocoa-window))
+  #$YES)
+
+(objc:defmethod (#/canBecomeMainWindow #>BOOL) ((self easygui::cocoa-window))
+  #$YES)
+
+; ----------------------------------------------------------------------
+; Extend the Objective C cocoa-drawing-view in the easygui package with a view that does not monitor mouse movement or clicks
+;
+; lisp->objective c class name mapping: drawing-overlay-view->cocoa-drawing-overlay-view
+; ----------------------------------------------------------------------
+
+; Create the objective c class
+(defclass easygui::cocoa-drawing-overlay-view (easygui::cocoa-drawing-view)
+  ()
+  (:metaclass ns:+ns-object))
+
+; And create the lisp equivalent class
+; And register the objective c extension and lisp class to the easygui package, so that it instantiates a 
+; cocoa-drawing-overlay-view object in the cocoa-ref slot when a drawing-overlay-view lisp object is instantiated
+(defclass easygui::overlay-view (easygui::view)
+  ()
+  (:default-initargs :specifically 'easygui::cocoa-drawing-overlay-view))
+
+; Add the hook method in objective c that will cause the new class to not respond to mouse activity
+(objc:defmethod #/hitTest: ((self easygui::cocoa-drawing-overlay-view) (point :<NSP>oint))
+  ccl:+null-ptr+)
+
+; ----------------------------------------------------------------------
+; Use a consuming-view class to say that all subviews within an instance of that class will not respond to mouse clicks. 
+;
+; This is to work around the differences in first responders between MCL and CCL. MCL looks down the view hierarchy for the first responder
+; (breadth first), CCL looks down the hierarchy for the deepest responder (depth first). In order
+; to simulate breadth first by stopping at a particular view in the tree (and not inspecting that view's
+; subviews), create an instance of the consuming-view class. 
+; ----------------------------------------------------------------------
+
+(defclass easygui::cocoa-drawing-consuming-view (easygui::cocoa-drawing-view)
+  ()
+  (:metaclass ns:+ns-object))
+
+(defclass easygui::consuming-view (easygui::view)
+  ()
+  (:default-initargs :specifically 'easygui::cocoa-drawing-consuming-view))
+
+; Override hitTest; if a view (or one of its subviews) returns a non-nil value
+; for the default hitTest call, then return self; this suppresses subviews of 
+; self from responding to mouse clicks
+; 
+; Reference this URL for call-next-method syntax in objc:defmethod macro: 
+; http://clozure.com/pipermail/openmcl-devel/2008-November/008645.html
+
+(objc:defmethod #/hitTest: ((self easygui::cocoa-drawing-consuming-view) (point :<NSP>oint))
+  (let ((ret (call-next-method point)))
+    (if (not (equal ccl:+null-ptr+ ret))
+      self
+      ccl:+null-ptr+)))
+
+; ----------------------------------------------------------------------
+; Providing a view container to hold and display images.
+; ----------------------------------------------------------------------
+
+(defclass easygui::cocoa-image-view (easygui::cocoa-extension-mixin ns:ns-image-view)
+  ()
+  (:metaclass ns:+ns-object))
+
+(defmacro define-is-flipped-method (class)
+  `(objc::defmethod (#/isFlipped :<BOOL>) ((self ,class))
+     (handler-case (if (slot-value self 'easygui::flipped) #$YES #$NO)
+       (simple-error (condition)
+                     (when easygui::*report-flipping-errors* (format t "'isFlipped ~s' ignores error~%" self))
+                     (values (if easygui::*screen-flipped* #$YES #$NO) condition)))))
+
+
+(define-is-flipped-method easygui::cocoa-image-view)
+
+(defclass easygui::image-view (easygui::view)
+  ()
+  (:default-initargs :specifically 'easygui::cocoa-image-view))
+
+(defclass easygui::cocoa-clickable-image-view (easygui::cocoa-image-view)
+  ()
+  (:metaclass ns:+ns-object))
+
+(defclass easygui::clickable-image-view (easygui::image-view)
+  ()
+  (:default-initargs :specifically 'easygui::cocoa-clickable-image-view))
+
+(easygui::define-useful-mouse-event-handling-routines easygui::cocoa-clickable-image-view)
+(easygui::define-useful-mouse-event-handling-routines easygui::cocoa-contained-view)
+(easygui::define-useful-mouse-event-handling-routines easygui::cocoa-mouseable-text-field)
+
+(defmethod easygui::click-location ((cocoa-self ns:ns-view) (the-event ns:ns-event))
+  (let* ((ns-point (#/locationInWindow the-event)))
+    (let* ((ns-converted-point (#/convertPoint:fromView: cocoa-self ns-point nil)))
+      (let ((where (easygui::point-from-ns-point ns-converted-point)))
+        where))))
+
+(objc:defmethod (#/mouseDown: :void) ((self easygui::cocoa-button) the-event)
+  (call-next-method the-event)
+  (let ((click-location (easygui::click-location self the-event)))
+    (unless (ccl:%null-ptr-p (#/window self)) ; Could be nil if view or view parent was removed when :dialog-item-action fired
+      (when (#/isVisible (#/window self)) ; Check for if window is closed and run loop hasn't refreshed
+        (easygui::mouse-down (easygui::easygui-view-of self) :location click-location)))))
+
+; ----------------------------------------------------------------------
+; Providing a mixin class that keeps a view from implicitly redrawing each
+; time a subview is added to the display
+; ----------------------------------------------------------------------
+
+(defclass easygui::static-view-mixin ()
+  ())
+
+(defmethod easygui::set-needs-display ((view easygui::static-view-mixin) flag)
+  (declare (ignore flag))
+  (values))
+
+(defmethod easygui::invalidate-view ((view easygui::static-view-mixin) &optional total)
+  (declare (ignore total))
+  (mapc #'easygui::invalidate-view (easygui:view-subviews view)))
+
+; ----------------------------------------------------------------------
+; Creating MCL's top-level simple-view class
+;
+; In order to implement MCL's top-level simple-view class, I needed a cocoa view class that was capable of drawing to the display
+; (since simple-view can do this in MCL). Cocoa-drawing-view in easygui seemed like the appropriate class for this. However, the 
+; default lisp class (drawing-view) for this class did a bit more than a top-level simple-view class should do. It tracks mouse movement, 
+; which was a problem because a cocoa window class should not track movement, MCL's window class inherits from simple-view, so there were 
+; many collisions with window class being a subclass of drawing-view. So the current fix is to define a simple-view class that inherits
+; only from the easygui view top-level class, but associate that class with cocoa-drawing-view. So make-instance 'simple-view will
+; create a simple-view object, and instantiate a cocoa-drawing-view object for that view. This allows window to be a subclass of simple-view,
+; simple-view objects to draw to the display, and little code modification/extension to easygui since we're leveraging the objective c methods
+; on cocoa-drawing-view.
+; ----------------------------------------------------------------------
+
+(defclass easygui::simple-view (easygui::view)
+  ((easygui::flipped :initform easygui::*screen-flipped* :initarg :flipped :reader easygui::flipped-p))
+  (:default-initargs :specifically 'easygui::cocoa-drawing-view))
+
+; This section is the additional code required to have a simple-view object behave mostly like a drawing-view type object, 
+; but without inheriting from drawing-view. Sort of a workaround to avoid the drawing-view mouse-tracking methods, since those aren't mixins (yet).
+
+(defmethod easygui::link-cocoa-view ((cocoa-view t) view)
+  (declare (ignore view))
+  (values))
+
+(defmethod easygui::link-cocoa-view ((cocoa-view easygui::cocoa-extension-mixin) view)
+  (setf (slot-value cocoa-view 'easygui::easygui-view) view))
+
+(defmethod easygui::initialize-view :after ((view easygui::simple-view))
+  (easygui::link-cocoa-view (easygui:cocoa-ref view) view))
+
+; This keeps the setDrawsBackground attribute on the Cocoa object in sync with the 
+; current background color (is it transparent or not).
+(defmethod easygui:set-back-color :after ((view easygui::background-coloring-mixin) (new-color ns:ns-color) &optional redisplay-p)
+  (setf (slot-value view 'easygui::drawsbackground) 
+        (if (equal (#/clearColor ns:ns-color) new-color) nil t))
+  (#/setDrawsBackground: (cocoa-ref view) (slot-value view 'easygui::drawsbackground))
+  (when redisplay-p 
+    (easygui:invalidate-view view)))
+
+(defmethod easygui::cocoa-win-p ((win t))
+  nil)
+
+(defmethod easygui::cocoa-win-p ((win easygui::cocoa-window))
+  (cond ((slot-boundp win 'easygui::easygui-window)
+         t)
+        (t
+         (sv-log "not yet a cocoa win ~a" win)
+         nil)))
+
+(defmethod easygui::size-to-fit ((view easygui::view))
+  (let ((frame (#/frame (cocoa-ref view))))
+    (setf (slot-value view 'easygui::size)
+          (easygui:point (ns:ns-rect-width frame)
+                         (ns:ns-rect-height frame)))))
+
+; Extending this method; patching it so that the view-size slot is initialized after 
+; the view is drawn, if it wasn't already.
+(defmethod easygui::add-1-subview :around ((view easygui::simple-view) (super-view easygui::simple-view))
+  "Correctly initialize view positions"
+  (unwind-protect (call-next-method)
+    (with-slots (easygui::position easygui::size easygui::frame-inited-p) view
+      (unless (slot-boundp view 'easygui::size)
+        (easygui::size-to-fit view))
+      (easygui::set-needs-display view t)
+      (unless (easygui::view-subviews-busy super-view) (easygui::set-needs-display super-view t)))))
+
+; Isolating the code to convert a vertical coordinate if the screen is flipped. Using just this part in ccl-simple-view.lisp
+(defun easygui::convert-if-screen-flipped (y height)
+  (if easygui::*screen-flipped*
+    (- (easygui::screen-height) height y)
+    y))
+
+(defmethod easygui::window-hide ((window easygui::window))
+  (easygui::running-on-this-thread ()
+    (let ((cwin (cocoa-ref window)))
+      (unless (easygui::window-hidden window)
+        (setf (slot-value window 'easygui::hidden) t)
+        (unless (dcc (#/isMiniaturized cwin))
+          (dcc (#/miniaturize: cwin cwin))))
+      (when (dcc (#/isFlushWindowDisabled cwin))
+        (dcc (#/enableFlushWindow cwin))
+        (dcc (#/flushWindow cwin)))
+      window)))
+
+(defclass easygui::cocoa-matrix (easygui::cocoa-extension-mixin ns:ns-matrix)
+  ()
+  (:metaclass ns:+ns-object))
+
+(defclass easygui::cocoa-text-field-cell (easygui::cocoa-extension-mixin ns:ns-text-field-cell)
+  ()
+  (:metaclass ns:+ns-object))
+
+(defun easygui::screen-width nil
+  (easygui::running-on-this-thread ()
+    (ns:ns-rect-width (dcc (#/frame (#/objectAtIndex: (#/screens ns:ns-screen) 0))))))
+
+; Default makeKeyAndOrderFront: zeros views with negative coordinates. This behavior is 
+; undesirable, and does not match the MCL spec. The fix is to ensure the views desired coordinates
+; (even if negative) are set for the window by changing the window's position to those coordinates
+; after the default makeKeyAndOrderFront: method is called
+(objc:defmethod (#/makeKeyAndOrderFront: :void) ((cocoa-win easygui::cocoa-window) (id :id))
+  (call-next-method id)
+  (let ((win (easygui::easygui-window-of cocoa-win)))
+    (setf (easygui::view-position win) (easygui::view-position win))))
+
+; All cocoa windows will auto recalculate the key view loop, since this works most of the time, and isn't computed in the inner loop of a program
+; http://stackoverflow.com/questions/4271115/how-should-i-subclass-nswindow-initialization-in-objective-c
+
+; FIXME: Calling #'call-next-method within this method causes a compile-time segfault in the testing environment when a custom ccl app is built using ccl-1.9 on OS X Mavericks.
+; Still works fine on OS X Mavericks and ccl-1.9 when the custom app isn't built, and still works in 10.6 and 10.8 when the custom app is built.
+; so not worrying about this, yet. The fix is probably to do away with or modify the custom app building, as that was a hack anyways. CTS: 2014-04-08
+(objc:defmethod (#/initWithContentRect:styleMask:backing:defer: :id) ((cocoa-win easygui::cocoa-window) (content-rect :<NSR>ECT) (style-mask :<NSUI>NTEGER)
+                                                                                                        (backing :<NSB>ACKING<S>TORE<T>YPE) (defer :<BOOL>))
+  (unwind-protect (call-next-method content-rect style-mask backing defer)
+    (#/setAutorecalculatesKeyViewLoop: cocoa-win #$YES)))
+
+; Class definitions for ns-text-view base cocoa class
+
+(defclass easygui::cocoa-text-view (easygui::cocoa-extension-mixin ns:ns-text-view)
+  ()
+  (:metaclass ns:+ns-object))
+
+(defclass easygui::cocoa-scroll-view (easygui::cocoa-extension-mixin ns:ns-scroll-view)
+  ()
+  (:metaclass ns:+ns-object))
+
+; NSTextView uses #/string and #/setString methods, which are different from #/title (title-mixin) and #/stringValue (string-value-mixin) methods,
+; so creating an additional mixin when dealing with text objects that inherit from NSTextView
+
+(defclass easygui::view-text-via-string-mixin ()
+  ())
+
+(defmethod easygui::view-text ((view easygui::view-text-via-string-mixin))
+  (objc:lisp-string-from-nsstring (#/string (cocoa-ref view))))
+
+(defmethod (setf easygui::view-text) (new-text (view easygui::view-text-via-string-mixin))
+  (#/setString: (cocoa-ref view) (objc:make-nsstring new-text))
+  new-text)
+
+
+
+; ----------------------------------------------------------------------
+; End file: easygui/extensions.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: bincarbon/resources.lisp
+; ----------------------------------------------------------------------
+
+
+; ----------------------------------------------------------------------
+; Some functions to create and manage resource data for CCL
+;
+; If images or sounds are needed for your application, these functions can 
+; be used to manage those resources. Usual getters/setters/creators are available:
+;
+; #'create-resource: Creates an image or sound resource, given a path to that file
+; #'add-resource: Adds a created resource to the pool
+; #'get-resource-val: Retrieves a resource's value from the pool
+;
+; Note that a form of lazy evaluation is used to alloc the resources only when needed
+; That is, each resource is alloc'd the first time it's retrieved, 'not' when it's created, or
+; added to the pool. If you want to alloc all resources currently in the pool (for pre-caching), 
+; call #'alloc-resources
+
+#-:clozure (error "This file only works with Clozure Common Lisp and not RMCL")
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (require :cocoa))
+
+(defun init-pool ()
+  (make-hash-table :test #'equalp))
+
+(defparameter *resource-pool* (init-pool))
+(defvar *resource-types* nil)
+
+(defun print-pool (&optional (pool *resource-pool*))
+  (maphash (lambda (key val)
+             (format t "~a->~a~%" key val))
+           pool))
+
+(defun get-pool-as-lst (&optional (pool *resource-pool*))
+  (loop for value being the hash-values of pool using (hash-key key)
+        collect (cons key value)))
+
+(defclass resource ()
+  ((val :accessor val :initarg :val)
+   (type :accessor type :initarg :type)
+   (alloc-fn :accessor alloc-fn :initarg :alloc-fn)))
+
+(defmacro when-bound ((name instance))
+  `(if (slot-boundp  ,instance ',name)
+     (,name ,instance)
+     'slot-unbound))
+
+(defmethod print-object ((obj resource) stream)
+  (print-unreadable-object (obj stream :identity t :type t)
+    (format stream "val->~a,alloc-fun->~a~%"
+            (when-bound (val obj))
+            (when-bound (alloc-fn obj)))))
+
+(defmethod alloc-resource ((obj resource))
+  (unless (slot-boundp obj 'val)
+    (setf (val obj) (funcall (alloc-fn obj))))
+  obj)
+
+(defun alloc-resources (&optional (pool *resource-pool*))
+  (maphash 
+    (lambda (key val)
+      (declare (ignore key))
+      (alloc-resource val))
+    pool))
+
+(defmethod get-val ((obj resource))
+  (alloc-resource obj)
+  (val obj))
+
+(defun resource-present-p (id &optional type (pool *resource-pool*))
+  (let ((possible-types
+          (if type 
+            (list type)
+            *resource-types*))
+        (out))
+    (dolist (type possible-types)
+      (multiple-value-bind (resource present-p) (gethash (get-key id type) pool)
+        (when present-p
+          (push resource out))))
+    (when out
+      (unless (eq (length out) 1)
+        (error "multiple resources with id ~a present in pool ~a~%" id pool))
+      (values t (first out)))))
+
+(defun get-resource (id &optional type (pool *resource-pool*))
+  (multiple-value-bind (present-p resource) (resource-present-p id type pool)
+    (unless present-p
+      (error "resource with id ~a not present in pool ~a~%" id pool))
+    resource))
+
+(defun get-resource-val (id &optional type (pool *resource-pool*))
+  (get-val (get-resource id type pool)))
+
+(defun get-id (resource &optional (pool *resource-pool*))
+  (declare (ignore resource pool))
+  (error "write this when needed"))
+
+(defun get-key (id type)
+  (format nil "~a.~a" id type))
+
+(defun add-resource (resource id &optional (pool *resource-pool*))
+  (sv-log "adding resource with key ~a" (get-key id (type resource)))
+  (when (resource-present-p id (type resource) pool)
+    (sv-log "adding resource with key ~a and overwriting resource with same key that is already present~%"
+            (get-key id (type resource))))
+  (setf (gethash (get-key id (type resource)) pool) resource))
+
+(defun remove-resource (resource &optional (pool *resource-pool*))
+  (declare (ignore resource pool))
+  (error "write this when needed"))
+
+(defmethod create-resource ((type (eql 'image)) path)
+  (make-instance 
+    'resource
+    :alloc-fn
+    (lambda ()
+      (#/initWithContentsOfFile: 
+       (#/alloc ns:ns-image) 
+       (objc:make-nsstring path)))))
+
+(defmethod create-resource ((type (eql 'sound)) path)
+  (make-instance
+    'resource
+    :alloc-fn
+    (lambda ()
+      (#/initWithContentsOfFile:byReference:
+       (#/alloc ns:ns-sound)
+       (objc:make-nsstring path)
+       nil))))
+
+(defmethod create-resource :around (type path)
+  (declare (ignore path))
+  (let ((res (call-next-method)))
+    (pushnew type *resource-types*)
+    (setf (type res) type)
+    res))
+
+; I am requiring all objective-c/lisp functions to not ever use ns-arrays as inputs or outputs
+; This slows down computation time b/c conversions have to be done within each function, but it
+; makes each one much easier to use in a lisp environment (keep lisp types for inputs and outputs).
+;
+; I am not doing this for ns-mutable string; I'm putting up with doing the conversion on t¼  ½  ¾  ¿  À  Á  Â  Ã  Ä  Å  Æ  Ç  È  É  Ê  Ë  Ì  Í  Î  Ï  Ð  Ñ  Ò  Ó  Ô  Õ  Ö  ×  Ø                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              hat one when 
+; needed. It also would be problematic to convert the type of anything that can be placed within an ns-array.
+; Done this way, where the containers (arrays/lists) are converted, but not the containees, the container
+; conversion functions do not have to do any type conversion or type checking.
+
+(defmacro! do-array ((varsym array &optional ret) &body body)
+  `(loop for ,g!i below (#/count ,array)
+         for ,varsym = (#/objectAtIndex: ,array ,g!i)
+         do (progn ,@body)
+         ,@(if ret `(finally (return ,ret)))))
+
+(defun ns-array->list (ns-array)
+  (let ((out))
+    (do-array (item ns-array out)
+      (push-to-end item out))))
+
+(defun list->ns-array (lst)
+  (let ((out (#/array ns:ns-mutable-array)))
+    (dolist (item lst out)
+      (#/addObject: out item))))
+
+(defun contents-of-directory (dir)
+  (ns-array->list
+    (#/contentsOfDirectoryAtPath:error:
+     (#/defaultManager ns:ns-file-manager)
+     (objc:make-nsstring dir)
+     ccl:+null-ptr+)))
+
+(defun remove-if-not-predicate (lst predicate)
+  (ns-array->list
+    (#/filteredArrayUsingPredicate:
+     (list->ns-array lst)
+     (#/predicateWithFormat:
+      ns:ns-predicate
+      (objc:make-nsstring predicate)))))
+
+(defun remove-if-not-image (lst)
+  (union
+    (remove-if-not-predicate lst "self ENDSWITH '.tiff'")
+    (remove-if-not-predicate lst "self ENDSWITH '.png'")))
+
+(defun remove-if-not-sound (lst)
+  (remove-if-not-predicate lst "self ENDSWITH '.aif'"))
+
+(defun open-resource-folder (dir)
+  (let ((dir (if (pathnamep dir) 
+               (directory-namestring dir)
+               dir)))
+    (let ((dir (format nil "~a/" (string-right-trim (list #\/) dir))))
+      (loop for (type filter-fun) in (list (list 'image #'remove-if-not-image)
+                                           (list 'sound #'remove-if-not-sound))
+            do (dolist (image-name (funcall filter-fun (contents-of-directory dir)))
+                 (let* ((image-name-lisp-str (objc:lisp-string-from-nsstring image-name))
+                        (image-name-no-ext (#/stringByDeletingPathExtension image-name))
+                        (res (create-resource type (format nil "~a~a" dir image-name-lisp-str))))
+                   (add-resource res (objc:lisp-string-from-nsstring image-name-no-ext))))))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (provide :resources))
+
+
+
+; ----------------------------------------------------------------------
+; End file: bincarbon/resources.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: bincarbon/mcl-ccl-colors.lisp
+; ----------------------------------------------------------------------
+
+
+#-:clozure (error "This file only works with Clozure Common Lisp and not RMCL")
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (require :cocoa)
+  (require :easygui))
+
+; ----------------------------------------------------------------------
+; Defining color-symbol->system-color and system-color->symbol for CCL.
+;
+; These functions may have been in the base CCL distribution, but I couldn't find them.
+; So I searched online for a table of color names -> RGB mappings, threw that
+; data into a bash shell, cleaned up the text, and then pasted it here. A few lisp
+; parentheses were wrapped around that, which turned the data into a lexical closure.
+; ----------------------------------------------------------------------
+
+(defparameter *color-table* (make-hash-table :test #'eq))
+
+(defun add-color-symbol-mapping (symb rgb-lst)
+  (setf (gethash symb *color-table*) rgb-lst))
+
+(let ((rgb-list
+        (list
+          'Grey (list 84 84 84)
+          'gray (list 190 190 190)
+          'grey (list 190 190 190)
+          'LightGray (list 211 211 211)
+          'Light-Gray (list 211 211 211)
+          'LightSlateGrey (list 119 136 153)
+          'dark-gray (list 169 169 169)
+          'SlateGray (list 112 128 144)
+          'black (list 0 0 0)
+          'AliceBlue (list 240 248 255)
+          'BlueViolet (list 138 43 226)
+          'CadetBlue (list 95 158 160)
+          'CadetBlue (list 95 158 160)
+          'CornflowerBlue (list 100 149 237)
+          'DarkSlateBlue (list 72 61 139)
+          'DarkTurquoise (list 0 206 209)
+          'DeepSkyBlue (list 0 191 255)
+          'DodgerBlue (list 30 144 255)
+          'LightBlue (list 173 216 230)
+          'Light-Blue (list 173 216 230)
+          'LightCyan (list 224 255 255)
+          'LightSkyBlue (list 135 206 250)
+          'LightSlateBlue (list 132 112 255)
+          'LightSteelBlue (list 176 196 222)
+          'Aquamarine (list 112 219 147)
+          'MediumBlue (list 0 0 205)
+          'MediumSlateBlue (list 123 104 238)
+          'MediumTurquoise (list 72 209 204)
+          'MidnightBlue (list 25 25 112)
+          'NavyBlue (list 0 0 128)
+          'PaleTurquoise (list 175 238 238)
+          'PowderBlue (list 176 224 230)
+          'RoyalBlue (list 65 105 225)
+          'SkyBlue (list 135 206 235)
+          'SlateBlue (list 106 90 205)
+          'SteelBlue (list 70 130 180)
+          'aquamarine (list 127 255 212)
+          'azure (list 240 255 255)
+          'blue (list 0 0 255)
+          'aqua (list 0 255 255)
+          'cyan (list 0 255 255)
+          'navy (list 0 0 128)
+          'teal (list 0 128 128)
+          'turquoise (list 64 224 208)
+          'DarkSlateGray (list 47 79 79)
+          'Iris (list 3 180 200)
+          'RosyBrown (list 188 143 143)
+          'SaddleBrown (list 139 69 19)
+          'SandyBrown (list 244 164 96)
+          'beige (list 245 245 220)
+          'brown (list 165 42 42)
+          'brown (list 166 42 42)
+          'burlywood (list 222 184 135)
+          'chocolate (list 210 105 30)
+          'peru (list 205 133 63)
+          'tan (list 210 180 140)
+          'Sienna (list 142 107 35)
+          'Tan (list 219 147 112)
+          'DarkGreen (list 0 100 0)
+          'dark-green (list 0 100 0)
+          'DarkKhaki (list 189 183 107)
+          'DarkOliveGreen (list 85 107 47)
+          'olive (list 128 128 0)
+          'DarkSeaGreen (list 143 188 143)
+          'ForestGreen (list 34 139 34)
+          'GreenYellow (list 173 255 47)
+          'LawnGreen (list 124 252 0)
+          'LightSeaGreen (list 32 178 170)
+          'LimeGreen (list 50 205 50)
+          'MediumSeaGreen (list 60 179 113)
+          'MediumSpringGreen (list 0 250 154)
+          'MintCream (list 245 255 250)
+          'OliveDrab (list 107 142 35)
+          'PaleGreen (list 152 251 152)
+          'SpringGreen (list 0 255 127)
+          'YellowGreen (list 154 205 50)
+          'chartreuse (list 127 255 0)
+          'green (list 0 255 0)
+          'green (list 0 128 0)
+          'lime (list 0 255 0)
+          'khaki (list 240 230 140)
+          'DarkOrange (list 255 140 0)
+          'DarkSalmon (list 233 150 122)
+          'LightCoral (list 240 128 128)
+          'LightSalmon (list 255 160 122)
+          'PeachPuff (list 255 218 185)
+          'bisque (list 255 228 196)
+          'coral (list 255 127 0)
+          'coral (list 255 127 80)
+          'honeydew (list 240 255 240)
+          'orange (list 255 165 0)
+          'salmon (list 250 128 114)
+          'sienna (list 160 82 45)
+          'Orange (list 255 127 0)
+          'DeepPink (list 255 20 147)
+          'HotPink (list 255 105 180)
+          'IndianRed (list 205 92 92)
+          'LightPink (list 255 182 193)
+          'MediumVioletRed (list 199 21 133)
+          'MistyRose (list 255 228 225)
+          'OrangeRed (list 255 69 0)
+          'PaleVioletRed (list 219 112 147)
+          'VioletRed (list 208 32 144)
+          'firebrick (list 178 34 34)
+          'pink (list 255 192 203)
+          'Flesh (list 245 204 176)
+          'Feldspar (list 209 146 117)
+          'red (list 255 0 0)
+          'tomato (list 255 99 71)
+          'Firebrick (list 142 35 35)
+          'Pink (list 188 143 143)
+          'Salmon (list 111 66 66)
+          'Scarlet (list 140 23 23)
+          'DarkOrchid (list 153 50 204)
+          'DarkViolet (list 148 0 211)
+          'LavenderBlush (list 255 240 245)
+          'MediumOrchid (list 186 85 211)
+          'MediumPurple (list 147 112 219)
+          'lavender (list 230 230 250)
+          'magenta (list 255 0 255)
+          'fuchsia (list 255 0 255)
+          'maroon (list 176 48 96)
+          'orchid (list 218 112 214)
+          'Orchid (list 219 112 219)
+          'plum (list 221 160 221)
+          'purple (list 160 32 240)
+          'purple (list 128 0 128)
+          'thistle (list 216 191 216)
+          'violet (list 238 130 238)
+          'Maroon (list 128 0 0)
+          'Plum (list 234 173 234)
+          'Thistle (list 216 191 216)
+          'Turquoise (list 173 234 234)
+          'Violet (list 79 47 79)
+          'AntiqueWhite (list 250 235 215)
+          'FloralWhite (list 255 250 240)
+          'GhostWhite (list 248 248 255)
+          'NavajoWhite (list 255 222 173)
+          'OldLace (list 253 245 230)
+          'WhiteSmoke (list 245 245 245)
+          'gainsboro (list 220 220 220)
+          'ivory (list 255 255 240)
+          'linen (list 250 240 230)
+          'seashell (list 255 245 238)
+          'snow (list 255 250 250)
+          'wheat (list 245 222 179)
+          'white (list 255 255 255)
+          'Quartz (list 217 217 243)
+          'Wheat (list 216 216 191)
+          'BlanchedAlmond (list 255 235 205)
+          'DarkGoldenrod (list 184 134 11)
+          'LemonChiffon (list 255 250 205)
+          'LightGoldenrod (list 238 221 130)
+          'LightGoldenrodYellow (list 250 250 210)
+          'LightYellow (list 255 255 224)
+          'PaleGoldenrod (list 238 232 170)
+          'PapayaWhip (list 255 239 213)
+          'cornsilk (list 255 248 220)
+          'goldenrod (list 218 165 32)
+          'moccasin (list 255 228 181)
+          'yellow (list 255 255 0)
+          'gold (list 255 215 0)
+          'Goldenrod (list 219 219 112)
+          'copper (list 184 115 51)
+          'brass (list 181 166 66)
+          'bronze (list 140 120 83)
+          'CSS (list 204 153 0)
+          'gold (list 205 127 50)
+          'silver (list 230 232 250))))
+  (loop for item on rgb-list by #'cddr
+        do (destructuring-bind (cur-symb cur-rgb) (list (first item) (second item))
+             (add-color-symbol-mapping cur-symb cur-rgb))))
+
+(defun color-symbol->rgb (symb)
+  (gethash symb *color-table*))
+
+(defun rgb->color-symbol (rgb)
+  (let ((res-symb
+          (loop for cur-symb being the hash-keys of *color-table* using (hash-value cur-rgb)
+                when (equal cur-rgb rgb) collect cur-symb)))
+    (ecase (length res-symb)
+      (0 nil)
+      (1 (first res-symb))
+      (2 #| This doesn't work because there are other pairs
+            in the color table:  pink&rosybrown, navyblue&navy,aqua&cyan,lightgray$light-gray,lightblue&light-blue,magenta&fuchsia,darkgreen&dark-green
+           (progn
+           (guard ((null (set-difference (list 'gray 'grey) res-symb))))
+           'gray)))))|#
+       (cond ((find 'gray res-symb)
+              'gray)
+             ((find 'pink res-symb)
+              'pink)
+             ((find 'navy res-symb)
+              'navy)
+             ((find 'cyan res-symb)
+              'cyan)
+             ((find 'light-gray res-symb)
+              'light-gray)
+             ((find 'light-blue res-symb)
+              'light-blue)
+             ((find 'magenta res-symb)
+              'magenta)
+             ((find 'dark-green res-symb)
+              'dark-green)
+             (t (first res-symb)))))))
+
+(defun color-symbol->system-color (symb)
+  (destructuring-bind (red green blue) (color-symbol->rgb symb)
+    (make-color red green blue)))
+
+(defun system-color->symbol (color)
+  (let ((red (easygui:rgb-red color))
+        (green (easygui:rgb-green color))
+        (blue (easygui:rgb-blue color)))
+    (rgb->color-symbol (list red green blue))))
+
+(defun make-color (red green blue &optional (opacity 1.0))
+  (easygui:make-rgb :red red :green green :blue blue :opacity opacity))
+
+(defun color-red (color)
+  (easygui:rgb-red color))
+
+(defun color-green (color)
+  (easygui:rgb-green color))
+
+(defun color-blue (color)
+  (easygui:rgb-blue color))
+
+(defun color-opacity (color)
+  (easygui:rgb-opacity color))
+
+(defun mcl-color-red (color &optional (component (logand (the fixnum (lsh color -16)) #xff)))
+  "Returns the red portion of the color"
+  (declare (fixnum component))
+  (the fixnum (+ (the fixnum (ash component 8)) component)))
+
+(defun mcl-color-green (color &optional (component (logand (the fixnum (lsh color -8)) #xff)))
+  "Returns the green portion of the color"
+  (declare (fixnum component))
+  (the fixnum (+ (the fixnum (ash component 8)) component)))
+
+(defun mcl-color-blue (color &optional (component (logand color #xff)))
+  "Returns the blue portion of the color"
+  (declare (fixnum component))
+  (the fixnum (+ (the fixnum (ash component 8)) component)))
+
+(defun mcl-color-values (color)
+  "Given an encoded color, returns the red, green, and blue components"
+  (values
+    (ceiling (* (/ (float (mcl-color-red color)) (float 65535)) 255))
+    (ceiling (* (/ (float (mcl-color-green color)) (float 65535)) 255))
+    (ceiling (* (/ (float (mcl-color-blue color)) (float 65535)) 255))))
+
+(defun mcl-color->system-color (color)
+  "Converts an MCL color to a CCL system color"
+  (etypecase color
+    (integer (multiple-value-bind (r g b) (mcl-color-values color)
+               (make-color r g b)))
+    (ns:ns-color color)))
+
+(defparameter *black-color* (color-symbol->system-color 'black))
+(defparameter *red-color* (color-symbol->system-color 'red))
+(defparameter *light-gray-pattern* (color-symbol->system-color 'gray))
+(defparameter *green-color* (color-symbol->system-color 'green))
+(defparameter *blue-color* (color-symbol->system-color 'blue))
+(defparameter *dark-green-color* (color-symbol->system-color 'DarkGreen))
+(defparameter *white-color* (color-symbol->system-color 'white))
+(defparameter *gray-color* (mcl-color->system-color 8421504))
+(defparameter *yellow-color* (color-symbol->system-color 'yellow))
+(defparameter *orange-color* (mcl-color->system-color 16737282))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (provide :mcl-ccl-colors))
+
+
+
+; ----------------------------------------------------------------------
+; End file: bincarbon/mcl-ccl-colors.lisp
+; ----------------------------------------------------------------------
+; ----------------------------------------------------------------------
+; Begin file: actr6/devices/ccl/share.lisp
+; ----------------------------------------------------------------------
+
+
+(require :resources)
+(require :mcl-ccl-colors)
+
+; These are shorthand guard macros for usual cases. Only use these if you quickly want to add
+; a guard statement with minimal useful error messages. Otherwise, use the guard macro and 
+; provide a more meaningful error message
+
+(defmacro guard-!null-ptr (&body body)
+  `(guard ((not (equal it1 ccl:+null-ptr+)) "null ptr returned when evaling form ~a" ',body)
+     (progn ,@body)))
+
+(defmacro guard-!nil (&body body)
+  `(guard (it1 "nil returned when evaling form ~a" ',body)
+     (progn ,@body)))
+
+(defmacro guard-nil (&body body)
+  `(guard ((null it1) "~a returned when evaling form ~a; expected nil" it1 ',body)
+     (progn ,@body)))
+
+(defmacro guard-t-or-nil (&body body)
+  `(guard ((or (eq it1 nil) (eq it1 t)) "~a returned when evaling form ~a: expected t or nil" it1 ',body)
+     (progn ,@body)))
+
+(defmacro! return-time-ms (&body body)
+  `(let ((,g!ctime (get-internal-real-time)))
+     ,@body
+     (* (/ (- (get-internal-real-time) ,g!ctime) internal-time-units-per-second)
+        1000)))
+
+; ----------------------------------------------------------------------
+; Building class definitions to match MCL's GUI class hierarchy
+;
+; Most of the class definitions used by MCL are available in CCL using
+; the easygui package. However, a few of the slot initargs in the easygui
+; package do not match up with MCL initargs. So for these, use mixin
+; classes that override initargs in easygui with initargs that match
+; MCL's spec.
+; ----------------------------------------------------------------------
+
+(defconstant $tejustleft :left)
+(defconstant $tejustcenter :center)
+(defconstant $tejustright :right)
+(defparameter *screen-width* (easygui::screen-width))
+(defparameter *screen-height* (easygui::screen-height))
+
+(defclass view-text-via-

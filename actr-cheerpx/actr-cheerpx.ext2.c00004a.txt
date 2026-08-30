@@ -1,0 +1,1442 @@
+                                          (obj-spec (mapcan (lambda (x) 
+                                                               (unless (find (first x) loc-slots)
+                                                                 (if (and (third x) (= 3 (length x))) 
+                                                                     (list (first x) (third x))
+                                                                   (when (and (= (length x) 2) (second x))
+                                                                     (list (first x) (second x))))))
+                                                       chunk-specs))
+                                           (visicon-spec (mapcan (lambda (x) 
+                                                                   (unless (eq (first x) 'isa)
+                                                                     (list (first x) (or (third x) (second x))))) chunk-specs))
+                                           (loc-chunk (car (define-chunks-fct (list loc-spec))))
+                                           (visicon-chunk (car (define-chunks-fct (list (push (new-name "visicon-id") visicon-spec))))))
+                                      
+                                      
+                                      (if (and loc-chunk visicon-chunk has-x has-y)
+                                          
+                                          (progn
+                                            (setf (chunk-vis-loc-slots loc-chunk) loc-slots)
+                                            (setf (chunk-vis-loc-slots visicon-chunk) loc-slots)
+                                            
+                                            ;; set default distance and size if not provided as numbers
+                                            
+                                            (unless (numberp (fast-chunk-slot-value-fct loc-chunk (third loc-slots)))
+                                              (set-chunk-slot-value-fct loc-chunk (third loc-slots) view-dist))
+                                            (unless (numberp (fast-chunk-slot-value-fct visicon-chunk (third loc-slots)))
+                                              (set-chunk-slot-value-fct visicon-chunk (third loc-slots) view-dist))
+                                            
+                                            (unless (numberp (fast-chunk-slot-value-fct loc-chunk 'size))
+                                              (compute-vis-loc-size loc-chunk vis-mod))
+                                            (unless (numberp (fast-chunk-slot-value-fct visicon-chunk 'size))
+                                              (compute-vis-loc-size visicon-chunk vis-mod))
+                                            
+                                            
+                                            (setf (chunk-visual-loc visicon-chunk) loc-chunk)
+                                            (if (null obj-spec)
+                                                (setf (chunk-visual-obj-spec visicon-chunk) '(isa visual-object))
+                                              (setf (chunk-visual-obj-spec visicon-chunk) obj-spec))
+                                            
+                                            (setf (chunk-visicon-entry loc-chunk) visicon-chunk)
+                                            (setf (chunk-visicon-entry visicon-chunk) visicon-chunk)
+                                                                                        
+                                            (setf (chunk-visual-approach-width-fn loc-chunk) width-fct)
+                                            (setf (chunk-visual-approach-width-fn visicon-chunk) width-fct)
+                                            
+                                            (push-last visicon-chunk results))
+                                        (progn
+                                          (when (chunk-p-fct loc-chunk)
+                                            (delete-chunk-fct loc-chunk))
+                                          (when (chunk-p-fct visicon-chunk)
+                                            (delete-chunk-fct visicon-chunk))
+                                          (invalid-feature f)))))))
+                            (invalid-feature f)))))
+                  ((or error condition) (x)
+                   (push-last nil results)
+                   (model-warning "Visicon feature ~s produced error ~/print-error-message/ and was not created." f x)))
+              (invalid-feature f)))
+          
+          (bt:with-recursive-lock-held ((visicon-lock vis-mod))
+            (dolist (x results)
+              (when x
+                (push-last (cons :add x) (visicon-updates vis-mod)))))
+          
+          (schedule-proc-display vis-mod))))
+    results))
+
+(defun external-add-visicon-features (&rest feats)
+  (apply 'internal-add-visicon-features (cons (get-module :vision) (decode-string-names feats))))
+
+(add-act-r-command "add-visicon-features" 'external-add-visicon-features "Add visual features to the current model's visicon. Params: 'feature-spec'*.")
+
+(defun delete-visicon-features (&rest feats)
+  (let ((vis-mod (get-module :vision)))
+    (when vis-mod
+      (bt:with-recursive-lock-held ((param-lock vis-mod))
+        (if (force-commands vis-mod)
+            (dispatch-apply-list-names "delete-visicon-features" (encode-string-names feats))
+          (apply 'internal-delete-visicon-features (cons vis-mod feats)))))))
+
+(defun internal-delete-visicon-features (mod &rest feats)
+  (let ((results nil))
+    (when mod
+      (flet ((invalid-feature (bad)
+                              (model-warning "Feature ~s is not a valid feature name and cannot be removed." bad)
+                              (push-last nil results)))
+        (handler-case 
+              (bt:with-recursive-lock-held ((visicon-lock mod))
+                
+                (dolist (x feats)
+                  ;; actually determine if it's a valid feature because it
+                  ;; can't delay that if the feature goes away because of 
+                  ;; the window closing on reset -- can't guarantee the order
+                  ;; of reset and the chunks are already gone by that point
+                  ;; so it would always fail with the simple chunk-p test...
+                  
+                  (cond ((or (find x (visicon mod))
+                             (find-if (lambda (y) (and (eq (car y) :add) (eq (cdr y) x))) (visicon-updates mod)))
+                         (push-last x results))
+                        
+                        ;; why did I allow this? (and (chunk-p-fct x) (chunk-visicon-entry x) (find (chunk-visicon-entry x) (visicon mod)))
+                        ;; and should it come back?
+                        
+                        (t (invalid-feature x))))
+                
+                (dolist (x results)
+                  (when x
+                    (push-last (cons :delete x) (visicon-updates mod))))
+              
+              (schedule-proc-display mod))
+          
+          ((or error condition) (x)
+           (model-warning "Cannot delete visicon features because trying to build feature names from ~s produced error ~/print-error-message/." feats x)))))
+    results))
+
+(defun external-delete-visicon-features (&rest feats)
+  (apply 'internal-delete-visicon-features (cons (get-module :vision) (string->name-recursive feats))))
+
+(add-act-r-command "delete-visicon-features" 'external-delete-visicon-features "Remove visual features from the current model's visicon. Params: feature-name*.")
+
+
+(defun delete-all-visicon-features ()
+  (let ((mod (get-module :vision)))
+    (when mod
+      (bt:with-recursive-lock-held ((param-lock mod))
+        (if (force-commands mod)
+            (dispatch-apply "delete-all-visicon-features")
+          (internal-delete-all-visicon-features mod))))))
+      
+(defun internal-delete-all-visicon-features (mod)
+  (when mod
+    (bt:with-recursive-lock-held ((visicon-lock mod))
+      (push-last (cons :delete-all nil) (visicon-updates mod)))
+    (schedule-proc-display mod)
+    t))
+
+(defun external-delete-all-visicon-features ()
+  (internal-delete-all-visicon-features (get-module :vision)))
+  
+(add-act-r-command "delete-all-visicon-features" 'external-delete-all-visicon-features "Remove all visual features from the current model's visicon. No params.")
+
+(defun modify-visicon-features (&rest feats)
+  (let ((vis-mod (get-module :vision)))
+    (when vis-mod
+      (bt:with-recursive-lock-held ((param-lock vis-mod))
+        (if (force-commands vis-mod)
+            (dispatch-apply-list-names "modify-visicon-features" (encode-string-names feats))
+          (apply 'internal-modify-visicon-features (cons vis-mod feats)))))))
+
+(defun internal-modify-visicon-features (mod &rest feats)
+  (let ((results nil)
+        (updates nil))
+    (when mod
+      (flet ((invalid-feature (bad)
+                              (model-warning "Provided update ~s does not contain a valid visual feature modification." bad)
+                              (push-last nil results)))
+        (dolist (f feats)
+          (if (and f (listp f) (oddp (length f)) (> (length f) 1))
+              (handler-case 
+                  (let* ((d f)
+                         (slots (mapcan (let ((c 0)) (lambda (x) (prog1 (when (evenp c) (list x)) (incf c)))) (rest d))))
+                    (if (or (find 'isa slots)
+                            (find 'kind slots)
+                            (some 'keywordp slots)
+                            (not (chunk-p-fct (first d))) 
+                            (not (or (find (first d) (visicon-chunks mod))
+                                     (find (cons :add (first d)) (bt:with-recursive-lock-held ((visicon-lock mod)) (visicon-updates mod)) :test 'equalp)))
+                            (not (= (length slots) (length (remove-duplicates slots)))))
+                        (invalid-feature f)
+                      (let* ((visicon-chunk (first d))
+                             (specs (rest d))
+                             (locs (visual-location-slots visicon-chunk mod))
+                             (p1 (and (find (first locs) slots)
+                                      (do* ((l specs (cddr l))
+                                            (count 0 (incf count 2)))
+                                           ((eq (first l) (first locs)) count))))
+                             (p2 (and (find (second locs) slots)
+                                      (do* ((l specs (cddr l))
+                                            (count 0 (incf count 2)))
+                                           ((eq (first l) (second locs)) count)))))
+                        
+                        (if (or (and p1 (let ((val (nth (1+ p1) specs))) (or (and (atom val) (not (numberp val)))
+                                                                             (and (listp val) (not (numberp (first val)))))))
+                                (and p2 (let ((val (nth (1+ p2) specs))) (or (and (atom val) (not (numberp val)))
+                                                                             (and (listp val) (not (numberp (first val))))))))
+                            (invalid-feature f)
+                          (progn
+                            (push-last visicon-chunk results)
+                            (push-last d updates))))))
+                ((or error condition) (x)
+                 (push-last nil results)
+                 (model-warning "Visicon modification ~s produced error ~/print-error-message/ and was not applied." f x)))
+            (invalid-feature f)))
+        
+        (bt:with-recursive-lock-held ((visicon-lock mod))
+          (dolist (x updates)
+            (push-last (cons :update x) (visicon-updates mod))))
+        
+        (schedule-proc-display mod)))
+    results))
+
+
+(defun external-modify-visicon-features (&rest feats)
+  (apply 'internal-modify-visicon-features (cons (get-module :vision) (decode-string-names feats))))
+
+(add-act-r-command "modify-visicon-features" 'external-modify-visicon-features "Change a visual feature in the current model's visicon. Params: 'visicon-mod-spec'*.")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+(defmethod set-visloc-default-request ((vm vision-module) spec)
+  "Assumes all the checking has been done already for validity"
+  (setf (default-spec vm) 
+    (define-chunk-spec-fct (flatten (remove 'set-visloc-default (chunk-spec-slot-spec spec) :key 'spec-slot-name))))
+  (update-new vm)
+  (check-finsts vm)
+  (stuff-visloc-buffer vm))
+
+(defmacro set-visloc-default (&rest params)
+  "Macro to set the default specification for visual location buffer stuffing."
+  `(set-visloc-default-fct ',params))
+
+(defun set-visloc-default-fct (params)
+  "Function to set the default specification for visual location buffer stuffing."
+   (verify-current-model 
+    "No current model.  Cannot set visloc defaults."
+    (if (get-module :vision)
+        (let ((chunk-spec (funcall 'define-chunk-spec-fct params)))
+          (if chunk-spec
+              (cond ((> (length (chunk-spec-slot-spec chunk-spec :attended)) 1)
+                     (print-warning ":attended specification only allowed once in set-visloc-default.")
+                     (print-warning "Visloc defaults not changed."))
+                    ((> (length (chunk-spec-slot-spec chunk-spec :nearest)) 1)
+                     (print-warning ":nearest specification only allowed once in set-visloc-default.")
+                     (print-warning "Visloc defaults not changed."))
+                    (t
+                     (progn (setf (default-spec (get-module :vision)) chunk-spec) t)))
+            (print-warning "Invalid chunk specification.  Default not changed.")))
+      (print-warning "No vision module found.  Cannot set visloc defaults."))))
+
+(defun external-set-visloc-default (&rest params)
+  (set-visloc-default-fct (decode-string-names params)))
+
+(add-act-r-command "set-visloc-default" 'external-set-visloc-default "Set the specification of how to pick the chunk to stuff into the visual-location buffer. Params: '{{modifier} slot value}'*")
+
+(defun print-visicon ()
+  "Print the Vision Module's visicon. For debugging."
+  (command-output "~a" (printed-visicon t))
+  nil)
+
+(add-act-r-command "print-visicon" 'print-visicon "Print all the attributes of the features in the model's visicon and also changes that have happened but have not been processed yet. No params.")
+
+
+(defun printed-visicon (&optional show-pending)
+  "Return the Vision Module's visicon output in a string."
+  (aif (get-module :vision)  ;; Test that there is a vision module
+       (let ((s (make-string-output-stream)))
+         (update-new it)
+         (check-finsts it) 
+         
+         (bt:with-recursive-lock-held ((visicon-lock it))
+           (let ((attributes nil)
+                 (name 4)
+                 (loc (list 0 0 0)))
+             (dolist (x (visicon it))
+               (let* ((name-len (length (symbol-name (chunk-visual-loc x))))
+                     (vis-loc-slots (visual-location-slots x it)))
+                 
+                 (when (> name-len name)
+                   (setf name name-len))
+                 
+                 (dolist (y (chunk-filled-slots-list-fct x))
+                   (let ((w (length (format nil "~s" (fast-chunk-slot-value-fct x y)))))
+                     (aif (position y vis-loc-slots)
+                          (when (> w (nth it loc))
+                            (setf (nth it loc) w))
+                          (aif (find y attributes :key 'second)
+                               (progn
+                                 (when (> w (first it))
+                                   (setf (first it) w))
+                                 (incf (third it)))
+                               (push (list (max w (length (symbol-name y))) y 1) attributes)))))))
+             
+             (setf attributes (mapcar 'butlast (stable-sort attributes #'> :key 'third)))
+                          
+               
+             (format s "~v,a  Att  ~v,a  "
+               name "Name" (+ (reduce '+ loc) 4) "Loc" )
+             
+             (dolist (z attributes)
+               (format  s "~v,a  " (first z) (second z)))
+             (format s "~%")
+             
+
+             
+             
+             (format s "~v,,,'-a  ---  ~v,,,'-a  ~{~{~v,,,'-a~}~^  ~}~%" name "" (+ (reduce '+ loc) 4) ""
+               (mapcar (lambda (x) (list (first x) "")) attributes))
+             
+             
+             (let ((*print-pretty* nil))
+               (dolist (x (visicon it))
+                 (let ((vis-loc-slots (visual-location-slots x it)))
+                   (format s "~v,a  ~3,a  (~v,@a ~v,@a ~v,@a)  "
+                     name (chunk-visual-loc x) 
+                     (let ((f (feat-attended x it)))
+                       (if (or (null f) (eq f t))
+                           f
+                         (subseq (symbol-name f) 0 3)))
+                     (first loc) (fast-chunk-slot-value-fct x (first vis-loc-slots))
+                     (second loc) (fast-chunk-slot-value-fct x (second vis-loc-slots))
+                     (third loc) (fast-chunk-slot-value-fct x (third vis-loc-slots))
+                     )
+                   
+                   (dolist (z (mapcar (lambda (y)
+                                        (let ((v (chunk-slot-value-fct x (second y))))
+                                          (list v (first y) (if v v ""))))
+                                attributes))
+                     (if (first z) 
+                         (format  s "~v,s  " (second z) (third z))
+                         (format  s "~v,a  " (second z) (third z))))
+                   (format s "~%"))))
+             
+             (awhen (and show-pending (visicon-updates it))
+                    (let (adds deletes updates)
+                      (dolist (x it)
+                        (case (car x)
+                          (:add (push-last (cons (chunk-visual-loc (cdr x))
+                                                 (mapcan (lambda (y)
+                                                           (list y (chunk-slot-value-fct (cdr x) y)))
+                                                   (chunk-filled-slots-list-fct (cdr x))))
+                                           adds))
+                          (:delete (push-last (chunk-visual-loc (cdr x)) deletes))
+                          (:update (push-last (cons (chunk-visual-loc (cadr x))
+                                                    (cddr x))
+                                              updates))))
+                                          
+                      (when adds
+                        (format s "~%Pending additions:~%")
+                        (dolist (x adds)
+                          (format s "~s~%" x)))
+                      (when deletes
+                        (format s "~%Pending deletions:~%")
+                        (dolist (x deletes)
+                          (format s "~s~%" x)))
+                      (when updates
+                        (format s "~%Pending modifications:~%")
+                        (dolist (x updates)
+                          (format s "~s~%" x)))))))
+                      
+         (get-output-stream-string s))
+       "#|Warning: No vision module found. |#"))
+
+(add-act-r-command "printed-visicon" 'printed-visicon "Return a string with the printed output of all of the attributes of the features in the model's visicon and if the optional parameter is given as true also show any pending updates. Params: {show_pending}.")
+
+(defun attend-visual-coordinates (x y &optional distance)
+  "Tells the Vision Module to start with attention at a certain location."
+  (aif (get-module :vision)
+       (if (and (numberp x) (numberp y) (or (null distance) (numberp distance)))
+           (let ((vis-loc-slots (bt:with-lock-held ((vis-loc-lock it)) (vis-loc-slots it))))
+             (bt:with-recursive-lock-held ((marker-lock it))
+               (set-current-marker it 
+                                   (car (define-chunks-fct `((isa visual-location
+                                                                  ,(first vis-loc-slots) ,x
+                                                                  ,(second vis-loc-slots) ,y
+                                                                  ,(third vis-loc-slots) ,(if (numberp distance) distance (bt:with-recursive-lock-held ((param-lock it)) (view-dist it)))))))))
+             t)
+         (print-warning "Invalid position value in call to attend-visual-coordinates: ~s ~s ~s" x y distance))
+       (print-warning "No vision module found.  Cannot set visual coordinates.")))
+
+(add-act-r-command "attend-visual-coordinates" 'attend-visual-coordinates "Set the current position of the model's visual attention. Params: x y {z}.")
+
+(defun remove-visual-finsts (&optional set-new restuff)
+  (let ((vis-m (get-module :vision)))
+    (if vis-m
+        (bt:with-recursive-lock-held ((visicon-lock vis-m))
+          
+          (setf (finst-lst vis-m) nil)
+          (if set-new
+              (mapc (lambda (x)
+                      (setf (chunk-visual-tstamp x) (mp-time-ms))
+                      (setf (chunk-visual-new-p x) 'new))
+                (visicon vis-m))
+            (mapc (lambda (x)
+                    (setf (chunk-visual-new-p x) 
+                      (if (<= (tstamp-elapsed x) (bt:with-recursive-lock-held ((param-lock vis-m)) (new-span vis-m)))
+                          'new 
+                        nil)))
+              (visicon vis-m)))
+          (when restuff           
+            (stuff-visloc-buffer vis-m))
+          nil)
+      (print-warning "No vision module found.  Cannot remove the visual finsts."))))
+
+(add-act-r-command "remove-visual-finsts" 'remove-visual-finsts "Remove the finsts from all visicon features and possibly mark everything as new. Params: {set-new {restuff-location?}}")
+
+#| Stuff that isn't being used and probably not updated appropriately but kept around for now...
+
+
+
+(extend-chunks visual-feature-name :copy-function identity :merge-function :second-if)
+
+
+
+
+(defun hash-visual-chunk-contents (chunk)
+  (let (res)
+    (dolist (slot (chunk-filled-slots-list-fct chunk t) res)
+      (push (cons slot 
+                  (aif (and (eq slot 'value) (chunk-visual-obj-spec chunk))
+                       it
+                       (true-chunk-name-fct (fast-chunk-slot-value-fct chunk slot))))
+            res))))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defun set-char-feature-set (setname)
+  "Sets the feature set used to represent characters when optimizing is off. <setname> should be a keyword."
+  (verify-current-mp
+   "No current meta-process.  Cannot set a char feature set."
+   (verify-current-model 
+    "No current model.  Cannot set a char feature set."
+    (aif (get-module :vision)
+         (if (set-cfs-mth it setname) t nil)
+         (print-warning "No vision module found.  Cannot set a char feature set.")))))
+
+
+(defgeneric set-cfs-mth (vis-mod kwrd)
+  (:documentation "Set the current character feature set."))
+
+(defmethod set-cfs-mth ((vis-mod vision-module) kwrd)
+  (aif (get-cfs-mth vis-mod kwrd)
+       (setf (active-cfs vis-mod) (first it))
+       (model-warning "Feature set ~S is unknown" kwrd)))
+
+(defgeneric get-cfs-mth (vis-mod kwrd)
+  (:documentation "Given a keyword, find a character feature set."))
+
+(defmethod get-cfs-mth ((vis-mod vision-module) kwrd)
+  (member kwrd (feature-sets vis-mod) :key 'name))
+
+
+
+
+
+
+;;; CHAR-TO-FEATURES      [Method]
+;;; Date        : 99.03.30
+;;; Description : For each character, there will usually be many of those
+;;;             : CHAR-PRIMITIVE features.  Grab the list of features 
+;;;             : associated with a character, and build 'em.
+
+(defgeneric char-to-features (vis-mod char left right y height obj)
+  (:documentation  "Returns a list of basic visual-location chunks for a characer"))
+
+(defmethod char-to-features ((vis-mod vision-module) (char character) 
+                             (left number) (right number) (y number) 
+                             (height number) obj)
+  (declare (ignore obj))
+  (let* ((xpos (+ left (round (- right left) 2)))
+         (width (1+ (- right left)))
+         (features (pairlis
+                    (getfeats (active-cfs vis-mod) char)
+                    (get-icon-feats (active-cfs vis-mod) char)))
+         (accum nil)
+         (coord-slots (bt:with-lock-held ((vis-loc-lock vis-mod)) (vis-loc-slots vis-mod)))
+         (x-slot (first coord-slots))
+         (y-slot (second coord-slots)))
+    (dolist (feats features accum)
+      (when (and (symbolp (car feats)) (not (chunk-p-fct (car feats))))
+        (define-chunks-fct `((,(car feats)))))
+      (when (and (symbolp (cdr feats)) (not (chunk-p-fct (cdr feats))))
+        (define-chunks-fct `((,(cdr feats)))))
+      (let ((vl (car (define-chunks-fct `((isa char-primitive
+                                               ,y-slot ,y height ,height value ,(cdr feats)
+                                               width ,width ,x-slot ,xpos left ,left right ,right))))))
+        (push vl accum)
+        (setf (chunk-visual-obj-spec vl) (car feats))))))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Synthesizing 
+
+
+;;; GET-WORD-AT-NOOPT      [Method]
+;;; Date        : 99.04.02
+;;; Description : Getting a word when optimizing is off involves calling
+;;;             : SYNTHESIZE-WORD method, but we need to collect the 
+;;;             : locations first, and also check the return if what was
+;;;             : sent in was a DMO.
+
+(defgeneric get-word-at-noopt (vis-mod loc-dmo)
+  (:documentation  "Synthesize a word at the given location and synch it with the location."))
+
+(defmethod get-word-at-noopt ((vis-mod vision-module) (loc symbol))
+  (let ((xyz-loc (xyz-loc loc vis-mod)))
+    (multiple-value-bind (locs xmin xmax) (adjoining-led-locs vis-mod xyz-loc)
+      (when locs
+        (let ((rtn-chunk (synthesize-word vis-mod locs (- xmax xmin) xyz-loc)))
+          (when rtn-chunk
+            (set-chunk-slot-value-fct rtn-chunk 'screen-pos loc)
+            (values rtn-chunk xmin xmax)))))))
+
+
+(defmethod get-word-at-noopt ((vis-mod vision-module) (loc vector))
+  (multiple-value-bind (locs xmin xmax) (adjoining-led-locs vis-mod loc)
+    (when locs
+      (let ((rtn-chunk (synthesize-word vis-mod locs  (- xmax xmin) loc)))
+        (when rtn-chunk
+          (set-chunk-slot-value-fct rtn-chunk 'screen-pos loc)
+          (values rtn-chunk xmin xmax))))))
+
+
+;;; GET-WORD-DMOS-NOOPT      [Method]
+;;; Date        : 99.04.02
+;;; Description : OK, when optimizing is off and a phrase needs to be built,
+;;;             : the tricky bit is figuring out which locations you need
+;;;             : to grab words from, since if you hit every x location, 
+;;;             : you'll generate multiple copies of each word.
+
+(defgeneric get-word-dmos-noopt (vis-mod x-lst y z)
+  (:documentation  "Return a list of DMOs representing words at the given xlocs, with optimizing off."))
+
+(defmethod get-word-dmos-noopt ((vis-mod vision-module) (x-ls list) y z)
+  (let ((rtn-dmos nil)
+        (curr-x -1))
+    (dolist (x x-ls (remove nil (nreverse rtn-dmos)))
+      (when (> x curr-x)
+        (multiple-value-bind (word min max)
+            (get-word-at-noopt vis-mod (vector x y z))
+          (declare (ignore min))
+          (push word rtn-dmos)
+          (setf curr-x max))))))
+
+
+;;; GET-WORD-DMOS-OPT      [Method]
+;;; Date        : 99.04.02
+;;; Description : This is simpler when optimizing--just walk the xlist
+;;;             : and accumulate words.
+;;;             : Might be vestigial as of beta 6.
+
+(defgeneric get-word-dmos-opt (vis-mod x-lst y z)
+  (:documentation  "Return a list of DMOs representing words at the given xlocs, with optimizing on."))
+
+(defmethod get-word-dmos-opt ((vis-mod vision-module) (x-ls list) y z)
+  (let (accum)
+    (dolist (x x-ls (nreverse accum))
+      (dolist (feat (text-feats (feat-match-xyz (visicon-chunks vis-mod) (vector x y z) vis-mod)))
+        (setf accum (append (featlis-to-object-chunks vis-mod (list feat)) accum))))))
+
+
+
+
+;;; SYNTHESIZE-LETTER      [Method]
+;;; Date        : 98.07.27
+;;; Description : From a list of LED-style icon features, synthesize a letter
+;;;             : feature and note the synthesis.  The real worker here is
+;;;             : Mike Matessa's FIND-BEST-OBJECT function, which is based on
+;;;             : "rational categorization" of the features into a letter.
+
+(defgeneric synthesize-letter (vis-mod feats)
+  (:documentation  "Build a DMO representing a letter from a list of LED features."))
+
+(defmethod synthesize-letter ((vis-mod vision-module) (feats list))
+  (let* ((base-feat (first feats))
+         (letter (prob-best-character (active-cfs vis-mod) (mapcar (lambda (x) (chunk-slot-value-fct x 'value)) feats)))
+         (return-chunk nil)
+         (colors (mapcar (lambda (x) (chunk-slot-value-fct x 'color)) feats))
+         (color (caar (sort (mapcar (lambda (x) (cons x (count x colors))) (remove-duplicates colors)) '> :key 'cdr))))
+    
+    (setf return-chunk
+      (car (define-chunks-fct (list (list 'isa 'text 'value letter 'color color)))))
+    
+    (setf (chunk-visual-feature-name return-chunk) base-feat)
+    (setf (chunk-visicon-entry return-chunk) (chunk-visicon-entry base-feat))
+    (setf (chunk-synth-feat return-chunk) (mapcan (lambda (x) (list (chunk-visicon-entry x))) feats))
+    return-chunk))
+
+
+;;; SYNTHESIZE-WORD      [Method]
+;;; Date        : 98.07.27
+;;; Description : Given the list of contiguous locations, get the letter 
+;;;             : at each location, and then build the word from the list
+;;;             : of letters.
+
+(defgeneric synthesize-word (vis-mod loc-lis width center)
+  (:documentation  "Build a DMO representing a word from a location."))
+
+(defmethod synthesize-word ((vis-mod vision-module) (loc-lis list) (width number) (center vector))
+  (let ((return-chunk nil)
+        (letter-chunks nil)
+        (used-feats nil))
+    
+    (dolist (xloc loc-lis)
+      (let* ((feats (feat-match-xyz (visicon-chunks vis-mod) xloc vis-mod))
+             (letter-chunk (synthesize-letter vis-mod feats)))
+        
+        (when (stringp (chunk-slot-value-fct letter-chunk 'value))
+          (push letter-chunk letter-chunks)
+          (setf used-feats (append feats used-feats)))))
+    
+    (when letter-chunks
+      (let* ((colors (mapcar (lambda (x) (chunk-slot-value-fct x 'color)) letter-chunks))
+             (color (caar (sort (mapcar (lambda (x) (cons x (count x colors))) (remove-duplicates colors)) '> :key 'cdr))))
+        
+        (setf letter-chunks (nreverse letter-chunks))
+        (setf return-chunk
+          (car (define-chunks-fct `((isa text color ,color value ,(word-accum 
+                                                                   (mapcar (lambda (x) (chunk-slot-value-fct x 'value))
+                                                                     letter-chunks)))))))
+        
+        
+        (setf (chunk-visicon-entry return-chunk) (chunk-visicon-entry (car used-feats)))
+        (setf (chunk-visual-feature-name return-chunk) (car used-feats))
+        (setf (chunk-synth-feat return-chunk) (mapcan (lambda (x) (list (chunk-visicon-entry x))) used-feats))
+        
+        return-chunk))))
+
+
+(defun word-accum (lis)
+  "Accumulate a list of letters into a word, and downcase it."
+  (let ((accum (first lis)))
+    (dolist (item (rest lis) (string-downcase accum))
+      (setf accum (mkstr accum item)))))
+
+;;; GET-PHRASE-AT      [Method]
+;;; Date        : 98.07.27
+;;; Description : The only way to get a phrase is to synthesize one, there is
+;;;             : no "phrase" primitive in RPM.
+
+
+(defmethod get-phrase-at ((vis-mod vision-module) (loc symbol))
+  (awhen (find-matching-chunks (define-chunk-spec-fct `(isa visual-location ,(second (visual-location-slots loc vis-mod)) ,(py (xy-loc loc vis-mod))))
+                               :chunks (visicon-chunks vis-mod))
+         
+         (synthesize-phrase vis-mod it loc)))
+
+
+(defgeneric synthesize-phrase (vis-mod feature-locs loc)
+  (:documentation  "Build a DMO representing a phrase."))
+
+#|  Need to update this with appropriate visual-location-slots change, but need to figure it out first!
+
+(defmethod synthesize-phrase ((vis-mod vision-module) (feature-locs list) (loc symbol))
+  (let* ((xyz-loc (xyz-loc loc vis-mod))
+         (x-slot (first (visual-location-slots loc vis-mod)))
+         (x-locs (mapcar (lambda (x) (chunk-slot-value-fct x x-slot)) feature-locs))
+         (word-chunks nil) 
+         (words nil)
+         (colors nil)
+         (return-chunk nil))
+    (setf x-locs (sort (remove-duplicates x-locs) '<))
+    
+    (if (bt:with-recursive-lock-held ((param-lock vis-mod)) (optimize-p vis-mod))
+        (setf word-chunks (get-word-dmos-opt vis-mod x-locs (py xyz-loc) (pz xyz-loc)))
+      (setf word-chunks (get-word-dmos-noopt vis-mod x-locs (py xyz-loc) (pz xyz-loc))))
+    
+    (when word-chunks
+      (setf words (mapcar (lambda (x)
+                            (chunk-slot-value-fct x 'value)) 
+                    word-chunks))
+      
+      (dolist (w word-chunks)
+        (let ((c (chunk-slot-value-fct w 'color)))
+          
+          (aif (assoc c colors) 
+               (incf (cdr it))
+               (push-last (cons c 1) colors))))
+      
+      (setf return-chunk
+        (car (define-chunks-fct 
+                 `((isa phrase! value ,(phrase-accum words)
+                        objects ,word-chunks 
+                        colors ,(mapcar (lambda (x) (chunk-slot-value-fct x 'color)) word-chunks)
+                        words ,words
+                        color ,(car (rassoc (apply 'max (mapcar 'cdr colors)) colors))
+                        screen-pos ,loc)))))
+      
+      (setf (chunk-visicon-entry return-chunk) (chunk-visicon-entry loc))
+      (setf (chunk-visual-feature-name return-chunk) loc) 
+      
+      (setf (chunk-synth-feat return-chunk) 
+        (if (bt:with-recursive-lock-held ((param-lock vis-mod)) (optimize-p vis-mod))
+            (mapcan (lambda (x) (list (chunk-visicon-entry x))) word-chunks)
+          (mapcan (lambda (x) (chunk-synth-feat x)) word-chunks)))
+      
+      return-chunk)))
+|#
+
+(defun phrase-accum (lis)
+  "Accumulate a list of words into a phrase."
+  (let ((accum (first lis)))
+    (dolist (item (rest lis) accum)
+      (setf accum (mkstr accum " " item)))))
+
+
+
+
+;;;;;;;;;;
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;;  Those wacky LED features for letters.
+;;;; ---------------------------------------------------------------------- ;;;;
+
+
+;;; ADJOINING-LED-LOCS      [Method]
+;;; Date        : 99.04.02
+;;; Description : To synthesize a word, we need to know which locations have
+;;;             : LED-LINE features at adjoining locations.  However, 
+;;;             : because letter width is variable, the icon has to be
+;;;             : searched for LED-LINE locations that have features that
+;;;             : are near the boundaries.  Also, because we need to know the
+;;;             : width of the word, return the min and max x values, too.
+
+(defgeneric adjoining-led-locs (vis-mod loc)
+  (:documentation  "Return a list of locations adjoining <loc>, as well as the max and min x locs."))
+
+#| Needs to be reworked with appropriate vis-loc-slots call, but for what?  should it default to screen-y only?
+
+(defmethod adjoining-led-locs ((vis-mod vision-module) (loc vector))
+  (let ((feat-ls (feat-match-xyz (visicon-chunks vis-mod) loc vis-mod))
+        (feat nil)
+        (y-slot (second (visual-location-slots ??? vis-mod)))))
+    (while (and (null feat) feat-ls)
+      (setf feat (pop feat-ls))
+      (unless (eq (chunk-slot-value-fct feat 'kind) 'char-primitive)
+        (setf feat nil)))
+    (when feat
+      (setf feat-ls (find-matching-chunks (define-chunk-spec-fct `(isa visual-location ,y-slot ,(chunk-slot-value-fct feat y-slot)))
+                                          :chunks (visicon-chunks vis-mod)))
+      (multiple-value-bind 
+            (lowlocs xmin) (left-adjoining-led-locs feat-ls vis-mod (chunk-slot-value-fct feat 'left) nil)
+        (multiple-value-bind
+              (hilocs xmax) (right-adjoining-led-locs feat-ls vis-mod (chunk-slot-value-fct feat 'right) nil)
+          (values
+           (append lowlocs (list loc) hilocs)
+           xmin xmax))))))
+|#
+
+;;; RIGHT-ADJOINING-LED-LOCS      [Method]
+;;; Date        : 99.04.02
+;;; Description : Recursively go right and accumulate locations that share
+;;;             : the boundary.
+
+(defgeneric right-adjoining-led-locs (feat-ls vis-mod x accum)
+  (:documentation  "Return a list of all the right-adjoining locs with led features and the min x."))
+
+(defmethod right-adjoining-led-locs ((feat-ls list) (vis-mod vision-module) x accum)
+  (dolist (feat feat-ls)
+    (when (eq (chunk-slot-value-fct feat 'kind) 'char-primitive)
+      (when (> 1.5 (abs (- (chunk-slot-value-fct feat 'left) x)))
+        (return-from right-adjoining-led-locs
+          (right-adjoining-led-locs feat-ls vis-mod (chunk-slot-value-fct feat 'right)
+                                    (append accum (list (xyz-loc feat vis-mod))))))))
+  (values accum x))
+
+
+;;; LEFT-ADJOINING-LED-LOCS      [Method]
+;;; Date        : 99.04.02
+;;; Description : Recursively go left and accumulate locations that share
+;;;             : the boundary.
+
+(defgeneric left-adjoining-led-locs (feat-ls vis-mod x accum)
+  (:documentation  "Return a list of all the left-adjoining locs with led features and the max x."))
+
+(defmethod left-adjoining-led-locs ((feat-ls list) (vis-mod vision-module) x accum)
+  (dolist (feat feat-ls)
+    (when (eq (chunk-slot-value-fct feat 'kind) 'char-primitive)
+      (when (> 1.5 (abs (- (chunk-slot-value-fct feat 'right) x)))
+        (return-from left-adjoining-led-locs
+          (left-adjoining-led-locs feat-ls vis-mod (chunk-slot-value-fct feat 'left)
+                                   (append (list (xyz-loc feat vis-mod)) accum))))))
+  (values accum x))
+
+
+
+
+;;   Not used now, but keeping around since EMMA used it and will need it
+;;   for reference when updating that.
+
+;;; OBJECT-PRESENT-P      [Method]
+;;; Description : A visual object is present if its ID is still in the icon
+;;;             : or if all the features from which it was synthesized are
+;;;             : still in the icon.
+
+(defgeneric object-present-p (vis-mod obj-id)
+  (:documentation  "Returns NIL if the object ID passed to it is no longer in the icon."))
+
+(defmethod object-present-p ((vis-mod vision-module) obj-id)
+  (bt:with-recursive-lock-held ((visicon-lock vis-mod))
+    (aif (chunk-synth-feat obj-id)
+         ;; For an object synthesized from features check all the features
+         ;; broken now since visicon not a hash table
+         (every (lambda (x) (gethash (chunk-visicon-entry x) (visicon vis-mod))) it)
+         (gethash (chunk-visicon-entry obj-id) (visicon vis-mod)))))
+
+
+|#
+
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   #   .      ..  $  èvirtual                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         $   .   #   ..  %   device.fasc &   device.lisp '   uwi.fasc(  °uwi.lisp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 77 14 5 1 7 12 1 8 7 3 12 15 9 15 10 15 11 15 12 14 5 1 15 12 1 16 7 3 12 15 17 15 18 15 19 1 20 6 10 12 77 19 4 21 29) #1=#A(t (253) (common-lisp-user::virtual-view ext::location (defclass common-lisp-user::virtual-view) (#2=#P"/opt/actr/actr7.x/devices/virtual/device.lisp" . 0) ext::annotate :initfunction make-hash-table #Y(nil nil nil (26 19 0 6 29) #1# #2# 0) (:initform (make-hash-table) :initargs (:subviews) :writers ((setf common-lisp-user::view-subviews)) :readers (common-lisp-user::view-subviews) :name common-lisp-user::view-subviews) (:initargs (:x-pos) :initform nil :writers ((setf common-lisp-user::x-pos)) :readers (common-lisp-user::x-pos) :name common-lisp-user::x-pos) (:initargs (:y-pos) :initform nil :writers ((setf common-lisp-user::y-pos)) :readers (common-lisp-user::y-pos) :name common-lisp-user::y-pos) (:initargs (:width) :initform nil :writers ((setf common-lisp-user::width)) :readers (common-lisp-user::width) :name common-lisp-user::width) (:initargs (:height) :initform nil :writers ((setf common-lisp-user::height)) :readers (common-lisp-user::height) :name common-lisp-user::height) #3="VV" common-lisp-user::new-symbol-fct #Y(nil nil nil (26 15 13 19 1 14 29) #1# #2# 0) (:initform (common-lisp-user::new-symbol-fct #3#) :initargs (:id) :writers ((setf common-lisp-user::id)) :readers (common-lisp-user::id) :name common-lisp-user::id) (:initargs (:handles-click-p) :initform t :writers ((setf common-lisp-user::handles-click-p)) :readers (common-lisp-user::handles-click-p) :name common-lisp-user::handles-click-p) (:initform nil :writers ((setf common-lisp-user::view-container)) :readers (common-lisp-user::view-container) :name common-lisp-user::view-container) (:initform 'common-lisp-user::black :initargs (:color) :writers ((setf common-lisp-user::color)) :readers (common-lisp-user::color) :name common-lisp-user::color) (:initform nil :writers ((setf common-lisp-user::visual-features)) :readers (common-lisp-user::visual-features) :name common-lisp-user::visual-features) clos::load-defclass common-lisp-user::subviews (defgeneric common-lisp-user::subviews) (#2# . 13133) :lambda-list (common-lisp-user::view) :delete-methods t :documentation "Returns a list of subviews of <view>." ensure-generic-function (defmethod common-lisp-user::subviews (common-lisp-user::vv common-lisp-user::virtual-view)) (#2# . 13249) (common-lisp-user::virtual-view) (common-lisp-user::vv) common-lisp-user::vv common-lisp-user::accum common-lisp-user::x common-lisp-user::y #Y(nil nil nil (24 45 38 24 45 39 26 13 0 10 2 3 51 2 73 29) #1# #2# 13249) common-lisp-user::view-subviews maphash #Y(common-lisp-user::subviews nil nil (24 45 36 26 75 45 37 34 40 12 13 1 19 1 41 17 42 10 0 73 43 1 29) #1# #2# 13249) clos::install-method common-lisp-user::view-loc (defmethod common-lisp-user::view-loc (common-lisp-user::vv common-lisp-user::virtual-view)) (#2# . 13433) (common-lisp-user::virtual-view) (common-lisp-user::vv) common-lisp-user::x-pos common-lisp-user::width round + common-lisp-user::y-pos common-lisp-user::height vector #Y(common-lisp-user::view-loc nil nil (24 45 36 26 13 0 19 1 50 12 13 0 19 1 51 12 9 2 19 2 52 12 19 2 53 12 13 0 19 1 54 12 13 0 19 1 55 12 9 2 19 2 52 12 19 2 53 12 19 2 56 29) #1# #2# 13433) common-lisp-user::add-subviews (defgeneric common-lisp-user::add-subviews) (#2# . 13569) (common-lisp-user::view &rest common-lisp-user::subviews) "Add subviews to <view>." (defmethod common-lisp-user::add-subviews (common-lisp-user::vv common-lisp-user::virtual-view) &rest common-lisp-user::subviews) (#2# . 13692) (common-lisp-user::virtual-view) (common-lisp-user::vv &rest common-lisp-user::subviews) si::%dolist-var common-lisp-user::sub common-lisp-user::view-container "print-warning" "~@?" "Item ~s is already in window ~s so it can't be added to window ~s" format common-lisp-user::evaluate-act-r-command common-lisp-user::id si::hash-set #:g18413 #:g18414 (setf common-lisp-user::view-container) #Y(common-lisp-user::add-subviews nil nil (24 45 36 27 45 22 10 0 45 67 38 83 10 0 4 45 68 13 0 19 1 69 39 27 15 70 77 15 71 15 72 13 0 13 0 19 1 69 12 13 3 19 6 73 12 19 2 74 38 38 13 0 19 1 75 12 13 3 19 1 41 12 13 0 19 3 76 10 0 45 77 10 4 45 78 13 0 13 1 33 79 18 2 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -85 75 73 43 1 29) #1# #2# 13692) common-lisp-user::remove-subviews (defgeneric common-lisp-user::remove-subviews) (#2# . 14039) (common-lisp-user::view &rest common-lisp-user::subviews) "Remove subviews from <view>." (defmethod common-lisp-user::remove-subviews (common-lisp-user::vv common-lisp-user::virtual-view) &rest common-lisp-user::subviews) (#2# . 14170) (common-lisp-user::virtual-view) (common-lisp-user::vv &rest common-lisp-user::subviews) gethash remhash #:g18429 #:g18430 (setf common-lisp-user::view-container) "Item ~s is not in window ~s so it can't be removed from it" #Y(common-lisp-user::remove-subviews nil nil (24 45 36 27 45 22 10 0 45 67 38 82 10 0 4 45 68 13 0 19 1 75 12 13 3 19 1 41 12 19 2 90 39 35 13 0 19 1 75 12 13 3 19 1 41 17 91 10 0 45 92 75 45 93 13 0 13 1 33 94 18 2 43 1 43 1 38 19 15 70 77 15 71 15 95 13 0 13 3 19 5 73 12 19 2 74 10 1 5 51 1 43 1 10 0 40 -84 75 73 43 1 29) #1# #2# 14170) common-lisp-user::point-in-vv-p (defgeneric common-lisp-user::point-in-vv-p) (#2# . 14525) (common-lisp-user::vview common-lisp-user::point) "Determine if the supplied point is inside the supplied view." (defmethod common-lisp-user::point-in-vv-p (common-lisp-user::vv common-lisp-user::virtual-view) common-lisp-user::point) (#2# . 14650) (common-lisp-user::virtual-view t) (common-lisp-user::vv common-lisp-user::point) common-lisp-user::point elt >= <= #Y(common-lisp-user::point-in-vv-p nil nil (24 45 36 24 45 106 26 13 0 8 0 17 107 12 13 0 8 1 17 107 12 46 39 46 38 13 0 13 3 19 1 50 12 19 2 108 73 39 60 13 1 13 3 19 1 54 12 19 2 108 73 39 46 13 0 13 3 19 1 50 12 13 3 19 1 51 12 19 2 53 12 19 2 109 73 39 22 13 1 13 3 19 1 54 12 13 3 19 1 55 12 19 2 53 12 19 2 109 43 2 29) #1# #2# 14650) common-lisp-user::vv-click-event-handler (defgeneric common-lisp-user::vv-click-event-handler) (#2# . 14891) (common-lisp-user::vview common-lisp-user::point) "Handle a click in <vview> at point <point>." (defmethod common-lisp-user::vv-click-event-handler (common-lisp-user::vv common-lisp-user::virtual-view) common-lisp-user::point) (#2# . 15009) (common-lisp-user::virtual-view t) (common-lisp-user::vv common-lisp-user::point) #Y(common-lisp-user::vv-click-event-handler nil nil (24 45 36 24 45 106 26 75 73 29) #1# #2# 15009) common-lisp-user::virtual-window (defclass common-lisp-user::virtual-window) (#2# . 15104) (common-lisp-user::virtual-view) ((:initform "Virtual Window" :initargs (:window-title) :writers ((setf common-lisp-user::window-title)) :readers (common-lisp-user::window-title) :name common-lisp-user::window-title)) :direct-default-initargs :x-pos constantly :y-pos :id (common-lisp-user::new-symbol-fct #4="VW") #4# #Y(nil nil nil (26 15 132 19 1 14 29) #1# #2# 15104) common-lisp-user::device-move-cursor-to (defmethod common-lisp-user::device-move-cursor-to (common-lisp-user::vw common-lisp-user::virtual-window) (common-lisp-user::loc vector)) (#2# . 15464) (common-lisp-user::virtual-window vector) (common-lisp-user::vw common-lisp-user::loc) common-lisp-user::vw common-lisp-user::loc #Y(common-lisp-user::device-move-cursor-to nil nil (24 45 139 24 45 140 26 75 73 29) #1# #2# 15464) common-lisp-user::subview-sort (defun common-lisp-user::subview-sort) (#2# . 15537) (common-lisp-user::i1 common-lisp-user::i2) common-lisp-user::i1 common-lisp-user::i2 numberp < = type-of symbol-name string< #Y(common-lisp-user::subview-sort nil nil (24 45 146 24 45 147 26 13 1 19 1 50 16 148 73 39 137 13 0 19 1 50 16 148 73 39 127 13 1 19 1 54 16 148 73 39 117 13 0 19 1 54 16 148 73 39 107 13 1 19 1 50 12 13 0 19 1 50 12 19 2 149 73 40 89 13 1 19 1 50 12 13 0 19 1 50 12 19 2 150 39 16 13 1 19 1 54 12 13 0 19 1 54 12 19 2 149 73 40 54 13 1 19 1 50 12 13 0 19 1 50 12 19 2 150 73 39 36 13 1 19 1 54 12 13 0 19 1 54 12 19 2 150 73 39 18 10 1 16 151 16 152 12 10 0 16 151 16 152 12 19 2 153 29) #1# #2# 15537) si::fset common-lisp-user::vv-handle-click (defmethod common-lisp-user::vv-handle-click (common-lisp-user::vw common-lisp-user::virtual-window) (common-lisp-user::pos vector)) (#2# . 15961) (common-lisp-user::virtual-window vector) (common-lisp-user::vw common-lisp-user::pos) common-lisp-user::pos common-lisp-user::handles-click-p #Y(common-lisp-user::vv-handle-click nil nil (24 45 139 24 45 161 26 57 156 60 59 13 2 19 1 22 45 67 38 41 10 0 4 45 68 13 0 19 1 162 39 8 13 0 13 3 19 2 97 39 13 13 0 13 3 19 2 111 11 28 73 36 2 10 1 5 51 1 43 1 10 0 40 -43 75 73 43 1 63 29) #1# #2# 15961) common-lisp-user::view-window (defgeneric common-lisp-user::view-window) (#2# . 16212) (common-lisp-user::view) "Returns the window associated with <view> (if any), or <view> if <view> is a window." (defmethod common-lisp-user::view-window (common-lisp-user::vw common-lisp-user::virtual-window)) (#2# . 16380) (common-lisp-user::virtual-window) (common-lisp-user::vw) #Y(common-lisp-user::view-window nil nil (24 45 139 26 10 0 73 29) #1# #2# 16380) common-lisp-user::virtual-dialog-item (defclass common-lisp-user::virtual-dialog-item) (#2# . 16432) (common-lisp-user::virtual-view) (:initargs (:dialog-item-text) :initform "Untitled" :writers ((setf common-lisp-user::dialog-item-text)) :readers (common-lisp-user::dialog-item-text) :name common-lisp-user::text) (:initform nil :initargs (:action) :writers ((setf common-lisp-user::action-function)) :readers (common-lisp-user::action-function) :name common-lisp-user::action-function) (:initform 10 :initargs (:text-height) :writers ((setf common-lisp-user::text-height)) :readers (common-lisp-user::text-height) :name common-lisp-user::text-height) common-lisp-user::str length * #Y(nil nil nil (24 45 181 26 9 7 10 0 16 182 12 19 2 183 29) #1# #2# 16432) #Y(nil nil nil (26 34 184 73 29) #1# #2# 16432) (:initform (lambda (common-lisp-user::str) (* 7 (length common-lisp-user::str))) :initargs (:str-width-fct) :writers ((setf common-lisp-user::str-width-fct)) :readers (common-lisp-user::str-width-fct) :name common-lisp-user::str-width-fct) (:initargs (:lock) :writers ((setf common-lisp-user::dialog-item-lock)) :readers (common-lisp-user::dialog-item-lock) :initform nil :name common-lisp-user::lock) :height :width :subviews (defmethod common-lisp-user::subviews (common-lisp-user::vdi common-lisp-user::virtual-dialog-item)) (#2# . 17163) (common-lisp-user::virtual-dialog-item) (common-lisp-user::vdi) common-lisp-user::vdi #Y(common-lisp-user::subviews nil nil (24 45 195 26 75 73 29) #1# #2# 17163) (defmethod common-lisp-user::view-window (common-lisp-user::vdi common-lisp-user::virtual-dialog-item)) (#2# . 17248) (common-lisp-user::virtual-dialog-item) (common-lisp-user::vdi) common-lisp-user::vc typep #Y(common-lisp-user::view-window nil nil (24 45 195 26 13 0 19 1 69 45 201 10 0 76 39 5 75 73 38 20 13 0 15 121 19 2 202 39 6 10 0 73 38 6 13 0 19 1 164 43 1 29) #1# #2# 17248) common-lisp-user::static-text-vdi (defclass common-lisp-user::static-text-vdi) (#2# . 17441) (common-lisp-user::virtual-dialog-item) (common-lisp-user::new-symbol-fct #5="TEXT-VDI") #5# #Y(nil nil nil (26 15 209 19 1 14 29) #1# #2# 17441) :handles-click-p common-lisp-user::button-vdi (defclass common-lisp-user::button-vdi) (#2# . 17584) (common-lisp-user::virtual-dialog-item) (common-lisp-user::new-symbol-fct #6="BUTTON-VDI") #6# #Y(nil nil nil (26 15 217 19 1 14 29) #1# #2# 17584) :action "default-button-action" (defmethod common-lisp-user::vv-click-event-handler (common-lisp-user::btn common-lisp-user::button-vdi) common-lisp-user::where) (#2# . 17739) (common-lisp-user::button-vdi t) (common-lisp-user::btn common-lisp-user::where) common-lisp-user::btn common-lisp-user::where common-lisp-user::action-function listp stringp apply common-lisp-user::result common-lisp-user::success "Button click action ~s reported error ~s." functionp symbolp fboundp macro-function common-lisp-user::default-button-action "Button click action ~s reported error ~s." #Y(common-lisp-user::vv-click-event-handler nil nil (24 45 225 24 45 226 26 13 1 19 1 227 16 228 39 136 13 1 19 1 227 4 16 229 39 59 15 74 13 1 19 1 227 4 12 13 1 19 1 227 5 12 19 3 230 47 1 231 45 232 10 0 76 73 39 25 15 70 77 15 71 15 233 13 3 19 1 227 12 13 1 19 5 73 12 19 2 74 75 73 43 2 38 66 13 1 19 1 227 4 16 234 40 32 13 1 19 1 227 4 16 235 39 22 13 1 19 1 227 4 16 236 39 12 13 1 19 1 227 4 12 19 1 237 76 39 20 13 1 19 1 227 4 12 13 1 19 1 227 5 12 19 2 230 38 4 19 0 238 38 111 13 1 19 1 227 16 229 39 49 13 1 19 1 227 12 19 1 74 47 1 231 45 232 10 0 76 73 39 25 15 70 77 15 71 15 239 13 3 19 1 227 12 13 1 19 5 73 12 19 2 74 75 73 43 2 38 54 13 1 19 1 227 16 234 40 29 13 1 19 1 227 16 235 39 20 13 1 19 1 227 16 236 39 11 13 1 19 1 227 12 19 1 237 76 39 12 13 1 19 1 227 12 20 0 23 38 4 19 0 238 29) #1# #2# 17739) (defun common-lisp-user::default-button-action) (#2# . 19224) "Button with no valid action clicked at time ~S." common-lisp-user::mp-time #Y(common-lisp-user::default-button-action nil nil (26 15 70 77 15 71 15 243 19 0 244 12 19 4 73 12 19 2 74 75 73 29) #1# #2# 19224) "default-button-action" "Function called for a button with no action. Do not call directly." common-lisp-user::add-act-r-command common-lisp-user::v-liner (defclass common-lisp-user::v-liner) (#2# . 19479) (common-lisp-user::virtual-dialog-item))) #2# 0) #Y(si::bytecodes nil nil (15 22 15 1 15 23 15 24 19 4 4 15 22 14 25 77 15 26 19 4 4 15 22 14 27 14 28 14 25 15 26 15 29 15 30 19 7 31 29) #1# #2# 13133) #Y(si::bytecodes nil nil (15 22 15 1 15 32 15 33 19 4 4 15 22 77 15 34 15 35 1 43 12 19 5 44 29) #1# #2# 13249) #Y(si::bytecodes nil nil (15 45 15 1 15 46 15 47 19 4 4 15 45 77 15 48 15 49 1 57 12 19 5 44 29) #1# #2# 13433) #Y(si::bytecodes nil nil (15 58 15 1 15 59 15 60 19 4 4 15 58 14 25 77 15 61 19 4 4 15 58 14 27 14 28 14 25 15 61 15 29 15 62 19 7 31 29) #1# #2# 13569) #Y(si::bytecodes nil nil (15 58 15 1 15 63 15 64 19 4 4 15 58 77 15 65 15 66 1 80 12 19 5 44 29) #1# #2# 13692) #Y(si::bytecodes nil nil (15 81 15 1 15 82 15 83 19 4 4 15 81 14 25 77 15 84 19 4 4 15 81 14 27 14 28 14 25 15 84 15 29 15 85 19 7 31 29) #1# #2# 14039) #Y(si::bytecodes nil nil (15 81 15 1 15 86 15 87 19 4 4 15 81 77 15 88 15 89 1 96 12 19 5 44 29) #1# #2# 14170) #Y(si::bytecodes nil nil (15 97 15 1 15 98 15 99 19 4 4 15 97 14 25 77 15 100 19 4 4 15 97 14 27 14 28 14 25 15 100 15 29 15 101 19 7 31 29) #1# #2# 14525) #Y(si::bytecodes nil nil (15 97 15 1 15 102 15 103 19 4 4 15 97 77 15 104 15 105 1 110 12 19 5 44 29) #1# #2# 14650) #Y(si::bytecodes nil nil (15 111 15 1 15 112 15 113 19 4 4 15 111 14 25 77 15 114 19 4 4 15 111 14 27 14 28 14 25 15 114 15 29 15 115 19 7 31 29) #1# #2# 14891) #Y(si::bytecodes nil nil (15 111 15 1 15 116 15 117 19 4 4 15 111 77 15 118 15 119 1 120 12 19 5 44 29) #1# #2# 15009) #Y(si::bytecodes nil nil (15 121 15 1 15 122 15 123 19 4 4 15 121 15 124 15 125 14 126 15 127 9 0 8 0 16 128 6 3 12 15 129 9 0 8 0 16 128 6 3 12 15 130 15 131 1 133 6 3 6 3 6 2 12 19 4 21 29) #1# #2# 15104) #Y(si::bytecodes nil nil (15 134 15 1 15 135 15 136 19 4 4 15 134 77 15 137 15 138 1 141 12 19 5 44 29) #1# #2# 15464) #Y(si::bytecodes nil nil (15 142 15 1 15 143 15 144 19 4 4 15 142 14 25 77 15 145 19 4 4 15 142 1 154 12 19 2 155 1 142 73 29) #1# #2# 15537) #Y(si::bytecodes nil nil (15 156 15 1 15 157 15 158 19 4 4 15 156 77 15 159 15 160 1 163 12 19 5 44 29) #1# #2# 15961) #Y(si::bytecodes nil nil (15 164 15 1 15 165 15 166 19 4 4 15 164 14 25 77 15 167 19 4 4 15 164 14 27 14 28 14 25 15 167 15 29 15 168 19 7 31 29) #1# #2# 16212) #Y(si::bytecodes nil nil (15 164 15 1 15 169 15 170 19 4 4 15 164 77 15 171 15 172 1 173 12 19 5 44 29) #1# #2# 16380) #Y(si::bytecodes nil nil (15 174 15 1 15 175 15 176 19 4 4 15 174 15 177 15 178 15 179 15 180 14 5 1 185 12 1 186 7 3 12 1 187 6 5 12 14 126 15 188 9 18 8 18 16 128 6 3 12 15 189 9 60 8 60 16 128 6 3 12 15 190 77 75 16 128 6 3 6 3 6 2 12 19 4 21 29) #1# #2# 16432) #Y(si::bytecodes nil nil (15 22 15 1 15 191 15 192 19 4 4 15 22 77 15 193 15 194 1 196 12 19 5 44 29) #1# #2# 17163) #Y(si::bytecodes nil nil (15 164 15 1 15 197 15 198 19 4 4 15 164 77 15 199 15 200 1 203 12 19 5 44 29) #1# #2# 17248) #Y(si::bytecodes nil nil (15 204 15 1 15 205 15 206 19 4 4 15 204 15 207 77 14 126 15 130 15 208 1 210 6 3 12 15 211 77 75 16 128 6 3 6 2 6 2 12 19 4 21 29) #1# #2# 17441) #Y(si::bytecodes nil nil (15 212 15 1 15 213 15 214 19 4 4 15 212 15 215 77 14 126 15 130 15 216 1 218 6 3 12 15 219 15 220 1 220 16 128 6 3 6 2 6 2 12 19 4 21 29) #1# #2# 17584) #Y(si::bytecodes nil nil (15 111 15 1 15 221 15 222 19 4 4 15 111 77 15 223 15 224 1 240 12 19 5 44 29) #1# #2# 17739) #Y(si::bytecodes nil nil (15 238 15 1 15 241 15 242 19 4 4 15 238 14 25 77 77 19 4 4 15 238 1 245 12 19 2 155 1 238 73 29) #1# #2# 19224) #Y(si::bytecodes nil nil (15 246 15 238 15 247 77 19 4 248 29) #1# #2# 19338) #Y(si::bytecodes nil nil (15 249 15 1 15 250 15 251 19 4 4 15 249 15 252 77 14 126 15 211 77 75 16 128 6 3 6 1 6 2 12 19 4 21 29) #1# #2# 19479))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Mike Byrne & Dan Bothell
+;;; Address     : Rice University, MS-25
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;; 
+;;; Copyright   : (c)2000-2004 Mike Byrne
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : virtual-view.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Instantiates "virtual views" so that RPM can act on things
+;;;             : other than MCL windows.
+;;; 
+;;; Bugs        : 
+;;; 
+;;; Todo        : 
+;;; 
+;;; ----- History -----
+;;; 00.06.08 Mike Byrne
+;;;             :  Date for new header.
+;;; 00.09.13 mdb
+;;;             : Updated for vectors.
+;;; 00.11.15 mdb
+;;;             : Fixed minor compiler warnings, cleaned up some lingering
+;;;             : vector bugs.
+;;; 01.07.03 mdb
+;;;             : Added defgenerics and doc strings.
+;;; 02.01.15 Dan
+;;;             : Changed the declaration of ignore to
+;;;             : ignore-if-unused for the subviews method
+;;;             : to eliminate an ugly warning in ACL.  
+;;; 02.02.28 Dan
+;;;             : changed vv-click-event-handler because
+;;;             : functionp doesn't gurantee that the function is
+;;;             : returned as the true value.
+;;; 02.06.21 Dan [b7]
+;;;             : Added the rpm-window class as part of the reorganization
+;;;             : of internal window classes.
+;;;             : Changed the #+:mcl to better work with openmcl.
+;;; 02.06.30 Dan
+;;;             : Moved the view based line support in to here.
+;;;             : Moved the populate-loc-to-key-array from generic-interface
+;;;             : to here.
+;;;             : Took the UWI code out of here.
+;;; 02.12.19 Dan 
+;;;             : Added an around method for text items to handle color.
+;;; 04.04.13 Dan [2.2]  (the previous update is "new" as of 2.2 as well)
+;;;             : Changed the copyright notice and added the LGPL stuff.
+;;;
+;;; 04.10.19 Dan [Moved into ACT-R 6]
+;;;             : Reset the version to 1.0a1
+;;;             : added the packaging switches
+;;;             : Changed vw-output to show in the trace and not in the
+;;;             :  a window specific stream
+;;;             :
+;;;             : depends on the vision module and dmi, but that seems
+;;;             : reasonable for now.
+;;; 2005.05.11 Dan
+;;;             : * Added a check of :vwt to vw-output so that it can be
+;;;             :   easily shut off (which is actually the default for now).
+;;; 2006.01.16 Dan
+;;;             : * Discovered that the hash-table implementation of the
+;;;             :   virtual-view subviews can lead to non-repeatable performance
+;;;             :   of tutorial models (both between different Lisps or even
+;;;             :   within a single Lisp!).  So, for now at least, the 
+;;;             :   build-features-for method for a virtual-window will sort
+;;;             :   the features based on xy coordinates.  That way the tutorial
+;;;             :   model results will remain consistent for all systems that
+;;;             :   use the virtuals (any hooked up to the environment).
+;;; 2006.09.07 Dan
+;;;             : * Modified the build-features-for method on the virtual-
+;;;             :   windows so that it calls fill-default-dimensions.
+;;; 2007.06.21 Dan
+;;;             : * Converted things over to use the new chunk based device
+;;;             :   specification.
+;;; 2007.07.05 Dan
+;;;             : * No need to sort the features being returned because the
+;;;             :   hash-table inside vision will mess it up anyway...
+;;; 2007.08.23 Dan
+;;;             : * Fixed build-vis-locs-for of buttons so that the text 
+;;;             :   is located at the same point as the oval (bug carried
+;;;             :   over from the old stuff).
+;;; 2008.01.08 Dan
+;;;             : * Put the sorting code back in build-vis-locs-for because 
+;;;             :   without it there's no consistency in the names of the 
+;;;             :   visual-location chunks for testing and verification purposes.
+;;; 2008.01.09 Dan
+;;;             : * Adding a little more to the sorting method so that co-located
+;;;             :   items of different types also get a specific ordering.
+;;; 2008.04.11 Dan [1.0]
+;;;             : * Using the new parameter :stable-loc-names in the build-vis-
+;;;             :   locs-for method on virtual-windows to check whether the 
+;;;             :   subview items should be sorted.
+;;;             : * Also took the package setting out of the mode line at the
+;;;             :   top since there isn't a specific package for any of the
+;;;             :   source files.
+;;; 2008.04.14 Dan
+;;;             : * Modifying the objects and build-vis-locs-for methods to
+;;;             :   only create 1 chunk per item across proc-display calls.
+;;;             :   That makes it compatible with the :test-feats nil setting.
+;;;             :   Doesn't hold when :optimize-visual is nil or text items
+;;;             :   contain multiple "words" i.e. only compatible when each text
+;;;             :   item produces only one feature.
+;;; 2008.04.15 Dan
+;;;             : * Fixed a bug with the line views.  Without a specific 
+;;;             :   point-in-vv-p the default misinterprets their size values
+;;;             :   and could consider clicks which didn't overlap the line
+;;;             :   to be over the line and not be passed on to the "real" item
+;;;             :   which should be clicked.  Now, lines are not clickable at
+;;;             :   all.
+;;;             : * Took all the "the fixnum" declarations out of point-in-vv-p
+;;;             :   because nothing forces the mouse position to be a fixnum and
+;;;             :   when visual items have an odd dimension the mouse position
+;;;             :   can get set to a rational.  In LispWorks point-in-vv-p does 
+;;;             :   not work if the values are rationals declared as fixnums.
+;;; 2008.07.01 Dan
+;;;             : * Added code to the build-vis-locs-for methods to purge any
+;;;             :   old chunks when possible.
+;;;             : * Also purge them in remove-subviews so that when the item is
+;;;             :   cleared from a window they're also removed.
+;;; 2010.08.11 Dan
+;;;             : * Changed view-loc to round the divisions to of height and width
+;;;             :   to make sure things stay fixnums since an odd width button
+;;;             :   causes problems in build-string-feats for Lisps that care
+;;;             :   about the fixnum delcaration.
+;;; 2011.04.28 Dan
+;;;             : * Changed an ignore-if-unused declaration to ignorable.
+;;; 2012.06.20 Dan
+;;;             : * Changed loc-chunks to be a hash-table referenced by a cons
+;;;             :   of meta-process and model names since multiple models may
+;;;             :   be viewing the same item and they need to keep their chunks
+;;;             :   separate.  Now the chunks are stored as the values of the
+;;;             :   table for the appropriate mp and model and always in a list.
+;;; 2014.01.24 Dan
+;;;             : * Updated the build-vis-locs-for methods for text and button
+;;;             :   items so that they use the updated build-string-feats to
+;;;             :   deal with newlines in the text.
+;;;             : * The spacing for lines in virtual items is the max of 
+;;;             :   (* (text-height item) 1.25) (1+ (text-height item)).
+;;; 2014.02.07 Dan
+;;;             : * Why have virtual static text items always assumed a centered
+;;;             :   y justification when all the other devices assume top?  It
+;;;             :   now assumes top justification like everything else for 
+;;;             :   consistency which will probably break lots of models...
+;;; 2014.02.11 Dan
+;;;             : * Removed the lines variable from the text build-vis-locs-for
+;;;             :   to avoid a warning since it's not needed.
+;;; 2014.05.19 Dan
+;;;             : * Fixed the use of chunk-type-slot-names by using chunk-filled-
+;;;             :   slots-list instead.
+;;; 2014.08.29 Dan
+;;;             : * Changed vv-click-event-handler for buttons so that the action 
+;;;             :   can be either a function or a symbol naming a function.
+;;; 2015.05.20 Dan
+;;;             : * The approach-width call in the buttons build-vis-locs-for
+;;;             :   method needs to pass the vision module in too.
+;;; 2015.12.17 Dan
+;;;             : * Changed the name of the key at 19,2 from esc to clear to
+;;;             :   actually match the reference image since the model now has
+;;;             :   keypad actions.
+;;; 2016.06.16 Dan
+;;;             : * When a button or line changes the size of the location now
+;;;             :   gets updated along with the other features.
+;;; 2016.11.17 Dan
+;;;             : * The code for storing and removing the loc chunks was using
+;;;             :   the meta-process name, but that's not needed (or available)
+;;;             :   anymore.
+;;; 2017.01.05 Dan
+;;;             : * Removed the loc-chunks slot altogether and removed some of
+;;;             :   the old device methods.
+;;;             : * Also removed methods that weren't used anywhere else like
+;;;             :   set-view-size and set-view-position.
+;;; 2017.01.06 Dan
+;;;             : * Stripped some other unnecessary code like close and select.
+;;;             : * The build-vis-locs-for methods now just return the feature
+;;;             :   lists as needed for the add-visicon-features command and it's
+;;;             :   up to the agi to handle the actual adding and recording of
+;;;             :   the chunk returned by vision.
+;;;             : * Add-subviews now warns if an item already has a container
+;;;             :   and doesn't put it into the new window.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.02.09 Dan
+;;;             : * Updated the build-vis-locs-for for lines to specify isa 
+;;;             :   line-location since it needs the end* slots, and added that
+;;;             :   chunk-type to vision module.
+;;; 2017.03.02 Dan
+;;;             : * Changed device-handle-click to vv-handle-click to avoid
+;;;             :   issues since it now gets passed the click point.
+;;;             : * Fixed a bug in the vv-click-event-handler.
+;;; 2017.03.03 Dan
+;;;             : * Changed the way the button's action function is specified.
+;;;             :   Now it can be:
+;;;             :     - a function or dispatch command string
+;;;             :        That function or command will be called with no parameters
+;;;             :     - a list where the first is as above
+;;;             :        That function or command will be called with the rest
+;;;             :        of the list as its parameters
+;;;             :   Also, the validity of that item is only tested when the
+;;;             :   button is created and not before each execution, but if an error
+;;;             :   is reported by the dispatch call it will report that.
+;;; 2017.03.08 Dan
+;;;             : * Adding back the device-move-cursor-to method because I need
+;;;             :   something to call to send the updates to the environment and
+;;;             :   that's where it was before.
+;;; 2017.05.31 Dan
+;;;             : * Use new-symbol instead of new-name so there doesn't need
+;;;             :   to be a current model to create GUI elements.
+;;; 2017.06.19 Dan
+;;;             : * Remove the unused optional parameter from subviews.
+;;;             : * Removed the build-vis-locs-for methods.
+;;; 2018.03.14 Dan
+;;;             : * Just set :handles-click-p to nil for lines instead of having
+;;;             :   a dummy point-in-vv-p method for them.
+;;; 2020.01.10 Dan 
+;;;             : * Removed #' from lambdas since not using it other places either.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Base Virtual View class.
+
+(defclass virtual-view ()
+  ((view-subviews :accessor view-subviews :initarg :subviews
+                  :initform (make-hash-table))
+   (x-pos :accessor x-pos :initform nil :initarg :x-pos)
+   (y-pos :accessor y-pos :initform nil :initarg :y-pos)
+   (width :accessor width :initform nil :initarg :width)
+   (height :accessor height :initform nil :initarg :height)
+   (id :accessor id :initarg :id :initform (new-symbol-fct "VV"))
+   (handles-click-p :accessor handles-click-p :initform t 
+                    :initarg :handles-click-p)
+   (view-container :accessor view-container :initform nil)
+   (color :accessor color :initarg :color :initform 'black)
+   (visual-features :accessor visual-features :initform nil)))
+
+#+(or (not :mcl) :openmcl)
+(defgeneric subviews (view)
+  (:documentation "Returns a list of subviews of <view>."))
+
+(defmethod subviews ((vv virtual-view))
+  (let (accum)
+    (maphash (lambda (x y) (declare (ignore x)) 
+                 (push y accum)) 
+             (view-subviews vv))
+    accum))
+
+(defmethod view-loc ((vv virtual-view))
+  (vector (+ (x-pos vv) (round (width vv) 2))
+          (+ (y-pos vv) (round (height vv) 2))))
+
+
+#+(or (not :mcl) :openmcl)
+(defgeneric add-subviews (view &rest subviews)
+  (:documentation  "Add subviews to <view>."))
+
+(defmethod add-subviews ((vv virtual-view) &rest subviews)
+  (dolist (sub subviews)
+    (if (view-container sub)
+        (print-warning "Item ~s is already in window ~s so it can't be added to window ~s" sub (view-container sub) vv)
+      (progn
+        (setf (gethash (id sub) (view-subviews vv)) sub)
+        (setf (view-container sub) vv)))))
+
+
+#+(or (not :mcl) :openmcl)
+(defgeneric remove-subviews (view &rest subviews)
+  (:documentation  "Remove subviews from <view>."))
+
+(defmethod remove-subviews ((vv virtual-view) &rest subviews)
+  (dolist (sub subviews)
+    (if (gethash (id sub) (view-subviews vv))
+        (progn
+          (remhash (id sub) (view-subviews vv))
+          (setf (view-container sub) nil)
+          
+          )
+      (print-warning "Item ~s is not in window ~s so it can't be removed from it" sub vv))))
+
+(defgeneric point-in-vv-p (vview point)
+  (:documentation  "Determine if the supplied point is inside the supplied view."))
+
+(defmethod point-in-vv-p ((vv virtual-view) point)
+  (let ((x (px point))
+        (y (py point)))
+    (and (>= x (x-pos vv))
+         (>= y (y-pos vv))
+         (<= x (+ (x-pos vv) (width vv)))
+         (<= y (+ (y-pos vv) (height vv))))))
+
+
+(defgeneric vv-click-event-handler (vview point)
+  (:documentation  "Handle a click in <vview> at point <point>."))
+
+(defmethod vv-click-event-handler ((vv virtual-view) point)
+  (declare (ignore point))
+  nil)
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Virtual Window class and methods.
+
+(defclass virtual-window (virtual-view)
+  ((window-title :accessor window-title :initarg :window-title
+                 :initform "Virtual Window")
+   )
+  (:default-initargs
+    :x-pos 0
+    :y-pos 0
+    :id (new-symbol-fct "VW")
+    ))
+
+(defmethod device-move-cursor-to ((vw virtual-window) (loc vector))
+  )
+
+(defun subview-sort (i1 i2)
+  (and (numberp (x-pos i1))
+       (numberp (x-pos i2))
+       (numberp (y-pos i1))
+       (numberp (y-pos i2))
+       (or
+        (< (x-pos i1) (x-pos i2))
+        (and (= (x-pos i1) (x-pos i2))
+             (< (y-pos i1) (y-pos i2)))
+        (and (= (x-pos i1) (x-pos i2))
+             (= (y-pos i1) (y-pos i2))
+             (string< (symbol-name (type-of i1)) (symbol-name (type-of i2)))))))
+
+
+(defmethod vv-handle-click ((vw virtual-window) (pos vector))
+  (dolist (sub (subviews vw))
+    (when (and (handles-click-p sub)
+               (point-in-vv-p sub pos))
+      (vv-click-event-handler sub pos)
+      (return-from vv-handle-click t))))
+
+
+#+(or (not :mcl) :openmcl)
+(defgeneric view-window (view)
+  (:documentation  "Returns the window associated with <view> (if any), or <view> if <view> is a window."))
+
+(defmethod view-window ((vw virtual-window))
+  vw)
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; View classes:  static-text-vv, button-vv, 
+
+
+(defclass virtual-dialog-item (virtual-view)
+  ((text :accessor dialog-item-text :initform "Untitled" 
+         :initarg :dialog-item-text)
+   (action-function :accessor action-function :initarg :action :initform nil)
+   (text-height :accessor text-height :initarg :text-height :initform 10)
+   (str-width-fct :accessor str-width-fct :initarg :str-width-fct
+                  :initform (lambda (str)
+                                (* 7 (length str))))
+   (lock :initform nil :accessor dialog-item-lock :initarg :lock))
+  (:default-initargs
+       :height 18
+       :width 60
+       :subviews nil))
+
+
+(defmethod subviews ((vdi virtual-dialog-item))
+  (declare (ignorable vdi))
+  nil)
+
+
+(defmethod view-window ((vdi virtual-dialog-item))
+  (let ((vc (view-container vdi)))
+    (if (null vc)
+      nil
+      (if (typep vc 'virtual-window)
+        vc
+        (view-window vc)))))
+
+
+(defclass static-text-vdi (virtual-dialog-item)
+  ()
+  (:default-initargs
+      :id (new-symbol-fct "TEXT-VDI")
+      :handles-click-p nil))
+
+
+
+
+(defclass button-vdi (virtual-dialog-item)
+  ()
+  (:default-initargs
+       :id (new-symbol-fct "BUTTON-VDI")
+       :action "default-button-action"))
+
+
+(defmethod vv-click-event-handler ((btn button-vdi) where)
+  (declare (ignore where))
+  (if (listp (action-function btn))
+      (cond ((stringp (first (action-function btn)))
+             (multiple-value-bind (success result)
+                 (apply 'evaluate-act-r-command (first (action-function btn)) (rest (action-function btn)))
+               (unless success
+                 (print-warning "Button click action ~s reported error ~s." (action-function btn) result))))
+            ((or (functionp (first (action-function btn)))
+                 (and (symbolp (first (action-function btn))) 
+                      (fboundp (first (action-function btn)))
+                      (not (macro-function (first (action-function btn))))))
+             (apply (first (action-function btn)) (rest (action-function btn))))
+            (t
+             (default-button-action)))
+    (cond ((stringp (action-function btn))
+           (multiple-value-bind (success result)
+                 (evaluate-act-r-command (action-function btn))
+               (unless success
+                 (print-warning "Button click action ~s reported error ~s." (action-function btn) result))))
+          ((or (functionp (action-function btn))
+               (and (symbolp (action-function btn)) 
+                    (fboundp (action-function btn))
+                    (not (macro-function (action-function btn)))))
+           (funcall (action-function btn)))
+          (t
+           (default-button-action)))))
+
+
+
+(defun default-button-action ()
+  (print-warning "Button with no valid action clicked at time ~S." (mp-time)))
+
+(add-act-r-command "default-button-action" 'default-button-action "Function called for a button with no action. Do not call directly." nil)
+
+
+;;; The base class for the view based lines. 
+
+(defclass v-liner (virtual-dialog-item)
+  ()
+  (:default-initargs
+      :handles-click-p nil))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                      (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 15 5 15 6 15 7 15 8 15 9 15 10 15 11 14 12 1 13 12 1 14 7 3 6 7 12 77 19 4 15 29) #1=#A(t (444) (common-lisp-user::rpm-virtual-window ext::location (defclass common-lisp-user::rpm-virtual-window) (#2=#P"/opt/actr/actr7.x/devices/virtual/uwi.lisp" . 0) ext::annotate (common-lisp-user::virtual-window) (:initform nil :writers ((setf common-lisp-user::monitor-attended-loc)) :readers (common-lisp-user::monitor-attended-loc) :name common-lisp-user::monitor-attended-loc) (:initform nil :writers ((setf common-lisp-user::monitor-click-mouse)) :readers (common-lisp-user::monitor-click-mouse) :name common-lisp-user::monitor-click-mouse) (:initform nil :writers ((setf common-lisp-user::monitor-move-cursor)) :readers (common-lisp-user::monitor-move-cursor) :name common-lisp-user::monitor-move-cursor) (:initform nil :writers ((setf common-lisp-user::monitor-delete-cursor)) :readers (common-lisp-user::monitor-delete-cursor) :name common-lisp-user::monitor-delete-cursor) (:initform nil :writers ((setf common-lisp-user::cursor-drawn)) :readers (common-lisp-user::cursor-drawn) :name common-lisp-user::cursor-drawn) (:writers ((setf common-lisp-user::window-open?)) :readers (common-lisp-user::window-open?) :initform t :name open) :initfunction #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initargs (:lock) :writers ((setf common-lisp-user::window-lock)) :readers (common-lisp-user::window-lock) :initform (bordeaux-threads::make-recursive-lock "virtual-window-lock") :name common-lisp-user::lock) clos::load-defclass common-lisp-user::find-top-level-window (defun common-lisp-user::find-top-level-window) (#2# . 9031) :lambda-list (common-lisp-user::item) common-lisp-user::item common-lisp-user::w common-lisp-user::view-container #Y(common-lisp-user::find-top-level-window nil nil (24 45 21 26 10 0 45 22 38 9 13 0 19 1 23 12 53 0 13 0 19 1 23 76 39 -15 10 0 73 43 1 29) #1# #2# 9031) si::fset common-lisp-user::open-rpm-window? (defgeneric common-lisp-user::open-rpm-window?) (#2# . 9338) (common-lisp-user::window) :delete-methods t :documentation "Returns t if the window is currently open" ensure-generic-function (defmethod common-lisp-user::open-rpm-window? (common-lisp-user::win common-lisp-user::rpm-virtual-window)) (#2# . 9541) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win) common-lisp-user::win common-lisp-user::window-open? #Y(common-lisp-user::open-rpm-window? nil nil (24 45 39 26 13 0 19 1 40 29) #1# #2# 9541) clos::install-method (defmethod common-lisp-user::open-rpm-window? (common-lisp-user::win null)) (#2# . 9673) (null) (common-lisp-user::win) #Y(common-lisp-user::open-rpm-window? nil nil (24 45 39 26 75 73 29) #1# #2# 9673) common-lisp-user::send-update-to-handlers (defgeneric common-lisp-user::send-update-to-handlers) (#2# . 9722) (common-lisp-user::window common-lisp-user::params) "Returns t if the window is visible" (defmethod common-lisp-user::send-update-to-handlers (common-lisp-user::win common-lisp-user::rpm-virtual-window) common-lisp-user::params) (#2# . 9833) (common-lisp-user::rpm-virtual-window t) (common-lisp-user::win common-lisp-user::params) common-lisp-user::params #Y(common-lisp-user::send-update-to-handlers nil nil (24 45 39 24 45 57 26 75 73 29) #1# #2# 9833) common-lisp-user::close-rpm-window (defgeneric common-lisp-user::close-rpm-window) (#2# . 9939) (common-lisp-user::window) "Close an rpm-window" (defmethod common-lisp-user::close-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window)) (#2# . 10091) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win) common-lisp-user::remove-all-items-from-rpm-window #:g18437 #:g18438 (setf common-lisp-user::window-open?) #Y(common-lisp-user::close-rpm-window nil nil (24 45 39 26 13 0 19 1 68 10 0 45 69 75 45 70 13 0 13 1 33 71 18 2 43 1 43 1 29) #1# #2# 10091) common-lisp-user::select-rpm-window (defgeneric common-lisp-user::select-rpm-window) (#2# . 10275) (common-lisp-user::window) "Bring an rpm-window to the front" (defmethod common-lisp-user::select-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window)) (#2# . 10468) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win) #Y(common-lisp-user::select-rpm-window nil nil (24 45 39 26 75 73 29) #1# #2# 10468) common-lisp-user::add-visual-items-to-rpm-window (defgeneric common-lisp-user::add-visual-items-to-rpm-window) (#2# . 10532) (common-lisp-user::window &rest common-lisp-user::x) "Add items to the rpm-window for display" (defmethod common-lisp-user::add-visual-items-to-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window) &rest common-lisp-user::items) (#2# . 10884) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win &rest common-lisp-user::items) common-lisp-user::items si::%dolist-var common-lisp-user::add-subviews #Y(common-lisp-user::add-visual-items-to-rpm-window nil nil (24 45 39 27 45 92 10 0 45 93 38 20 10 0 4 45 21 13 3 13 0 19 2 94 10 1 5 51 1 43 1 10 0 40 -22 75 73 43 1 29) #1# #2# 10884) common-lisp-user::remove-visual-items-from-rpm-window (defgeneric common-lisp-user::remove-visual-items-from-rpm-window) (#2# . 11075) (common-lisp-user::window &rest common-lisp-user::x) "Remove items from the display in the window" (defmethod common-lisp-user::remove-visual-items-from-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window) &rest common-lisp-user::items) (#2# . 11374) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win &rest common-lisp-user::items) common-lisp-user::remove-subviews #Y(common-lisp-user::remove-visual-items-from-rpm-window nil nil (24 45 39 27 45 92 10 0 45 93 38 20 10 0 4 45 21 13 3 13 0 19 2 105 10 1 5 51 1 43 1 10 0 40 -22 75 73 43 1 29) #1# #2# 11374) (defgeneric common-lisp-user::remove-all-items-from-rpm-window) (#2# . 11573) (common-lisp-user::window) "Remove all items from the window" (defmethod common-lisp-user::remove-all-items-from-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window)) (#2# . 11805) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win) common-lisp-user::subviews apply #Y(common-lisp-user::remove-all-items-from-rpm-window nil nil (24 45 39 26 15 105 13 0 13 0 19 1 115 12 19 3 116 29) #1# #2# 11805) (defmethod common-lisp-user::add-subviews (common-lisp-user::vv common-lisp-user::rpm-virtual-window) &rest common-lisp-user::subviews) (#2# . 11978) (common-lisp-user::rpm-virtual-window) (common-lisp-user::vv &rest common-lisp-user::subviews) common-lisp-user::vv common-lisp-user::sub "print-warning" "~@?" "Item ~s is already in window ~s so it can't be added to window ~s" format common-lisp-user::evaluate-act-r-command common-lisp-user::id common-lisp-user::view-subviews si::hash-set #:g18477 #:g18478 (setf common-lisp-user::view-container) #Y(common-lisp-user::add-subviews nil nil (24 45 122 27 45 115 10 0 45 93 38 83 10 0 4 45 123 13 0 19 1 23 39 27 15 124 77 15 125 15 126 13 0 13 0 19 1 23 12 13 3 19 6 127 12 19 2 128 38 38 13 0 19 1 129 12 13 3 19 1 130 12 13 0 19 3 131 10 0 45 132 10 4 45 133 13 0 13 1 33 134 18 2 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -85 75 73 43 1 29) #1# #2# 11978) (defmethod common-lisp-user::remove-subviews (common-lisp-user::vv common-lisp-user::rpm-virtual-window) &rest common-lisp-user::subviews) (#2# . 12465) (common-lisp-user::rpm-virtual-window) (common-lisp-user::vv &rest common-lisp-user::subviews) gethash remhash #:g18493 #:g18494 (setf common-lisp-user::view-container) "Item ~s is not in window ~s so it can't be removed from it" #Y(common-lisp-user::remove-subviews nil nil (24 45 122 27 45 115 10 0 45 93 38 82 10 0 4 45 123 13 0 19 1 129 12 13 3 19 1 130 12 19 2 140 39 35 13 0 19 1 129 12 13 3 19 1 130 17 141 10 0 45 142 75 45 143 13 0 13 1 33 144 18 2 43 1 43 1 38 19 15 124 77 15 125 15 145 13 0 13 3 19 5 127 12 19 2 128 10 1 5 51 1 43 1 10 0 40 -84 75 73 43 1 29) #1# #2# 12465) common-lisp-user::vv-handle-click (defmethod common-lisp-user::vv-handle-click (common-lisp-user::vw common-lisp-user::rpm-virtual-window) (common-lisp-user::pos vector)) (#2# . 12893) (common-lisp-user::rpm-virtual-window vector) (common-lisp-user::vw common-lisp-user::pos) common-lisp-user::vw common-lisp-user::pos common-lisp-user::local-pos common-lisp-user::handled common-lisp-user::point-in-vv-p vector - common-lisp-user::x-pos common-lisp-user::y-pos map common-lisp-user::handles-click-p common-lisp-user::vv-click-event-handler #Y(common-lisp-user::vv-handle-click nil nil (24 45 152 24 45 153 26 77 77 46 154 46 155 13 3 13 2 19 2 156 39 83 15 157 15 158 13 2 13 3 19 1 159 12 13 3 19 1 160 12 19 2 157 12 19 4 161 51 1 13 3 19 1 115 45 115 10 0 4 45 123 38 31 13 0 19 1 162 39 8 13 0 13 3 19 2 156 39 5 10 0 51 2 10 1 5 51 1 10 1 4 51 0 10 2 40 4 10 0 76 39 -38 43 2 10 0 73 39 11 13 0 13 1 19 2 163 11 31 73 43 2 29) #1# #2# 12893) common-lisp-user::make-rpm-window (defun common-lisp-user::make-rpm-window) (#2# . 13521) (&key (common-lisp-user::visible nil) (common-lisp-user::title #3="RPM Window") (common-lisp-user::width 100) (common-lisp-user::height 100) (common-lisp-user::x 0) (common-lisp-user::y 0)) (nil :y :x :height :width :title :visible) common-lisp-user::visible #3# common-lisp-user::title common-lisp-user::width common-lisp-user::height common-lisp-user::x common-lisp-user::y common-lisp-user::visible-virtuals-available? common-lisp-user::it common-lisp-user::visible-virtual-window :window-title :width :height :x-pos :y-pos :display-handlers make-instance "No handler available for displaying a visible window.  Using a virtual window instead." #Y(common-lisp-user::make-rpm-window nil nil (28 169 22 40 2 77 46 170 22 40 3 15 171 46 172 22 40 3 9 100 46 173 22 40 3 9 100 46 174 22 40 3 9 0 46 175 22 40 3 9 0 46 176 10 5 39 84 19 0 177 45 178 10 0 39 32 15 179 14 180 13 5 14 181 13 4 14 182 13 3 14 183 13 2 14 184 13 1 14 185 13 0 19 13 186 38 40 15 124 77 15 125 15 187 19 3 127 12 19 2 128 15 0 14 180 13 5 14 181 13 4 14 182 13 3 14 183 13 2 14 184 13 1 19 11 186 43 1 38 26 15 0 14 180 13 4 14 181 13 3 14 182 13 2 14 183 13 1 14 184 13 0 19 11 186 29) #1# #2# 13521) common-lisp-user::make-button-for-rpm-window (defgeneric common-lisp-user::make-button-for-rpm-window) (#2# . 14560) (common-lisp-user::window &key common-lisp-user::x common-lisp-user::y common-lisp-user::text common-lisp-user::action common-lisp-user::height common-lisp-user::width common-lisp-user::color) "Returns a button built with the parameters supplied" (defmethod common-lisp-user::make-button-for-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window) &key #4=(common-lisp-user::x 0) #5=(common-lisp-user::y 0) #6=(common-lisp-user::text #7="Ok") #8=(common-lisp-user::action nil) #9=(common-lisp-user::height 18) #10=(common-lisp-user::width 60) #11=(common-lisp-user::color 'common-lisp-user::gray)) (#2# . 14873) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win &key #4# #5# #6# #8# #9# #10# #11#) (t :color :width :height :action :text :y :x) #7# common-lisp-user::text common-lisp-user::action common-lisp-user::gray common-lisp-user::color common-lisp-user::button-vdi :dialog-item-text :action :color :lock common-lisp-user::window-lock #Y(common-lisp-user::make-button-for-rpm-window nil nil (24 45 39 28 198 22 40 3 9 0 46 175 22 40 3 9 0 46 176 22 40 3 15 199 46 200 22 40 2 77 46 201 22 40 3 9 18 46 174 22 40 3 9 60 46 173 22 40 3 15 202 46 203 15 204 14 183 13 6 14 184 13 5 14 205 13 4 14 206 13 3 14 182 13 2 14 181 13 1 14 207 13 0 14 208 13 7 19 1 209 12 19 17 186 29) #1# #2# 14873) common-lisp-user::modify-button-for-rpm-window (defmethod common-lisp-user::modify-button-for-rpm-window (common-lisp-user::button-item common-lisp-user::button-vdi) &key #12=(common-lisp-user::x nil common-lisp-user::xp) #13=(common-lisp-user::y nil common-lisp-user::yp) #14=(common-lisp-user::text nil common-lisp-user::textp) #15=(common-lisp-user::height nil common-lisp-user::heightp) #16=(common-lisp-user::width nil common-lisp-user::widthp) #17=(common-lisp-user::color nil common-lisp-user::colorp) #18=(common-lisp-user::action nil common-lisp-user::actionp)) (#2# . 15200) (common-lisp-user::button-vdi) (common-lisp-user::button-item &key #12# #13# #14# #15# #16# #17# #18#) common-lisp-user::button-item (t :action :color :width :height :text :y :x) common-lisp-user::xp common-lisp-user::yp common-lisp-user::textp common-lisp-user::heightp common-lisp-user::widthp common-lisp-user::colorp common-lisp-user::actionp #:g18549 #:g18550 (setf common-lisp-user::x-pos) #:g18551 #:g18552 (setf common-lisp-user::y-pos) #:g18553 #:g18554 (setf common-lisp-user::dialog-item-text) #:g18555 #:g18556 (setf common-lisp-user::height) #:g18557 #:g18558 (setf common-lisp-user::width) #:g18559 #:g18560 (setf common-lisp-user::color) #:g18561 #:g18562 (setf common-lisp-user::action-function) #Y(common-lisp-user::modify-button-for-rpm-window nil nil (24 45 216 28 217 22 40 3 77 75 45 218 46 175 22 40 3 77 75 45 219 46 176 22 40 3 77 75 45 220 46 200 22 40 3 77 75 45 221 46 174 22 40 3 77 75 45 222 46 173 22 40 3 77 75 45 223 46 203 22 40 3 77 75 45 224 46 201 10 13 39 21 10 14 45 225 10 13 45 226 13 0 13 1 33 227 18 2 43 1 43 1 10 11 39 21 10 14 45 228 10 11 45 229 13 0 13 1 33 230 18 2 43 1 43 1 10 9 39 21 10 14 45 231 10 9 45 232 13 0 13 1 33 233 18 2 43 1 43 1 10 7 39 21 10 14 45 234 10 7 45 235 13 0 13 1 33 236 18 2 43 1 43 1 10 5 39 21 10 14 45 237 10 5 45 238 13 0 13 1 33 239 18 2 43 1 43 1 10 3 39 21 10 14 45 240 10 3 45 241 13 0 13 1 33 242 18 2 43 1 43 1 10 1 39 21 10 14 45 243 10 1 45 244 13 0 13 1 33 245 18 2 43 1 43 1 10 14 73 29) #1# #2# 15200) "Modify a button item for the rpm window" common-lisp-user::build-vis-locs-for (defmethod common-lisp-user::build-vis-locs-for (common-lisp-user::self common-lisp-user::button-vdi)) (#2# . 15926) (common-lisp-user::button-vdi) (common-lisp-user::self) common-lisp-user::self common-lisp-user::text-height 0.8 round + max common-lisp-user::line-height #\Newline common-lisp-user::dialog-item-text count 1+ common-lisp-user::lines common-lisp-user::view-loc common-lisp-user::top common-lisp-user::top-xy :text :start-x elt :x-fct string common-lisp-user::startx common-lisp-user::obj common-lisp-user::str-width-fct common-lisp-user::dispatch-apply #Y(nil nil nil (24 45 272 24 45 273 24 45 274 26 13 1 13 0 19 1 275 12 13 2 19 2 276 12 9 2 19 2 256 12 19 2 158 29) #1# #2# 15926) 1/2 1- * :width-fct :obj :line-height :x-off :y-off common-lisp-user::build-string-feats common-lisp-user::text-feats common-lisp-user::f #:g18592 nconc common-lisp-user::black #:g18594 common-lisp-user::isa (common-lisp-user::visual-location common-lisp-user::oval) common-lisp-user::screen-x common-lisp-user::screen-y common-lisp-user::value common-lisp-user::oval (common-lisp-user::oval nil) append #Y(common-lisp-user::build-vis-locs-for nil nil (24 45 253 26 13 0 19 1 254 12 15 255 19 2 256 12 13 0 19 1 254 12 9 1 19 2 257 12 19 2 258 45 259 15 260 13 1 19 1 261 12 19 2 262 16 263 45 264 13 2 19 1 265 45 265 13 3 19 1 16 45 266 13 0 19 1 159 12 13 0 19 1 160 12 19 2 157 45 267 14 268 13 5 19 1 261 12 14 269 13 2 8 0 17 270 12 14 271 34 277 12 14 184 13 2 8 1 17 270 12 15 278 13 4 10 3 16 279 12 19 3 280 12 19 2 158 12 19 1 256 12 14 281 13 5 19 1 275 12 14 182 13 5 19 1 254 12 14 282 13 5 14 283 13 4 14 284 13 0 8 0 17 270 12 14 285 13 0 8 1 17 270 12 19 20 286 45 287 10 0 45 93 38 47 10 0 4 45 288 1 203 6 1 45 289 13 1 13 0 19 2 290 51 1 43 1 1 291 6 1 45 292 13 1 13 0 19 2 290 51 1 43 1 10 1 5 51 1 43 1 10 0 40 -49 43 1 15 293 15 294 15 295 13 1 8 0 17 270 12 13 3 8 0 17 270 12 19 2 257 12 15 296 13 1 8 1 17 270 12 13 3 8 1 17 270 12 19 2 257 12 15 173 13 6 19 1 173 12 15 174 13 6 19 1 174 12 15 297 10 0 39 13 15 298 13 6 19 1 261 6 2 73 38 4 1 299 73 12 15 203 13 6 19 1 203 6 14 6 1 12 13 0 19 2 300 43 6 29) #1# #2# 15926) common-lisp-user::make-static-text-for-rpm-window (defgeneric common-lisp-user::make-static-text-for-rpm-window) (#2# . 18584) (common-lisp-user::window &key common-lisp-user::x common-lisp-user::y common-lisp-user::text common-lisp-user::height common-lisp-user::width common-lisp-user::color) "Returns a text item built with the parameters supplied" (defmethod common-lisp-user::make-static-text-for-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window) &key #19=(common-lisp-user::x 0) #20=(common-lisp-user::y 0) #21=(common-lisp-user::text #22="") #23=(common-lisp-user::height 20) #24=(common-lisp-user::width 80) #25=(common-lisp-user::color 'common-lisp-user::black) common-lisp-user::font-size) (#2# . 18909) (common-lisp-user::rpm-virtual-window) (common-lisp-user::win &key #19# #20# #21# #23# #24# #25# common-lisp-user::font-size) (t :font-size :color :width :height :text :y :x) #22# common-lisp-user::font-size numberp common-lisp-user::static-text-vdi :text-height 6/5 :str-width-fct 12/7 common-lisp-user::str length #Y(nil nil nil (24 45 320 26 10 0 16 321 12 13 1 19 2 280 29) #1# #2# 18909) #Y(common-lisp-user::make-static-text-for-rpm-window nil nil (24 45 39 28 311 22 40 3 9 0 46 175 22 40 3 9 0 46 176 22 40 3 15 312 46 200 22 40 3 9 20 46 174 22 40 3 9 80 46 173 22 40 3 15 291 46 203 22 40 2 77 46 313 10 0 16 314 76 39 5 8 12 51 0 15 315 14 183 13 6 14 184 13 5 14 205 13 4 14 182 13 3 14 181 13 2 14 207 13 1 14 316 13 0 15 317 19 2 256 12 14 318 13 0 15 319 19 2 256 45 22 34 322 12 43 1 14 208 13 7 19 1 209 12 19 19 186 29) #1# #2# 18909) common-lisp-user::modify-text-for-rpm-window (defmethod common-lisp-user::modify-text-for-rpm-window (common-lisp-user::text-item common-lisp-user::static-text-vdi) &key #26=(common-lisp-user::x nil common-lisp-user::xp) #27=(common-lisp-user::y nil common-lisp-user::yp) #28=(common-lisp-user::text nil common-lisp-user::textp) #29=(common-lisp-user::height nil common-lisp-user::heightp) #30=(common-lisp-user::width nil common-lisp-user::widthp) #31=(common-lisp-user::color nil common-lisp-user::colorp) #32=(common-lisp-user::font-size nil common-lisp-user::font-sizep)) (#2# . 19450) (common-lisp-user::static-text-vdi) (common-lisp-user::text-item &key #26# #27# #28# #29# #30# #31# #32#) common-lisp-user::text-item (t :font-size :color :width :height :text :y :x) common-lisp-user::font-sizep #:g18647 #:g18648 (setf common-lisp-user::x-pos) #:g18649 #:g18650 (setf common-lisp-user::y-pos) #:g18651 #:g18652 (setf common-lisp-user::dialog-item-text) #:g18653 #:g18654 (setf common-lisp-user::height) #:g18655 #:g18656 (setf common-lisp-user::width) #:g18657 #:g18658 (setf common-lisp-user::text-height) #:g18659 #Y(nil nil nil (24 45 320 26 10 0 16 321 12 13 1 19 2 280 29) #1# #2# 19450) #:g18660 (setf common-lisp-user::str-width-fct) #:g18661 #:g18662 (setf common-lisp-user::color) #Y(common-lisp-user::modify-text-for-rpm-window nil nil (24 45 329 28 330 22 40 3 77 75 45 218 46 175 22 40 3 77 75 45 219 46 176 22 40 3 77 75 45 220 46 200 22 40 3 77 75 45 221 46 174 22 40 3 77 75 45 222 46 173 22 40 3 77 75 45 223 46 203 22 40 3 77 75 45 331 46 313 10 13 39 21 10 14 45 332 10 13 45 333 13 0 13 1 33 334 18 2 43 1 43 1 10 11 39 21 10 14 45 335 10 11 45 336 13 0 13 1 33 337 18 2 43 1 43 1 10 9 39 21 10 14 45 338 10 9 45 339 13 0 13 1 33 340 18 2 43 1 43 1 10 7 39 21 10 14 45 341 10 7 45 342 13 0 13 1 33 343 18 2 43 1 43 1 10 5 39 21 10 14 45 344 10 5 45 345 13 0 13 1 33 346 18 2 43 1 43 1 10 1 39 57 10 14 45 347 13 1 15 317 19 2 256 45 348 13 0 13 1 33 349 18 2 43 1 43 1 10 14 45 350 13 1 15 319 19 2 256 45 22 34 351 43 1 45 352 13 0 13 1 33 353 18 2 43 1 43 1 10 3 39 21 10 14 45 354 10 3 45 355 13 0 13 1 33 356 18 2 43 1 43 1 10 14 73 29) #1# #2# 19450) "Modify a text item for the rpm window" (defmethod common-lisp-user::build-vis-locs-for (common-lisp-user::self common-lisp-user::static-text-vdi)) (#2# . 20287) (common-lisp-user::static-text-vdi) (common-lisp-user::self) common-lisp-user::feats #:g18692 #:g18694 #Y(common-lisp-user::build-vis-locs-for nil nil (24 45 253 26 13 0 19 1 254 12 15 255 19 2 256 12 13 0 19 1 254 12 9 1 19 2 257 12 19 2 258 45 259 13 1 19 1 16 45 266 13 0 19 1 159 12 13 0 19 1 160 12 19 2 157 45 267 14 268 13 3 19 1 261 12 14 269 13 3 19 1 159 16 263 12 14 184 13 3 19 1 160 12 13 2 9 2 19 2 256 12 19 2 257 12 14 281 13 3 19 1 275 12 14 182 13 3 19 1 254 12 14 282 13 3 14 283 13 2 14 284 13 0 8 0 17 270 12 14 285 13 0 8 1 17 270 12 19 18 286 45 363 10 0 45 93 38 50 10 0 4 45 288 1 203 6 1 45 364 13 1 13 0 19 2 290 51 1 43 1 13 6 19 1 203 6 1 45 365 13 1 13 0 19 2 290 51 1 43 1 10 1 5 51 1 43 1 10 0 40 -52 43 1 10 0 73 43 4 29) #1# #2# 20287) common-lisp-user::make-line-for-rpm-window (defgeneric common-lisp-user::make-line-for-rpm-window) (#2# . 21388) (common-lisp-user::window common-lisp-user::start-pt common-lisp-user::end-pt &optional common-lisp-user::color) "returns a view which will draw a line with the parameters supplied" (defmethod common-lisp-user::make-line-for-rpm-window (common-lisp-user::win common-lisp-user::rpm-virtual-window) common-lisp-user::start-pt common-lisp-user::end-pt &optional #33=(common-lisp-user::color 'common-lisp-user::black)) (#2# . 21727) (common-lisp-user::rpm-virtual-window t t) (common-lisp-user::win common-lisp-user::start-pt common-lisp-user::end-pt &optional #33#) common-lisp-user::start-pt common-lisp-user::end-pt common-lisp-user::v-liner second #Y(common-lisp-user::make-line-for-rpm-window nil nil (24 45 39 24 45 376 24 45 377 25 40 3 15 291 46 203 26 15 378 14 207 13 0 14 183 10 2 4 12 14 184 10 2 16 379 12 14 181 10 1 4 12 14 182 10 1 16 379 12 14 208 13 3 19 1 209 12 19 13 186 29) #1# #2# 21727) common-lisp-user::modify-line-for-rpm-window (defmethod common-lisp-user::modify-line-for-rpm-window (common-lisp-user::line common-lisp-user::v-liner) common-lisp-user::start-pt common-lisp-user::end-pt &key #34=(common-lisp-user::color nil common-lisp-user::colorp)) (#2# . 22016) (common-lisp-user::v-liner t t) (common-lisp-user::line common-lisp-user::start-pt common-lisp-user::end-pt &key #34#) common-lisp-user::line (t :color) #:g18725 #:g18726 (setf common-lisp-user::x-pos) #:g18727 #:g18728 (setf common-lisp-user::y-pos) #:g18729 #:g18730 (setf common-lisp-user::width) #:g18731 #:g18732 (setf common-lisp-user::height) #:g18733 #:g18734 (setf common-lisp-user::color) #Y(common-lisp-user::modify-line-for-rpm-window nil nil (24 45 386 24 45 376 24 45 377 28 387 22 40 3 77 75 45 223 46 203 10 3 39 44 10 4 45 388 10 4 4 45 389 13 0 13 1 33 390 18 2 43 1 43 1 10 4 45 391 10 4 16 379 45 392 13 0 13 1 33 393 18 2 43 1 43 1 10 2 39 44 10 4 45 394 10 3 4 45 395 13 0 13 1 33 396 18 2 43 1 43 1 10 4 45 397 10 3 16 379 45 398 13 0 13 1 33 399 18 2 43 1 43 1 10 1 39 21 10 4 45 400 10 1 45 401 13 0 13 1 33 402 18 2 43 1 43 1 10 4 73 29) #1# #2# 22016) common-lisp-user::pts-to-orientation (defun common-lisp-user::pts-to-orientation) (#2# . 22439) (common-lisp-user::pt1 common-lisp-user::pt2) common-lisp-user::pt1 common-lisp-user::pt2 common-lisp-user::xy-to-polar common-lisp-user::rad->deg common-lisp-user::angle < > = #Y(common-lisp-user::pts-to-orientation nil nil (24 45 408 24 45 409 26 13 1 13 0 19 2 410 12 8 1 17 270 12 19 1 411 12 19 1 256 12 9 90 19 2 158 45 412 13 0 9 -90 19 2 413 39 10 13 0 9 180 19 2 257 38 36 13 0 9 90 19 2 414 39 10 13 0 9 180 19 2 158 38 18 13 0 9 -90 19 2 415 39 6 8 90 73 38 4 10 0 73 43 1 29) #1# #2# 22439) function "Return the orientation of the line connecting two points, in degrees from -89 to +90. 0 is vertical." si::set-documentation (defmethod common-lisp-user::build-vis-locs-for (common-lisp-user::lnr common-lisp-user::v-liner)) (#2# . 22790) (common-lisp-user::v-liner) (common-lisp-user::lnr) common-lisp-user::lnr (common-lisp-user::visual-location common-lisp-user::line) / floor abs common-lisp-user::end1-x common-lisp-user::end1-y common-lisp-user::end2-x common-lisp-user::end2-y #Y(common-lisp-user::build-vis-locs-for nil nil (24 45 424 26 13 0 19 1 16 45 266 13 0 19 1 159 12 13 0 19 1 160 12 19 2 157 45 267 15 293 15 425 15 203 13 2 19 1 203 12 15 297 13 0 8 0 17 270 12 13 2 19 1 159 12 19 2 257 12 13 0 8 1 17 270 12 13 2 19 1 160 12 19 2 257 12 19 2 157 12 13 0 8 0 17 270 12 13 2 19 1 173 12 19 2 257 12 13 0 8 1 17 270 12 13 2 19 1 174 12 19 2 257 12 19 2 157 12 19 2 404 12 15 295 13 0 8 0 17 270 12 13 2 19 1 159 12 13 2 19 1 173 12 19 2 257 12 9 2 19 2 426 12 19 1 427 12 19 2 257 12 15 296 13 0 8 0 17 270 12 13 2 19 1 160 12 13 2 19 1 174 12 19 2 257 12 9 2 19 2 426 12 19 1 427 12 19 2 257 12 15 173 13 2 19 1 159 12 13 2 19 1 173 12 19 2 158 16 428 12 15 174 13 2 19 1 160 12 13 2 19 1 174 12 19 2 158 16 428 12 15 429 77 13 0 8 0 17 270 12 13 2 19 1 159 12 19 2 257 6 2 12 15 430 77 13 0 8 1 17 270 12 13 2 19 1 160 12 19 2 257 6 2 12 15 431 77 13 0 8 0 17 270 12 13 2 19 1 173 12 19 2 257 6 2 12 15 432 77 13 0 8 1 17 270 12 13 2 19 1 174 12 19 2 257 6 2 6 22 6 1 73 43 2 29) #1# #2# 22790) "Convert the view to a feature to be placed into the visual icon" (defun common-lisp-user::visible-virtuals-available?) (#2# . 23891) common-lisp-user::check-with-environment-for-visible-virtuals fboundp #Y(common-lisp-user::visible-virtuals-available? nil nil (26 1 437 16 438 73 39 4 19 0 437 29) #1# #2# 23891) "Return whether or not the visible-virtuals are available" "visible-virtuals-available?" "Check whether there is a handler active for displaying visible virtual windows." common-lisp-user::add-act-r-command)) #2# 0) #Y(si::bytecodes nil nil (15 16 15 1 15 17 15 18 19 4 4 15 16 14 19 77 15 20 19 4 4 15 16 1 24 12 19 2 25 1 16 73 29) #1# #2# 9031) #Y(si::bytecodes nil nil (15 26 15 1 15 27 15 28 19 4 4 15 26 14 19 77 15 29 19 4 4 15 26 14 30 14 31 14 19 15 29 15 32 15 33 19 7 34 29) #1# #2# 9338) #Y(si::bytecodes nil nil (15 26 15 1 15 35 15 36 19 4 4 15 26 77 15 37 15 38 1 41 12 19 5 42 29) #1# #2# 9541) #Y(si::bytecodes nil nil (15 26 15 1 15 43 15 44 19 4 4 15 26 77 15 45 15 46 1 47 12 19 5 42 29) #1# #2# 9673) #Y(si::bytecodes nil nil (15 48 15 1 15 49 15 50 19 4 4 15 48 14 19 77 15 51 19 4 4 15 48 14 30 14 31 14 19 15 51 15 32 15 52 19 7 34 29) #1# #2# 9722) #Y(si::bytecodes nil nil (15 48 15 1 15 53 15 54 19 4 4 15 48 77 15 55 15 56 1 58 12 19 5 42 29) #1# #2# 9833) #Y(si::bytecodes nil nil (15 59 15 1 15 60 15 61 19 4 4 15 59 14 19 77 15 62 19 4 4 15 59 14 30 14 31 14 19 15 62 15 32 15 63 19 7 34 29) #1# #2# 9939) #Y(si::bytecodes nil nil (15 59 15 1 15 64 15 65 19 4 4 15 59 77 15 66 15 67 1 72 12 19 5 42 29) #1# #2# 10091) #Y(si::bytecodes nil nil (15 73 15 1 15 74 15 75 19 4 4 15 73 14 19 77 15 76 19 4 4 15 73 14 30 14 31 14 19 15 76 15 32 15 77 19 7 34 29) #1# #2# 10275) #Y(si::bytecodes nil nil (15 73 15 1 15 78 15 79 19 4 4 15 73 77 15 80 15 81 1 82 12 19 5 42 29) #1# #2# 10468) #Y(si::bytecodes nil nil (15 83 15 1 15 84 15 85 19 4 4 15 83 14 19 77 15 86 19 4 4 15 83 14 30 14 31 14 19 15 86 15 32 15 87 19 7 34 29) #1# #2# 10532) #Y(si::bytecodes nil nil (15 83 15 1 15 88 15 89 19 4 4 15 83 77 15 90 15 91 1 95 12 19 5 42 29) #1# #2# 10884) #Y(si::bytecodes nil nil (15 96 15 1 15 97 15 98 19 4 4 15 96 14 19 77 15 99 19 4 4 15 96 14 30 14 31 14 19 15 99 15 32 15 100 19 7 34 29) #1# #2# 11075) #Y(si::bytecodes nil nil (15 96 15 1 15 101 15 102 19 4 4 15 96 77 15 103 15 104 1 106 12 19 5 42 29) #1# #2# 11374) #Y(si::bytecodes nil nil (15 68 15 1 15 107 15 108 19 4 4 15 68 14 19 77 15 109 19 4 4 15 68 14 30 14 31 14 19 15 109 15 32 15 110 19 7 34 29) #1# #2# 11573) #Y(si::bytecodes nil nil (15 68 15 1 15 111 15 112 19 4 4 15 68 77 15 113 15 114 1 117 12 19 5 42 29) #1# #2# 11805) #Y(si::bytecodes nil nil (15 94 15 1 15 118 15 119 19 4 4 15 94 77 15 120 15 121 1 135 12 19 5 42 29) #1# #2# 11978) #Y(si::bytecodes nil nil (15 105 15 1 15 136 15 137 19 4 4 15 105 77 15 138 15 139 1 146 12 19 5 42 29) #1# #2# 12465) #Y(si::bytecodes nil nil (15 147 15 1 15 148 15 149 19 4 4 15 147 77 15 150 15 151 1 164 12 19 5 42 29) #1# #2# 12893) #Y(si::bytecodes nil nil (15 165 15 1 15 166 15 167 19 4 4 15 165 14 19 77 15 168 19 4 4 15 165 1 188 12 19 2 25 1 165 73 29) #1# #2# 13521) #Y(si::bytecodes nil nil (15 189 15 1 15 190 15 191 19 4 4 15 189 14 19 77 15 192 19 4 4 15 189 14 30 14 31 14 19 15 192 15 32 15 193 19 7 34 29) #1# #2# 14560) #Y(si::bytecodes nil nil (15 189 15 1 15 194 15 195 19 4 4 15 189 77 15 196 15 197 1 210 12 19 5 42 29) #1# #2# 14873) #Y(si::bytecodes nil nil (15 211 15 1 15 212 15 213 19 4 4 15 211 77 15 214 15 215 1 246 12 14 32 15 247 19 7 42 29) #1# #2# 15200) #Y(si::bytecodes nil nil (15 248 15 1 15 249 15 250 19 4 4 15 248 77 15 251 15 252 1 301 12 19 5 42 29) #1# #2# 15926) #Y(si::bytecodes nil nil (15 302 15 1 15 303 15 304 19 4 4 15 302 14 19 77 15 305 19 4 4 15 302 14 30 14 31 14 19 15 305 15 32 15 306 19 7 34 29) #1# #2# 18584) #Y(si::bytecodes nil nil (15 302 15 1 15 307 15 308 19 4 4 15 302 77 15 309 15 310 1 323 12 19 5 42 29) #1# #2# 18909) #Y(si::bytecodes nil nil (15 324 15 1 15 325 15 326 19 4 4 15 324 77 15 327 15 328 1 357 12 14 32 15 358 19 7 42 29) #1# #2# 19450) #Y(si::bytecodes nil nil (15 248 15 1 15 359 15 360 19 4 4 15 248 77 15 361 15 362 1 366 12 19 5 42 29) #1# #2# 20287) #Y(si::bytecodes nil nil (15 367 15 1 15 368 15 369 19 4 4 15 367 14 19 77 15 370 19 4 4 15 367 14 30 14 31 14 19 15 370 15 32 15 371 19 7 34 29) #1# #2# 21388) #Y(si::bytecodes nil nil (15 367 15 1 15 372 15 373 19 4 4 15 367 77 15 374 15 375 1 380 12 19 5 42 29) #1# #2# 21727) #Y(si::bytecodes nil nil (15 381 15 1 15 382 15 383 19 4 4 15 381 77 15 384 15 385 1 403 12 19 5 42 29) #1# #2# 22016) #Y(si::bytecodes nil nil (15 404 15 1 15 405 15 406 19 4 4 15 404 14 19 77 15 407 19 4 4 15 404 1 416 12 19 2 25 15 404 15 417 15 418 19 3 419 1 404 73 29) #1# #2# 22439) #Y(si::bytecodes nil nil (15 248 15 1 15 420 15 421 19 4 4 15 248 77 15 422 15 423 1 433 12 14 32 15 434 19 7 42 29) #1# #2# 22790) #Y(si::bytecodes nil nil (15 177 15 1 15 435 15 436 19 4 4 15 177 14 19 77 77 19 4 4 15 177 1 439 12 19 2 25 15 177 15 417 15 440 19 3 419 1 177 73 29) #1# #2# 23891) #Y(si::bytecodes nil nil (15 441 15 177 15 442 19 3 443 29) #1# #2# 24241))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell 
+;;; Address     : Carnegie Mellon University
+;;;             : Psychology Department
+;;;             : Pittsburgh,PA 15213-3890
+;;;             : db30+@andrew.cmu.edu
+;;; 
+;;; Copyright   : (c)2002-2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : uniform-interface-virtual.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : wirtual view functions to implement the UWI.
+;;;             : NOTE: The UWI is only still around to support the 
+;;;             :       ACT-R GUI interface. I don't advocate using it directly.      
+;;; 
+;;; Bugs        : 
+;;; --- History ---
+;;; 2002.06.30 Dan
+;;;             : Added this header.
+;;;             : Moved all of the UWI code from virtual-view 
+;;;             : to this file where it belongs.
+;;;             : Added the visible-virtuals-avaialable? function.
+;;;             : Actually documented the code and added defgenerics with
+;;;             : documentation for the uwi.
+;;; 2002.12.19 Dan
+;;;             : Modified make-static-text-for-rpm-window to take a
+;;;             : color parameter.
+;;; 04.04.13 Dan [2.2] (previous change is "new" as of 2.2 as well)
+;;;             : Changed the copyright notice and added the LGPL stuff.
+;;;
+;;; 04.10.19 Dan [Moved into ACT-R 6]
+;;;             : Reset the version to 1.0a1
+;;;             : added the packaging switches
+;;; 2007.07.13 Dan
+;;;             : * Adding color as an option for button items in make-
+;;;                 button-for
+;;; 2008.07.01 Dan
+;;;             : * Added code so that closing a virtual window will force all
+;;;             :   the associated chunks to be purged:
+;;;             :    -  closing a virtual window will first remove all of its
+;;;             :       objects.
+;;;             :    -  if it has a loc-chunk (a cursor) it is purged.
+;;; 2012.06.20 Dan
+;;;             : * The loc-chunk slot now holds a hash-table since multiple
+;;;             :   models could be sharing the window and each will have its
+;;;             :   own cursor chunk.
+;;; 2012.10.02 Dan
+;;;             : * Make-rpm-window now uses print warning to report when there
+;;;             :   isn't a visible window available when one is requested and
+;;;             :   returns a virtual on instead.
+;;; 2013.01.10 Dan
+;;;             : * Visible-virtuals-available? now just calls check-with-environment-for-visible-virtuals
+;;;             :   if it's defined to avoid having to redefine visible-virtuals-available?
+;;;             :   it later.
+;;; 2015.05.26 Dan
+;;;             : * Added a font-size parameter to make-static-text-for-rpm-window.
+;;;             :   Should be a point size for the font, defaults to 12 and the
+;;;             :   height and width are based on the ratios for the previous
+;;;             :   defaults which were 10 high and 7 wide for 12 point.
+;;; 2016.06.08 Dan
+;;;             : * Allow the class in make-rpm-window to override visible-
+;;;             :   virtual-windows if it's a subtype of that class.
+;;;             : * Add the modify-*-for-rpm-window methods which just directly
+;;;             :   change the slots of the object since that's all a virtual
+;;;             :   item needs (the device code modifies the underlying feature
+;;;             :   chunks as needed).
+;;; 2016.06.09 Dan
+;;;             : * Properly change the action of a button in the modify.
+;;; 2017.01.05 Dan
+;;;             : * Add the installed slot to rpm-window class.
+;;;             : * Removed device methods.
+;;; 2017.01.06 Dan
+;;;             : * More adjustments with the assumption that virtual windows
+;;;             :   are the only interface for the AGI and nobody will be trying
+;;;             :   to treat them like MCL windows.
+;;; 2017.06.01 Dan
+;;;             : * Remove the installed slot because that needs to be tracked by
+;;;             :   the AGI since a window could be installed for more than 1 model.
+;;; 2017.06.07 Dan
+;;;             : * Adding a lock to the window object and using that in the add,
+;;;             :   remove, and modify actions (technically modify should probably
+;;;             :   be a lock on the item itself, but just using the window lock
+;;;             :   for now).
+;;; 2017.06.08 Dan
+;;;             : * Removed the lock use from the items since the modify actions
+;;;             :   don't change the window and are single-instance.
+;;;             : * Fixed the with-act-r-lock usage since it uses a simpler 
+;;;             :   syntax than the underlying with-lock.
+;;;             : * Have each window create a lock with a unique name.
+;;; 2017.06.14 Dan
+;;;             : * Put the lock checks back into the modify actions since the
+;;;             :   AGI commands can be called directly from Lisp which bypasses
+;;;             :   the single instance tests. 
+;;;             : * Added a lock test to close-rpm-window around the window-open?
+;;;             :   setting.
+;;; 2017.06.16 Dan
+;;;             : * Use a raw lock instead of an act-r lock for the window and
+;;;             :   redefine some of the virtual-window methods on the rpm-
+;;;             :   class so that the lock can be tested.  Also make it recursive
+;;;             :   because add-subviews should test it but that happens in the
+;;;             :   context of other things too.
+;;;             : * Create new classes for the dialog items so that they can
+;;;             :   have a lock slot which gets set when they are created to
+;;;             :   be the parent window's lock.
+;;;             : * Moved the build-vis-locs-for methods here since they're
+;;;             :   defined on the subclasses to be thread safe.
+;;; 2017.06.23 Dan
+;;;             : * Added a name for the window's lock.
+;;; 2017.08.16 Dan
+;;;             : * Need to release the window's lock in the vv-handle-click
+;;;             :   method before calling vv-click-event-handler because that
+;;;             :   might end up calling a dispatched function to modify the
+;;;             :   window.
+;;; 2017.09.08 Dan
+;;;             : * Updated the warning about visible virtuals not available.
+;;; 2018.03.13 Dan [2.0]
+;;;             : * Build-vis-locs-for methods don't need vision module now!
+;;;             : * Vv-handle-click now needs to check the window and then 
+;;;             :   convert from global to local for testing subviews.
+;;; 2018.03.15 Dan
+;;;             : * Simplifying the class hierarcy because the UWI doesn't
+;;;             :   really need the rpm-dialog-item and rpm-window classes
+;;;             :   at this point or the rpm-*-item classes.
+;;; 2018.03.27 Dan
+;;;             : * Moved find-top-level-window here from the agi file.
+;;; 2018.05.02 Dan
+;;;             : * Update the feature creation to match the new add-visicon-features
+;;;             :   specification.
+;;; 2018.05.04 Dan
+;;;             : * Updated the modify calls as well.
+;;; 2018.06.13 Dan
+;;;             : * Button text doesn't need to double quote the value.
+;;; 2018.08.06 Dan
+;;;             : * Line locations can just use visual-location instead of line-
+;;;             :   location now.
+;;; 2018.09.13 Dan
+;;;             : * Add the send-update-to-handlers method which does nothing
+;;;             :   for virtual windows.
+;;; 2019.10.01 Dan
+;;;             : * Fixed the typo in the monitor-move-cursor slot name.
+;;; 2020.05.01 Dan (from Mike)
+;;;             : * Changed the line features to include the orientation in the
+;;;             :   value slot of both chunks.
+;;; 2020.12.10 Dan
+;;;             : * Added an external command for visible-virtuals-available?.
+;;; 2023.02.15 Dan
+;;;             : * Rewrote vv-handle-click to use with-recursive-lock-held
+;;;             :   instead of acquire and release because of the potential
+;;;             :   issues with those with SBCL (and maybe other systems).  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

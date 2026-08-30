@@ -1,0 +1,769 @@
+akassar, Manila, Muscat, Nicosia, Novokuznetsk, Novosibirsk, Omsk, Oral, Phnom Penh, Pontianak, Pyongyang, Qatar, Qostanay, Qyzylorda, Riyadh, Sakhalin, Samarkand, Seoul, Shanghai, Singapore, Srednekolymsk, Taipei, Tashkent, Tbilisi, Tehran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulaanbaatar, Urumqi, Ust-Nera, Vientiane, Vladivostok, Yakutsk, Rangoon, Yekaterinburg, Yerevan
+Choices-sv.utf-8: Aden, Almaty, Amman, Anadyr, Aqtau, Aqtöbe, Asjchabad, Atyraw, Bagdad, Bahrain, Baku, Bangkok, Barnaul, Beirut, Bisjkek, Brunei, Tjita, Tjojbalsan, Chongqing, Colombo, Damaskus, Dacca, Dili, Dubai, Dusjanbe, Famagusta, Gaza, Harbin, Hebron, Ho Chi Minh-staden, Hongkong, Chovd, Irkutsk, Istanbul, Jakarta, Jayapura, Jerusalem, Kabul, Kamtjatka, Karachi, Kashgar, Katmandu, Khandyga, Calcutta, Krasnojarsk, Kuala Lumpur, Kuching, Kuwait, Macao, Magadan, Makassar, Manila, Muskat, Nicosia, Novokuznetsk, Novosibirsk, Omsk, Ural, Phnom Penh, Pontianak, Pyongyang, Qatar, Qostanaj, Qyzylorda, Riyadh, Sachalin, Samarkand, Seoul, Shanghai, Singapore, Srednekolymsk, Taipei, Tasjkent, Tbilisi, Teheran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulan Bator, Ürümqi, Ust-Nera, Vientiane, Vladivostok, Jakutsk, Rangoon, Jekaterinburg, Jerevan
+Choices-th.utf-8: Aden, อัลมาตี, อัมมาน, อะนาดีร์, Aqtau, Aqtobe, อาชกาบัต, Atyrau, แบกแดด, บาห์เรน, บากู, กรุงเทพฯ, Barnaul, เบรุต, บิชเคก, บรูไน, Chita, Choibalsan, ฉงชิ่ง, โคลัมโบ, ดามัสกัส, ธากา, ดิลี, ดูไบ, ดูชานเบ, Famagusta, กาซา, ฮาร์บิน, Hebron, โฮจิมินห์, ฮ่องกง, Hovd, Irkutsk, อิสตันบูล, จาการ์ตา, Jayapura, เยรูซาเลม, คาบูล, Kamchatka, การาจี, Kashgar, กาฐมาณฑุ, Khandyga, โกลกาตา, Krasnoyarsk, กัวลาลัมเปอร์, กูชิง, คูเวต, มาเก๊า, มากาดาน, มะกัสซาร์, มะนิลา, มัสกัต, นิโคเซีย, Novokuznetsk, โนโวสิเบียรสก์, Omsk, Oral, พนมเปญ, Pontianak, เปียงยาง, กาตาร์, Qostanay, Qyzylorda, ริยาด, Sakhalin, Samarkand, โซล, ช่างไห่ (เซี่ยงไฮ้), สิงคโปร์, Srednekolymsk, ไทเป, ทาชเคนต์, ทบิลิซี, เตหะราน, เทลอาวีฟ, ทิมพู, โตเกียว, Tomsk, อูลานบาตอร์, อุรุมชี, Ust-Nera, เวียงจันทน์, วลาดิวอสต็อก, ยาคุตสค์, ย่างกุ้ง, Yekaterinburg, เยเรวาน
+Choices-tr.utf-8: Aden, Almatı, Amman, Anadyr, Aqtau, Aktobe, Aşkabat, Atyrau, Bağdat, Bahreyn, Bakü, Bangkok, Barnaul, Beyrut, Bişkek, Bruney, Çita, Choibalsan, Chongqing, Kolombo, Şam, Dakka, Dili, Dubai, Duşanbe, Gazimağusa, Gazze, Harbin, El Halil, Ho Şi Minh, Hong Kong, Hovd, Irkutsk, İstanbul, Cakarta, Jayapura, Kudüs, Kabil, Kamçatka, Karaçi, Kaşgar, Katmandu, Kandiga, Kalküta, Krasnoyarsk, Kuala Lumpur, Kuching, Kuveyt, Makao, Magadan, Makassar, Manila, Maskat, Lefkoşa, Novokuznetsk, Novosibirsk, Omsk, Ural, Phnom Penh, Pontianak, Pyongyang, Katar, Kostanay, Kızılorda, Riyad, Sakhalin, Semerkant, Seul, Şangay, Singapur, Srednekolymsk, Taipei, Taşkent, Tiflis, Tahran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulan Batur, Urumqi, Ust-Nera, Vientiane, Vladivostok, Yakutsk, Yangon, Yekaterinburg, Erivan
+Choices-vi.utf-8: Aden, Almaty, Amman, Anadyr, Aqtau, Aqtobe, Ashgabat, Atyrau, Baghdad, Bahrain, Baku, Bangkok, Barnaul, Beirut, Bishkek, Brunei, Chita, Choibalsan, Chongqing, Colombo, Damascus, Dhaka, Dili, Dubai, Dushanbe, Famagusta, Gaza, Harbin, Hebron, Hồ Chí Minh, Hong Kong, Hovd, Irkutsk, Istanbul, Jakarta, Jayapura, Jerusalem, Kabul, Kamchatka, Karachi, Kashgar, Katmandu, Khandyga, Kolkata, Krasnoyarsk, Kuala Lumpur, Kuching, Kuwait, Macau, Magadan, Makassar, Manila, Muscat, Nicosia, Novokuznetsk, Novosibirsk, Omsk, Oral, Phnom Penh, Pontianak, Pyongyang, Qatar, Qostanay, Qyzylorda, Riyadh, Sakhalin, Samarkand, Seoul, Shanghai, Xin-ga-po, Srednekolymsk, Tai-pei, Tashkent, Tbilisi, Tehran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulaanbaatar, Urumqi, Ust-Nera, Vientiane, Vladivostok, Yakutsk, Rangoon, Yekaterinburg, Yerevan
+Choices-wo.utf-8: Aden, Almaty (cas général), Amman, Moscou +10 (Mer de Béring), Aqtau, Aqtobe, Ashgabat, Atyrau, Baxdaad, Bahrain, Baku, Baŋkok, Barnaul, Bayruut, Bishkek, Brunei, Chita, Choibalsan, Chongqing, Kolombo, Damasq, Dhaka, Dili, Dubay, Dushanbe, Famagusta, Gaza, Harbin, Hebron, Ho Ci Min, Hoŋ Koŋ, Hovd, Moscou +05 (Lac Baïkal), Istambul, Jakarta (Java ak Sumatra), Jayapura (Irian Jaya ak Moluques), Yerusalem, Kabul, Moscou +09 (Kamtchatka), Karachi, Kashgar, Katmandu, Khandyga, Kolkata, Moscou +04 (Fleuve Ienisseï), Kuala Lumpur, Kuching, Kuwet, Makaaw, Moscou +08 (Magadan), Macasar (Borneo E/S - Célèbes - Bali - Nusa Tengarra - Timor ouest), Manila, Masqat, Nikoosi, Novokuznetsk, Moscou +03 (Novosibirsk), Moscou +03 (Sibérie de l'Ouest), Oural (Kazakhstan Sowwu), Penoom Pen, Pontianak (Bornéo Sowwu ak diggba), Pyoŋyaŋ, Qatar, Qostanay, Qyzylorda (Kyzylorda - Kzyl-Orda), Riyaad, Moscou +07 (Île Sakhaline), Samarkand, Sewul, Shaŋhaay, Siŋgapoor, Srednekolymsk, Taaypeey, Tashkent, Tbilisi, Tehraan, Tel Aviv, Thimphu, Tookyoo, Tomsk, Oulan-Bator (cas général), Urumqi, Ust-Nera, Vientiane, Moscou +07 (Fleuve Amour), Moscou +06 (Fleuve Lena), Raŋguun, Moscou +02 (Oural), Yerevan
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/Asia
+
+Name: tzdata/Zones/Atlantic
+Choices: Azores, Bermuda, Canary, Cape_Verde, Faroe, Jan_Mayen, Madeira, Reykjavik, South_Georgia, St_Helena, Stanley
+Choices-be.utf-8: Азоры, Бермуды, Канары, Капа-Вэрда, Фароэ, Ян-Маен, Мадэра, Рэйк'явік, Паўднёвая Джорджыя, Востраў Св. Алены, Стэнлі
+Choices-bg.utf-8: Азорски о-ви, Бермуди, Канарски о-ви, Кабо Верде, Фарьорски о-ви, Ян Майен, Мадейра, Рейкявик, Южна Джорджия, Сейнт Хелена, Стенли
+Choices-ca.utf-8: Açores, Bermudes, Canàries, Cap Verd, Fèroe, Jan Mayen, Madeira, Reykjavík, Georgia del Sud, St Helena, Stanley
+Choices-cs.utf-8: Azory, Bermudy, Kanárské ostrovy, Kapverdy, Faerské ostrovy, Jan Mayen, Madeira, Rejkjavík, Jižní Georgie, Svatá Helena, Stanley
+Choices-da.utf-8: Azores, Bermuda, Canary, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, South Georgia, Sankt Helena, Stanley
+Choices-de.utf-8: Azoren, Bermuda, Kanaren, Kap Verde, Farör, Jan Mayen, Madeira, Reykjavík, South Georgia, St Helena, Stanley
+Choices-en.utf-8: Azores, Bermuda, Canary, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, South Georgia, St. Helena, Stanley
+Choices-es.utf-8: Azores, Bermudas, Canarias, Cabo Verde, Feroe, Jan Mayen, Madeira, Reikiavik, Georgia del Sur, Santa Elena, Stanley
+Choices-eu.utf-8: Azores, Bermuda, Kanariak, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, Hego Georgia, St Helena, Stanley
+Choices-fi.utf-8: Azorit, Bermuda, Kanariansaaret, Kap Verde, Färsaaret, Jan Mayen, Madeira, Reykjavík, Etelä-Georgia, St Helena, Stanley
+Choices-fr.utf-8: Açores, Bermudes, Canaries, Cap-Vert, Faroe, Jan Mayen, Madère, Reykjavik, Géorgie du Sud, Sainte-Hélène, Stanley
+Choices-gl.utf-8: Illas Azores, Illas Bermudas, Illas Canarias, Cabo Verde, Illas Faroes, Jan Mayen, Madeira, Reykjavik, Xeorxia do Sul, Santa Helena, Stanley
+Choices-gu.utf-8: અઝોરેસ, બર્મુડા, કેનેરી, કેપ વર્દે, ફેરો, જાન માયેન, મેડેઇરા, રીકજાવિક, દક્ષિણ જર્યોજીઆ, સેન્ટ હેલેના, સ્ટેન્લી
+Choices-he.utf-8: האיים האזוריים, ברמודה, האיים הקנריים, כף ורדה, איי פארו, יאן מאיין, מדיירה, רייקיאוויק, ג'ורג'יה הדרומית, סנט הלנה, סטנלי
+Choices-hr.utf-8: Azori, Bermuda, Kanarski otoci, Zelenortski otoci, Farski otoci, Jan Mayen, Madeira, Reykjavik, South Georgia, St Helena, Stanley
+Choices-hu.utf-8: Azori-szigetek, Bermuda, Canary, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, Dél Georgia, St Helena, Stanley
+Choices-id.utf-8: Azores, Bermuda, Kanari, Teluk Verde, Faroe, Jan Mayen, Madeira, Reykjavik, Georgia Selatan, Saint Helena, Stanley
+Choices-it.utf-8: Azzorre, Bermuda, Canarie, Capo Verde, Fær Øer, Jan Mayen, Madera, Reykjavik, Georgia del Sud, Sant'Elena, Stanley
+Choices-ja.utf-8: アゾレス, バーミューダ, カナリヤ, ケープヴェルデ, フェロー諸島, ヤンマイエン, マデイラ, レイキャヴィク, サウスジョージア, セントヘレナ, スタンリー
+Choices-ko.utf-8: 아조레스 제도, 버뮤다, 카나리 제도, 카보베르데, 페로 제도, 얀마옌 섬, 마데이라, 레이캬비크, 사우스조지아, 세인트헬레나, 스탠리
+Choices-ku.utf-8: Azores, Bermuda, Canary, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, South Georgia, St Helena, Stanley
+Choices-lt.utf-8: Azorų salos, Bermudai, Kanarai, Žaliasis Kyšulys, Farerų salos, Jan Maienas, Maderas, Reikjavikas, Pietų Džordžija, Šventos Elenos sala, Stenlis
+Choices-ml.utf-8: അസോറെസ്, ബെര്‍മുഡ, കാനറി, കേപ് വിര്‍ഡേ, ഫറവോ, ജന്‍ മായെന്‍, മഡെയ്‌ര, റെയ്ക്ജാവിക്, തെക്കന്‍ ജോര്‍ജിയ, സെയിന്റ് ഹെലെന, സ്റ്റാന്‍ലി
+Choices-nl.utf-8: Azoren, Bermuda, Canaria, Kaapverdië, Faroe, Jan Mayen, Madeira, Reykjavik, Zuid Georgia, St. Helena, Stanley
+Choices-pl.utf-8: Azory, Bermudy, Wyspy Kanaryjskie, W. Zielonego Przylądka, Wyspy Owcze, Jan Mayen, Madera, Reykjavík, Georgia Południowa, W. Świętej Heleny, Stanley
+Choices-pt.utf-8: Açores, Bermudas, Canárias, Cabo Verde, Faroe, Jan Mayen, Madeira, Reiquejavique, Geórgia do Sul, Santa Helena, Stanley
+Choices-pt_br.utf-8: Açores, Bermuda, Canárias, Cabo Verde, Faroe, Jan Mayen, Madeira, Reykjavik, Geórgia do Sul, St Helena, Stanley
+Choices-ro.utf-8: Insulele Azore, Bermude, Canare, Capul Verde, Insulele Feroe, Jan Mayen, Madeira, Reykjavik, Georgia de Sud, Sf Elena, Stanley
+Choices-ru.utf-8: Азорские острова, Бермуды, Канары, Кабо-Верде, Фарерские острова, Ян-Майен, Мадейра, Рейкьявик, Южная Георгия, Остров Святой Елены, Стенли
+Choices-sk.utf-8: Azory, Bermudy, Kanárske ostrovy, Kapverdy, Faerské ostrovy, Jan Mayen, Madeira, Reykjavík, Južná Georgia, Svätá Helena, Stanley
+Choices-sq.utf-8: Azores, Bermuda, Canary, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, South Georgia, St Helena, Stanley
+Choices-sv.utf-8: Azorerna, Bermuda, Kanarieöarna, Kap Verde, Färöarna, Jan Mayen, Madeira, Reykjavik, Sydgeorgien, Sankta Helena, Stanley
+Choices-th.utf-8: Azores, เบอร์มิวดา, คะเนรี, เคปเวิร์ด, แฟโร, ยานไมเอน, มาเดรา, เรคยาวิก, เซาท์จอร์เจีย, เซนต์เฮเลนา, สแตนลีย์
+Choices-tr.utf-8: Azorlar, Bermuda, Kanarya, Yeşilburun, Faroe, Jan Mayen, Madeyra, Reykavik, Güney Gürcistan, Sen Helen, Stanley
+Choices-vi.utf-8: Azores, Be-mu-đa, Canary, Cape Verde, Faroe, Jan Mayen, Madeira, Reykjavik, South Georgia, St Helena, Stanley
+Choices-wo.utf-8: Asoor, Bermuuda, Kanari, Kap Weer, Faroe, Jan Mayen, Madeira, Rekyaavik, South Georgia, St Helena, Stanley
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/Atlantic
+
+Name: tzdata/Zones/Australia
+Choices: Adelaide, Brisbane, Broken_Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord_Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-be.utf-8: Адэлаіда, Брызбан, Броўкэн-Хіл, Канберра, Кур'е, Дарвін, Эўкла, Хобарт, Ліндаман, Лорд-Хоў, Мэльбурн, Пэрт, Сіднэй, Янкавіна
+Choices-bg.utf-8: Аделаида, Бризбейн, Броукън Хил, Канбера, Кюри, Дарвин, Еукла, Хобарт, Линдеман, о-в Лорд Хоу, Мелбърн, Пърт, Сидни, Янковина
+Choices-ca.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-cs.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Ostrov lorda Howea, Melbourne, Perth, Sydney, Yancowinna
+Choices-da.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-de.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-en.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-es.utf-8: Adelaida, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sídney, Yancowinna
+Choices-eu.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-fi.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-fr.utf-8: Adelaïde, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Île Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-gl.utf-8: Adelaide, Brisbane, Broken Hill, Camberra, Currie, Darwin, Eucla, Hobart, Lindeman, Illa de Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-gu.utf-8: એડેલેઇડ, બ્રિસબેન, બ્રોકન હિલ, કેનબેરા, કુરી, ડાર્વિન, ઇયુક્લા, હોબાર્ટ, લિન્ડેમેન, લોર્ડ હોવે, મેલબોર્ન, પર્થ, સિડની, યાન્કોવિન્ના
+Choices-he.utf-8: אדלייד, בריזביין, Broken Hill, קנברה, קורי, דרווין, Eucla, הובארט, Lindeman, אי הלורד האו, מלבורן, פרת', סידני, Yancowinna
+Choices-hr.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-hu.utf-8: Adelaide, Brisbane, Törött Domb, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe-sziget, Melbourne, Perth, Sydney, Yancowinna
+Choices-id.utf-8: Adelaide, Brisbane, Broken Hill, Canbera, Currie, Darwin, Eucla, Hobart, Lindeman, Pulau Lord Howe, Melbourne, Perth, Sydney, Yancowina
+Choices-it.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-ja.utf-8: アデレード, ブリスベーン, ブロークンヒル, キャンベラ, カリー, ダーウィン, ユークラ, ホーバート, リンデマン, ロードハウ島, メルボルン, パース, シドニー, Yancowinna
+Choices-ko.utf-8: 애들레이드, 브리스베인, 브로큰힐, 캔버라, 커리, 다윈, 유클라, 호바트, 린드먼, 로드 하우, 멜버른, 퍼스, 시드니, 얀코위나
+Choices-ku.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-lt.utf-8: Adelaidė, Brisbenas, Broken Hilas, Kanbera, Keris, Darvinas, Jukla, Hobartas, Lindemanas, Lordo Houvo sala, Melburnas, Pertas, Sidnis, Jankovina
+Choices-ml.utf-8: അഡലൈഡ്, ബ്രിസ്ബേന്‍, ബ്രോക്കണ്‍ ഹില്‍, കാന്‍ബറ, ക്യൂറി, ഡാര്‍വിന്‍, യൂക്‍ള, ഹോബാര്‍ട്ട്, ലിന്‍ഡെമാന്‍, ലോര്‍ഡ് ഹോവ്, മെല്ബണ്‍, പെര്‍ത്ത്, സിഡ്നി, യാങ്കോവിന്ന
+Choices-nl.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-pl.utf-8: Adelajda, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-pt.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-pt_br.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-ro.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-ru.utf-8: Аделаида, Брисбен, Брокен-Хилл, Канберра, Керри, Дарвин, Юкла, Хобарт, Линдеман, Лорд-Хау, Мельбурн, Перт, Сидней, Янковинна
+Choices-sk.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Ostrov lorda Howa, Melbourne, Perth, Sydney, Yancowinna
+Choices-sq.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sydney, Yancowinna
+Choices-sv.utf-8: Adelaide, Brisbane, Broken Hill, Canberra, Currie, Darwin, Eucla, Hobart, Lindeman, Lord Howeön, Melbourne, Perth, Sydney, Yancowinna
+Choices-th.utf-8: แอดิเลด, บริสเบน, โบรเคนฮิลล์, แคนเบอร์รา, Currie, ดาร์วิน, Eucla, โฮบาร์ต, Lindeman, Lord_Howe, เมลเบิร์น, เพิร์ท, ซิดนีย์, Yancowinna
+Choices-tr.utf-8: Adelaide, Brisbane, Broken Hill, Kanbera, Currie, Darwin, Eukla, Hobart, Lindeman, Lord Howe, Melbourne, Perth, Sidney, Yankovina
+Choices-vi.utf-8: Adelaide (Nam), Brisbane (Bắc Đông), Broken Hill (ở sâu trong), Canberra (thủ đô), Currie, Darwin (Bắc), Eucla, Hobart (Đảo hướng Nam Đông), Lindeman (Các đảo nghỉ Bắc Đông), Lord Howe Island (Đảo hướng Đông), Melbourne (Nam Đông), Perth (Tây), Sydney (Đông), Yancowinna
+Choices-wo.utf-8: Adelaide (Australie du Sud), Brisbane (Queensland - cas général), Broken Hill (Nouvelles-Galles du Sud - Yancowinna), Canberra, Currie, Darwin (territoire du Nord), Eucla, Hobart (Tasmanie), Lindeman (Queensland - îles Holiday), Île Lord Howe, Melbourne (Victoria), Perth (Australie de l'Ouest), Sydney (Nouvelles-Galles du Sud - cas général), Yancowinna
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/Australia
+
+Name: tzdata/Zones/Etc
+Choices: GMT, GMT0, GMT+0, GMT+1, GMT+2, GMT+3, GMT+4, GMT+5, GMT+6, GMT+7, GMT+8, GMT+9, GMT+10, GMT+11, GMT+12, GMT-0, GMT-1, GMT-2, GMT-3, GMT-4, GMT-5, GMT-6, GMT-7, GMT-8, GMT-9, GMT-10, GMT-11, GMT-12, GMT-13, GMT-14, Greenwich, UCT, UTC, Universal, Zulu
+Description: Time zone:
+Description-be.utf-8: Часавы пояс:
+Description-bg.utf-8: Часови пояс:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fi.utf-8: Aikavyöhyke:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-ku.utf-8: Herêma saetê:
+Description-lt.utf-8: Lako zona:
+Description-ml.utf-8: സമയ മേഘല:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sq.utf-8: Zona kohore:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Description-vi.utf-8: Múi giờ :
+Description-wo.utf-8: Goxu waxtu:
+Extended_description: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-be.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-bg.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ca.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-cs.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-da.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-de.utf-8: Bitte wählen Sie Ihre Zeitzone. Entgegen den Gepflogenheiten verwenden diese POSIX-kompatiblen Zeitzonen positive Werte für Zonen westlichen von Greenwich und negative Werte für diese östlich von Greenwich (z.B. bezieht sich »Etc/GMT+6« auf 6 Studen westlich von Greenwich, was normalerweise »UTC-6« genannt wird).
+Extended_description-en.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-es.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-eu.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-fi.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-fr.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-gl.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-gu.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-he.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-hr.utf-8: Molim odaberite vremensku zonu. Suprotno modernim konvencijama, ove POSIX-kompatibilne zone koriste pozitivne vrijednosti za zone zapadno od Greenwicha, a negativne vrijednosti za one istočno od Greenwicha (npr., 'Ostalo/GMT+6' se odnosi na zonu 6 sati zapadno od Greenwicha, uobičajenog naziva 'UTC-6').
+Extended_description-hu.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-id.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-it.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ja.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ko.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ku.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-lt.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ml.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-nl.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-pl.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-pt.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-pt_br.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ro.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-ru.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-sk.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-sq.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-sv.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-th.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-tr.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-vi.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Extended_description-wo.utf-8: Please select your time zone. Contrary to modern conventions, these POSIX-compatible zones use positive values to refer to zones west of Greenwich and negative values for those east of Greenwich (e.g., 'Etc/GMT+6' refers to 6 hours west of Greenwich, commonly called 'UTC-6').
+Type: select
+Owners: tzdata/Zones/Etc
+
+Name: tzdata/Zones/Europe
+Choices: Amsterdam, Andorra, Astrakhan, Athens, Belfast, Belgrade, Berlin, Bratislava, Brussels, Bucharest, Budapest, Busingen, Chisinau, Copenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle_of_Man, Istanbul, Jersey, Kaliningrad, Kirov, Kyiv, Lisbon, Ljubljana, London, Luxembourg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moscow, Nicosia, Oslo, Paris, Podgorica, Prague, Riga, Rome, Samara, San_Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Vienna, Vilnius, Volgograd, Warsaw, Zagreb, Zurich
+Choices-be.utf-8: Амстэрдам, Андора, Astrakhan, Афіны, Белфаст, Белград, Берлін, Братыслава, Брусель, Бухарэст, Будапешт, Busingen, Чысінаў, Капенгаген, Дублін, Гібралтар, Джэрнсі, Хельсінкі, Востраў Мэн, Стамбул, Джэрсі, Калінінград, Kirov, Кіеў, Лісабон, Любляна, Лондан, Люксембург, Мадрыд, Мальта, Мэрыхамн, Мінск, Манака, Масква, Нікосія, Осла, Парыж, Падгорыца, Прага, Рыга, Рым, Самара, Сан-Марына, Сараева, Saratov, Сімферопаль, Скоп'е, Сафія, Стакгольм, Талін, Тырана, Тыраспаль, Ulyanovsk, Вадуц, Ватыкан, Вена, Вільня, Валгаград, Варшава, Заграб, Цюрых
+Choices-bg.utf-8: Амстердам, Андора, Astrakhan, Атина, Белфаст, Белград, Берлин, Братислава, Брюксел, Букурещ, Будапеща, Busingen, Кишинев, Копенхаген, Дъблин, Гибралтар, Джърнси, Хелзинки, Айл ъф Ман, Истанбул, Джърси, Калининград, Kirov, Киев, Лисабон, Любляна, Лондон, Люксембург, Мадрид, Малта, Мариехамн, Минск, Монако, Москва, Никозия, Осло, Париж, Подгорица, Прага, Рига, Рим, Самара, Сан Марино, Сараево, Saratov, Симферопол, Скопие, София, Стокхолм, Талин, Тирана, Тираспол, Ulyanovsk, Вадуц, Ватикана, Виена, Вилнюс, Волгоград, Варшава, Загреб, Цюрих
+Choices-ca.utf-8: Amsterdam, Andorra, Astracan, Atenes, Belfast, Belgrad, Berlín, Bratislava, Brussel·les, Bucarest, Budapest, Büsingen am Hochrhein, Chisinau, Copenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Illa de Man, Istanbul, Jersey, Kaliningrad, Kírov, Kíev, Lisboa, Ljubljana, Londres, Luxemburg, Madrid, Malta, Mariehamn, Minsk, Mònaco, Moscow, Nicosia, Oslo, París, Podgorica, Praga, Riga, Roma, Samara, San Marino, Sarajevo, Saràtov, Simferopol, Skopje, Sofia, Estocolm, Tallinn, Tirane, Tiraspol, Uliànovsk, Vaduz, Vaticà, Viena, Vilnius, Volgograd, Varsòvia, Zagreb, Zuric
+Choices-cs.utf-8: Amsterodam, Andorra, Astrachaň, Athény, Belfast, Bělehrad, Berlín, Bratislava, Brusel, Bukurešť, Budapešť, Büsingen, Kišiněv, Kodaň, Dublin, Gibraltar, Guernsey, Helsinky, Ostrov Man, Istanbul, Jersey, Kaliningrad, Kirov, Kijev, Lisabon, Lublaň, Londýn, Lucemburk, Madrid, Malta, Mariehamn, Minsk, Monako, Moskva, Nikósie, Oslo, Paříž, Podgorica, Praha, Riga, Řím, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofie, Stockholm, Talin, Tirana, Tiraspol, Uljanovsk, Vaduz, Vatikán, Vídeň, Vilnius, Volgograd, Varšava, Záhřeb, Curych
+Choices-da.utf-8: Amsterdam, Andorra, Astrakhan, Athen, Belfast, Beograd, Berlin, Bratislava, Bruxelles, Bukarest, Budapest, Busingen, Chisinau, København, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lissabon, Ljubljana, London, Luxembourg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moskva, Nicosia, Oslo, Paris, Podgorica, Prag, Riga, Rom, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikanet, Wien, Vilnius, Volgograd, Warszawa, Zagreb, Zurich
+Choices-de.utf-8: Amsterdam, Andorra, Astrachan, Athen, Belfast, Belgrad, Berlin, Bratislava, Brüssel, Bukarest, Budapest, Büsingen, Chisinau, Kopenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirow, Kiew, Lissabon, Ljubljana, London, Luxemburg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moskau, Nicosia, Oslo, Paris, Podgorica, Prag, Riga, Rom, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirana, Tiraspol, Uljanowsk, Vaduz, Vatikan, Wien, Vilnius, Wolgograd, Warschau, Zagreb, Zürich
+Choices-en.utf-8: Amsterdam, Andorra, Astrakhan, Athens, Belfast, Belgrade, Berlin, Bratislava, Brussels, Bucharest, Budapest, Büsingen, Chisinau, Copenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirov, Kyiv, Lisbon, Ljubljana, London, Luxembourg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moscow, Nicosia, Oslo, Paris, Podgorica, Prague, Riga, Rome, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Vienna, Vilnius, Volgograd, Warsaw, Zagreb, Zurich
+Choices-es.utf-8: Ámsterdam, Andorra, Astracán, Atenas, Belfast, Belgrado, Berlín, Bratislava, Bruselas, Bucarest, Budapest, Büsingen, Chisinau, Copenhague, Dublín, Gibraltar, Guernsey, Helsinki, Isla de Man, Estambul, Jersey, Kaliningrado, Kírov, Kiev, Lisboa, Liubliana, Londres, Luxemburgo, Madrid, Malta, Mariehamn, Minsk, Mónaco, Moscú, Nicosia, Oslo, París, Podgorica, Praga, Riga, Roma, Samara, San Marino, Sarajevo, Sarátov, Simferopol, Skopie, Sofía, Estocolmo, Tallin, Tirana, Tiraspol, Uliánovsk, Vaduz, Vaticano, Viena, Vilna, Volgogrado, Varsovia, Zagreb, Zúrich
+Choices-eu.utf-8: Amsterdam, Andorra, Astrakhan, Atenas, Belfast, Belgrad, Berlin, Bratislava, Brusela, Bukarest, Budapest, Busingen, Chisinau, Kopenhage, Dublin, Gibraltar, Guernsey, Helsinki, Man Uhartea, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lisboa, Ljubljana, Londres, Luxemburgo, Madril, Malta, Mariehamn, Minsk, Monako, Mosku, Nicosia, Oslo, Paris, Podgorica, Praga, Riga, Erroma, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikanoa, Viena, Vilnius, Volgograd, Warsaw, Zagreb, Zurich
+Choices-fi.utf-8: Amsterdam, Andorra, Astrakhan, Ateena, Belfast, Belgrad, Berliini, Bratislava, Brysseli, Bukarest, Budapest, Busingen, Chişinǎu, Kööpenhamina, Dublin, Gibraltar, Guernsey, Helsinki, Mansaari, Istanbul, Jersey, Kaliningrad, Kirov, Kiova, Lissabon, Ljubljana, Lontoo, Luxemburg, Madrid, Malta, Maarianhamina, Minsk, Monaco, Moskova, Nikosia, Oslo, Pariisi, Podgorica, Praha, Eiika, Rooma, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Tukholma, Tallinna, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikaani, Wien, Vilna, Volgograd, Varsova, Zagreb, Zürich
+Choices-fr.utf-8: Amsterdam, Andorre, Astrakhan, Athènes, Belfast, Belgrade, Berlin, Bratislava, Bruxelles, Bucarest, Budapest, Büsingen, Chisinau, Copenhague, Dublin, Gibraltar, Guernesey, Helsinki, Île de Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lisbonne, Ljubljana, Londres, Luxembourg, Madrid, Malte, Mariehamn, Minsk, Monaco, Moscou, Nicosie, Oslo, Paris, Podgorica, Prague, Riga, Rome, Samara, Saint-Marin, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallin, Tirana, Tiraspol, Oulianovsk, Vaduz, Vatican, Vienne, Vilnius, Volgograd, Varsovie, Zagreb, Zurich
+Choices-gl.utf-8: Amsterdam, Andorra, Astracán, Atenas, Belfast, Belgrado, Berlín, Bratislava, Bruxelas, Bucarest, Budapest, Büsingen, Chisinau, Copenhague, Dublín, Xibraltar, Guernsey, Helsinki, Illa de Man, Estambul, Jersey, Kaliningrad, Kirov, Kiev, Lisboa, Ljubljana, Londres, Luxemburgo, Madrid, Malta, Mariehamn, Minsk, Mónaco, Moscova, Nicosia, Oslo, París, Podgorica, Praga, Riga, Roma, Samara, San Marino, Saraxevo, Saratov, Simferopol, Skopje, Sofía, Estocolmo, Tallín, Tirana, Tiraspol, Ulianovsk, Vaduz, Cidade do Vaticano, Viena, Vilna, Volgogrado, Varsovia, Zagreb, Zurich
+Choices-gu.utf-8: આમસ્ટરડેમ, એન્ડોરા, Astrakhan, એથેન્સ, બેલફાસ્ટ, બેલગ્રેડ, બર્લિન, બ્રાટિસ્લાવા, બ્રસેલ્સ, બુખારેસ્ટ, બુડાપેસ્ટ, Busingen, ચિસિનાઉ, કોપનહેગન, ડબ્લિન, જીબ્રાલ્ટર, ગુર્નસે, હેલસિન્કી, આઇસ્લે ઓફ મેન, ઇન્તંબુલ, જર્સી, કાલિનિનગ્રાડ, Kirov, કિવ, લિસ્બન, લજુબ્લજાના, લંડન, લક્ઝમબર્ગ, મેડ્રીડ, માલ્ટા, મેરીહામ્ન, મિન્સ્ક, મોનેકો, મોસ્કો, નિકોસિઆ, ઓસ્લો, પેરિસ, પોડગોરિકા, પ્રાગ, રિગા, રોમ, સમારા, સાન મરિનો, સારાજેવો, Saratov, સિમફેરોપોલ, સ્કોપ્જે, સોફિઆ, સ્ટોકહોમ, તાલિન, તિરાને, તિરાસ્પોલ, Ulyanovsk, વાડુઝ, વેટિકન, વિએના, વિલ્નિઅસ, વોલ્ગોગ્રાડ, વોર્સો, ઝાગ્રેબ, ઝ્યુરિચ
+Choices-he.utf-8: אמסטרדם, אנדורה, אסטרחן, אתונה, בלפסט, בלגרד, ברלין, ברטיסלבה, בריסל, בוקרשט, בודפשט, ביזינגן, קישינב, קופנהגן, דבלין, גיברלטר, גרנזי, הלסינקי, האי מאן, איסטנבול, ג'רזי, קלינינגרד, קירוב, קייב, ליסבון, ליובליאנה, לונדון, לוקסמבורג, מדריד, מלטה, מרייהאמן, מינסק, מונקו, מוסקבה, ניקוסיה, אוסלו, פריז, פודגוריצה, פראג, ריגה, רומא, סמרה, סאן מרינו, סרייבו, סראטוב, סימפרופול, סקופיה, סופיה, שטוקהולם, טאלין, טירנה, טירספול, אוליאנובסק, ואדוץ, וותיקן, וינה, וילנה, וולגוגרד, ורשה, זגרב, ציריך
+Choices-hr.utf-8: Amsterdam, Andora, Astrakhan, Atena, Belfast, Beograd, Berlin, Bratislava, Bruxelles, Bukurešt, Budimpešta, Busingen, Kišinjev, Kopenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istanbul, Jersey, Kalinjingrad, Kirov, Kijev, Lisabon, Ljubljana, London, Luksemburg, Madrid, Malta, Mariehamn, Minsk, Monako, Moskva, Nicosia, Oslo, Pariz, Podgorica, Prag, Riga, Rim, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofija, Stockholm, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikan, Beč, Vilnius, Volgograd, Varšava, Zagreb, Zürich
+Choices-hu.utf-8: Amszterdam, Andorra, Astrakhan, Athén, Belfast, Belgrád, Berlin, Pozsony, Brüsszel, Bukarest, Budapest, Büsingen, Kisinyov, Koppenhága, Dublin, Gibraltár, Guernsey, Helsinki, Man-sziget, Isztambul, Jersey, Moszkva-01 - Kalinyingrád, Kirov, Kijev, Lisszabon, Ljubljana, London, Luxemburg, Madrid, Málta, Mariehamn, Minszk, Monaco, Moszkva+00 - nyugat-Oroszország, Nicosia, Oslo, Párizs, Podgorica, Prága, Riga, Róma, Moszkva+01 - Kaszpi-tenger, San Marino, Szarajevó, Saratov, Szimferopol, Szkopje, Szófia, Stockholm, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikán, Bécs, Vilnius, Volgográd, Varsó, Zágráb, Zürich
+Choices-id.utf-8: Amsterdam, Andora, Astrakhan, Athena, Belfas, Belgrade, Berlin, Bratislava, Brussel, Buchares, Budapes, Busingen, Chisinau, Copenhagen, Dublin, Jabaltar, Guernsey, Helsinki, Isle of Man, Istambul, Jersey, Kaliningrad, Kirov, Kiev, Lisbon, Ljubljana, London, Luxemburg, Madrid, Malta, Marieham, Minsk, Monaco, Moscow, Nicosia, Oslo, Paris, Podgorica, Praha, Riga, Roma, Samara, San Marino, Sarajevo, Saratov, Simferepol, Skopje, Sofia, Stockholm, Talin, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Viena, Vilnius, Volgograd, Warsawa, Zagreb, Zurich
+Choices-it.utf-8: Amsterdam, Andorra, Astrakhan, Atene, Belfast, Belgrado, Berlino, Bratislava, Bruxelles, Bucarest, Budapest, Busingen, Chișinău, Copenhagen, Dublino, Gibilterra, Guernsey, Helsinki, Isola di Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lisbona, Lubiana, Londra, Lussemburgo, Madrid, Malta, Mariehamn, Minsk, Monaco, Mosca, Nicosia, Oslo, Parigi, Podgorica, Praga, Riga, Roma, Samara, San Marino, Sarajevo, Saratov, Sinferopoli, Skopje, Sofia, Stoccolma, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vaticano, Vienna, Vilnius, Volgograd, Varsavia, Zagabria, Zurigo
+Choices-ja.utf-8: アムステルダム, アンドラ, アストラハン, アセンズ, ベルファスト, ベオグラード, ベルリン, ブラチスラヴァ, ブリュッセル, ブカレスト, ブダペスト, ビュージンゲン, キシニョフ, コペンハーゲン, ダブリン, ジブラルタル, ガーンジー, ヘルシンキ, マン島, イスタンブール, ジャージー, カリーニングラード, キーロフ, キエフ, リスボン, リュブリャーナ, ロンドン, ルクセンブルグ, マドリード, マルタ, マリーハムン, ミンスク, モナコ, モスクワ, ニコシア, オスロ, パリ, ポドゴリツァ, プラハ, リガ, ローマ, サマーラ, サンマリノ, サラエヴォ, サラトフ, シムフェロポリ, スコピエ, ソフィア, ストックホルム, タリン, ティラナ, ティラスポリ, ウリヤノフスク, ファドーツ, バチカン, ヴィエナ, ヴィリニュス, ヴォルゴグラード, ワルシャワ, ザグレブ, チューリヒ
+Choices-ko.utf-8: 암스테르담, 안도라, 아스트라한, 아테네, 벨파스트, 베오그라드, 베를린, 브라티슬라바, 브뤼셀, 부쿠레슈티, 부다페스트, 뷔징겐, 키시나우, 코펜하겐, 더블린, 지브롤터, 건지, 헬싱키, 맨 섬, 이스탄불, 저지, 칼리닌그라드, 키로프, 키예프, 리스본, 류블랴나, 런던, 룩셈부르크, 마드리드, 몰타, 마리에하먼, 민스크, 모나코, 모스크바, 니코시아, 오슬로, 파리, 포드고리차, 프라하, 리가, 로마, 사마라, 산마리노, 사라예보, 사라토프, 심페로폴, 스코페, 소피아, 스톡홀름, 탈린, 티라나, 티라스폴, 울랴노브스크, 바두츠, 바티칸, 빈, 빌니우스, 볼고그라드, 바르샤바, 자그레브, 취리히
+Choices-ku.utf-8: Amsterdam, Andorra, Astrakhan, Atena, Belfast, Belgrade, Berlin, Bratislava, Brussels, Bucharest, Budapeşte, Busingen, Chisinau, Kopengahen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Stenbol, Jersey, Kaliningrad, Kirov, Kiyev, Lisbon, Ljubljana, London, Luksembûrg, Madrid, Malta, Mariehamn, Minsk, Monako, Moskow, Nicosia, Oslo, Parîs, Podgorica, Prague, Riga, Roma, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofya, Stockholm, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Viyena, Vilnius, Volgograd, Warsaw, Zagreb, Zurîx
+Choices-lt.utf-8: Amsterdamas, Andora, Astrakhan, Atėnai, Belfastas, Belgradas, Berlynas, Bratislava, Briuselis, Bukareštas, Budapeštas, Busingen, Kišiniovas, Kopenhaga, Dublinas, Gibraltaras, Gernsi sala, Helsinkis, Meno sala, Stambulas, Džersi Sitis, Kaliningradas, Kirov, Kijevas, Lisabona, Liubliana, Londonas, Liuksemburgas, Madridas, Malta, Mariehamnas, Minskas, Monakas, Maskva, Nikosija, Oslas, Paryžius, Podgorica, Praha, Ryga, Roma, Samara, San Marinas, Sarajevas, Saratov, Simferopolis, Skopjė, Sofija, Stokholmas, Talinas, Tirana, Tiraspolis, Ulyanovsk, Vaducas, Vatikanas, Viena, Vilnius, Volgogradas, Varšuva, Zagrebas, Ciūrichas
+Choices-ml.utf-8: ആസ്റ്റര്‍ഡാം, അണ്ടോറ, Astrakhan, ഏഥന്‍സ്, ബെല്‍ഫാസ്റ്റ്, ബെല്‍ഗ്രേഡ്, ബെര്‍ലിന്‍, ബ്രാട്ടിസ്ലാവ, ബ്രസ്സല്‍സ്, ബുക്കാറസ്റ്റ്, ബുഡാപെസ്റ്റ്, Busingen, ചിസിനാവു, കോപ്പന്‍ഹേഗന്‍, ഡബ്ലിന്‍, ജിബ്രാള്‍ട്ടര്‍, ഗുവണ്‍സി, ഹെല്‍സിങ്കി, ഐസില്‍ ഓഫ് മാന്‍, ഇസ്താംബുള്‍, ജെര്‍സി, കലിനിന്‍ഗ്രാഡ്, Kirov, കീവ്, ലിസ്ബണ്‍, ലജുബ്ല്യാന, ലണ്ടന്‍, ലക്സംബര്‍ഗ്, മാഡ്രിഡ്, മാള്‍ട്ട, മരിയേഹാന്‍, മിന്‍സ്ക്, മൊണാക്കോ, മോസ്കോ, നികോഷ്യ, ഓസ്ലോ, പാരീസ്, പോഡ്ഗൊറിക്ക, പ്രാഗ്, റിഗ, റോം, സമാറ, സാന്‍ മരീനോ, സരജാവോ, Saratov, സിംഫെറോപോള്‍, സ്കോപ്യേ, സോഫിയ, സ്റ്റോക്ഹോം, ടാളിന്‍, ടിരാന്‍, ടിരാസ്പോള്‍, Ulyanovsk, വാഡുസ്, വത്തിക്കാന്‍, വിയന്ന, വില്‍നിയസ്, വോള്‍ഗോഗ്രാഡ്, വാഴ്സോ, സഗ്രേബ്, സൂറിച്ച്
+Choices-nl.utf-8: Amsterdam, Andorra, Astrachan, Athene, Belfast, Belgrado, Berlijn, Bratislava, Brussel, Boekarest, Boedapest, Büsingen, Chisinau, Kopenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Eiland Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lissabon, Ljubljana, Londen, Luxemburg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moskou, Nicosia, Oslo, Parijs, Podgorica, Praag, Riga, Rome, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirana, Tiraspol, Oeljanovsk, Vaduz, Vaticaanstad, Wenen, Vilnius, Volgograd, Warschau, Zagreb, Zurich
+Choices-pl.utf-8: Amsterdam, Andora, Astrachań, Ateny, Belfast, Belgrad, Berlin, Bratysława, Bruksela, Bukareszt, Budapeszt, Büsingen am Hochrhein, Kiszyniów, Kopenhaga, Dublin, Gibraltar, Guernsey, Helsinki, Wyspa Man, Stambuł, Jersey, Kaliningrad, Kirow, Kijów, Lizbona, Lublana, Londyn, Luksemburg, Madryt, Malta, Maarianhamina, Mińsk, Monako, Moskwa, Nikozja, Oslo, Paryż, Podgorica, Praga, Ryga, Rzym, Samara, San Marino, Sarajewo, Saratów, Symferopol, Skopje, Sofia, Sztokholm, Tallinn, Tirana, Tyraspol, Uljanowsk, Vaduz, Watykan, Wiedeń, Wilno, Wołgograd, Warszawa, Zagrzeb, Zurych
+Choices-pt.utf-8: Amsterdão, Andorra, Astracã, Atenas, Belfast, Belgrado, Berlim, Bratislávia, Bruxelas, Bucareste, Budapeste, Busingen, Chisinau, Copenhaga, Dublin, Gibraltar, Guernsey, Helsínquia, Ilha de Man, Istambul, Jersey, Kaliningrado, Kirov, Kiev, Lisboa, Ljubljana, Londres, Luxemburgo, Madrid, Malta, Mariehamn, Minsk, Mónaco, Moscovo, Nicósia, Oslo, Paris, Podgorica, Praga, Riga, Roma, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Estocolmo, Tallinn, Tirane, Tiraspol, Ulianovsk, Vaduz, Vaticano, Viena, Vilnius, Volgograd, Varsóvia, Zagreb, Zurique
+Choices-pt_br.utf-8: Amsterdam, Andorra, Astracã, Atenas, Belfast, Belgrado, Berlin, Bratislava, Bruxelas, Bucareste, Budapeste, Busingen, Chisinau, Copenhague, Dublin, Gibraltar, Guernsey, Helsinque, Ilha de Man, Istambul, Jersey, Kaliningrado, Kirov, Kiev, Lisboa, Ljubljana, Londres, Luxemburgo, Madrid, Malta, Mariehamn, Minsk, Mônaco, Moscou, Nicosia, Oslo, Paris, Podgorica, Praga, Riga, Rome, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Estocolmo, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vaticano, Viena, Vilnius, Volgogrado, Warsaw, Zagreb, Zurique
+Choices-ro.utf-8: Amsterdam, Andora, Astrahan, Atena, Belfast, Belgrad, Berlin, Bratislava, Bruxelles, Bucureşti, Budapesta, Busingen, Chişinău, Copenhaga, Dublin, Gibraltar, Guernesey, Helsinki, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lisabona, Liubliana, Londra, Luxemburg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moscova, Nicosia, Oslo, Paris, Podgorica, Praga, Riga, Roma, Samara, San Marino, Saraievo, Saratov, Simferopol, Skopie, Sofia, Stockholm, Tallin, Tirana, Tiraspol, Ulianovsk, Vaduz, Vatican, Viena, Vilnius, Volgograd, Varşovia, Zagreb, Zurich
+Choices-ru.utf-8: Амстердам, Андорра, Астрахань, Афины, Белфаст, Белград, Берлин, Братислава, Брюссель, Бухарест, Будапешт, Бюзинген, Кишинёв, Копенгаген, Дублин, Гибралтар, Гернси, Хельсинки, Остров Мэн, Стамбул, Джерси, Калининград, Киров, Киев, Лиссабон, Любляна, Лондон, Люксембург, Мадрид, Мальта, Мариехамн, Минск, Монако, Москва, Никосия, Осло, Париж, Подгорица, Прага, Рига, Рим, Самара, Сан-Марино, Сараево, Саратов, Симферополь, Скопье, София, Стокгольм, Таллин, Тирана, Тирасполь, Ульяновск, Вадуц, Ватикан, Вена, Вильнюс, Волгоград, Варшава, Загреб, Цюрих
+Choices-sk.utf-8: Amsterdam, Andorra, Astrakhan, Atény, Belfast, Belehrad, Berlín, Bratislava, Brusel, Bukurešť, Budapešť, Busingen, Kišiňov, Kodaň, Dublin, Gibraltár, Guernsey, Helsinki, Man, Istanbul, Jersey, Kaliningrad, Kirov, Kyjev, Lisabon, Ľubľana, Londýn, Luxemburg, Madrid, Malta, Mariehamn, Minsk, Monako, Moskva, Nikózia, Oslo, Paríž, Podgorica, Praha, Riga, Rím, Samara, San Maríno, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Štokholm, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikán, Viedeň, Vilnius, Volgograd, Varšava, Záhreb, Zürich
+Choices-sq.utf-8: Amsterdam, Andorra, Astrakhan, Athens, Belfast, Belgrade, Berlin, Bratislava, Brussels, Bucharest, Budapest, Busingen, Chisinau, Copenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lisbonë, Ljubljana, London, Luxembourg, Madrid, Malta, Mariehamn, Minsk, Monako, Moskë, Nicosia, Oslo, Paris, Podgorica, Prague, Riga, Rome, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Vienna, Vilnius, Volgograd, Warsaw, Zagreb, Zurich
+Choices-sv.utf-8: Amsterdam, Andorra, Astrachan, Aten, Belfast, Belgrad, Berlin, Bratislava, Bryssel, Bukarest, Budapest, Büsingen, Chisinau, Köpenhamn, Dublin, Gibraltar, Guernsey, Helsingfors, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lissabon, Ljubljana, London, Luxemburg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moskva, Nicosia, Oslo, Paris, Podgorica, Prag, Riga, Rom, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirana, Tiraspol, Ulyanovsk, Vaduz, Vatikanstaten, Wien, Vilnius, Volgograd, Warszawa, Zagreb, Zürich
+Choices-th.utf-8: อัมสเตอร์ดัม, อันดอร์รา, Astrakhan, เอเธนส์, เบลฟัสต์, เบลเกรด, เบอร์ลิน, บราติสลาวา, บรัสเซลส์, บูคาเรสต์, บูดาเปสต์, Busingen, คีชีเนา, โคเปนเฮเกน, ดับลิน, ยิบรอลตาร์, เกิร์นซีย์, เฮลซิงกิ, เกาะแมน, อิสตันบูล, เจอร์ซีย์, Kaliningrad, Kirov, เคียฟ, ลิสบอน, ลูบลิยานา, ลอนดอน, ลักเซมเบิร์ก, มาดริด, มอลตา, Mariehamn, มินสก์, โมนาโก, มอสโก, นิโคเซีย, ออสโล, ปารีส, พอดกอรีตซา, ปราก, รีกา, โรม, Samara, ซานมารีโน, ซาราเยโว, Saratov, Simferopol, สโกเปีย, โซเฟีย, สตอกโฮล์ม, ทาลลินน์, Tirane, Tiraspol, Ulyanovsk, วาดุซ, วาติกัน, เวียนนา, วิลนีอุส, Volgograd, วอร์ซอ, ซาเกร็บ, ซูริก
+Choices-tr.utf-8: Amsterdam, Andora, Astrahan, Atina, Belfast, Belgrad, Berlin, Bratislava, Brüksel, Bükreş, Budapeşte, Büsingen, Kişinev, Kopenhag, Dublin, Cebelitarık, Guernsey, Helsinki, Man Adası, İstanbul, Jersey, Kaliningrad, Kirov, Kiev, Lizbon, Ljubljana, Londra, Lüksemburg, Madrid, Malta, Mariehamn, Minsk, Monako, Moskova, Lefkoşa, Oslo, Paris, Podgorica, Prag, Riga, Roma, Samara, San Marino, Saraybosna, Saratov, Akmescit, Üsküp, Sofya, Stockholm, Tallinn, Tiran, Tiraspol, Ulyanovsk, Vaduz, Vatikan, Viyana, Vilnius, Volgograd, Varşova, Zagreb, Zürih
+Choices-vi.utf-8: Amsterdam, Andorra, Astrakhan, Athens, Belfast, Belgrade, Berlin, Bratislava, Brussels, Bucharest, Budapest, Busingen, Chisinau, Copenhagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istanbul, Jersey, Kaliningrad, Kirov, Kiev, Lisbon, Ljubljana, London, Luxembourg, Madrid, Malta, Mariehamn, Minsk, Monaco, Moscow, Nicosia, Oslo, Paris, Podgorica, Prague, Riga, Roma, Samara, San Marino, Sarajevo, Saratov, Simferopol, Skopje, Sofia, Stockholm, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Vienna, Vilnius, Volgograd, Warsaw, Zagreb, Zurich
+Choices-wo.utf-8: Amsterdaam, Andorra, Astrakhan, Ateen, Belfast, Belgraad, Berliin, Bratislava, Bruuksel, Bukarest, Budapest, Busingen, Chisinau, Kopenhaagen, Dublin, Gibraltar, Guernsey, Helsinki, Isle of Man, Istambul, Jersey, Moscou -01 (Kaliningrad), Kirov, Kiyeef, Lisbonne (cas général), Liyubliyaana, London, Luksembuur, Madrid (cas général), Malt, Mariehamn, Minsk, Monaako, Moscou (Russie de l'Ouest), Nikoosi, Oslo, Pari, Podgoritsa, Praag, Riga, Room, Moscou +01 (Mer Caspienne), San Marino, Sarayeefo, Saratov, Simferopol, Skopiye, Sofia, Stokholm, Tallinn, Tirane, Tiraspol, Ulyanovsk, Vaduz, Vatican, Vieen, Vilnius, Volgograd, Warsowi, Zagreb, Zurik
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/Europe
+
+Name: tzdata/Zones/Indian
+Choices: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-be.utf-8: Антананарыву, Чагас, Востраў Раства, Какосавыя астравы, Каморы, Кэргелен, Магэ, Мальдывы, Маўрыцы, Маёт, Рэюньён
+Choices-bg.utf-8: Антананариво, Чагос, о-в Рождество, о-ви Кокос, Коморски о-ви, Кергуелен, Махе, Малдивски о-ви, Мавриций, Майоте, Реюнион
+Choices-ca.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-cs.utf-8: Antananarivo, Čagoské ostrovy, Vánoční ostrov, Kokosové ostrovy, Komory, Kergueleny, Mahé, Maledivy, Mauricius, Mayotte, Réunion
+Choices-da.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldiverne, Mauritius, Mayotte, Reunion
+Choices-de.utf-8: Antananarivo, Chagos, Weihnachtsinsel, Kokos, Comoro, Kerguelen, Mahe, Malidiven, Mauritius, Mayotte, Réunion
+Choices-en.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-es.utf-8: Antananarivo, Chagos, Isla de Navidad, Cocos, Comoro, Kerguelen, Mahe, Maldivas, Mauricio, Mayotte, Reunión
+Choices-eu.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldivak, Maurizio, Mayotte, Reunion
+Choices-fi.utf-8: Antananarivo, Chagos, Joulusaari, Kookossaaret, Comoro, Kerguelen, Mahé, Malediivit, Mauritius, Mayotte, Réunion
+Choices-fr.utf-8: Tananarive, Chagos, Christmas (île), Cocos (îles), Comores, Kerguelen, Mahé, Maldives, Île Maurice, Mayotte, Réunion
+Choices-gl.utf-8: Antananarivo, Chagos, Illa de Nadal, Illas Cocos, Illas Comores, Kerguelen, Mahe, Illas Maldivas, Mauricio, Mayotte, Illa de Reunión
+Choices-gu.utf-8: એન્ટાનાનારીવો, ચાગોસ, ક્રિસમસ, કોકોસ, કોમોરો, કેર્ગુએલેન, માહે, માલદિવ, મોરિશિઅસ, માયોટ્ટે, રીયુનિયન
+Choices-he.utf-8: אנטננריבו, צ'גוס, אי חג המולד, איי קוקוס, קומורו, קרגלן, מאהה, האיים המלדיביים, מאוריציוס, מיוט, ראוניון
+Choices-hr.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldivi, Mauricijus, Mayotte, Reunion
+Choices-hu.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldív-szigetek, Mauritius, Mayotte, Reunion
+Choices-id.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-it.utf-8: Antananarivo, Isole Chagos, Isola di Natale, Cocos, Comore, Isole Kerguelen, Mahé, Maldive, Mauritius, Mayotte, Riunione
+Choices-ja.utf-8: アンタナナリヴォ, チャゴス, クリスマス, ココス, コモロ, ケルゲレン, マエ, モルジヴ, モーリシャス, マヨット, レユニオン
+Choices-ko.utf-8: 안타나나리보, 차고스 제도, 크리스마스섬, 코코 섬, 코모로, 케르겔렌 제도, 마에, 몰디브, 모리셔스, 마요트, 레위니옹
+Choices-ku.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-lt.utf-8: Antananaryvas, Čagoso archipelagas, Kalėdų sala, Kokoso salos, Komoro salos, Ketgeleno sala, Mahė, Maldyvai, Mauricijus, Mayoteas, Reunionas
+Choices-ml.utf-8: അന്റനാനാറിവോ, ചാഗോസ്, ക്രിസ്തുമസ്, കൊകോസ്, കൊമോറോ, കെര്‍ഗുവേലന്‍, മാഹി, മാലിദ്വീപ്, മൌറീഷ്യസ്, മയോട്ടേ, റീയൂണിയന്‍
+Choices-nl.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldiven, Mauritius, Mayotte, Reunion
+Choices-pl.utf-8: Antananarywa, Czagos, W. Bożego Narodzenia, Wyspa Kokosowa, Komory, Wyspy Kerguelena, Mahe, Malediwy, Mauritius, Majotta, Reunion
+Choices-pt.utf-8: Antananarivo, Chagos, Ilha Natal, Cocos, Comoro, Kerguelen, Mahe, Maldivas, Maurício, Mayotte, Ilha Reunião
+Choices-pt_br.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldivas, Maurício, Mayotte, Reunion
+Choices-ro.utf-8: Antananarivo, Chagos, Insula Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldive, Mauritius, Mayotte, Reunion
+Choices-ru.utf-8: Антананариву, Чагос, Остров Рождества, Кокосовые острова, Коморские острова, Кергелен, Маэ, Мальдивы, Маврикий, Майотта, Реюньон
+Choices-sk.utf-8: Antananarivo, Čagoské ostrovy, Vianočný ostrov, Kokosové ostrovy, Komorské ostrovy, Kergueleny, Mahé, Maldivy, Maurícius, Mayotte, Réunion
+Choices-sq.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-sv.utf-8: Antananarivo, Chagosöarna, Christmas Island, Cocosöarna, Komorerna, Kerguelenöarna, Mahé, Maldiverna, Mauritius, Mayotte, Réunion
+Choices-th.utf-8: อันตานานาริโว, Chagos, คริสต์มาส, โคโคส, คอโมโรส, Kerguelen, Mahe, มัลดีฟส์, มอริเชียส, มายอต, เรอูนียง
+Choices-tr.utf-8: Antananarivo, Chagos, Christmas, Cocos, Komoro, Kerguelen, Mahe, Maldivler, Mauritius, Mayotte, Reunion
+Choices-vi.utf-8: Antananarivo, Chagos, Christmas, Cocos, Comoro, Kerguelen, Mahe, Maldives, Mauritius, Mayotte, Reunion
+Choices-wo.utf-8: Antananarivo, Chagos, Christmas, Cocos, Komoor, Kerguelen, Mahe, Maldiif, Mooris, Mayot, Reunion
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/Indian
+
+Name: tzdata/Zones/Pacific
+Choices: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago_Pago, Palau, Pitcairn, Pohnpei, Port_Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-be.utf-8: Апія, Оўклэнд, Bougainville, Чатам, Chuuk, Востраў Пасхі, Эфат, Факаёфа, Фіджы, Фунафуці, Галапагос, Гамбер, Гуядалканал, Гуям, Ганалулу, Джонстан, Kanton, Кірытымаці, Косра, Кваялэйн, Маджура, Маркізы, Мідвэй, Наўру, Ніў, Норфалк, Нумэя, Пага-Пага, Палаў, Піткэрн, Pohnpei, Порт-Морзбі, Раратонга, Сайпан, Samoa, Таіці, Тарава, Тангатапу, Ўэйк, Ўэліс, Яп
+Choices-bg.utf-8: Апия, Окланд, Bougainville, о-ви Чатам, Chuuk, Великденски остров, Ефат, Факаофо, Фиджи, Фунафути, Галапагоски о-ви, о-ви Гамбир, Гуадалканал, Гуам, Хонолулу, Джонстън, Kanton, Киритимати, Косрае, Куаджалейн, Маджуро, Маркизки о-ви, Мидуей, Науру, Ниуе, Норфолк, Нумеа, Паго Паго, Палау, Питкейрн, Pohnpei, Порт Морзби, Раротонга, Сейпан, Самоа, Таити (Дружествени о-ви), Тарава (Гилбертски о-ви), Тонгатапу, Уейк, Уелис, Яп
+Choices-ca.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Canton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Naurà, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahití, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-cs.utf-8: Apia, Auckland, Bougainville, Chathamské ostrovy, Chuuk, Velikonoční ostrov, Efate, Fakaofo, Fidži, Funafuti, Galapágy, Gambierovy ostrovy, Guadalcanal, Guam, Honolulu, Atol Johnston, Kanton, Kiritimati (Vánoční ostrov), Kosrae, Atol Kwajalein, Majuro, Markézy, Midwayské ostrovy, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Pitcairnovy ostrovy, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa (Gilbertovy ostrovy), Tongatapu, Ostrov Wake, Ostrov Walis, Yap
+Choices-da.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-de.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Osterinsel, Éfaté, Fakaofo, Fidschi, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-en.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-es.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Isla de Pascua, Efate, Fakaofo, Fiyi, Funafuti, Galápagos, Gambier, Guadalcanal, Guam, Honolulú, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Numea, Pago Pago, Palau, Pitcairn, Pohnpei, Puerto Moresby, Rarotonga, Saipán, Samoa, Tahití, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-eu.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Pazko uhartea, Efate, Fakaofo, Fiji, Funafuti, Galapagoak, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-fi.utf-8: Apia, Auckland, Bougainville, Chathamsaaret, Chuuk, Pääsiäissaari, Efate, Fakaofo, Fidži, Funafuti, Galápagossaaret, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midwaysaaret, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wakensaari, Wallis, Yap
+Choices-fr.utf-8: Apia, Auckland, Bougainville, îles Chatham, Chuuk, Île de Pâques, Efate, Fakaofo, Fidji, Funafuti, Îles Galapagos, Îles Gambier, Guadalcanal, Guam, Honolulu, Johnston, Canton (Kiribati), Kiritimati (îles Line), Kosrae, Kwajalein, Majuro, Îles Marquises, îles Midway, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Pitcairn, Pohnpei, Port-Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa (îles Gilbert), Tongatapu, Wake (île), Wallis, Yap
+Choices-gl.utf-8: Apia, Auckland, Bougainville, Illas Chatham, Chuuk, Illa de Pascua, Efate, Fakaofo, Fixi, Funafuti, Galápagos, Illas Gambier, Guadalcanal, Guam, Honolulú, Atol de Johnston, Kanton, Kiritimati (Illas Line), Kosrae, Kwajalein, Majuro, Illas Marquesas, Illas Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipán, Samoa, Tahití, Tarawa (Illas Gilbert), Tongatapu, Illa de Wake, Wallis, Yap
+Choices-gu.utf-8: અપિઆ, ઓકલેન્ડ, Bougainville, ચેથામ, ચુઉક, ઇસ્ટર, ઇફાટે, ફાકાઓફો, ફિજી, ફુનાફુટી, ગાલાપાગોસ, ગામ્બેઇર, ગુઆડાલ્કેનાલ, ગુઆમ, હોનોલુલુ, જોહ્નસ્ટન, Kanton, કીરીમાતી, કોસ્રે, ક્વાજાલેઇન, માજુરો, માર્કેસસ, મિડવે, નાઉરુ, નિયુ, નોર્ફોક, નાઉમે, પાગો પાગો, પાલુઆ, પિટકેર્ન, પોહ્નપેઈ, પોર્ટ મોર્સબે, રારોટોન્ગા, સાઇપાન, સમોઆ, તાહિતિ, તારાવા, ટોન્ગાટાપુ, વેક, વાલ્લિસ, યેપ
+Choices-he.utf-8: אפיה, אוקלנד, בוגנוויל, Chatham, צ'וק, Easter, אפטה, קפאופו, פיג'י, פנאפוטי, איי גלפאגוס, Gambier Islands, גוודלקנל, גואם, הונולולו, אטול ג'ונסטון, קנטון, קיריטימטי (Line Islands), קוסראה, קווג'לין, מאג'ורו, איי מרקיז, אטול מידוויי, נאורו, ניואה, נורפוק, Noumea, פאגו פאגו, פלאו, פיטקרן, אי פונפיי, פורט מורסבי, ררוטונגה, אי סאיפאן, סמואה, טהיטי, Tarawa (איי גילברט), טונגטפו, אי וייק, ואליס, יאפ
+Choices-hr.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-hu.utf-8: Apia, Auckland, Bougainville, Chatham-szigetek, Chuuk, Húsvét-szigetek, Efate, Fakaofo, Fidzsi, Funafuti, Galápagos-szigetek, Gambier-szigetek, Guadalcanal, Guam, Honolulu, Johnston Atoll, Kanton, Kiritimati (Line-szigetek), Kosrae, Kwajalein, Majuro, Marquesas-szigetek, Midway-szigetek, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Szamoa, Tahiti, Tarawa (Gilbert-szigetek), Tongatapu, Wake sziget, Wallis, Yap
+Choices-id.utf-8: Apia, Auckland, Bougainville, Kepulauan Chatham, Chuuk, Pulau Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Kep Gambier, Guadalcanal, Guam, Honolulu, Atol Johnston, Kanton, Kiritimati (Kep Line), Kosrae, Kwajalein, Majuro, Kep Marquesas, Kep Midway-Islands, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti (Kep Society), Tarawa (Kep Gilbert), Tongatapu, Pulau Wake, Wallis, Yap
+Choices-it.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Isola di Pasqua, Éfaté, Fakaofo, Figi, Funafuti, Galapagos, Isole Gambier, Guadalcanal, Guam, Honolulu, Atollo Johnston, Kanton, Isola Christmas, Kosrae, Kwajalein, Majuro, Isole Marchesi, Atollo di Midway, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Isole Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Isola di Wake, Isole di Wallis, Yap
+Choices-ja.utf-8: アピア, オークランド, ブーゲンヴィル, チャタム島, チューク諸島, イースター島, エファーテ, ファカオフォ, フィジー, フナフティ, ガラパゴス, ガンビア, ガダルカナル, グアム, ホノルル, ジョンストン, カントン, キリティマティ, コスラエ, クアジャリン, マジュロ, マルケサス, ミッドウェー, ナウル, ニウエ, ノーフォーク, ヌーメア, パゴパゴ, パラオ, ピトケアン島, ポンペイ島, ポルトモーズビー, ラロトンガ, サイパン, サモア, タヒチ, タラワ, トンガタプ, ウェーク, ヴァリス, ヤップ
+Choices-ko.utf-8: 아피아, 오클랜드, 부건빌, 채텀, 추크, 이스터섬, 에파테, 파카오포, 피지, 푸나푸티, 갈라파고스, 갬비어, 과달카날, 괌, 호놀루루, 존스턴, 칸톤 섬, 키리티마티 섬, 코스라에 섬, 콰잘레인 환초, 마주로, 마르키즈 제도, 미드웨이 제도, 나우루, 니우에, 노퍽, 누메아, 파고파고, 팔라우, 핏케언, 폰페이 섬, 포트모르즈비, 라로통가 섬, 사이판, 사모아, 타히티, 타라와, 통가타푸 섬, 웨이크 섬, 발레, 야프
+Choices-ku.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fîjî, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-lt.utf-8: Apija, Oklandas, Bougainville, Chatham salos, Chuuk, Velykų sala, Efate sala, Fakaofo sala, Fidžis, Funafutis, Galapagos, Gambier salos, Gvadalkanalio sala, Guamas, Honolulu, Džonstono atolas, Kanton, Kiritimati, Kosrae, Kvadželeino atolas, Madžūras, Markizo salos, Midvėjaus salos, Nauru, Niuė, Norfolkas, Nomea, Pago Pago, Palau, Pikterno salos, Pohnpei, Port Morsbis, Rarotonga, Saipanas, Samoa, Taitis, Tarava, Tongatapu, Veiko sala, Valis, Japas
+Choices-ml.utf-8: അപിയ, ഓക്‍ലണ്ട് ‍ , Bougainville, ചാതം, Chuuk, ഈസ്റ്റര്‍, ഇഫേറ്റ്, ഫകവോഫോ, ഫിജി, ഫുനാഫുട്ടി, ഗാലപ്പഗോസ്, ഗാമ്പിയര്‍, ഗ്വാഡല്‍കനാല്‍, ഗുാവാം, ഹോണോലുലു, ജോണ്‍സണ്‍, Kanton, ക്രിതിമാതി, കൊസ്രേ, ക്വജാലൈന്‍, മജൂറോ, മാര്‍‌ക്വേസാസ്, മിഡ്‌വേ, നൌറു, നിയു, നോര്‍ഫോക്ക്, നൌമിയ, പാഗോ പാഗോ, പലാവു, പിറ്റ്കയേണ്‍, Pohnpei, മോര്‍സ്ബി തുറമുഖം, രരോടോങ്ക, സായിപാന്‍, സമോവ, താഹിതി, തരാവ, ടോങ്കടാപു, വേയ്ക്ക്, വാളിസ്, യാപ്
+Choices-nl.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-pl.utf-8: Apia, Auckland, Bougainville, Wyspa Chatham, Chuuk, Wyspa Wielkanocna, Efate, Fakaofo, Fidżi, Funafuti, Galapagos, Wyspy Gambiera, Guadalcanal, Guam, Honolulu, Johnston, Wyspa Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Markizy, Midway, Nauru, Niue, Norfolk, Numea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-pt.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Ilha da Páscoa, Efate, Fakaofo, Fiji, Funafuti, Galápagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Pitcairn, Pohnpei, Porto Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-pt_br.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galápagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Taiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-ro.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Insula Paștelui, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-ru.utf-8: Апиа, Окленд, Бугенвиль, Чатем, Чуук, Остров Пасхи, Эфате, Факаофо, Фиджи, Фунафути, Галапагосские острова, Остров Гамбье, Гуадалканал, Гуам, Гонолулу, Джонстон, Kanton, Киритимати, Кусаие, Кваджалейн, Маджуро, Маркизские острова, Мидуэй, Науру, Ниуэ, Норфолк, Нумеа, Паго-Паго, Палау, Питкэрн, Понпеи, Порт-Морсби, Раротонга, Сайпан, Самоа, Таити, Тарава, Тонгатапу, Уэйк, Уоллис, Яп
+Choices-sk.utf-8: Apia, Auckland, Bougainville, Chathamské ostrovy, Chuuk, Veľkonočný ostrov, Éfaté, Fakaofo, Fidži, Funafuti, Galapágy, Gambierove ostrovy, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kusaie, Kwajalein, Majuro, Markézy, Midway, Nauru, Niue, Norfolk, Nouméa, Pago Pago, Palau, Pitcairnove ostrovy, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-sq.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Easter, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Wallis, Yap
+Choices-sv.utf-8: Apia, Auckland, Bougainville, Chathamöarna, Chuuk, Påskön, Éfaté, Fakaofo, Fiji, Funafuti, Galapagosöarna, Gambieröarna, Guadalcanal, Guam, Honolulu, Johnston Island, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesasöarna, Midwayöarna, Nauru, Niue Island, Norfolk Island, Nouméa, Pago Pago, Palau, Pitcairnöarna, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wakeöarna, Wallisön, Yap
+Choices-th.utf-8: อาปีอา, โอ๊คแลนด์, Bougainville, แชตแธม, ชุก, อีสเทอร์, Efate, Fakaofo, ฟิจิ, ฟูนะฟูตี, กาลาปากอส, Gambier, Guadalcanal, กวม, โฮโนลูลู, จอห์นสตัน, Kanton, Kiritimati, คอสไร, Kwajalein, มาจูโร, Marquesas, มิดเวย์, นาอูรู, นีอูเอ, นอร์ฟอล์ก, นูเมอา, ปาโกปาโก, ปาเลา, พิตแคร์น, โปนเป, พอร์ตมอร์สบี, Rarotonga, ไซปัน, ซามัว, ตาฮิติ, ตาระวา, Tongatapu, เวก, วาลลิส, ยาป
+Choices-tr.utf-8: Apia, Auckland, Bougainville, Chatham, Chuuk, Paskalya, Efate, Fakaofo, Fiji, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Marquesas, Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti, Tarawa, Tongatapu, Wake, Valais, Yap
+Choices-vi.utf-8: Apia, Auckland, Bougainville, Chatham Islands, Chuuk, Easter Island, Efate, Fakaofo, Phi-gi, Funafuti, Galapagos, Gambier, Guadalcanal, Guam, Honolulu, Johnston, Kanton, Kiritimati, Kosrae, Kwajalein, Majuro, Quần đảo Marquesas, Quần Đảo Midway, Nauru, Niue, Norfolk, Noumea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa (Quần đảo trong Thái Bình Dương), Tahiti (Quần đảo Society), Tarawa (Quần đảo Gilbert), Tongatapu, Đảo Wake, Wallis, Yap
+Choices-wo.utf-8: Apia, Auckland (cas général), Bougainville, îles Chatham, Chuuk, Île de Pâques, Efate, Fakaofo, Fiji, Funafuti, Îles Galapagos, Îles Gambier, Guadalcanal, Guam, Honolulu, Atoll Johnston, Kanton, Kiritimati (îles Line), Kosrae, Kwajalein, Majuro, Îles Marquises, îles Midway, Nauru, Niue, Norfolk, Numea, Pago Pago, Palau, Pitcairn, Pohnpei, Port Moresby, Rarotonga, Saipan, Samoa, Tahiti (îles de la Société), Tarawa (îles Gilbert), Tongatapu, île Wake, Wallis, Yap
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/Pacific
+
+Name: tzdata/Zones/US
+Choices: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Pacific, Samoa
+Choices-be.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Ціхі акіян, Samoa
+Choices-bg.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Тихи океан, Самоа
+Choices-ca.utf-8: Alaska, Illes Aleutianes, Arizona, Central, Oriental, Hawaii, Indiana-Starke, Michigan, Muntanya, Pacífic, Samoa
+Choices-cs.utf-8: Aljaška, Aleuty, Arizona, Centrální, Východní, Havaj, Indiana-Starke, Michigan, Horské, Pacifik, Samoa
+Choices-da.utf-8: Alaska, Aleutian, Arizona, Central, Østlig, Hawaii, Indiana-Starke, Michigan, Mountain, Stillehavstid, Samoa
+Choices-de.utf-8: Alaska, Aleuten, Arizona, Zentral, Osten (Eastern), Hawaii, Indiana/Starke, Michigan, Gebirge (Mountain), Pazifik, Samoa
+Choices-en.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Starke County (Indiana), Michigan, Mountain, Pacific Ocean, Samoa
+Choices-es.utf-8: Alaska, Aleutiana, Arizona, Central, Oriental, Hawaii, Indiana/Starke, Michigan, Montaña, Pacífico, Samoa
+Choices-eu.utf-8: Alaska, Aleutia, Arizona, Erdialdea, Ekialdea, Hawaii, Indiana-Starke, Michigan, Mendia, Pazifikoa, Samoa
+Choices-fi.utf-8: Alaska, Aleutian, Arizona, Keskinen, Itäinen, Hawaii, Indiana-Starke, Michigan, Vuori, Tyyni valtameri, Samoa
+Choices-fr.utf-8: Alaska, Îles aléoutiennes, Arizona, Centre (Central), Est (Eastern), Hawaii, Indiana/Starke, Michigan, Rocheuses (Mountain), Pacifique, Samoa
+Choices-gl.utf-8: Alasca, Aleutianas, Arizona, Central, Oriental, Hawai, Indiana-Starke, Michigan, Montañas, Pacífico, Samoa
+Choices-gu.utf-8: અલાસ્કા, અલેટુઅન, એરિઝોના, મધ્ય, પૂર્વીય, હવાઈ, ઇન્ડિયાના-સ્ટારકે, મિશિગન, માઉન્ટેન, પેસેફિક, સમોઆ
+Choices-he.utf-8: אלסקה, האיים האלאוטיים, אריזונה, סנטרל, מזרח, הוואי, אינדיאנה/סטארקה, מישיגן, אזור ההרים, פסיפיק (האוקיינוס השקט), סמואה
+Choices-hr.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Tihi ocean, Samoa
+Choices-hu.utf-8: Alaszka, Aleutian, Arizona, Közép, Keleti, Hawaii, Indiana-Starke, Michigan, Mountain, Csendes-óceáni, Szamoa
+Choices-id.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Pasifik, Samoa
+Choices-it.utf-8: Alaska, Isole Aleutine, Arizona, Centrale, Orientale, Hawaii, Indiana-Starke, Michigan, Mountain, Pacifico, Samoa
+Choices-ja.utf-8: アラスカ, アリューシャン, アリゾナ, 中央, 東部, ハワイ, インディアナスターク, ミシガン, マウンテン, 太平洋側, サモア
+Choices-ko.utf-8: 알래스카, 알루샨 제도, 애리조나, 중부, 동부, 하와이, 인디애나-스타크, 미시건, 산악 지역, 태평양, 사모아
+Choices-ku.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Pasîfîk, Samoa
+Choices-lt.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Ramiojo vandenyno, Samoa
+Choices-ml.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, പസഫിക്, സമോവ
+Choices-nl.utf-8: Alaska, Aleoeten, Arizona, Central, Eastern, Hawaï, Indiana-Starke, Michigan, Mountain, Grote Oceaan, Samoa
+Choices-pl.utf-8: Alaskański, Aleucki, Arizoński, Centralny, Wschodni, Hawajski, Indiana-Starke, Michigan, Czas górski, Pacyfik, Samoa
+Choices-pt.utf-8: Alaska, Aleutian, Arizona, Central, Este, Hawaii, Indiana-Starke, Michigan, Montanha, Pacífico, Samoa
+Choices-pt_br.utf-8: Alasca, Aleutian, Arizona, Central, Oriental, Havaí, Indiana-Starke, Michigan, Moutain, Pacífico, Samoa
+Choices-ro.utf-8: Alaska, Aleutiană, Arizona, Central, Estică, Hawaii, Indiana-Starke, Michigan, Munte, Pacific, Samoa
+Choices-ru.utf-8: Аляска, Алеутские, Аризона, Центральное, Восточное, Гавайи, Индиана-Старк, Мичиган, Горное, Тихоокеанский регион, Самоа
+Choices-sk.utf-8: Aljaška, Aleuty, Arizona, Stredoamerické, Americké východné, Havaj, Indiana/Starke, Michigan, Americké horské, Tichomorie, Samoa
+Choices-sq.utf-8: Alaska, Aleutian, Arizona, Qëndror, Lindor, Hawaii, Indiana-Starke, Michigan, Mal, Paqësor, Samoa
+Choices-sv.utf-8: Alaska, Aleuterna, Arizona, Central, Eastern, Hawaii, Starke (Indiana), Michigan, Mountain, Stilla Havet, Samoa
+Choices-th.utf-8: อะแลสกา, Aleutian, แอริโซนา, ภาคกลาง, ภาคตะวันออก, ฮาวาย, อินดีแอนา/Starke, มิชิแกน, ภูเขา, แปซิฟิก, ซามัว
+Choices-tr.utf-8: Alaska, Aleut, Arizona, Merkez, Doğu, Hawaii, Indiana-Starke, Michigan, Mountain, Pasifik, Samoa
+Choices-vi.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Thái Bình Dương, Samoa (Quần đảo trong Thái Bình Dương)
+Choices-wo.utf-8: Alaska, Aleutian, Arizona, Central, Eastern, Hawaii, Indiana-Starke, Michigan, Mountain, Pasifik, Samoa
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
+Type: select
+Owners: tzdata/Zones/US
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Name: base-passwd/group-add
+Default: true
+Description: Do you want to add the group ${name}?
+Description-da.utf-8: Ønsker du at tilføje gruppen ${name}?
+Description-de.utf-8: Möchten Sie die Gruppe ${name} hinzufügen?
+Description-es.utf-8: ¿Desea añadir el grupo ${name}?
+Description-fr.utf-8: Faut-il ajouter le groupe ${name} ?
+Description-it.utf-8: Aggiungere il gruppo ${name}?
+Description-ja.utf-8: グループ ${name} を追加しますか?
+Description-nl.utf-8: Wilt u de groep ${name} toevoegen?
+Description-pt.utf-8: Deseja adicionar o grupo ${name}?
+Description-pt_br.utf-8: Você quer adicionar o grupo ${name}?
+Description-ru.utf-8: Добавить группу ${name}?
+Extended_description: update-passwd has found a difference between your system accounts and the current Debian defaults.  It is advisable to allow update-passwd to change your system; without those changes some packages might not work correctly.  For more documentation on the Debian account policies, please see /usr/share/doc/base-passwd/README.\n\nThe proposed change is:\n\nAdd group "${name}" (${id})\n\nIf you allow this change, a backup of modified files will be made with the extension .org, which you can use if necessary to restore the current settings.  If you do not make this change now, you can make it later with the update-passwd utility.
+Extended_description-da.utf-8: update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.\n\nDen foreslåede ændring er:\n\nTilføj gruppe »${name}« (${id})\n\nHvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Extended_description-de.utf-8: Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.\n\nDie geplante Änderung ist:\n\nGruppe »${name}« hinzufügen\n\nFalls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Extended_description-es.utf-8: update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.\n\nEl cambio propuesto es:\n\nAñadir el grupo «${name}» (${id})\n\nSi permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Extended_description-fr.utf-8: L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».\n\nLa modification proposée est :\n\nAjout du groupe « ${name} » (${id})\n\nEn acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Extended_description-it.utf-8: update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.\n\nLa modifica proposta è:\n\nAggiungere il gruppo «${name}» (${id})\n\nSe si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Extended_description-ja.utf-8: update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。\n\n提案する変更点:\n\nグループ「${name}」(${id}) を追加します\n\nこの変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Extended_description-nl.utf-8: update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.\n\nDe voorgestelde aanpassing is:\n\nToevoegen van groep "${name}" (${id})\n\nIndien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Extended_description-pt.utf-8: O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.\n\nA alteração proposta é:\n\nAdicionar grupo "${name}" (${id})\n\nSe permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Extended_description-pt_br.utf-8: O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.\n\nA mudança proposta é:\n\nAdicionar o grupo "${name}" (${id})\n\nSe você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Extended_description-ru.utf-8: Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.\n\nПредлагаемое изменение:\n\nДобавить группу «${name}» (${id})\n\nЕсли разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+Type: boolean
+Owners: base-passwd/group-add
+
+Name: base-passwd/group-change-gid
+Default: true
+Description: Do you want to change the GID of group ${name}?
+Description-da.utf-8: Ønsker du at ændre GID'en for gruppen ${name}?
+Description-de.utf-8: Möchten Sie die GID der Gruppe ${name} ändern?
+Description-es.utf-8: ¿Desea cambiar el GID del grupo ${name}?
+Description-fr.utf-8: Faut-il modifier le GID du groupe ${name} ?
+Description-it.utf-8: Cambiare il GID del gruppo ${name}?
+Description-ja.utf-8: グループ ${name} のグループIDを変更しますか?
+Description-nl.utf-8: Wilt u de GID van groep ${name} veranderen?
+Description-pt.utf-8: Deseja alterar o GID do grupo ${name}?
+Description-pt_br.utf-8: Você quer alterar o GID do grupo ${name}?
+Description-ru.utf-8: Изменить GID группы ${name}?
+Extended_description: update-passwd has found a difference between your system accounts and the current Debian defaults.  It is advisable to allow update-passwd to change your system; without those changes some packages might not work correctly.  For more documentation on the Debian account policies, please see /usr/share/doc/base-passwd/README.\n\nThe proposed change is:\n\nChange the GID of group "${name}" from ${old_gid} to ${new_gid}\n\nIf you allow this change, a backup of modified files will be made with the extension .org, which you can use if necessary to restore the current settings.  If you do not make this change now, you can make it later with the update-passwd utility.
+Extended_description-da.utf-8: update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.\n\nDen foreslåede ændring er:\n\nÆndr GID'en for gruppen »${name}« fra ${old_gid} til ${new_gid}\n\nHvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Extended_description-de.utf-8: Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richt

@@ -1,0 +1,1398 @@
+ 38 42 13 3 19 1 38 45 200 15 201 13 0 14 108 15 109 19 4 202 51 0 10 0 39 14 10 4 4 12 10 0 6 2 6 1 73 38 3 75 73 43 1 38 3 75 73 12 19 2 23 12 10 5 73 39 6 10 5 6 1 73 12 10 9 73 39 6 10 9 6 1 73 12 10 7 73 39 6 10 7 6 1 73 12 19 3 23 6 2 73 38 294 41 203 10 41 204 7 41 205 4 42 206 280 13 0 13 1 10 4 39 6 10 4 73 38 4 10 8 73 12 13 10 19 4 198 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 12 43 1 10 2 39 8 10 2 6 1 73 38 51 10 3 39 36 13 14 9 40 19 2 63 39 26 13 11 9 24 19 2 63 40 17 13 11 9 25 19 2 63 40 8 13 11 9 56 19 2 63 76 39 8 10 3 6 1 73 38 3 75 73 12 19 2 23 12 13 11 9 8 19 2 63 40 8 13 11 9 24 19 2 63 39 20 13 18 13 17 19 1 199 12 19 2 26 76 39 6 10 4 16 36 76 39 5 75 73 38 111 10 8 39 3 10 5 39 29 13 8 13 5 13 10 19 3 207 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 75 10 4 40 3 10 5 39 29 13 4 13 5 13 10 19 3 207 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 39 10 8 40 3 10 9 39 29 13 8 13 9 13 10 19 3 207 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 3 75 73 12 10 7 73 39 6 10 7 6 1 73 12 19 2 23 6 2 73 38 3 75 73 43 11 29) #1# #2# 34579) common-lisp-user::check-imaginal-consistency (defun common-lisp-user::check-imaginal-consistency) (#2# . 40634) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 30 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 40634) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 40634) common-lisp-user::production-bindings common-lisp-user::check-consistency #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 40634) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 40634) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 43 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 40634) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 40634) t #Y(common-lisp-user::check-imaginal-consistency nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 10 3 41 186 16 41 187 13 41 188 10 41 189 7 41 190 4 42 191 47 13 6 34 213 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 214 12 10 1 4 12 19 2 37 12 13 2 19 1 215 12 19 5 216 38 108 41 203 4 42 205 47 13 6 34 217 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 218 12 10 1 4 12 19 2 37 12 13 2 19 1 215 12 19 5 216 38 56 41 204 4 42 206 47 13 6 34 219 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 220 12 10 1 4 12 19 2 37 12 13 2 19 1 215 12 19 5 216 38 4 11 221 73 29) #1# #2# 40634) common-lisp-user::i-b-c3 (defun common-lisp-user::i-b-c3) (#2# . 42880) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 167 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 42880) common-lisp-user::query (= common-lisp-user::state common-lisp-user::free) #Y(nil nil nil (24 45 29 26 13 0 1 229 17 109 29) #1# #2# 42880) every #Y(common-lisp-user::i-b-c3 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 227 12 10 1 4 12 19 2 37 45 228 34 230 12 13 0 19 1 38 12 19 2 231 43 1 29) #1# #2# 42880) "Compilation check queries in p2 for 'state free'" common-lisp-user::i-b-c1 (defun common-lisp-user::i-b-c1) (#2# . 43410) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 167 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 43410) (= common-lisp-user::state common-lisp-user::busy) (= common-lisp-user::buffer common-lisp-user::empty) #Y(nil nil nil (24 45 29 26 13 0 1 239 17 109 73 40 7 13 0 1 240 17 109 29) #1# #2# 43410) #Y(common-lisp-user::i-b-c1 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 238 12 10 1 4 12 19 2 37 45 228 34 241 12 13 0 19 1 38 12 19 2 231 43 1 29) #1# #2# 43410) "Compilation check for queries such that p2 only uses 'buffer empty' or 'state busy'" common-lisp-user::no-rhs-imaginal-ref (defun common-lisp-user::no-rhs-imaginal-ref) (#2# . 44012) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) string "=" symbol-name concatenate intern common-lisp-user::recursive-find #Y(common-lisp-user::no-rhs-imaginal-ref nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 15 248 15 249 10 7 16 250 12 19 3 251 12 19 1 252 12 10 1 16 36 12 19 2 253 76 73 29) #1# #2# 44012) "Can't compile if the variable naming the buffer is used in the actions of p2" common-lisp-user::i-b-c4 (defun common-lisp-user::i-b-c4) (#2# . 44353) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::i-b-c4 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 223 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 244 29) #1# #2# 44353) common-lisp-user::i-b-c2 (defun common-lisp-user::i-b-c2) (#2# . 44566) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 167 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 44566) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 167 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 44566) common-lisp-user::query2 common-lisp-user::query1 length equal #Y(common-lisp-user::i-b-c2 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 265 12 10 4 4 12 19 2 37 45 193 10 0 39 8 13 0 19 1 38 38 3 75 73 12 43 1 34 266 12 10 1 4 12 19 2 37 45 193 10 0 39 8 13 0 19 1 38 38 3 75 73 12 43 1 46 267 46 268 10 0 16 269 12 10 1 16 269 12 13 0 13 1 19 2 23 12 14 108 15 270 19 3 68 16 269 12 19 3 63 43 2 29) #1# #2# 44566) "queries in p1 and p2 must be the same
+   NOTE: this doesn't take into account any variables at this time" common-lisp-user::i-b-c5 (defun common-lisp-user::i-b-c5) (#2# . 45446) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::i-b-c5 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 19 1 199 12 19 2 26 29) #1# #2# 45446) "only if the buffer is not strict harvested" common-lisp-user::i-b-c6 (defun common-lisp-user::i-b-c6) (#2# . 45674) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::i-b-c6 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 273 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 261 29) #1# #2# 45674) "Not strict harvested and same queries" common-lisp-user::i-b-c7 (defun common-lisp-user::i-b-c7) (#2# . 45917) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::i-b-c7 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 273 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 244 29) #1# #2# 45917) "Not strict harvested and no RHS imaginal references" common-lisp-user::i-b-c8 (defun common-lisp-user::i-b-c8) (#2# . 46187) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::i-b-c8 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 273 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 223 29) #1# #2# 46187) "Not strict harvested and p2 query must be state free" common-lisp-user::i-b-c9 (defun common-lisp-user::i-b-c9) (#2# . 46445) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 46445) mod #Y(common-lisp-user::i-b-c9 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 19 1 199 12 19 2 26 73 40 27 34 301 12 10 4 16 36 12 19 2 37 45 302 10 0 73 39 7 10 0 16 36 76 73 43 1 29) #1# #2# 46445) common-lisp-user::i-b-c10 (defun common-lisp-user::i-b-c10) (#2# . 46792) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::i-b-c10 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 261 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 297 29) #1# #2# 46792) "Not strict harvested and p2 query must be state free" common-lisp-user::imaginal-reason (defun common-lisp-user::imaginal-reason) (#2# . 47051) (common-lisp-user::p1-index common-lisp-user::p2-index common-lisp-user::failed-function) common-lisp-user::failed-function eql "the buffer variable cannot be used in the actions of the second production if there is a request in the first production." "when the first production makes a request and the second does not harvest it the second can only query for state busy or buffer empty." "the queries in both productions must be the same." "when the first production makes a request and the second harvests it the second can only query for state free." "when the first production makes a request and the second harvests it the second can only query for state free and the buffer variable cannot be used in the actions of the second." "strict harvesting is enabled for the buffer and either the first production cleared the buffer or the combined production would leave the buffer with a chunk while the original pair would have left it empty." "either strict harvesting is enabled for the buffer and the combined production would leave the buffer with a chunk while the original pair would have left it empty or the queries in the productions are not the same." "either strict harvesting is enabled for the buffer and the combined production would leave the buffer with a chunk while the original pair would have left it empty or the buffer variable cannot be used in the actions of the second production if there is a request in the first production." "either strict harvesting is enabled for the buffer and the combined production would leave the buffer with a chunk while the original pair would have left it empty or the first production makes a request and the second harvests it so it can only query for state free." 2 6 10 11 14 15 42 43 46 47 18 22 26 27 30 31 58 59 63 62 "the buffer is explicitly cleared in the first production." 44 45 60 61 "the first production makes both a request and a modification request." 41 57 "the first production makes both a modification and a modification request." "the buffer is explicitly cleared in the second production." "the second production makes both a request and a modification request." "the second production makes both a modification and a modification request." "the first production makes a modification and the second makes a modification request." "both productions make requests." "the first production makes a modification request and the second makes a request." "the first production makes a modification request and the other makes a modification." #Y(common-lisp-user::imaginal-reason nil nil (24 45 11 24 45 14 24 45 314 26 13 0 1 244 17 315 39 6 1 316 73 38 359 13 0 1 234 17 315 39 6 1 317 73 38 346 13 0 1 261 17 315 39 6 1 318 73 38 333 13 0 1 223 17 315 39 6 1 319 73 38 320 13 0 1 256 17 315 39 6 1 320 73 38 307 13 0 1 273 17 315 39 6 1 321 73 38 294 13 0 1 279 17 315 39 6 1 322 73 38 281 13 0 1 285 17 315 39 6 1 323 73 38 268 13 0 1 291 17 315 39 6 1 324 73 38 255 10 2 41 325 58 41 326 55 41 327 52 41 328 49 41 329 46 41 330 43 41 331 40 41 332 37 41 333 34 41 334 31 41 335 28 41 336 25 41 337 22 41 338 19 41 339 16 41 340 13 41 341 10 41 342 7 41 343 4 42 344 6 1 345 73 38 188 41 346 10 41 347 7 41 348 4 42 349 6 1 350 73 38 171 41 351 4 42 352 6 1 353 73 38 160 10 1 41 325 58 41 326 55 41 327 52 41 328 49 41 329 46 41 330 43 41 331 40 41 332 37 41 333 34 41 334 31 41 335 28 41 336 25 41 337 22 41 338 19 41 339 16 41 340 13 41 341 10 41 342 7 41 343 4 42 344 6 1 354 73 38 93 41 346 10 41 347 7 41 348 4 42 349 6 1 355 73 38 76 41 351 4 42 352 6 1 356 73 38 65 41 204 4 42 206 6 1 357 73 38 54 10 2 41 186 16 41 187 13 41 188 10 41 189 7 41 190 4 42 191 6 1 358 73 38 29 10 1 41 186 16 41 187 13 41 188 10 41 189 7 41 190 4 42 191 6 1 359 73 38 4 1 360 73 29) #1# #2# 47051) common-lisp-user::imaginal ((56 56 common-lisp-user::i-b-c3) (56 40 t) (56 25 common-lisp-user::i-b-c3) (56 24 common-lisp-user::i-b-c8) (56 16 common-lisp-user::i-b-c1) (56 9 t) (56 8 common-lisp-user::i-b-c5) (56 0 t) (40 56 common-lisp-user::i-b-c3) (40 40 t) (40 25 common-lisp-user::i-b-c3) (40 24 common-lisp-user::i-b-c8) (40 16 common-lisp-user::i-b-c1) (40 9 t) (40 8 common-lisp-user::i-b-c5) (40 0 t) (29 56 common-lisp-user::i-b-c4) (29 40 common-lisp-user::no-rhs-imaginal-ref) (29 25 common-lisp-user::i-b-c3) (29 24 common-lisp-user::i-b-c8) (29 16 common-lisp-user::i-b-c1) (29 9 common-lisp-user::no-rhs-imaginal-ref) (29 8 common-lisp-user::i-b-c7) (29 0 t) (28 56 common-lisp-user::i-b-c4) (28 40 common-lisp-user::no-rhs-imaginal-ref) (28 25 common-lisp-user::i-b-c3) (28 24 common-lisp-user::i-b-c8) (28 16 common-lisp-user::i-b-c1) (28 9 common-lisp-user::no-rhs-imaginal-ref) (28 8 common-lisp-user::i-b-c7) (28 0 t) (25 29 common-lisp-user::i-b-c2) (25 28 common-lisp-user::i-b-c2) (25 25 common-lisp-user::i-b-c2) (25 24 common-lisp-user::i-b-c10) (25 20 common-lisp-user::i-b-c2) (25 16 common-lisp-user::i-b-c2) (25 13 t) (25 12 t) (25 9 t) (25 8 common-lisp-user::i-b-c9) (25 4 t) (25 0 t) (24 56 common-lisp-user::i-b-c6) (24 40 common-lisp-user::i-b-c6) (24 29 common-lisp-user::i-b-c6) (24 28 common-lisp-user::i-b-c6) (24 25 common-lisp-user::i-b-c6) (24 24 common-lisp-user::i-b-c6) (24 20 common-lisp-user::i-b-c2) (24 16 common-lisp-user::i-b-c2) (24 13 common-lisp-user::i-b-c5) (24 12 common-lisp-user::i-b-c5) (24 9 common-lisp-user::i-b-c5) (24 8 common-lisp-user::i-b-c5) (24 4 t) (24 0 t) (20 56 common-lisp-user::i-b-c4) (20 40 common-lisp-user::no-rhs-imaginal-ref) (20 25 common-lisp-user::i-b-c3) (20 24 common-lisp-user::i-b-c8) (20 16 common-lisp-user::i-b-c1) (20 9 common-lisp-user::no-rhs-imaginal-ref) (20 8 common-lisp-user::i-b-c7) (20 0 t) (16 56 common-lisp-user::i-b-c2) (16 40 t) (16 29 common-lisp-user::i-b-c2) (16 28 common-lisp-user::i-b-c2) (16 25 common-lisp-user::i-b-c2) (16 24 common-lisp-user::i-b-c2) (16 20 common-lisp-user::i-b-c2) (16 16 common-lisp-user::i-b-c2) (16 13 t) (16 12 t) (16 9 t) (16 8 t) (16 4 t) (16 0 t) (13 56 common-lisp-user::i-b-c4) (13 40 common-lisp-user::no-rhs-imaginal-ref) (13 25 common-lisp-user::i-b-c3) (13 24 common-lisp-user::i-b-c8) (13 16 common-lisp-user::i-b-c1) (13 9 common-lisp-user::no-rhs-imaginal-ref) (13 8 common-lisp-user::i-b-c7) (13 0 t) (12 56 common-lisp-user::i-b-c4) (12 40 common-lisp-user::no-rhs-imaginal-ref) (12 25 common-lisp-user::i-b-c3) (12 24 common-lisp-user::i-b-c8) (12 16 common-lisp-user::i-b-c1) (12 9 common-lisp-user::no-rhs-imaginal-ref) (12 8 common-lisp-user::i-b-c7) (12 0 t) (9 29 t) (9 28 t) (9 25 t) (9 24 common-lisp-user::i-b-c9) (9 20 t) (9 16 t) (9 13 t) (9 12 t) (9 9 t) (9 8 common-lisp-user::i-b-c9) (9 4 t) (9 0 t) (8 56 common-lisp-user::i-b-c5) (8 40 common-lisp-user::i-b-c5) (8 29 common-lisp-user::i-b-c5) (8 28 common-lisp-user::i-b-c5) (8 25 common-lisp-user::i-b-c5) (8 24 common-lisp-user::i-b-c5) (8 20 t) (8 16 t) (8 13 common-lisp-user::i-b-c5) (8 12 common-lisp-user::i-b-c5) (8 9 common-lisp-user::i-b-c5) (8 8 common-lisp-user::i-b-c5) (8 4 t) (8 0 t) (4 56 common-lisp-user::i-b-c4) (4 40 common-lisp-user::no-rhs-imaginal-ref) (4 25 common-lisp-user::i-b-c3) (4 24 common-lisp-user::i-b-c8) (4 16 common-lisp-user::i-b-c1) (4 9 common-lisp-user::no-rhs-imaginal-ref) (4 8 common-lisp-user::i-b-c7) (4 0 t) (0 56 t) (0 40 t) (0 29 t) (0 28 t) (0 25 t) (0 24 t) (0 20 t) (0 16 t) (0 13 t) (0 12 t) (0 9 t) (0 8 t) (0 4 t)) (common-lisp-user::imaginal) common-lisp-user::define-compilation-type-fct)) #2# 0) #Y(si::bytecodes nil nil (15 161 15 1 15 162 15 163 19 4 4 15 161 14 5 77 15 164 19 4 4 15 161 1 208 12 19 2 157 1 161 73 29) #1# #2# 34579) #Y(si::bytecodes nil nil (15 209 15 1 15 210 15 211 19 4 4 15 209 14 5 77 15 212 19 4 4 15 209 1 222 12 19 2 157 1 209 73 29) #1# #2# 40634) #Y(si::bytecodes nil nil (15 223 15 1 15 224 15 225 19 4 4 15 223 14 5 77 15 226 19 4 4 15 223 1 232 12 19 2 157 15 223 15 158 15 233 19 3 160 1 223 73 29) #1# #2# 42880) #Y(si::bytecodes nil nil (15 234 15 1 15 235 15 236 19 4 4 15 234 14 5 77 15 237 19 4 4 15 234 1 242 12 19 2 157 15 234 15 158 15 243 19 3 160 1 234 73 29) #1# #2# 43410) #Y(si::bytecodes nil nil (15 244 15 1 15 245 15 246 19 4 4 15 244 14 5 77 15 247 19 4 4 15 244 1 254 12 19 2 157 15 244 15 158 15 255 19 3 160 1 244 73 29) #1# #2# 44012) #Y(si::bytecodes nil nil (15 256 15 1 15 257 15 258 19 4 4 15 256 14 5 77 15 259 19 4 4 15 256 1 260 12 19 2 157 1 256 73 29) #1# #2# 44353) #Y(si::bytecodes nil nil (15 261 15 1 15 262 15 263 19 4 4 15 261 14 5 77 15 264 19 4 4 15 261 1 271 12 19 2 157 15 261 15 158 15 272 19 3 160 1 261 73 29) #1# #2# 44566) #Y(si::bytecodes nil nil (15 273 15 1 15 274 15 275 19 4 4 15 273 14 5 77 15 276 19 4 4 15 273 1 277 12 19 2 157 15 273 15 158 15 278 19 3 160 1 273 73 29) #1# #2# 45446) #Y(si::bytecodes nil nil (15 279 15 1 15 280 15 281 19 4 4 15 279 14 5 77 15 282 19 4 4 15 279 1 283 12 19 2 157 15 279 15 158 15 284 19 3 160 1 279 73 29) #1# #2# 45674) #Y(si::bytecodes nil nil (15 285 15 1 15 286 15 287 19 4 4 15 285 14 5 77 15 288 19 4 4 15 285 1 289 12 19 2 157 15 285 15 158 15 290 19 3 160 1 285 73 29) #1# #2# 45917) #Y(si::bytecodes nil nil (15 291 15 1 15 292 15 293 19 4 4 15 291 14 5 77 15 294 19 4 4 15 291 1 295 12 19 2 157 15 291 15 158 15 296 19 3 160 1 291 73 29) #1# #2# 46187) #Y(si::bytecodes nil nil (15 297 15 1 15 298 15 299 19 4 4 15 297 14 5 77 15 300 19 4 4 15 297 1 303 12 19 2 157 1 297 73 29) #1# #2# 46445) #Y(si::bytecodes nil nil (15 304 15 1 15 305 15 306 19 4 4 15 304 14 5 77 15 307 19 4 4 15 304 1 308 12 19 2 157 15 304 15 158 15 309 19 3 160 1 304 73 29) #1# #2# 46792) #Y(si::bytecodes nil nil (15 310 15 1 15 311 15 312 19 4 4 15 310 14 5 77 15 313 19 4 4 15 310 1 361 12 19 2 157 1 310 73 29) #1# #2# 47051) #Y(si::bytecodes nil nil (15 362 15 363 15 364 15 0 15 161 15 209 15 221 77 15 310 19 9 365 29) #1# #2# 50658))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2010 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : imaginal-compilation.lisp
+;;; Version     : 6.0
+;;; 
+;;; Description : Production compilation IMAGINAL style definition.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;;
+;;; ----- History -----
+;;;
+;;; 2010.12.10 Dan
+;;;             : * Created automatically by build-compilation-type-file.
+;;; 2010.12.13 Dan
+;;;             : * Put the control functions and tests in place.
+;;; 2010.12.15 Dan
+;;;             : * Added module to the mapping functions args list.
+;;; 2010.12.20 Dan
+;;;             : * Added some additional code to handle things better when 
+;;;             :   :ppm is enabled -- creates productions that match more closely
+;;;             :   to the same conditions as the original pair did and does 
+;;;             :   the "same" thing.
+;;;             : * Allow subtypes to be composed in the consistency check.
+;;; 2011.01.07 Dan
+;;;             : * Fixed a bug with map-imaginal-buffer since it needs to be a
+;;;             :   let* for ppm to be used.
+;;; 2011.04.28 Dan
+;;;             : * Added some declares to avoid compiler warnings.
+;;; 2012.04.04 Dan [1.1]
+;;;             : * Added the whynot reason function.
+;;; 2014.05.07 Dan [2.0]
+;;;             : * Start of conversion to typeless chunks.
+;;;             : * Pass the module to constant-value-p.
+;;;             : * References to compilation-module-previous are now using a
+;;;             :   structure instead of list.
+;;; 2016.08.04 Dan [3.0]
+;;;             : * Updated the compilation type definition with one that was
+;;;             :   created automatically by build-compilation-type-file from the
+;;;             :   new spreadsheet that better handles "safe" compilation based
+;;;             :   on whether the buffer is strict harvested or not.  Also added
+;;;             :   some cases which should have been allowed but weren't like 13,40
+;;;             :   where the * in the second can be combined with the + from the
+;;;             :   first and 40,9 which can combine an = with a preceeding * (there
+;;;             :   are some other similar additions but not listing all of them here).
+;;;             :   Those new cases make things more consistent with respect to the
+;;;             :   indicated constraints.
+;;;             : * Added the code necessary to deal with the new cases and the 
+;;;             :   new test functions.
+;;; 2020.06.22 Dan [4.0]
+;;;             : * The functions are now all passed the same set of parameters:
+;;;             :   buffer module p1 p1-s p1-index p2 p2-s p2-index
+;;;             :   the p1-s and p2-s are the new "standard" representation that
+;;;             :   can be decomposed with composition-rep-* where * is:
+;;;             :    op -- the character of the operation =,?,!,+,-,*,@
+;;;             :    name -- the symbol naming the buffer or bang action
+;;;             :    token -- the symbol of the production item for op and name
+;;;             :    slots -- list of slot-spec lists
+;;; 2020.11.05 Dan [4.1]
+;;;             : * Drop buffer empty queries that occur in p2 if the buffer
+;;;             :   was strict harvested from p1 otherwise you end up with a
+;;;             :   production that can't fire since it tests for both there
+;;;             :   being a chunk in the buffer and a query that it's empty.
+;;; 2021.02.05 Dan [5.0]
+;;;             : * Allowing the 9,8 28,8 9,24 25,24 cases to happen if the mod
+;;;             :   in p1 is an empty mod when the buffer is strict harvested 
+;;;             :   and then just drop the empty mod.
+;;; 2021.02.10 Dan [6.0]
+;;;             : * There isn't a pre-instantiation step for variablized slots
+;;;             :   now so that needs to be done here instead for both mapping
+;;;             :   and composition.
+;;;             : * Needs to deal with var->var, const->var, var->const, and
+;;;             :   the possibility of multiple vars being bound to the same
+;;;             :   slot name.
+;;; 2021.02.23 Dan
+;;;             : * Wasn't catching the possible dynamic action to action
+;;;             :   mappings.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defun MAP-IMAGINAL-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+ "map references from p1 to p2 for imaginal style buffer"
+  ;; Possible cases: 
+  ;;    a RHS + to a LHS = (includes when the RHS has both + and =)
+  ;;    a RHS = to a LHS = 
+  ;;    a LHS = with null RHS to a LHS =
+  ;;    a RHS * to a LHS =
+  (declare (ignore p1))
+  (let* ((ppm (compilation-module-ppm module))
+         (p1-bindings (previous-production-bindings (compilation-module-previous module)))
+         (p2-bindings (production-compilation-instan (production-name p2)))
+         (bindings (when ppm 
+                     (append p1-bindings p2-bindings))))
+    
+    (cond (;; The RHS + to LHS = case
+           (and (find p1-index '(4 12 13 20 28 29))
+                (find p2-index '(8 9 12 13 24 25 28 29 40 56)))
+           
+           ;; Map the RHS +'s with the LHS ='s
+           
+           ;; here the slots of interest are just the intersection 
+           ;; of the two sets
+           ;;
+           
+           (let* ((mappings nil)
+                  (original-p1-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  (original-p2-rhs-slots (compose-rep-slots (find-if (lambda (x) (and (eq buffer (compose-rep-name x))
+                                                                                      (or (char= #\= (compose-rep-op x))
+                                                                                          (char= #\* (compose-rep-op x)))))
+                                                                     (second p2-s))))
+                  (p1-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1-slots :key 'spec-slot-name)))
+                  (p2-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-slots :key 'spec-slot-name)))
+                  (p2-rhs-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-rhs-slots :key 'spec-slot-name)))
+                  
+                  (p1-slots (instantiate-slot-names
+                             original-p1-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (p2-rhs-slots (instantiate-slot-names
+                                 original-p2-rhs-slots
+                                 p2-bindings))
+                  (interesting-slots (remove-duplicates (append (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p1-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-rhs-slots)))))
+             
+                          
+             (dolist (slot interesting-slots)
+               
+               (when (or p1-var-slots p2-var-slots p2-rhs-var-slots) ;; there are dynamic slots which may need to be mapped
+                                                                     ;; if the same slot is variablized in both or a var slot maps
+                                                                     ;; to a constant slot in either direction (multiple options
+                                                                     ;; possible as well as multiple variables matching the same slot)
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in action and condition both
+                            (rassoc slot p2-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in both actions
+                            (rassoc slot p2-rhs-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 so need to instantiate
+                            (find slot original-p2-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 action so need to instantiate
+                            (find slot original-p2-rhs-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-var-slots)  ;; it's a variable in p2 and const in p1 so need to instantiate
+                            (find slot original-p1-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                     (push (cons p2-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-rhs-var-slots)  ;; it's a variable in p2 action and const in p1 so need to instantiate
+                            (find slot original-p1-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                     (push (cons p2-var slot) mappings))))
+               
+               
+                              
+               (dolist (p1slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p2-slots))
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             mappings))
+          
+          (;; The RHS = to a LHS = case
+           (and (find p1-index '(9 25))
+                (find p2-index '(8 9 12 13 24 25 28 29)))
+           
+           ;; Map the RHS ='s and LHS ='s not in the RHS with
+           ;; the LHS ='s
+           
+           ;; Here the slots of interest are the union of the
+           ;; p1 bits with the RHS superseding the LHS intersected
+           ;; with the LHS of the second one
+           
+           
+           (let* ((mappings nil)
+                  (original-p1a-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+                  (original-p1b-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+                  
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  (original-p2-rhs-slots (compose-rep-slots (find-if (lambda (x) (and (eq buffer (compose-rep-name x))
+                                                                                      (or (char= #\= (compose-rep-op x))
+                                                                                          (char= #\* (compose-rep-op x)))))
+                                                                     (second p2-s))))
+                  
+                  (p1-var-slotsa (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1a-slots :key 'spec-slot-name)))
+                  (p1-var-slotsb (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1b-slots :key 'spec-slot-name)))
+                  (p2-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-slots :key 'spec-slot-name)))
+                  (p2-rhs-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-rhs-slots :key 'spec-slot-name)))
+                  
+                  (p1-slotsa (instantiate-slot-names
+                             original-p1a-slots
+                             p1-bindings))
+                  (p1-slotsb (instantiate-slot-names
+                             original-p1b-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (p2-rhs-slots (instantiate-slot-names
+                                 original-p2-rhs-slots
+                                 p2-bindings))
+                  
+                  (p1-slots (append (remove-if (lambda (x)
+                                                   (or (not (eq (spec-slot-op x) '=))
+                                                       (find (spec-slot-name x) p1-slotsb :key 'spec-slot-name)))
+                                               p1-slotsa)
+                                    p1-slotsb))
+                  
+                  (p1-var-slots (remove-duplicates (append p1-var-slotsa p1-var-slotsb) :test 'equalp))
+                  
+                  (interesting-slots (remove-duplicates (append (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p1-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-rhs-slots)))))
+             
+             (dolist (slot interesting-slots)
+               
+               (when (or p1-var-slots p2-var-slots p2-rhs-var-slots) ;; there are dynamic slots which may need to be mapped
+                                                                     ;; if the same slot is variablized in both or a var slot maps
+                                                                     ;; to a constant slot in either direction (multiple options
+                                                                     ;; possible as well as multiple variables matching the same slot)
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in both
+                            (rassoc slot p2-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in both actions
+                            (rassoc slot p2-rhs-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 so need to instantiate
+                            (find slot original-p2-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in p1 and const in p2 action so need to instantiate
+                            (find slot original-p2-rhs-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-var-slots)  ;; it's a variable in p2 and const in p1 (somewhere) so need to instantiate
+                            (or                         ;; all p2 vars
+                             (find slot original-p1a-slots :key 'spec-slot-name)
+                             (find slot original-p1b-slots :key 'spec-slot-name))) 
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                     (push (cons p2-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-rhs-var-slots)  ;; it's a variable in p2 action and const in p1 so need to instantiate
+                            (find slot original-p1b-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                     (push (cons p2-var slot) mappings))))
+               
+               
+               (dolist (p1slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p2-slots))
+                   
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             
+             mappings))
+          
+          (;; The RHS * to a LHS = case
+           (and (find p1-index '(40 56))
+                (find p2-index '(8 9 24 25 40 56)))
+           
+           ;; Map the RHS *'s and LHS ='s not in the RHS with
+           ;; the LHS ='s
+           
+           ;; Here the slots of interest are the union of the
+           ;; p1 bits with the RHS superseding the LHS intersected
+           ;; with the LHS of the second one
+           
+           
+           (let* ((mappings nil)
+                  (original-p1a-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+                  (original-p1b-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\* (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+                  
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  (original-p2-rhs-slots (compose-rep-slots (find-if (lambda (x) (and (eq buffer (compose-rep-name x))
+                                                                                      (or (char= #\= (compose-rep-op x))
+                                                                                          (char= #\* (compose-rep-op x)))))
+                                                                     (second p2-s))))
+                  
+                  (p1-var-slotsa (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1a-slots :key 'spec-slot-name)))
+                  (p1-var-slotsb (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1b-slots :key 'spec-slot-name)))
+                  (p2-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-slots :key 'spec-slot-name)))
+                  (p2-rhs-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-rhs-slots :key 'spec-slot-name)))
+                  
+                  (p1-slotsa (instantiate-slot-names
+                             original-p1a-slots
+                             p1-bindings))
+                  (p1-slotsb (instantiate-slot-names
+                             original-p1b-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (p2-rhs-slots (instantiate-slot-names
+                                 original-p2-rhs-slots
+                                 p2-bindings))
+                  
+                  (p1-slots (append (remove-if (lambda (x)
+                                                   (or (not (eq (spec-slot-op x) '=))
+                                                       (find (spec-slot-name x) p1-slotsb :key 'spec-slot-name)))
+                                               p1-slotsa)
+                                    p1-slotsb))
+                  
+                  (p1-var-slots (remove-duplicates (append p1-var-slotsa p1-var-slotsb) :test 'equalp))
+                  
+                  (interesting-slots (remove-duplicates (append (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p1-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-rhs-slots)))))
+             
+             (dolist (slot interesting-slots)
+               
+               (when (or p1-var-slots p2-var-slots p2-rhs-var-slots) ;; there are dynamic slots which may need to be mapped
+                                                                     ;; if the same slot is variablized in both or a var slot maps
+                                                                     ;; to a constant slot in either direction (multiple options
+                                                                     ;; possible as well as multiple variables matching the same slot)
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in both
+                            (rassoc slot p2-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in both actions
+                            (rassoc slot p2-rhs-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 so need to instantiate
+                            (find slot original-p2-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in p1 and const in p2 action so need to instantiate
+                            (find slot original-p2-rhs-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-var-slots)  ;; it's a variable in p2 and const in p1 (somewhere) so need to instantiate
+                            (or                         ;; all p2 vars
+                             (find slot original-p1a-slots :key 'spec-slot-name)
+                             (find slot original-p1b-slots :key 'spec-slot-name))) 
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                     (push (cons p2-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-rhs-var-slots)  ;; it's a variable in p2 action and const in p1 so need to instantiate
+                            (find slot original-p1b-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                     (push (cons p2-var slot) mappings))))
+               
+               
+               (dolist (p1slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p2-slots))
+                   
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             
+             mappings))
+                    
+          (;; The LHS = RHS null to a LHS = case
+           (and (find p1-index '(8 24))
+                (find p2-index '(8 9 12 13 24 25 28 29 40 56)))
+           
+           ;; Map the LHS ='s with the LHS ='s
+           
+           
+           ;; The slots of interest are the ones at the intersection of the
+           ;; two sets - the mappings are then done for those
+           ;; such that 
+           ;;   - if it's a variable in both then p2 vars go to p1 vars 
+           ;;   - if it's a constant in one then it goes from the var to the constant
+           ;;     (note that buffer variables are considered constants and not variables)
+           ;;   - if it's a constant in both we're in trouble if they aren't equal
+           ;;     because how did they fire...
+           ;;
+           ;; When there is more than one option we have to add both but they need to
+           ;; be evaluated in the order of variables before constants (that's handled
+           ;; elsewhere though)
+           
+           
+           (let* ((mappings nil)
+                  (original-p1-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  
+                  (p1-slots (instantiate-slot-names
+                             original-p1-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (interesting-slots (intersection (mapcan (lambda (x)
+                                                             (when (eq (spec-slot-op x) '=)
+                                                               (list (spec-slot-name x))))
+                                                     p1-slots)
+                                                   (mapcan (lambda (x)
+                                                               (when (eq (spec-slot-op x) '=)
+                                                                 (list (spec-slot-name x))))
+                                                     p2-slots))))
+             
+             (dolist (slot interesting-slots)
+               
+               ;; no dynamic slot issues because can't make assumptions based on conditions alone
+               
+               (dolist (p1slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p2-slots))
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             mappings))
+          
+          (t
+           nil))))
+
+
+(defun COMPOSE-IMAGINAL-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  ;; Generally:
+  ;;   If the first has a + (4, 12, 13, 20, 28 29) then
+  ;;      the conditions are those of the first including a query
+  ;;      the actions are the = or * of the first if there is one and
+  ;;      the + will be the + of the first (can't be a + in the second)
+  ;;      with the = or * of the second unioned in and overriding
+  
+  ;;   If the first has no actions (0, 8, 16 24)
+  ;;      the buffer conditions are the union of those in the first
+  ;;      and those of the second with the query from the first being
+  ;;      used if there is one (16 24) otherwise the query from the second
+  ;;      is used if there is one
+  ;;      the actions are those of the second
+  
+  ;;   Otherwise (9 40 25 56)
+  ;;      the conditions are the union of those in the first
+  ;;      and those from the second that are not set by the 
+  ;;      actions of the first If there is a query in the first it is
+  ;;      used (25 56) otherwise a query from the second is used
+  ;;      the actions are the = or * from the first with the = or * from
+  ;;      the second unioned in and overriding and
+  ;;      the + of the second if there is one
+  ;;
+  (declare (ignore p1))
+  
+  (let ((c1 (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s)))
+        (c2 (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s)))
+        (q1 (find-if (lambda (x) (and (char= #\? (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s)))
+        (q2 (find-if (lambda (x) (and (char= #\? (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s)))
+        
+        (a1= (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+        (a2= (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s)))
+        
+        (a1+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+        (a2+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s)))
+        (a1* (find-if (lambda (x) (and (char= #\* (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+        (a2* (find-if (lambda (x) (and (char= #\* (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s)))
+        (bindings (append (previous-production-bindings (compilation-module-previous module)) 
+                          (production-compilation-instan (production-name p2)))))
+    
+    (case p1-index
+      ((4 12 13 20 28 29)
+       (list (append 
+              (when c1 
+                (list c1)) 
+              (when q1 
+                (list q1)))
+             (append 
+              (when (or a1= a1*) ;; can't have both with current description
+                (if a1= 
+                    (list a1=) 
+                  (list a1*))) 
+              (cond ((and a1+ a2=)
+                     (awhen (buffer+-union a1+ a2= bindings) 
+                            (list it)))
+                    ((and a1+ a2*)
+                     (awhen (buffer+-union a1+ a2* bindings) 
+                            (list it)))
+                    (a1+
+                     (list a1+))
+                    (t 
+                     nil)))))
+      ((0 8 16 24)
+       (list (append 
+              (awhen (buffer-condition-union c1 c2 a1= bindings) 
+                     (list it))  
+              (if q1 
+                  (list q1) 
+                (if q2 
+                    (if (find buffer (compilation-module-no-harvest module))
+                        (list q2)
+                      ;; strict harvested so need to ignore a buffer empty query from p2
+                      (let ((slots (compose-rep-slots q2)))
+                        (setf slots (remove '(= buffer empty) slots :test 'equalp))
+                        (if slots
+                            (list (list (first q2) slots)) ;; building a compose-rep explicitly because don't want to destructively modify
+                          nil)))
+                  nil)
+                ))
+             (append 
+              (when a2= 
+                (list a2=))
+              (when a2* 
+                (list a2*)) 
+              (when a2+ 
+                (list a2+)))))
+      ((9 40 25 56)
+       (list (append 
+              (awhen (buffer-condition-union c1 c2 (if a1= a1= a1*) bindings) 
+                     (list it))
+              (if q1 
+                  (list q1) 
+                (if (and q2 ;; when it's a * followed by a state free query drop the query
+                         (not (and (= p1-index 40) (or (= p2-index 24) (= p2-index 25) (= p2-index 56)))))
+                    (list q2) 
+                  nil)))
+             (append (cond ((and (or (= p2-index 8) (= p2-index 24))
+                                 (not (find buffer (compilation-module-no-harvest module))) ;; it is strict harvested
+                                 (null (second a1=))) ;; the mod in a1 is a null mod
+                            nil)
+                           ((and a1* a2=)
+                            (awhen (buffer=-union a1* a2= bindings)
+                                   (list it)))
+                           ((or a1= a2=) ;; if there's at least one = union those                             
+                            (awhen (buffer=-union a1= a2= bindings) 
+                                   (list it)))
+                           ((or a1* a2*) ;; if there's at least one * union those
+                            (awhen (buffer=-union a1* a2* bindings) 
+                                   (list it)))
+                           
+                           (t nil)) ;; can't have other mix of = and * so just ignore 
+                     (when a2+ 
+                       (list a2+))))))))
+
+
+(defun CHECK-IMAGINAL-CONSISTENCY (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore p1 p2-index))
+  (case p1-index
+    ((4 12 13 20 28 29) ;; a RHS +
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\+)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+       
+    ((9 25) ;; a RHS =
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\=)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+    
+    
+    ((40 56) ;; a RHS *
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\*)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+    
+    (t
+     t)))
+
+
+(defun I-B-C3 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Compilation check queries in p2 for 'state free'"
+  (declare (ignore module p1 p1-s p1-index p2 p2-index))
+  ;; there can be only one
+  (let ((query (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))))
+    (every (lambda (x)      
+             (equalp x '(= state free)))
+           (compose-rep-slots query))))
+
+
+(defun I-B-C1 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Compilation check for queries such that p2 only uses 'buffer empty' or 'state busy'"
+  (declare (ignore module p1 p1-s p1-index p2 p2-index))
+  (let ((query (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))))
+    (every (lambda (x)      
+             (or 
+              (equalp x '(= state busy))
+              (equalp x '(= buffer empty))))
+           (compose-rep-slots query))))
+
+(defun NO-RHS-IMAGINAL-REF (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Can't compile if the variable naming the buffer is used in the actions of p2"
+  (declare (ignore module p1 p1-s p1-index p2 p2-index))
+  (not (recursive-find (intern (concatenate 'string "=" (symbol-name buffer)))
+                       (second p2-s)))) 
+
+(defun I-B-C4 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (and (i-b-c3 buffer module p1 p1-s p1-index p2 p2-s p2-index)
+       (no-rhs-imaginal-ref buffer module p1 p1-s p1-index p2 p2-s p2-index)))
+
+(defun I-B-C2 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+ "queries in p1 and p2 must be the same
+   NOTE: this doesn't take into account any variables at this time"
+  (declare (ignore module p1 p1-index p2 p2-index))
+  (let ((query1 (awhen (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p1-s))
+                       (compose-rep-slots it)))
+        (query2 (awhen (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))
+                       (compose-rep-slots it))))
+    
+    (= (length query1) (length query2) 
+       (length (remove-duplicates (append query1 query2) :test 'equal)))))
+
+(defun I-B-C5 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "only if the buffer is not strict harvested"
+  (declare (ignore p1 p1-s p1-index p2 p2-s p2-index))
+  (find buffer (compilation-module-no-harvest module)))
+
+(defun I-B-C6 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Not strict harvested and same queries"
+  (and (i-b-c5 buffer module p1 p1-s p1-index p2 p2-s p2-index) 
+       (i-b-c2 buffer module p1 p1-s p1-index p2 p2-s p2-index)))
+
+(defun I-B-C7 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Not strict harvested and no RHS imaginal references"
+  (and (i-b-c5 buffer module p1 p1-s p1-index p2 p2-s p2-index) 
+       (no-rhs-imaginal-ref buffer module p1 p1-s p1-index p2 p2-s p2-index)))
+
+(defun I-B-C8 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Not strict harvested and p2 query must be state free"
+  (and (i-b-c5 buffer module p1 p1-s p1-index p2 p2-s p2-index) 
+       (i-b-c3 buffer module p1 p1-s p1-index p2 p2-s p2-index)))
+
+(defun I-B-C9 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore p1 p1-index p2 p2-s p2-index))
+  (or (find buffer (compilation-module-no-harvest module))
+      (let ((mod (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+        (and mod (null (second mod))))))
+
+(defun I-B-C10 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Not strict harvested and p2 query must be state free"
+  (and (i-b-c2 buffer module p1 p1-s p1-index p2 p2-s p2-index) 
+       (i-b-c9 buffer module p1 p1-s p1-index p2 p2-s p2-index)))
+
+
+(defun imaginal-reason (p1-index p2-index failed-function)
+  (cond ((eql failed-function 'no-rhs-imaginal-ref)
+         "the buffer variable cannot be used in the actions of the second production if there is a request in the first production.")
+        ((eql failed-function 'i-b-c1)
+         "when the first production makes a request and the second does not harvest it the second can only query for state busy or buffer empty.")
+        ((eql failed-function 'i-b-c2)
+         "the queries in both productions must be the same.")
+        ((eql failed-function 'i-b-c3)
+         "when the first production makes a request and the second harvests it the second can only query for state free.")
+        ((eql failed-function 'i-b-c4)
+         "when the first production makes a request and the second harvests it the second can only query for state free and the buffer variable cannot be used in the actions of the second.")
+        ((eql failed-function 'i-b-c5)
+         "strict harvesting is enabled for the buffer and either the first production cleared the buffer or the combined production would leave the buffer with a chunk while the original pair would have left it empty.")
+        ((eql failed-function 'i-b-c6)
+         "either strict harvesting is enabled for the buffer and the combined production would leave the buffer with a chunk while the original pair would have left it empty or the queries in the productions are not the same.")
+        ((eql failed-function 'i-b-c7)
+         "either strict harvesting is enabled for the buffer and the combined production would leave the buffer with a chunk while the original pair would have left it empty or the buffer variable cannot be used in the actions of the second production if there is a request in the first production.")
+        ((eql failed-function 'i-b-c8)
+         "either strict harvesting is enabled for the buffer and the combined production would leave the buffer with a chunk while the original pair would have left it empty or the first production makes a request and the second harvests it so it ca’  “  ”                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      n only query for state free.")
+        
+        (t 
+         (case p1-index
+           ((2 6 10 11 14 15 42 43 46 47 18 22 26 27 30 31 58 59 63 62)
+            "the buffer is explicitly cleared in the first production.")
+           ((44 45 60 61)
+            "the first production makes both a request and a modification request.")
+           ((41 57)
+            "the first production makes both a modification and a modification request.")
+           (t
+            (case p2-index
+              ((2 6 10 11 14 15 42 43 46 47 18 22 26 27 30 31 58 59 63 62)
+               "the buffer is explicitly cleared in the second production.")
+              ((44 45 60 61)
+               "the second production makes both a request and a modification request.")
+              ((41 57)
+               "the second production makes both a modification and a modification request.")
+              ((40 56)
+               "the first production makes a modification and the second makes a modification request.")
+              (t
+               (case p1-index
+                 ((4 12 13 20 28 29)
+                  "both productions make requests.")
+                 (t
+                  (case p2-index
+                    ((4 12 13 20 28 29)
+                     "the first production makes a modification request and the second makes a request.")
+                    (t
+                     "the first production makes a modification request and the other makes a modification.")))))))))))
+
+(define-compilation-type IMAGINAL ((56 56 I-B-C3)
+                                   (56 40 T)
+                                   (56 25 I-B-C3)
+                                   (56 24 I-B-C8)
+                                   (56 16 I-B-C1)
+                                   (56 9 T)
+                                   (56 8 I-B-C5)
+                                   (56 0 T)
+                                   (40 56 I-B-C3)
+                                   (40 40 T)
+                                   (40 25 I-B-C3)
+                                   (40 24 I-B-C8)
+                                   (40 16 I-B-C1)
+                                   (40 9 T)
+                                   (40 8 I-B-C5)
+                                   (40 0 T)
+                                   (29 56 I-B-C4)
+                                   (29 40 NO-RHS-IMAGINAL-REF)
+                                   (29 25 I-B-C3)
+                                   (29 24 I-B-C8)
+                                   (29 16 I-B-C1)
+                                   (29 9 NO-RHS-IMAGINAL-REF)
+                                   (29 8 I-B-C7)
+                                   (29 0 T)
+                                   (28 56 I-B-C4)
+                                   (28 40 NO-RHS-IMAGINAL-REF)
+                                   (28 25 I-B-C3)
+                                   (28 24 I-B-C8)
+                                   (28 16 I-B-C1)
+                                   (28 9 NO-RHS-IMAGINAL-REF)
+                                   (28 8 I-B-C7)
+                                   (28 0 T)
+                                   (25 29 I-B-C2)
+                                   (25 28 I-B-C2)
+                                   (25 25 I-B-C2)
+                                   (25 24 I-B-C10)
+                                   (25 20 I-B-C2)
+                                   (25 16 I-B-C2)
+                                   (25 13 T)
+                                   (25 12 T)
+                                   (25 9 T)
+                                   (25 8 I-B-C9)
+                                   (25 4 T)
+                                   (25 0 T)
+                                   (24 56 I-B-C6)
+                                   (24 40 I-B-C6)
+                                   (24 29 I-B-C6)
+                                   (24 28 I-B-C6)
+                                   (24 25 I-B-C6)
+                                   (24 24 I-B-C6)
+                                   (24 20 I-B-C2)
+                                   (24 16 I-B-C2)
+                                   (24 13 I-B-C5)
+                                   (24 12 I-B-C5)
+                                   (24 9 I-B-C5)
+                                   (24 8 I-B-C5)
+                                   (24 4 T)
+                                   (24 0 T)
+                                   (20 56 I-B-C4)
+                                   (20 40 NO-RHS-IMAGINAL-REF)
+                                   (20 25 I-B-C3)
+                                   (20 24 I-B-C8)
+                                   (20 16 I-B-C1)
+                                   (20 9 NO-RHS-IMAGINAL-REF)
+                                   (20 8 I-B-C7)
+                                   (20 0 T)
+                                   (16 56 I-B-C2)
+                                   (16 40 T)
+                                   (16 29 I-B-C2)
+                                   (16 28 I-B-C2)
+                                   (16 25 I-B-C2)
+                                   (16 24 I-B-C2)
+                                   (16 20 I-B-C2)
+                                   (16 16 I-B-C2)
+                                   (16 13 T)
+                                   (16 12 T)
+                                   (16 9 T)
+                                   (16 8 T)
+                                   (16 4 T)
+                                   (16 0 T)
+                                   (13 56 I-B-C4)
+                                   (13 40 NO-RHS-IMAGINAL-REF)
+                                   (13 25 I-B-C3)
+                                   (13 24 I-B-C8)
+                                   (13 16 I-B-C1)
+                                   (13 9 NO-RHS-IMAGINAL-REF)
+                                   (13 8 I-B-C7)
+                                   (13 0 T)
+                                   (12 56 I-B-C4)
+                                   (12 40 NO-RHS-IMAGINAL-REF)
+                                   (12 25 I-B-C3)
+                                   (12 24 I-B-C8)
+                                   (12 16 I-B-C1)
+                                   (12 9 NO-RHS-IMAGINAL-REF)
+                                   (12 8 I-B-C7)
+                                   (12 0 T)
+                                   (9 29 T)
+                                   (9 28 T)
+                                   (9 25 T)
+                                   (9 24 I-B-C9)
+                                   (9 20 T)
+                                   (9 16 T)
+                                   (9 13 T)
+                                   (9 12 T)
+                                   (9 9 T)
+                                   (9 8 I-B-C9)
+                                   (9 4 T)
+                                   (9 0 T)
+                                   (8 56 I-B-C5)
+                                   (8 40 I-B-C5)
+                                   (8 29 I-B-C5)
+                                   (8 28 I-B-C5)
+                                   (8 25 I-B-C5)
+                                   (8 24 I-B-C5)
+                                   (8 20 T)
+                                   (8 16 T)
+                                   (8 13 I-B-C5)
+                                   (8 12 I-B-C5)
+                                   (8 9 I-B-C5)
+                                   (8 8 I-B-C5)
+                                   (8 4 T)
+                                   (8 0 T)
+                                   (4 56 I-B-C4)
+                                   (4 40 NO-RHS-IMAGINAL-REF)
+                                   (4 25 I-B-C3)
+                                   (4 24 I-B-C8)
+                                   (4 16 I-B-C1)
+                                   (4 9 NO-RHS-IMAGINAL-REF)
+                                   (4 8 I-B-C7)
+                                   (4 0 T)
+                                   (0 56 T)
+                                   (0 40 T)
+                                   (0 29 T)
+                                   (0 28 T)
+                                   (0 25 T)
+                                   (0 24 T)
+                                   (0 20 T)
+                                   (0 16 T)
+                                   (0 13 T)
+                                   (0 12 T)
+                                   (0 9 T)
+                                   (0 8 T)
+                                   (0 4 T)) (IMAGINAL) MAP-IMAGINAL-BUFFER COMPOSE-IMAGINAL-BUFFER CHECK-IMAGINAL-CONSISTENCY T NIL IMAGINAL-REASON)
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 14 5 77 15 6 19 4 4 15 0 1 36 12 19 2 37 1 0 73 29) #1=#A(t (124) (common-lisp-user::compose-motor-buffer ext::location (defun common-lisp-user::compose-motor-buffer) (#2=#P"/opt/actr/actr7.x/tools/motor-compilation.lisp" . 0) ext::annotate :lambda-list (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index common-lisp-user::x #\? common-lisp-user::compose-rep-op char= common-lisp-user::compose-rep-name eq #Y(nil nil nil (24 45 15 26 15 16 13 0 19 1 17 12 19 2 18 73 39 10 13 8 13 0 19 1 19 17 20 29) #1# #2# 0) find-if #Y(nil nil nil (24 45 15 26 15 16 13 0 19 1 17 12 19 2 18 73 39 10 13 8 13 0 19 1 19 17 20 29) #1# #2# 0) #\+ #Y(nil nil nil (24 45 15 26 15 24 13 0 19 1 17 12 19 2 18 73 39 10 13 8 13 0 19 1 19 17 20 29) #1# #2# 0) second #Y(nil nil nil (24 45 15 26 15 24 13 0 19 1 17 12 19 2 18 73 39 10 13 8 13 0 19 1 19 17 20 29) #1# #2# 0) common-lisp-user::a2+ common-lisp-user::a1+ common-lisp-user::q2 common-lisp-user::q1 0 4 16 20 #Y(common-lisp-user::compose-motor-buffer nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 21 12 10 4 4 12 19 2 22 12 34 23 12 10 1 4 12 19 2 22 12 34 25 12 10 4 16 26 12 19 2 22 12 34 27 12 10 1 16 26 12 19 2 22 12 46 28 46 29 46 30 46 31 10 7 42 32 25 10 1 73 39 6 10 1 6 1 73 12 10 3 39 5 10 3 6 1 6 2 73 38 74 42 33 15 77 10 2 39 5 10 2 6 1 6 2 73 38 57 42 34 25 10 0 73 39 6 10 0 6 1 73 12 10 3 39 5 10 3 6 1 6 2 73 38 30 42 35 25 10 0 73 39 6 10 0 6 1 73 12 10 2 39 5 10 2 6 1 6 2 73 38 3 75 73 43 4 29) #1# #2# 0) si::fset common-lisp-user::m-b-c1 (defun common-lisp-user::m-b-c1) (#2# . 3872) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 15 26 13 0 19 1 17 12 15 16 19 2 18 73 39 11 13 0 19 1 19 12 10 8 17 20 29) #1# #2# 3872) common-lisp-user::query (= common-lisp-user::state common-lisp-user::busy) equalp #Y(nil nil nil (24 45 15 26 13 0 1 44 17 45 29) #1# #2# 3872) common-lisp-user::compose-rep-slots every #Y(common-lisp-user::m-b-c1 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 42 12 10 1 4 12 19 2 22 45 43 34 46 12 13 0 19 1 47 12 19 2 48 43 1 29) #1# #2# 3872) function "Compilation check for queries such that p2 only uses 'state busy' 
+  since buffer empty is meaningless for motor style buffers" si::set-documentation common-lisp-user::m-b-c2 (defun common-lisp-user::m-b-c2) (#2# . 4479) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 15 26 13 0 19 1 17 12 15 16 19 2 18 73 39 11 13 0 19 1 19 12 10 8 17 20 29) #1# #2# 4479) common-lisp-user::it #Y(nil nil nil (24 45 15 26 13 0 19 1 17 12 15 16 19 2 18 73 39 11 13 0 19 1 19 12 10 8 17 20 29) #1# #2# 4479) common-lisp-user::query2 common-lisp-user::query1 length append :test equal remove-duplicates = #Y(common-lisp-user::m-b-c2 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 57 12 10 4 4 12 19 2 22 45 58 10 0 39 8 13 0 19 1 47 38 3 75 73 12 43 1 34 59 12 10 1 4 12 19 2 22 45 58 10 0 39 8 13 0 19 1 47 38 3 75 73 12 43 1 46 60 46 61 10 0 16 62 12 10 1 16 62 12 13 0 13 1 19 2 63 12 14 64 15 65 19 3 66 16 62 12 19 3 67 43 2 29) #1# #2# 4479) "queries in p1 and p2 must be the same
+   NOTE: this doesn't take into account any variables at this time" common-lisp-user::motor-reason (defun common-lisp-user::motor-reason) (#2# . 5362) (common-lisp-user::p1-index common-lisp-user::p2-index common-lisp-user::failed-function) common-lisp-user::failed-function eql "when the first production makes a request the second can only query for state busy." "the queries in both productions must be the same." 8 9 10 11 12 13 14 15 24 25 26 27 28 29 30 31 40 41 42 44 43 45 46 47 56 57 58 60 59 61 62 63 "buffer tests in first production are not allowed." 2 6 18 22 "the buffer is explicitly cleared in the first production." "buffer tests in second production are not allowed." "the buffer is explicitly cleared in the second production." "both productions make requests." #Y(common-lisp-user::motor-reason nil nil (24 45 11 24 45 14 24 45 74 26 13 0 1 38 17 75 39 6 1 76 73 38 257 13 0 1 53 17 75 39 6 1 77 73 38 244 10 2 41 78 94 41 79 91 41 80 88 41 81 85 41 82 82 41 83 79 41 84 76 41 85 73 41 86 70 41 87 67 41 88 64 41 89 61 41 90 58 41 91 55 41 92 52 41 93 49 41 94 46 41 95 43 41 96 40 41 97 37 41 98 34 41 99 31 41 100 28 41 101 25 41 102 22 41 103 19 41 104 16 41 105 13 41 106 10 41 107 7 41 108 4 42 109 6 1 110 73 38 141 41 111 10 41 112 7 41 113 4 42 114 6 1 115 73 38 124 10 1 41 78 94 41 79 91 41 80 88 41 81 85 41 82 82 41 83 79 41 84 76 41 85 73 41 86 70 41 87 67 41 88 64 41 89 61 41 90 58 41 91 55 41 92 52 41 93 49 41 94 46 41 95 43 41 96 40 41 97 37 41 98 34 41 99 31 41 100 28 41 101 25 41 102 22 41 103 19 41 104 16 41 105 13 41 106 10 41 107 7 41 108 4 42 109 6 1 116 73 38 21 41 111 10 41 112 7 41 113 4 42 114 6 1 117 73 38 4 1 118 73 29) #1# #2# 5362) common-lisp-user::motor ((20 16 common-lisp-user::m-b-c1) (20 0 t) (16 20 common-lisp-user::m-b-c2) (16 16 common-lisp-user::m-b-c2) (16 4 t) (16 0 t) (4 16 common-lisp-user::m-b-c1) (4 0 t) (0 20 t) (0 16 t) (0 4 t)) :default common-lisp-user::define-compilation-type-fct)) #2# 0) #Y(si::bytecodes nil nil (15 38 15 1 15 39 15 40 19 4 4 15 38 14 5 77 15 41 19 4 4 15 38 1 49 12 19 2 37 15 38 15 50 15 51 19 3 52 1 38 73 29) #1# #2# 3872) #Y(si::bytecodes nil nil (15 53 15 1 15 54 15 55 19 4 4 15 53 14 5 77 15 56 19 4 4 15 53 1 68 12 19 2 37 15 53 15 50 15 69 19 3 52 1 53 73 29) #1# #2# 4479) #Y(si::bytecodes nil nil (15 70 15 1 15 71 15 72 19 4 4 15 70 14 5 77 15 73 19 4 4 15 70 1 119 12 19 2 37 1 70 73 29) #1# #2# 5362) #Y(si::bytecodes nil nil (15 120 15 121 15 122 77 15 0 77 77 77 15 70 19 9 123 29) #1# #2# 6379))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2010 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : motor-compilation.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : Production compilation MOTOR style definition.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; ----- History -----
+;;;
+;;; 2010.12.06 Dan
+;;;             : * Created automatically by build-compilation-type-file.
+;;;             : * Added the details of the functions.
+;;; 2010.12.10 Dan
+;;;             : * Changed m-b-c1 since buffer empty is not a sufficient case
+;;;             :   for safety since the buffer is always empty.
+;;; 2012.04.04 Dan [1.1]
+;;;             : * Added the whynot reason function.
+;;; 2012.05.01 Dan
+;;;             : * Removed a duplicate number from the cases in the whynot function.
+;;; 2020.06.22 Dan [2.0]
+;;;             : * The functions are now all passed the same set of parameters:
+;;;             :   buffer module p1 p1-s p1-index p2 p2-s p2-index
+;;;             :   the p1-s and p2-s are the new "standard" representation that
+;;;             :   can be decomposed with composition-rep-* where * is:
+;;;             :    op -- the character of the operation =,?,!,+,-,*,@
+;;;             :    name -- the symbol naming the buffer or bang action
+;;;             :    token -- the symbol of the production item for op and name
+;;;             :    slots -- list of slot-spec lists
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defun COMPOSE-MOTOR-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore module p1 p2 p2-index))
+  ;; This is based on the limited set of conditions that can
+  ;; be composed.
+  ;;
+  ;; There are no buffer tests or modification actions allowed.
+  ;;
+  ;; The constraints are:
+  ;;
+  ;;   If the first production doesn't make a query 
+  ;;      or make a request (0)
+  ;;      any query and action are used from the second
+  ;;   If the first production makes a request without a query (4)
+  ;;      there is no query and the action from the first is used
+  ;;   If the first has a query and no request (16)
+  ;;      the query from the first and the action
+  ;;      of the second are used 
+  ;;   If the first has both a query and a request (20)
+  ;;      the query and action from the first are used
+  
+  
+  (let ((q1 (find-if (lambda (x) (and (char= #\? (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s)))
+        (q2 (find-if (lambda (x) (and (char= #\? (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s)))
+        
+        (a1+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+        (a2+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s))))
+    
+    (case p1-index
+      (0 
+       (list (when q2 (list q2))  
+             (when a2+ (list a2+))))
+      (4
+       (list nil
+             (when a1+ (list a1+))))
+      (16 
+       (list (when q1 (list q1))  
+             (when a2+ (list a2+))))
+      
+      (20
+       (list (when q1 (list q1))  
+             (when a1+ (list a1+)))))))
+
+(defun M-B-C1 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Compilation check for queries such that p2 only uses 'state busy' 
+  since buffer empty is meaningless for motor style buffers"
+  (declare (ignore module p1 p1-s p1-index p2 p2-index))
+  ;; there can be only one
+  (let ((query (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))))
+    (every (lambda (x)      
+             (equalp x '(= state busy)))
+           (compose-rep-slots query))))
+
+
+(defun M-B-C2 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "queries in p1 and p2 must be the same
+   NOTE: this doesn't take into account any variables at this time"
+  (declare (ignore module p1 p1-index p2 p2-index))
+  (let ((query1 (awhen (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p1-s))
+                       (compose-rep-slots it)))
+        (query2 (awhen (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))
+                       (compose-rep-slots it))))
+    
+    (= (length query1) (length query2) 
+       (length (remove-duplicates (append query1 query2) :test 'equal)))))
+
+(defun motor-reason (p1-index p2-index failed-function)
+  (cond ((eql failed-function 'm-b-c1)
+         "when the first production makes a request the second can only query for state busy.")
+        ((eql failed-function 'm-b-c2)
+         "the queries in both productions must be the same.")
+        (t 
+         (case p1-index
+           ((8 9 10 11 12 13 14 15 24 25 26 27 28 29 30 31 40 41 42 44 43 45 46 47 56 57 58 60 59 61 62 63)
+            "buffer tests in first production are not allowed.")
+           ((2 6 18 22)
+            "the buffer is explicitly cleared in the first production.")
+           (t
+            (case p2-index
+              ((8 9 10 11 12 13 14 15 24 25 26 27 28 29 30 31 40 41 42 44 43 45 46 47 56 57 58 60 59 61 62 63)
+               "buffer tests in second production are not allowed.")
+              ((2 6 18 22)
+               "the buffer is explicitly cleared in the second production.")
+              (t
+               "both productions make requests.")))))))
+
+(define-compilation-type MOTOR ((20 16 M-B-C1)
+                                (20 0 T)
+                                (16 20 M-B-C2)
+                                (16 16 M-B-C2)
+                                (16 4 T)
+                                (16 0 T)
+                                (4 16 M-B-C1)
+                                (4 0 T)
+                                (0 20 T)
+                                (0 16 T)
+                                (0 4 T))
+  :DEFAULT NIL COMPOSE-MOTOR-BUFFER NIL NIL NIL motor-reason)
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 14 5 77 15 6 19 4 4 15 0 1 63 12 19 2 64 15 0 15 65 15 66 19 3 67 1 0 73 29) #1=#A(t (179) (common-lisp-user::map-perceptual-buffer ext::location (defun common-lisp-user::map-perceptual-buffer) (#2=#P"/opt/actr/actr7.x/tools/perceptual-compilation.lisp" . 0) ext::annotate :lambda-list (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index (8 24) find (8 12 24 28) common-lisp-user::compilation-module-ppm common-lisp-user::ppm common-lisp-user::compilation-module-previous common-lisp-user::previous-production-bindings common-lisp-user::p1-bindings common-lisp-user::production-name common-lisp-user::production-compilation-instan common-lisp-user::p2-bindings append common-lisp-user::bindings common-lisp-user::mappings common-lisp-user::x #\= common-lisp-user::compose-rep-op char= common-lisp-user::compose-rep-name eq #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 13 13 0 19 1 33 17 34 29) #1# #2# 0) find-if common-lisp-user::compose-rep-slots common-lisp-user::original-p1-slots #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 14 13 0 19 1 33 17 34 29) #1# #2# 0) common-lisp-user::original-p2-slots common-lisp-user::instantiate-slot-names common-lisp-user::p1-slots common-lisp-user::p2-slots common-lisp-user::spec-slot-op = common-lisp-user::spec-slot-name #Y(nil nil nil (24 45 29 26 13 0 19 1 44 12 1 45 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) mapcan #Y(nil nil nil (24 45 29 26 13 0 19 1 44 12 1 45 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) intersection common-lisp-user::interesting-slots si::%dolist-var common-lisp-user::slot #Y(nil nil nil (24 45 29 26 13 0 19 1 44 12 1 45 17 34 73 39 11 13 0 19 1 46 12 10 1 17 34 29) #1# #2# 0) remove-if-not common-lisp-user::p1slots #Y(nil nil nil (24 45 29 26 13 0 19 1 44 12 1 45 17 34 73 39 11 13 0 19 1 46 12 10 3 17 34 29) #1# #2# 0) common-lisp-user::p2slots common-lisp-user::spec-slot-value common-lisp-user::constant-value-p :key car #Y(common-lisp-user::map-perceptual-buffer nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 3 15 15 19 2 16 39 8 13 0 15 17 19 2 16 73 39 319 13 6 19 1 18 45 19 13 7 19 1 20 12 19 1 21 45 22 13 4 19 1 23 12 19 1 24 45 25 10 2 39 8 13 1 13 0 19 2 26 45 27 75 45 28 34 35 12 10 9 4 12 19 2 36 12 19 1 37 45 38 34 39 12 10 7 4 12 19 2 36 12 19 1 37 45 40 13 1 13 5 19 2 41 45 42 13 1 13 5 19 2 41 45 43 34 47 12 13 1 19 2 48 12 34 49 12 13 0 19 2 48 12 19 2 50 45 51 10 0 45 52 38 184 10 0 4 45 53 34 54 12 13 4 19 2 55 45 52 38 154 10 0 4 45 56 34 57 12 13 5 19 2 55 45 52 38 124 10 0 4 45 58 13 0 19 1 59 12 13 22 19 2 60 39 81 10 15 39 57 13 2 19 1 59 12 13 22 19 2 60 39 21 13 2 19 1 59 12 13 0 19 1 59 3 12 10 11 3 51 11 38 22 13 2 19 1 59 12 13 12 14 61 15 62 19 4 16 12 10 11 3 51 11 38 19 13 2 19 1 59 12 13 0 19 1 59 3 12 10 11 3 51 11 38 19 13 0 19 1 59 12 13 2 19 1 59 3 12 10 11 3 51 11 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -186 43 1 10 5 73 43 10 29) #1# #2# 0) si::fset function "map references from p1 to p2 for perceptual style buffer" si::set-documentation common-lisp-user::compose-perceptual-buffer (defun common-lisp-user::compose-perceptual-buffer) (#2# . 6845) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 6845) #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 6845) #\? #Y(nil nil nil (24 45 29 26 15 74 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 6845) #Y(nil nil nil (24 45 29 26 15 74 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 6845) #\+ #Y(nil nil nil (24 45 29 26 15 77 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 6845) second #Y(nil nil nil (24 45 29 26 15 77 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 6845) common-lisp-user::a2+ common-lisp-user::a1+ common-lisp-user::q2 common-lisp-user::q1 common-lisp-user::c2 common-lisp-user::c1 0 4 12 8 common-lisp-user::buffer-condition-union common-lisp-user::it common-lisp-user::compilation-module-no-harvest common-lisp-user::slots (= common-lisp-user::buffer common-lisp-user::empty) :test equalp remove 16 24 20 28 #Y(common-lisp-user::compose-perceptual-buffer nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 72 12 10 4 4 12 19 2 36 12 34 73 12 10 1 4 12 19 2 36 12 34 75 12 10 4 4 12 19 2 36 12 34 76 12 10 1 4 12 19 2 36 12 34 78 12 10 4 16 79 12 19 2 36 12 34 80 12 10 1 16 79 12 19 2 36 12 46 81 46 82 46 83 46 84 46 85 46 86 10 9 42 87 40 10 1 73 39 6 10 1 6 1 73 12 10 3 73 39 6 10 3 6 1 73 12 19 2 26 12 10 5 39 5 10 5 6 1 6 2 73 38 256 41 88 4 42 89 25 10 0 73 39 6 10 0 6 1 73 12 10 4 39 5 10 4 6 1 6 2 73 38 226 42 90 115 13 0 13 1 77 77 19 4 91 45 92 10 0 39 8 10 0 6 1 73 38 3 75 73 12 43 1 10 3 39 64 13 13 13 12 19 1 93 12 19 2 16 39 8 10 3 6 1 73 38 42 13 3 19 1 37 45 94 15 95 13 0 14 96 15 97 19 4 98 51 0 10 0 39 14 10 4 4 12 10 0 6 2 6 1 73 38 3 75 73 43 1 38 3 75 73 12 19 2 26 12 10 5 39 5 10 5 6 1 6 2 73 38 109 41 99 4 42 100 56 13 0 13 1 77 77 19 4 91 45 92 10 0 39 8 10 0 6 1 73 38 3 75 73 12 43 1 10 2 73 39 6 10 2 6 1 73 12 19 2 26 12 10 5 39 5 10 5 6 1 6 2 73 38 48 41 101 4 42 102 40 10 0 73 39 6 10 0 6 1 73 12 10 2 73 39 6 10 2 6 1 73 12 19 2 26 12 10 4 39 5 10 4 6 1 6 2 73 38 3 75 73 43 6 29) #1# #2# 6845) common-lisp-user::p-b-c1 (defun common-lisp-user::p-b-c1) (#2# . 10424) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 74 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 10424) common-lisp-user::query (= common-lisp-user::state common-lisp-user::busy) (= common-lisp-user::buffer common-lisp-user::empty) #Y(nil nil nil (24 45 29 26 13 0 1 110 17 97 73 40 7 13 0 1 111 17 97 29) #1# #2# 10424) every #Y(common-lisp-user::p-b-c1 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 108 12 10 1 4 12 19 2 36 45 109 34 112 12 13 0 19 1 37 12 19 2 113 43 1 29) #1# #2# 10424) "Compilation check for queries such that p2 only uses 'buffer empty' or
+   'state busy'" common-lisp-user::p-b-c2 (defun common-lisp-user::p-b-c2) (#2# . 11028) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 74 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 11028) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 74 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 11028) common-lisp-user::query2 common-lisp-user::query1 length equal remove-duplicates #Y(common-lisp-user::p-b-c2 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 120 12 10 4 4 12 19 2 36 45 92 10 0 39 8 13 0 19 1 37 38 3 75 73 12 43 1 34 121 12 10 1 4 12 19 2 36 45 92 10 0 39 8 13 0 19 1 37 38 3 75 73 12 43 1 46 122 46 123 10 0 16 124 12 10 1 16 124 12 13 0 13 1 19 2 26 12 14 96 15 125 19 3 126 16 124 12 19 3 45 43 2 29) #1# #2# 11028) "queries in p1 and p2 must be the same
+   NOTE: this doesn't take into account any variables at this time" common-lisp-user::p-b-c3 (defun common-lisp-user::p-b-c3) (#2# . 11911) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::p-b-c3 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 19 1 93 12 19 2 16 29) #1# #2# 11911) "only if the buffer is not strict harvested" common-lisp-user::p-b-c4 (defun common-lisp-user::p-b-c4) (#2# . 12141) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::p-b-c4 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 116 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 129 29) #1# #2# 12141) "Not strict harvested and same queries" common-lisp-user::perceptual-reason (defun common-lisp-user::perceptual-reason) (#2# . 12377) (common-lisp-user::p1-index common-lisp-user::p2-index common-lisp-user::failed-function) common-lisp-user::failed-function eql "when the first production makes a request and the second does not harvest it the second can only query for state busy or buffer empty." "the queries in both productions must be the same." > "buffer modification actions in first production are not allowed." "buffer modification actions in second production are not allowed." 9 11 13 15 25 27 29 "buffer modification actions in first production are not allowed." 2 6 10 14 18 22 26 30 "the buffer is explicitly cleared in the first production." "the buffer is explicitly cleared in the second production." "buffer modification actions in second production are not allowed." "both productions make a request." "the first production makes a request and the second production harvests the chunk." "the second production harvests a chunk which is there because of buffer stuffing or because strict harvesting has been disabled." #Y(common-lisp-user::perceptual-reason nil nil (24 45 11 24 45 14 24 45 145 26 13 0 1 104 17 146 39 6 1 147 73 38 189 13 0 1 116 17 146 39 6 1 148 73 38 176 13 2 9 30 19 2 149 39 6 1 150 73 38 162 13 1 9 30 19 2 149 39 6 1 151 73 38 148 10 2 41 152 19 41 153 16 41 154 13 41 155 10 41 156 7 41 157 4 42 158 6 1 159 73 38 120 41 160 22 41 161 19 41 162 16 41 163 13 41 164 10 41 165 7 41 166 4 42 167 6 1 168 73 38 91 10 1 41 160 22 41 161 19 41 162 16 41 163 13 41 164 10 41 165 7 41 166 4 42 167 6 1 169 73 38 60 41 152 19 41 153 16 41 154 13 41 155 10 41 156 7 41 157 4 42 158 6 1 170 73 38 34 41 88 4 42 101 6 1 171 73 38 23 10 2 41 88 10 41 89 7 41 101 4 42 102 6 1 172 73 38 4 1 173 73 29) #1# #2# 12377) common-lisp-user::perceptual ((28 16 common-lisp-user::p-b-c1) (28 0 t) (24 28 common-lisp-user::p-b-c4) (24 24 common-lisp-user::p-b-c4) (24 20 common-lisp-user::p-b-c2) (24 16 common-lisp-user::p-b-c2) (24 12 common-lisp-user::p-b-c3) (24 8 common-lisp-user::p-b-c3) (24 4 t) (24 0 t) (20 16 common-lisp-user::p-b-c1) (20 0 t) (16 28 common-lisp-user::p-b-c2) (16 24 common-lisp-user::p-b-c2) (16 20 common-lisp-user::p-b-c2) (16 16 common-lisp-user::p-b-c2) (16 12 t) (16 8 t) (16 4 t) (16 0 t) (12 16 common-lisp-user::p-b-c1) (12 0 t) (8 28 common-lisp-user::p-b-c3) (8 24 common-lisp-user::p-b-c3) (8 20 t) (8 16 t) (8 12 common-lisp-user::p-b-c3) (8 8 common-lisp-user::p-b-c3) (8 4 t) (8 0 t) (4 16 common-lisp-user::p-b-c1) (4 0 t) (0 28 t) (0 24 t) (0 20 t) (0 16 t) (0 12 t) (0 8 t) (0 4 t)) (common-lisp-user::visual-location common-lisp-user::visual common-lisp-user::aural-location common-lisp-user::aural common-lisp-user::temporal) common-lisp-user::define-compilation-type-fct)) #2# 0) #Y(si::bytecodes nil nil (15 68 15 1 15 69 15 70 19 4 4 15 68 14 5 77 15 71 19 4 4 15 68 1 103 12 19 2 64 1 68 73 29) #1# #2# 6845) #Y(si::bytecodes nil nil (15 104 15 1 15 105 15 106 19 4 4 15 104 14 5 77 15 107 19 4 4 15 104 1 114 12 19 2 64 15 104 15 65 15 115 19 3 67 1 104 73 29) #1# #2# 10424) #Y(si::bytecodes nil nil (15 116 15 1 15 117 15 118 19 4 4 15 116 14 5 77 15 119 19 4 4 15 116 1 127 12 19 2 64 15 116 15 65 15 128 19 3 67 1 116 73 29) #1# #2# 11028) #Y(si::bytecodes nil nil (15 129 15 1 15 130 15 131 19 4 4 15 129 14 5 77 15 132 19 4 4 15 129 1 133 12 19 2 64 15 129 15 65 15 134 19 3 67 1 129 73 29) #1# #2# 11911) #Y(si::bytecodes nil nil (15 135 15 1 15 136 15 137 19 4 4 15 135 14 5 77 15 138 19 4 4 15 135 1 139 12 19 2 64 15 135 15 65 15 140 19 3 67 1 135 73 29) #1# #2# 12141) #Y(si::bytecodes nil nil (15 141 15 1 15 142 15 143 19 4 4 15 141 14 5 77 15 144 19 4 4 15 141 1 174 12 19 2 64 1 141 73 29) #1# #2# 12377) #Y(si::bytecodes nil nil (15 175 15 176 15 177 15 0 15 68 77 77 77 15 141 19 9 178 29) #1# #2# 13931))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2010 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : perceptual-compilation.lisp
+;;; Version     : 5.0
+;;; 
+;;; Description : Production compilation PERCEPTUAL style definition.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; ----- History -----
+;;;
+;;; 2010.12.06 Dan
+;;;             : * Created automatically by build-compilation-type-file.
+;;;             : * Added the details of the functions.
+;;; 2012.04.04 Dan [1.1]
+;;;             : * Added the whynot reason function.
+;;; 2014.05.07 Dan [2.0]
+;;;             : * Start of conversion to typeless chunks.
+;;; 2019.04.26 Dan [3.0]
+;;;             : * Allow compilation of perceptual buffers when strict harvesting
+;;;             :   is turned off over cases which would be stuffed buffers when
+;;;             :   it is on.
+;;; 2020.06.22 Dan [4.0]
+;;;             : * The functions are now all passed the same set of parameters:
+;;;             :   buffer module p1 p1-s p1-index p2 p2-s p2-index
+;;;             :   the p1-s and p2-s are the new "standard" representation that
+;;;             :   can be decomposed with composition-rep-* where * is:
+;;;             :    op -- the character of the operation =,?,!,+,-,*,@
+;;;             :    name -- the symbol naming the buffer or bang action
+;;;             :    token -- the symbol of the production item for op and name
+;;;             :    slots -- list of slot-spec lists
+;;; 2020.11.05 Dan [4.1]
+;;;             : * Drop buffer empty queries that occur in p2 if the buffer
+;;;             :   was strict harvested from p1 otherwise you end up with a
+;;;             :   production that can't fire since it tests for both there
+;;;             :   being a chunk in the buffer and a query that it's empty.
+;;; 2020.11.10 Dan
+;;;             : * Fixed the typo of modfication in the failure strings.
+;;; 2021.02.17 Dan
+;;;             : * Updated the calls to buffer-condition-union since that needs
+;;;             :   a 4th parameter of bindings that may be needed deal with
+;;;             :   dynamic issues (not needed for perceptual).
+;;; 2022.11.11 Dan [5.0]
+;;;             : * Added a mapping function because need to handle variable
+;;;             :   mapping in the situations were strict harvesting is turned
+;;;             :   off when there's a LHS = in both.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(defun MAP-PERCEPTUAL-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "map references from p1 to p2 for perceptual style buffer"
+  ;; With the current restricted set of productions
+  ;; that could be composed it's the case that only the
+  ;; LHS = to LHS = need to be considered.
+  
+  (declare (ignore p1))
+  (when ;; The LHS = to a LHS = case
+      (and (find p1-index '(8 24))
+           (find p2-index '(8 12 24 28)))
+           
+    ;; Map the LHS ='s with the LHS ='s
+           
+    ;; The slots of interest are the ones at the intersection of the
+    ;; two sets - the mappings are then done for those
+    ;; such that 
+    ;;   - if it's a variable in both then p2 vars go to p1 vars 
+    ;;   - if it's a constant in one then it goes from the var to the constant
+    ;;     (note that buffer variables are considered constants and not variables)
+    ;;   - if it's a constant in both we're in trouble if they aren't equal
+    ;;     because how did they fire...
+    ;;
+    ;; When there is more than one option we have to add both but they need to
+    ;; be evaluated in the order of variables before constants (that's handled
+    ;; elsewhere though)
+    
+    
+    (let* ((ppm (compilation-module-ppm module))
+           (p1-bindings (previous-production-bindings (compilation-module-previous module)))
+           (p2-bindings (production-compilation-instan (production-name p2)))
+           (bindings (when ppm 
+                       (append p1-bindings p2-bindings)))
+           (mappings nil)
+           (original-p1-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+           (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+           
+           (p1-slots (instantiate-slot-names
+                      original-p1-slots
+                      p1-bindings))
+           (p2-slots (instantiate-slot-names
+                      original-p2-slots
+                      p2-bindings))
+           (interesting-slots (intersection (mapcan (lambda (x)
+                                                      (when (eq (spec-slot-op x) '=)
+                                                        (list (spec-slot-name x))))
+                                              p1-slots)
+                                            (mapcan (lambda (x)
+                                                      (when (eq (spec-slot-op x) '=)
+                                                        (list (spec-slot-name x))))
+                                              p2-slots))))
+      
+      (dolist (slot interesting-slots)
+        
+        ;; no dynamic slot issues because can't assume anything from just the conditions
+        
+        (dolist (p1slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p1-slots))
+          (dolist (p2slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p2-slots))
+            (if (constant-value-p (spec-slot-value p2slots) module)
+                (if ppm
+                    (if (constant-value-p (spec-slot-value p1slots) module)
+                        (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                      (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                  
+                  (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+              (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+      mappings)))
+    
+(defun COMPOSE-PERCEPTUAL-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore p1 p2 p2-index))
+  ;; This is based on the limited set of conditions that can
+  ;; be composed.
+  ;;
+  ;; There are no buffer modification actions allowed.
+  ;;
+  ;; The constraints are:
+  ;;
+  ;;
+  ;;   If the first production doesn't mention the buffer 
+  ;;      or make a request (0)
+  ;;      any = condition, query and action are used from the second
+  ;;   If the first production makes a request without a query (4, 12)
+  ;;      any = condition in the first production is used, there
+  ;;      are no queries and the action from the first is used
+  ;;   If the first production tests the buffer but doesn't make
+  ;;      any queries or requests (8)
+  ;;      any = condition in the first is used along with any 
+  ;;      query from the second and the action of the second
+  ;;   If the first a query and no request (16, 24)
+  ;;      any = condition in either (there can be at most 1) is used 
+  ;;      along with the query from the first and the action
+  ;;      of the second
+  ;;   If the first has both a query and a request (20, 28)
+  ;;      the = condition query and action from the first are used
+  
+  
+  (let ((c1 (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s)))
+        (c2 (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s)))
+        (q1 (find-if (lambda (x) (and (char= #\? (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s)))
+        (q2 (find-if (lambda (x) (and (char= #\? (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s)))
+        
+        (a1+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+        (a2+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s))))
+    
+    (case p1-index
+      (0 
+       (list (append 
+              (when c2 
+                (list c2)) 
+              (when q2 
+                (list q2)))  
+             (when a2+ 
+               (list a2+))))
+      ((4 12)
+       (list (when c1 
+               (list c1))
+             (when a1+ 
+               (list a1+))))
+      (8
+       (list (append 
+              (awhen (buffer-condition-union c1 c2 nil nil) 
+                     (list it)) 
+              (if q2 
+                    (if (find buffer (compilation-module-no-harvest module))
+                        (list q2)
+                      ;; strict harvested so need to ignore a buffer empty query from p2
+                      (let ((slots (compose-rep-slots q2)))
+                        (setf slots (remove '(= buffer empty) slots :test 'equalp))
+                        (if slots
+                            (list (list (first q2) slots)) ;; building a compose-rep explicitly because don't want to destructively modify
+                          nil)))
+                  nil))
+             (when a2+ 
+               (list a2+))))
+      ((16 24)
+       (list (append 
+              (awhen (buffer-condition-union c1 c2 nil nil) 
+                     (list it)) 
+              (when q1 
+                (list q1)))
+             (when a2+ 
+               (list a2+))))
+      ((20 28)
+       (list (append 
+              (when c1 
+                (list c1)) 
+              (when q1 
+                (list q1)))
+             (when a1+ 
+               (list a1+)))))))
+
+(defun P-B-C1 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Compilation check for queries such that p2 only uses 'buffer empty' or
+   'state busy'"
+  (declare (ignore module p1 p1-s p1-index p2 p2-index))
+  (let ((query (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))))
+    (every (lambda (x)      
+             (or 
+              (equalp x '(= state busy))
+              (equalp x '(= buffer empty))))
+           (compose-rep-slots query))))
+
+
+(defun P-B-C2 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "queries in p1 and p2 must be the same
+   NOTE: this doesn't take into account any variables at this time"
+  (declare (ignore module p1 p1-index p2 p2-index))
+  (let ((query1 (awhen (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p1-s))
+                       (compose-rep-slots it)))
+        (query2 (awhen (find-if (lambda (x)
+                          (and (char= (compose-rep-op x) #\?)
+                               (eq (compose-rep-name x) buffer)))
+                        (first p2-s))
+                       (compose-rep-slots it))))
+    
+    (= (length query1) (length query2) 
+       (length (remove-duplicates (append query1 query2) :test 'equal)))))
+
+
+(defun P-B-C3 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "only if the buffer is not strict harvested"
+  (declare (ignore p1 p1-s p1-index p2 p2-s p2-index))
+  (find buffer (compilation-module-no-harvest module)))
+
+
+(defun P-B-C4 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Not strict harvested and same queries"
+  (and (p-b-c2 buffer module p1 p1

@@ -1,0 +1,1158 @@
+common-lisp-user::constant-chunks common-lisp-user::name) common-lisp-user::chunk-type-fct (common-lisp-user::clear (common-lisp-user::clear t)) (common-lisp-user::query-slots common-lisp-user::state common-lisp-user::buffer error) #Y(common-lisp-user::create-model-default-chunk-types nil nil (24 45 309 26 13 0 19 1 22 12 14 94 15 310 14 311 1 310 6 1 12 19 4 312 12 46 159 46 23 15 310 13 0 19 1 145 12 13 1 19 3 128 9 0 13 0 19 1 155 12 77 1 310 6 1 3 6 1 12 19 3 128 10 0 45 313 1 310 6 1 45 314 13 1 15 315 9 7 13 0 19 4 103 43 1 43 1 43 2 15 316 19 1 317 15 318 19 1 317 15 319 19 1 317 29) #1# #2# 40085) (defun common-lisp-user::create-model-default-chunks) (#2# . 40689) (common-lisp-user::free common-lisp-user::busy error common-lisp-user::empty common-lisp-user::full common-lisp-user::failure common-lisp-user::requested common-lisp-user::unrequested) common-lisp-user::define-chunks-fct ((common-lisp-user::clear common-lisp-user::isa common-lisp-user::clear)) #Y(common-lisp-user::create-model-default-chunks nil nil (26 1 323 45 118 38 27 10 0 4 45 48 13 0 15 63 10 0 6 3 6 1 12 19 1 324 10 1 5 51 1 43 1 10 0 40 -29 43 1 15 325 19 1 324 29) #1# #2# 40689) common-lisp-user::delete-model (defmacro common-lisp-user::delete-model) (#2# . 40887) (&optional (common-lisp-user::model-name nil common-lisp-user::provided)) #:g3598 #:g3597 #:g3599 common-lisp-user::model-name common-lisp-user::provided si::dm-too-many-arguments if common-lisp-user::delete-model-fct (common-lisp-user::delete-model-fct (common-lisp-user::current-model)) #Y(common-lisp-user::delete-model nil nil (24 45 331 24 45 332 26 10 1 5 45 333 10 0 39 6 10 0 4 38 2 75 45 334 10 1 39 8 10 1 5 51 1 11 68 45 335 10 2 39 6 13 4 19 1 336 15 337 13 0 15 338 15 66 10 1 6 2 6 2 12 1 339 6 4 73 29) #1# #2# 40887) (defun common-lisp-user::delete-model-fct) (#2# . 41049) (common-lisp-user::model-name) common-lisp-user::internal-delete-model-fct #Y(common-lisp-user::delete-model-fct nil nil (24 45 334 26 13 0 19 1 344 29) #1# #2# 41049) (defun common-lisp-user::internal-delete-model-fct) (#2# . 41301) (common-lisp-user::model-name) common-lisp-user::meta-p-models assoc common-lisp-user::meta-p-component-list common-lisp-user::act-r-component-model-destroy common-lisp-user::act-r-component-instance "No model named ~S in current meta-process." "No current model to delete." #Y(common-lisp-user::internal-delete-model-fct nil nil (24 45 334 26 19 0 9 45 10 10 1 39 163 13 1 13 0 19 1 349 12 19 2 350 5 45 12 10 0 39 123 10 0 48 8 13 1 13 2 19 2 229 19 0 9 12 19 1 351 45 118 38 43 10 0 4 45 159 10 0 5 12 19 1 352 39 22 10 0 5 12 19 1 352 12 10 0 5 12 19 1 353 12 13 4 20 2 23 10 1 5 51 1 43 1 10 0 40 -45 43 1 64 38 13 0 19 1 127 12 19 1 230 45 118 38 18 10 0 4 45 119 13 0 19 1 231 10 1 5 51 1 43 1 10 0 40 -20 43 1 65 13 2 19 1 227 66 44 1 11 68 73 38 19 15 74 77 15 75 15 354 13 2 19 4 77 12 19 2 78 75 73 43 1 38 17 15 74 77 15 75 15 355 19 3 77 12 19 2 78 75 73 43 1 29) #1# #2# 41301) common-lisp-user::with-model (defmacro common-lisp-user::with-model) (#2# . 42483) (common-lisp-user::model-name &body common-lisp-user::body) #:g3601 #:g3600 #:g3602 common-lisp-user::body gensym let (common-lisp-user::current-mp) common-lisp-user::print-warning "~S does not name a model in the current meta-process" (common-lisp-user::print-warning "No actions taken in with-model because there is no current meta-process") #Y(common-lisp-user::with-model nil nil (24 45 361 24 45 362 26 10 1 5 45 363 10 0 76 39 6 13 2 19 1 62 10 0 4 12 10 0 5 51 0 22 45 334 10 1 45 364 19 0 365 12 19 0 365 12 46 309 46 10 15 366 13 0 1 367 6 2 6 1 12 15 337 13 0 15 366 13 1 15 80 15 66 10 3 6 2 6 2 6 2 6 1 12 15 337 13 1 15 366 15 8 10 1 6 2 6 1 12 10 2 7 3 12 15 368 15 369 15 66 10 3 6 2 6 3 6 4 6 3 12 1 370 6 4 6 3 73 43 2 29) #1# #2# 42483) common-lisp-user::with-model-eval (defmacro common-lisp-user::with-model-eval) (#2# . 42993) (common-lisp-user::model-name &body common-lisp-user::body) #:g3604 #:g3603 #:g3605 (common-lisp-user::current-mp) "~S does not name a model in the current meta-process" (common-lisp-user::print-warning "No actions taken in with-model because there is no current meta-process") #Y(common-lisp-user::with-model-eval nil nil (24 45 376 24 45 377 26 10 1 5 45 378 10 0 76 39 6 13 2 19 1 62 10 0 4 12 10 0 5 51 0 22 45 334 10 1 45 364 19 0 365 12 19 0 365 12 46 309 46 10 15 366 13 0 1 379 6 2 6 1 12 15 337 13 0 15 366 13 1 15 80 10 3 6 2 6 2 6 1 12 15 337 13 1 15 366 15 8 10 1 6 2 6 1 12 10 2 7 3 12 15 368 15 380 10 1 6 3 6 4 6 3 12 1 381 6 4 6 3 73 43 2 29) #1# #2# 42993) common-lisp-user::with-model-fct (defun common-lisp-user::with-model-fct) (#2# . 43501) (common-lisp-user::model-name common-lisp-user::forms-list) common-lisp-user::forms-list common-lisp-user::val "~S does not name a model in the current meta-process" "No actions taken in with-model because there is no current meta-process" #Y(common-lisp-user::with-model-fct nil nil (24 45 334 24 45 387 26 19 0 9 45 10 10 0 39 85 13 2 19 1 80 45 309 10 0 39 52 13 0 77 46 388 49 8 10 3 45 118 38 19 10 0 4 45 48 10 0 16 223 51 2 10 1 5 51 1 43 1 10 0 40 -21 75 45 48 10 2 73 43 1 43 1 43 1 44 1 38 19 15 74 77 15 75 15 389 13 3 19 4 77 12 19 2 78 75 73 43 1 38 17 15 74 77 15 75 15 390 19 3 77 12 19 2 78 75 73 43 1 29) #1# #2# 43501) (defun common-lisp-user::valid-model-name) (#2# . 44027) (common-lisp-user::name) #Y(common-lisp-user::valid-model-name nil nil (24 45 63 26 13 0 19 0 9 12 19 1 349 12 19 2 350 5 73 29) #1# #2# 44027) function "Returns struct if name is the name of a model in the current meta-process - there must be a current mp" si::set-documentation "reset-step1" "Signal for the primary model reset point (before default parameters are set, modules primary resets, and code evaluated) for monitoring purposes.  No params." "reset-step2" "Signal for the secondary model reset point (after default parameters are set but before modules secondary resets and code evaluated) for monitoring purposes.  No params." "reset-step3" "Signal for the tertiary model reset point (after code evaluated but before model tertiary resets) for monitoring purposes.  No params." common-lisp-user::reset-model (defun common-lisp-user::reset-model) (#2# . 44873) (common-lisp-user::mp common-lisp-user::model) clrhash #Y(nil nil nil (24 45 48 26 10 0 4 12 13 1 19 1 141 12 10 0 5 12 19 3 128 29) #1# #2# 44873) common-lisp-user::act-r-model-starting-slot-structs #:g3712 :adjustable :fill-pointer make-array #:g3713 vector-push-extend #Y(nil nil nil (24 45 48 26 13 0 13 1 19 1 130 12 19 2 417 29) #1# #2# 44873) common-lisp-user::act-r-model-starting-slot-vector map #:g3714 common-lisp-user::act-r-model-starting-ct-size #:g3715 common-lisp-user::act-r-model-starting-distinct-types #:g3722 #:g3723 #:g3724 #:g3725 #:g3726 #:g3727 common-lisp-user::act-r-model-starting-chunk-types #:g3734 #:g3736 #:g3735 #:g3740 #:g3741 #:g3742 #:g3743 #:g3744 #:g3745 common-lisp-user::act-r-model-chunk-ref-table common-lisp-user::act-r-model-initial-chunks :merged-chunks second :filled-slots third :slot-value-lists fourth :immutable :parameter-values common-lisp-user::*chunk-parameters-count* :initial-element common-lisp-user::*chunk-parameter-undefined* common-lisp-user::make-act-r-chunk common-lisp-user::bl hash-table-p common-lisp-user::act-r-slot-name #:g3785 #:g3782 #:g3783 #:g3784 common-lisp-user::ht #:g3792 #:g3793 #:g3794 #:g3795 #:g3796 #:g3797 #:g3800 #:g3801 #:g3802 #:g3803 #:g3804 #:g3805 #:g3806 #:g3807 #Y(nil nil nil (24 45 170 24 45 175 26 10 0 45 465 75 45 466 13 1 15 178 9 1 13 0 19 4 103 43 1 43 1 13 0 19 1 179 39 33 10 0 45 467 14 181 15 182 14 98 9 5 19 4 100 45 468 13 1 15 178 9 13 13 0 19 4 103 43 1 43 1 13 0 19 1 184 45 118 38 54 10 0 4 45 48 13 0 19 1 185 10 2 45 469 13 1 19 1 187 12 13 3 19 1 188 12 19 2 189 45 470 13 1 15 178 9 7 13 0 19 4 103 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -56 43 1 13 0 19 1 191 45 118 38 18 10 0 4 45 48 13 0 19 1 192 10 1 5 51 1 43 1 10 0 40 -20 43 1 10 0 45 471 75 45 472 13 1 15 178 9 2 13 0 19 4 103 43 1 43 1 13 0 19 1 179 76 39 24 10 0 45 473 11 68 45 474 13 1 15 178 9 21 13 0 19 4 103 43 1 43 1 10 0 45 475 75 45 476 13 1 15 178 9 20 13 0 19 4 103 43 1 43 1 29) #1# #2# 44873) "reset-step1" common-lisp-user::dispatch-apply "reset-step2" common-lisp-user::act-r-model-code "reset-step3" #Y(common-lisp-user::reset-model nil nil (24 45 10 24 45 309 26 10 0 48 8 13 0 19 1 22 45 23 13 0 19 1 141 16 409 34 410 12 13 1 19 1 411 12 19 2 150 10 0 45 412 8 0 6 1 12 14 413 14 68 14 414 14 68 19 5 415 45 416 13 1 15 315 9 1 13 0 19 4 103 43 1 43 1 77 34 418 12 13 1 19 1 419 12 19 3 420 10 0 45 421 13 2 19 1 422 45 423 13 1 15 315 9 2 13 0 19 4 103 43 1 43 1 13 0 19 1 155 16 409 13 1 19 1 424 45 118 38 32 10 0 4 45 48 10 0 4 12 13 2 19 1 155 12 10 0 5 16 153 12 19 3 128 10 1 5 51 1 43 1 10 0 40 -34 43 1 10 0 45 425 75 45 426 13 1 15 315 9 4 13 0 19 4 103 43 1 43 1 10 0 45 427 75 45 428 13 1 15 315 9 5 13 0 19 4 103 43 1 43 1 13 0 19 1 145 16 409 10 0 45 429 75 45 430 13 1 15 315 9 7 13 0 19 4 103 43 1 43 1 13 1 19 1 431 45 118 38 71 10 0 4 45 48 10 2 45 432 10 1 4 6 1 45 433 13 1 19 1 149 12 13 0 19 2 125 45 434 13 2 15 315 9 7 13 0 19 4 103 43 3 10 0 4 12 13 2 19 1 145 12 10 0 5 12 19 1 147 12 19 3 128 10 1 5 51 1 43 1 10 0 40 -73 43 1 10 1 45 435 11 68 45 436 13 1 15 102 9 11 13 0 19 4 103 43 1 43 1 10 1 45 437 11 68 45 438 13 1 15 102 9 12 13 0 19 4 103 43 1 43 1 10 1 45 439 75 45 440 13 1 15 102 9 13 13 0 19 4 103 43 1 43 1 13 1 19 1 168 16 409 13 1 19 1 441 16 409 13 1 19 1 442 45 118 38 81 10 0 4 45 159 10 0 4 12 13 3 19 1 168 12 14 94 10 0 4 12 14 443 10 0 4 6 1 12 14 40 10 0 16 444 12 14 445 10 0 16 446 12 14 447 10 0 16 448 12 14 449 14 68 14 450 14 451 14 452 14 453 19 3 415 12 19 14 454 12 19 3 128 10 1 5 51 1 43 1 10 0 40 -83 43 1 13 1 19 1 442 45 118 38 161 10 0 4 45 159 10 0 16 448 45 118 38 135 10 0 4 45 160 10 0 5 12 13 5 19 1 168 12 19 2 146 39 108 10 0 5 12 13 5 19 1 441 12 19 2 146 45 455 10 0 16 456 39 44 10 1 4 12 19 1 457 45 458 10 4 4 45 459 10 2 45 460 13 2 13 1 13 0 19 2 146 3 45 461 13 2 13 1 13 0 19 3 128 43 4 38 42 19 0 100 45 462 10 4 4 12 13 0 10 2 4 12 19 1 457 6 1 12 19 3 128 10 2 5 12 13 7 19 1 441 12 13 0 19 3 128 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -137 43 1 10 1 5 51 1 43 1 10 0 40 -163 43 1 10 1 45 463 8 0 45 464 13 1 15 102 9 20 13 0 19 4 103 43 1 43 1 34 477 12 13 1 19 1 197 17 142 15 478 19 1 479 13 1 19 1 124 45 118 38 18 10 0 4 45 119 13 0 19 1 201 10 1 5 51 1 43 1 10 0 40 -20 43 1 15 210 13 1 19 1 208 12 19 2 150 15 480 19 1 479 13 1 19 1 124 45 118 38 18 10 0 4 45 119 13 0 19 1 213 10 1 5 51 1 43 1 10 0 40 -20 43 1 13 1 19 1 481 45 118 38 17 10 0 4 45 215 10 0 16 223 10 1 5 51 1 43 1 10 0 40 -19 43 1 15 482 19 1 479 13 1 19 1 124 45 118 38 18 10 0 4 45 119 13 0 19 1 234 10 1 5 51 1 43 1 10 0 40 -20 75 73 43 1 43 1 44 1 29) #1# #2# 44873))) #2# 0) #Y(si::bytecodes nil nil (15 2 15 3 15 4 15 5 19 4 6 15 2 14 7 77 77 19 4 6 15 2 1 14 12 19 2 15 1 2 73 29) #1# #2# 18073) #Y(si::bytecodes nil nil (15 16 15 2 15 17 19 3 18 29) #1# #2# 18158) #Y(si::bytecodes nil nil (15 19 15 3 15 20 15 21 19 4 6 15 19 14 7 77 77 19 4 6 15 19 1 25 12 19 2 15 1 19 73 29) #1# #2# 18274) #Y(si::bytecodes nil nil (1 26 16 27 1 26 16 28 76 39 4 75 52 26 15 26 15 3 15 29 15 30 19 4 6 1 26 73 29) #1# #2# 18491) #Y(si::bytecodes nil nil (1 31 16 27 1 31 16 28 76 39 4 75 52 31 15 31 15 3 15 32 15 33 19 4 6 1 31 73 29) #1# #2# 18531) #Y(si::bytecodes nil nil (14 34 14 35 15 36 14 37 77 14 38 15 39 14 40 15 41 14 42 1 45 12 19 11 46 29) #1# #2# 18581) #Y(si::bytecodes nil nil (14 47 14 35 1 51 12 14 37 77 14 38 15 52 14 40 15 53 14 42 1 54 12 19 11 46 29) #1# #2# 18862) #Y(si::bytecodes nil nil (15 55 15 3 15 56 15 57 19 4 6 15 55 14 7 77 15 58 19 4 6 15 55 1 67 12 14 68 9 2 19 4 15 1 55 73 29) #1# #2# 19242) #Y(si::bytecodes nil nil (15 65 15 3 15 69 15 70 19 4 6 15 65 14 7 77 15 71 19 4 6 15 65 1 235 12 19 2 15 1 65 73 29) #1# #2# 19335) #Y(si::bytecodes nil nil (15 236 15 3 15 237 15 238 19 4 6 15 236 14 7 77 15 239 19 4 6 15 236 1 244 12 14 68 9 2 19 4 15 1 236 73 29) #1# #2# 30723) #Y(si::bytecodes nil nil (15 243 15 3 15 245 15 246 19 4 6 15 243 14 7 77 15 247 19 4 6 15 243 1 305 12 19 2 15 1 243 73 29) #1# #2# 30830) #Y(si::bytecodes nil nil (15 115 15 3 15 306 15 307 19 4 6 15 115 14 7 77 15 308 19 4 6 15 115 1 320 12 19 2 15 1 115 73 29) #1# #2# 40085) #Y(si::bytecodes nil nil (15 116 15 3 15 321 15 322 19 4 6 15 116 14 7 77 77 19 4 6 15 116 1 326 12 19 2 15 1 116 73 29) #1# #2# 40689) #Y(si::bytecodes nil nil (15 327 15 3 15 328 15 329 19 4 6 15 327 14 7 77 15 330 19 4 6 15 327 1 340 12 14 68 9 2 19 4 15 1 327 73 29) #1# #2# 40887) #Y(si::bytecodes nil nil (15 338 15 3 15 341 15 342 19 4 6 15 338 14 7 77 15 343 19 4 6 15 338 1 345 12 19 2 15 1 338 73 29) #1# #2# 41049) #Y(si::bytecodes nil nil (15 344 15 3 15 346 15 347 19 4 6 15 344 14 7 77 15 348 19 4 6 15 344 1 356 12 19 2 15 1 344 73 29) #1# #2# 41301) #Y(si::bytecodes nil nil (15 357 15 3 15 358 15 359 19 4 6 15 357 14 7 77 15 360 19 4 6 15 357 1 371 12 14 68 9 2 19 4 15 1 357 73 29) #1# #2# 42483) #Y(si::bytecodes nil nil (15 372 15 3 15 373 15 374 19 4 6 15 372 14 7 77 15 375 19 4 6 15 372 1 382 12 14 68 9 2 19 4 15 1 372 73 29) #1# #2# 42993) #Y(si::bytecodes nil nil (15 383 15 3 15 384 15 385 19 4 6 15 383 14 7 77 15 386 19 4 6 15 383 1 391 12 19 2 15 1 383 73 29) #1# #2# 43501) #Y(si::bytecodes nil nil (15 80 15 3 15 392 15 393 19 4 6 15 80 14 7 77 15 394 19 4 6 15 80 1 395 12 19 2 15 15 80 15 396 15 397 19 3 398 1 80 73 29) #1# #2# 44027) #Y(si::bytecodes nil nil (15 399 77 15 400 77 19 4 18 29) #1# #2# 44276) #Y(si::bytecodes nil nil (15 401 77 15 402 77 19 4 18 29) #1# #2# 44480) #Y(si::bytecodes nil nil (15 403 77 15 404 77 19 4 18 29) #1# #2# 44694) #Y(si::bytecodes nil nil (15 405 15 3 15 406 15 407 19 4 6 15 405 14 7 77 15 408 19 4 6 15 405 1 483 12 19 2 15 1 405 73 29) #1# #2# 44873))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : model.lisp
+;;; Version     : 4.1
+;;; 
+;;; Description : Functions that support the abstraction of a model
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : Finish the documentation.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.20.08 Dan
+;;;             : Creation
+;;; 2005.01.12 Dan
+;;;             : Don't need to special case the device because it's now an
+;;;             : actual module.
+;;; 2005.02.11 Dan
+;;;             : * Changed some reset-model to use clrhash instead of 
+;;;             :   creating new tables.
+;;; 2005.02.28 Dan
+;;;             : * Made the with-model macro hygienic.
+;;; 2005.03.23 Dan
+;;;             : * Update the model reset and creation to use the two reset 
+;;;             :   functions that are now part of the module definition - one 
+;;;             :   before the parameter are reset and one after.
+;;; 2006.07.05 Dan
+;;;             : * Fixed a bug in the delete-model-fct function in the format 
+;;;             :   command for printing that there was no model.
+;;; 2006.11.07 Dan
+;;;             : * Fixed a bug in delete-model which could result in the deleted
+;;;             :   model being left as the current model after deletion.
+;;; 2007.04.19 Dan
+;;;             : * Fixed another bug in delete-model which left the current-model
+;;;             :   set even when the last model currently defined was deleted.
+;;; 2008.08.21 Dan
+;;;             : * Added a new with-model-eval macro that sits half way between
+;;;             :   the current macro and the -fct.  This macro does evaluate the
+;;;             :   first parameter to get the name, but splices in the body
+;;;             :   to evaluate.  Should be more convenient in many circumstances.
+;;; 2008.10.22 Dan [1.0]
+;;;             : * Updated the reset function to handle the new chunk-ref table
+;;;             :   and setting its flags to default values.
+;;;             : * Finally took the a1 off the version.
+;;; 2008.12.01 Dan
+;;;             : * Added the code to call a third module reset function after
+;;;             :   the user code has been evaled.
+;;; 2008.12.08 Dan
+;;;             : * Added new-chunk-type-size and largest-chunk-type-size to
+;;;             :   record and get the largest possible chunk size.
+;;; 2008.12.15 Dan
+;;;             : * Added the code to call the third reset function when the
+;;;             :   model is initially created too.
+;;; 2009.09.09 Dan
+;;;             : * Updated reset-model to also clear the chunk-set from all of
+;;;             :   the multi-buffers.
+;;; 2009.10.08 Dan
+;;;             : * Updated define-model to clear the chunk-set as well since
+;;;             :   reset doesn't happen at initial definition time.
+;;; 2009.12.03 Dan
+;;;             : * Delete-model needs to take events out of the meta-process's 
+;;;             :   dynamics list as well.
+;;; 2010.08.17 Dan
+;;;             : * Better cleanup in define-model when there's an error during
+;;;             :   the definition code.
+;;; 2010.11.16 Dan
+;;;             : * Added the :mcts and :mctrt system parameters for configuring
+;;;             :   the model's chunk table because those can speed things up 
+;;;             :   significantly in some circumstances (for example ACL works
+;;;             :   better with :mctrt of .6 and :mcts set large if there are
+;;;             :   going to be a lot of chunks created).
+;;; 2011.11.11 Dan
+;;;             : * Added a warning about model names that could cause problems
+;;;             :   for the environment.
+;;; 2012.02.06 Dan
+;;;             : * Added unsafe-define-model for my debugging purposes because
+;;;             :   sometimes it's easier to fix things if the errors are unhandled.
+;;; 2012.08.08 Dan
+;;;             : * Record the models as they are defined in meta-p-model-order
+;;;             :   so things like reset can occur in the same order as when
+;;;             :   initially created for consistency.
+;;; 2013.01.04 Dan
+;;;             : * Added unwind-protect to reset- and delete- model so that the
+;;;             :   current model always gets restored (define model doesn't need
+;;;             :   it since it has other protection and doesn't just restore the
+;;;             :   "last" model anyway).
+;;;             : * Added a check to define-model to prevent it from creating a
+;;;             :   new model when it's not valid to do so based on meta-p-cannot-define-model
+;;;             :   and added the cannot-define-model calls to places that need
+;;;             :   to be protected.
+;;; 2013.01.07 Dan
+;;;             : * Changed the test on cannot-define-model to be >0 instead of
+;;;             :   just true.
+;;; 2014.02.24 Dan [2.0]
+;;;             : * Don't bother creating the chunk-type chunk since it's 
+;;;             :   automatic now.
+;;;             : * Largest chunk-type size is total slot count (not the most
+;;;             :   efficient method, but go with it for now).
+;;; 2014.05.16 Dan
+;;;             : * Added more default chunk types: constant-chunk and clear.
+;;;             :   constant-chunk specifies a name slot which can then be used
+;;;             :   to prevent chunks from merging to avoid oddities like free
+;;;             :   and busy merging!  Clear has one slot named clear with a
+;;;             :   default value of t and it can be used by modules that need
+;;;             :   a "clear" request without having to define it in the module.
+;;;             : * All the default chunks now use the name slot to prevent 
+;;;             :   possible merging.  The chunk-name is set in the slot to
+;;;             :   avoid that.  It does change the fan of those items relative
+;;;             :   to the older ACT-R versions if they're used in slots of DM
+;;;             :   chunks and spreading activation is on, but the fan of those
+;;;             :   things shouldn't have been important anyway.
+;;; 2014.06.25 Dan
+;;;             : * Change the definition for the type chunk since subtype info
+;;;             :   isn't kept anymore.
+;;;             : * Set the act-r-chunk-type-info-types list to (chunks) on a
+;;;             :   reset.
+;;; 2014.09.26 Dan
+;;;             : * Instead of maphashing over global-modules-table dolist over
+;;;             :   all-module-names because that guarantees ordering.
+;;; 2014.11.07 Dan
+;;;             : * Adding another default chunk-type to specify the default
+;;;             :   query slots as valid: (chunk-type query-slots state buffer error).
+;;; 2015.03.19 Dan
+;;;             : * Resetting a model now needs to clear the buffer flags as well. 
+;;;             : * Failure needs to be the name of a default chunk.
+;;; 2015.09.09 Dan [3.0]
+;;;             : * Model now keeps track of requests made to modules when asked
+;;;             :   and can report on whether or not a request has "completed".
+;;; 2015.12.16 Dan
+;;;             : * All of the "completing" functions now return t as long as
+;;;             :   there is a model and meta-process regardless of whether or 
+;;;             :   not the params matched something previously uncompleted.
+;;; 2017.03.30 Dan
+;;;             : * Replaced meta-p-current-model usage with *current-act-r-model*.
+;;; 2017.06.02 Dan
+;;;             : * Cleaned up some issues with the "current model" setting and
+;;;             :   use.
+;;;             : * Delete-model needs to call the component delete hooks since
+;;;             :   they may need access to the model's modules before they're 
+;;;             :   gone.
+;;; 2017.06.15 Dan
+;;;             : * Lock access to the modules table.
+;;;             : * Only evaluate current-model-struct once in current-model.
+;;; 2017.06.20 Dan
+;;;             : * Protect the chunk-type-info access with its lock.
+;;;             : * Protect the chunk tables with a lock.
+;;; 2017.06.21 Dan
+;;;             : * Protect the 'chunk updateing" slots with a lock.
+;;; 2017.06.22 Dan
+;;;             : * Protecting meta-p-models and meta-p-events with the lock.
+;;; 2017.06.29 Dan
+;;;             : * Lock access to the global buffer-table and the model's buffers.
+;;;             : * Protect the access to the global parameters table.
+;;;             : * Changed valid-model-name to return the struct on success and
+;;;             :   adjusted the with-model-* commands accordingly to avoid the
+;;;             :   double lock and gethash.
+;;; 2017.07.13 Dan
+;;;             : * Lock the buffer itself when modifying things during reset.
+;;; 2017.07.14 Dan
+;;;             : * Protect access to the meta-p-component-list.
+;;; 2017.08.24 Dan
+;;;             : * Add signals for the three model reset points.
+;;; 2017.08.29 Dan
+;;;             : * Fixed copy and paste error with last update that only called
+;;;             :   reset-step1 3 times...
+;;; 2017.11.01 Dan
+;;;             : * Adding a switch for :standalone that doesn't invoke the 
+;;;             :   debugger when running the standalone version for an error
+;;;             :   in the model definition because if that reload happens in
+;;;             :   another thread (called from Tcl/Tk or Python) then CCL can
+;;;             :   get stuck with the "type (:y #)" to switch to that process
+;;;             :   message but not let you actually type it...
+;;; 2017.11.03 Dan
+;;;             : * Still want to print the error message from the standalone 
+;;;             :   with the previous change.
+;;; 2017.12.07 Dan
+;;;             : * Starting work needed to allow for remote modules.
+;;; 2017.12.08 Dan
+;;;             : * Added remote versions of the complete request functions.
+;;;             : * Added a remote current-model, but not sure that it'll really
+;;;             :   do the 'right' thing.
+;;; 2018.02.05 Dan
+;;;             : * Don't directly access the meta-process events.
+;;; 2018.04.13 Dan
+;;;             : * The buffer-lock is now recursive.
+;;; 2018.04.24 Dan
+;;;             : * Use top-level-load? to check before invoking the debugger
+;;;             :   since can't invoke it from a dispatched thread.
+;;; 2018.06.08 Dan
+;;;             : * Tracking a request now returns an id instead of the chunk-spec
+;;;             :   since that's safe to use through the dispatcher.
+;;; 2018.06.13 Dan
+;;;             : * Updated the doc strings for remote commands and removed
+;;;             :   a few verify-current-mp calls.
+;;; 2018.07.26 Dan
+;;;             : * Added remote request-completed-p.
+;;; 2019.02.05 Dan
+;;;             : * Adjustments because meta-p-models is now an alist.
+;;; 2019.02.13 Dan
+;;;             : * The model now holds a bitvector indicating which buffers
+;;;             :   currently have chunks in them.
+;;; 2019.03.13 Dan
+;;;             : * The act-r-chunk-type-info-slot->mask table isn't used anymore.
+;;; 2019.04.03 Dan
+;;;             : * Store the instance of the module in the buffer struct when
+;;;             :   creating a model and also in a list to use upon reset (so
+;;;             :   it doesn't need to pull them from the hash-table).
+;;; 2019.11.08 Dan
+;;;             : * Moved the *define-model-lock* to the meta-process file and
+;;;             :   added a global variable to go with it that indicates it's
+;;;             :   currently inside a model manipulation function to allow the
+;;;             :   running cmds to check and not run in the body of a model.
+;;; 2019.11.20 Dan
+;;;             : * Need to clear the act-r-chunk-type-info-query-slots list
+;;;             :   when resetting to maintain consistency since they're also
+;;;             :   being added to the slot table too.
+;;; 2020.06.01 Dan [4.0]
+;;;             : * Allow chunk-types and chunks to be defined during module
+;;;             :   creation functions and then cache all the chunk-type and
+;;;             :   chunk information after creation for reapplication during
+;;;             :   reset (much faster than redefining every time).
+;;;             : * Any chunk defined at creation time is automatically marked
+;;;             :   as immutable.
+;;; 2021.06.03 Dan [4.1]
+;;;             : * Set the reuse? flag for the buffers at init and reset and
+;;;             :   create the initial chunk for the buffer.
+;;; 2021.06.09 Dan
+;;;             : * Don't actually create the initial chunk for the buffers
+;;;             :   because that's a big performance hit for tasks that run a
+;;;             :   non-learning short trial & reset approach (fan model in the
+;;;             :   tutorial for example).
+;;; 2021.07.16 Dan
+;;;             : * Only set the reuse? flag if it's not a multi buffer.
+;;;             : * Delete-model wasn't returning t on success.
+;;; 2021.10.14 Dan [5.0]
+;;;             : * Only record the modules and buffers that are actually
+;;;             :   instantiated.
+;;; 2024.04.30 Dan
+;;;             : * Use the with-running-or-defining-lock macro to protect the
+;;;             :   define and delete model situations, and make an
+;;;             :   internal-delete-model function that doesn't check the lock
+;;;             :   so it can be used from clear-all which will already have it.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Model structure is not for use outside of the framework.
+;;;
+;;; Note possible unsafe condition with respect to threading because a run could
+;;; be started after the define-model call checks.  Ignoring that for now because
+;;; it's likely a low probability situation.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;; define-model
+;;; 
+;;; (defmacro define-model (name &body model-code))
+;;; (defun define-model-fct (name model-code-list))
+;;; 
+;;; name a symbol that will be the name for the new model
+;;; model-code any number of forms that will be evaluated for the model
+;;; model-code-list a list of forms to evaluate for the model
+;;; 
+;;; define-model is used to create a new model in the current meta-process.
+;;; 
+;;; The name must not already be used for a model in the current meta-process. If the name is not a symbol or is already used to name a model in the current meta-process a warning will be displayed and the model will not be defined (the old model with that name will remain unchanged if one existed).
+;;; 
+;;; When a model is first defined the following sequence of events will occur:
+;;; 
+;;; - Create a new model with that name
+;;; - with that new model as the current model
+;;;    - create the default chunk-types 
+;;;    - create the default chunks
+;;;    - create a new instance of each module 
+;;;        - call its create function if it exists
+;;;        - call its reset function if it exists
+;;;    - evaluate the forms of the model in the order provided
+;;;   
+;;; If a model is successfully created then its name is returned otherwise define-model returns nil.
+;;; 
+;;; Every model will need to have a call to define-model before issuing any of the model commands because there is no default model in a meta-process.  However, if one is working with only a single model then all that is necessary is to provide a name - it is not necessary to enclose all of the model code.
+;;; 
+;;; current-model
+;;; 
+;;; (defun current-model ())
+;;; 
+;;; current-model returns the name of the current model in the current meta-process or nil if there is no current model or no current meta-process.
+;;; 
+;;; delete-model
+;;; 
+;;; (defmacro delete-model (&optional model-name))
+;;; (defun delete-model-fct (&optional model-name))
+;;; 
+;;; model-name a symbol that names a model
+;;; 
+;;; If model-name is not provided the name of the current-model is used.  
+;;; 
+;;; If model-name is the name of a model in the current meta-process then the following sequence of events will occur:
+;;; 
+;;;  - the model with that name is set to the current model
+;;;  - all events generated by that model are removed from the event queue
+;;;  - each module of the model is deleted
+;;;  - the model is removed from the set of models in the current meta-process
+;;; 
+;;; If model-name is valid then t is returned.
+;;; 
+;;; If model-name is not valid or there is no current meta-process then a warning is printed, nothing is done and nil is returned.
+;;; 
+;;; with-model
+;;; 
+;;; (defmacro with-model (model-name &body body))
+;;; (defun with-model-fct (model-name forms-list))
+;;; 
+;;; model-name a symbol that names a model in the current meta-process
+;;; body any number of forms to execute
+;;; forms-list a list of forms to execute
+;;; 
+;;; If model-name is the name of a model in the current meta-process then the forms are evaluated in order with the current model set to the one named by model-name.  The value of the last form evaluated is returned.
+;;; 
+;;; If model-name does not name a model in the current meta-process, or there is no current meta-process then none of the forms are evaluated, a warning is printed and nil is returned.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(declaim (ftype (function (t) t) id-to-chunk-spec))
+
+(defun current-model ()
+  (awhen (current-model-struct)
+    (act-r-model-name it)))
+
+(add-act-r-command "current-model" 'current-model "Get the name of the current model if there is one. No params.")
+
+(defun largest-chunk-type-size ()
+  (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+    (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+      (act-r-chunk-type-info-size info))))
+
+
+(defvar *model-chunk-table-size* nil)
+(defvar *model-chunk-table-rehash-threshold* nil)
+
+(create-system-parameter :mcts :valid-test 'posnumornil :default-value nil :warning "positive number or nil"
+                         :documentation "initial size of a model's chunk table" 
+                         :handler (simple-system-param-handler *model-chunk-table-size*))
+
+(create-system-parameter :mctrt :valid-test (lambda (x) (typep x '(or null (real 0 1)))) :default-value nil 
+                                             :warning "a real number [0-1] or nil"
+                         :documentation "rehash-threshold of a model's chunk table" 
+                         :handler (simple-system-param-handler *model-chunk-table-rehash-threshold*))
+
+
+
+(defmacro define-model (name &body model-code)
+  `(define-model-fct ',name ',model-code))
+
+(defun define-model-fct (name model-code-list)
+  (verify-current-mp  
+   "define-model called with no current meta-process."
+   (with-running-or-defining-lock "define-model" "defining a model"
+     
+     (cond ((not (symbolp name))
+            (print-warning "Model name must be a symbol, ~S is not valid.  No model defined." name))
+           ((null name)
+            (print-warning "Nil is not a valid name for a model.  No model defined."))
+           ((valid-model-name name)
+            (print-warning "~S is already the name of a model in the current meta-process.  Cannot be redefined." name))
+           
+           ((mp-running?)
+            (print-warning "Cannot define a model while the system is running."))
+           
+           (t
+            (when (some (lambda (x) (find x (symbol-name name))) (list #\$ #\{ #\} #\[ #\]))
+              (print-warning "Model names that contain any of the characters $, {, }, [, or ] may not work correctly with the ACT-R Environment."))
+            
+            (let ((new-model (make-act-r-model :name name))
+                  (mp (current-mp)))
+              (let ((*current-act-r-model* new-model))
+                
+                (when (or *model-chunk-table-size* *model-chunk-table-rehash-threshold*)
+                  (bt:with-recursive-lock-held ((act-r-model-chunk-lock new-model))
+                    (if *model-chunk-table-size*
+                        (if *model-chunk-table-rehash-threshold*
+                            (progn
+                              (setf (act-r-model-chunks-table new-model) (make-hash-table :size *model-chunk-table-size* :rehash-threshold *model-chunk-table-rehash-threshold*))
+                              (setf (act-r-model-chunk-ref-table new-model) (make-hash-table :size *model-chunk-table-size* :rehash-threshold *model-chunk-table-rehash-threshold*)))
+                          (progn
+                            (setf (act-r-model-chunks-table new-model) (make-hash-table :size *model-chunk-table-size*))
+                            (setf (act-r-model-chunk-ref-table new-model) (make-hash-table :size *model-chunk-table-size*))))
+                      (progn
+                        (setf (act-r-model-chunks-table new-model) (make-hash-table :rehash-threshold *model-chunk-table-rehash-threshold*))
+                        (setf (act-r-model-chunk-ref-table new-model) (make-hash-table :rehash-threshold *model-chunk-table-rehash-threshold*))))))
+                
+                
+                (add-new-model name new-model)
+                
+                (create-model-default-chunk-types new-model)
+                
+                (create-model-default-chunks)
+                
+                (bt:with-lock-held ((act-r-model-modules-lock new-model))
+                  (dolist (module-name (all-module-names))
+                    
+                    (let ((i (instantiate-module module-name name)))
+                      
+                      (when i
+                        (push-last i (act-r-model-module-instances new-model))
+                        (setf (gethash module-name (act-r-model-modules-table new-model)) i))))
+                  
+                  ;; cache the starting chunk-type information
+                  
+                  (let ((info (act-r-model-chunk-types-info new-model)))
+                    (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+                      (setf (act-r-model-starting-slot-vector new-model)
+                        (copy-seq (act-r-chunk-type-info-index->slot info)))
+                      
+                      (setf (act-r-model-starting-ct-size new-model) (act-r-chunk-type-info-size info))
+                      
+                      (setf (act-r-model-starting-slot-structs new-model)
+                        (let ((r nil))
+                          (maphash (lambda (k v)
+                                     (push-last (cons k v) r))
+                                   (act-r-chunk-type-info-slot->index info))
+                          r))
+                      
+                      (setf (act-r-model-starting-chunk-types new-model)
+                        (mapcar (lambda (x)
+                                  (cons x (deep-copy-act-r-chunk-type (gethash x (act-r-chunk-type-info-table info)))))
+                          (act-r-chunk-type-info-types info)))
+                      
+                      (setf (act-r-model-starting-distinct-types new-model) 
+                        (maphash (lambda (k v)
+                                   (cons k (copy-list v)))
+                                 (act-r-chunk-type-info-distinct-types info)))))
+                  
+                  ;; cache the starting chunk information and make them all immutable
+                  
+                  (setf (act-r-model-initial-chunks new-model)
+                    (let ((chunks nil))
+                      (maphash (lambda (c s)
+                                 (bt:with-recursive-lock-held ((act-r-chunk-lock s))
+                                   (push (list c (act-r-chunk-documentation s) (act-r-chunk-filled-slots s) (act-r-chunk-slot-value-lists s))
+                                         chunks)
+                                   (setf (act-r-chunk-immutable s) t)))
+                               (act-r-model-chunks-table new-model))
+                      chunks))
+                  
+                  ;; instantiate the buffers
+                  
+                  (bt:with-lock-held (*buffers-table-lock*) 
+                    (bt:with-lock-held ((act-r-model-buffers-lock new-model))
+                      
+                      (maphash (lambda (buffer-name buffer-struct)
+                                 (let ((module (gethash (act-r-buffer-module buffer-struct) (act-r-model-modules-table new-model))))
+                                   (when module
+                                     (let ((buffer (copy-act-r-buffer buffer-struct)))
+                                       
+                                       (setf (act-r-buffer-module-instance buffer)
+                                         (gethash (act-r-buffer-module buffer) (act-r-model-modules-table new-model)))
+                                       
+                                       (when (act-r-buffer-multi buffer)
+                                         (setf (act-r-buffer-chunk-set buffer) (make-hash-table :test 'eq :size 5)))
+                                       
+                                       (dolist (x (act-r-buffer-requests buffer))
+                                         (add-request-parameter x)
+                                         (setf (act-r-buffer-requests-mask buffer) (logior (slot-name->mask x) (act-r-buffer-requests-mask buffer))))
+                                       
+                                       (dolist (x (act-r-buffer-queries buffer))
+                                         (add-buffer-query x))
+                                       
+                                       (unless (act-r-buffer-multi buffer)
+                                         (setf (act-r-buffer-reuse? buffer) t))
+                                       (setf (act-r-buffer-reuse-chunk buffer) nil) 
+                                       
+                                       (setf (gethash buffer-name (act-r-model-buffers new-model)) buffer)))))
+                               
+                               *buffers-table*))))
+                
+                (dolist (m (act-r-model-module-instances new-model))
+                  (reset-module m))
+                
+                #|;; Just set all the reusable slots to nil above instead of setting
+                           them here (here because naming module needs to be reset) since
+                           it's an added cost to do this for a buffer that doesn't get a chunk in the
+                           model
+
+                      (bt:with-lock-held ((act-r-model-buffers-lock new-model))
+                        
+                        (maphash (lambda (buffer-name buffer-struct)
+                                   (let ((name (new-name-fct (format nil "~s-buffer-chunk" buffer-name))))
+                                     (define-chunks-fct (list name))
+                                     (make-chunk-reusable name)
+                                     (setf (act-r-buffer-reuse-chunk buffer-struct) name)))
+                                 
+                                 (act-r-model-buffers new-model)))
+                      |#
+                
+                (maphash (lambda (parameter-name parameter)
+                           (when (gethash (act-r-parameter-owner parameter) (act-r-model-modules-table new-model))
+                             (push (list parameter-name (act-r-parameter-default parameter)) (act-r-model-params new-model))
+                             (sgp-fct (list parameter-name (act-r-parameter-default parameter)))))
+                         (bt:with-lock-held (*parameters-table-lock*) *act-r-parameters-table*))
+                
+                
+                (dolist (m (act-r-model-module-instances new-model))
+                  (secondary-reset-module m))
+                
+                
+                (let ((errored nil))
+                  (dolist (form model-code-list)
+                    (unwind-protect 
+                        (handler-case (eval form)
+                          (error (condition) 
+                            (setf errored t)
+                            (print-warning "Error encountered in model form:~%~S~%" form)
+                            
+                            #-:standalone (let ((sub-load (not (top-level-load?))))
+                                            (if sub-load
+                                                (print-warning "~/print-error-message/" condition)
+                                              (progn
+                                                (print-warning "Invoking the debugger.")
+                                                (print-warning "You must exit the error state to continue.")
+                                                (invoke-debugger condition))))
+                            
+                            #+:standalone (print-warning "~/print-error-message/" condition)
+                            ))
+                      (when errored
+                        (remove-model name)
+                        (print-warning "Model ~s not defined." name)
+                        
+                        ;; delete any events that may have been scheduled by modules
+                        ;; or code prior to the error
+                        
+                        (delete-all-model-events mp name)
+                        
+                        
+                        ;; remove the modules which were created
+                        
+                        (dolist (module-name (hash-table-keys (act-r-model-modules-table new-model)))
+                          (delete-module module-name))
+                        
+                        (return-from define-model-fct nil)))))
+                
+                (setf (act-r-model-code new-model) model-code-list)
+                
+                (dolist (m (act-r-model-module-instances new-model))
+                  (tertiary-reset-module m)))
+              
+              
+              name))))))
+  
+(defmacro unsafe-define-model (name &body model-code)
+  `(unsafe-define-model-fct ',name ',model-code))
+
+(defun unsafe-define-model-fct (name model-code-list)
+  (verify-current-mp  
+   "define-model called with no current meta-process."
+   (with-running-or-defining-lock "unsafe-define-model" "defining a model"
+     
+     (cond ((not (symbolp name))
+            (print-warning "Model name must be a symbol, ~S is not valid.  No model defined." name))
+           ((null name)
+            (print-warning "Nil is not a valid name for a model.  No model defined."))
+           ((valid-model-name name)
+            (print-warning "~S is already the name of a model in the current meta-process.  Cannot be redefined." name))
+           ((mp-running?)
+            (print-warning "Cannot define a model while the system is running."))
+           
+           (t
+            (when (some (lambda (x) (find x (symbol-name name))) (list #\$ #\{ #\} #\[ #\]))
+              (print-warning "Model names that contain any of the characters $, {, }, [, or ] may not work correctly with the ACT-R Environment."))
+            
+            (let ((new-model (make-act-r-model :name name)))
+              (let ((*current-act-r-model* new-model))
+                (when (or *model-chunk-table-size* *model-chunk-table-rehash-threshold*)
+                  (bt:with-recursive-lock-held ((act-r-model-chunk-lock new-model))
+                    (if *model-chunk-table-size*
+                        (if *model-chunk-table-rehash-threshold*
+                            (progn
+                              (setf (act-r-model-chunks-table new-model) (make-hash-table :size *model-chunk-table-size* :rehash-threshold *model-chunk-table-rehash-threshold*))
+                              (setf (act-r-model-chunk-ref-table new-model) (make-hash-table :size *model-chunk-table-size* :rehash-threshold *model-chunk-table-rehash-threshold*)))
+                          (progn
+                            (setf (act-r-model-chunks-table new-model) (make-hash-table :size *model-chunk-table-size*))
+                            (setf (act-r-model-chunk-ref-table new-model) (make-hash-table :size *model-chunk-table-size*))))
+                      (progn
+                        (setf (act-r-model-chunks-table new-model) (make-hash-table :rehash-threshold *model-chunk-table-rehash-threshold*))
+                        (setf (act-r-model-chunk-ref-table new-model) (make-hash-table :rehash-threshold *model-chunk-table-rehash-threshold*))))))
+                
+                
+                (add-new-model name new-model)
+                
+                (create-model-default-chunk-types new-model)
+                
+                (create-model-default-chunks)
+                
+                (bt:with-lock-held ((act-r-model-modules-lock new-model))
+                  (dolist (module-name (all-module-names))
+                    (let ((i (instantiate-module module-name name)))
+                      
+                      (when i
+                        (push-last i (act-r-model-module-instances new-model))
+                        (setf (gethash module-name (act-r-model-modules-table new-model)) i))))
+                  
+                  ;; cache the starting chunk-type information
+                  
+                  (let ((info (act-r-model-chunk-types-info new-model)))
+                    (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+                      (setf (act-r-model-starting-slot-vector new-model)
+                        (copy-seq (act-r-chunk-type-info-index->slot info)))
+                      
+                      (setf (act-r-model-starting-ct-size new-model) (act-r-chunk-type-info-size info))
+                      
+                      (setf (act-r-model-starting-slot-structs new-model)
+                        (let ((r nil))
+                          (maphash (lambda (k v)
+                                     (push-last (cons k v) r))
+                                   (act-r-chunk-type-info-slot->index info))
+                          r))
+                      
+                      (setf (act-r-model-starting-chunk-types new-model)
+                        (mapcar (lambda (x)
+                                  (cons x (deep-copy-act-r-chunk-type (gethash x (act-r-chunk-type-info-table info)))))
+                          (act-r-chunk-type-info-types info)))
+                      
+                      (setf (act-r-model-starting-distinct-types new-model) 
+                        (maphash (lambda (k v)
+                                   (cons k (copy-list v)))
+                                 (act-r-chunk-type-info-distinct-types info)))))
+                  
+                  ;; cache the starting chunk information and make them all immutable
+                  
+                  (setf (act-r-model-initial-chunks new-model)
+                    (let ((chunks nil))
+                      (maphash (lambda (c s)
+                                 (bt:with-recursive-lock-held ((act-r-chunk-lock s))
+                                   (push (list c (act-r-chunk-documentation s) (act-r-chunk-filled-slots s) (act-r-chunk-slot-value-lists s))
+                                         chunks)
+                                   (setf (act-r-chunk-immutable s) t)))
+                               (act-r-model-chunks-table new-model))
+                      chunks))
+                  
+                  ;; instantiate the buffers
+                  
+                  (bt:with-lock-held (*buffers-table-lock*) 
+                    (bt:with-lock-held ((act-r-model-buffers-lock new-model))
+                      
+                      (maphash (lambda (buffer-name buffer-struct)
+                                 (let ((module (gethash (act-r-buffer-module buffer-struct) (act-r-model-modules-table new-model))))
+                                   (when module
+                                     (let ((buffer (copy-act-r-buffer buffer-struct)))
+                                       
+                                       (setf (act-r-buffer-module-instance buffer)
+                                         module)
+                                       
+                                       (when (act-r-buffer-multi buffer)
+                                         (setf (act-r-buffer-chunk-set buffer) (make-hash-table :test 'eq :size 5)))
+                                       
+                                       (dolist (x (act-r-buffer-requests buffer))
+                                         (add-request-parameter x)
+                                         (setf (act-r-buffer-requests-mask buffer) (logior (slot-name->mask x) (act-r-buffer-requests-mask buffer))))
+                                       
+                                       (dolist (x (act-r-buffer-queries buffer))
+                                         (add-buffer-query x))
+                                       
+                                       (unless (act-r-buffer-multi buffer)
+                                         (setf (act-r-buffer-reuse? buffer) t))
+                                       (setf (act-r-buffer-reuse-chunk buffer) nil)
+                                       
+                                       (setf (gethash buffer-name (act-r-model-buffers new-model)) buffer)))))
+                               
+                               *buffers-table*))))
+                
+                (dolist (m (act-r-model-module-instances new-model))
+                  (reset-module m))
+                
+                #| ;; Create the reusable chunks for the buffers (needs to happen after naming module reset)
+                      
+                      (bt:with-lock-held ((act-r-model-buffers-lock new-model))
+                        
+                        (maphash (lambda (buffer-name buffer-struct)
+                                   (let ((name (new-name-fct (format nil "~s-buffer-chunk" buffer-name))))
+                                     (define-chunks-fct (list name))
+                                     (make-chunk-reusable name)
+                                     (setf (act-r-buffer-reuse-chunk buffer-struct) name)))
+                                 
+                                 (act-r-model-buffers new-model)))
+                      |#
+                
+                (maphash (lambda (parameter-name parameter)
+                           (when (gethash (act-r-parameter-owner parameter) (act-r-model-modules-table new-model))
+                             (push (list parameter-name (act-r-parameter-default parameter)) (act-r-model-params new-model))
+                             (sgp-fct (list parameter-name (act-r-parameter-default parameter)))))
+                         (bt:with-lock-held (*parameters-table-lock*) *act-r-parameters-table*))
+                
+                
+                (dolist (m (act-r-model-module-instances new-model))
+                  (secondary-reset-module m))
+                
+                (dolist (form model-code-list)
+                  (eval form))
+                
+                (setf (act-r-model-code new-model) model-code-list)
+                
+                (dolist (m (act-r-model-module-instances new-model))
+                  (tertiary-reset-module m)))
+              
+              
+              
+              name))))))
+  
+
+(defun create-model-default-chunk-types (model)
+  (let ((info (act-r-model-chunk-types-info model))
+        (c (make-act-r-chunk-type :name 'chunk :super-types (list 'chunk))))
+    
+    (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+      (setf (gethash 'chunk (act-r-chunk-type-info-table info)) c)
+      (setf (gethash 0 (act-r-chunk-type-info-distinct-types info)) (list (cons nil (list 'chunk))))
+      (setf (act-r-chunk-type-info-types info) (list 'chunk))))
+  
+  (chunk-type constant-chunks name)
+  (chunk-type clear (clear t))
+  (chunk-type query-slots state buffer error))
+
+
+(defun create-model-default-chunks ()
+  
+  (dolist (x '(free busy error empty full failure requested unrequested))
+    (define-chunks-fct `((,x name ,x))))
+  
+  (define-chunks (clear isa clear)))
+
+
+
+(defmacro delete-model (&optional (model-name nil provided))
+  `(if ,provided
+       (delete-model-fct ',model-name)
+     (delete-model-fct (current-model))))
+  
+(defun delete-model-fct (model-name)
+  (verify-current-mp  
+   "delete-model called with no current meta-process.~%No model deleted."
+   (with-running-or-defining-lock "delete-model" "deleting a model"
+     (internal-delete-model-fct model-name))))
+
+
+;; split this out so clear-all can call it
+;; eventhough it already has the running-or-defining lock
+;; 
+
+(defun internal-delete-model-fct (model-name)
+  
+  (let ((mp (current-mp)))
+    (if model-name
+        (aif (cdr (assoc model-name (bt:with-lock-held ((meta-p-models-lock mp)) (meta-p-models mp))))
+             (progn
+               (let ((*current-act-r-model* it))
+                 (delete-all-model-events mp model-name) 
+                 
+                 (dolist (c (bt:with-lock-held ((meta-p-component-lock (current-mp))) (meta-p-component-list (current-mp))))
+                   (when (act-r-component-model-destroy (cdr c))
+                     (funcall (act-r-component-model-destroy (cdr c)) (act-r-component-instance (cdr c)) model-name)))
+                 
+                 (unwind-protect 
+                     (dolist (module-name (hash-table-keys (act-r-model-modules-table it)))
+                       (delete-module module-name))
+                   
+                   (remove-model model-name)))
+               t)
+             (print-warning "No model named ~S in current meta-process." model-name))
+      (print-warning "No current model to delete."))))
+
+(defmacro with-model (model-name &body body)
+  (let ((mp (gensym))
+        (model (gensym)))
+    `(let ((,mp (current-mp)))
+       (if ,mp
+           (let ((,model (valid-model-name ',model-name)))
+             (if ,model 
+                 (let ((*current-act-r-model* ,model))
+                   ,@body)
+               (print-warning "~S does not name a model in the current meta-process" ',model-name)))
+         (print-warning "No actions taken in with-model because there is no current meta-process")))))
+
+(defmacro with-model-eval (model-name &body body)
+  (let ((mp (gensym))
+        (model (gensym)))
+    `(let ((,mp (current-mp)))
+       (if ,mp
+           (let ((,model (valid-model-name ,model-name))) 
+             (if ,model
+                 (let ((*current-act-r-model* ,model))
+                   ,@body)
+               (print-warning "~S does not name a model in the current meta-process" ,model)))
+         (print-warning "No actions taken in with-model because there is no current meta-process")))))
+
+(defun with-model-fct (model-name forms-list)
+  (let ((mp (current-mp)))
+     (if mp
+         (let ((model (valid-model-name model-name)))
+           (if model
+               (let ((*current-act-r-model* model)
+                     (val nil))
+                 (dolist (x forms-list val)
+                   (setf val (eval x))))
+             (print-warning "~S does not name a model in the current meta-process" model-name)))
+       (print-warning "No actions taken in with-model because there is no current meta-process"))))
+
+
+(defun valid-model-name (name)
+    "Returns struct if name is the name of a model in the current meta-process - there must be a current mp"
+  (cdr (assoc name (bt:with-lock-held ((meta-p-models-lock (current-mp))) (meta-p-models (current-mp))))))
+
+
+(add-act-r-command "reset-step1" nil "Signal for the primary model reset point (before default parameters are set, modules primary resets, and code evaluated) for monitoring purposes.  No params." nil)
+(add-act-r-command "reset-step2" nil "Signal for the secondary model reset point (after default parameters are set but before modules secondary resets and code evaluated) for monitoring purposes.  No params." nil)
+(add-act-r-command "reset-step3" nil "Signal for the tertiary model reset point (after code evaluated but before model tertiary resets) for monitoring purposes.  No params." nil)
+
+(defun reset-model (mp model)
+  (declare (ignore mp))
+  
+  (let ((*current-act-r-model* model))
+    ;; don't need to check defining now because 
+    ;; this is only called from internal-reset which already checked that
+    
+    (let ((info (act-r-model-chunk-types-info model)))
+      
+      ;; erase chunk-type info 
+      (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+        (clrhash (act-r-chunk-type-info-slot->index info))
+        
+        (mapcar (lambda (x)
+                  (setf (gethash (car x) (act-r-chunk-type-info-slot->index info))
+                    (cdr x)))
+          (act-r-model-starting-slot-structs model))
+        
+        
+        (setf (act-r-chunk-type-info-index->slot info) (make-array (list 0) :adjustable t :fill-pointer t))
+        
+        (map nil (lambda (x) (vector-push-extend x (act-r-chunk-type-info-index->slot info)))
+          (act-r-model-starting-slot-vector model))
+        
+        (setf (act-r-chunk-type-info-size info) (act-r-model-starting-ct-size model))
+        (clrhash (act-r-chunk-type-info-distinct-types info))
+        
+        (dolist (x (act-r-model-starting-distinct-types model))
+          (setf (gethash (car x) (act-r-chunk-type-info-distinct-types info))
+            (copy-list (cdr x))))
+        
+        (setf (act-r-chunk-type-info-extended-slots info) nil)
+        (setf (act-r-chunk-type-info-query-slots info) nil)
+        
+        (clrhash (act-r-chunk-type-info-table info))
+        (setf (act-r-chunk-type-info-types info) nil)
+        
+        (dolist (x (act-r-model-starting-chunk-types model))
+          (push-last (car x) (act-r-chunk-type-info-types info))
+          (setf (gethash (car x) (act-r-chunk-type-info-table info))
+            (deep-copy-act-r-chunk-type (cdr x)))))
+      
+      
+      
+      (bt:with-lock-held ((act-r-model-chunk-updating-lock model))
+        (setf (act-r-model-chunk-update model) t)
+        (setf (act-r-model-dynamic-update model) t)
+        (setf (act-r-model-delete-chunks model) nil))
+      
+      
+      ;; initialize the tables and recreate the starting chunk structs 
+      (bt:with-recursive-lock-held ((act-r-model-chunk-lock model))
+        
+        (clrhash (act-r-model-chunks-table model))
+        (clrhash (act-r-model-chunk-ref-table model))
+        
+        (bt:with-lock-held (*chunk-parameters-lock*)
+          (dolist (c (act-r-model-initial-chunks model))
+            (setf (gethash (first c) (act-r-model-chunks-table model))
+              (make-act-r-chunk
+               :name (first c)
+               :merged-chunks (list (first c))
+               :documentation (second c)
+               :filled-slots (third c)
+               :slot-value-lists (fourth c)
+               :immutable t
+               :parameter-values (make-array *chunk-parameters-count*
+                                             :initial-element *chunk-parameter-undefined*)))))
+        
+        ;; update the back-links data 
+        
+        (dolist (c (act-r-model-initial-chunks model))
+          (dolist (s (fourth c))
+            (when (gethash (cdr s) (act-r-model-chunks-table model))
+              (let ((bl (gethash (cdr s) (act-r-model-chunk-ref-table model))))
+                (if (hash-table-p bl)
+                    (push (act-r-slot-name (car s)) (gethash (first c) bl))
+                  (let ((ht (make-hash-table)))
+                    (setf (gethash (first c) ht) (list (act-r-slot-name (car s))))
+                    (setf (gethash (cdr s) (act-r-model-chunk-ref-table model)) ht))))))))
+      
+      
+      (bt:with-lock-held ((act-r-model-buffers-lock model))
+        (setf (act-r-model-buffer-state model) 0)
+        
+        (maphash (lambda (buffer-name buffer)
+                   (declare (ignore buffer-name))
+                   (bt:with-recursive-lock-held ((act-r-buffer-lock buffer))
+                     (setf (act-r-buffer-chunk buffer) nil)
+                     (when (act-r-buffer-multi buffer)
+                       (setf (act-r-buffer-chunk-set buffer) (make-hash-table :test 'eq :size 5)))
+                     (dolist (x (act-r-buffer-requests buffer))
+                       (add-request-parameter x)
+                       (setf (act-r-buffer-requests-mask buffer) (logior (slot-name->mask x) (act-r-buffer-rñ
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              equests-mask buffer))))
+                     (dolist (x (act-r-buffer-queries buffer))
+                       (add-buffer-query x))
+                     ;; clear any flags
+                     (setf (act-r-buffer-flags buffer) nil)
+                     
+                     (unless (act-r-buffer-multi buffer)
+                       (setf (act-r-buffer-reuse? buffer) t))
+                     ;; Clear any previous name (will be created as needed)
+                     (setf (act-r-buffer-reuse-chunk buffer) nil)
+                     ))
+                 (act-r-model-buffers model)))
+      
+      (dispatch-apply "reset-step1")
+      
+      (dolist (module-name (act-r-model-module-instances model))
+        (reset-module module-name))
+      
+      #| ;; Create the reusable chunks for the buffers (needs to happen after naming module reset)
+                      
+            (bt:with-lock-held ((act-r-model-buffers-lock model))
+              
+              (maphash (lambda (buffer-name buffer-struct)
+                         (let ((name (new-name-fct (format nil "~s-buffer-chunk" buffer-name))))
+                           (define-chunks-fct (list name))
+                           (make-chunk-reusable name)
+                           (setf (act-r-buffer-reuse-chunk buffer-struct) name)))
+                       
+                       (act-r-model-buffers model)))
+            |#
+      
+      ;; These are the default values
+      
+      (mapcar 'sgp-fct (act-r-model-params model))
+      
+      #|(maphash (lambda (parameter-name parameter)
+                       (sgp-fct (list parameter-name (act-r-parameter-default parameter))))
+                     (bt:with-lock-held (*parameters-table-lock*) *act-r-parameters-table*))
+            |#
+      (dispatch-apply "reset-step2")
+      
+      (dolist (module-name (act-r-model-module-instances model))
+        (secondary-reset-module module-name))
+      
+      (dolist (form (act-r-model-code model))
+        (eval form))
+      
+      (dispatch-apply "reset-step3")
+      
+      (dolist (module-name (act-r-model-module-instances model))
+        (tertiary-reset-module module-name)))))
+
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          (#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (623) ((ftype (function (t) t) common-lisp-user::buffers-module-name) proclaim (ftype (function (t) t) common-lisp-user::remove-modules-parameters) (ftype (function (t) t) common-lisp-user::uninstall-buffers) (ftype (function (t) t) common-lisp-user::buffer-exists) (ftype (function (t t) t) common-lisp-user::install-parameters) (ftype (function (t t) t) common-lisp-user::install-buffers) (ftype (function (t) t) common-lisp-user::parse-parameters) (ftype (function (t) t) common-lisp-user::parse-buffers) (ftype (function (&optional t) t) common-lisp-user::buffers) (ftype (function (t) t) common-lisp-user::chunk-spec-to-id) (ftype (function (t &key (:owner t) (:valid-test t) (:default-value t) (:warning t) (:documentation t)) t) common-lisp-user::define-parameter) common-lisp-user::*modules-lookup* si::*make-special boundp common-lisp-user::make-act-r-modules variable "The table of all defined modules" si::set-documentation ext::location (defvar common-lisp-user::*modules-lookup*) (#2=#P"/opt/actr/actr7.x/framework/modules.lisp" . 18300) ext::annotate common-lisp-user::*remote-act-r-modules* (defvar common-lisp-user::*remote-act-r-modules*) (#2# . 18509) common-lisp-user::*limited-modules* (defvar common-lisp-user::*limited-modules*) (#2# . 18670) common-lisp-user::clear-used-modules (defun common-lisp-user::clear-used-modules) (#2# . 18779) :lambda-list #Y(common-lisp-user::clear-used-modules nil nil (26 75 52 26 73 29) #1# #2# 18779) si::fset common-lisp-user::use-modules (defmacro common-lisp-user::use-modules) (#2# . 18841) (&rest common-lisp-user::names) #:g2427 #:g2426 #:g2428 common-lisp-user::names common-lisp-user::use-modules-fct quote #Y(common-lisp-user::use-modules nil nil (24 45 39 24 45 40 26 10 1 5 45 41 10 0 45 42 15 43 15 44 10 0 6 2 6 2 73 29) #1# #2# 18841) t (defun common-lisp-user::use-modules-fct) (#2# . 18908) (common-lisp-user::names) common-lisp-user::mp-models "print-warning" "~@?" "Use-modules can only be used when there are no models defined." format common-lisp-user::evaluate-act-r-command si::%dolist-var common-lisp-user::n common-lisp-user::get-abstract-module adjoin "~s is not a valid module name in call to use-modules" #Y(common-lisp-user::use-modules-fct nil nil (24 45 42 26 19 0 50 39 19 15 51 77 15 52 15 53 19 3 54 12 19 2 55 75 73 38 61 10 0 45 56 38 47 10 0 4 45 57 13 0 19 1 58 39 12 13 0 14 26 19 2 59 52 26 38 17 15 51 77 15 52 15 60 13 0 19 4 54 12 19 2 55 10 1 5 51 1 43 1 10 0 40 -49 75 73 43 1 29) #1# #2# 18908) common-lisp-user::required-module (defun common-lisp-user::required-module) (#2# . 19315) (common-lisp-user::abstract-module) common-lisp-user::abstract-module common-lisp-user::act-r-module-required common-lisp-user::it eq intersection common-lisp-user::act-r-module-name find #Y(common-lisp-user::required-module nil nil (24 45 66 26 11 26 76 73 40 43 13 0 19 1 67 45 68 10 0 39 19 14 46 10 0 17 69 73 40 8 14 26 13 0 19 2 70 38 12 13 1 19 1 71 12 14 26 19 2 72 43 1 29) #1# #2# 19315) common-lisp-user::max-module-name-length (defun common-lisp-user::max-module-name-length) (#2# . 19605) common-lisp-user::act-r-modules-name-len #Y(common-lisp-user::max-module-name-length nil nil (26 14 12 19 1 77 29) #1# #2# 19605) function "Length of the longest module's name" common-lisp-user::global-modules-table (defun common-lisp-user::global-modules-table) (#2# . 19867) common-lisp-user::act-r-modules-table #Y(common-lisp-user::global-modules-table nil nil (26 14 12 19 1 84 29) #1# #2# 19867) common-lisp-user::all-module-names (defun common-lisp-user::all-module-names) (#2# . 20015) common-lisp-user::act-r-modules-sorted-names #Y(common-lisp-user::all-module-names nil nil (26 14 12 19 1 89 29) #1# #2# 20015) "all-module-names" "Returns a list of the names of all currently defined modules. No params." common-lisp-user::add-act-r-command common-lisp-user::notified-modules (defun common-lisp-user::notified-modules) (#2# . 20299) common-lisp-user::act-r-modules-notify #Y(common-lisp-user::notified-modules nil nil (26 14 12 19 1 97 29) #1# #2# 20299) common-lisp-user::run-notify-modules (defun common-lisp-user::run-notify-modules) (#2# . 20444) common-lisp-user::act-r-modules-run-notify #Y(common-lisp-user::run-notify-modules nil nil (26 14 12 19 1 102 29) #1# #2# 20444) common-lisp-user::run-over-notify-modules (defun common-lisp-user::run-over-notify-modules) (#2# . 20595) common-lisp-user::act-r-modules-run-over-notify #Y(common-lisp-user::run-over-notify-modules nil nil (26 14 12 19 1 107 29) #1# #2# 20595) common-lisp-user::updating-modules (defun common-lisp-user::updating-modules) (#2# . 20756) common-lisp-user::act-r-modules-update #Y(common-lisp-user::updating-modules nil nil (26 14 12 19 1 112 29) #1# #2# 20756) common-lisp-user::define-module (defmacro common-lisp-user::define-module) (#2# . 20901) (common-lisp-user::module-name common-lisp-user::buffer-list common-lisp-user::params-list &key (common-lisp-user::version nil) (documentation nil) (common-lisp-user::creation nil) (common-lisp-user::reset nil) (common-lisp-user::query nil) (common-lisp-user::request nil) (common-lisp-user::buffer-mod nil) (common-lisp-user::params nil) (delete nil) (common-lisp-user::notify-on-clear nil) (common-lisp-user::update nil) (warning nil) (search nil) (common-lisp-user::offset nil) (common-lisp-user::run-start nil) (common-lisp-user::run-end nil) (common-lisp-user::required nil) (common-lisp-user::requires nil)) #:g2434 #:g2433 #:g2435 si::dm-too-few-arguments common-lisp-user::module-name common-lisp-user::buffer-list common-lisp-user::params-list :version si::search-keyword #:g2436 si::missing-keyword common-lisp-user::version :documentation #:g2437 documentation :creation #:g2438 common-lisp-user::creation :reset #:g2439 common-lisp-user::reset :query #:g2440 common-lisp-user::query :request #:g2441 common-lisp-user::request :buffer-mod #:g2442 common-lisp-user::buffer-mod :params #:g2443 common-lisp-user::params :delete #:g2444 delete :notify-on-clear #:g2445 common-lisp-user::notify-on-clear :update #:g2446 common-lisp-user::update :warning #:g2447 warning :search #:g2448 search :offset #:g2449 common-lisp-user::offset :run-start #:g2450 common-lisp-user::run-start :run-end #:g2451 common-lisp-user::run-end :required #:g2452 common-lisp-user::required :requires #:g2453 common-lisp-user::requires (:requires :required :run-end :run-start :offset :search :warning :update :notify-on-clear :delete :params :buffer-mod :request :query :reset :creation :documentation :version) si::check-keyword common-lisp-user::define-module-fct append #Y(common-lisp-user::define-module nil nil (24 45 118 24 45 119 26 10 1 5 45 120 10 0 76 39 6 13 2 19 1 121 10 0 4 12 10 0 5 51 0 22 45 122 10 1 76 39 6 13 3 19 1 121 10 1 4 12 10 1 5 51 1 22 45 123 10 2 76 39 6 13 4 19 1 121 10 2 4 12 10 2 5 51 2 22 45 124 13 3 15 125 19 2 126 45 127 13 0 1 128 17 69 39 4 75 38 3 10 0 45 129 13 5 15 130 19 2 126 45 131 13 0 1 128 17 69 39 4 75 38 3 10 0 45 132 13 7 15 133 19 2 126 45 134 13 0 1 128 17 69 39 4 75 38 3 10 0 45 135 13 9 15 136 19 2 126 45 137 13 0 1 128 17 69 39 4 75 38 3 10 0 45 138 13 11 15 139 19 2 126 45 140 13 0 1 128 17 69 39 4 75 38 3 10 0 45 141 13 13 15 142 19 2 126 45 143 13 0 1 128 17 69 39 4 75 38 3 10 0 45 144 13 15 15 145 19 2 126 45 146 13 0 1 128 17 69 39 4 75 38 3 10 0 45 147 13 17 15 148 19 2 126 45 149 13 0 1 128 17 69 39 4 75 38 3 10 0 45 150 13 19 15 151 19 2 126 45 152 13 0 1 128 17 69 39 4 75 38 3 10 0 45 153 13 21 15 154 19 2 126 45 155 13 0 1 128 17 69 39 4 75 38 3 10 0 45 156 13 23 15 157 19 2 126 45 158 13 0 1 128 17 69 39 4 75 38 3 10 0 45 159 13 25 15 160 19 2 126 45 161 13 0 1 128 17 69 39 4 75 38 3 10 0 45 162 13 27 15 163 19 2 126 45 164 13 0 1 128 17 69 39 4 75 38 3 10 0 45 165 13 29 15 166 19 2 126 45 167 13 0 1 128 17 69 39 4 75 38 3 10 0 45 168 13 31 15 169 19 2 126 45 170 13 0 1 128 17 69 39 4 75 38 3 10 0 45 171 13 33 15 172 19 2 126 45 173 13 0 1 128 17 69 39 4 75 38 3 10 0 45 174 13 35 15 175 19 2 126 45 176 13 0 1 128 17 69 39 4 75 38 3 10 0 45 177 13 37 15 178 19 2 126 45 179 13 0 1 128 17 69 39 4 75 38 3 10 0 45 180 13 39 15 181 19 2 182 15 183 15 44 10 38 6 2 12 15 44 10 37 6 2 12 15 44 10 36 6 2 12 10 34 73 39 8 14 125 10 34 6 2 73 12 10 32 73 39 8 14 130 10 32 6 2 73 12 14 133 15 44 10 30 6 2 12 14 136 15 44 10 28 6 2 12 14 139 15 44 10 26 6 2 12 14 142 15 44 10 24 6 2 12 14 145 15 44 10 22 6 2 12 14 148 15 44 10 20 6 2 12 14 151 15 44 10 18 6 2 12 14 154 15 44 10 16 6 2 12 14 157 15 44 10 14 6 2 12 14 160 15 44 10 12 6 2 12 14 163 15 44 10 10 6 2 12 14 166 15 44 10 8 6 2 12 14 169 15 44 10 6 6 2 12 14 172 15 44 10 4 6 2 12 14 175 15 44 10 2 6 2 12 14 178 15 44 10 0 6 2 6 32 12 19 3 184 7 5 73 29) #1# #2# 20901) (defun common-lisp-user::define-module-fct) (#2# . 22267) (common-lisp-user::module-name common-lisp-user::buffer-list common-lisp-user::params-list &key (common-lisp-user::version #3="" common-lisp-user::version?) (documentation #4="" common-lisp-user::docs?) common-lisp-user::creation common-lisp-user::reset common-lisp-user::query common-lisp-user::request common-lisp-user::buffer-mod common-lisp-user::params delete common-lisp-user::notify-on-clear common-lisp-user::update warning search common-lisp-user::offset common-lisp-user::run-start common-lisp-user::run-end common-lisp-user::required common-lisp-user::requires) (nil :requires :required :run-end :run-start :offset :search :warning :update :notify-on-clear :delete :params :buffer-mod :request :query :reset :creation :documentation :version) #3# common-lisp-user::version? #4# common-lisp-user::docs? "Modules should always provide a version and documentation string." "Cannot create a new module when there are models defined." "Nil is not a valid module-name. No module defined." symbolp "~s is not a valid module name.~%No module defined." common-lisp-user::valid-module-name "Module ~S already exists and cannot be redefined.  Delete it with undefine-module first if you want to redefine it." listp "Buffer-list must be a list of buffer names or buffer description lists, but given ~s. Module ~s not defined." "A module with a buffer must support queries.~%Module ~s not defined." common-lisp-user::x common-lisp-user::buffer-exists #Y(nil nil nil (24 45 204 26 10 0 16 201 39 7 10 0 4 73 38 4 10 0 73 12 19 1 205 29) #1# #2# 22267) some "A buffer name requested when defining module ~s is already used by another module." "Existing buffer names are: ~s" common-lisp-user::buffers "Module attempted to create buffers: ~s" "Module ~s not defined" common-lisp-user::local-or-remote-function-or-nil length <= every "Reset parameter is not a function, function name, nil, or a list of one, two, or three such items.~%Module ~s not defined." "Invalid parameter for a module call-back function" (common-lisp-user::creation common-lisp-user::query common-lisp-user::request common-lisp-user::buffer-mod common-lisp-user::params delete common-lisp-user::notify-on-clear common-lisp-user::update warning search common-lisp-user::offset common-lisp-user::run-start common-lisp-user::run-end) common-lisp-user::items "Parameter: ~s is not a function, function name, or nil" "Module ~s not defined" common-lisp-user::act-r-parameter-p notevery "Invalid params-list ~s.~%Module ~s not defined." "Must specify a param function because parameters are used.~%Module ~s not defined." common-lisp-user::parse-buffers common-lisp-user::parse-parameters common-lisp-user::parameters :error "Error in module buffer definitions.~%Module ~s not defined." "Error in module parameter definitions.~%Module ~s not defined." :name :buffers :secondary-reset second :tertiary-reset third :warn :run-notify :run-over-notify common-lisp-user::make-act-r-module common-lisp-user::new-mod si::hash-set #:g2488 #:g2486 #:g2487 common-lisp-user::act-r-modules si::structure-set symbol-name string< #Y(nil nil nil (24 45 204 26 10 26 16 250 12 10 0 16 250 12 19 2 251 29) #1# #2# 22267) position-if common-lisp-user::splice-into-position-des #:g2489 #:g2491 common-lisp-user::act-r-modules-count + #:g2490 "~S" > #:g2492 "~S" #:g2493 #:g2496 #:g2494 #:g2495 #:g2499 #:g2497 #:g2498 #:g2502 #:g2500 #:g2501 #:g2505 #:g2503 #:g2504 common-lisp-user::r gethash #:g2511 #:g2509 #:g2510 common-lisp-user::act-r-module "Module ~s indicates it requires module ~s but that module does not exist." "Ignoring invalid :requires value when defining module ~s" common-lisp-user::install-buffers common-lisp-user::install-parameters #Y(common-lisp-user::define-module-fct nil nil (24 45 122 24 45 123 24 45 124 28 189 22 40 4 15 190 75 45 191 46 129 22 40 4 15 192 75 45 193 46 132 22 40 2 77 46 135 22 40 2 77 46 138 22 40 2 77 46 141 22 40 2 77 46 144 22 40 2 77 46 147 22 40 2 77 46 150 22 40 2 77 46 153 22 40 2 77 46 156 22 40 2 77 46 159 22 40 2 77 46 162 22 40 2 77 46 165 22 40 2 77 46 168 22 40 2 77 46 171 22 40 2 77 46 174 22 40 2 77 46 177 22 40 2 77 46 180 10 19 39 3 10 17 76 39 15 15 51 77 15 52 15 194 19 3 54 12 19 2 55 19 0 50 39 19 15 51 77 15 52 15 195 19 3 54 12 19 2 55 75 73 38 1247 10 22 76 39 19 15 51 77 15 52 15 196 19 3 54 12 19 2 55 75 73 38 1224 10 22 16 197 76 39 21 15 51 77 15 52 15 198 13 22 19 4 54 12 19 2 55 75 73 38 1197 13 22 19 1 199 39 21 15 51 77 15 52 15 200 13 22 19 4 54 12 19 2 55 75 73 38 1170 10 21 16 201 76 39 23 15 51 77 15 52 15 202 13 21 13 22 19 5 54 12 19 2 55 75 73 38 1141 10 21 39 4 10 13 76 39 21 15 51 77 15 52 15 203 13 22 19 4 54 12 19 2 55 75 73 38 1112 10 21 39 9 34 206 12 13 21 19 2 207 39 71 15 51 77 15 52 15 208 13 22 19 4 54 12 19 2 55 15 51 77 15 52 15 209 19 0 210 12 19 4 54 12 19 2 55 15 51 77 15 52 15 211 13 21 19 4 54 12 19 2 55 15 51 77 15 52 15 212 13 22 19 4 54 12 19 2 55 75 73 38 1028 10 14 16 201 76 39 6 13 14 19 1 213 40 26 10 14 16 201 39 20 10 14 16 214 12 9 3 19 2 215 39 8 15 213 13 14 19 2 216 76 39 21 15 51 77 15 52 15 217 13 22 19 4 54 12 19 2 55 75 73 38 966 13 15 19 1 213 39 76 13 13 19 1 213 39 69 13 12 19 1 213 39 62 13 11 19 1 213 39 55 13 10 19 1 213 39 48 13 9 19 1 213 39 41 13 5 19 1 213 39 34 13 4 19 1 213 39 27 13 8 19 1 213 39 20 13 7 19 1 213 39 13 13 3 19 1 213 39 6 13 2 19 1 213 76 39 119 15 51 77 15 52 15 218 19 3 54 12 19 2 55 13 15 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 10 2 6 13 12 15 219 46 42 46 220 38 41 10 0 4 12 19 1 213 76 39 19 15 51 77 15 52 15 221 10 1 4 12 19 4 54 12 19 2 55 10 0 5 12 10 1 5 12 53 1 53 0 10 0 76 39 -44 43 2 15 51 77 15 52 15 222 13 22 19 4 54 12 19 2 55 75 73 38 763 15 223 13 20 19 2 224 39 23 15 51 77 15 52 15 225 13 20 13 22 19 5 54 12 19 2 55 75 73 38 732 10 20 39 4 10 10 76 39 21 15 51 77 15 52 15 226 13 22 19 4 54 12 19 2 55 75 73 38 703 13 21 19 1 227 12 13 20 19 1 228 12 46 229 46 210 14 230 10 0 17 69 39 21 15 51 77 15 52 15 231 13 24 19 4 54 12 19 2 55 75 73 38 657 14 230 10 1 17 69 39 21 15 51 77 15 52 15 232 13 24 19 4 54 12 19 2 55 75 73 38 629 14 233 13 24 14 234 13 0 14 125 13 20 14 130 13 18 14 133 13 17 14 136 10 16 16 201 39 7 10 16 4 73 38 4 10 16 73 12 14 235 10 16 16 201 39 7 10 16 16 236 38 3 75 73 12 14 237 10 16 16 201 39 7 10 16 16 238 38 3 75 73 12 14 139 13 15 14 142 13 14 14 145 13 13 14 148 13 12 14 151 13 11 14 154 13 10 14 157 13 9 14 239 13 8 14 163 13 7 14 166 13 6 14 240 13 5 14 241 13 4 14 175 10 3 16 201 39 6 10 3 73 38 19 13 3 11 46 17 69 39 6 11 46 73 38 6 10 3 6 1 73 12 19 42 242 45 243 13 25 14 12 19 1 84 12 13 0 19 3 244 14 12 19 1 89 76 39 34 10 25 45 245 11 12 45 246 13 1 13 0 19 1 89 3 45 247 13 1 15 248 9 7 13 0 19 4 249 43 3 38 45 14 12 19 1 89 12 34 252 12 14 12 19 1 89 12 19 2 253 45 68 10 0 39 6 10 0 73 38 8 14 12 19 1 89 16 214 12 43 1 13 25 19 3 254 11 12 45 255 8 1 45 256 13 1 19 1 257 12 13 0 19 2 258 45 259 13 2 15 248 9 1 13 0 19 4 249 43 3 77 15 260 13 25 19 3 54 16 214 12 14 12 19 1 77 12 19 2 261 39 32 11 12 45 262 77 15 263 13 26 19 3 54 16 214 45 264 13 1 15 248 9 2 13 0 19 4 249 43 1 43 1 10 11 39 32 10 25 45 265 11 12 45 266 13 1 13 0 19 1 97 3 45 267 13 1 15 248 9 3 13 0 19 4 249 43 3 10 10 39 32 10 25 45 268 11 12 45 269 13 1 13 0 19 1 112 3 45 270 13 1 15 248 9 4 13 0 19 4 249 43 3 10 6 39 32 10 25 45 271 11 12 45 272 13 1 13 0 19 1 102 3 45 273 13 1 15 248 9 5 13 0 19 4 249 43 3 10 5 39 32 10 25 45 274 11 12 45 275 13 1 13 0 19 1 107 3 45 276 13 1 15 248 9 6 13 0 19 4 249 43 3 10 3 16 201 39 106 10 3 45 56 38 92 10 0 4 45 277 13 0 14 12 19 1 84 12 19 2 278 45 68 10 0 39 43 13 0 19 1 67 16 201 39 32 10 28 45 279 10 1 45 280 13 1 13 0 19 1 67 3 45 281 13 1 15 282 9 21 13 0 19 4 249 43 3 38 19 15 51 77 15 52 15 283 13 28 13 1 19 5 54 12 19 2 55 43 1 10 1 5 51 1 43 1 10 0 40 -94 43 1 38 17 15 51 77 15 52 15 284 13 25 19 4 54 12 19 2 55 13 25 13 1 19 2 285 13 25 13 2 19 2 286 10 25 73 43 1 43 2 29) #1# #2# 22267) common-lisp-user::parse-remote-params (defun common-lisp-user::parse-remote-params) (#2# . 31670) (common-lisp-user::params-list) "parse-remote-params" (:owner :valid-test :default-value :warning :documentation) common-lisp-user::process-options-list common-lisp-user::valid common-lisp-user::define-parameter common-lisp-user::string->name (:default-value :valid-test) common-lisp-user::convert-options-list-items apply #Y(nil nil nil (24 45 204 26 10 0 16 236 12 15 292 15 293 19 3 294 47 1 150 45 295 10 0 73 39 23 15 296 10 2 4 12 19 1 297 12 13 1 15 298 77 19 3 299 12 19 3 300 43 2 29) #1# #2# 31670) mapcar #Y(common-lisp-user::parse-remote-params nil nil (24 45 124 26 34 301 12 13 0 19 2 302 29) #1# #2# 31670) common-lisp-user::parse-remote-buffers (defun common-lisp-user::parse-remote-buffers) (#2# . 32148) (common-lisp-user::buffer-list) atom < common-lisp-user::string->name-recursive = subseq fifth nthcdr #Y(nil nil nil (24 45 204 26 10 0 16 308 39 8 13 0 19 1 297 38 93 10 0 16 214 12 9 5 19 2 309 39 8 13 0 19 1 310 38 74 10 0 16 214 12 9 5 19 2 311 39 27 13 0 9 0 9 4 19 3 312 12 19 1 310 12 10 0 16 313 6 1 12 19 2 184 38 36 13 0 9 0 9 4 19 3 312 12 19 1 310 12 10 0 16 313 6 1 12 9 5 10 0 17 314 12 19 1 310 12 19 3 184 29) #1# #2# 32148) #Y(common-lisp-user::parse-remote-buffers nil nil (24 45 123 26 10 0 16 201 39 11 34 315 12 13 0 19 2 302 38 4 10 0 73 29) #1# #2# 32148) common-lisp-user::remote-define-module (defun common-lisp-user::remote-define-module) (#2# . 32741) (common-lisp-user::name common-lisp-user::buffer-list common-lisp-user::param-list &optional common-lisp-user::interface-list) common-lisp-user::name common-lisp-user::param-list common-lisp-user::interface-list "define-module" (:version :documentation :creation :reset :query :request :buffer-mod :params :delete :notify-on-clear :update :warning :search :offset :run-start :run-end :required :requires) common-lisp-user::interface common-lisp-user::success common-lisp-user::m #:g2515 #:g2516 #Y(common-lisp-user::remote-define-module nil nil (24 45 321 24 45 123 24 45 322 25 40 2 77 46 323 26 13 0 15 324 15 325 19 3 294 47 1 326 45 295 10 0 39 84 15 183 13 5 19 1 297 12 13 4 19 1 304 12 13 3 19 1 288 12 13 1 19 5 300 45 327 10 0 39 46 13 0 14 12 19 1 84 12 19 2 278 45 328 10 0 45 329 11 46 45 330 13 1 15 282 9 20 13 0 19 4 249 43 1 43 1 43 1 13 0 11 23 3 52 23 10 0 73 43 1 38 3 75 73 43 2 29) #1# #2# 32741) "define-module" "Create a new module. Params: name (buffer-spec*) (param-spec*) {< version, documentation, creation , reset, query, request, buffer-mod, params, delete, notify-on-clear, update, warning, search, offset, run-start, run-end, required, requires >}" common-lisp-user::verify-remote-modules (defun common-lisp-user::verify-remote-modules) (#2# . 33907) common-lisp-user::module common-lisp-user::fn stringp common-lisp-user::check-act-r-command #Y(nil nil nil (24 45 338 26 10 0 16 339 73 39 8 13 0 19 1 340 76 73 29) #1# #2# 33907) common-lisp-user::act-r-module-creation common-lisp-user::act-r-module-reset common-lisp-user::act-r-module-secondary-reset common-lisp-user::act-r-module-tertiary-reset common-lisp-user::act-r-module-query common-lisp-user::act-r-module-request common-lisp-user::act-r-module-buffer-mod common-lisp-user::act-r-module-params common-lisp-user::act-r-module-delete common-lisp-user::act-r-module-notify-on-clear common-lisp-user::act-r-module-update common-lisp-user::act-r-module-warn common-lisp-user::act-r-module-search common-lisp-user::act-r-module-offset common-lisp-user::act-r-module-run-notify common-lisp-user::act-r-module-run-over-notify common-lisp-user::undefine-module-fct "Module ~s undefined because remote commands no longer available." remove #Y(common-lisp-user::verify-remote-modules nil nil (26 11 23 45 56 38 164 10 0 4 45 337 13 0 14 12 19 1 84 12 19 2 278 45 328 34 341 12 13 0 19 1 342 12 13 0 19 1 343 12 13 0 19 1 344 12 13 0 19 1 345 12 13 0 19 1 346 12 13 0 19 1 347 12 13 0 19 1 348 12 13 0 19 1 349 12 13 0 19 1 350 12 13 0 19 1 351 12 13 0 19 1 352 12 13 0 19 1 353 12 13 0 19 1 354 12 13 0 19 1 355 12 13 0 19 1 356 12 13 0 19 1 357 6 16 12 19 2 207 39 31 13 1 19 1 358 15 51 77 15 52 15 359 13 1 19 4 54 12 19 2 55 13 1 14 23 19 2 360 52 23 43 1 10 1 5 51 1 43 1 10 0 40 -166 75 73 43 1 29) #1# #2# 33907) common-lisp-user::undefine-module (defmacro common-lisp-user::undefine-module) (#2# . 35302) (common-lisp-user::module-name) #:g2523 #:g2522 #:g2524 si::dm-too-many-arguments #Y(common-lisp-user::undefine-module nil nil (24 45 366 24 45 367 26 10 1 5 45 368 10 0 76 39 6 13 2 19 1 121 10 0 4 12 10 0 5 51 0 22 45 122 10 1 39 6 13 3 19 1 369 15 358 15 44 10 0 6 2 6 2 73 29) #1# #2# 35302) (defun common-lisp-user::undefine-module-fct) (#2# . 35555) (common-lisp-user::module-name) "Cannot delete a module when there are models defined." "~S is not the name of a currently defined module." common-lisp-user::act-r-module-buffers common-lisp-user::uninstall-buffers common-lisp-user::remove-modules-parameters remhash #:g2540 #:g2541 #:g2542 #:g2544 - #:g2543 "~S" #:g2545 max "~S" #Y(nil nil nil (24 45 204 26 77 15 389 13 0 19 3 54 16 214 29) #1# #2# 35555) #:g2546 #:g2547 #:g2548 #:g2549 #:g2550 #:g2551 #:g2552 #:g2553 #:g2554 #Y(common-lisp-user::undefine-module-fct nil nil (24 45 122 26 19 0 50 39 19 15 51 77 15 52 15 374 19 3 54 12 19 2 55 75 73 38 319 13 0 19 1 199 76 39 21 15 51 77 15 52 15 375 13 0 19 4 54 12 19 2 55 75 73 38 291 13 0 14 12 19 1 84 12 19 2 278 12 19 1 376 12 19 1 377 13 0 19 1 378 13 0 14 12 19 1 84 17 379 11 12 45 380 13 1 14 12 19 1 89 12 19 2 360 45 381 13 1 15 248 9 7 13 0 19 4 249 43 1 43 1 11 12 45 382 8 1 45 383 13 1 19 1 257 12 13 0 19 2 384 45 385 13 2 15 248 9 1 13 0 19 4 249 43 3 77 15 386 13 0 19 3 54 16 214 12 14 12 19 1 77 12 19 2 311 39 39 11 12 45 387 33 388 12 34 390 12 19 0 86 12 19 2 302 12 19 2 300 45 391 13 1 15 248 9 2 13 0 19 4 249 43 1 43 1 11 12 45 392 13 1 14 12 19 1 97 12 19 2 360 45 393 13 1 15 248 9 3 13 0 19 4 249 43 1 43 1 11 12 45 394 13 1 14 12 19 1 102 12 19 2 360 45 395 13 1 15 248 9 5 13 0 19 4 249 43 1 43 1 11 12 45 396 13 1 14 12 19 1 107 12 19 2 360 45 397 13 1 15 248 9 6 13 0 19 4 249 43 1 43 1 11 12 45 398 13 1 14 12 19 1 112 12 19 2 360 45 399 13 1 15 248 9 4 13 0 19 4 249 43 1 43 1 11 46 73 29) #1# #2# 35555) common-lisp-user::remote-undefine-module (defun common-lisp-user::remote-undefine-module) (#2# . 37562) (common-lisp-user::name) #Y(common-lisp-user::remote-undefine-module nil nil (24 45 321 26 13 0 19 1 297 12 19 1 358 29) #1# #2# 37562) "undefine-module" "Remove the named module from the system.  Params: module-name." common-lisp-user::get-module (defmacro common-lisp-user::get-module) (#2# . 37776) (common-lisp-user::module-name &optional common-lisp-user::no-warning) #:g2556 #:g2555 #:g2557 common-lisp-user::no-warning common-lisp-user::get-module-fct #Y(common-lisp-user::get-module nil nil (24 45 412 24 45 413 26 10 1 5 45 414 10 0 76 39 6 13 2 19 1 121 10 0 4 12 10 0 5 51 0 22 45 122 10 1 39 13 10 1 4 12 10 1 5 51 1 22 38 2 75 45 415 10 2 39 6 13 4 19 1 369 15 416 15 44 10 1 6 2 12 15 44 10 0 6 2 6 3 73 29) #1# #2# 37776) common-lisp-user::get-module&abstract (defun common-lisp-user::get-module&abstract) (#2# . 37885) (common-lisp-user::module-name &optional common-lisp-user::no-warning) common-lisp-user::abstract common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model common-lisp-user::model common-lisp-user::act-r-model-modules-table common-lisp-user::present mod "~s is not the name of a module in the current model." "get-module called with no current model." #Y(common-lisp-user::get-module&abstract nil nil (24 45 122 25 40 2 77 46 415 26 75 45 422 11 423 40 13 19 0 424 45 425 13 0 19 1 426 43 1 39 80 13 2 11 423 40 13 19 0 424 45 425 13 0 19 1 426 43 1 45 427 13 0 19 1 428 12 43 1 19 2 278 47 1 429 45 430 10 1 39 12 10 0 5 51 2 10 0 4 73 38 25 10 3 76 73 39 19 15 51 77 15 52 15 431 13 4 19 4 54 12 19 2 55 75 73 43 2 38 17 15 51 77 15 52 15 432 19 3 54 12 19 2 55 75 73 12 13 0 72 2 43 1 29) #1# #2# 37885) (defun common-lisp-user::get-module-fct) (#2# . 38552) (common-lisp-user::module-name &optional common-lisp-user::no-warning) common-lisp-user::exists "~s is not the name of a module in the current model." "get-module called with no current model." #Y(common-lisp-user::get-module-fct nil nil (24 45 122 25 40 2 77 46 415 26 75 45 437 11 423 40 13 19 0 424 45 425 13 0 19 1 426 43 1 39 79 13 2 11 423 40 13 19 0 424 45 425 13 0 19 1 426 43 1 45 427 13 0 19 1 428 12 43 1 19 2 278 47 1 429 45 430 10 1 39 11 11 46 51 2 10 0 4 73 38 25 10 3 76 73 39 19 15 51 77 15 52 15 438 13 4 19 4 54 12 19 2 55 75 73 43 2 38 17 15 51 77 15 52 15 439 19 3 54 12 19 2 55 75 73 12 13 0 72 2 43 1 29) #1# #2# 38552) common-lisp-user::external-get-module (defun common-lisp-user::external-get-module) (#2# . 39200) (common-lisp-user::module-name &optional common-lisp-user::no-warning) #Y(common-lisp-user::external-get-module nil nil (24 45 122 25 40 2 77 46 415 26 13 1 19 1 297 12 13 0 19 2 416 29) #1# #2# 39200) "get-module" "Return the instance of the named module in the current model. Params: module-name {no-warning}" (defun common-lisp-user::get-abstract-module) (#2# . 39473) (common-lisp-user::module-name) #Y(common-lisp-user::get-abstract-module nil nil (24 45 122 26 13 0 14 12 19 1 84 12 19 2 278 29) #1# #2# 39473) (defun common-lisp-user::valid-module-name) (#2# . 39653) (common-lisp-user::name) #Y(common-lisp-user::valid-module-name nil nil (24 45 321 26 13 0 19 1 58 39 6 11 46 73 38 3 75 73 29) #1# #2# 39653) common-lisp-user::process-parameters (defun common-lisp-user::process-parameters) (#2# . 39737) (common-lisp-user::module-name common-lisp-user::param ignore) common-lisp-user::param ignore common-lisp-user::instance common-lisp-user::act-r-module-external consp common-lisp-user::dispatch-apply "There is no module named ~S. Cannot process parameters for it." #Y(common-lisp-user::process-parameters nil nil (24 45 122 24 45 460 24 45 461 26 13 2 11 423 40 13 19 0 424 45 425 13 0 19 1 426 43 1 45 427 13 0 19 1 428 12 43 1 19 2 278 47 1 429 45 430 10 1 39 89 10 0 5 12 10 0 4 12 46 462 46 337 13 0 19 1 349 45 68 10 0 39 58 13 1 19 1 463 39 40 10 6 16 464 39 20 13 0 13 2 10 6 4 12 10 6 5 6 2 12 19 3 465 38 13 13 0 13 2 10 6 6 1 12 19 3 465 38 10 13 0 13 2 13 6 20 2 23 38 3 75 73 43 1 43 2 38 25 10 2 76 73 39 19 15 51 77 15 52 15 466 13 4 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 39737) common-lisp-user::instantiate-module (defun common-lisp-user::instantiate-module) (#2# . 40633) (common-lisp-user::module-name common-lisp-user::model-name) common-lisp-user::model-name "There is no module named ~S. Cannot instantiate it." #Y(common-lisp-user::instantiate-module nil nil (24 45 122 24 45 472 26 13 1 19 1 58 45 337 10 0 39 39 13 0 19 1 62 73 39 29 13 0 19 1 342 39 12 13 0 19 1 342 12 13 1 19 2 465 45 462 13 0 10 1 3 73 43 1 38 19 15 51 77 15 52 15 473 13 2 19 4 54 12 19 2 55 75 73 43 1 29) #1# #2# 40633) common-lisp-user::reset-module (defun common-lisp-user::reset-module) (#2# . 41152) (common-lisp-user::module-alist) common-lisp-user::module-alist #Y(common-lisp-user::reset-module nil nil (24 45 479 26 10 0 5 12 10 0 4 12 46 462 46 337 13 0 19 1 343 45 68 10 0 39 10 13 0 13 2 19 2 465 38 3 75 73 43 1 43 2 29) #1# #2# 41152) common-lisp-user::secondary-reset-module (defun common-lisp-user::secondary-reset-module) (#2# . 41345) (common-lisp-user::module-alist) #Y(common-lisp-user::secondary-reset-module nil nil (24 45 479 26 10 0 5 12 10 0 4 12 46 462 46 337 13 0 19 1 344 45 68 10 0 39 10 13 0 13 2 19 2 465 38 3 75 73 43 1 43 2 29) #1# #2# 41345) common-lisp-user::tertiary-reset-module (defun common-lisp-user::tertiary-reset-module) (#2# . 41560) (common-lisp-user::module-alist) #Y(common-lisp-user::tertiary-reset-module nil nil (24 45 479 26 10 0 5 12 10 0 4 12 46 462 46 337 13 0 19 1 345 45 68 10 0 39 10 13 0 13 2 19 2 465 38 3 75 73 43 1 43 2 29) #1# #2# 41560) common-lisp-user::query-module (defun common-lisp-user::query-module) (#2# . 41771) (common-lisp-user::module-alist common-lisp-user::buffer-name common-lisp-user::query common-lisp-user::value) common-lisp-user::buffer-name common-lisp-user::value error common-lisp-user::state "Module ~s does not support queries." #Y(common-lisp-user::query-module nil nil (24 45 479 24 45 495 24 45 141 24 45 496 26 10 3 5 12 10 3 4 12 46 462 46 337 13 0 19 1 346 45 68 10 0 39 60 13 4 1 497 17 69 39 37 10 3 39 16 13 0 13 2 13 5 15 498 15 497 19 5 465 38 16 13 0 13 2 13 5 15 498 15 497 19 5 465 76 73 38 14 13 0 13 2 13 5 13 4 13 3 19 5 465 38 23 15 51 77 15 52 15 499 13 1 19 1 71 12 19 4 54 12 19 2 55 75 73 43 1 43 2 29) #1# #2# 41771) common-lisp-user::warn-module? (defun common-lisp-user::warn-module?) (#2# . 42341) (common-lisp-user::module-alist) #Y(common-lisp-user::warn-module? nil nil (24 45 479 26 10 0 5 12 19 1 353 39 6 11 46 73 38 3 75 73 29) #1# #2# 42341) common-lisp-user::warn-module (defun common-lisp-user::warn-module) (#2# . 42431) (common-lisp-user::module-alist common-lisp-user::buffer-name common-lisp-user::chunk-spec) common-lisp-user::chunk-spec common-lisp-user::chunk-spec-to-id "Module ~s does not require warnings." #Y(common-lisp-user::warn-module nil nil (24 45 479 24 45 495 24 45 510 26 10 2 5 12 10 2 4 12 46 462 46 337 13 0 19 1 353 45 68 10 0 39 38 13 1 19 1 463 39 18 13 0 13 2 13 4 13 3 19 1 511 12 19 4 465 38 12 13 0 13 2 13 4 13 3 20 3 23 38 23 15 51 77 15 52 15 512 13 1 19 1 71 12 19 4 54 12 19 2 55 75 73 43 1 43 2 29) #1# #2# 42431) common-lisp-user::request-module (defun common-lisp-user::request-module) (#2# . 42879) (common-lisp-user::module-alist common-lisp-user::buffer-name common-lisp-user::chunk-spec) "Module ~s does not handle requests." #Y(common-lisp-user::request-module nil nil (24 45 479 24 45 495 24 45 510 26 10 2 5 12 10 2 4 12 46 462 46 337 13 0 19 1 347 45 68 10 0 39 41 13 1 19 1 463 39 18 13 0 13 2 13 4 13 3 19 1 511 12 19 4 465 38 12 13 0 13 2 13 4 13 3 20 3 23 11 46 73 38 23 15 51 77 15 52 15 518 13 1 19 1 71 12 19 4 54 12 19 2 55 75 73 43 1 43 2 29) #1# #2# 42879) common-lisp-user::buffer-mod-module (defun common-lisp-user::buffer-mod-module) (#2# . 43368) (common-lisp-user::module-alist common-lisp-user::buffer-name common-lisp-user::chunk-mods) common-lisp-user::chunk-mods "Module ~s does not support buffer modification requests." #Y(common-lisp-user::buffer-mod-module nil nil (24 45 479 24 45 495 24 45 524 26 10 2 5 12 10 2 4 12 46 462 46 337 13 0 19 1 348 45 68 10 0 39 41 13 1 19 1 463 39 18 13 0 13 2 13 4 13 3 19 1 511 12 19 4 465 38 12 13 0 13 2 13 4 13 3 20 3 23 11 46 73 38 23 15 51 77 15 52 15 525 13 1 19 1 71 12 19 4 54 12 19 2 55 75 73 43 1 43 2 29) #1# #2# 43368) common-lisp-user::delete-module (defun common-lisp-user::delete-module) (#2# . 43884) (common-lisp-user::module-name) "There is no module named ~S in the current model. Cannot delete an instance of it." #Y(common-lisp-user::delete-module nil nil (24 45 122 26 13 0 19 1 418 47 1 337 45 462 10 1 39 27 13 1 19 1 350 45 68 10 0 39 10 13 0 13 1 19 2 465 38 3 75 73 43 1 38 19 15 51 77 15 52 15 531 13 2 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 43884) common-lisp-user::notify-module (defun common-lisp-user::notify-module) (#2# . 44227) (common-lisp-user::module-name common-lisp-user::buffer-name common-lisp-user::chunk-name) common-lisp-user::chunk-name "There is no module named ~S in the current model. Cannot notify it of a buffer's clearing." #Y(common-lisp-user::notify-module nil nil (24 45 122 24 45 495 24 45 537 26 13 2 14 46 19 2 418 47 1 337 45 462 10 1 39 18 13 1 19 1 351 12 13 0 13 3 13 2 19 4 465 38 25 11 26 76 73 39 19 15 51 77 15 52 15 538 13 4 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 44227) common-lisp-user::update-the-module (defun common-lisp-user::update-the-module) (#2# . 44748) (common-lisp-user::module-name common-lisp-user::old-time common-lisp-user::new-time) common-lisp-user::old-time common-lisp-user::new-time "There is no module named ~S in the current model. Cannot update it." #Y(common-lisp-user::update-the-module nil nil (24 45 122 24 45 544 24 45 545 26 13 2 14 46 19 2 418 47 1 337 45 462 10 1 39 18 13 1 19 1 352 12 13 0 13 3 13 2 19 4 465 38 25 11 26 76 73 39 19 15 51 77 15 52 15 546 13 4 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 44748) common-lisp-user::run-notify-module (defun common-lisp-user::run-notify-module) (#2# . 45229) (common-lisp-user::module-name) "There is no module named ~S in the current model. Cannot notify it of a run start." #Y(common-lisp-user::run-notify-module nil nil (24 45 122 26 13 0 14 46 19 2 418 47 1 337 45 462 10 1 39 14 13 1 19 1 356 12 13 0 19 2 465 38 25 11 26 76 73 39 19 15 51 77 15 52 15 552 13 2 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 45229) common-lisp-user::run-over-notify-module (defun common-lisp-user::run-over-notify-module) (#2# . 45693) (common-lisp-user::module-name) "There is no module named ~S in the current model. Cannot notify it of a run ending." #Y(common-lisp-user::run-over-notify-module nil nil (24 45 122 26 13 0 14 46 19 2 418 47 1 337 45 462 10 1 39 14 13 1 19 1 357 12 13 0 19 2 465 38 25 11 26 76 73 39 19 15 51 77 15 52 15 558 13 2 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 45693) common-lisp-user::m-buffer-search (defun common-lisp-user::m-buffer-search) (#2# . 46168) (common-lisp-user::buffer-name) common-lisp-user::buffers-module-name common-lisp-user::module-m-buffer-search "m-buffer-search cannot search ~s because it does not name a valid buffer." #Y(common-lisp-user::m-buffer-search nil nil (24 45 495 26 13 0 19 1 564 45 68 10 0 39 10 13 0 13 1 19 2 565 38 17 15 51 77 15 52 15 566 19 3 54 12 19 2 55 75 73 43 1 29) #1# #2# 46168) (defun common-lisp-user::module-m-buffer-search) (#2# . 46395) (common-lisp-user::module-name common-lisp-user::buffer-name) "There is no module named ~S in the current model. Cannot perform buffer search." #Y(common-lisp-user::module-m-buffer-search nil nil (24 45 122 24 45 495 26 13 1 19 1 418 47 1 337 45 462 10 1 39 36 13 1 19 1 354 45 68 10 0 39 17 14 46 13 0 13 1 13 3 19 3 465 12 72 2 38 5 77 77 72 2 43 1 38 19 15 51 77 15 52 15 571 13 3 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 46395) common-lisp-user::m-buffer-offset (defun common-lisp-user::m-buffer-offset) (#2# . 46805) (common-lisp-user::buffer-name common-lisp-user::c-list) common-lisp-user::c-list common-lisp-user::module-m-buffer-offset "m-buffer-offset cannot get values for ~s because it does not name a valid buffer." #Y(common-lisp-user::m-buffer-offset nil nil (24 45 495 24 45 577 26 13 1 19 1 564 45 68 10 0 39 12 13 0 13 2 13 1 19 3 578 38 19 15 51 77 15 52 15 579 13 2 19 4 54 12 19 2 55 75 73 43 1 29) #1# #2# 46805) (defun common-lisp-user::module-m-buffer-offset) (#2# . 47066) (common-lisp-user::module-name common-lisp-user::buffer-name common-lisp-user::c-list) "There is no module named ~S in the current model. Cannot get buffer offsets." #Y(common-lisp-user::module-m-buffer-offset nil nil (24 45 122 24 45 495 24 45 577 26 13 2 19 1 418 47 1 337 45 462 10 1 39 38 13 1 19 1 355 45 68 10 0 39 19 14 46 13 0 13 1 13 4 13 3 19 4 465 12 72 2 38 5 77 77 72 2 43 1 38 19 15 51 77 15 52 15 584 13 4 19 4 54 12 19 2 55 75 73 43 2 29) #1# #2# 47066) common-lisp-user::valid-module-version-string (defun common-lisp-user::valid-module-version-string) (#2# . 47487) (common-lisp-user::val) common-lisp-user::val (#\. #\0 #\1 #\2 #\3 #\4 #\5 #\6 #\7 #\8 #\9) #Y(nil nil nil (24 45 204 26 13 0 15 591 19 2 72 29) #1# #2# 47487) #Y(common-lisp-user::valid-module-version-string nil nil (24 45 590 26 10 0 16 339 73 39 9 34 592 12 13 0 19 2 216 29) #1# #2# 47487) common-lisp-user::module-version-numbers (defun common-lisp-user::module-version-numbers) (#2# . 47889) (common-lisp-user::s) common-lisp-user::s "(~a)" #\  #\. substitute read-from-string #Y(common-lisp-user::module-version-numbers nil nil (24 45 598 26 77 15 599 15 600 15 601 13 0 19 3 602 12 19 3 54 12 19 1 603 29) #1# #2# 47889) common-lisp-user::check-module-version (defun common-lisp-user::check-module-version) (#2# . 47993) (common-lisp-user::module common-lisp-user::version &optional common-lisp-user::warn-if-newer) common-lisp-user::warn-if-newer common-lisp-user::act-r-module-version common-lisp-user::module-version common-lisp-user::check-version common-lisp-user::m-v common-lisp-user::t-v "Module ~s with version ~s does not meet the version test for ~s" "Module ~s with version ~s is newer than the version test for ~s" #Y(nil nil nil (24 45 613 24 45 614 26 13 1 13 0 19 2 309 39 31 15 51 77 15 52 15 615 13 8 13 4 19 1 610 12 13 7 19 6 54 12 19 2 55 75 73 36 5 38 50 13 1 13 0 19 2 261 73 39 40 10 6 39 31 15 51 77 15 52 15 616 13 8 13 4 19 1 610 12 13 7 19 6 54 12 19 2 55 75 73 36 5 38 6 11 46 73 36 5 29) #1# #2# 47993) "Module ~s with version ~s does not meet the version test for ~s" "Version number ~s given to check module ~s is not a string of numbers" "Cannot check version because module ~s has version ~s which is not a string of numbers" "Cannot check version because no module with name ~s" #Y(common-lisp-user::check-module-version nil nil (24 45 337 24 45 129 25 40 2 77 46 609 26 57 605 60 179 13 3 19 1 58 45 328 10 0 39 147 13 0 19 1 610 12 19 1 586 39 110 13 3 19 1 586 39 81 13 3 19 1 594 12 13 0 19 1 610 12 19 1 594 12 46 611 46 612 34 617 12 13 1 13 0 19 3 302 10 0 16 214 12 10 1 16 214 12 19 2 261 39 29 15 51 77 15 52 15 618 13 6 13 2 19 1 610 12 13 5 19 6 54 12 19 2 55 75 73 38 4 11 46 73 43 2 38 21 15 51 77 15 52 15 619 13 3 13 4 19 5 54 12 19 2 55 75 73 38 25 15 51 77 15 52 15 620 13 4 13 0 19 1 610 12 19 5 54 12 19 2 55 75 73 38 19 15 51 77 15 52 15 621 13 4 19 4 54 12 19 2 55 75 73 43 1 63 29) #1# #2# 47993))) #2# 0) #Y(si::bytecodes nil nil (1 2 16 1 29) #1# #2# 17687) #Y(si::bytecodes nil nil (1 3 16 1 29) #1# #2# 17748) #Y(si::bytecodes nil nil (1 4 16 1 29) #1# #2# 17801) #Y(si::bytecodes nil nil (1 5 16 1 29) #1# #2# 17850) #Y(si::bytecodes nil nil (1 6 16 1 29) #1# #2# 17906) #Y(si::bytecodes nil nil (1 7 16 1 29) #1# #2# 17959) #Y(si::bytecodes nil nil (1 8 16 1 29) #1# #2# 18011) #Y(si::bytecodes nil nil (1 9 16 1 29) #1# #2# 18060) #Y(si::bytecodes nil nil (1 10 16 1 29) #1# #2# 18113) #Y(si::bytecodes nil nil (1 11 16 1 29) #1# #2# 18165) #Y(si::bytecodes nil nil (1 12 16 13 1 12 16 14 76 39 6 19 0 15 52 12 15 12 15 16 15 17 19 3 18 15 12 15 19 15 20 15 21 19 4 22 1 12 73 29) #1# #2# 18300) #Y(si::bytecodes nil nil (1 23 16 13 1 23 16 14 76 39 4 75 52 23 15 23 15 19 15 24 15 25 19 4 22 1 23 73 29) #1# #2# 18509) #Y(si::bytecodes nil nil (1 26 16 13 1 26 16 14 76 39 4 75 52 26 15 26 15 19 15 27 15 28 19 4 22 1 26 73 29) #1# #2# 18670) #Y(si::bytecodes nil nil (15 29 15 19 15 30 15 31 19 4 22 15 29 14 32 77 77 19 4 22 15 29 1 33 12 19 2 34 1 29 73 29) #1# #2# 18779) #Y(si::bytecodes nil nil (15 35 15 19 15 36 15 37 19 4 22 15 35 14 32 77 15 38 19 4 22 15 35 1 45 12 14 46 9 1 19 4 34 1 35 73 29) #1# #2# 18841) #Y(si::bytecodes nil nil (15 43 15 19 15 47 15 48 19 4 22 15 43 14 32 77 15 49 19 4 22 15 43 1 61 12 19 2 34 1 43 73 29) #1# #2# 18908) #Y(si::bytecodes nil nil (15 62 15 19 15 63 15 64 19 4 22 15 62 14 32 77 15 65 19 4 22 15 62 1 73 12 19 2 34 1 62 73 29) #1# #2# 19315) #Y(si::bytecodes nil nil (15 74 15 19 15 75 15 76 19 4 22 15 74 14 32 77 77 19 4 22 15 74 1 78 12 19 2 34 15 74 15 79 15 80 19 3 18 1 74 73 29) #1# #2# 19605) #Y(si::bytecodes nil nil (15 81 15 19 15 82 15 83 19 4 22 15 81 14 32 77 77 19 4 22 15 81 1 85 12 19 2 34 1 81 73 29) #1# #2# 19867) #Y(si::bytecodes nil nil (15 86 15 19 15 87 15 88 19 4 22 15 86 14 32 77 77 19 4 22 15 86 1 90 12 19 2 34 1 86 73 29) #1# #2# 20015) #Y(si::bytecodes nil nil (15 91 15 86 15 92 19 3 93 29) #1# #2# 20166) #Y(si::bytecodes nil nil (15 94 15 19 15 95 15 96 19 4 22 15 94 14 32 77 77 19 4 22 15 94 1 98 12 19 2 34 1 94 73 29) #1# #2# 20299) #Y(si::bytecodes nil nil (15 99 15 19 15 100 15 101 19 4 22 15 99 14 32 77 77 19 4 22 15 99 1 103 12 19 2 34 1 99 73 29) #1# #2# 20444) #Y(si::bytecodes nil nil (15 104 15 19 15 105 15 106 19 4 22 15 104 14 32 77 77 19 4 22 15 104 1 108 12 19 2 34 1 104 73 29) #1# #2# 20595) #Y(si::bytecodes nil nil (15 109 15 19 15 110 15 111 19 4 22 15 109 14 32 77 77 19 4 22 15 109 1 113 12 19 2 34 1 109 73 29) #1# #2# 20756) #Y(si::bytecodes nil nil (15 114 15 19 15 115 15 116 19 4 22 15 114 14 32 77 15 117 19 4 22 15 114 1 185 12 14 46 9 4 19 4 34 1 114 73 29) #1# #2# 20901) #Y(si::bytecodes nil nil (15 183 15 19 15 186 15 187 19 4 22 15 183 14 32 77 15 188 19 4 22 15 183 1 287 12 19 2 34 1 183 73 29) #1# #2# 22267) #Y(si::bytecodes nil nil (15 288 15 19 15 289 15 290 19 4 22 15 288 14 32 77 15 291 19 4 22 15 288 1 303 12 19 2 34 1 288 73 29) #1# #2# 31670) #Y(si::bytecodes nil nil (15 304 15 19 15 305 15 306 19 4 22 15 304 14 32 77 15 307 19 4 22 15 304 1 316 12 19 2 34 1 304 73 29) #1# #2# 32148) #Y(si::bytecodes nil nil (15 317 15 19 15 318 15 319 19 4 22 15 317 14 32 77 15 320 19 4 22 15 317 1 331 12 19 2 34 1 317 73 29) #1# #2# 32741) #Y(si::bytecodes nil nil (15 332 15 317 15 333 19 3 93 29) #1# #2# 33602) #Y(si::bytecodes nil nil (15 334 15 19 15 335 15 336 19 4 22 15 334 14 32 77 77 19 4 22 15 334 1 361 12 19 2 34 1 334 73 29) #1# #2# 33907) #Y(si::bytecodes nil nil (15 362 15 19 15 363 15 364 19 4 22 15 362 14 32 77 15 365 19 4 22 15 362 1 370 12 14 46 9 2 19 4 34 1 362 73 29) #1# #2# 35302) #Y(si::bytecodes nil nil (15 358 15 19 15 371 15 372 19 4 22 15 358 14 32 77 15 373 19 4 22 15 358 1 400 12 19 2 34 1 358 73 29) #1# #2# 35555) #Y(si::bytecodes nil nil (15 401 15 19 15 402 15 403 19 4 22 15 401 14 32 77 15 404 19 4 22 15 401 1 405 12 19 2 34 1 401 73 29) #1# #2# 37562) #Y(si::bytecodes nil nil (15 406 15 401 15 407 14 46 19 4 93 29) #1# #2# 37646) #Y(si::bytecodes nil nil (15 408 15 19 15 409 15 410 19 4 22 15 408 14 32 77 15 411 19 4 22 15 408 1 417 12 14 46 9 3 19 4 34 1 408 73 29) #1# #2# 37776) #Y(si::bytecodes nil nil (15 418 15 19 15 419 15 420 19 4 22 15 418 14 32 77 15 421 19 4 22 15 418 1 433 12 19 2 34 1 418 73 29) #1# #2# 37885) #Y(si::bytecodes nil nil (15 416 15 19 15 434 15 435 19 4 22 15 416 14 32 77 15 436 19 4 22 15 416 1 440 12 19 2 34 1 416 73 29) #1# #2# 38552) #Y(si::bytecodes nil nil (15 441 15 19 15 442 15 443 19 4 22 15 441 14 32 77 15 444 19 4 22 15 441 1 445 12 19 2 34 1 441 73 29) #1# #2# 39200) #Y(si::bytecodes nil nil (15 446 15 441 15 447 19 3 93 29) #1# #2# 39321) #Y(si::bytecodes nil nil (15 58 15 19 15 448 15 449 19 4 22 15 58 14 32 77 15 450 19 4 22 15 58 1 451 12 19 2 34 1 58 73 29) #1# #2# 39473) #Y(si::bytecodes nil nil (15 199 15 19 15 452 15 453 19 4 22 15 199 14 32 77 15 454 19 4 22 15 199 1 455 12 19 2 34 1 199 73 29) #1# #2# 39653) #Y(si::bytecodes nil nil (15 456 15 19 15 457 15 458 19 4 22 15 456 14 32 77 15 459 19 4 22 15 456 1 467 12 19 2 34 1 456 73 29) #1# #2# 39737) #Y(si::bytecodes nil nil (15 468 15 19 15 469 15 470 19 4 22 15 468 14 32 77 15 471 19 4 22 15 468 1 474 12 19 2 34 1 468 73 29) #1# #2# 40633) #Y(si::bytecodes nil nil (15 475 15 19 15 476 15 477 19 4 22 15 475 14 32 77 15 478 19 4 22 15 475 1 480 12 19 2 34 1 475 73 29) #1# #2# 41152) #Y(si::bytecodes nil nil (15 481 15 19 15 482 15 483 19 4 22 15 481 14 32 77 15 484 19 4 22 15 481 1 485 12 19 2 34 1 481 73 29) #1# #2# 41345) #Y(si::bytecodes nil nil (15 486 15 19 15 487 15 488 19 4 22 15 486 14 32 77 15 489 19 4 22 15 486 1 490 12 19 2 34 1 486 73 29) #1# #2# 41560) #Y(si::bytecodes nil nil (15 491 15 19 15 492 15 493 19 4 22 15 491 14 32 77 15 494 19 4 22 15 491 1 500 12 19 2 34 1 491 73 29) #1# #2# 41771) #Y(si::bytecodes nil nil (15 501 15 19 15 502 15 503 19 4 22 15 501 14 32 77 15 504 19 4 22 15 501 1 505 12 19 2 34 1 501 73 29) #1# #2# 42341) #Y(si::bytecodes nil nil (15 506 15 19 15 507 15 508 19 4 22 15 506 14 32 77 15 509 19 4 22 15 506 1 513 12 19 2 34 1 506 73 29) #1# #2# 42431) #Y(si::bytecodes nil nil (15 514 15 19 15 515 15 516 19 4 22 15 514 14 32 77 15 517 19 4 22 15 514 1 519 12 19 2 34 1 514 73 29) #1# #2# 42879) #Y(si::bytecodes nil nil (15 520 15 19 15 521 15 522 19 4 22 15 520 14 32 77 15 523 19 4 22 15 520 1 526 12 19 2 34 1 520 73 29) #1# #2# 43368) #Y(si::bytecodes nil nil (15 527 15 19 15 528 15 529 19 4 22 15 527 14 32 77 15 530 19 4 22 15 527 1 532 12 19 2 34 1 527 73 29) #1# #2# 43884) #Y(si::bytecodes nil nil (15 533 15 19 15 534 15 535 19 4 22 15 533 14 32 77 15 536 19 4 22 15 533 1 539 12 19 2 34 1 533 73 29) #1# #2# 44227) #Y(si::bytecodes nil nil (15 540 15 19 15 541 15 542 19 4 22 15 540 14 32 77 15 543 19 4 22 15 540 1 547 12 19 2 34 1 540 73 29) #1# #2# 44748) #Y(si::bytecodes nil nil (15 548 15 19 15 549 15 550 19 4 22 15 548 14 32 77 15 551 19 4 22 15 548 1 553 12 19 2 34 1 548 73 29) #1# #2# 45229) #Y(si::bytecodes nil nil (15 554 15 19 15 555 15 556 19 4 22 15 554 14 32 77 15 557 19 4 22 15 554 1 559 12 19 2 34 1 554 73 29) #1# #2# 45693) #Y(si::bytecodes nil nil (15 560 15 19 15 561 15 562 19 4 22 15 560 14 32 77 15 563 19 4 22 15 560 1 567 12 19 2 34 1 560 73 29) #1# #2# 46168) #Y(si::bytecodes nil nil (15 565 15 19 15 568 15 569 19 4 22 15 565 14 32 77 15 570 19 4 22 15 565 1 572 12 19 2 34 1 565 73 29) #1# #2# 46395) #Y(si::bytecodes nil nil (15 573 15 19 15 574 15 575 19 4 22 15 573 14 32 77 15 576 19 4 22 15 573 1 580 12 19 2 34 1 573 73 29) #1# #2# 46805) #Y(si::bytecodes nil nil (15 578 15 19 15 581 15 582 19 4 22 15 578 14 32 77 15 583 19 4 22 15 578 1 585 12 19 2 34 1 578 73 29) #1# #2# 47066) #Y(si::bytecodes nil nil (15 586 15 19 15 587 15 588 19 4 22 15 586 14 32 77 15 589 19 4 22 15 586 1 593 12 19 2 34 1 586 73 29) #1# #2# 47487) #Y(si::bytecodes nil nil (15 594 15 19 15 595 15 596 19 4 22 15 594 14 32 77 15 597 19 4 22 15 594 1 604 12 19 2 34 1 594 73 29) #1# #2# 47889) #Y(si::bytecodes nil nil (15 605 15 19 15 606 15 607 19 4 22 15 605 14 32 77 15 608 19 4 22 15 605 1 622 12 19 2 34 1 605 73 29) #1# #2# 47993))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : modules.lisp
+;;; Version     : 4.1
+;;; 
+;;; Description : Code for defining and using the modules.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : X Finish the documentation.
+;;;             : X Write an undefine function.
+;;;             : X Test better so that a module can't be created with models
+;;;             :   already defined otherwise bad things happen.
+;;;             : * Look into an undefine "on the fly" for when a remotely
+;;;             :   defined module goes away.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.08.13 Dan
+;;;             : Creation.
+;;;
+;;; 2004.12.23 Dan
+;;;             : Modified get-module and get-module-fct so that :device
+;;;             :   returns the current device interface.
+;;; 2005.01.12 Dan
+;;;             : * Since the device is now a true module don't need to
+;;;             :   do the hack listed above - the :device module is the current
+;;;             :   device-interface.
+;;;             : * Changed the update function so that it gets the old and
+;;;             :   new times as well as the module instance.
+;;; 2005.02.22 Dan
+;;;             : * Updated the to do list with a new issue.
+;;; 2005.02.25 Dan
+;;;             : * Removed the ~\newline usages because that causes problems
+;;;             :   when a Lisp only wants to see native new lines there.
+;;; 2005.03.23 Dan
+;;;             : * Changed how the reset parameter to define-module is
+;;;             :   interpreted to allow for different reset possibilities.
+;;;             :   There are two possible reset functions now - one before
+;;;             :   and one after the parameters take the default values.
+;;;             : * Added the secondary-reset-module function to support
+;;;             :   the additional reset function.
+;;; 2005.03.24 Dan
+;;;             : * Patched define-module relative to the reset change so
+;;;             :   that it doesn't break on fboundp in Lispworks.
+;;; 2005.04.19 Dan
+;;;             : * Added all-module-names function to make some things easy.
+;;; 2005.05.03 Dan
+;;;             : * Added some more warnings to define-module-fct.
+;;; 2005.08.09 Dan 
+;;;             : * Modified define-module so that you can't add a module while
+;;;             :   there are any models defined or any meta-processes other
+;;;             :   than the default.
+;;;             : * Made undefine-module work now so that one can remove a
+;;;             :   module to redefine it - don't want to make that automatic
+;;;             :   to prevent any module collision issues.
+;;;             : * Update the version to 1.0.
+;;; 2005.08.16 Dan
+;;;             : * Update query-module so that one can now query "error t"
+;;;             :   or "error nil" but the module writer doesn't have to do
+;;;             :   anything else - just reporting "state error" queries is
+;;;             :   sufficient because the mapping occurs automatically i.e.
+;;;             :   if "state error" returns t then "error t" is t and "error
+;;;             :   nil" is nil or if "state error" is returns nil then "error
+;;;             :   t" is nil and "error nil" is t.   
+;;; 2006.11.15 Dan
+;;;             : * Changed the warnings in the buffer-mod-module function to
+;;;             :   be a little clearer.
+;;; 2006.11.20 Dan
+;;;             : * Added the warn-module and warn-module? commands so that
+;;;             :   a module can receive an advance warning of an approaching
+;;;             :   action if it needs to do something.  That warning gets 
+;;;             :   called when a production which will make a request to the 
+;;;             :   module is selected (during the conflict resolution process).
+;;;             :   Right now it's only needed by vision to lock-out the proc-
+;;;             :   display, but other modules may need such functionality too.
+;;;             : * The warning keyword parameter has been added to define-module
+;;;             :   for setting the warning function.
+;;; 2007.06.19 Dan
+;;;             : * Removed a duplicate definition of warn-module.
+;;; 2008.08.28 Dan
+;;;             : * Fixed get-module so that it always returns two values - even
+;;;             :   when there is no current model or meta-process.
+;;; 2008.08.29 Dan
+;;;             : * Fixed a bug with the test for multiple meta-processes in
+;;;             :   undefine-module-fct.
+;;;             : * Fixed a typo in a warning of undefine-module-fct.
+;;; 2008.09.03 Dan
+;;;             : * Changed the define-module macro to only splice in the 
+;;;             :   version and docs if provided so that the warning displays
+;;;             :   the same as it does for define-module-fct in that respect.
+;;; 2008.12.01 Dan
+;;;             : * Added the option of specifying a third reset function when
+;;;             :   defining a module.  The third reset function gets called
+;;;             :   after the user code is evaled.
+;;; 2009.09.09 Dan
+;;;             : * Define-module updated to allow the specification of the
+;;;             :   new multi-buffers.  An entry for the buffers-list can now
+;;;             :   have an optional 6th element.  If a buffer's definition 
+;;;             :   list has a non-nil 6th element then it will be created as
+;;;             :   a multi-buffer.  If that 6th element is the keyword :search
+;;;             :   then it will be a searchable buffer.
+;;;             :   The module definition can also now provide two additional 
+;;;             :   functions which may be used in conjunction with a searchable
+;;;             :   buffer.  They are specified with the :search and :offset 
+;;;             :   keywords.  The search function will be called at the start
+;;;             :   of a conflict-resolution event for each searchable buffer.
+;;;             :   It will be passed the module instance and a buffer name.
+;;;             :   It should return a list of the chunk names from the buffer's
+;;;             :   chunk set in the order in which they should be searched (car
+;;;             :   of the list will be first searched).  If no such function is
+;;;             :   provided then the chunks will be searched in an arbitrary
+;;;             :   order.
+;;;             :   The offset function will be called near the end of the conflict-
+;;;             :   resolution event (after production matching but before the
+;;;             :   final choice).  It will be passed the module instance, the
+;;;             :   name of the buffer and a list of the chunks which were matched
+;;;             :   in productions that may be fired.  It should return a list of
+;;;             :   numbers that represent the offsets to the utilities for the
+;;;             :   productions which matched those chunks i.e. the first element
+;;;             :   in the list returned will be the offset for productions which
+;;;             :   matched the first chunk in the list provided and so on.  If no
+;;;             :   offset function is specified or no list returned by it then no
+;;;             :   offset will be applied and the standard utility will be used
+;;;             :   to choose the production to fire.
+;;; 2009.09.11 Dan
+;;;             : * Added functions to call the search and offset hooks of the
+;;;             :   module given only the buffer name.
+;;; 2010.01.15 Dan
+;;;             : * Added the :search and :offset keywords to the define-module
+;;;             :   macro too.
+;;; 2010.12.22 Dan
+;;;             : * Added the run-notify option to a module to allow it to provide
+;;;             :   a hook for when the scheduler starts running.
+;;; 2011.01.11 Dan
+;;;             : * Added the run-over

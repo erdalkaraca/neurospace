@@ -1,0 +1,964 @@
+(#Y(si::bytecodes nil nil (19 0 0 29) #1=#A(t (177) (common-lisp-user::suppress-extension-warnings common-lisp-user::*suppress-extend-item-warning* common-lisp-user::production-color fboundp "print-warning" "~@?" "Function ~s already exists and is being redefined." format common-lisp-user::evaluate-act-r-command common-lisp-user::production-color-setf "Function ~s already exists and is being redefined." common-lisp-user::color common-lisp-user::*production-parameters-list* :key common-lisp-user::act-r-production-parameter-name find remove :name :default-value :default-function :accessor common-lisp-user::make-act-r-production-parameter ext::location (defun common-lisp-user::production-color) (#2=#P"/opt/actr/actr7.x/other-files/env-graphic-trace.lisp" . 8293) ext::annotate :lambda-list (common-lisp-user::production-name) common-lisp-user::production-name common-lisp-user::get-production common-lisp-user::production common-lisp-user::production? common-lisp-user::production-parameter-values gethash common-lisp-user::exists common-lisp-user::value common-lisp-user::production-parameter-default si::hash-set "~S called with invalid production name." #Y(common-lisp-user::production-color nil nil (24 45 28 26 13 0 19 1 29 45 30 13 0 19 1 31 39 59 15 11 13 0 19 1 32 12 19 2 33 47 1 34 45 35 10 1 39 6 10 0 73 38 30 15 11 13 2 19 1 32 12 15 11 14 12 14 13 15 14 19 4 15 12 13 2 19 2 36 12 19 3 37 43 2 38 19 15 4 77 15 5 15 38 15 2 19 4 7 12 19 2 8 75 73 43 1 29) #1# #2# 8293) si::fset (defun common-lisp-user::production-color-setf) (#2# . 8293) (common-lisp-user::production-name common-lisp-user::new-value) common-lisp-user::new-value "Setf of ~S called with invalid production." #Y(common-lisp-user::production-color-setf nil nil (24 45 28 24 45 44 26 13 1 19 1 29 45 30 13 0 19 1 31 39 16 15 11 13 0 19 1 32 12 13 1 19 3 37 38 19 15 4 77 15 5 15 45 15 2 19 4 7 12 19 2 8 75 73 43 1 29) #1# #2# 8293) (defsetf common-lisp-user::production-color) (#2# . 8293) si::do-defsetf common-lisp-user::unsuppress-extension-warnings common-lisp-user::vert-graphic-trace-return (defun common-lisp-user::vert-graphic-trace-return) (#2# . 8352) (common-lisp-user::h) common-lisp-user::h common-lisp-user::d :vertical common-lisp-user::parse-trace-list common-lisp-user::data "size" last common-lisp-user::br-time + #Y(common-lisp-user::vert-graphic-trace-return nil nil (24 45 55 26 10 0 45 56 13 0 14 57 19 2 58 45 59 15 60 9 100 13 1 19 1 61 4 12 19 1 62 12 19 2 63 6 2 12 10 0 3 73 43 2 29) #1# #2# 8352) common-lisp-user::hor-graphic-trace-return (defun common-lisp-user::hor-graphic-trace-return) (#2# . 8551) (common-lisp-user::h) :horizontal "size" #Y(common-lisp-user::hor-graphic-trace-return nil nil (24 45 55 26 10 0 45 56 13 0 14 69 19 2 58 45 59 15 70 9 100 13 1 19 1 61 4 12 19 1 62 12 19 2 63 6 2 12 10 0 3 73 43 2 29) #1# #2# 8551) "buffer-trace" "horizontal-graphic-trace" common-lisp-user::define-history-processor-fct "buffer-trace" "vertical-graphic-trace" common-lisp-user::gt-rect "GT-RECT-" (common-lisp-user::start common-lisp-user::end (common-lisp-user::request #3="") (common-lisp-user::chunk #4="") (common-lisp-user::notes #5="")) ((common-lisp-user::start nil t nil 0 nil) (common-lisp-user::end nil t nil 1 nil) (common-lisp-user::request #3# t nil 2 nil) (common-lisp-user::chunk #4# t nil 3 nil) (common-lisp-user::notes #5# t nil 4 nil)) common-lisp-user::copy-gt-rect (common-lisp-user::make-gt-rect) common-lisp-user::gt-rect-p si::define-structure (defstruct common-lisp-user::gt-rect) (#2# . 8952) common-lisp-user::make-gt-rect (defun common-lisp-user::make-gt-rect) (#2# . 8952) (&key #6=#:start #7=#:end (#8=#:request #3#) (#9=#:chunk #4#) (#10=#:notes #5#)) (nil :notes :chunk :request :end :start) #6# #7# #3# #8# #4# #9# #5# #10# 0 si::make-structure #Y(common-lisp-user::make-gt-rect nil nil (28 91 22 40 2 77 46 92 22 40 2 77 46 93 22 40 3 15 94 46 95 22 40 3 15 96 46 97 22 40 3 15 98 46 99 15 100 13 4 13 3 13 2 13 1 13 0 19 6 101 29) #1# #2# 8952) find-class (defun common-lisp-user::parse-trace-list) (#2# . 9019) (trace common-lisp-user::dir) trace common-lisp-user::dir common-lisp-user::bs-name common-lisp-user::br-buffers mapcar common-lisp-user::buffers common-lisp-user::y length / floor min common-lisp-user::y-inc common-lisp-user::x-coord common-lisp-user::x-inc common-lisp-user::all-data common-lisp-user::buffer-index string< sort si::%dolist-var common-lisp-user::x common-lisp-user::current-rect common-lisp-user::rects common-lisp-user::z :test string-equal common-lisp-user::record common-lisp-user::check-bs-chunk-name common-lisp-user::it #:g23553 #:g23554 si::structure-set common-lisp-user::check-bs-notes #:g23555 #:g23556 common-lisp-user::bs-busy common-lisp-user::bs-busy->free common-lisp-user::check-bs-request #:g23557 #:g23558 :start :request common-lisp-user::value-bs-request common-lisp-user::bs-error common-lisp-user::bs-error->clear :end :chunk common-lisp-user::value-bs-chunk-name :notes common-lisp-user::value-bs-notes eq "rectangle" common-lisp-user::gt-rect-start common-lisp-user::gt-rect-end common-lisp-user::mp-time-ms common-lisp-user::gt-rect-request common-lisp-user::gt-rect-chunk common-lisp-user::gt-rect-notes "~a" "" "production" "rectangle" "~a" "" "production" "label" "label" #:g23573 #:g23575 #:g23577 #Y(common-lisp-user::parse-trace-list nil nil (24 45 107 24 45 108 26 15 109 10 1 4 12 19 1 110 12 19 2 111 45 112 8 0 45 113 10 1 39 21 9 50 9 380 10 1 16 114 12 19 2 115 12 19 1 116 12 19 2 117 45 118 8 0 45 119 10 3 39 21 9 190 9 960 10 3 16 114 12 19 2 115 12 19 1 116 12 19 2 117 45 120 75 45 121 8 0 45 122 13 6 15 123 19 2 124 45 125 38 862 10 0 4 45 126 77 77 46 127 46 128 10 12 45 125 38 453 10 0 4 45 129 13 4 13 0 19 1 110 12 14 13 15 109 14 130 15 131 19 6 15 45 132 10 4 39 167 13 0 19 1 133 45 134 10 0 39 26 10 5 45 135 10 1 45 136 13 1 15 77 9 3 13 0 19 4 137 43 1 43 1 38 1 43 1 13 0 19 1 138 45 134 10 0 39 26 10 5 45 139 10 1 45 140 13 1 15 77 9 4 13 0 19 4 137 43 1 43 1 38 1 43 1 13 0 19 1 141 76 40 13 13 0 19 1 142 40 6 13 0 19 1 143 39 67 10 4 45 144 13 2 19 1 62 45 145 13 1 15 77 9 1 13 0 19 4 137 43 1 43 1 13 4 10 3 3 51 3 13 0 19 1 143 39 24 14 146 13 1 19 1 62 12 14 147 13 0 19 1 148 12 19 4 87 51 4 38 4 75 51 4 38 248 13 0 19 1 141 39 127 13 0 19 1 143 39 28 13 0 19 1 133 40 21 13 0 19 1 149 39 7 13 0 19 1 150 76 40 6 13 0 19 1 142 39 52 14 146 13 1 19 1 62 12 14 151 13 1 19 1 62 12 14 147 13 0 19 1 148 12 14 152 13 0 19 1 153 12 14 154 13 0 19 1 155 12 19 10 87 12 10 3 3 51 3 38 38 14 146 13 1 19 1 62 12 14 147 13 0 19 1 148 12 14 152 13 0 19 1 153 12 14 154 13 0 19 1 155 12 19 8 87 51 4 38 115 13 0 19 1 143 39 52 14 146 13 1 19 1 62 12 14 151 13 1 19 1 62 12 14 147 13 0 19 1 148 12 14 152 13 0 19 1 153 12 14 154 13 0 19 1 155 12 19 10 87 12 10 3 3 51 3 38 57 13 0 19 1 133 39 50 14 146 13 1 19 1 62 12 14 151 13 1 19 1 62 12 14 147 13 0 19 1 148 12 14 152 13 0 19 1 153 12 14 154 13 0 19 1 155 12 19 10 87 12 10 3 3 51 3 43 1 10 1 5 51 1 43 1 10 0 40 -455 43 1 10 0 45 125 38 245 10 0 4 45 129 13 13 11 69 17 156 39 114 15 157 13 0 19 1 158 12 13 11 13 0 19 1 159 45 134 10 0 39 6 10 0 73 38 4 19 0 160 12 43 1 13 11 13 10 19 2 63 12 13 6 13 0 19 1 161 12 13 0 19 1 162 12 13 0 19 1 163 39 15 77 15 164 13 0 19 1 163 12 19 3 7 38 4 1 165 73 12 13 4 15 166 19 2 131 39 8 13 0 19 1 161 38 6 13 0 19 1 162 12 10 4 6 11 12 10 7 3 51 7 38 112 15 167 13 9 13 0 19 1 158 12 13 9 13 8 19 2 63 12 13 0 19 1 159 45 134 10 0 39 6 10 0 73 38 4 19 0 160 12 43 1 13 6 13 0 19 1 161 12 13 0 19 1 162 12 13 0 19 1 163 39 15 77 15 168 13 0 19 1 163 12 19 3 7 38 4 1 169 73 12 13 4 15 170 19 2 131 39 8 13 0 19 1 161 38 6 13 0 19 1 162 12 10 4 6 11 12 10 7 3 51 7 10 1 5 51 1 43 1 10 0 40 -247 43 1 13 11 11 69 17 156 39 35 15 171 13 2 13 9 13 8 9 2 19 2 115 12 19 1 116 12 19 2 63 12 10 4 6 4 12 10 5 3 51 5 38 35 15 172 13 2 13 7 13 6 9 2 19 2 115 12 19 1 116 12 19 2 63 12 13 4 10 6 6 5 12 10 5 3 51 5 43 2 10 6 45 173 13 8 13 0 19 2 63 51 8 43 1 10 4 45 174 13 6 13 0 19 2 63 51 6 43 1 8 1 45 175 13 3 13 0 19 2 63 51 3 43 1 10 1 5 51 1 43 1 10 0 40 -864 43 1 10 1 73 43 7 29) #1# #2# 9019))) #2# 0) #Y(si::bytecodes nil nil (11 1 76 39 45 1 2 16 3 39 17 15 4 77 15 5 15 6 15 2 19 4 7 12 19 2 8 1 9 16 3 39 17 15 4 77 15 5 15 10 15 9 19 4 7 12 19 2 8 15 11 14 12 14 13 15 14 19 4 15 39 14 15 11 14 12 14 13 15 14 19 4 16 52 12 14 17 15 11 14 18 77 14 19 77 14 20 15 2 19 8 21 12 11 12 3 52 12 15 2 15 22 15 23 15 24 19 4 25 15 2 14 26 77 15 27 19 4 25 15 2 1 39 12 19 2 40 15 9 15 22 15 41 15 42 19 4 25 15 9 14 26 77 15 43 19 4 25 15 9 1 46 12 19 2 40 15 2 15 22 15 47 15 48 19 4 25 15 2 15 9 9 1 19 3 49 1 2 73 29) #1# #2# 8293) #Y(si::bytecodes nil nil (19 0 50 29) #1# #2# 8320) #Y(si::bytecodes nil nil (15 51 15 22 15 52 15 53 19 4 25 15 51 14 26 77 15 54 19 4 25 15 51 1 64 12 19 2 40 1 51 73 29) #1# #2# 8352) #Y(si::bytecodes nil nil (15 65 15 22 15 66 15 67 19 4 25 15 65 14 26 77 15 68 19 4 25 15 65 1 71 12 19 2 40 1 65 73 29) #1# #2# 8551) #Y(si::bytecodes nil nil (15 72 15 73 15 65 19 3 74 29) #1# #2# 8751) #Y(si::bytecodes nil nil (15 75 15 76 15 51 19 3 74 29) #1# #2# 8854) #Y(si::bytecodes nil nil (15 77 15 78 77 77 15 79 15 80 15 81 77 77 77 15 82 9 5 77 77 15 83 19 15 84 15 77 15 22 15 85 15 86 19 4 25 15 87 15 22 15 88 15 89 19 4 25 15 87 14 26 77 15 90 19 4 25 15 77 19 1 103 78 100 15 87 1 102 12 19 2 40 1 77 73 29) #1# #2# 8952) #Y(si::bytecodes nil nil (15 58 15 22 15 104 15 105 19 4 25 15 58 14 26 77 15 106 19 4 25 15 58 1 176 12 19 2 40 1 58 73 29) #1# #2# 9019))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2007 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : env-graphic-trace.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : Support for a quick and dirty graphic display of the 
+;;;               buffer trace info through the environment connection.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : [ ] Check that all module state changes get flagged correctly
+;;;             :     for "unusual" modules and situations.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2007.04.30 Dan
+;;;             : Initially added it to the archive.
+;;; 2007.05.21 Dan
+;;;             : * Modified the vertical trace to be much faster because
+;;;             :   it sends all the data in one update which the environment
+;;;             :   parses as a list for displaying.  Will change the horizontal 
+;;;             :   once testing verifies that the vertical is stable like this).
+;;; 2007.05.22 Dan
+;;;             : * Reference the parameters that were added to the buffer trace
+;;;             :   module for display purposes.
+;;;             : * Made the horizontal trace use the fast transmit mechanism.
+;;;             : * Fixed the default color list referencing so that it wraps
+;;;             :   around if needed.
+;;; 2007.06.06 Dan
+;;;             : * Added the use of error->clear to the buffer summary parsing
+;;;             :   to better handle requests that occur immediately following
+;;;             :   an error (retrieval failures had some oddities in the trace).
+;;; 2007.07.30 Dan
+;;;             : * Adding a new production parameter called color and then
+;;;             :   using that to set the color in the graphic traces if set to
+;;;             :   a valid color string.
+;;; 2011.04.28 Dan
+;;;             : * Suppress warnings about extending productions at initial load.
+;;; 2011.05.31 Dan
+;;;             : * Moved the color code to a file in support which is required
+;;;             :   now since the BOLD tools use it too.
+;;; 2011.06.01 Dan
+;;;             : * Removed some global vars that are no longer needed.
+;;; 2014.05.06 Dan
+;;;             : * Fixed a bug with parse-trace-list which could happen when
+;;;             :   production breaks cause 'bad' production events to be recorded.
+;;; 2015.07.28 Dan
+;;;             : * Changed the logical to ACT-R-support in the require-compiled.
+;;; 2016.04.29 Dan [2.0]
+;;;             : * Updating for use with the saved data approach and doing some
+;;;             :   slight reorganizing of the data for the display.
+;;; 2016.05.03 Dan
+;;;             : * Parse-trace-list now returns the trace from the buffers in
+;;;             :   the trace not those set with :save-buffer-trace since it could
+;;;             :   be set to ones that weren't traced.
+;;;             : * Similarly, it's got to pull the time from the data as well.
+;;;             : * Also needs color info from productions, but not sure how to
+;;;             :   deal with that yet.
+;;; 2016.05.04 Dan
+;;;             : * Saving production and width info with the buffer trace for
+;;;             :   the environment by simply making a list of the three for
+;;;             :   the new get-environment-buffer-trace.
+;;; 2016.05.05 Dan
+;;;             : * Added the end time to the get-environment-buffer-trace data
+;;;             :   so that it doesn't call mp-time-ms when drawing an unfinished
+;;;             :   rectangle.
+;;;             : * Adding the buffer name to the rectangle data passed over to
+;;;             :   the environment side.
+;;; 2016.05.27 Dan
+;;;             : * Added an extra 100ms to the end time passed for the graphic
+;;;             :   traces so that what happens at the end should be visible.
+;;; 2017.09.29 Dan [3.0]
+;;;             : * Convert to a history data processor and ignore the colors
+;;;             :   for now -- that gets done on the 'display' side, but should
+;;;             :   have some suggestions in the data passed over since the 
+;;;             :   production coloring can result in some nice data visibility.
+;;;             :   Still going to scale the x/y sizes based on how many, but 
+;;;             :   could also be scaled on the other side as needed.
+;;; 2017.10.02 Dan
+;;;             : * Changed the size value sent to not include the unnecessary 0.
+;;;             : * Added the buffer-index in place of a color value. 
+;;;             : * Changed the vertical to use same width for all.
+;;;             : * Test for the case when there are no buffers to avoid a divide
+;;;             :   by zero error.
+;;;             : * Sort the buffer list so things are consistent.
+;;; 2017.10.03 Dan
+;;;             : * Moved the buffer-trace data list accessors to the buffer-trace
+;;;             :   file.
+;;; 2017.10.04 Dan
+;;;             : * Use mp-time-ms for end of ongoing actions in parse-trace-list
+;;;             :   since it doesn't get start & end times now.
+;;; 2018.02.28 Dan
+;;;             : * Updated the calls to define-history-processor to name the
+;;;             :   data stream first.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; In the graphic trace the box is drawn when the buffer reports that the 
+;;; module is busy, whenever a request is sent through the buffer, or whenver a
+;;; chunk is placed into the buffer.  The request is drawn at the top of the 
+;;; box and the chunk placed into the buffer is drawn at the bottom (if there is
+;;; such a chunk).  The one exception to that is 0-time events (visual-location
+;;; and goal requests for example).  For 0-time events only the chunk name is 
+;;; shown after the line representing the event in the vertical trace.
+;;;
+;;; If you place the mouse cursor over a box (or the chunk name if it is outside
+;;; of the box like a 0-time event will be) in the trace it will show the start
+;;; and stop times for that box in the lower left corner of the display window.
+;;;
+;;; The "+" and "-" buttons in the control can be used to rescale the image along
+;;; the time dimension.
+;;; 
+;;; The "Remove Text" button will erase all of the request and chunk names from
+;;; the image.  The only way to restore them after that is to redisplay the
+;;; whole thing.
+;;;
+;;; The save button will write the image out to a Postscript file because that's the
+;;; easy default available in Tk.  There are lots of ps->pdf converters out there
+;;; so hopefully that's not an issue for people, but eventually it could be made
+;;; to generate something "nicer" if people demand it.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; None (accessed through the environment side viewer).
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Quick and dirty - the rectangle drawing info is actually created on the Lisp
+;;; side and pushed to Tk for drawing.  A much nicer mechanism would be to just
+;;; send the descriptive info so that more display control would be available on
+;;; the environment side (like stretching columns or reordering things). 
+;;; If there's a signifigant demand (and time) at some point this could be made
+;;; very nice, but that'll require modifications to the environment server control
+;;; code.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;; Give the option to color the productions
+(suppress-extension-warnings)
+(extend-productions color)
+(unsuppress-extension-warnings)
+
+(defun vert-graphic-trace-return (h)
+  (let* ((d (json:decode-json-from-string h))
+         (data (parse-trace-list d :vertical)))
+    (cons (list "size" (+ 100 (br-time (first (last d))))) data)))
+
+(defun hor-graphic-trace-return (h)
+  (let* ((d (json:decode-json-from-string h))
+         (data (parse-trace-list d :horizontal)))
+    (cons (list "size" (+ 100 (br-time (first (last d))))) data)))
+  
+
+(define-history-processor-fct "buffer-trace" "horizontal-graphic-trace" 'hor-graphic-trace-return)
+(define-history-processor-fct "buffer-trace" "vertical-graphic-trace" 'vert-graphic-trace-return)
+
+
+(defstruct gt-rect start end (request "") (chunk "") (notes ""))
+
+
+(defun parse-trace-list (trace dir)
+  (let* ((buffers (mapcar 'bs-name (br-buffers (first trace))))
+         (y 0)
+         (y-inc (when buffers (min 50 (floor (/ 380 (length buffers))))))
+         (x-coord 0)
+         (x-inc (when buffers (min 190 (floor (/ 960 (length buffers))))))
+         (all-data nil)
+         (buffer-index 0))
+    
+    (dolist (x (sort buffers 'string<))
+      (let ((rects nil)
+            (current-rect nil))
+        (dolist (z trace)
+          (let ((record (find x (br-buffers z) :key 'bs-name :test 'string-equal)))
+            (cond (current-rect
+                   (awhen (check-bs-chunk-name record)
+                          (setf (gt-rect-chunk current-rect) it))
+                   
+                   (awhen (check-bs-notes record)
+                          (setf (gt-rect-notes current-rect) it))
+                   
+                   (when (or (null (bs-busy record))
+                             (bs-busy->free record)
+                             (check-bs-request record))
+                     
+                     (setf (gt-rect-end current-rect) (br-time z))
+                     (push current-rect rects)
+                     (if (check-bs-request record)
+                         (setf current-rect (make-gt-rect :start (br-time z)
+                                                          :request (value-bs-request record)))
+                       (setf current-rect nil))))
+              
+                  ((bs-busy record)
+                   (if (and (check-bs-request record) 
+                            (or (check-bs-chunk-name record)
+                                (and (bs-error record)
+                                     (not (bs-error->clear record)))
+                                (bs-busy->free record)))
+                       (push (make-gt-rect :start (br-time z)
+                                           :end (br-time z)
+                                           :request (value-bs-request record)
+                                           :chunk (value-bs-chunk-name record)
+                                           :notes (value-bs-notes record))
+                             rects)
+                     (setf current-rect (make-gt-rect :start (br-time z)
+                                                      :request (value-bs-request record)
+                                                      :chunk (value-bs-chunk-name record)
+                                                     :notes (value-bs-notes record)))))
+                  ((check-bs-request record)
+                   (push (make-gt-rect :start (br-time z) :end (br-time z)
+                                       :request (value-bs-request record)
+                                       :chunk (value-bs-chunk-name record)
+                                       :notes (value-bs-notes record))
+                         rects))
+                  ((check-bs-chunk-name record)
+                   (push (make-gt-rect :start (br-time z) :end (br-time z)
+                                       :request (value-bs-request record)
+                                       :chunk (value-bs-chunk-name record)
+                                       :notes (value-bs-notes record))
+                         rects)))))
+        
+        (dolist (z rects)
+          (if (eq dir :horizontal)
+              (push (list "rectangle" (gt-rect-start z) y (aif (gt-rect-end z) it (mp-time-ms)) (+ y y-inc) 
+                          
+                        buffer-index #| (aif (and (eq x 'production)
+                                    (gt-rect-request z)
+                                    (assoc (gt-rect-request z) prod-colors :test 'string-equal))
+                               (if (stringp (cdr it))
+                                   (cdr it)
+                                 (nth buffer-index color-list))
+                               (nth buffer-index color-list)) |#
+                          
+                          (gt-rect-request z) 
+                          (gt-rect-chunk z) 
+                          (if (gt-rect-notes z)
+                              (format nil "~a" (gt-rect-notes z))
+                            "")
+                          (if (string-equal x "production") (gt-rect-request z) (gt-rect-chunk z))
+                          x)
+                    all-data)
+            
+            (push (list "rectangle" x-coord (gt-rect-start z) 
+                        (+ x-coord x-inc) (aif (gt-rect-end z) it (mp-time-ms))  
+                        
+                        buffer-index #|(aif (and (eq x 'production)
+                                  (gt-rect-request z)
+                                  (assoc (gt-rect-request z) prod-colors :test 'string-equal))
+                             (if (stringp (cdr it))
+                                 (cdr it)
+                               (nth buffer-index color-list))
+                             (nth buffer-index color-list)) |#
+                        
+                        (gt-rect-request z) (gt-rect-chunk z) 
+                        (if (gt-rect-notes z)
+                            (format nil "~a" (gt-rect-notes z))
+                          "")
+                        (if (string-equal x "production") (gt-rect-request z) (gt-rect-chunk z))
+                        x)
+                  all-data)))
+        
+        (if (eq dir :horizontal)
+            (push (list "label" x (+ y (floor (/ y-inc 2))) buffer-index #|(nth buffer-index color-list)|#) all-data)
+          (push (list "label" x (+ x-coord (floor (/ x-inc #|(nth buffer-index widths-list)|# 2))) buffer-index #|(nth buffer-index color-list)|# x-inc #|(nth buffer-index widths-list)|#) all-data)))
+      
+      
+      (incf y y-inc)
+      (incf x-coord x-inc)
+      (incf buffer-index))
+  
+  all-data))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        (#Y(si::bytecodes nil nil (15 0 15 1 77 77 15 2 15 3 15 4 77 77 77 15 5 9 3 77 77 15 6 19 15 7 15 0 15 8 15 9 15 10 19 4 11 15 12 15 8 15 13 15 14 19 4 11 15 12 14 15 77 15 16 19 4 11 15 0 19 1 26 78 22 15 12 1 24 12 19 2 25 1 0 73 29) #1=#A(t (820) (common-lisp-user::keyboard-component "KEYBOARD-COMPONENT-" ((common-lisp-user::lock #2=(bordeaux-threads::make-lock #3="keyboard-component")) (common-lisp-user::table #4=(make-hash-table)) common-lisp-user::default) ((common-lisp-user::lock #2# t nil 0 nil) (common-lisp-user::table #4# t nil 1 nil) (common-lisp-user::default nil t nil 2 nil)) common-lisp-user::copy-keyboard-component (common-lisp-user::make-keyboard-component) common-lisp-user::keyboard-component-p si::define-structure ext::location (defstruct common-lisp-user::keyboard-component) (#5=#P"/opt/actr/actr7.x/other-files/keyboard.lisp" . 0) ext::annotate common-lisp-user::make-keyboard-component (defun common-lisp-user::make-keyboard-component) (#5# . 0) :lambda-list (&key (#6=#:lock (bordeaux-threads::make-lock #3#)) (#7=#:table (make-hash-table)) #8=#:default) (nil :default :table :lock) #6# make-hash-table #7# #8# 0 si::make-structure #Y(common-lisp-user::make-keyboard-component nil nil (28 17 22 40 2 77 46 18 22 40 5 19 0 19 12 46 20 22 40 2 77 46 21 15 22 13 2 13 1 13 0 19 4 23 29) #1# #5# 0) si::fset find-class common-lisp-user::virtual-keyboard (defclass common-lisp-user::virtual-keyboard) (#5# . 8889) :initfunction :test equalp #Y(nil nil nil (26 14 31 33 32 12 19 2 19 29) #1# #5# 8889) (:initform (make-hash-table :test #'equalp) :writers ((setf common-lisp-user::key->cmd-ht)) :readers (common-lisp-user::key->cmd-ht) :name common-lisp-user::key->cmd-ht) #Y(nil nil nil (26 14 31 33 32 12 19 2 19 29) #1# #5# 8889) (:initform (make-hash-table :test #'equalp) :writers ((setf common-lisp-user::key->hand-start-ht)) :readers (common-lisp-user::key->hand-start-ht) :name common-lisp-user::key->hand-start-ht) #Y(nil nil nil (26 14 31 33 32 12 19 2 19 29) #1# #5# 8889) (:initform (make-hash-table :test #'equalp) :writers ((setf common-lisp-user::key->loc-ht)) :readers (common-lisp-user::key->loc-ht) :name common-lisp-user::key->loc-ht) (:initform nil :writers ((setf common-lisp-user::loc->key-arr)) :readers (common-lisp-user::loc->key-arr) :name common-lisp-user::loc->key-array) #Y(nil nil nil (26 14 31 33 32 12 19 2 19 29) #1# #5# 8889) (:initform (make-hash-table :test #'equalp) :writers ((setf common-lisp-user::hand-loc-table)) :readers (common-lisp-user::hand-loc-table) :name common-lisp-user::hand-loc-table) (:initform nil :writers ((setf common-lisp-user::left-start)) :readers (common-lisp-user::left-start) :name common-lisp-user::left-start) (:initform nil :writers ((setf common-lisp-user::right-start)) :readers (common-lisp-user::right-start) :name common-lisp-user::right-start) clos::load-defclass initialize-instance (defmethod initialize-instance :after (common-lisp-user::vk common-lisp-user::virtual-keyboard) &key) (#5# . 9646) (:after) (common-lisp-user::virtual-keyboard) (common-lisp-user::vk &key) common-lisp-user::vk (t) #:g23784 common-lisp-user::keyboard-size :initial-element make-array #:g23785 (setf common-lisp-user::loc->key-arr) common-lisp-user::populate-hand-locations common-lisp-user::set-starting-hand-locations common-lisp-user::populate-key-details #Y(initialize-instance nil nil (24 45 51 28 52 10 0 45 53 13 1 19 1 54 12 14 55 77 19 3 56 45 57 13 0 13 1 33 58 18 2 43 1 43 1 13 0 19 1 59 13 0 19 1 60 13 0 19 1 61 29) #1# #5# 9646) clos::install-method common-lisp-user::specify-key (defgeneric common-lisp-user::specify-key) (#5# . 9895) (common-lisp-user::keyboard common-lisp-user::x common-lisp-user::y common-lisp-user::names &key common-lisp-user::default common-lisp-user::style common-lisp-user::hand-loc) :delete-methods t :documentation "Specify the names for keys by location, indicate whether it's the default position for that key, and
+                   if there's a press-key mapping for it indicate the underlying style and features and the assumed hand-location name." ensure-generic-function (defgeneric common-lisp-user::keyboard-size) (#5# . 10578) (common-lisp-user::keyboard) "Specify the dimensions for the keyboard as a list of columns and rows" (defmethod common-lisp-user::keyboard-size (common-lisp-user::k common-lisp-user::virtual-keyboard)) (#5# . 10885) (common-lisp-user::virtual-keyboard) (common-lisp-user::k) common-lisp-user::k #Y(common-lisp-user::keyboard-size nil nil (24 45 81 26 9 23 8 7 6 2 73 29) #1# #5# 10885) (defgeneric common-lisp-user::populate-hand-locations) (#5# . 10952) (common-lisp-user::keyboard) "Set all of the desired hand locations in the table" (defmethod common-lisp-user::populate-hand-locations (common-lisp-user::k common-lisp-user::virtual-keyboard)) (#5# . 11078) (common-lisp-user::virtual-keyboard) (common-lisp-user::k) common-lisp-user::left-home common-lisp-user::hand-loc-table common-lisp-user::hand common-lisp-user::index common-lisp-user::middle common-lisp-user::ring common-lisp-user::pinkie common-lisp-user::thumb si::hash-set common-lisp-user::right-home common-lisp-user::keypad #Y(common-lisp-user::populate-hand-locations nil nil (24 45 81 26 15 91 13 0 19 1 92 12 15 93 9 4 8 4 6 3 12 15 94 9 0 8 0 6 3 12 15 95 9 -1 8 0 6 3 12 15 96 9 -2 8 0 6 3 12 15 97 9 -3 8 0 6 3 12 15 98 9 1 8 2 6 3 6 6 12 19 3 99 15 100 13 0 19 1 92 12 15 93 9 7 8 4 6 3 12 15 94 9 0 8 0 6 3 12 15 95 9 1 8 0 6 3 12 15 96 9 2 8 0 6 3 12 15 97 9 3 8 0 6 3 12 15 98 9 -1 8 2 6 3 6 6 12 19 3 99 15 101 13 0 19 1 92 12 15 93 9 19 8 4 6 3 12 15 94 9 0 8 0 6 3 12 15 95 9 1 8 0 6 3 12 15 96 9 2 8 0 6 3 12 15 97 9 3 8 1 6 3 12 15 98 9 0 8 2 6 3 6 6 12 19 3 99 29) #1# #5# 11078) (defgeneric common-lisp-user::set-starting-hand-locations) (#5# . 11653) (common-lisp-user::keyboard) "Set the starting hand locations in the table" (defmethod common-lisp-user::set-starting-hand-locations (common-lisp-user::k common-lisp-user::virtual-keyboard)) (#5# . 11777) (common-lisp-user::virtual-keyboard) (common-lisp-user::k) #:g23834 gethash #:g23835 (setf common-lisp-user::left-start) #:g23836 #:g23837 (setf common-lisp-user::right-start) #Y(common-lisp-user::set-starting-hand-locations nil nil (24 45 81 26 10 0 45 111 15 91 13 1 19 1 92 12 19 2 112 45 113 13 0 13 1 33 114 18 2 43 1 43 1 10 0 45 115 15 100 13 1 19 1 92 12 19 2 112 45 116 13 0 13 1 33 117 18 2 43 1 43 1 29) #1# #5# 11777) (defgeneric common-lisp-user::populate-key-details) (#5# . 11975) (common-lisp-user::keyboard) "Specify all the key information using the specify-key method." (defmethod common-lisp-user::populate-key-details (common-lisp-user::k common-lisp-user::virtual-keyboard)) (#5# . 12110) (common-lisp-user::virtual-keyboard) (common-lisp-user::k) ("ESC" "ESCAPE") "F1" "f2" "f3" "f4" "F5" "f6" "f7" "f8" "F9" "f10" "f11" "f12" ("f13" "print-screen") ("f14" "scroll-lock") ("f15" "pause") ("`" "backquote") :style (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 2.24 :theta -2.03) :hand-loc "1" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 2 :theta -1.57) "2" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::ring :r 2 :theta -1.57) "3" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::middle :r 2 :theta -1.57) "4" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 2 :theta -1.57) "5" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 2.24 :theta -1.11) "6" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 2.24 :theta -2.03) "7" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 2 :theta -1.57) "8" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::middle :r 2 :theta -1.57) "9" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 2 :theta -1.57) "0" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2 :theta -1.57) ("-" "hyphen") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2.24 :theta -1.11) ("=" "equal") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2.83 :theta -0.78) "delete" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 3.6 :theta -0.59) "help" "home" "pageup" "clear" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 2 :theta -1.57) ("keypad-=" "keypad-equal") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::middle :r 2 :theta -1.57) ("keypad-/" "keypad-slash" "keypad-divide") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 2 :theta -1.57) ("keypad-*" "keypad-asterisk" "keypad-times") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 3 :theta -1.57) "tab" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 1.41 :theta -2.36) "q" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 1 :theta -1.57) "w" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::ring :r 1 :theta -1.57) "e" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::middle :r 1 :theta -1.57) "r" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 1 :theta -1.57) "t" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 1.41 :theta -0.79) "y" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1.41 :theta -2.36) "u" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1 :theta -1.57) "i" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::middle :r 1 :theta -1.57) "o" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 1 :theta -1.57) "p" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 1 :theta -1.57) ("[" "left-bracket") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 1.41 :theta -0.78) ("]" "right-bracket") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2.24 :theta -0.46) ("\\" "backslash") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 3.16 :theta -0.32) ("forward-delete" "del") "end" "pagedown" "keypad-7" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1 :theta -1.57) "keypad-8" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::middle :r 1 :theta -1.57) "keypad-9" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 1 :theta -1.57) ("keypad--" "keypad-minus" "keypad-hyphen") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2 :theta -1.57) "caps-lock" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 1.0 :theta 3.14) "a" (common-lisp-user::punch :hand common-lisp-user::left :finger common-lisp-user::pinkie) "s" (common-lisp-user::punch :hand common-lisp-user::left :finger common-lisp-user::ring) "d" (common-lisp-user::punch :hand common-lisp-user::left :finger common-lisp-user::middle) "f" (common-lisp-user::punch :hand common-lisp-user::left :finger common-lisp-user::index) "g" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 1 :theta 0) "h" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1 :theta 3.14) "j" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::index) "k" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::middle) "l" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::ring) (";" "semicolon") (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::pinkie) ("'" "quote") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 1 :theta 0) ("return" "newline") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2 :theta 0) ("return" "newline") :default "keypad-4" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::index) "keypad-5" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::middle) "keypad-6" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::ring) ("keypad-+" "keypad-plus") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 1 :theta -1.57) ("shift" "left-shift") (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 1.41 :theta 2.36) "z" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 1 :theta 1.57) "x" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::ring :r 1 :theta 1.57) "c" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::middle :r 1 :theta 1.57) "v" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 1 :theta 1.57) "b" (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::index :r 1.41 :theta 0.79) "n" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1.41 :theta 2.36) "m" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1 :theta 1.57) ("," "comma") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::middle :r 1 :theta 1.57) ("." "period" "dot") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 1 :theta 1.57) ("/" "slash") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 1 :theta 1.57) "right-shift" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 1.41 :theta 0.78) "right-shift" "right-shift" "up-arrow" "keypad-1" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::index :r 1 :theta 1.57) "keypad-2" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::middle :r 1 :theta 1.57) "keypad-3" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 1 :theta 1.57) ("enter" "keypad-enter") (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::pinkie) ("control" "left-control") (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 2.24 :theta 2.03) ("option" "left-option") (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::pinkie :r 2.0 :theta 1.57) ("command" "left-command") (common-lisp-user::peck-recoil :hand common-lisp-user::left :finger common-lisp-user::ring :r 2.0 :theta 1.57) "space" "space" "space" (common-lisp-user::punch :hand common-lisp-user::left :finger common-lisp-user::thumb) "space" "space" "space" "space" "space" "right-command" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2.24 :theta 1.11) "right-option" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 2.83 :theta 0.78) "right-control" (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::pinkie :r 3.6 :theta 0.59) "left-arrow" "down-arrow" "right-arrow" "keypad-0" (common-lisp-user::punch :hand common-lisp-user::right :finger common-lisp-user::thumb) "keypad-0" ("keypad-." "keypad-dot" "keypad-period") (common-lisp-user::peck-recoil :hand common-lisp-user::right :finger common-lisp-user::ring :r 2 :theta 1.57) ("enter" "keypad-enter") #Y(common-lisp-user::populate-key-details nil nil (24 45 81 26 13 0 9 0 9 0 15 127 19 4 64 13 0 9 2 9 0 15 128 19 4 64 13 0 9 3 9 0 15 129 19 4 64 13 0 9 4 9 0 15 130 19 4 64 13 0 9 5 9 0 15 131 19 4 64 13 0 9 7 9 0 15 132 19 4 64 13 0 9 8 9 0 15 133 19 4 64 13 0 9 9 9 0 15 134 19 4 64 13 0 9 10 9 0 15 135 19 4 64 13 0 9 12 9 0 15 136 19 4 64 13 0 9 13 9 0 15 137 19 4 64 13 0 9 14 9 0 15 138 19 4 64 13 0 9 15 9 0 15 139 19 4 64 13 0 9 17 9 0 15 140 19 4 64 13 0 9 18 9 0 15 141 19 4 64 13 0 9 19 9 0 15 142 19 4 64 13 0 9 0 9 2 15 143 14 144 15 145 14 146 15 91 19 8 64 13 0 9 1 9 2 15 147 14 144 15 148 14 146 15 91 19 8 64 13 0 9 2 9 2 15 149 14 144 15 150 14 146 15 91 19 8 64 13 0 9 3 9 2 15 151 14 144 15 152 14 146 15 91 19 8 64 13 0 9 4 9 2 15 153 14 144 15 154 14 146 15 91 19 8 64 13 0 9 5 9 2 15 155 14 144 15 156 14 146 15 91 19 8 64 13 0 9 6 9 2 15 157 14 144 15 158 14 146 15 100 19 8 64 13 0 9 7 9 2 15 159 14 144 15 160 14 146 15 100 19 8 64 13 0 9 8 9 2 15 161 14 144 15 162 14 146 15 100 19 8 64 13 0 9 9 9 2 15 163 14 144 15 164 14 146 15 100 19 8 64 13 0 9 10 9 2 15 165 14 144 15 166 14 146 15 100 19 8 64 13 0 9 11 9 2 15 167 14 144 15 168 14 146 15 100 19 8 64 13 0 9 12 9 2 15 169 14 144 15 170 14 146 15 100 19 8 64 13 0 9 13 9 2 15 171 14 144 15 172 14 146 15 100 19 8 64 13 0 9 15 9 2 15 173 19 4 64 13 0 9 16 9 2 15 174 19 4 64 13 0 9 17 9 2 15 175 19 4 64 13 0 9 19 9 2 15 176 14 144 15 177 14 146 15 101 19 8 64 13 0 9 20 9 2 15 178 14 144 15 179 14 146 15 101 19 8 64 13 0 9 21 9 2 15 180 14 144 15 181 14 146 15 101 19 8 64 13 0 9 22 9 2 15 182 14 144 15 183 14 146 15 101 19 8 64 13 0 9 0 9 3 15 184 14 144 15 185 14 146 15 91 19 8 64 13 0 9 1 9 3 15 186 14 144 15 187 14 146 15 91 19 8 64 13 0 9 2 9 3 15 188 14 144 15 189 14 146 15 91 19 8 64 13 0 9 3 9 3 15 190 14 144 15 191 14 146 15 91 19 8 64 13 0 9 4 9 3 15 192 14 144 15 193 14 146 15 91 19 8 64 13 0 9 5 9 3 15 194 14 144 15 195 14 146 15 91 19 8 64 13 0 9 6 9 3 15 196 14 144 15 197 14 146 15 100 19 8 64 13 0 9 7 9 3 15 198 14 144 15 199 14 146 15 100 19 8 64 13 0 9 8 9 3 15 200 14 144 15 201 14 146 15 100 19 8 64 13 0 9 9 9 3 15 202 14 144 15 203 14 146 15 100 19 8 64 13 0 9 10 9 3 15 204 14 144 15 205 14 146 15 100 19 8 64 13 0 9 11 9 3 15 206 14 144 15 207 14 146 15 100 19 8 64 13 0 9 12 9 3 15 208 14 144 15 209 14 146 15 100 19 8 64 13 0 9 13 9 3 15 210 14 144 15 211 14 146 15 100 19 8 64 13 0 9 15 9 3 15 212 19 4 64 13 0 9 16 9 3 15 213 19 4 64 13 0 9 17 9 3 15 214 19 4 64 13 0 9 19 9 3 15 215 14 144 15 216 14 146 15 101 19 8 64 13 0 9 20 9 3 15 217 14 144 15 218 14 146 15 101 19 8 64 13 0 9 21 9 3 15 219 14 144 15 220 14 146 15 101 19 8 64 13 0 9 22 9 3 15 221 14 144 15 222 14 146 15 101 19 8 64 13 0 9 0 9 4 15 223 14 144 15 224 14 146 15 91 19 8 64 13 0 9 1 9 4 15 225 14 144 15 226 14 146 15 91 19 8 64 13 0 9 2 9 4 15 227 14 144 15 228 14 146 15 91 19 8 64 13 0 9 3 9 4 15 229 14 144 15 230 14 146 15 91 19 8 64 13 0 9 4 9 4 15 231 14 144 15 232 14 146 15 91 19 8 64 13 0 9 5 9 4 15 233 14 144 15 234 14 146 15 91 19 8 64 13 0 9 6 9 4 15 235 14 144 15 236 14 146 15 100 19 8 64 13 0 9 7 9 4 15 237 14 144 15 238 14 146 15 100 19 8 64 13 0 9 8 9 4 15 239 14 144 15 240 14 146 15 100 19 8 64 13 0 9 9 9 4 15 241 14 144 15 242 14 146 15 100 19 8 64 13 0 9 10 9 4 15 243 14 144 15 244 14 146 15 100 19 8 64 13 0 9 11 9 4 15 245 14 144 15 246 14 146 15 100 19 8 64 13 0 9 12 9 4 15 247 14 144 15 248 14 146 15 100 19 8 64 13 0 9 13 9 4 15 249 14 250 77 19 6 64 13 0 9 19 9 4 15 251 14 144 15 252 14 146 15 101 19 8 64 13 0 9 20 9 4 15 253 14 144 15 254 14 146 15 101 19 8 64 13 0 9 21 9 4 15 255 14 144 15 256 14 146 15 101 19 8 64 13 0 9 22 9 4 15 257 14 144 15 258 14 146 15 101 19 8 64 13 0 9 0 9 5 15 259 14 144 15 260 14 146 15 91 19 8 64 13 0 9 1 9 5 15 261 14 144 15 262 14 146 15 91 19 8 64 13 0 9 2 9 5 15 263 14 144 15 264 14 146 15 91 19 8 64 13 0 9 3 9 5 15 265 14 144 15 266 14 146 15 91 19 8 64 13 0 9 4 9 5 15 267 14 144 15 268 14 146 15 91 19 8 64 13 0 9 5 9 5 15 269 14 144 15 270 14 146 15 91 19 8 64 13 0 9 6 9 5 15 271 14 144 15 272 14 146 15 100 19 8 64 13 0 9 7 9 5 15 273 14 144 15 274 14 146 15 100 19 8 64 13 0 9 8 9 5 15 275 14 144 15 276 14 146 15 100 19 8 64 13 0 9 9 9 5 15 277 14 144 15 278 14 146 15 100 19 8 64 13 0 9 10 9 5 15 279 14 144 15 280 14 146 15 100 19 8 64 13 0 9 11 9 5 15 281 14 144 15 282 14 146 15 100 19 8 64 13 0 9 12 9 5 15 283 14 250 77 19 6 64 13 0 9 13 9 5 15 284 14 250 77 19 6 64 13 0 9 16 9 5 15 285 19 4 64 13 0 9 19 9 5 15 286 14 144 15 287 14 146 15 101 19 8 64 13 0 9 20 9 5 15 288 14 144 15 289 14 146 15 101 19 8 64 13 0 9 21 9 5 15 290 14 144 15 291 14 146 15 101 19 8 64 13 0 9 22 9 5 15 292 14 144 15 293 14 146 15 101 19 8 64 13 0 9 0 9 6 15 294 14 144 15 295 14 146 15 91 19 8 64 13 0 9 1 9 6 15 296 14 144 15 297 14 146 15 91 19 8 64 13 0 9 2 9 6 15 298 14 144 15 299 14 146 15 91 19 8 64 13 0 9 3 9 6 15 300 14 250 77 19 6 64 13 0 9 4 9 6 15 301 14 250 77 19 6 64 13 0 9 5 9 6 15 302 14 144 15 303 14 146 15 91 19 8 64 13 0 9 6 9 6 15 304 14 250 77 19 6 64 13 0 9 7 9 6 15 305 14 250 77 19 6 64 13 0 9 8 9 6 15 306 14 250 77 19 6 64 13 0 9 9 9 6 15 307 14 250 77 19 6 64 13 0 9 10 9 6 15 308 14 250 77 19 6 64 13 0 9 11 9 6 15 309 14 144 15 310 14 146 15 100 19 8 64 13 0 9 12 9 6 15 311 14 144 15 312 14 146 15 100 19 8 64 13 0 9 13 9 6 15 313 14 144 15 314 14 146 15 100 19 8 64 13 0 9 15 9 6 15 315 19 4 64 13 0 9 16 9 6 15 316 19 4 64 13 0 9 17 9 6 15 317 19 4 64 13 0 9 19 9 6 15 318 14 144 15 319 14 146 15 101 19 8 64 13 0 9 20 9 6 15 320 14 250 77 19 6 64 13 0 9 21 9 6 15 321 14 144 15 322 14 146 15 101 19 8 64 13 0 9 22 9 6 15 323 14 250 77 19 6 64 29) #1# #5# 12110) common-lisp-user::other-notifications (defgeneric common-lisp-user::other-notifications) (#5# . 23035) (common-lisp-user::keyboard common-lisp-user::device common-lisp-user::features) "Called when the default keyboard can't process a notification" (defmethod common-lisp-user::other-notifications (common-lisp-user::k common-lisp-user::virtual-keyboard) common-lisp-user::device common-lisp-user::features) (#5# . 23197) (common-lisp-user::virtual-keyboard t t) (common-lisp-user::k common-lisp-user::device common-lisp-user::features) common-lisp-user::device common-lisp-user::features "print-warning" "~@?" "keyboard device can not process notification from device ~s with features ~s." format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::other-notifications nil nil (24 45 81 24 45 334 24 45 335 26 15 336 77 15 337 15 338 13 1 13 0 19 5 339 12 19 2 340 75 73 29) #1# #5# 23197) (defmethod common-lisp-user::specify-key (common-lisp-user::k common-lisp-user::virtual-keyboard) common-lisp-user::x common-lisp-user::y common-lisp-user::names &key #9=(common-lisp-user::default t) common-lisp-user::style common-lisp-user::hand-loc) (#5# . 23386) (common-lisp-user::virtual-keyboard t t t) (common-lisp-user::k common-lisp-user::x common-lisp-user::y common-lisp-user::names &key #9# common-lisp-user::style common-lisp-user::hand-loc) common-lisp-user::x common-lisp-user::y common-lisp-user::names (t :hand-loc :style :default) common-lisp-user::default common-lisp-user::style common-lisp-user::hand-loc listp stringp every string-upcase mapcar si::%dolist-var common-lisp-user::n common-lisp-user::key->loc-ht "Key name ~s already has a location and that is being overwritten." vector common-lisp-user::key->cmd-ht "Key name ~s already has a press-key entry which is being overwritten." common-lisp-user::key->hand-start-ht "Key name ~s specifies invalid hand location ~s which is being ignored." common-lisp-user::loc->key-arr aref common-lisp-user::it "Keyboard location ~d,~d already has a name ~s which is being overwritten with ~s." si::aset "Invalid key name found in provided names ~s." #Y(common-lisp-user::specify-key nil nil (24 45 81 24 45 346 24 45 347 24 45 348 28 349 22 40 3 14 69 46 350 22 40 2 77 46 351 22 40 2 77 46 352 10 3 16 353 76 39 7 10 3 6 1 51 3 15 354 13 3 19 2 355 39 254 15 356 13 3 19 2 357 45 358 38 171 10 0 4 45 359 10 4 39 49 13 0 13 8 19 1 360 12 19 2 112 39 17 15 336 77 15 337 15 361 13 0 19 4 339 12 19 2 340 13 0 13 8 19 1 360 12 13 7 13 6 19 2 362 12 19 3 99 10 4 39 9 10 3 16 353 39 3 10 3 39 93 13 0 13 8 19 1 363 12 19 2 112 39 17 15 336 77 15 337 15 364 13 0 19 4 339 12 19 2 340 13 0 13 8 19 1 363 12 13 3 19 3 99 10 2 39 12 13 2 13 8 19 1 92 12 19 2 112 39 16 13 0 13 8 19 1 365 12 13 2 19 3 99 38 19 15 336 77 15 337 15 366 13 0 13 2 19 5 339 12 19 2 340 10 1 5 51 1 43 1 10 0 40 -173 43 1 13 6 19 1 367 12 13 5 13 4 19 3 368 45 369 10 0 39 27 15 336 77 15 337 15 370 13 6 13 5 13 0 10 4 4 12 19 7 339 12 19 2 340 38 1 43 1 13 6 19 1 367 12 13 5 13 4 10 3 4 12 19 4 371 38 19 15 336 77 15 337 15 372 13 3 19 4 339 12 19 2 340 75 73 29) #1# #5# 23386) common-lisp-user::*act-r-virtual-keyboard* si::*make-special boundp make-instance (defvar common-lisp-user::*act-r-virtual-keyboard*) (#5# . 24791) common-lisp-user::loc->key (defgeneric common-lisp-user::loc->key) (#5# . 24917) (common-lisp-user::vk common-lisp-user::loc) "Given a location, return the corresponding key" (defmethod common-lisp-user::loc->key (common-lisp-user::vk common-lisp-user::virtual-keyboard) (common-lisp-user::loc list)) (#5# . 25257) (common-lisp-user::virtual-keyboard list) (common-lisp-user::vk common-lisp-user::loc) common-lisp-user::loc second #Y(common-lisp-user::loc->key nil nil (24 45 51 24 45 389 26 13 1 19 1 367 12 10 0 4 12 10 0 16 390 12 19 3 368 29) #1# #5# 25257) (defmethod common-lisp-user::loc->key (common-lisp-user::vk common-lisp-user::virtual-keyboard) (common-lisp-user::loc vector)) (#5# . 25369) (common-lisp-user::virtual-keyboard vector) (common-lisp-user::vk common-lisp-user::loc) elt #Y(common-lisp-user::loc->key nil nil (24 45 51 24 45 389 26 13 1 19 1 367 12 13 0 8 0 17 396 12 13 0 8 1 17 396 12 19 3 368 29) #1# #5# 25369) common-lisp-user::key->cmd (defgeneric common-lisp-user::key->cmd) (#5# . 25476) (common-lisp-user::keyboard common-lisp-user::key) "Given a key, return the appropriate Motor Module command to type it." (defmethod common-lisp-user::key->cmd (common-lisp-user::k common-lisp-user::virtual-keyboard) common-lisp-user::key) (#5# . 25608) (common-lisp-user::virtual-keyboard t) (common-lisp-user::k common-lisp-user::key) common-lisp-user::key #Y(common-lisp-user::key->cmd nil nil (24 45 81 24 45 407 26 13 0 19 1 356 12 13 1 19 1 363 12 19 2 112 29) #1# #5# 25608) common-lisp-user::key->hand-start (defgeneric common-lisp-user::key->hand-start) (#5# . 25708) (common-lisp-user::keyboard common-lisp-user::key) "Given a key, return the expected starting hand location information." (defmethod common-lisp-user::key->hand-start (common-lisp-user::k common-lisp-user::virtual-keyboard) common-lisp-user::key) (#5# . 25847) (common-lisp-user::virtual-keyboard t) (common-lisp-user::k common-lisp-user::key) #Y(common-lisp-user::key->hand-start nil nil (24 45 81 24 45 407 26 13 0 19 1 356 12 13 1 19 1 365 12 19 2 112 12 13 1 19 1 92 12 19 2 112 29) #1# #5# 25847) common-lisp-user::key->loc (defgeneric common-lisp-user::key->loc) (#5# . 26002) (common-lisp-user::keyboard common-lisp-user::key) "Given a key, return the location vector." (defmethod common-lisp-user::key->loc (common-lisp-user::vk common-lisp-user::virtual-keyboard) common-lisp-user::key) (#5# . 26106) (common-lisp-user::virtual-keyboard t) (common-lisp-user::vk common-lisp-user::key) #Y(common-lisp-user::key->loc nil nil (24 45 51 24 45 407 26 13 0 19 1 356 12 13 1 19 1 360 12 19 2 112 29) #1# #5# 26106) common-lisp-user::keyboard-hand-location (defgeneric common-lisp-user::keyboard-hand-location) (#5# . 26208) (common-lisp-user::keyboard common-lisp-user::location-name) "Given a location name, return the list of coordinates for the hand and fingers." (defmethod common-lisp-user::keyboard-hand-location (common-lisp-user::vk common-lisp-user::virtual-keyboard) common-lisp-user::location) (#5# . 26375) (common-lisp-user::virtual-keyboard t) (common-lisp-user::vk common-lisp-user::location) common-lisp-user::location #Y(common-lisp-user::keyboard-hand-location nil nil (24 45 51 24 45 438 26 13 0 13 1 19 1 92 12 19 2 112 29) #1# #5# 26375) common-lisp-user::initialize-keyboard (defun common-lisp-user::initialize-keyboard) (#5# . 26488) (common-lisp-user::device-list) common-lisp-user::device-list common-lisp-user::keyboard-table common-lisp-user::get-component-fct common-lisp-user::k-c third common-lisp-user::keyboard-component-default common-lisp-user::current-model common-lisp-user::keyboard-component-table common-lisp-user::string->name common-lisp-user::k-type subtypep "Invalid type ~s provided for installing a keyboard." common-lisp-user::home-hands "No keyboard-table component was found when trying to install a keyboard device." #Y(common-lisp-user::initialize-keyboard nil nil (24 45 444 26 15 445 19 1 446 45 447 10 0 39 132 10 1 16 448 76 39 44 13 0 19 1 449 45 369 10 0 39 8 13 0 19 1 377 38 3 11 374 43 1 45 81 19 0 450 12 13 1 19 1 451 12 13 0 19 3 99 43 1 38 63 10 1 16 448 12 19 1 452 45 453 13 0 15 27 19 2 454 39 22 19 0 450 12 13 1 19 1 451 12 13 0 19 1 377 12 19 3 99 38 21 15 336 77 15 337 15 455 10 2 16 448 12 19 4 339 12 19 2 340 75 43 1 45 81 10 0 73 39 9 13 0 19 1 456 11 69 73 43 1 38 17 15 336 77 15 337 15 457 19 3 339 12 19 2 340 75 73 43 1 29) #1# #5# 26488) "initialize-keyboard" "Function which sets up a keyboard when it is installed. Do not call directly." common-lisp-user::add-act-r-command common-lisp-user::internal-keyboard-interface (defun common-lisp-user::internal-keyboard-interface) (#5# . 27885) (common-lisp-user::device-list common-lisp-user::features) common-lisp-user::current-keyboard common-lisp-user::model :key first find common-lisp-user::s common-lisp-user::l common-lisp-user::m (common-lisp-user::punch common-lisp-user::peck-recoil common-lisp-user::peck) common-lisp-user::current-mp #:g23944 common-lisp-user::valid-model-name #:g23945 common-lisp-user::*current-act-r-model* "output-key" :params :output :module common-lisp-user::keyboard :maintenance common-lisp-user::schedule-event-now "~S does not name a model in the current meta-process" "No actions taken in with-model because there is no current meta-process" "Keyboard device did not get signaled with a valid keyboard location for normal actions: ~s" "No keyboard available for current model." #Y(common-lisp-user::internal-keyboard-interface nil nil (24 45 444 24 45 335 26 19 0 466 45 81 10 0 39 214 15 467 13 1 14 468 15 469 19 4 470 16 390 12 15 389 13 1 14 468 15 469 19 4 470 16 390 12 15 351 13 1 14 468 15 469 19 4 470 16 390 12 46 471 46 472 46 473 10 0 39 16 10 1 39 12 10 2 39 8 13 2 15 474 19 2 470 39 132 13 3 13 1 19 2 380 45 369 10 0 39 97 19 0 475 45 476 10 0 39 68 13 2 19 1 477 45 478 10 0 39 35 10 0 48 479 15 480 14 481 13 3 10 2 6 2 12 14 482 14 69 14 483 15 484 14 485 14 69 19 9 486 44 1 38 19 15 336 77 15 337 15 487 13 0 19 4 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 488 19 3 339 12 19 2 340 75 73 43 1 38 19 15 336 77 15 337 15 489 13 5 19 4 339 12 19 2 340 75 73 43 1 38 10 13 3 13 5 13 4 19 3 325 43 3 38 17 15 336 77 15 337 15 490 19 3 339 12 19 2 340 75 73 43 1 29) #1# #5# 27885) "keyboard-interface-fn" "Function which receives the signals for the keyboard device. Do not call directly." "keyboard" "initialize-keyboard" "keyboard-interface-fn" common-lisp-user::define-device "output-key" "Command called when a key on the virtual keyboard is pressed by the model or a real key is pressed in a visible experiment window which can be monitored.  It is passed 2 parameters: model-name and key-name. Should not be called directly." common-lisp-user::output-key (defun common-lisp-user::output-key) (#5# . 29308) (common-lisp-user::model common-lisp-user::key) "output-key" common-lisp-user::dispatch-apply #Y(common-lisp-user::output-key nil nil (24 45 467 24 45 407 26 15 504 13 1 13 0 19 3 505 29) #1# #5# 29308) common-lisp-user::press-key (defclass common-lisp-user::press-key) (#5# . 29385) (common-lisp-user::movement-style) :direct-default-initargs :style-name :press-key constantly :feature-slots '#10=(common-lisp-user::key) #10# (defgeneric common-lisp-user::press-key) (#5# . 30004) (common-lisp-user::mtr-mod &key common-lisp-user::key common-lisp-user::request-spec) "High-level interface to press a key: Look up the command and execute it." (defmethod common-lisp-user::press-key (common-lisp-user::mtr-mod common-lisp-user::motor-module) &key common-lisp-user::key common-lisp-user::request-spec) (#5# . 30158) (common-lisp-user::motor-module) (common-lisp-user::mtr-mod &key common-lisp-user::key common-lisp-user::request-spec) common-lisp-user::mtr-mod (t :request-spec :key) common-lisp-user::request-spec "keyboard" "motor" common-lisp-user::current-devices string-equal princ-to-string common-lisp-user::command "No press-key mapping available for key ~s." :hand position common-lisp-user::hand-index 1+ nth common-lisp-user::hand-name :current common-lisp-user::hand-position common-lisp-user::device-for-hand common-lisp-user::home "keyboard" common-lisp-user::hand-pos-loc = common-lisp-user::hand-pos-fingers #Y(nil nil nil (24 45 346 26 10 0 4 12 13 3 19 1 549 12 14 468 15 469 19 4 470 45 369 10 0 39 42 10 0 16 390 12 8 0 17 396 12 10 1 16 390 12 19 2 548 73 39 19 10 0 16 390 12 8 1 17 396 12 10 1 16 448 12 19 2 548 38 3 75 73 43 1 29) #1# #5# 30158) "Hand not at correct starting position for press-key action." "No starting position available for key ~s for press-key action." :request-spec append apply "The ~s hand in a press-key action is not on the keyboard.  Press-key action ignored." "Could not find a keyboard to use for the current model. Press-key action ignored." "No keyboard device installed for motor module.  Press-key action ignored." #Y(common-lisp-user::press-key nil nil (24 45 526 28 527 22 40 2 77 46 407 22 40 2 77 46 528 15 529 15 530 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 39 284 19 0 466 45 369 10 0 39 255 10 2 16 354 76 39 7 10 2 16 533 51 2 13 0 13 2 19 2 398 45 534 10 0 4 76 39 21 15 336 77 15 337 15 535 13 3 19 4 339 12 19 2 340 75 73 38 203 14 536 13 0 19 2 537 45 538 10 0 16 539 12 10 1 17 540 45 541 13 0 14 542 77 19 3 543 45 537 13 1 14 542 77 19 3 544 45 334 13 5 13 7 19 2 409 45 545 10 1 16 390 12 15 546 19 2 532 39 122 10 0 39 55 10 0 4 16 390 12 13 2 19 1 547 12 8 0 17 396 12 19 2 548 39 33 10 0 4 16 448 12 13 2 19 1 547 12 8 1 17 396 12 19 2 548 39 11 34 550 12 10 0 5 12 19 2 355 76 39 35 10 0 39 17 15 336 77 15 337 15 551 19 3 339 12 19 2 340 38 15 15 336 77 15 337 15 552 19 3 339 12 19 2 340 10 5 4 12 13 9 14 553 10 7 6 2 12 10 5 5 12 19 2 554 12 19 3 555 38 19 15 336 77 15 337 15 556 13 3 19 4 339 12 19 2 340 75 73 43 5 43 1 38 17 15 336 77 15 337 15 557 19 3 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 558 19 3 339 12 19 2 340 75 73 29) #1# #5# 30158) (common-lisp-user::press-key common-lisp-user::key) common-lisp-user::handle-style-request common-lisp-user::extend-manual-requests-fct common-lisp-user::hand-to-home (defclass common-lisp-user::hand-to-home) (#5# . 32520) (common-lisp-user::movement-style) :point-hand-at-key '#11=(common-lisp-user::hand) #11# (defgeneric common-lisp-user::hand-to-home) (#5# . 32662) (common-lisp-user::mtr-mod &key common-lisp-user::request-spec common-lisp-user::hand) "Moves a hand to the home row position" (defmethod common-lisp-user::hand-to-home (common-lisp-user::mtr-mod common-lisp-user::motor-module) &key common-lisp-user::request-spec common-lisp-user::hand) (#5# . 32785) (common-lisp-user::motor-module) (common-lisp-user::mtr-mod &key common-lisp-user::request-spec common-lisp-user::hand) (t :hand :request-spec) "keyboard" "motor" common-lisp-user::right eq common-lisp-user::left common-lisp-user::keyboard-hand coerce common-lisp-user::home-pos common-lisp-user::xy-to-polar common-lisp-user::polar common-lisp-user::hand-pos "keyboard" #Y(nil nil nil (24 45 346 26 10 0 4 12 13 2 19 1 549 12 14 468 15 469 19 4 470 45 369 10 0 39 42 10 0 16 390 12 8 0 17 396 12 10 1 16 390 12 19 2 548 73 39 19 10 0 16 390 12 8 1 17 396 12 10 1 16 448 12 19 2 548 38 3 75 73 43 1 29) #1# #5# 32785) common-lisp-user::printing-module common-lisp-user::get-module-fct #:g23967 #:g23966 #:g23968 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "HAND-TO-HOME requested but hand already is (or will be) at the home position." :r :theta :twidth 4.0 :device :offsets remove common-lisp-user::point-hand "Invalid hand ~s in hand-to-home." "Invalid keyboard found cannot move hand to home position." "Keyboard device is not installed. Cannot move hand to home position." #Y(common-lisp-user::hand-to-home nil nil (24 45 526 28 578 22 40 2 77 46 528 22 40 2 77 46 93 15 579 15 580 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 45 369 10 0 39 322 19 0 466 45 81 10 2 76 39 5 1 581 51 2 10 0 39 284 13 2 1 581 17 582 40 7 13 2 1 583 17 582 39 248 13 2 1 583 17 582 39 10 13 0 15 91 19 2 429 38 8 13 0 15 100 19 2 429 45 584 15 93 13 0 14 468 15 469 19 4 470 5 12 1 362 17 585 45 586 13 4 14 542 77 19 3 352 12 13 0 19 2 587 45 588 13 5 14 542 77 19 3 543 45 589 13 6 14 542 77 19 3 544 45 334 13 2 8 0 17 396 12 9 0 19 2 548 39 27 10 0 39 23 10 0 16 390 12 15 590 19 2 532 39 11 34 591 12 10 4 5 12 19 2 355 39 62 15 592 19 1 593 47 1 594 45 595 10 1 39 42 75 45 596 13 1 19 1 597 12 19 1 598 39 6 13 1 19 1 599 51 0 10 0 39 15 15 600 77 15 601 15 602 19 3 339 12 19 2 340 43 1 75 73 43 2 38 60 13 9 14 536 13 7 14 603 13 2 8 0 17 396 12 14 604 13 2 8 1 17 396 12 14 605 15 606 14 607 13 6 14 608 15 93 13 4 14 468 15 469 19 4 470 12 13 4 19 2 609 12 14 553 13 8 19 15 610 43 5 38 19 15 336 77 15 337 15 611 13 2 19 4 339 12 19 2 340 75 73 38 17 15 336 77 15 337 15 612 19 3 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 613 19 3 339 12 19 2 340 75 73 43 1 29) #1# #5# 32785) (common-lisp-user::hand-to-home common-lisp-user::hand) common-lisp-user::handle-partial-style-request common-lisp-user::hand-to-keypad (defgeneric common-lisp-user::hand-to-keypad) (#5# . 34912) (common-lisp-user::mtr-mod common-lisp-user::request) "Moves the right hand to the keypad position" (defmethod common-lisp-user::hand-to-keypad (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::request) (#5# . 35030) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::request) common-lisp-user::request "keyboard" "motor" common-lisp-user::keypad-location common-lisp-user::keypad-pos "keyboard" #Y(nil nil nil (24 45 346 26 10 0 4 12 13 2 19 1 549 12 14 468 15 469 19 4 470 45 369 10 0 39 42 10 0 16 390 12 8 0 17 396 12 10 1 16 390 12 19 2 548 73 39 19 10 0 16 390 12 8 1 17 396 12 10 1 16 448 12 19 2 548 38 3 75 73 43 1 29) #1# #5# 35030) #:g23983 #:g23982 #:g23984 "HAND-TO-KEYPAD requested but hand already is (or will be) at the keypad position." "Invalid keyboard found cannot move right hand to keypad position." "Keyboard device is not installed. Cannot move right hand to keypad position." #Y(common-lisp-user::hand-to-keypad nil nil (24 45 526 24 45 626 26 15 627 15 628 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 45 369 10 0 39 260 19 0 466 45 81 10 0 39 231 13 0 15 101 19 2 429 45 629 15 93 13 0 14 468 15 469 19 4 470 5 12 1 362 17 585 45 630 15 581 14 542 77 19 3 352 12 13 0 19 2 587 45 588 15 581 14 542 77 19 3 543 45 589 15 581 14 542 77 19 3 544 45 334 13 2 8 0 17 396 12 9 0 19 2 548 39 27 10 0 39 23 10 0 16 390 12 15 631 19 2 532 39 11 34 632 12 10 4 5 12 19 2 355 39 62 15 592 19 1 593 47 1 633 45 634 10 1 39 42 75 45 635 13 1 19 1 597 12 19 1 598 39 6 13 1 19 1 599 51 0 10 0 39 15 15 600 77 15 601 15 636 19 3 339 12 19 2 340 43 1 75 73 43 2 38 60 13 8 14 536 15 581 14 603 13 2 8 0 17 396 12 14 604 13 2 8 1 17 396 12 14 605 15 606 14 607 13 6 14 608 15 93 13 4 14 468 15 469 19 4 470 12 13 4 19 2 609 12 14 553 13 7 19 15 610 43 5 38 17 15 336 77 15 337 15 637 19 3 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 638 19 3 339 12 19 2 340 75 73 43 1 29) #1# #5# 35030) (common-lisp-user::hand-to-keypad) common-lisp-user::handle-simple-command-request common-lisp-user::point-hand-at-key (defclass common-lisp-user::point-hand-at-key) (#5# . 36728) (common-lisp-user::movement-style) '#12=(common-lisp-user::hand common-lisp-user::to-key common-lisp-user::offsets) #12# (defgeneric common-lisp-user::point-hand-at-key) (#5# . 36888) (common-lisp-user::mtr-mod &key common-lisp-user::hand common-lisp-user::to-key common-lisp-user::offsets common-lisp-user::request-spec) "Move the hand to a new location, specified by the key at which the index finger should point." (defmethod common-lisp-user::point-hand-at-key (common-lisp-user::mtr-mod common-lisp-user::motor-module) &key common-lisp-user::hand common-lisp-user::to-key common-lisp-user::offsets common-lisp-user::request-spec) (#5# . 37087) (common-lisp-user::motor-module) (common-lisp-user::mtr-mod &key common-lisp-user::hand common-lisp-user::to-key common-lisp-user::offsets common-lisp-user::request-spec) (t :request-spec :offsets :to-key :hand) common-lisp-user::to-key common-lisp-user::offsets "keyboard" "motor" common-lisp-user::new-loc standard #Y(nil nil nil (24 45 346 26 10 0 4 12 10 0 16 390 12 8 0 17 396 12 10 0 16 390 12 8 1 17 396 6 3 73 29) #1# #5# 37087) common-lisp-user::right-standard-offsets common-lisp-user::left-standard-offsets common-lisp-user::target-offsets "keyboard" #Y(nil nil nil (24 45 346 26 10 0 4 12 13 2 19 1 549 12 14 468 15 469 19 4 470 45 369 10 0 39 42 10 0 16 390 12 8 0 17 396 12 10 1 16 390 12 19 2 548 73 39 19 10 0 16 390 12 8 1 17 396 12 10 1 16 448 12 19 2 548 38 3 75 73 43 1 29) #1# #5# 37087) #:g24003 #:g24002 #:g24004 "POINT-HAND-AT-KEY requested but hand already is (or will be) at the requested key position." "No key mapping available for key ~s. Point-hand-at-key action ignored." "Invalid keyboard found cannot move hand to key." "No keyboard device installed for motor module.  Point-hand-at-key action ignored." #Y(common-lisp-user::point-hand-at-key nil nil (24 45 526 28 656 22 40 2 77 46 93 22 40 2 77 46 657 22 40 2 77 46 658 22 40 2 77 46 528 15 659 15 660 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 45 369 10 0 39 334 19 0 466 45 81 10 0 39 305 10 4 16 354 76 39 7 10 4 16 533 51 4 13 0 13 4 19 2 419 45 661 10 0 39 257 13 6 14 542 77 19 3 352 12 13 0 19 2 587 45 588 13 7 1 583 17 582 39 10 13 2 15 91 19 2 429 38 8 13 2 15 100 19 2 429 45 584 13 6 1 662 17 582 39 30 34 663 12 10 8 42 581 6 19 0 664 38 11 42 583 6 19 0 665 38 3 75 73 12 19 2 357 38 12 10 6 39 5 10 6 38 4 10 0 5 45 666 13 9 14 542 77 19 3 543 45 589 13 10 14 542 77 19 3 544 45 334 13 4 8 0 17 396 12 9 0 19 2 548 39 25 10 0 39 21 10 0 16 390 12 15 667 19 2 532 39 9 34 668 12 13 2 19 2 355 39 62 15 592 19 1 593 47 1 669 45 670 10 1 39 42 75 45 671 13 1 19 1 597 12 19 1 598 39 6 13 1 19 1 599 51 0 10 0 39 15 15 600 77 15 601 15 672 19 3 339 12 19 2 340 43 1 75 73 43 2 38 40 13 12 14 536 13 11 14 603 13 4 8 0 17 396 12 14 604 13 4 8 1 17 396 12 14 608 13 9 14 553 13 8 14 607 13 7 19 13 610 43 5 38 19 15 336 77 15 337 15 673 13 5 19 4 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 674 19 3 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 675 19 3 339 12 19 2 340 75 73 43 1 29) #1# #5# 37087) (common-lisp-user::point-hand-at-key common-lisp-user::hand common-lisp-user::to-key common-lisp-user::offsets) (defgeneric common-lisp-user::home-hands) (#5# . 39991) (common-lisp-user::keyboard &optional common-lisp-user::force-hand-to-device) "Sets the hand and finger locations to home row locations" (defmethod common-lisp-user::home-hands (common-lisp-user::k common-lisp-user::virtual-keyboard) &optional common-lisp-user::force-hand-to-device) (#5# . 40375) (common-lisp-user::virtual-keyboard) (common-lisp-user::k &optional common-lisp-user::force-hand-to-device) common-lisp-user::force-hand-to-device "keyboard" "motor" "motor" (common-lisp-user::get-hand-device common-lisp-user::right) common-lisp-user::notify-interface common-lisp-user::r-home common-lisp-user::r-pos common-lisp-user::r-fingers "motor" common-lisp-user::set-hand-device "motor" common-lisp-user::set-hand-position "motor" common-lisp-user::set-finger-offset "motor" (common-lisp-user::get-hand-device common-lisp-user::left) common-lisp-user::l-home common-lisp-user::l-pos common-lisp-user::l-fingers "motor" "motor" "motor" #Y(common-lisp-user::home-hands nil nil (24 45 81 25 40 2 77 46 686 26 15 687 15 688 19 1 531 12 14 31 15 532 14 468 15 390 19 6 470 45 334 10 1 40 9 15 689 15 690 19 2 691 76 39 87 13 2 15 100 19 2 429 45 692 15 93 13 0 14 468 15 469 19 4 470 45 693 13 0 13 1 19 2 609 45 694 15 695 15 696 15 581 10 3 6 3 12 19 2 691 15 697 15 698 15 581 10 1 16 390 12 10 1 16 448 6 4 12 19 2 691 15 699 15 700 1 581 6 2 12 13 0 19 2 554 12 19 2 691 43 3 10 1 40 9 15 701 15 702 19 2 691 76 73 39 87 13 2 15 91 19 2 429 45 703 15 93 13 0 14 468 15 469 19 4 470 45 704 13 0 13 1 19 2 609 45 705 15 706 15 696 15 583 10 3 6 3 12 19 2 691 15 707 15 698 15 583 10 1 16 390 12 10 1 16 448 6 4 12 19 2 691 15 708 15 700 1 583 6 2 12 13 0 19 2 554 12 19 2 691 43 3 43 1 29) #1# #5# 40375) common-lisp-user::start-hands-at-home (defun common-lisp-user::start-hands-at-home) (#5# . 41601) common-lisp-user::mp common-lisp-user::meta-p-default-model "keyboard" "motor" "motor" "keyboard" common-lisp-user::install-device #:g24011 #:g24010 #:g24012 "Default keyboard device installed automatically by start-hands-at-home" "No current model.  Cannot start hands at home positions." #Y(common-lisp-user::start-hands-at-home nil nil (26 11 479 40 13 19 0 475 45 713 13 0 19 1 714 43 1 39 104 15 715 15 716 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 76 39 68 15 717 1 718 6 2 12 19 1 719 15 592 19 1 593 47 1 720 45 721 10 1 39 42 75 45 722 13 1 19 1 597 12 19 1 598 39 6 13 1 19 1 599 51 0 10 0 39 15 15 600 77 15 601 15 723 19 3 339 12 19 2 340 43 1 43 2 19 0 466 12 14 69 19 2 456 11 69 73 38 17 15 336 77 15 337 15 724 19 3 339 12 19 2 340 75 73 29) #1# #5# 41601) function "Start the hands on the home row locations" si::set-documentation "start-hands-at-home" "Place the model's hands on the home row positions of a keyboard device (installing one if necessary). No params." common-lisp-user::start-hand-at-key (defun common-lisp-user::start-hand-at-key) (#5# . 42243) (common-lisp-user::hand common-lisp-user::key) "keyboard" "motor" "motor" "keyboard" #:g24020 #:g24019 #:g24021 "Default keyboard device installed automatically by start-hand-at-key." "motor" "keyboard" "motor" "motor" "Invalid key ~s in start-hand-at-key." "Invalid hand ~s in start-hand-at-key." "No current model.  Cannot start hand at key." #Y(common-lisp-user::start-hand-at-key nil nil (24 45 93 24 45 407 26 11 479 40 13 19 0 475 45 713 13 0 19 1 714 43 1 39 239 15 735 15 736 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 76 39 68 15 737 1 738 6 2 12 19 1 719 15 592 19 1 593 47 1 739 45 740 10 1 39 42 75 45 741 13 1 19 1 597 12 19 1 598 39 6 13 1 19 1 599 51 0 10 0 39 15 15 600 77 15 601 15 742 19 3 339 12 19 2 340 43 1 43 2 19 0 466 45 81 10 1 16 354 76 39 7 10 1 16 533 51 1 13 2 1 581 17 582 40 7 13 2 1 583 17 582 39 94 13 0 13 1 19 2 419 45 369 10 0 39 59 15 743 15 696 13 3 15 744 15 745 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 6 3 12 19 2 691 15 746 15 698 13 3 13 0 8 0 17 396 12 13 0 8 1 17 396 6 4 12 19 2 691 38 19 15 336 77 15 337 15 747 13 2 19 4 339 12 19 2 340 75 73 43 1 38 19 15 336 77 15 337 15 748 13 2 19 4 339 12 19 2 340 75 73 43 1 38 17 15 336 77 15 337 15 749 19 3 339 12 19 2 340 75 73 29) #1# #5# 42243) "Start a hand on the indicated key instead of the 'home row' location" common-lisp-user::external-start-hand-at-key (defun common-lisp-user::external-start-hand-at-key) (#5# . 43285) (common-lisp-user::hand common-lisp-user::key) #Y(common-lisp-user::external-start-hand-at-key nil nil (24 45 93 24 45 407 26 13 1 19 1 452 12 13 0 19 2 731 29) #1# #5# 43285) "start-hand-at-key" "Place the model's indicated hand on the keyboard device with the index finger over the named key. Params: hand key-name" common-lisp-user::start-hand-at-keypad (defun common-lisp-user::start-hand-at-keypad) (#5# . 43576) "keyboard" "motor" "motor" "keyboard" #:g24029 #:g24028 #:g24030 "Default keyboard device installed automatically by start-hand-at-keypad." common-lisp-user::keypad-loc common-lisp-user::pos common-lisp-user::fingers "motor" "keyboard" "motor" "motor" "motor" "No current model.  Cannot start hand at key." #Y(common-lisp-userT  U  V                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ::start-hand-at-keypad nil nil (26 11 479 40 13 19 0 475 45 713 13 0 19 1 714 43 1 39 200 15 762 15 763 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 76 39 68 15 764 1 765 6 2 12 19 1 719 15 592 19 1 593 47 1 766 45 767 10 1 39 42 75 45 768 13 1 19 1 597 12 19 1 598 39 6 13 1 19 1 599 51 0 10 0 39 15 15 600 77 15 601 15 769 19 3 339 12 19 2 340 43 1 43 2 19 0 466 45 81 13 0 15 101 19 2 429 45 770 15 93 13 0 14 468 15 469 19 4 470 45 771 13 0 13 1 19 2 609 45 772 15 773 15 696 15 581 15 774 15 775 19 1 531 12 14 468 15 390 14 31 15 532 19 6 470 6 3 12 19 2 691 15 776 15 698 15 581 10 1 16 390 12 10 1 16 448 6 4 12 19 2 691 15 777 15 700 1 581 6 2 12 13 0 19 2 554 12 19 2 691 43 4 38 17 15 336 77 15 337 15 778 19 3 339 12 19 2 340 75 73 29) #1# #5# 43576) "Starts the right hand on the keypad instead of the 'home row' location" "start-hand-at-keypad" "Place the model's right hand on middle row of the keyboard device's keypad area. No params." common-lisp-user::clear-keyboard-component (defun common-lisp-user::clear-keyboard-component) (#5# . 44700) (common-lisp-user::keyboard-component) clrhash #Y(common-lisp-user::clear-keyboard-component nil nil (24 45 0 26 13 0 19 1 451 16 787 29) #1# #5# 44700) common-lisp-user::remove-model-keyboard (defun common-lisp-user::remove-model-keyboard) (#5# . 44966) (common-lisp-user::k-c common-lisp-user::model) remhash #Y(common-lisp-user::remove-model-keyboard nil nil (24 45 447 24 45 467 26 13 0 13 1 19 1 451 17 793 29) #1# #5# 44966) common-lisp-user::set-default-keyboard (defun common-lisp-user::set-default-keyboard) (#5# . 45118) (class) class #:g24034 #:g24035 si::structure-set "Set-default-keyboard requires nil or a subclass of virtual-keyboard but given ~s." "No keyboard-table component found when calling set-default-keyboard." #Y(common-lisp-user::set-default-keyboard nil nil (24 45 799 26 15 445 19 1 446 45 447 10 0 39 63 10 1 76 40 8 13 1 15 27 19 2 454 39 29 10 0 45 800 10 2 45 801 13 1 15 0 9 2 13 0 19 4 802 43 1 43 1 11 69 73 38 19 15 336 77 15 337 15 803 13 1 19 4 339 12 19 2 340 75 73 38 17 15 336 77 15 337 15 804 19 3 339 12 19 2 340 75 73 43 1 29) #1# #5# 45118) (defun common-lisp-user::current-keyboard) (#5# . 45666) #Y(common-lisp-user::current-keyboard nil nil (26 19 0 450 45 369 10 0 39 28 15 445 19 1 446 45 447 10 0 73 39 12 13 1 13 0 19 1 451 12 19 2 112 43 1 38 3 75 73 43 1 29) #1# #5# 45666) :version "3.1" "Record the keyboards used for each model." :creation :delete :clear-all :create-model :delete-model :before-reset :after-reset common-lisp-user::define-component-fct)) #5# 0) #Y(si::bytecodes nil nil (15 27 15 8 15 28 15 29 19 4 11 15 27 77 14 30 1 33 12 1 34 7 3 12 14 30 1 35 12 1 36 7 3 12 14 30 1 37 12 1 38 7 3 12 15 39 14 30 1 40 12 1 41 7 3 12 15 42 1 43 6 7 12 77 19 4 44 29) #1# #5# 8889) #Y(si::bytecodes nil nil (15 45 15 8 15 46 15 47 19 4 11 15 45 15 48 15 49 15 50 1 62 12 19 5 63 29) #1# #5# 9646) #Y(si::bytecodes nil nil (15 64 15 8 15 65 15 66 19 4 11 15 64 14 15 77 15 67 19 4 11 15 64 14 68 14 69 14 15 15 67 15 70 15 71 19 7 72 29) #1# #5# 9895) #Y(si::bytecodes nil nil (15 54 15 8 15 73 15 74 19 4 11 15 54 14 15 77 15 75 19 4 11 15 54 14 68 14 69 14 15 15 75 15 70 15 76 19 7 72 29) #1# #5# 10578) #Y(si::bytecodes nil nil (15 54 15 8 15 77 15 78 19 4 11 15 54 77 15 79 15 80 1 82 12 19 5 63 29) #1# #5# 10885) #Y(si::bytecodes nil nil (15 59 15 8 15 83 15 84 19 4 11 15 59 14 15 77 15 85 19 4 11 15 59 14 68 14 69 14 15 15 85 15 70 15 86 19 7 72 29) #1# #5# 10952) #Y(si::bytecodes nil nil (15 59 15 8 15 87 15 88 19 4 11 15 59 77 15 89 15 90 1 102 12 19 5 63 29) #1# #5# 11078) #Y(si::bytecodes nil nil (15 60 15 8 15 103 15 104 19 4 11 15 60 14 15 77 15 105 19 4 11 15 60 14 68 14 69 14 15 15 105 15 70 15 106 19 7 72 29) #1# #5# 11653) #Y(si::bytecodes nil nil (15 60 15 8 15 107 15 108 19 4 11 15 60 77 15 109 15 110 1 118 12 19 5 63 29) #1# #5# 11777) #Y(si::bytecodes nil nil (15 61 15 8 15 119 15 120 19 4 11 15 61 14 15 77 15 121 19 4 11 15 61 14 68 14 69 14 15 15 121 15 70 15 122 19 7 72 29) #1# #5# 11975) #Y(si::bytecodes nil nil (15 61 15 8 15 123 15 124 19 4 11 15 61 77 15 125 15 126 1 324 12 19 5 63 29) #1# #5# 12110) #Y(si::bytecodes nil nil (15 325 15 8 15 326 15 327 19 4 11 15 325 14 15 77 15 328 19 4 11 15 325 14 68 14 69 14 15 15 328 15 70 15 329 19 7 72 29) #1# #5# 23035) #Y(si::bytecodes nil nil (15 325 15 8 15 330 15 331 19 4 11 15 325 77 15 332 15 333 1 341 12 19 5 63 29) #1# #5# 23197) #Y(si::bytecodes nil nil (15 64 15 8 15 342 15 343 19 4 11 15 64 77 15 344 15 345 1 373 12 19 5 63 29) #1# #5# 23386) #Y(si::bytecodes nil nil (1 374 16 375 1 374 16 376 76 39 8 15 27 19 1 377 52 374 15 374 15 8 15 378 15 379 19 4 11 1 374 73 29) #1# #5# 24791) #Y(si::bytecodes nil nil (15 380 15 8 15 381 15 382 19 4 11 15 380 14 15 77 15 383 19 4 11 15 380 14 68 14 69 14 15 15 383 15 70 15 384 19 7 72 29) #1# #5# 24917) #Y(si::bytecodes nil nil (15 380 15 8 15 385 15 386 19 4 11 15 380 77 15 387 15 388 1 391 12 19 5 63 29) #1# #5# 25257) #Y(si::bytecodes nil nil (15 380 15 8 15 392 15 393 19 4 11 15 380 77 15 394 15 395 1 397 12 19 5 63 29) #1# #5# 25369) #Y(si::bytecodes nil nil (15 398 15 8 15 399 15 400 19 4 11 15 398 14 15 77 15 401 19 4 11 15 398 14 68 14 69 14 15 15 401 15 70 15 402 19 7 72 29) #1# #5# 25476) #Y(si::bytecodes nil nil (15 398 15 8 15 403 15 404 19 4 11 15 398 77 15 405 15 406 1 408 12 19 5 63 29) #1# #5# 25608) #Y(si::bytecodes nil nil (15 409 15 8 15 410 15 411 19 4 11 15 409 14 15 77 15 412 19 4 11 15 409 14 68 14 69 14 15 15 412 15 70 15 413 19 7 72 29) #1# #5# 25708) #Y(si::bytecodes nil nil (15 409 15 8 15 414 15 415 19 4 11 15 409 77 15 416 15 417 1 418 12 19 5 63 29) #1# #5# 25847) #Y(si::bytecodes nil nil (15 419 15 8 15 420 15 421 19 4 11 15 419 14 15 77 15 422 19 4 11 15 419 14 68 14 69 14 15 15 422 15 70 15 423 19 7 72 29) #1# #5# 26002) #Y(si::bytecodes nil nil (15 419 15 8 15 424 15 425 19 4 11 15 419 77 15 426 15 427 1 428 12 19 5 63 29) #1# #5# 26106) #Y(si::bytecodes nil nil (15 429 15 8 15 430 15 431 19 4 11 15 429 14 15 77 15 432 19 4 11 15 429 14 68 14 69 14 15 15 432 15 70 15 433 19 7 72 29) #1# #5# 26208) #Y(si::bytecodes nil nil (15 429 15 8 15 434 15 435 19 4 11 15 429 77 15 436 15 437 1 439 12 19 5 63 29) #1# #5# 26375) #Y(si::bytecodes nil nil (15 440 15 8 15 441 15 442 19 4 11 15 440 14 15 77 15 443 19 4 11 15 440 1 458 12 19 2 25 1 440 73 29) #1# #5# 26488) #Y(si::bytecodes nil nil (15 459 15 440 15 460 19 3 461 29) #1# #5# 27721) #Y(si::bytecodes nil nil (15 462 15 8 15 463 15 464 19 4 11 15 462 14 15 77 15 465 19 4 11 15 462 1 491 12 19 2 25 1 462 73 29) #1# #5# 27885) #Y(si::bytecodes nil nil (15 492 15 462 15 493 19 3 461 29) #1# #5# 28714) #Y(si::bytecodes nil nil (15 494 15 495 77 15 496 19 4 497 29) #1# #5# 28877) #Y(si::bytecodes nil nil (15 498 77 15 499 19 3 461 29) #1# #5# 28957) #Y(si::bytecodes nil nil (15 500 15 8 15 501 15 502 19 4 11 15 500 14 15 77 15 503 19 4 11 15 500 1 506 12 19 2 25 1 500 73 29) #1# #5# 29308) #Y(si::bytecodes nil nil (15 507 15 8 15 508 15 509 19 4 11 15 507 15 510 77 14 511 15 512 15 513 11 513 16 514 6 3 12 15 515 15 516 1 517 16 514 6 3 6 2 6 2 12 19 4 44 29) #1# #5# 29385) #Y(si::bytecodes nil nil (15 507 15 8 15 518 15 519 19 4 11 15 507 14 15 77 15 520 19 4 11 15 507 14 68 14 69 14 15 15 520 15 70 15 521 19 7 72 29) #1# #5# 30004) #Y(si::bytecodes nil nil (15 507 15 8 15 522 15 523 19 4 11 15 507 77 15 524 15 525 1 559 12 19 5 63 29) #1# #5# 30158) #Y(si::bytecodes nil nil (15 560 15 561 19 2 562 29) #1# #5# 32455) #Y(si::bytecodes nil nil (15 563 15 8 15 564 15 565 19 4 11 15 563 15 566 77 14 511 15 512 15 567 11 567 16 514 6 3 12 15 515 15 568 1 569 16 514 6 3 6 2 6 2 12 19 4 44 29) #1# #5# 32520) #Y(si::bytecodes nil nil (15 563 15 8 15 570 15 571 19 4 11 15 563 14 15 77 15 572 19 4 11 15 563 14 68 14 69 14 15 15 572 15 70 15 573 19 7 72 29) #1# #5# 32662) #Y(si::bytecodes nil nil (15 563 15 8 15 574 15 575 19 4 11 15 563 77 15 576 15 577 1 614 12 19 5 63 29) #1# #5# 32785) #Y(si::bytecodes nil nil (15 615 15 616 19 2 562 29) #1# #5# 34835) #Y(si::bytecodes nil nil (15 617 15 8 15 618 15 619 19 4 11 15 617 14 15 77 15 620 19 4 11 15 617 14 68 14 69 14 15 15 620 15 70 15 621 19 7 72 29) #1# #5# 34912) #Y(si::bytecodes nil nil (15 617 15 8 15 622 15 623 19 4 11 15 617 77 15 624 15 625 1 639 12 19 5 63 29) #1# #5# 35030) #Y(si::bytecodes nil nil (15 640 15 641 19 2 562 29) #1# #5# 36653) #Y(si::bytecodes nil nil (15 642 15 8 15 643 15 644 19 4 11 15 642 15 645 77 14 511 15 512 15 567 11 567 16 514 6 3 12 15 515 15 646 1 647 16 514 6 3 6 2 6 2 12 19 4 44 29) #1# #5# 36728) #Y(si::bytecodes nil nil (15 642 15 8 15 648 15 649 19 4 11 15 642 14 15 77 15 650 19 4 11 15 642 14 68 14 69 14 15 15 650 15 70 15 651 19 7 72 29) #1# #5# 36888) #Y(si::bytecodes nil nil (15 642 15 8 15 652 15 653 19 4 11 15 642 77 15 654 15 655 1 676 12 19 5 63 29) #1# #5# 37087) #Y(si::bytecodes nil nil (15 677 15 616 19 2 562 29) #1# #5# 39894) #Y(si::bytecodes nil nil (15 456 15 8 15 678 15 679 19 4 11 15 456 14 15 77 15 680 19 4 11 15 456 14 68 14 69 14 15 15 680 15 70 15 681 19 7 72 29) #1# #5# 39991) #Y(si::bytecodes nil nil (15 456 15 8 15 682 15 683 19 4 11 15 456 77 15 684 15 685 1 709 12 19 5 63 29) #1# #5# 40375) #Y(si::bytecodes nil nil (15 710 15 8 15 711 15 712 19 4 11 15 710 14 15 77 77 19 4 11 15 710 1 725 12 19 2 25 15 710 15 726 15 727 19 3 728 1 710 73 29) #1# #5# 41601) #Y(si::bytecodes nil nil (15 729 15 710 15 730 19 3 461 29) #1# #5# 42062) #Y(si::bytecodes nil nil (15 731 15 8 15 732 15 733 19 4 11 15 731 14 15 77 15 734 19 4 11 15 731 1 750 12 19 2 25 15 731 15 726 15 751 19 3 728 1 731 73 29) #1# #5# 42243) #Y(si::bytecodes nil nil (15 752 15 8 15 753 15 754 19 4 11 15 752 14 15 77 15 755 19 4 11 15 752 1 756 12 19 2 25 1 752 73 29) #1# #5# 43285) #Y(si::bytecodes nil nil (15 757 15 752 15 758 19 3 461 29) #1# #5# 43383) #Y(si::bytecodes nil nil (15 759 15 8 15 760 15 761 19 4 11 15 759 14 15 77 77 19 4 11 15 759 1 779 12 19 2 25 15 759 15 726 15 780 19 3 728 1 759 73 29) #1# #5# 43576) #Y(si::bytecodes nil nil (15 781 15 759 15 782 19 3 461 29) #1# #5# 44521) #Y(si::bytecodes nil nil (15 783 15 8 15 784 15 785 19 4 11 15 783 14 15 77 15 786 19 4 11 15 783 1 788 12 19 2 25 1 783 73 29) #1# #5# 44700) #Y(si::bytecodes nil nil (15 789 15 8 15 790 15 791 19 4 11 15 789 14 15 77 15 792 19 4 11 15 789 1 794 12 19 2 25 1 789 73 29) #1# #5# 44966) #Y(si::bytecodes nil nil (15 795 15 8 15 796 15 797 19 4 11 15 795 14 15 77 15 798 19 4 11 15 795 1 805 12 19 2 25 1 795 73 29) #1# #5# 45118) #Y(si::bytecodes nil nil (15 466 15 8 15 806 15 807 19 4 11 15 466 14 15 77 77 19 4 11 15 466 1 808 12 19 2 25 1 466 73 29) #1# #5# 45666) #Y(si::bytecodes nil nil (15 445 14 809 15 810 14 70 15 811 14 812 15 12 14 813 15 783 14 814 15 783 14 815 77 14 816 15 789 14 817 77 14 818 77 19 19 819 29) #1# #5# 45943))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2017 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : keyboard.lisp
+;;; Version     : 3.1
+;;; 
+;;; Description : Implement the virtual keyboard device for models.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2017.01.19 Dan [1.0]
+;;;             : * Actually put a header on this file after splitting it out
+;;;             :   from the device and device interface code.
+;;; 2017.01.20 Dan
+;;;             : * Finish off the motor command code.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.02.08 Dan
+;;;             : * Changed the define-device call since it doesn't
+;;;             :   take keyword parameters now that the internal is the same
+;;;             :   as the remote version.
+;;; 2017.02.22 Dan
+;;;             : * Keyboard key names are now stored in upcase and the key->*
+;;;             :   functions upcase the given value.
+;;; 2017.02.27 Dan
+;;;             : * Schedule "output-key" directly now instead of going through
+;;;             :   the stub function, but still need the stub since human 
+;;;             :   input gets routed through that and putting the remote call
+;;;             :   into the interface code would be ugly.
+;;; 2017.03.06 Dan
+;;;             : * Updated the doc string for output-key to indicate that it
+;;;             :   also gets called for real interaction with an exp-window.
+;;;             : * Specify the model in the schedule-event for the output-key.
+;;;             : * Don't set the hand's device directly but provide it to the
+;;;             :   point-hand request for motor actions.
+;;; 2017.03.08 Dan
+;;;             : * When a keyboard gets installed only move hands that aren't
+;;;             :   already on a device to it.
+;;; 2017.03.15 Dan
+;;;             : * Fixed a bug in the scheduling of output-key.
+;;; 2017.07.14 Dan
+;;;             : * Fixed some cut-and-paste issues in hand-to-home.
+;;; 2017.08.10 Dan [2.0]
+;;;             : * Instead of a single global keyboard definition, now using a
+;;;             :   component to hold a table of keyboards for each model.
+;;;             :   Update-keyboard-device needs to be called in the context of
+;;;             :   a model and will change that model's keyboard.
+;;;             : * Update all the access to hand objects to be thread safe.
+;;; 2017.08.11 Dan
+;;;             : * Fixed some typos in the component functions.
+;;; 2017.08.23 Dan
+;;;             : * Don't need the dummy function for output-key now.
+;;; 2018.01.03 Dan
+;;;             : * Fixed a bug with specify-key because it only set the position
+;;;             :   of keys in the array for default keys.
+;;; 2018.03.12 Dan
+;;;             : * Adjusted the device fns to accept the whole device and now
+;;;             :   check that it's a "motor" device before doing anything.
+;;; 2018.03.27 Dan
+;;;             : * Make sure all the hand setting actions use the whole device
+;;;             :   now instead of just "keyboard".
+;;; 2018.06.04 Dan
+;;;             : * Added remote start-hand-at-keypad and start-hand-at-key.
+;;; 2018.06.22 Dan
+;;;             : * Only remote start-hand-at-key accepts a string naming hand.
+;;; 2018.07.26 Dan [1.1]
+;;;             : * Don't worry about completing requests.
+;;; 2018.10.04 Dan [2.2]
+;;;             : * Use notify-interface instead of touching the internals of 
+;;;             :   the motor module for some commands (new styles still use a
+;;;             :   little internal knowledge for efficiency).
+;;;             : * Using the third item in the device list to name the keyboard
+;;;             :   to install, and replacing update-keyboard-device with an
+;;;             :   add-keyboard command that takes a string for the name and
+;;;             :   then the class name as the second item.  Of course that
+;;;             :   still requires one to create a keyboard device in Lisp, but
+;;;             :   for now that's better than how things were before...
+;;; 2018.10.08 Dan
+;;;             : * Also adding a set-default-keyboard which specifies the 
+;;;             :   keyboard that's installed when no third item provided.
+;;;             :   That is a global change which is unaffected by clear-all!
+;;;             : * Added a way to extend the notifications which are handled
+;;;             :   by the keyboard through the other-notifications method 
+;;;             :   since the keyboards are always Lisp objects at this point.
+;;;             : * Don't create a keyboard entry in the component for models
+;;;             :   automatically (only when installed).
+;;;             : * Allow the keyboard to be installed for any device, not just
+;;;             :   motor.  Of course, only supports actions for motor by default
+;;;             :   but extensions could be made to handle others.
+;;;             : * User code all uses notify-interface, but styles still use
+;;;             :   motor module.
+;;; 2018.10.16 Dan
+;;;             : * Hand-to-keypad and hand-to-home need to not set the device.
+;;; 2018.01.14 Dan
+;;;             : * Fixed a bug with start-hand-at-key always printing a warning
+;;;             :   about an invalid hand.
+;;; 2019.09.09 Dan
+;;;             : * Fixed a bug with press-key not warning when there was no
+;;;             :   keyboard device installed.
+;;; 2020.03.27 Dan [3.0]
+;;;             : * Updated to use the new position information that records 
+;;;             :   where the hands "will be" when the action starts to get the
+;;;             :   correct feature info.
+;;;             : * Also added tests to hand-to-home/keypad to ignore if already
+;;;             :   there or going to be there.
+;;;             : * Point-hand-at-key needs to check for 'standard as the offsets.
+;;;             : * Press-key checks for home or keypad position before making
+;;;             :   the action and warns if the hand isn't in the right starting
+;;;             :   place (assumes that keys with a loc x > 18 and y > 1 are 
+;;;             :   keypad position for now).
+;;; 2020.04.20 Dan [3.1]
+;;;             : * Generalize the possible hand positions on the keyboard and
+;;;             :   include the assumed starting position for the press-key style
+;;;             :   in specify-key.
+;;; 2020.08.25 Dan
+;;;             : * Move the keyboard-component defstruct to before any of the
+;;;             :   accessors are used.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Implement the keyboard as a device under the new PM interface mechanisms.
+;;; Create a single default keyboard definition with which any model can interact,
+;;; but also specify a component which holds a table of keyboards so each model
+;;; can have a different one.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; Virtual-keyboard class and initialization methods.
+;;;
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Simplify the construction of a keyboard because the three separate methods
+;;; that the old code used have always had inconsistencies and/or errors in the
+;;; specifications between the methods.
+;;;
+;;; The motor commands related to keyboards are moved here too since the motor
+;;; module itself doesn't "know" about any particular device with which it can
+;;; interact.  That's a departure from the older versions where the motor 
+;;; module assumed a keyboard and mouse existed and was built around them.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;;; A structure to hold a component for storing keyboards
+
+(defstruct keyboard-component (lock (bt:make-lock "keyboard-component")) (table (make-hash-table)) default)
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; The virtual keyboard.  
+
+(defclass virtual-keyboard ()
+   ((key->cmd-ht :accessor key->cmd-ht 
+                 :initform (make-hash-table :test #'equalp))
+    (key->hand-start-ht :accessor key->hand-start-ht
+                        :initform (make-hash-table :test #'equalp))
+    (key->loc-ht :accessor key->loc-ht
+                  :initform (make-hash-table :test #'equalp))
+    (loc->key-array :accessor loc->key-arr :initform nil)
+    (hand-loc-table :accessor hand-loc-table 
+                    :initform (make-hash-table :test #'equalp))
+    (left-start :accessor left-start :initform nil)
+    (right-start :accessor right-start :initform nil)))
+
+(defmethod initialize-instance :after ((vk virtual-keyboard) &key)
+  (setf (loc->key-arr vk) (make-array (keyboard-size vk) :initial-element nil))
+  (populate-hand-locations vk)
+  (set-starting-hand-locations vk)
+  (populate-key-details vk))
+
+
+;; Instead of building up the three tables (name->press-key-command, position->name, 
+;; and name->position) with separate methods just use one method that takes all of
+;; the components and then enters the information appropriately.  This avoids
+;; the inconsistencies (and errors) between tables that the old methods often
+;; created.
+
+(defgeneric specify-key (keyboard x y names &key default style hand-loc)
+  (:documentation "Specify the names for keys by location, indicate whether it's the default position for that key, and
+                   if there's a press-key mapping for it indicate the underlying style and features and the assumed hand-location name."))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Subclass the virtual-keyboard and these methods to represent different keyboards.
+
+(defgeneric keyboard-size (keyboard)
+  (:documentation "Specify the dimensions for the keyboard as a list of columns and rows"))
+
+(defmethod keyboard-size ((k virtual-keyboard))
+  (list 23 7))
+
+
+(defgeneric populate-hand-locations (keyboard)
+  (:documentation "Set all of the desired hand locations in the table"))
+
+(defmethod populate-hand-locations ((k virtual-keyboard))
+  (setf (gethash 'left-home (hand-loc-table k))
+    (list (list 'hand 4 4) (list 'index 0 0) (list 'middle -1 0) (list 'ring -2 0) (list 'pinkie -3 0) (list 'thumb 1 2)))
+  (setf (gethash 'right-home (hand-loc-table k))
+    (list (list 'hand 7 4) (list 'index 0 0) (list 'middle 1 0) (list 'ring 2 0) (list 'pinkie 3 0) (list 'thumb -1 2)))
+  (setf (gethash 'keypad (hand-loc-table k))
+    (list (list 'hand 19 4) (list 'index 0 0) (list 'middle 1 0) (list 'ring 2 0) (list 'pinkie 3 1) (list 'thumb 0 2))))
+
+
+(defgeneric set-starting-hand-locations (keyboard)
+  (:documentation "Set the starting hand locations in the table"))
+
+(defmethod set-starting-hand-locations ((k virtual-keyboard))
+  (setf (left-start k) (gethash 'left-home (hand-loc-table k)))
+  (setf (right-start k) (gethash 'right-home (hand-loc-table k))))
+
+
+(defgeneric populate-key-details (keyboard)
+  (:documentation  "Specify all the key information using the specify-key method."))
+
+(defmethod populate-key-details ((k virtual-keyboard))
+  ;; Top row
+  (specify-key k 0 0 '("ESC" "ESCAPE"))
+  
+  (specify-key k 2 0 "F1")
+  (specify-key k 3 0 "f2")
+  (specify-key k 4 0 "f3")
+  (specify-key k 5 0 "f4")
+  
+  (specify-key k 7 0 "F5")
+  (specify-key k 8 0 "f6")
+  (specify-key k 9 0 "f7")
+  (specify-key k 10 0 "f8")
+  
+  (specify-key k 12 0 "F9")
+  (specify-key k 13 0 "f10")
+  (specify-key k 14 0 "f11")
+  (specify-key k 15 0 "f12")
+
+  (specify-key k 17 0 '("f13" "print-screen"))
+  (specify-key k 18 0 '("f14" "scroll-lock"))
+  (specify-key k 19 0 '("f15" "pause"))
+  
+  ;; numeric key row
+  (specify-key k 0 2 '("`" "backquote") :style '(peck-recoil :hand left :finger pinkie :r 2.24 :theta -2.03) :hand-loc 'left-home)
+  (specify-key k 1 2 "1" :style '(peck-recoil :hand left :finger pinkie :r 2 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 2 2 "2" :style '(peck-recoil :hand left :finger ring :r 2 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 3 2 "3" :style '(peck-recoil :hand left :finger middle :r 2 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 4 2 "4" :style '(peck-recoil :hand left :finger index :r 2 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 5 2 "5" :style '(peck-recoil :hand left :finger index :r 2.24 :theta -1.11) :hand-loc 'left-home)
+  (specify-key k 6 2 "6" :style '(peck-recoil :hand right :finger index :r 2.24 :theta -2.03) :hand-loc 'right-home)
+  (specify-key k 7 2 "7" :style '(peck-recoil :hand right :finger index :r 2 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 8 2 "8" :style '(peck-recoil :hand right :finger middle :r 2 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 9 2 "9" :style '(peck-recoil :hand right :finger ring :r 2 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 10 2 "0" :style '(peck-recoil :hand right :finger pinkie :r 2 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 11 2 '("-" "hyphen") :style '(peck-recoil :hand right :finger pinkie :r 2.24 :theta -1.11) :hand-loc 'right-home)
+  (specify-key k 12 2 '( "=" "equal") :style '(peck-recoil :hand right :finger pinkie :r 2.83 :theta -0.78) :hand-loc 'right-home)
+  (specify-key k 13 2 "delete" :style '(peck-recoil :hand right :finger pinkie :r 3.6 :theta -0.59) :hand-loc 'right-home)
+  
+  (specify-key k 15 2 "help")
+  (specify-key k 16 2 "home")
+  (specify-key k 17 2 "pageup")
+  
+  (specify-key k 19 2 "clear" :style '(peck-recoil :hand right :finger index :r 2 :theta -1.57) :hand-loc 'keypad)
+  (specify-key k 20 2 '("keypad-=" "keypad-equal") :style '(peck-recoil :hand right :finger middle :r 2 :theta -1.57) :hand-loc 'keypad)
+  (specify-key k 21 2 '("keypad-/" "keypad-slash" "keypad-divide") :style '(peck-recoil :hand right :finger ring :r 2 :theta -1.57) :hand-loc 'keypad)
+  (specify-key k 22 2 '("keypad-*" "keypad-asterisk" "keypad-times") :style '(peck-recoil :hand right :finger pinkie :r 3 :theta -1.57) :hand-loc 'keypad)
+
+  
+  ;; qwerty row
+  (specify-key k 0 3 "tab" :style '(peck-recoil :hand left :finger pinkie :r 1.41 :theta -2.36) :hand-loc 'left-home)
+  (specify-key k 1 3 "q" :style '(peck-recoil :hand left :finger pinkie :r 1 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 2 3 "w" :style '(peck-recoil :hand left :finger ring :r 1 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 3 3 "e" :style '(peck-recoil :hand left :finger middle :r 1 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 4 3 "r" :style '(peck-recoil :hand left :finger index :r 1 :theta -1.57) :hand-loc 'left-home)
+  (specify-key k 5 3 "t" :style '(peck-recoil :hand left :finger index :r 1.41 :theta -0.79) :hand-loc 'left-home)
+  (specify-key k 6 3 "y" :style '(peck-recoil :hand right :finger index :r 1.41 :theta -2.36) :hand-loc 'right-home)
+  (specify-key k 7 3 "u" :style '(peck-recoil :hand right :finger index :r 1 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 8 3 "i" :style '(peck-recoil :hand right :finger middle :r 1 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 9 3 "o" :style '(peck-recoil :hand right :finger ring :r 1 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 10 3 "p" :style '(peck-recoil :hand right :finger pinkie :r 1 :theta -1.57) :hand-loc 'right-home)
+  (specify-key k 11 3 '("[" "left-bracket") :style '(peck-recoil :hand right :finger pinkie :r 1.41 :theta -0.78) :hand-loc 'right-home)
+  (specify-key k 12 3 '("]" "right-bracket") :style '(peck-recoil :hand right :finger pinkie :r 2.24 :theta -0.46) :hand-loc 'right-home)
+  (specify-key k 13 3 '("\\" "backslash") :style '(peck-recoil :hand right :finger pinkie :r 3.16 :theta -0.32) :hand-loc 'right-home)
+  
+  (specify-key k 15 3 '("forward-delete" "del"))
+  (specify-key k 16 3 "end")
+  (specify-key k 17 3 "pagedown")
+  
+  (specify-key k 19 3 "keypad-7" :style '(peck-recoil :hand right :finger index :r 1 :theta -1.57) :hand-loc 'keypad)
+  (specify-key k 20 3 "keypad-8" :style '(peck-recoil :hand right :finger middle :r 1 :theta -1.57) :hand-loc 'keypad)
+  (specify-key k 21 3 "keypad-9" :style '(peck-recoil :hand right :finger ring :r 1 :theta -1.57) :hand-loc 'keypad)
+  (specify-key k 22 3 '("keypad--" "keypad-minus" "keypad-hyphen") :style '(peck-recoil :hand right :finger pinkie :r 2 :theta -1.57) :hand-loc 'keypad)
+  
+
+  ;; ASDF row
+  (specify-key k 0 4 "caps-lock" :style '(peck-recoil :hand left :finger pinkie :r 1.0 :theta 3.14) :hand-loc 'left-home)
+  (specify-key k 1 4 "a" :style '(punch :hand left :finger pinkie) :hand-loc 'left-home)
+  (specify-key k 2 4 "s" :style '(punch :hand left :finger ring) :hand-loc 'left-home)
+  (specify-key k 3 4 "d" :style '(punch :hand left :finger middle) :hand-loc 'left-home)
+  (specify-key k 4 4 "f" :style '(punch :hand left :finger index) :hand-loc 'left-home)
+  (specify-key k 5 4 "g" :style '(peck-recoil :hand left :finger index :r 1 :theta 0) :hand-loc 'left-home)
+  (specify-key k 6 4 "h" :style '(peck-recoil :hand right :finger index :r 1 :theta 3.14) :hand-loc 'right-home)
+  (specify-key k 7 4 "j" :style '(punch :hand right :finger index) :hand-loc 'right-home)
+  (specify-key k 8 4 "k" :style '(punch :hand right :finger middle) :hand-loc 'right-home)
+  (specify-key k 9 4 "l" :style '(punch :hand right :finger ring) :hand-loc 'right-home)
+  (specify-key k 10 4 '(";" "semicolon") :style '(punch :hand right :finger pinkie) :hand-loc 'right-home)
+  (specify-key k 11 4 '("'" "quote") :style '(peck-recoil :hand right :finger pinkie :r 1 :theta 0) :hand-loc 'right-home)
+  (specify-key k 12 4 '("return" "newline") :style '(peck-recoil :hand right :finger pinkie :r 2 :theta 0) :hand-loc 'right-home)
+  (specify-key k 13 4 '("return" "newline") :default nil)
+  
+  (specify-key k 19 4 "keypad-4" :style '(punch :hand right :finger index) :hand-loc 'keypad)
+  (specify-key k 20 4 "keypad-5" :style '(punch :hand right :finger middle) :hand-loc 'keypad)
+  (specify-key k 21 4 "keypad-6" :style '(punch :hand right :finger ring) :hand-loc 'keypad)
+  (specify-key k 22 4 '("keypad-+" "keypad-plus") :style '(peck-recoil :hand right :finger pinkie :r 1 :theta -1.57) :hand-loc 'keypad)
+  
+  ;; Z row
+  (specify-key k 0 5 '("shift" "left-shift") :style '(peck-recoil :hand left :finger pinkie :r 1.41 :theta 2.36) :hand-loc 'left-home)
+  (specify-key k 1 5 "z" :style '(peck-recoil :hand left :finger pinkie :r 1 :theta 1.57) :hand-loc 'left-home)
+  (specify-key k 2 5 "x" :style '(peck-recoil :hand left :finger ring :r 1 :theta 1.57) :hand-loc 'left-home)
+  (specify-key k 3 5 "c" :style '(peck-recoil :hand left :finger middle :r 1 :theta 1.57) :hand-loc 'left-home)
+  (specify-key k 4 5 "v" :style '(peck-recoil :hand left :finger index :r 1 :theta 1.57) :hand-loc 'left-home)
+  (specify-key k 5 5 "b" :style '(peck-recoil :hand left :finger index :r 1.41 :theta 0.79) :hand-loc 'left-home)
+  (specify-key k 6 5 "n" :style '(peck-recoil :hand right :finger index :r 1.41 :theta 2.36) :hand-loc 'right-home)
+  (specify-key k 7 5 "m" :style '(peck-recoil :hand right :finger index :r 1 :theta 1.57) :hand-loc 'right-home)
+  (specify-key k 8 5 '("," "comma") :style '(peck-recoil :hand right :finger middle :r 1 :theta 1.57) :hand-loc 'right-home)
+  (specify-key k 9 5 '("." "period" "dot") :style '(peck-recoil :hand right :finger ring :r 1 :theta 1.57) :hand-loc 'right-home)
+  (specify-key k 10 5 '("/" "slash") :style '(peck-recoil :hand right :finger pinkie :r 1 :theta 1.57) :hand-loc 'right-home)
+  (specify-key k 11 5 "right-shift" :style '(peck-recoil :hand right :finger pinkie :r 1.41 :theta 0.78) :hand-loc 'right-home)
+  (specify-key k 12 5 "right-shift" :default nil)
+  (specify-key k 13 5 "right-shift" :default nil)
+
+  (specify-key k 16 5 "up-arrow")
+  
+  (specify-key k 19 5 "keypad-1" :style '(peck-recoil :hand right :finger index :r 1 :theta 1.57) :hand-loc 'keypad)
+  (specify-key k 20 5 "keypad-2" :style '(peck-recoil :hand right :finger middle :r 1 :theta 1.57) :hand-loc 'keypad)
+  (specify-key k 21 5 "keypad-3" :style '(peck-recoil :hand right :finger ring :r 1 :theta 1.57) :hand-loc 'keypad)
+  (specify-key k 22 5 '("enter" "keypad-enter") :style '(punch :hand right :finger pinkie) :hand-loc 'keypad)
+  
+  ;; space bar row
+  (specify-key k 0 6 '("control" "left-control") :style '(peck-recoil :hand left :finger pinkie :r 2.24 :theta 2.03) :hand-loc 'left-home)
+  (specify-key k 1 6 '("option" "left-option") :style '(peck-recoil :hand left :finger pinkie :r 2.0 :theta 1.57) :hand-loc 'left-home)
+  (specify-key k 2 6 '("command" "left-command") :style '(peck-recoil :hand left :finger ring :r 2.0 :theta 1.57) :hand-loc 'left-home)
+  (specify-key k 3 6 "space" :default nil)
+  (specify-key k 4 6 "space" :default nil)
+  (specify-key k 5 6 "space" :style '(punch :hand left :finger thumb) :hand-loc 'left-home)
+  (specify-key k 6 6 "space" :default nil)
+  (specify-key k 7 6 "space" :default nil)
+  (specify-key k 8 6 "space" :default nil)
+  (specify-key k 9 6 "space" :default nil)
+  (specify-key k 10 6 "space" :default nil)
+
+  (specify-key k 11 6 "right-command" :style '(peck-recoil :hand right :finger pinkie :r 2.24 :theta 1.11) :hand-loc 'right-home)
+  (specify-key k 12 6 "right-option" :style '(peck-recoil :hand right :finger pinkie :r 2.83 :theta 0.78) :hand-loc 'right-home)
+  (specify-key k 13 6 "right-control" :style '(peck-recoil :hand right :finger pinkie :r 3.6 :theta 0.59) :hand-loc 'right-home)
+
+  (specify-key k 15 6 "left-arrow")
+  (specify-key k 16 6 "down-arrow")
+  (specify-key k 17 6 "right-arrow")
+  
+  (specify-key k 19 6 "keypad-0" :style '(punch :hand right :finger thumb) :hand-loc 'keypad)
+  (specify-key k 20 6 "keypad-0" :default nil)
+  (specify-key k 21 6 '("keypad-." "keypad-dot" "keypad-period") :style '(peck-recoil :hand right :finger ring :r 2 :theta 1.57) :hand-loc 'keypad)
+  (specify-key k 22 6 '("enter" "keypad-enter") :default nil))             
+
+
+(defgeneric other-notifications (keyboard device features)
+  (:documentation "Called when the default keyboard can't process a notification"))
+
+(defmethod other-notifications ((k virtual-keyboard) device features)
+  (print-warning "keyboard device can not process notification from device ~s with features ~s." device features))
+
+
+;;;;;;; shouldn't need to subclass this method
+
+(defmethod specify-key ((k virtual-keyboard) x y names &key (default t) style hand-loc)
+  (unless (listp names)
+    (setf names (list names)))
+  (if (every 'stringp names)
+      (progn
+        (dolist (n (mapcar 'string-upcase names))
+          
+          (when default
+            (when (gethash n (key->loc-ht k))
+              (print-warning "Key name ~s already has a location and that is being overwritten." n))
+            (setf (gethash n (key->loc-ht k)) (vector x y)))
+          (when (and default (listp style) style)
+            (when (gethash n (key->cmd-ht k))
+              (print-warning "Key name ~s already has a press-key entry which is being overwritten." n))
+            (setf (gethash n (key->cmd-ht k)) style)
+            (if (and hand-loc (gethash hand-loc (hand-loc-table k)))
+                (setf (gethash n (key->hand-start-ht k)) hand-loc)
+              (print-warning "Key name ~s specifies invalid hand location ~s which is being ignored." n hand-loc))))
+        (awhen (aref (loc->key-arr k) x y)
+               (print-warning "Keyboard location ~d,~d already has a name ~s which is being overwritten with ~s."
+                              x y it (first names)))
+        (setf (aref (loc->key-arr k) x y) (first names)))
+    (print-warning "Invalid key name found in provided names ~s." names)))
+
+
+;;; create the default keyboard device for models
+
+(defvar *act-r-virtual-keyboard* (make-instance 'virtual-keyboard))
+
+
+;;; The methods used to get the info out of the keyboard tables.
+
+;;; LOC-TO-KEY      [Method]
+;;; Description : Given a location, return the corresponding key name.
+;;;             : Accessed via the 'virtual keyboard' array.
+
+(defgeneric loc->key (vk loc)
+  (:documentation  "Given a location, return the corresponding key"))
+
+(defmethod loc->key ((vk virtual-keyboard) (loc list))
+  (aref (loc->key-arr vk) (first loc) (second loc)))
+
+(defmethod loc->key ((vk virtual-keyboard) (loc vector))
+  (aref (loc->key-arr vk) (px loc) (py loc)))
+
+(defgeneric key->cmd (keyboard key)
+  (:documentation  "Given a key, return the appropriate Motor Module command to type it."))
+
+(defmethod key->cmd ((k virtual-keyboard) key)
+  (gethash (string-upcase key) (key->cmd-ht k)))
+
+(defgeneric key->hand-start (keyboard key)
+  (:documentation  "Given a key, return the expected starting hand location information."))
+
+(defmethod key->hand-start ((k virtual-keyboard) key)
+  (gethash (gethash (string-upcase key) (key->hand-start-ht k))
+           (hand-loc-table k)))
+
+(defgeneric key->loc (keyboard key)
+  (:documentation  "Given a key, return the location vector."))
+
+(defmethod key->loc ((vk virtual-keyboard) key)
+  (gethash (string-upcase key) (key->loc-ht vk)))
+
+(defgeneric keyboard-hand-location (keyboard location-name)
+  (:documentation  "Given a location name, return the list of coordinates for the hand and fingers."))
+
+(defmethod keyboard-hand-location ((vk virtual-keyboard) location)
+  (gethash location (hand-loc-table vk)))
+
+
+;; Create the keyboard device and indicate the function to call
+;; when a signal is sent to it.
+
+(defun initialize-keyboard (device-list)
+  (let ((k-c (get-component keyboard-table)))
+    (if k-c
+        (let ((k (if (null (third device-list))
+                     (bt:with-lock-held ((keyboard-component-lock k-c))
+                       (let ((k (aif (keyboard-component-default k-c)
+                                     (make-instance it)
+                                     *act-r-virtual-keyboard*)))
+                         (setf (gethash (current-model) (keyboard-component-table k-c)) k)))
+                   (let ((k-type (string->name (third device-list))))
+                     (if (subtypep k-type 'virtual-keyboard)
+                         (bt:with-lock-held ((keyboard-component-lock k-c))
+                           (setf (gethash (current-model) (keyboard-component-table k-c)) (make-instance k-type)))
+                       (print-warning "Invalid type ~s provided for installing a keyboard." (third device-list)))))))
+          (when k
+            (home-hands k)
+            t))
+      (print-warning "No keyboard-table component was found when trying to install a keyboard device."))))
+                
+
+(add-act-r-command "initialize-keyboard" 'initialize-keyboard "Function which sets up a keyboard when it is installed. Do not call directly.")
+
+(defun internal-keyboard-interface (device-list features)
+  (let ((k (current-keyboard)))
+    (if k
+      (let ((m (second (find 'model features :key 'first)))
+            (l (second (find 'loc features :key 'first)))
+            (s (second (find 'style features :key 'first))))
+        (if (and m l s (find s '(punch peck-recoil peck))) ;; default keyboard actions
+            (aif (loc->key k l)
+                 (with-model-eval m
+                   (schedule-event-now "output-key" :params (list m it)  :output t :module 'keyboard  :maintenance t))
+                 (print-warning "Keyboard device did not get signaled with a valid keyboard location for normal actions: ~s" features))
+          (other-notifications k device-list features)))
+      (print-warning "No keyboard available for current model."))))
+
+
+(add-act-r-command "keyboard-interface-fn" 'internal-keyboard-interface "Function which receives the signals for the keyboard device. Do not call directly.")
+
+(define-device "keyboard" "initialize-keyboard" nil "keyboard-interface-fn")
+
+
+;; This is the command that it evaluates for monitoring purposes.
+
+(add-act-r-command "output-key" nil "Command called when a key on the virtual keyboard is pressed by the model or a real key is pressed in a visible experiment window which can be monitored.  It is passed 2 parameters: model-name and key-name. Should not be called directly.")
+
+(defun output-key (model key)
+  (dispatch-apply "output-key" model key))
+
+
+;; Create some new motor styles.  Styles are defined on the motor module, which 
+;; means these require motor-module methods, and since it's available using that
+;; directly for efficiency.  However, a device "should" handle actions through
+;; notifications to the interface.
+
+
+;; Create a press-key style which evaluates the underlying action for the indicated
+;; key.  Doesn't check hand position so if it's not at the home row then the wrong
+;; key will likely be pressed.  
+
+(defclass press-key (movement-style)
+  nil
+  (:default-initargs
+      :style-name :PRESS-KEY
+    :feature-slots '(key)))
+
+(defgeneric press-key (mtr-mod &key key request-spec)
+  (:documentation  "High-level interface to press a key: Look up the command and execute it."))
+
+(defmethod press-key ((mtr-mod motor-module) &key key request-spec)
+  (if (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+      (aif (current-keyboard)
+           (progn
+             (unless (stringp key)
+               (setf key (princ-to-string key)))
+           
+             (let ((command (key->cmd it key)))
+               (if (null (first command))
+                   (print-warning "No press-key mapping available for key ~s." key)
+                 (let* ((hand-index (position :hand command))
+                        (hand-name (nth (1+ hand-index) command))
+                        (position (hand-position hand-name :current nil))
+                        (device (device-for-hand hand-name :current nil))  ;; will it be on the keyboard?
+                        (home (key->hand-start it key)))
+                   (if (string-equal (second device) "keyboard")
+                       (progn
+                         (unless (and home
+                                      (= (second (first home)) (px (hand-pos-loc position)))
+                                      (= (third (first home)) (py (hand-pos-loc position)))
+                                      (every (lambda (x) (awhen (find (first x) (hand-pos-fingers position) :key 'first)
+                                                                (and (= (px (second it)) (second x))
+                                                                     (= (py (second it)) (third x)))))
+                                             (rest home)))
+                           (if home
+                               (print-warning "Hand not at correct starting position for press-key action.")
+                             (print-warning "No starting position available for key ~s for press-key action.")))
+                         (apply (first command) mtr-mod (append (list :request-spec request-spec) (rest command))))
+                     (print-warning "The ~s hand in a press-key action is not on the keyboard.  Press-key action ignored." hand-name))))))
+           (print-warning "Could not find a keyboard to use for the current model. Press-key action ignored."))
+    (print-warning "No keyboard device installed for motor module.  Press-key action ignored.")))
+
+(extend-manual-requests (press-key key) handle-style-request)
+
+
+(defclass hand-to-home (movement-style)
+  nil
+  (:default-initargs
+      :style-name :POINT-HAND-AT-KEY
+    :feature-slots '(hand)))
+
+(defgeneric hand-to-home (mtr-mod &key request-spec hand)
+  (:documentation  "Moves a hand to the home row position"))
+
+(defmethod hand-to-home ((mtr-mod motor-module) &key request-spec hand)
+  (aif (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+      (let ((k (current-keyboard)))
+        (when (null hand) 
+          (setf hand 'right))
+        (if k
+            (if (or (eq hand 'right) (eq hand 'left))
+                (let* ((keyboard-hand (if (eq hand 'left) 
+                                          (keyboard-hand-location k 'left-home)
+                                        (keyboard-hand-location k 'right-home)))
+                       (home-pos (coerce (rest (find 'hand keyboard-hand :key 'first)) 'vector))
+                       (polar (xy-to-polar (hand-loc hand :current nil) home-pos))
+                       (hand-pos (hand-position hand :current nil))
+                       (device (device-for-hand hand :current nil)))
+                  (if (and (= (vr polar) 0)
+                           device
+                           (string-equal (second device) "keyboard")
+                           (every (lambda (x) (awhen (find (first x) (hand-pos-fingers hand-pos) :key 'first)
+                                                                (and (= (px (second it)) (second x))
+                                                                     (= (py (second it)) (third x)))))
+                                             (rest keyboard-hand)))
+                  (model-warning "HAND-TO-HOME requested but hand already is (or will be) at the home position.") 
+                  (point-hand mtr-mod :hand hand :r (vr polar) :theta (vtheta polar) :twidth 4.0 :device it
+                              :offsets (remove (find 'hand keyboard-hand :key 'first) keyboard-hand) 
+                              :request-spec request-spec)))
+              (print-warning "Invalid hand ~s in hand-to-home." hand))
+          (print-warning "Invalid keyboard found cannot move hand to home position.")))
+    (print-warning "Keyboard device is not installed. Cannot move hand to home position.")))
+
+(extend-manual-requests (hand-to-home hand) handle-partial-style-request)
+
+
+(defgeneric hand-to-keypad (mtr-mod request)
+  (:documentation  "Moves the right hand to the keypad position"))
+
+(defmethod hand-to-keypad ((mtr-mod motor-module) request)
+  (aif (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+      (let ((k (current-keyboard)))
+        (if k
+            (let* ((keypad-location (keyboard-hand-location k 'keypad))
+                   (keypad-pos (coerce (rest (find 'hand keypad-location :key 'first)) 'vector))
+                   (polar (xy-to-polar (hand-loc 'right :current nil) keypad-pos))
+                   (hand-pos (hand-position 'right :current nil))
+                   (device (device-for-hand 'right :current nil)))
+              (if (and (= (vr polar) 0)
+                       device
+                       (string-equal (second device) "keyboard")
+                       (every (lambda (x) (awhen (find (first x) (hand-pos-fingers hand-pos) :key 'first)
+                                                 (and (= (px (second it)) (second x))
+                                                      (= (py (second it)) (third x)))))
+                              (rest keypad-location)))
+                  (model-warning "HAND-TO-KEYPAD requested but hand already is (or will be) at the keypad position.") 
+                (point-hand mtr-mod :hand 'right :r (vr polar) :theta (vtheta polar) :twidth 4.0 :device it
+                            :offsets (remove (find 'hand keypad-location :key 'first) keypad-location) :request-spec request)))
+          (print-warning "Invalid keyboard found cannot move right hand to keypad position.")))
+    (print-warning "Keyboard device is not installed. Cannot move right hand to keypad position.")))
+
+(extend-manual-requests (hand-to-keypad) handle-simple-command-request)
+
+(defclass point-hand-at-key (movement-style)
+  nil
+  (:default-initargs
+      :style-name :POINT-HAND-AT-KEY
+    :feature-slots '

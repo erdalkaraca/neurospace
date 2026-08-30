@@ -1,0 +1,1463 @@
+n-lisp-user::exec common-lisp-user::prep last) (#2# . 17041) (common-lisp-user::pm-module) (common-lisp-user::module &key common-lisp-user::proc common-lisp-user::exec common-lisp-user::prep last) common-lisp-user::module (t :last :prep :exec :proc) common-lisp-user::proc common-lisp-user::exec common-lisp-user::prep last #:g10117 #:g10118 (setf common-lisp-user::proc-s) #:g10119 #:g10120 (setf common-lisp-user::exec-s) #:g10121 #:g10122 (setf common-lisp-user::prep-s) #:g10123 #:g10124 (setf common-lisp-user::last-cmd) common-lisp-user::proc-s common-lisp-user::busy eq common-lisp-user::exec-s common-lisp-user::prep-s #:g10125 #:g10126 (setf common-lisp-user::mode-s) #:g10127 common-lisp-user::free #:g10128 (setf common-lisp-user::mode-s) #:g10129 #:g10130 (setf common-lisp-user::state-change) #Y(common-lisp-user::change-state nil nil (24 45 42 28 43 22 40 2 77 46 44 22 40 2 77 46 45 22 40 2 77 46 46 22 40 2 77 46 47 10 3 39 21 10 4 45 48 10 4 45 49 13 0 13 1 33 50 18 2 43 1 43 1 10 2 39 21 10 4 45 51 10 3 45 52 13 0 13 1 33 53 18 2 43 1 43 1 10 1 39 21 10 4 45 54 10 2 45 55 13 0 13 1 33 56 18 2 43 1 43 1 10 0 39 21 10 4 45 57 10 1 45 58 13 0 13 1 33 59 18 2 43 1 43 1 13 4 19 1 60 12 1 61 17 62 40 23 13 4 19 1 63 12 1 61 17 62 40 11 13 4 19 1 64 12 1 61 17 62 39 23 10 4 45 65 1 61 45 66 13 0 13 1 33 67 18 2 43 1 43 1 38 21 10 4 45 68 1 69 45 70 13 0 13 1 33 71 18 2 43 1 43 1 10 4 45 72 11 34 45 73 13 0 13 1 33 74 18 2 43 1 43 1 29) #1# #2# 17041) clos::install-method common-lisp-user::clear (defmethod common-lisp-user::clear (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 17561) (common-lisp-user::pm-module) (common-lisp-user::module) :prep common-lisp-user::feat-prep-time :destination common-lisp-user::my-name :module :params (:last common-lisp-user::none :prep common-lisp-user::free :proc common-lisp-user::free) common-lisp-user::schedule-event-relative #:g10149 #:g10150 (setf common-lisp-user::last-prep) #:g10151 #:g10152 (setf common-lisp-user::exec-queue) #:g10153 -0.1 #:g10154 (setf common-lisp-user::init-stamp) #Y(common-lisp-user::clear nil nil (24 45 42 26 13 0 14 82 15 61 19 3 28 13 0 19 1 83 12 15 28 14 84 13 0 19 1 85 12 14 86 13 0 19 1 85 12 14 87 15 88 19 8 89 10 0 45 90 75 45 91 13 0 13 1 33 92 18 2 43 1 43 1 10 0 45 93 75 45 94 13 0 13 1 33 95 18 2 43 1 43 1 10 0 45 96 1 97 45 98 13 0 13 1 33 99 18 2 43 1 43 1 29) #1# #2# 17561) common-lisp-user::check-jam (defgeneric common-lisp-user::check-jam) (#2# . 18411) (common-lisp-user::module) "Returns NIL if the PM module is free, otherwise prints an error message and returns T." (defmethod common-lisp-user::check-jam (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 18808) (common-lisp-user::pm-module) (common-lisp-user::module) common-lisp-user::printing-module common-lisp-user::get-module-fct #:g10168 #:g10167 #:g10169 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "Module ~S jammed at time ~S" common-lisp-user::mp-time format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::check-jam nil nil (24 45 42 26 13 0 19 1 64 12 1 61 17 62 73 39 71 15 110 19 1 111 47 1 112 45 113 10 1 39 52 75 45 114 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 25 15 118 77 15 119 15 120 13 3 19 1 85 12 19 0 121 12 19 5 122 12 19 2 123 43 1 43 2 11 34 73 29) #1# #2# 18808) common-lisp-user::reset-pm-module (defgeneric common-lisp-user::reset-pm-module) (#2# . 19031) (common-lisp-user::module) "Resets a PM module to base state:  all flags free, empty input queue." (defmethod common-lisp-user::reset-pm-module (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 19414) (common-lisp-user::pm-module) (common-lisp-user::module) #:g10219 #:g10220 (setf common-lisp-user::proc-s) #:g10221 #:g10222 (setf common-lisp-user::exec-s) #:g10223 #:g10224 (setf common-lisp-user::prep-s) #:g10225 #:g10226 (setf common-lisp-user::mode-s) #:g10227 common-lisp-user::none #:g10228 (setf common-lisp-user::last-cmd) #:g10229 #:g10230 (setf common-lisp-user::last-prep) #:g10231 #:g10232 (setf common-lisp-user::exec-queue) #:g10233 #:g10234 (setf common-lisp-user::init-stamp) #Y(common-lisp-user::reset-pm-module nil nil (24 45 42 26 10 0 45 134 1 69 45 135 13 0 13 1 33 136 18 2 43 1 43 1 10 0 45 137 1 69 45 138 13 0 13 1 33 139 18 2 43 1 43 1 10 0 45 140 1 69 45 141 13 0 13 1 33 142 18 2 43 1 43 1 10 0 45 143 1 69 45 144 13 0 13 1 33 145 18 2 43 1 43 1 10 0 45 146 1 147 45 148 13 0 13 1 33 149 18 2 43 1 43 1 10 0 45 150 75 45 151 13 0 13 1 33 152 18 2 43 1 43 1 10 0 45 153 75 45 154 13 0 13 1 33 155 18 2 43 1 43 1 10 0 45 156 1 97 45 157 13 0 13 1 33 158 18 2 43 1 43 1 29) #1# #2# 19414) common-lisp-user::pm-module-last-cmd-name (defgeneric common-lisp-user::pm-module-last-cmd-name) (#2# . 19793) (common-lisp-user::module common-lisp-user::buffer-name common-lisp-user::chunk-spec) "Determine the name of the last command when it's not 'isa clear' and doesn't have a cmd slot." (defmethod common-lisp-user::pm-module-last-cmd-name (common-lisp-user::module common-lisp-user::pm-module) common-lisp-user::buffer-name common-lisp-user::chunk-spec) (#2# . 19979) (common-lisp-user::pm-module t t) (common-lisp-user::module common-lisp-user::buffer-name common-lisp-user::chunk-spec) common-lisp-user::buffer-name common-lisp-user::chunk-spec #Y(common-lisp-user::pm-module-last-cmd-name nil nil (24 45 42 24 45 169 24 45 170 26 75 73 29) #1# #2# 19979) common-lisp-user::pm-module-request (defgeneric common-lisp-user::pm-module-request) (#2# . 20114) (common-lisp-user::module common-lisp-user::buffer-name common-lisp-user::chunk-spec) "Handles a request from a buffer." (defmethod common-lisp-user::pm-module-request :after (common-lisp-user::module common-lisp-user::pm-module) common-lisp-user::buffer-name common-lisp-user::chunk-spec) (#2# . 20232) (:after) (common-lisp-user::pm-module t t) (common-lisp-user::module common-lisp-user::buffer-name common-lisp-user::chunk-spec) common-lisp-user::chunk-spec-slot-spec common-lisp-user::spec length = common-lisp-user::spec-slot-name common-lisp-user::spec-slot-value common-lisp-user::cmd common-lisp-user::last-cmd eql :last #Y(common-lisp-user::pm-module-request nil nil (24 45 42 24 45 169 24 45 170 26 13 0 19 1 182 45 183 10 0 16 184 12 9 1 19 2 185 39 25 15 77 10 0 4 12 19 1 186 17 62 39 12 10 0 4 12 19 1 187 39 3 1 77 43 1 40 42 13 0 15 188 19 2 182 45 183 10 0 16 184 12 9 1 19 2 185 39 8 10 0 4 12 19 1 187 43 1 40 10 13 2 13 1 13 0 19 3 160 45 189 10 0 39 12 13 3 19 1 189 12 10 0 17 190 76 73 39 10 13 3 14 191 13 0 19 3 28 43 1 29) #1# #2# 20232) common-lisp-user::print-module-status (defgeneric common-lisp-user::print-module-status) (#2# . 21093) (common-lisp-user::module) "Prints the module's state in query form" (defmethod common-lisp-user::print-module-status (mod common-lisp-user::pm-module)) (#2# . 21224) (common-lisp-user::pm-module) (mod) mod string "  preparation free      : ~S~%" "  preparation busy      : ~S~%" "  processor free        : ~S~%" "  processor busy        : ~S~%" "  execution free        : ~S~%" "  execution busy        : ~S~%" "  last-command          : ~S" concatenate #Y(common-lisp-user::print-module-status nil nil (24 45 202 26 15 203 77 15 204 13 0 19 1 64 12 1 69 17 62 12 19 3 122 12 77 15 205 13 0 19 1 64 12 1 61 17 62 12 19 3 122 12 77 15 206 13 0 19 1 60 12 1 69 17 62 12 19 3 122 12 77 15 207 13 0 19 1 60 12 1 61 17 62 12 19 3 122 12 77 15 208 13 0 19 1 63 12 1 69 17 62 12 19 3 122 12 77 15 209 13 0 19 1 63 12 1 61 17 62 12 19 3 122 12 77 15 210 13 0 19 1 189 12 19 3 122 12 19 8 211 29) #1# #2# 21224) common-lisp-user::check-state (defgeneric common-lisp-user::check-state) (#2# . 21929) (common-lisp-user::module &key common-lisp-user::modality common-lisp-user::preparation common-lisp-user::execution common-lisp-user::processor common-lisp-user::last-command) "Does a quick test of the state of a PM module, returning T iff all the specified states match." (defmethod common-lisp-user::check-state (mod common-lisp-user::pm-module) &key common-lisp-user::modality common-lisp-user::preparation common-lisp-user::execution common-lisp-user::processor common-lisp-user::last-command) (#2# . 22176) (common-lisp-user::pm-module) (mod &key common-lisp-user::modality common-lisp-user::preparation common-lisp-user::execution common-lisp-user::processor common-lisp-user::last-command) (t :last-command :processor :execution :preparation :modality) common-lisp-user::modality common-lisp-user::preparation common-lisp-user::execution common-lisp-user::processor common-lisp-user::last-command common-lisp-user::mode-s #Y(common-lisp-user::check-state nil nil (24 45 202 28 222 22 40 2 77 46 223 22 40 2 77 46 224 22 40 2 77 46 225 22 40 2 77 46 226 22 40 2 77 46 227 10 4 39 11 13 4 13 5 19 1 228 17 62 76 39 5 75 73 38 84 10 3 39 11 13 3 13 5 19 1 64 17 62 76 39 5 75 73 38 64 10 2 39 11 13 2 13 5 19 1 63 17 62 76 39 5 75 73 38 44 10 1 39 11 13 1 13 5 19 1 60 17 62 76 39 5 75 73 38 24 10 0 39 11 13 0 13 5 19 1 189 17 62 76 39 5 75 73 38 4 11 34 73 29) #1# #2# 22176) common-lisp-user::generic-state-query (defgeneric common-lisp-user::generic-state-query) (#2# . 22714) (common-lisp-user::module common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value) "Handles BUSY/FREE tests on STATE, MODALITY, EXECUTION, PREPARATION and PROCESSOR." (defmethod common-lisp-user::generic-state-query (common-lisp-user::module common-lisp-user::pm-module) common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value) (#2# . 22879) (common-lisp-user::pm-module t t t) (common-lisp-user::module common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value) common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value common-lisp-user::state #:g10284 #:g10283 #:g10285 "Invalid query made of the ~S buffer with slot ~S and value ~S" #:g10288 #:g10287 #:g10289 "Invalid query made of the ~S buffer with slot ~S and value ~S" #:g10292 #:g10291 #:g10293 "Invalid query made of the ~S buffer with slot ~S and value ~S" #:g10296 #:g10295 #:g10297 "Invalid query made of the ~S buffer with slot ~S and value ~S" #Y(common-lisp-user::generic-state-query nil nil (24 45 42 24 45 239 24 45 240 24 45 241 26 10 1 41 242 4 42 223 100 10 0 42 61 13 13 3 19 1 228 12 1 61 17 62 38 81 42 69 13 13 3 19 1 228 12 1 69 17 62 38 66 15 110 19 1 111 47 1 243 45 244 10 1 39 48 75 45 245 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 21 15 118 77 15 119 15 246 13 5 13 4 13 3 19 6 122 12 19 2 123 43 1 75 73 43 2 38 324 42 225 100 10 0 42 61 13 13 3 19 1 63 12 1 61 17 62 38 81 42 69 13 13 3 19 1 63 12 1 69 17 62 38 66 15 110 19 1 111 47 1 247 45 248 10 1 39 48 75 45 249 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 21 15 118 77 15 119 15 250 13 5 13 4 13 3 19 6 122 12 19 2 123 43 1 75 73 43 2 38 222 42 224 100 10 0 42 61 13 13 3 19 1 64 12 1 61 17 62 38 81 42 69 13 13 3 19 1 64 12 1 69 17 62 38 66 15 110 19 1 111 47 1 251 45 252 10 1 39 48 75 45 253 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 21 15 118 77 15 119 15 254 13 5 13 4 13 3 19 6 122 12 19 2 123 43 1 75 73 43 2 38 120 42 226 100 10 0 42 61 13 13 3 19 1 60 12 1 61 17 62 38 81 42 69 13 13 3 19 1 60 12 1 69 17 62 38 66 15 110 19 1 111 47 1 255 45 256 10 1 39 48 75 45 257 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 21 15 118 77 15 119 15 258 13 5 13 4 13 3 19 6 122 12 19 2 123 43 1 75 73 43 2 38 18 42 227 13 13 3 19 1 189 12 10 0 17 190 38 3 75 73 29) #1# #2# 22879) common-lisp-user::update-prepared (defgeneric common-lisp-user::update-prepared) (#2# . 24221) (common-lisp-user::module) "Method called when execution is planned for an action to update the location." (defmethod common-lisp-user::update-prepared (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 24602) (common-lisp-user::pm-module) (common-lisp-user::module) #Y(common-lisp-user::update-prepared nil nil (24 45 42 26 75 73 29) #1# #2# 24602) common-lisp-user::preparation-complete (defgeneric common-lisp-user::preparation-complete) (#2# . 24655) (common-lisp-user::module) "Method to be called when movement preparation is complete." (defmethod common-lisp-user::preparation-complete (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 25090) (common-lisp-user::pm-module) (common-lisp-user::module) common-lisp-user::last-prep common-lisp-user::exec-immediate-p #:g10305 common-lisp-user::exec-queue common-lisp-user::mklist append #:g10306 (setf common-lisp-user::exec-queue) common-lisp-user::updated-pos common-lisp-user::init-stamp minusp plusp common-lisp-user::mp-time-ms common-lisp-user::init-time common-lisp-user::seconds->ms + >= :proc common-lisp-user::maybe-execute-movement #Y(common-lisp-user::preparation-complete nil nil (24 45 42 26 13 0 14 82 15 69 19 3 28 13 0 19 1 279 39 123 13 0 19 1 279 12 19 1 280 39 56 10 0 45 281 13 1 19 1 282 12 13 1 19 1 279 12 19 1 283 12 19 2 284 45 285 13 0 13 1 33 286 18 2 43 1 43 1 13 0 19 1 279 12 19 1 287 39 6 13 0 19 1 260 38 57 13 0 19 1 288 16 289 40 37 13 0 19 1 288 16 290 39 28 19 0 291 12 13 0 19 1 288 12 13 0 19 1 292 12 19 1 293 12 19 2 294 12 19 2 295 39 10 13 0 14 296 15 69 19 3 28 13 0 19 1 297 29) #1# #2# 25090) (defgeneric common-lisp-user::maybe-execute-movement) (#2# . 25882) (common-lisp-user::module) "If there are any movements in <module>'s execution queue, execute one." (defmethod common-lisp-user::maybe-execute-movement (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 26290) (common-lisp-user::pm-module) (common-lisp-user::module) #:g10313 #:g10314 (setf common-lisp-user::exec-queue) common-lisp-user::perform-movement #Y(common-lisp-user::maybe-execute-movement nil nil (24 45 42 26 13 0 19 1 282 39 11 13 0 19 1 63 12 1 69 17 62 73 39 36 13 0 10 0 45 307 13 0 19 1 282 45 308 10 0 4 12 10 0 5 51 0 13 0 13 1 33 309 18 2 43 2 19 2 310 29) #1# #2# 26290) common-lisp-user::prepare (defgeneric common-lisp-user::prepare) (#2# . 26523) (common-lisp-user::module &rest common-lisp-user::params) "Prepare a movement to be executed, but don't execute it. The first of <params> should be the name of a movement style class." (defmethod common-lisp-user::prepare (common-lisp-user::module common-lisp-user::pm-module) &rest common-lisp-user::params) (#2# . 26907) (common-lisp-user::pm-module) (common-lisp-user::module &rest common-lisp-user::params) common-lisp-user::params make-instance apply common-lisp-user::inst #:g10327 #:g10328 (setf common-lisp-user::exec-immediate-p) #:g10329 common-lisp-user::prepare-spec #:g10330 (setf common-lisp-user::request-spec) common-lisp-user::prepare-movement #Y(common-lisp-user::prepare nil nil (24 45 42 27 45 321 33 322 12 13 0 19 2 323 45 324 10 0 45 325 75 45 326 13 0 13 1 33 327 18 2 43 1 43 1 10 0 45 328 13 3 19 1 329 45 330 13 0 13 1 33 331 18 2 43 1 43 1 13 2 13 0 19 2 332 43 1 29) #1# #2# 26907) common-lisp-user::execute (defgeneric common-lisp-user::execute) (#2# . 27183) (common-lisp-user::module common-lisp-user::request) "Tells <module> to execute the last movement prepared." (defmethod common-lisp-user::execute (common-lisp-user::module common-lisp-user::pm-module) common-lisp-user::request) (#2# . 27659) (common-lisp-user::pm-module t) (common-lisp-user::module common-lisp-user::request) common-lisp-user::request #:g10368 #:g10367 #:g10369 "Motor Module has no movement to EXECUTE." #:g10372 #:g10371 #:g10373 "Motor Module cannot EXECUTE features being prepared." #:g10375 #:g10376 (setf common-lisp-user::request-spec) #:g10377 #:g10378 (setf common-lisp-user::exec-queue) #Y(common-lisp-user::execute nil nil (24 45 42 24 45 343 26 13 1 19 1 279 76 39 62 15 110 19 1 111 47 1 344 45 345 10 1 39 42 75 45 346 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 15 15 118 77 15 119 15 347 19 3 122 12 19 2 123 43 1 75 73 43 2 38 155 13 1 19 1 64 12 1 61 17 62 39 62 15 110 19 1 111 47 1 348 45 349 10 1 39 42 75 45 350 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 15 15 118 77 15 119 15 351 19 3 122 12 19 2 123 43 1 75 73 43 2 38 82 13 1 19 1 279 45 352 10 1 45 353 13 0 13 1 33 354 18 2 43 1 43 1 10 1 45 355 13 2 19 1 282 12 13 2 19 1 279 12 19 1 283 12 19 2 284 45 356 13 0 13 1 33 357 18 2 43 1 43 1 13 1 19 1 279 12 19 1 287 39 6 13 1 19 1 260 13 1 19 1 297 29) #1# #2# 27659) common-lisp-user::pm-prepare-mvmt-mth (defgeneric common-lisp-user::pm-prepare-mvmt-mth) (#2# . 28306) (common-lisp-user::module common-lisp-user::params) "Create the movement specified in <params>, which should begin with the name of a movement style, and consider it prepared. To be called only at model initialization." (defmethod common-lisp-user::pm-prepare-mvmt-mth (common-lisp-user::module common-lisp-user::pm-module) common-lisp-user::params) (#2# . 28883) (common-lisp-user::pm-module t) (common-lisp-user::module common-lisp-user::params) #:g10391 #:g10392 (setf common-lisp-user::exec-immediate-p) #:g10393 #:g10394 (setf common-lisp-user::last-prep) #Y(common-lisp-user::pm-prepare-mvmt-mth nil nil (24 45 42 24 45 321 26 33 322 12 13 0 19 2 323 45 324 10 0 45 368 75 45 369 13 0 13 1 33 370 18 2 43 1 43 1 10 2 45 371 10 1 45 372 13 0 13 1 33 373 18 2 43 1 43 1 43 1 29) #1# #2# 28883) common-lisp-user::movement-style (defclass common-lisp-user::movement-style) (#2# . 29124) (:initargs (:fprep-time) :initform nil :writers ((setf common-lisp-user::fprep-time)) :readers (common-lisp-user::fprep-time) :name common-lisp-user::fprep-time) (:initargs (:exec-time) :initform nil :writers ((setf common-lisp-user::exec-time)) :readers (common-lisp-user::exec-time) :name common-lisp-user::exec-time) (:initargs (:finish-time) :initform nil :writers ((setf common-lisp-user::finish-time)) :readers (common-lisp-user::finish-time) :name common-lisp-user::finish-time) (:initargs (:exec-immediate-p) :initform t :writers ((setf common-lisp-user::exec-immediate-p)) :readers (common-lisp-user::exec-immediate-p) :name common-lisp-user::exec-immediate-p) (:initargs (:num-features) :initform nil :writers ((setf common-lisp-user::num-features)) :readers (common-lisp-user::num-features) :name common-lisp-user::num-features) (:initform nil :initargs (:style-name) :writers ((setf common-lisp-user::style-name)) :readers (common-lisp-user::style-name) :name common-lisp-user::style-name) (:initform nil :initargs (:feature-slots) :writers ((setf common-lisp-user::feature-slots)) :readers (common-lisp-user::feature-slots) :name common-lisp-user::feature-slots) (:initform nil :initargs (:request-spec) :writers ((setf common-lisp-user::request-spec)) :readers (common-lisp-user::request-spec) :name common-lisp-user::request-spec) (:initform nil :writers ((setf common-lisp-user::updated-pos)) :readers (common-lisp-user::updated-pos) :name common-lisp-user::updated-pos) #Y(nil nil nil (26 19 0 121 29) #1# #2# 29124) (:initform (common-lisp-user::mp-time) :writers ((setf common-lisp-user::request-time)) :readers (common-lisp-user::request-time) :name common-lisp-user::request-time) (defgeneric common-lisp-user::prepare-movement) (#2# . 30141) (common-lisp-user::module common-lisp-user::movement) "Tell <module> to prepare <movement>." (defmethod common-lisp-user::prepare-movement (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 30516) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) common-lisp-user::mvmt common-lisp-user::prepare-features #:g10407 common-lisp-user::compute-prep-time common-lisp-user::randomize-time #:g10408 (setf common-lisp-user::fprep-time) #:g10409 #:g10410 (setf common-lisp-user::last-prep) common-lisp-user::fprep-time :time-in-ms :details symbol-name " " common-lisp-user::request-time princ-to-string #Y(common-lisp-user::prepare-movement nil nil (24 45 42 24 45 397 26 13 1 14 82 15 61 14 296 15 61 19 5 28 13 1 13 0 19 2 398 10 0 45 399 13 2 13 1 19 2 400 12 19 1 401 45 402 13 0 13 1 33 403 18 2 43 1 43 1 10 1 45 404 10 1 45 405 13 0 13 1 33 406 18 2 43 1 43 1 13 0 19 1 407 12 19 1 293 12 15 270 14 408 14 34 14 84 13 1 19 1 85 12 14 86 13 1 19 1 85 12 14 409 15 203 1 270 16 410 12 15 411 13 0 19 1 412 16 413 12 19 4 211 12 19 10 89 29) #1# #2# 30516) (defgeneric common-lisp-user::prepare-features) (#2# . 31135) (common-lisp-user::module common-lisp-user::movement) "Compute the features needed for movement and store position in updated-pos." (defmethod common-lisp-user::prepare-features (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 31282) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) #Y(common-lisp-user::prepare-features nil nil (24 45 42 24 45 397 26 75 73 29) #1# #2# 31282) (defgeneric common-lisp-user::compute-prep-time) (#2# . 31358) (common-lisp-user::module common-lisp-user::movement) "Return the feature preparation time for <movement>." (defmethod common-lisp-user::compute-prep-time (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 31892) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) common-lisp-user::style-name common-lisp-user::num-to-prepare * common-lisp-user::feat-differences #Y(common-lisp-user::compute-prep-time nil nil (24 45 42 24 45 397 26 13 1 19 1 279 76 40 19 13 0 19 1 432 12 13 1 19 1 279 12 19 1 432 17 62 76 39 18 13 1 19 1 83 12 13 0 19 1 433 12 19 2 434 38 22 13 1 19 1 83 12 13 0 13 1 19 1 279 12 19 2 435 12 19 2 434 29) #1# #2# 31892) (defgeneric common-lisp-user::perform-movement) (#2# . 32343) (common-lisp-user::module common-lisp-user::movement) "Have <module> perform <movement>." (defmethod common-lisp-user::perform-movement (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 32866) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) common-lisp-user::initiation-complete " " :exec #:g10429 #:g10430 (setf common-lisp-user::init-stamp) #:g10431 common-lisp-user::compute-exec-time #:g10432 (setf common-lisp-user::exec-time) #:g10433 common-lisp-user::compute-finish-time #:g10434 (setf common-lisp-user::finish-time) common-lisp-user::queue-output-events common-lisp-user::queue-finish-event #Y(common-lisp-user::perform-movement nil nil (24 45 42 24 45 397 26 13 1 19 1 292 12 19 1 293 12 15 445 14 408 14 34 14 84 13 1 19 1 85 12 14 86 13 1 19 1 85 12 14 409 15 203 1 445 16 410 12 15 446 13 0 19 1 412 16 413 12 19 4 211 12 19 10 89 13 1 14 296 15 61 14 447 15 61 19 5 28 10 1 45 448 19 0 291 45 449 13 0 13 1 33 450 18 2 43 1 43 1 10 0 45 451 13 2 13 1 19 2 452 45 453 13 0 13 1 33 454 18 2 43 1 43 1 10 0 45 455 13 2 13 1 19 2 456 45 457 13 0 13 1 33 458 18 2 43 1 43 1 13 1 13 0 19 2 459 13 1 13 0 19 2 460 29) #1# #2# 32866) (defmethod common-lisp-user::initiation-complete (common-lisp-user::module common-lisp-user::pm-module)) (#2# . 33699) (common-lisp-user::pm-module) (common-lisp-user::module) #Y(common-lisp-user::initiation-complete nil nil (24 45 42 26 13 0 14 296 15 69 19 3 28 29) #1# #2# 33699) common-lisp-user::finish-movement (defgeneric common-lisp-user::finish-movement) (#2# . 33789) (common-lisp-user::module common-lisp-user::mvmt) "Method called when a movement finishes completely." (defmethod common-lisp-user::finish-movement (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 34110) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) #Y(common-lisp-user::finish-movement nil nil (24 45 42 24 45 397 26 13 1 14 447 15 69 19 3 28 13 1 19 1 297 29) #1# #2# 34110) (defgeneric common-lisp-user::compute-finish-time) (#2# . 34252) (common-lisp-user::module common-lisp-user::movement) "Return the finish time of <movement>." (defmethod common-lisp-user::compute-finish-time (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 34572) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) common-lisp-user::burst-time common-lisp-user::exec-time #Y(common-lisp-user::compute-finish-time nil nil (24 45 42 24 45 397 26 13 1 19 1 485 12 13 0 19 1 486 12 19 2 294 29) #1# #2# 34572) "Return the finish time of the movement." (defgeneric common-lisp-user::queue-finish-event) (#2# . 34791) (common-lisp-user::module common-lisp-user::movement) "Queue the FINISH-MOVEMENT associated with <movement>." (defmethod common-lisp-user::queue-finish-event (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 35048) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) common-lisp-user::finish-time " " #Y(common-lisp-user::queue-finish-event nil nil (24 45 42 24 45 397 26 13 0 19 1 497 12 19 1 293 12 15 467 14 408 14 34 14 84 13 1 19 1 85 12 14 87 10 0 6 1 12 14 86 13 1 19 1 85 12 14 409 15 203 1 467 16 410 12 15 498 13 0 19 1 412 16 413 12 19 4 211 12 19 12 89 29) #1# #2# 35048) (defgeneric common-lisp-user::compute-exec-time) (#2# . 35516) (common-lisp-user::module common-lisp-user::movement) "Return the execution time of <movement>." (defmethod common-lisp-user::compute-exec-time (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 35664) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) "No method defined for COMPUTE-EXEC-TIME." error #Y(common-lisp-user::compute-exec-time nil nil (24 45 42 24 45 397 26 15 508 19 1 509 29) #1# #2# 35664) (defgeneric common-lisp-user::queue-output-events) (#2# . 35791) (common-lisp-user::module common-lisp-user::movement) "Queue the events--not including the FINISH-MOVEMENT--that <movement> will generate." (defmethod common-lisp-user::queue-output-events (common-lisp-user::module common-lisp-user::pm-module) (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 35949) (common-lisp-user::pm-module common-lisp-user::movement-style) (common-lisp-user::module common-lisp-user::mvmt) "No method defined for QUEUE-OUTPUT-EVENTS." #Y(common-lisp-user::queue-output-events nil nil (24 45 42 24 45 397 26 15 519 19 1 509 29) #1# #2# 35949) (defgeneric common-lisp-user::feat-differences) (#2# . 36080) (common-lisp-user::movement1 common-lisp-user::movement2) "Return the number of different features that need to be prepared." (defmethod common-lisp-user::feat-differences (common-lisp-user::move1 common-lisp-user::movement-style) (common-lisp-user::move2 common-lisp-user::movement-style)) (#2# . 36221) (common-lisp-user::movement-style common-lisp-user::movement-style) (common-lisp-user::move1 common-lisp-user::move2) common-lisp-user::move1 common-lisp-user::move2 "No method defined for FEAT-DIFFERENCES." #Y(common-lisp-user::feat-differences nil nil (24 45 529 24 45 530 26 15 531 19 1 509 29) #1# #2# 36221) common-lisp-user::num-possible-feats (defgeneric common-lisp-user::num-possible-feats) (#2# . 36385) (common-lisp-user::movement) "Return the maximum number of features that could possibly need to be prepared." (defmethod common-lisp-user::num-possible-feats (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 36532) (common-lisp-user::movement-style) (common-lisp-user::mvmt) common-lisp-user::feature-slots 1+ #Y(common-lisp-user::num-possible-feats nil nil (24 45 397 26 13 0 19 1 542 16 184 16 543 29) #1# #2# 36532) (defgeneric common-lisp-user::num-to-prepare) (#2# . 36625) (common-lisp-user::movement) "Return the number of features actually needed to prepare <movement>." (defmethod common-lisp-user::num-to-prepare (common-lisp-user::mvmt common-lisp-user::movement-style)) (#2# . 36756) (common-lisp-user::movement-style) (common-lisp-user::mvmt) :dummy common-lisp-user::name slot-value #Y(nil nil nil (24 45 554 26 13 1 10 0 17 555 29) #1# #2# 36756) mapcar remove #Y(common-lisp-user::num-to-prepare nil nil (24 45 397 26 14 553 77 34 556 12 13 0 19 1 542 12 19 2 557 12 19 2 558 12 19 2 558 16 184 16 543 29) #1# #2# 36756) common-lisp-user::defstyle (defmacro common-lisp-user::defstyle) (#2# . 37056) (common-lisp-user::name common-lisp-user::base-class &rest common-lisp-user::params) #:g10436 #:g10435 #:g10437 si::dm-too-few-arguments common-lisp-user::base-class progn defclass common-lisp-user::build-accessors :default-initargs :style-name common-lisp-user::sym->key :feature-slots quote defmethod (common-lisp-user::module common-lisp-user::pm-module) &key (common-lisp-user::request-spec) unless or (common-lisp-user::check-jam common-lisp-user::module) common-lisp-user::check-specs :request-spec common-lisp-user::request-spec common-lisp-user::build-initializer #Y(common-lisp-user::defstyle nil nil (24 45 564 24 45 565 26 10 1 5 45 566 10 0 76 39 6 13 2 19 1 567 10 0 4 12 10 0 5 51 0 22 45 554 10 1 76 39 6 13 3 19 1 567 10 1 4 12 10 1 5 51 1 22 45 568 10 2 45 321 15 569 15 570 13 2 10 1 76 39 5 1 375 38 3 10 1 6 1 12 13 0 19 1 571 12 14 572 14 573 13 2 19 1 574 12 14 575 15 576 10 0 6 2 6 5 6 5 12 15 577 13 2 15 578 15 579 13 0 15 580 19 2 284 7 3 12 15 581 15 582 15 583 15 584 15 576 10 2 6 2 12 10 0 7 3 6 3 12 15 332 15 42 15 322 15 576 10 2 6 2 12 14 585 15 586 13 0 19 1 587 7 5 6 3 6 3 6 4 6 3 73 29) #1# #2# 37056) si::fset function "Macro that defines new motor movement styles.  Pass in the name and the base 
+   class [if NIL is passed, it will default to MOVEMENT-STYLE] and the base 
+   parameters.  This will create a class and a method for any PM Module for the 
+   class." si::set-documentation (defun common-lisp-user::check-specs) (#2# . 37887) (common-lisp-user::name &rest common-lisp-user::specs) common-lisp-user::specs member #:g10443 #:g10442 #:g10444 "NIL specification passed to a PM command ~S: ~S" #Y(common-lisp-user::check-specs nil nil (24 45 554 27 45 596 77 13 0 19 2 597 73 39 65 15 110 19 1 111 47 1 598 45 599 10 1 39 46 75 45 600 13 1 19 1 115 12 19 1 116 39 6 13 1 19 1 117 51 0 10 0 39 19 15 118 77 15 119 15 601 13 4 13 3 19 5 122 12 19 2 123 43 1 43 2 11 34 73 29) #1# #2# 37887) "If there is an invalid specification, return something, else NIL" (defun common-lisp-user::build-accessors) (#2# . 38111) (common-lisp-user::params) common-lisp-user::accum si::%dolist-var common-lisp-user::param :accessor :initarg :initform nreverse #Y(common-lisp-user::build-accessors nil nil (24 45 321 26 75 45 607 10 1 45 608 38 38 10 0 4 45 609 13 0 14 610 13 0 14 611 13 0 19 1 574 12 14 612 75 6 7 12 10 2 3 51 2 10 1 5 51 1 43 1 10 0 40 -40 75 45 609 10 2 16 613 43 1 43 1 43 1 29) #1# #2# 38111) "From a list of parameters, a list of slot definitions." (defun common-lisp-user::build-initializer) (#2# . 38489) (common-lisp-user::params) #Y(common-lisp-user::build-initializer nil nil (24 45 321 26 75 45 607 10 1 45 608 38 31 10 0 4 45 609 13 0 19 1 574 12 10 2 3 51 2 13 0 10 2 3 51 2 10 1 5 51 1 43 1 10 0 40 -33 75 45 609 10 2 16 613 43 1 43 1 43 1 29) #1# #2# 38489) "From a list of parameters, build a list for the make-instance initializer." common-lisp-user::attn-module (defclass common-lisp-user::attn-module) (#2# . 38847) (common-lisp-user::pm-module) ((:initform nil :initargs (:currently-attended) :writers ((setf common-lisp-user::currently-attended)) :readers (common-lisp-user::currently-attended) :name common-lisp-user::currently-attended) (:initform nil :initargs (:current-marker) :writers ((setf common-lisp-user::current-marker)) :readers (common-lisp-user::current-marker) :name common-lisp-user::current-marker) (:initform nil :writers ((setf common-lisp-user::loc-failure)) :readers (common-lisp-user::loc-failure) :name common-lisp-user::loc-failure) (:initform nil :writers ((setf common-lisp-user::attend-failure)) :readers (common-lisp-user::attend-failure) :name common-lisp-user::attend-failure) (:initform nil :writers ((setf common-lisp-user::unstuff-loc)) :readers (common-lisp-user::unstuff-loc) :name common-lisp-user::unstuff-loc) (:initform nil :writers ((setf common-lisp-user::unstuff-event)) :readers (common-lisp-user::unstuff-event) :name common-lisp-user::unstuff-event) (:initform nil :writers ((setf common-lisp-user::overstuff-loc)) :readers (common-lisp-user::overstuff-loc) :name common-lisp-user::overstuff-loc)) (defmethod common-lisp-user::reset-pm-module :after (common-lisp-user::module common-lisp-user::attn-module)) (#2# . 39990) (:after) (common-lisp-user::attn-module) (common-lisp-user::module) #:g10464 #:g10465 (setf common-lisp-user::unstuff-event) #Y(common-lisp-user::reset-pm-module nil nil (24 45 42 26 10 0 45 631 75 45 632 13 0 13 1 33 633 18 2 43 1 43 1 29) #1# #2# 39990) common-lisp-user::check-unstuff-buffer (defmethod common-lisp-user::check-unstuff-buffer (common-lisp-user::module common-lisp-user::attn-module) common-lisp-user::buffer common-lisp-user::chunk) (#2# . 40086) (common-lisp-user::attn-module t t) (common-lisp-user::module common-lisp-user::buffer common-lisp-user::chunk) common-lisp-user::chunk common-lisp-user::buffer-read common-lisp-user::current (common-lisp-user::buffer common-lisp-user::unrequested) common-lisp-user::query-buffer common-lisp-user::chunk-copied-from-fct common-lisp-user::was-copy common-lisp-user::copy common-lisp-user::chunk-p-fct #Y(common-lisp-user::check-unstuff-buffer nil nil (24 45 42 24 45 239 24 45 640 26 13 1 19 1 641 45 642 10 0 73 39 44 13 2 15 643 19 2 644 73 39 34 13 0 19 1 645 47 1 646 45 647 13 1 10 3 17 62 73 40 13 13 3 19 1 648 76 73 39 4 10 1 73 43 2 43 1 29) #1# #2# 40086) common-lisp-user::unstuff-buffer (defmethod common-lisp-user::unstuff-buffer (common-lisp-user::module common-lisp-user::attn-module) common-lisp-user::buffer common-lisp-user::chunk) (#2# . 40822) (common-lisp-user::attn-module t t) (common-lisp-user::module common-lisp-user::buffer common-lisp-user::chunk) #:g10472 #:g10473 (setf common-lisp-user::unstuff-event) common-lisp-user::erase-buffer common-lisp-user::schedule-event-now #Y(common-lisp-user::unstuff-buffer nil nil (24 45 42 24 45 239 24 45 640 26 10 2 45 655 75 45 656 13 0 13 1 33 657 18 2 43 1 43 1 15 658 14 87 10 1 6 1 12 14 86 13 2 19 1 85 12 19 5 659 29) #1# #2# 40822) common-lisp-user::test-for-clear-request (defun common-lisp-user::test-for-clear-request) (#2# . 41033) (common-lisp-user::spec) common-lisp-user::act-r-chunk-spec-p common-lisp-user::main-spec common-lisp-user::spec-slot-op common-lisp-user::id-to-chunk-spec common-lisp-user::it #Y(common-lisp-user::test-for-clear-request nil nil (24 45 183 26 13 0 19 1 665 39 90 13 0 19 1 182 45 666 10 0 16 184 12 9 1 19 2 185 73 39 66 15 185 10 0 4 12 19 1 667 17 62 73 39 52 10 0 4 12 19 1 186 12 1 77 17 62 39 8 10 0 4 12 19 1 187 73 40 28 10 0 4 12 19 1 186 12 1 188 17 62 73 39 13 10 0 4 12 19 1 187 12 1 77 17 62 43 1 38 23 13 0 19 1 668 45 669 10 0 39 8 13 0 19 1 661 38 3 75 73 43 1 29) #1# #2# 41033) "test-for-clear-request" "Determine if a chunk-spec represents the clear request used by many modules. Params: chunk-spec." common-lisp-user::add-act-r-command "GENERAL-PM" provide)) #2# 0) #Y(si::bytecodes nil nil (15 28 15 1 15 29 15 30 19 4 4 15 28 14 31 77 15 32 19 4 4 15 28 14 33 14 34 14 31 15 32 15 35 15 36 19 7 37 29) #1# #2# 16787) #Y(si::bytecodes nil nil (15 28 15 1 15 38 15 39 19 4 4 15 28 77 15 40 15 41 1 75 12 19 5 76 29) #1# #2# 17041) #Y(si::bytecodes nil nil (15 77 15 1 15 78 15 79 19 4 4 15 77 77 15 80 15 81 1 100 12 19 5 76 29) #1# #2# 17561) #Y(si::bytecodes nil nil (15 101 15 1 15 102 15 103 19 4 4 15 101 14 31 77 15 104 19 4 4 15 101 14 33 14 34 14 31 15 104 15 35 15 105 19 7 37 29) #1# #2# 18411) #Y(si::bytecodes nil nil (15 101 15 1 15 106 15 107 19 4 4 15 101 77 15 108 15 109 1 124 12 19 5 76 29) #1# #2# 18808) #Y(si::bytecodes nil nil (15 125 15 1 15 126 15 127 19 4 4 15 125 14 31 77 15 128 19 4 4 15 125 14 33 14 34 14 31 15 128 15 35 15 129 19 7 37 29) #1# #2# 19031) #Y(si::bytecodes nil nil (15 125 15 1 15 130 15 131 19 4 4 15 125 77 15 132 15 133 1 159 12 19 5 76 29) #1# #2# 19414) #Y(si::bytecodes nil nil (15 160 15 1 15 161 15 162 19 4 4 15 160 14 31 77 15 163 19 4 4 15 160 14 33 14 34 14 31 15 163 15 35 15 164 19 7 37 29) #1# #2# 19793) #Y(si::bytecodes nil nil (15 160 15 1 15 165 15 166 19 4 4 15 160 77 15 167 15 168 1 171 12 19 5 76 29) #1# #2# 19979) #Y(si::bytecodes nil nil (15 172 15 1 15 173 15 174 19 4 4 15 172 14 31 77 15 175 19 4 4 15 172 14 33 14 34 14 31 15 175 15 35 15 176 19 7 37 29) #1# #2# 20114) #Y(si::bytecodes nil nil (15 172 15 1 15 177 15 178 19 4 4 15 172 15 179 15 180 15 181 1 192 12 19 5 76 29) #1# #2# 20232) #Y(si::bytecodes nil nil (15 193 15 1 15 194 15 195 19 4 4 15 193 14 31 77 15 196 19 4 4 15 193 14 33 14 34 14 31 15 196 15 35 15 197 19 7 37 29) #1# #2# 21093) #Y(si::bytecodes nil nil (15 193 15 1 15 198 15 199 19 4 4 15 193 77 15 200 15 201 1 212 12 19 5 76 29) #1# #2# 21224) #Y(si::bytecodes nil nil (15 213 15 1 15 214 15 215 19 4 4 15 213 14 31 77 15 216 19 4 4 15 213 14 33 14 34 14 31 15 216 15 35 15 217 19 7 37 29) #1# #2# 21929) #Y(si::bytecodes nil nil (15 213 15 1 15 218 15 219 19 4 4 15 213 77 15 220 15 221 1 229 12 19 5 76 29) #1# #2# 22176) #Y(si::bytecodes nil nil (15 230 15 1 15 231 15 232 19 4 4 15 230 14 31 77 15 233 19 4 4 15 230 14 33 14 34 14 31 15 233 15 35 15 234 19 7 37 29) #1# #2# 22714) #Y(si::bytecodes nil nil (15 230 15 1 15 235 15 236 19 4 4 15 230 77 15 237 15 238 1 259 12 19 5 76 29) #1# #2# 22879) #Y(si::bytecodes nil nil (15 260 15 1 15 261 15 262 19 4 4 15 260 14 31 77 15 263 19 4 4 15 260 14 33 14 34 14 31 15 263 15 35 15 264 19 7 37 29) #1# #2# 24221) #Y(si::bytecodes nil nil (15 260 15 1 15 265 15 266 19 4 4 15 260 77 15 267 15 268 1 269 12 19 5 76 29) #1# #2# 24602) #Y(si::bytecodes nil nil (15 270 15 1 15 271 15 272 19 4 4 15 270 14 31 77 15 273 19 4 4 15 270 14 33 14 34 14 31 15 273 15 35 15 274 19 7 37 29) #1# #2# 24655) #Y(si::bytecodes nil nil (15 270 15 1 15 275 15 276 19 4 4 15 270 77 15 277 15 278 1 298 12 19 5 76 29) #1# #2# 25090) #Y(si::bytecodes nil nil (15 297 15 1 15 299 15 300 19 4 4 15 297 14 31 77 15 301 19 4 4 15 297 14 33 14 34 14 31 15 301 15 35 15 302 19 7 37 29) #1# #2# 25882) #Y(si::bytecodes nil nil (15 297 15 1 15 303 15 304 19 4 4 15 297 77 15 305 15 306 1 311 12 19 5 76 29) #1# #2# 26290) #Y(si::bytecodes nil nil (15 312 15 1 15 313 15 314 19 4 4 15 312 14 31 77 15 315 19 4 4 15 312 14 33 14 34 14 31 15 315 15 35 15 316 19 7 37 29) #1# #2# 26523) #Y(si::bytecodes nil nil (15 312 15 1 15 317 15 318 19 4 4 15 312 77 15 319 15 320 1 333 12 19 5 76 29) #1# #2# 26907) #Y(si::bytecodes nil nil (15 334 15 1 15 335 15 336 19 4 4 15 334 14 31 77 15 337 19 4 4 15 334 14 33 14 34 14 31 15 337 15 35 15 338 19 7 37 29) #1# #2# 27183) #Y(si::bytecodes nil nil (15 334 15 1 15 339 15 340 19 4 4 15 334 77 15 341 15 342 1 358 12 19 5 76 29) #1# #2# 27659) #Y(si::bytecodes nil nil (15 359 15 1 15 360 15 361 19 4 4 15 359 14 31 77 15 362 19 4 4 15 359 14 33 14 34 14 31 15 362 15 35 15 363 19 7 37 29) #1# #2# 28306) #Y(si::bytecodes nil nil (15 359 15 1 15 364 15 365 19 4 4 15 359 77 15 366 15 367 1 374 12 19 5 76 29) #1# #2# 28883) #Y(si::bytecodes nil nil (15 375 15 1 15 376 15 377 19 4 4 15 375 77 15 378 15 379 15 380 15 381 15 382 15 383 15 384 15 385 15 386 14 20 1 387 12 1 388 7 3 6 10 12 77 19 4 27 29) #1# #2# 29124) #Y(si::bytecodes nil nil (15 332 15 1 15 389 15 390 19 4 4 15 332 14 31 77 15 391 19 4 4 15 332 14 33 14 34 14 31 15 391 15 35 15 392 19 7 37 29) #1# #2# 30141) #Y(si::bytecodes nil nil (15 332 15 1 15 393 15 394 19 4 4 15 332 77 15 395 15 396 1 414 12 19 5 76 29) #1# #2# 30516) #Y(si::bytecodes nil nil (15 398 15 1 15 415 15 416 19 4 4 15 398 14 31 77 15 417 19 4 4 15 398 14 33 14 34 14 31 15 417 15 35 15 418 19 7 37 29) #1# #2# 31135) #Y(si::bytecodes nil nil (15 398 15 1 15 419 15 420 19 4 4 15 398 77 15 421 15 422 1 423 12 19 5 76 29) #1# #2# 31282) #Y(si::bytecodes nil nil (15 400 15 1 15 424 15 425 19 4 4 15 400 14 31 77 15 426 19 4 4 15 400 14 33 14 34 14 31 15 426 15 35 15 427 19 7 37 29) #1# #2# 31358) #Y(si::bytecodes nil nil (15 400 15 1 15 428 15 429 19 4 4 15 400 77 15 430 15 431 1 436 12 19 5 76 29) #1# #2# 31892) #Y(si::bytecodes nil nil (15 310 15 1 15 437 15 438 19 4 4 15 310 14 31 77 15 439 19 4 4 15 310 14 33 14 34 14 31 15 439 15 35 15 440 19 7 37 29) #1# #2# 32343) #Y(si::bytecodes nil nil (15 310 15 1 15 441 15 442 19 4 4 15 310 77 15 443 15 444 1 461 12 19 5 76 29) #1# #2# 32866) #Y(si::bytecodes nil nil (15 445 15 1 15 462 15 463 19 4 4 15 445 77 15 464 15 465 1 466 12 19 5 76 29) #1# #2# 33699) #Y(si::bytecodes nil nil (15 467 15 1 15 468 15 469 19 4 4 15 467 14 31 77 15 470 19 4 4 15 467 14 33 14 34 14 31 15 470 15 35 15 471 19 7 37 29) #1# #2# 33789) #Y(si::bytecodes nil nil (15 467 15 1 15 472 15 473 19 4 4 15 467 77 15 474 15 475 1 476 12 19 5 76 29) #1# #2# 34110) #Y(si::bytecodes nil nil (15 456 15 1 15 477 15 478 19 4 4 15 456 14 31 77 15 479 19 4 4 15 456 14 33 14 34 14 31 15 479 15 35 15 480 19 7 37 29) #1# #2# 34252) #Y(si::bytecodes nil nil (15 456 15 1 15 481 15 482 19 4 4 15 456 77 15 483 15 484 1 487 12 14 35 15 488 19 7 76 29) #1# #2# 34572) #Y(si::bytecodes nil nil (15 460 15 1 15 489 15 490 19 4 4 15 460 14 31 77 15 491 19 4 4 15 460 14 33 14 34 14 31 15 491 15 35 15 492 19 7 37 29) #1# #2# 34791) #Y(si::bytecodes nil nil (15 460 15 1 15 493 15 494 19 4 4 15 460 77 15 495 15 496 1 499 12 19 5 76 29) #1# #2# 35048) #Y(si::bytecodes nil nil (15 452 15 1 15 500 15 501 19 4 4 15 452 14 31 77 15 502 19 4 4 15 452 14 33 14 34 14 31 15 502 15 35 15 503 19 7 37 29) #1# #2# 35516) #Y(si::bytecodes nil nil (15 452 15 1 15 504 15 505 19 4 4 15 452 77 15 506 15 507 1 510 12 19 5 76 29) #1# #2# 35664) #Y(si::bytecodes nil nil (15 459 15 1 15 511 15 512 19 4 4 15 459 14 31 77 15 513 19 4 4 15 459 14 33 14 34 14 31 15 513 15 35 15 514 19 7 37 29) #1# #2# 35791) #Y(si::bytecodes nil nil (15 459 15 1 15 515 15 516 19 4 4 15 459 77 15 517 15 518 1 520 12 19 5 76 29) #1# #2# 35949) #Y(si::bytecodes nil nil (15 435 15 1 15 521 15 522 19 4 4 15 435 14 31 77 15 523 19 4 4 15 435 14 33 14 34 14 31 15 523 15 35 15 524 19 7 37 29) #1# #2# 36080) #Y(si::bytecodes nil nil (15 435 15 1 15 525 15 526 19 4 4 15 435 77 15 527 15 528 1 532 12 19 5 76 29) #1# #2# 36221) #Y(si::bytecodes nil nil (15 533 15 1 15 534 15 535 19 4 4 15 533 14 31 77 15 536 19 4 4 15 533 14 33 14 34 14 31 15 536 15 35 15 537 19 7 37 29) #1# #2# 36385) #Y(si::bytecodes nil nil (15 533 15 1 15 538 15 539 19 4 4 15 533 77 15 540 15 541 1 544 12 19 5 76 29) #1# #2# 36532) #Y(si::bytecodes nil nil (15 433 15 1 15 545 15 546 19 4 4 15 433 14 31 77 15 547 19 4 4 15 433 14 33 14 34 14 31 15 547 15 35 15 548 19 7 37 29) #1# #2# 36625) #Y(si::bytecodes nil nil (15 433 15 1 15 549 15 550 19 4 4 15 433 77 15 551 15 552 1 559 12 19 5 76 29) #1# #2# 36756) #Y(si::bytecodes nil nil (15 560 15 1 15 561 15 562 19 4 4 15 560 14 31 77 15 563 19 4 4 15 560 1 588 12 14 34 9 3 19 4 589 15 560 15 590 15 591 19 3 592 1 560 73 29) #1# #2# 37056) #Y(si::bytecodes nil nil (15 584 15 1 15 593 15 594 19 4 4 15 584 14 31 77 15 595 19 4 4 15 584 1 602 12 19 2 589 15 584 15 590 15 603 19 3 592 1 584 73 29) #1# #2# 37887) #Y(si::bytecodes nil nil (15 571 15 1 15 604 15 605 19 4 4 15 571 14 31 77 15 606 19 4 4 15 571 1 614 12 19 2 589 15 571 15 590 15 615 19 3 592 1 571 73 29) #1# #2# 38111) #Y(si::bytecodes nil nil (15 587 15 1 15 616 15 617 19 4 4 15 587 14 31 77 15 618 19 4 4 15 587 1 619 12 19 2 589 15 587 15 590 15 620 19 3 592 1 587 73 29) #1# #2# 38489) #Y(si::bytecodes nil nil (15 621 15 1 15 622 15 623 19 4 4 15 621 15 624 15 625 77 19 4 27 29) #1# #2# 38847) #Y(si::bytecodes nil nil (15 125 15 1 15 626 15 627 19 4 4 15 125 15 628 15 629 15 630 1 634 12 19 5 76 29) #1# #2# 39990) #Y(si::bytecodes nil nil (15 635 15 1 15 636 15 637 19 4 4 15 635 77 15 638 15 639 1 649 12 19 5 76 29) #1# #2# 40086) #Y(si::bytecodes nil nil (15 650 15 1 15 651 15 652 19 4 4 15 650 77 15 653 15 654 1 660 12 19 5 76 29) #1# #2# 40822) #Y(si::bytecodes nil nil (15 661 15 1 15 662 15 663 19 4 4 15 661 14 31 77 15 664 19 4 4 15 661 1 670 12 19 2 589 1 661 73 29) #1# #2# 41033) #Y(si::bytecodes nil nil (15 671 15 661 15 672 19 3 673 29) #1# #2# 41727) #Y(si::bytecodes nil nil (1 674 16 675 29) #1# #2# 41896))
+                                                                                                                                                                                                                                                                                                                                                                                                                          ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Mike Byrne & Dan Bothell
+;;; Address     : Rice University, MS-25
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;; 
+;;; Copyright   : (c)1998-2003 Mike Byrne
+;;; Availability: Covered by the GNU LGPL, see LICENSE.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : general-pm.lisp
+;;; Version     : 6.0
+;;; 
+;;; Description : Base class for the perceptual-motor modules.
+;;; 
+;;; Bugs        : 
+;;; 
+;;; Todo        : [X] Strip out waiting-for-proc-p stuff?
+;;;             : [ ] Replace the object based style mechanism with something 
+;;;             :     that can be used remotely.  Perhaps a remote style which
+;;;             :     specifies the commands and "instance" like modules.
+;;; 
+;;; ----- History -----
+;;; 01.07.27 mdb
+;;;             : Started 5.0 conversion. 
+;;; 02.01.21 mdb
+;;;             : Removed obsolete PROC-S function, renamed slot value function
+;;;             : to be PROC-S.  Added INITIAITON-COMPLETE call.
+;;; 2002.05.07 mdb [b6]
+;;;             : Processor wasn't being set to BUSY while preparation was
+;;;             : ongoing, which made Bad Things (tm) happen.  Fixed.
+;;; 2002.06.05 mdb
+;;;             : Added step-hook call in RUN-MODULE to support the environment.
+;;; 2002.06.27 mdb [b7]
+;;;             : Moved CHECK-SPECS here and made it print an actual informative
+;;;             : warning message.  Wild.
+;;; 2003.01.21 mdb [2.1.1]
+;;;             : Updated the DM state a smidge less often.
+;;; 2003.02.06 mdb
+;;;             : Added a VERSION-STRING slot to the base module so each one 
+;;;             : can track version numbers separately, in anticipation of 
+;;;             : some more separate handling under ACT-R 6.0.
+;;; 2003.04.30 mdb [2.1.2]
+;;;             : Fixed bug in prepare-only motor movements not leaving
+;;;             : processor free.
+;;;
+;;; 2004.10.20 Dan [First pass at moving things to ACT-R 6]
+;;;             : Changed name to general-pm and reset version to 1.0a1
+;;;             : Placed it in with the support code
+;;;             :   modules that use it should have this call in them:
+;;;             :   (require-compiled "GENERAL-PM" "ACT-R6:support;general-pm")
+;;;             : Flagged my changes with comments starting with DAN
+;;;             :
+;;;             : Removed:
+;;;             :   run-module    
+;;;             :   new-message
+;;;             :   pm-install-module
+;;;             :   update-dm-state
+;;;             :   print-input-queue
+;;;             :   silent-events
+;;;             :
+;;;             : update-module gets called a little differently and if
+;;;             :   possible I'd prefer to remove it.
+;;;             :
+;;;             : Renamed reset-module to reset-pm-module
+;;;             :
+;;;             : Put the spec class and methods in here
+;;;             :
+;;;             : Did not adjust the class definition though some things are
+;;;             :  no longer necessary
+;;; 2005.01.07 mdb 
+;;;             : * Changed the class def to remove some obsolete stuff.
+;;;             : * Added GENERIC-STATE-QUERY method.
+;;;
+;;; 2005.01.09 Dan
+;;;             : Moved the provide to the end.
+;;; 2005.01.12 Dan
+;;;             : * Added the old-time and new-time parameters to update-module
+;;;             :   which breaks backward compatibility but makes things 
+;;;             :   cleaner for moving the device into a module.
+;;;             : * Put the state case into the generic-state-query method
+;;; 2005.04.23 Dan
+;;;             : * Removed the stuffed slot from the attn-module class.
+;;;             : * Added the print-module-status method for displaying the
+;;;             :   query data for a module - a lot like print-module-state.
+;;; 2005.05.11 Dan
+;;;             : * Added the output parameter to queue-command so that I
+;;;             :   can control the detail level for generated events.
+;;;             :   Really, queue-command should be phased out, but for now
+;;;             :   it's easier to just keep it around...
+;;; 2005.07.22 Dan
+;;;             : * Added the last-command reporting to the print-module-status
+;;;             :   and the check to generic-query
+;;;             : * Added the pm-module-request after method to make sure that
+;;;             :   the last-cmd slot gets set for all modules.
+;;; 2005.07.25 Dan
+;;;             : * Changed the reset method so that last-command starts at none
+;;;             :   which is the same as the value it gets on a clear.
+;;; 2005.08.10 Dan
+;;;             : * Minor clean-up to declare ignored parameters in update-
+;;;             :   module method (can that go away yet?).
+;;;             : * Also added an ignore to queue-command for sent-by-act.
+;;;             : * Updated version to 1.0.
+;;; 2006.12.18 Dan
+;;;             : * Took modality out of the print-module-status method.
+;;; 2007.01.08 Dan
+;;;             : * Took the ~% off the end of the jammed warning.
+;;; 2007.05.24 Dan
+;;;             : * Took the source-activation slot out of the attn-module class.
+;;;             : * Removed the unnecessary partially-clear-attended method stuff.
+;;; 2007.02.04 Dan
+;;;             : * Adjusted preparation-complete so that it only clears the 
+;;;             :   processor state if the previous movement initiation has
+;;;             :   passed.  Doesn't occur in many situations, but when the
+;;;             :   prepare reqeusts are made it can lead to some unexpected
+;;;             :   free states of the module's processor.
+;;; 2010.02.15 Dan
+;;;             : * Took the :allocation class out of several slots of the
+;;;             :   pm-module class because that could interfere with changing
+;;;             :   things when running multiple models.
+;;; 2011.04.26 Dan
+;;;             : * Removed calls to pm-output and pm-warning, but left them
+;;;             :   in since the old vision code in extras uses pm-output and
+;;;             :   a bunch of the PM modules still use pm-warning.
+;;;             : * Changed the preparation check and init-stamp to use mp-time-ms.
+;;; 2011.05.17 Dan
+;;;             : * Removed all usage of queue-command.
+;;; 2014.04.25 Dan
+;;;             : * Finally handling the todo that's been there since ACT-R/PM
+;;;             :   with ACT-R 4.0 - remove the waiting-for-proc-p stuff.
+;;;             : * Removed a lot of unused methods.
+;;;             : * Removed some old comments and other minor cleanup while I'm
+;;;             :   here.
+;;; 2014.05.16 Dan [3.0]
+;;;             : * Start of the conversion to deal with type-less chunks.
+;;;             : * Setting the "last-command" for a pm-module checks whether 
+;;;             :   it's "isa clear" or has a slot named cmd to get the value.
+;;;             :   If that fails then it calls the pm-module-last-cmd-name
+;;;             :   method for the module with the buffer and chunk-spec.
+;;;             : * Removed the spec class and corresponding methods since 
+;;;             :   audio was the only thing that used it and that's going to
+;;;             :   a chunk-based search now.
+;;; 2014.05.30 Dan
+;;;             : * Added the test-for-clear-request function which can be used
+;;;             :   by the modules to test for "isa clear" or "cmd clear" requests
+;;;             :   based on the default type clear.
+;;; 2014.11.07 Dan
+;;;             : * Added a safety check to test-for-clear-request, now verify that
+;;;             :   the modifier is always =, and cleaned up the logic in how it's
+;;;             :   tested a little bit.
+;;; 2015.03.16 Dan
+;;;             : * Fixed a bug with preparation-complete introduced with the
+;;;             :   2007.02.24 fix.  If a prepare was the first action the model
+;;;             :   performed then (thus a negative init-stamp) it would leave
+;;;             :   the processor busy until some other action cleared it.
+;;; 2015.04.21 Dan
+;;;             : * Attention modules have a new slot: unstuff-loc.  Which is
+;;;             :   to be used as a flag for clearing a stuffed buffer after
+;;;             :   some time has passed (value of the slot if not t which
+;;;             :   indicates some module specific default).
+;;;             : * And there's a method check-unstuff-buffer which can be 
+;;;             :   scheduled for an attention module that will check if the
+;;;             :   chunk in the buffer is an unmodified copy of the one which
+;;;             :   was stuffed, or if that chunk no longer exists, just an 
+;;;             :   unmodified stuffed chunk, and if that's true then it will
+;;;             :   clear the buffer.
+;;; 2015.06.05 Dan
+;;;             : * Explicitly convert times for scheduled events to ms.
+;;; 2015.07.28 Dan
+;;;             : * Removed the *act-r-6.0-compatibility* hack.
+;;; 2015.07.29 Dan
+;;;             : * Split check-unstuff-buffer into two methods: check-unstuff-buffer
+;;;             :   and unstuff-buffer.  The first is now used as a precondition
+;;;             :   in an event and the other schedules the erase action.
+;;;             : * Added the overstuff-loc slot to the attention module class.
+;;;             : * Added an unstuff-event slot to the attention module class.
+;;; 2015.08.13 Dan
+;;;             : * Changed rand-time calls to randomize-time.
+;;; 2015.09.16 Dan [4.0]
+;;;             : * The clear method now calls complete-all-module-requests for
+;;;             :   the module after it changes the state back.
+;;;             : * The clear method now actually uses the feat-prep-time of the
+;;;             :   specific module to schedule the change.
+;;; 2015.09.21 Dan
+;;;             : * Adding a prepare-spec slot to the pm-module class to use
+;;;             :   for storing the spec for later completion since the prepare
+;;;             :   method isn't passed the spec itself.
+;;;             : * Added the request-spec slot to the movement-style class.
+;;;             : * Prepare stores the request in the request-spec slot of the
+;;;             :   style from the prepare-spec slot of the module.
+;;;             : * Preparation-complete method completes the request if it is
+;;;             :   not set to execute now i.e. it was just a prepare.
+;;;             : * Finish-movement method now also requires the movement-style,
+;;;             :   and it calls complete-spec on the request-spec of that style.
+;;;             : * Defstyle automatically adds a request-spec keyword param as
+;;;             :   one of the method keys.
+;;;             : * Execute method now requires the request spec to be able to
+;;;             :   complete it.
+;;; 2015.09.23 Dan
+;;;             : * The defstyle method for movements now completes the request
+;;;             :   in the event that it is jammed.
+;;; 2017.01.05 Dan
+;;;             : * Removed the input-q slot since nothing uses that now.
+;;; 2017.08.09 Dan
+;;;             : * Have print-module-status return the string instead of directly
+;;;             :   outputting the data.
+;;;             : * Removed reset-pm-module and clear methods on the attn-module
+;;;             :   class because those slots need to be protected and don't want
+;;;             :   to have to deal with recursive locking issues.
+;;;             : * Also eliminating the set/clear-attended methods for same
+;;;             :   reason.
+;;; 2017.08.10 Dan
+;;;             : * Fixed a bug in how check-unstuff-buffer works because it
+;;;             :   should always require that the chunk was 'stuffed' to avoid
+;;;             :   clearing a chunk a requested chunk that matches the last
+;;;             :   one stuffed.
+;;; 2018.01.26 Dan
+;;;             : * Changed the print-module-status function to omit the extra newline.
+;;; 2018.06.01 Dan [5.0]
+;;;             : * Adding locks to protect the internal states and the
+;;;             :   the preparation-spec.
+;;;             : * Allow a clear request to happen regardless of the preparation
+;;;             :   state so that it can be used to cancel requests.
+;;;             : * Removed print-module-state since it's unused.
+;;;             : * Moved the param-lock here since some general commands need
+;;;             :   it for computing times.
+;;; 2018.06.08 Dan
+;;;             : * Added a remote test-for-clear-request and allow it to take
+;;;             :   a chunk-spec id in addition to a chunk-spec.
+;;; 2018.07.26 Dan [5.1]
+;;;             : * Don't worry about request tracking.
+;;; 2019.05.22 Dan
+;;;             : * The unstuff-buffer function should clear the unstuff-event
+;;;             :   slot of the module as should resetting the module.
+;;; 2020.03.20 Dan [6.0]
+;;;             : * A clear request now also clears the processor state because
+;;;             :   previously it could get stuck busy if there was a pending
+;;;             :   action that was still waiting on execution.
+;;;             : * Hand positions have been abstracted to a separate struct
+;;;             :   and the hand now holds two such structures.  One is where
+;;;             :   the hand is currently and the other is where it will be for
+;;;             :   the purposes of computing the next set of features.  That's
+;;;             :   necessary because it may need to compute the next set of
+;;;             :   features before the current action has occurred and it can't
+;;;             :   set the position at the end of feature computation because
+;;;             :   that would be a problem for an action that hasn't yet 
+;;;             :   occurred.
+;;;             : * Added an updated-pos slot to the movement-style class and 
+;;;             :   added the new method prepare-features which gets called when
+;;;             :   the request is processed.  That method should set the 
+;;;             :   updated-pos slot of the movement to a hand-pos struct if
+;;;             :   there will be a change in the hand and/or finger positions
+;;;             :   at execution time.  Then in queue-output-events it should
+;;;             :   schedule a set-hand-position action with the updated-pos to
+;;;             :   move the hand (don't need to recompute it).
+;;;             : * Movement styles now have a request-time slot that gets set
+;;;             :   when instantiated which is used in the preparation complete,
+;;;             :   initiation complete, and finish movement events so that it's
+;;;             :   easy to figure out what's what when overlapping requests
+;;;             :   happen.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Perceptual/motor Modules base class
+;;;; ---------------------------------------------------------------------- ;;;;
+
+;;; PM-MODULE      [Class]
+;;; Date        : 97.01.15, delta 2003.02.06
+;;; Description : Base class for the various modules, includes input
+;;;             : queue and basic state information.
+
+(defclass pm-module ()
+  ((modality-state :accessor mode-s :initform 'FREE :initarg :modality)
+   (processor-state :accessor proc-s :initform 'FREE :initarg :processor)
+   (preparation-state :accessor prep-s :initform 'FREE :initarg :preparation)
+   (execution-state :accessor exec-s :initform 'FREE :initarg :execution)
+   (state-change-flag :accessor state-change :initarg :state-change :initform nil)
+   (module-name :accessor my-name :initarg :name :initform nil)
+   (last-command :accessor last-cmd :initform nil :initarg :last-command)
+   (last-prep :accessor last-prep :initarg :last-prep :initform nil)
+   (exec-queue :accessor exec-queue :initarg :exec-queue :initform nil)
+   (feature-prep-time :accessor feat-prep-time  :initarg :feat-prep-time :initform 0.050)
+   (movement-initiation-time :accessor init-time :initarg :init-time :initform 0.050)
+   (init-stamp :accessor init-stamp :initarg :init-stamp :initform -0.1)
+   (burst-time :accessor burst-time :initarg :burst-time :initform 0.050)
+   (version-string :accessor version-string :initarg :version-string :initform "")
+   (prepare-spec :accessor prepare-spec :initform "")
+   (state-lock :accessor state-lock :initform (bt:make-recursive-lock "state-lock"))
+   (prep-spec-lock :accessor prep-spec-lock :initform (bt:make-lock "prep-spec"))
+   (param-lock :accessor param-lock :initform (bt:make-recursive-lock "pm-param-lock"))))
+
+
+
+;;; CHANGE-STATE      [Method]
+;;; Date        : 97.02.10
+;;; Description : Change one or more of a module's state flags.
+
+(defgeneric change-state (module &key proc exec prep last)
+  (:documentation  "Change one or more of a module's state flags."))
+
+(defmethod change-state ((module pm-module) &key proc exec prep last)
+  (bt:with-recursive-lock-held ((state-lock module))
+    (when proc (setf (proc-s module) proc))
+    (when exec (setf (exec-s module) exec))
+    (when prep (setf (prep-s module) prep))
+    (when last (setf (last-cmd module) last))
+    (if (or (eq (proc-s module) 'busy) (eq (exec-s module) 'busy)
+            (eq (prep-s module) 'busy))
+        (setf (mode-s module) 'busy)
+      (setf (mode-s module) 'free))
+ 
+    (setf (state-change module) t)))
+
+
+;;; CLEAR      [Method]
+;;; Date        : 97.03.03
+;;; Description : Clears a module's state, takes one feature prep time.
+
+#| CLEAR is already a generic function in MCL.
+(defgeneric clear (module)
+  (:documentation  "Clears a PM module."))
+|#
+
+(defmethod clear ((module pm-module))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (bt:with-recursive-lock-held ((param-lock module))
+      ; Don't care about current state so that it can cancel
+      ; an ongoing action.
+      ; (when (not (check-jam module))
+      
+      (change-state module :prep 'busy)
+      (schedule-event-relative (feat-prep-time module) 'change-state :destination (my-name module) :module (my-name module) :params '(:last none :prep free :proc free))
+      (setf (last-prep module) nil)
+      (setf (exec-queue module) nil)
+      (setf (init-stamp module) -0.1))))
+
+
+;;; CHECK-JAM      [Method]
+;;; Date        : 97.02.18
+;;; Description : Modules can't take certain types of commands if they are
+;;;             : already busy, and this checks the preparation state of a
+;;;             : module for just this problem. 
+
+(defgeneric check-jam (module)
+  (:documentation "Returns NIL if the PM module is free, otherwise prints an error message and returns T."))
+
+(defmethod check-jam ((module pm-module))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (when (eq (prep-s module) 'busy)
+      (model-warning "Module ~S jammed at time ~S" (my-name module) (mp-time))
+      t)))
+
+
+;;; RESET-PM-MODULE      [Method]
+;;; Date        : 97.02.18
+;;; Description : When a module needs to be reset, that means both that all
+;;;             : state indicators should be set to FREE and the input queue
+;;;             : should be cleared.
+
+(defgeneric reset-pm-module (module)
+  (:documentation "Resets a PM module to base state:  all flags free, empty input queue."))
+
+(defmethod reset-pm-module ((module pm-module))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (setf (proc-s module) 'free)
+    (setf (exec-s module) 'free)
+    (setf (prep-s module) 'free)
+    (setf (mode-s module) 'free)
+    (setf (last-cmd module) 'none)
+  
+    (setf (last-prep module) nil)
+    (setf (exec-queue module) nil)
+    (setf (init-stamp module) -0.1)))
+
+
+(defgeneric pm-module-last-cmd-name (module buffer-name chunk-spec)
+  (:documentation "Determine the name of the last command when it's not 'isa clear' and doesn't have a cmd slot."))
+
+(defmethod pm-module-last-cmd-name ((module pm-module) buffer-name chunk-spec)
+  (declare (ignorable module buffer-name chunk-spec)))
+
+(defgeneric pm-module-request (module buffer-name chunk-spec)
+  (:documentation "Handles a request from a buffer."))
+
+;;; This after method is used to make sure that all commands
+;;; processed record the command in the module.
+
+(defmethod pm-module-request :after ((module pm-module) buffer-name chunk-spec)
+  (let ((last-cmd (or (let ((spec (chunk-spec-slot-spec chunk-spec)))
+                        (and (= (length spec) 1)
+                             (eq 'clear (spec-slot-name (first spec)))
+                             (spec-slot-value (first spec))
+                             'clear))
+                      (let ((spec (chunk-spec-slot-spec chunk-spec 'cmd)))
+                        (and (= (length spec) 1)
+                             (spec-slot-value (first spec))))
+                      (pm-module-last-cmd-name module buffer-name chunk-spec))))
+    
+    (when (and last-cmd (not (eql (last-cmd module) last-cmd)))
+      (change-state module :last last-cmd))))
+
+
+;;; PRINT-MODULE-STATUS 
+
+(defgeneric print-module-status (module)
+  (:documentation "Prints the module's state in query form"))
+
+(defmethod print-module-status ((mod pm-module))
+  (bt:with-recursive-lock-held ((state-lock mod))
+    (concatenate 'string
+      (format nil "  preparation free      : ~S~%"
+        (eq (prep-s mod) 'free))
+      (format nil "  preparation busy      : ~S~%"
+        (eq (prep-s mod) 'busy))
+      (format nil "  processor free        : ~S~%"
+        (eq (proc-s mod) 'free))
+      (format nil "  processor busy        : ~S~%"
+        (eq (proc-s mod) 'busy))
+      (format nil "  execution free        : ~S~%"
+        (eq (exec-s mod) 'free))
+      (format nil "  execution busy        : ~S~%"
+        (eq (exec-s mod) 'busy))
+      (format nil "  last-command          : ~S"
+        (last-cmd mod)))))
+
+
+(defgeneric check-state (module &key modality preparation 
+                                   execution processor last-command)
+  (:documentation "Does a quick test of the state of a PM module, returning T iff all the specified states match."))
+
+
+(defmethod check-state ((mod pm-module) &key modality preparation 
+                          execution processor last-command)
+  (bt:with-recursive-lock-held ((state-lock mod))
+    (cond ((and modality (not (eq modality (mode-s mod)))) nil)
+          ((and preparation (not (eq preparation (prep-s mod)))) nil)
+          ((and execution (not (eq execution (exec-s mod)))) nil)
+          ((and processor (not (eq processor (proc-s mod)))) nil)
+          ((and last-command (not (eq last-command (last-cmd mod)))) nil)
+          (t t))))
+
+
+(defgeneric generic-state-query (module buffer slot value)
+  (:documentation "Handles BUSY/FREE tests on STATE, MODALITY, EXECUTION, PREPARATION and PROCESSOR."))
+
+(defmethod generic-state-query ((module pm-module) buffer slot value)
+  (bt:with-recursive-lock-held ((state-lock module))
+    (case slot
+      ((state modality)
+       (case value
+         (busy
+          (eq (mode-s module) 'busy))
+         (free
+          (eq (mode-s module) 'free))
+         (t (model-warning 
+             "Invalid query made of the ~S buffer with slot ~S and value ~S" 
+             buffer slot value))))
+      (execution
+       (case value
+         (busy
+          (eq (exec-s module) 'busy))
+         (free
+          (eq (exec-s module) 'free))
+         (t (model-warning "Invalid query made of the ~S buffer with slot ~S and value ~S" 
+                           buffer slot value))))
+      (preparation
+       (case value
+         (busy
+          (eq (prep-s module) 'busy))
+         (free
+          (eq (prep-s module) 'free))
+         (t (model-warning "Invalid query made of the ~S buffer with slot ~S and value ~S" 
+                           buffer slot value))))
+      (processor
+       (case value
+         (busy
+          (eq (proc-s module) 'busy))
+         (free
+          (eq (proc-s module) 'free))
+         (t (model-warning "Invalid query made of the ~S buffer with slot ~S and value ~S" 
+                           buffer slot value))))
+      (last-command 
+       (eql (last-cmd module) value)))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; preparation and execution stuff
+
+;;; Update-prepared
+;;;
+;;; Set the location for next preparation purposes
+;;; now, but don't update the actual location.
+
+(defgeneric update-prepared (module)
+  (:documentation "Method called when execution is planned for an action to update the location."))
+
+(defmethod update-prepared ((module pm-module))
+  )
+
+
+;;; PREPARATION-COMPLETE      [Method]
+;;; Date        : 98.07.22
+;;; Description : When movement preparation completes: change the prep
+;;;             : state, check to see if the movement just prepared wants
+;;;             : to execute right away, and then possibly execute a 
+;;;             : movement.
+
+(defgeneric preparation-complete (module)
+  (:documentation "Method to be called when movement preparation is complete."))
+
+(defmethod preparation-complete ((module pm-module))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (change-state module :prep 'free)
+    (when (last-prep module)
+      (if (exec-immediate-p (last-prep module))
+          (progn
+            (setf (exec-queue module)
+              (append (exec-queue module) (mklist (last-prep module))))
+            (when (updated-pos (last-prep module))
+              (update-prepared module)))
+        (bt:with-recursive-lock-held ((param-lock module))
+          (when (or (minusp (init-stamp module))
+                    (and (plusp (init-stamp module))
+                         (>= (mp-time-ms) (+ (init-stamp module) (seconds->ms (init-time module))))))
+            (change-state module :proc 'FREE)))))
+    (maybe-execute-movement module)))
+
+
+
+;;; MAYBE-EXECUTE-MOVEMENT      [Method]
+;;; Date        : 98.07.22
+;;; Description : If there is a movement queued and the motor state is FREE,
+;;;             : then execute the movment.  Also, free the processor state
+;;;             : with an event if necessary.
+
+(defgeneric maybe-execute-movement (module)
+  (:documentation "If there are any movements in <module>'s execution queue, execute one."))
+
+(defmethod maybe-execute-movement ((module pm-module))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (when (and (exec-queue module) (eq (exec-s module) 'FREE))
+      (perform-movement module (pop (exec-queue module))))))
+
+
+;;; PREPARE      [Method]
+;;; Date        : 98.08.21
+;;; Description : Build a movement style instance via APPLY, set it to not
+;;;             : automatically execute itself, and prepare it.
+
+(defgeneric prepare (module &rest params)
+  (:documentation "Prepare a movement to be executed, but don't execute it. The first of <params> should be the name of a movement style class."))
+
+(defmethod prepare ((module pm-module) &rest params)
+  (let ((inst (apply #'make-instance params)))
+    (setf (exec-immediate-p inst) nil)
+    (setf (request-spec inst) (bt:with-lock-held ((prep-spec-lock module)) (prepare-spec module)))
+    (prepare-movement module inst)))
+
+
+;;; EXECUTE      [Method]
+;;; Date        : 98.08.21
+;;; Description : Executing the previously prepared command requires
+;;;             : [1] A previously-prepared command, and
+;;;             : [2] No command currently being prepared.
+;;;             : If those are OK, put the current style instance in the
+;;;             : execution queue and go for it.
+
+(defgeneric execute (module request)
+  (:documentation "Tells <module> to execute the last movement prepared."))
+
+(defmethod execute ((module pm-module) request)
+  (bt:with-recursive-lock-held ((state-lock module))
+    (cond ((not (last-prep module))
+           (model-warning "Motor Module has no movement to EXECUTE."))
+          ((eq (prep-s module) 'BUSY)
+           (model-warning "Motor Module cannot EXECUTE features being prepared."))
+          (t
+           (setf (request-spec (last-prep module)) request)
+           (setf (exec-queue module)
+             (append (exec-queue module) (mklist (last-prep module))))
+           (when (updated-pos (last-prep module))
+             (update-prepared module))
+           (maybe-execute-movement module)))))
+
+
+;;; PM-PREPARE-MOTOR-MTH      [Method]
+;;; Date        : 98.09.24
+;;; Description : If RPM is to begin a run with features already prepared,
+;;;             : this is the method to do it.  Create a movement instance,
+;;;             : kill the exec-immediate, and set the last prepared movement
+;;;             : to the created movement.
+
+(defgeneric pm-prepare-mvmt-mth (module params)
+  (:documentation "Create the movement specified in <params>, which should begin with the name of a movement style, and consider it prepared. To be called only at model initialization."))
+
+(defmethod pm-prepare-mvmt-mth ((module pm-module) params)
+  (let ((inst (apply #'make-instance params)))
+    (setf (exec-immediate-p inst) nil)
+    (bt:with-recursive-lock-held ((state-lock module))
+      (setf (last-prep module) inst))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; MOVEMENT-STYLE class and methods
+;;;; ---------------------------------------------------------------------- ;;;;
+
+(defclass movement-style ()
+  ((fprep-time :accessor fprep-time :initform nil :initarg :fprep-time)
+   (exec-time :accessor exec-time :initform nil :initarg :exec-time)
+   (finish-time :accessor finish-time :initform nil :initarg :finish-time)
+   (exec-immediate-p :accessor exec-immediate-p :initform t
+                     :initarg :exec-immediate-p)
+   (num-features :accessor num-features :initform nil
+                 :initarg :num-features)
+   (style-name :accessor style-name :initarg :style-name :initform nil)
+   (feature-slots :accessor feature-slots :initarg :feature-slots 
+                  :initform nil)
+   (request-spec :accessor request-spec :initarg :request-spec :initform nil)
+   (updated-pos :accessor updated-pos :initform nil)
+   (request-time :accessor request-time :initform (mp-time))))
+
+
+;;; PREPARE-MOVEMENT      [Method]
+;;; Date        : 98.07.22
+;;; Description : Change the prep state, compute the feature prep time,
+;;;             : note that we're the last feature the MM has prepared,
+;;;             : and queue the preparation complete event.
+
+(defgeneric prepare-movement (module movement)
+  (:documentation "Tell <module> to prepare <movement>."))
+
+(defmethod prepare-movement ((module pm-module) (mvmt movement-style))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (change-state module :prep 'BUSY :proc 'BUSY)
+    (prepare-features module mvmt)
+    (setf (fprep-time mvmt) 
+      (randomize-time (compute-prep-time module mvmt)))
+    (setf (last-prep module) mvmt))
+  (schedule-event-relative (seconds->ms (fprep-time mvmt)) 'preparation-complete :time-in-ms t :destination (my-name module) :module (my-name module)
+                           :details (concatenate 'string (symbol-name 'preparation-complete) " " (princ-to-string (request-time mvmt)))))
+
+
+(defgeneric prepare-features (module movement)
+  (:documentation "Compute the features needed for movement and store position in updated-pos."))
+
+(defmethod prepare-features ((module pm-module) (mvmt movement-style))
+  )
+
+
+;;; COMPUTE-PREP-TIME      [Method]
+;;; Date        : 98.07.22
+;;; Description : Computing the prep time.  If this is a different kind of
+;;;             : movement or a totall new movement, then just return the
+;;;             : number of features times the time per feature.  If the
+;;;             : old movement is similar, compute the differences (a 
+;;;             : method for this must be supplied).
+
+(defgeneric compute-prep-time (module movement)
+  (:documentation "Return the feature preparation time for <movement>."))
+
+(defmethod compute-prep-time ((module pm-module) (mvmt movement-style))
+  (bt:with-recursive-lock-held ((state-lock module))
+    (bt:with-recursive-lock-held ((param-lock module))
+      (if (or (null (last-prep module))
+              (not (eq (style-name mvmt) (style-name (last-prep module)))))
+          (* (feat-prep-time module) (num-to-prepare mvmt))
+        (* (feat-prep-time module)
+           (feat-differences mvmt (last-prep module)))))))
+
+
+;;; PERFORM-MOVEMENT      [Method]
+;;; Date        : 98.07.22
+;;; Description : Performing a movement has several pieces to it.  First,
+;;;             : bookkeeping (exec state and start time).  Next we need
+;;;             : to compute times.  Then, queue the events (movement
+;;;             : specific) that reflect our output, and finally queue
+;;;             : the event indicating completion of the movement.
+
+(defgeneric perform-movement (module movement)
+  (:documentation "Have <module> perform <movement>."))
+
+(defmethod perform-movement ((module pm-module) (mvmt movement-style))
+  (bt:with-recursive-lock-held ((param-lock module))
+    (schedule-event-relative (seconds->ms (init-time module)) 'initiation-complete 
+                             :time-in-ms t :destination (my-name module) :module (my-name module)
+                             :details (concatenate 'string (symbol-name 'initiation-complete) " " 
+                                       (princ-to-string (request-time mvmt)))))
+  
+  (change-state module :proc 'BUSY :exec 'BUSY)
+  
+  (bt:with-recursive-lock-held ((state-lock module))
+    (setf (init-stamp module) (mp-time-ms)))
+  
+  (setf (exec-time mvmt) (compute-exec-time module mvmt))
+  (setf (finish-time mvmt) (compute-finish-time module mvmt))
+  (queue-output-events module mvmt)
+  (queue-finish-event module mvmt))
+
+(defmethod initiation-complete ((module pm-module))
+  (change-state module :proc 'FREE))
+
+
+;;; FINISH-MOVEMENT      [Method]
+;;; Date        : 98.07.22
+;;; Description : When a movement completes, FREE the execution state, and
+;;;             : check to see if there were any movements queued.
+
+(defgeneric finish-movement (module mvmt)
+  (:documentation "Method called when a movement finishes completely."))
+
+(defmethod finish-movement ((module pm-module) (mvmt movement-style))
+  (change-state module :exec 'free)
+  (maybe-execute-movement module))
+
+
+;;; COMPUTE-FINISH-TIME      [Method]
+;;; Date        : 98.07.22
+;;; Description : Default finish time is simply execution time plus the
+;;;             : burst time--some styles will need to override this.
+
+(defgeneric compute-finish-time (module movement)
+  (:documentation "Return the finish time of <movement>."))
+
+(defmethod compute-finish-time ((module pm-module) (mvmt movement-style))
+  "Return the finish time of the movement."
+  (bt:with-recursive-lock-held ((param-lock module))
+    (+ (burst-time module) (exec-time mvmt))))
+
+
+;;; QUEUE-FINISH-EVENT      [Method]
+;;; Date        : 98.07.22
+;;; Description : Queue the event that frees the exec of the MM.
+
+(defgeneric queue-finish-event (module movement)
+  (:documentation "Queue the FINISH-MOVEMENT associated with <movement>."))
+
+(defmethod queue-finish-event ((module pm-module) (mvmt movement-style))
+  (schedule-event-relative (seconds->ms (finish-time mvmt)) 'finish-movement 
+                           :time-in-ms t :destination (my-name module) 
+                           :params (list mvmt) :module (my-name module)
+                           :details (concatenate 'string (symbol-name 'finish-movement) " " 
+                                      (princ-to-string (request-time mvmt)))))
+
+
+;;; Stubs that require overrides.
+
+(defgeneric compute-exec-time (module movement)
+  (:documentation "Return the execution time of <movement>."))
+
+(defmethod compute-exec-time ((module pm-module) (mvmt movement-style))
+  (error "No method defined for COMPUTE-EXEC-TIME."))
+
+
+(defgeneric queue-output-events (module movement)
+  (:documentation "Queue the events--not including the FINISH-MOVEMENT--that <movement> will generate."))
+
+(defmethod queue-output-events ((module pm-module) (mvmt movement-style))
+  (error "No method defined for QUEUE-OUTPUT-EVENTS."))
+
+
+(defgeneric feat-differences (movement1 movement2)
+  (:documentation "Return the number of different features that need to be prepared."))
+
+(defmethod feat-differences ((move1 movement-style) (move2 movement-style))
+  ;(declare (ignore move1 move2))
+  (error "No method defined for FEAT-DIFFERENCES."))
+
+
+
+
+(defgeneric num-possible-feats (movement)
+  (:documentation "Return the maximum number of features that could possibly need to be prepared."))
+
+(defmethod num-possible-feats ((mvmt movement-style))
+  (1+ (length (feature-slots mvmt))))
+
+
+(defgeneric num-to-prepare (movement)
+  (:documentation "Return the number of features actually needed to prepare <movement>."))
+
+(defmethod num-to-prepare ((mvmt movement-style))
+  (1+ (length (remove :DUMMY
+                      (remove nil
+                              (mapcar #'(lambda (name)
+                                          (slot-value mvmt name))
+                                      (feature-slots mvmt)))))))
+
+
+
+(defmacro defstyle (name base-class &rest params)
+  "Macro that defines new motor movement styles.  Pass in the name and the base 
+   class [if NIL is passed, it will default to MOVEMENT-STYLE] and the base 
+   parameters.  This will create a class and a method for any PM Module for the 
+   class."
+  `(progn
+     (defclass ,name (,(if (not base-class) 'movement-style base-class))
+       ,(build-accessors params)
+       (:default-initargs
+         :style-name ,(sym->key name)
+         :feature-slots ',params))
+     (defmethod ,name ((module pm-module) &key ,@params request-spec)
+       (unless (or (check-jam module) (check-specs ',name ,@params))
+         (prepare-movement module
+                           (make-instance ',name :request-spec request-spec
+                             ,@(build-initializer params)))))))
+
+(defun check-specs (name &rest specs)
+  "If there is an invalid specification, return something, else NIL"
+  (when (member nil specs)
+    (model-warning "NIL specification passed to a PM command ~S: ~S" name specs)
+    t))
+
+;;; BUILD-ACCESSORS      [Function]
+;;; Date        : 98.11.02
+;;; Description : Helper function for DEFSTYLE.
+
+(defun build-accessors (params)
+  "From a list of parameters, a list of slot definitions."
+  (let ((accum nil))
+    (dolist (param params (nreverse accum))
+      (push (list param :accessor param :initarg (sym->key param)
+                  :initform nil) accum))))
+
+
+;;; BUILD-INITIALIZER      [Function]
+;;; Date        : 98.11.02
+;;; Description : Helper function for DEFSTYLE.
+
+(defun build-initializer (params)
+  "From a list of parameters, build a list for the make-instance initializer."
+  (let ((accum nil))
+    (dolist (param params (nreverse accum))
+      (push (sym->key param) accum)
+      (push param accum))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Attentional modules
+;;;; ---------------------------------------------------------------------- ;;;;
+
+;;; ATTN-MODULE      [Class]
+;;; Date        : 00.06.09
+;;; Description : Class for modules that have attentional capability.
+;;;             : CURRENTLY-ATTENDED hold the focus object
+;;;             : object gets
+;;;             : CURRENT-MARKER denotes the location/event currently attended
+
+(defclass attn-module (pm-module)
+  ((currently-attended :accessor currently-attended 
+                       :initarg :currently-attended :initform nil)
+   (current-marker :accessor current-marker :initarg :current-marker 
+                   :initform nil)
+   
+   ;; mdb moved from vision module definition 2005.01.07
+   (loc-failure :accessor loc-failure :initform nil)
+   (attend-failure :accessor attend-failure :initform nil)
+   
+   ;; modules can "unstuff" perceptual info if needed
+   (unstuff-loc :accessor unstuff-loc :initform nil)
+   (unstuff-event :accessor unstuff-event :initform nil)
+   (overstuff-loc :accessor overstuff-loc :initform nil)))
+
+
+(defmethod reset-pm-module :after ((module attn-module))
+  (setf (unstuff-event module) nil))
+
+
+(defmethod check-unstuff-buffer ((module attn-module) buffer chunk)
+  (let ((current (buffer-read buffer)))
+    (and
+     current
+     (query-buffer buffer '(buffer unrequested))
+     (multiple-value-bind (copy was-copy) (chunk-copied-from-fct current)
+       (declare (ignore copy))
+       (or ;; the copy of the chunk is still in the buffer unchanged
+        ;; regardless of whether the original has changed
+        
+        (eq was-copy chunk)
+        
+        ;; the original is no longer a chunk (deleted or purged)
+        ;; so all that can be tested is whether the chunk in the 
+        ;; buffer was copied from some chunk and hasn't been changed
+        
+        (and (null (chunk-p-fct chunk))
+             was-copy))))))
+
+(defmethod unstuff-buffer ((module attn-module) buffer chunk)
+  (declare (ignore chunk))
+  (setf (unstuff-event module) nil)
+  (schedule-event-now 'erase-buffer :params (list buffer) :module (my-name module)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Detect the clear requests.
+
+(defun test-for-clear-request (spec)
+  (if (act-r-chunk-spec-p spec)
+      (let ((main-spec (chunk-spec-slot-spec spec)))
+        (and (= (length main-spec) 1)
+             (eq '= (spec-slot-op (first main-spec)))
+             (or (and 
+                  (eq (spec-slot-name (first main-spec)) 'clear)
+                  (spec-slot-value (first main-spec)))
+                 (and
+                  (eq (spec-slot-name (first main-spec)) 'cmd)
+                  (eq (spec-slot-value (first main-spec)) 'clear)))))
+    (awhen (id-to-chunk-spec spec)
+           (test-for-clear-request it))))
+
+(add-act-r-command "test-for-clear-request" 'test-for-clear-request "Determine if a chunk-spec represents the clear request used by many modules. Params: chunk-spec.")
+    
+(provide "GENERAL-PM")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 14 5 77 15 6 19 4 4 15 0 1 23 12 19 2 24 1 0 73 29) #1=#A(t (54) (common-lisp-user::goal-style-query ext::location (defun common-lisp-user::goal-style-query) (#2=#P"/opt/actr/actr7.x/support/goal-style-module.lisp" . 0) ext::annotate :lambda-list (common-lisp-user::instance common-lisp-user::buffer-name common-lisp-user::slot common-lisp-user::value) common-lisp-user::instance common-lisp-user::buffer-name common-lisp-user::slot common-lisp-user::value common-lisp-user::state eq common-lisp-user::busy common-lisp-user::free t error "print-warning" "~@?" "Unknown query state ~s to ~s buffer" format common-lisp-user::evaluate-act-r-command "Unknown query ~s ~s to the ~s buffer" #Y(common-lisp-user::goal-style-query nil nil (24 45 7 24 45 8 24 45 9 24 45 10 26 13 1 1 11 17 12 39 47 10 0 42 13 5 75 73 38 36 42 14 6 11 15 73 38 28 42 16 5 75 73 38 21 15 17 77 15 18 15 19 13 0 13 2 19 5 20 12 19 2 21 75 73 38 23 15 17 77 15 18 15 22 13 1 13 0 13 2 19 6 20 12 19 2 21 75 73 29) #1# #2# 0) si::fset common-lisp-user::goal-style-request (defun common-lisp-user::goal-style-request) (#2# . 10591) (common-lisp-user::instance common-lisp-user::buffer-name common-lisp-user::chunk-spec &optional (common-lisp-user::delay 0) (common-lisp-user::priority -1000)) common-lisp-user::chunk-spec common-lisp-user::delay common-lisp-user::priority common-lisp-user::chunk-spec-to-chunk-def :module :priority common-lisp-user::schedule-set-buffer-chunk "Invalid request made of the ~a buffer." #Y(common-lisp-user::goal-style-request nil nil (24 45 7 24 45 8 24 45 29 25 40 3 9 0 46 30 25 40 3 9 -1000 46 31 26 13 2 19 1 32 39 20 13 3 13 2 13 1 14 33 13 3 14 34 13 0 19 7 35 38 19 15 17 77 15 18 15 36 13 3 19 4 20 12 19 2 21 75 73 29) #1# #2# 10591) common-lisp-user::clean-up-goal-chunk (defun common-lisp-user::clean-up-goal-chunk) (#2# . 10972) (common-lisp-user::name) common-lisp-user::name common-lisp-user::purge-chunk-fct #Y(common-lisp-user::clean-up-goal-chunk nil nil (24 45 42 26 13 0 19 1 43 29) #1# #2# 10972) common-lisp-user::goal-style-mod-request (defun common-lisp-user::goal-style-mod-request) (#2# . 11034) (common-lisp-user::instance common-lisp-user::buffer common-lisp-user::chunk-spec &optional (common-lisp-user::delay 0) (common-lisp-user::priority 20)) common-lisp-user::buffer common-lisp-user::schedule-mod-buffer-chunk #Y(common-lisp-user::goal-style-mod-request nil nil (24 45 7 24 45 49 24 45 29 25 40 3 9 0 46 30 25 40 3 9 20 46 31 26 13 3 13 2 13 1 14 33 13 3 14 34 13 0 19 7 50 29) #1# #2# 11034) "GOAL-STYLE-MODULE" provide)) #2# 0) #Y(si::bytecodes nil nil (15 25 15 1 15 26 15 27 19 4 4 15 25 14 5 77 15 28 19 4 4 15 25 1 37 12 19 2 24 1 25 73 29) #1# #2# 10591) #Y(si::bytecodes nil nil (15 38 15 1 15 39 15 40 19 4 4 15 38 14 5 77 15 41 19 4 4 15 38 1 44 12 19 2 24 1 38 73 29) #1# #2# 10972) #Y(si::bytecodes nil nil (15 45 15 1 15 46 15 47 19 4 4 15 45 14 5 77 15 48 19 4 4 15 45 1 51 12 19 2 24 1 45 73 29) #1# #2# 11034) #Y(si::bytecodes nil nil (1 52 16 53 29) #1# #2# 11248))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : goal-style-module.lisp
+;;; Version     : 3.0
+;;; 
+;;; Description : Functions that allow one to easily create a module that
+;;;             : acts like the basic ACT-R goal module/buffer.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.10.26 Dan
+;;;             : Initial creation.
+;;;
+;;; 2004.12.13 Dan
+;;;             : Added the optional delay to the goal-style-request.
+;;;             : Made sure line lengths were max 80 chars.
+;;; 2005.01.09 Dan
+;;;            : Moved the provide to the end.
+;;; 2005.01.17 Dan
+;;;            : * Removed the call to format in the scheduling.
+;;; 2005.04.23 Dan
+;;;            : * Updated the query function because it doesn't need to
+;;;            :   respond to "buffer stuffed" anymore.
+;;; 2005.08.10 Dan
+;;;            : * Updated the query function to specify the ignored params.
+;;;            : * Updated the version to 1.0.
+;;; 2006.10.23 Dan
+;;;            : * Changed the temp goal chunk "clean up" so that it's now
+;;;            :   done with a maintenance event and it also uses the release-name
+;;;            :   command to kill the symbol name in addition to the chunk struct.
+;;; 2007.06.18 Dan
+;;;            : * Removed chunk-spec-to-chunk-def because it's now an official
+;;;            :   command and was moved to the chunk-spec file.
+;;; 2008.09.19 Dan
+;;;            : * Added the goal-style-mod-request function here and gave it
+;;;            :   an optional delay time too.
+;;; 2010.12.08 Dan
+;;;            : * Added a priority to the goal-style-mod-request as an additional
+;;;            :   optional parameter because the modification needs to take place
+;;;            :   prior to the buffer being cleared (whether explicitly or implicitly).
+;;;            :   The default priority is now 20 (since the clearing is 10).
+;;; 2013.04.10 Dan
+;;;            : * Changed the goal-style-mod-request action so that it can also
+;;;            :   extend the chunk-type if there are new slots in a dynamic request.
+;;; 2014.03.20 Dan [2.0]
+;;;            : * Update to work with the typeless chunks.
+;;;            : * Make the query function a little more careful and actually test
+;;;            :   that the slot is state otherwise print a warning.
+;;;            : * The mod-request doesn't need to extend the chunk now since that
+;;;            :   will already have happened at the time of the chunk-spec creation.
+;;; 2015.07.28 Dan
+;;;            : * Changed the logical to ACT-R-support in the require-compiled examples.
+;;; 2015.12.17 Dan
+;;;            : * Changed the priority of the clean-up-goal-chunk event scheduled
+;;;            :   by create-new-buffer-chunk to always be :min since that will
+;;;            :   guarantee it happens after and doesn't throw an error for an
+;;;            :   attempt to subtract from a value of :min or :max.
+;;; 2017.12.06 Dan
+;;;            : * Clean-up-goal-chunk can just use purge-chunk since it does
+;;;            :   the delete and release in one call.
+;;; 2020.08.26 Dan
+;;;             : * Removed the path for require-compiled in the examples since 
+;;;             :   it's not needed and results in warnings in SBCL.
+;;; 2021.06.04 Dan [3.0]
+;;;             : * Don't need to create a temp chunk and schedule an event to
+;;;             :   delete that now since the spec can be sent directly to 
+;;;             :   set-buffer-chunk, and remove create-new-buffer-chunk.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; With these functions one can create a new module whos buffer acts like
+;;; the basic goal module/buffer i.e. the module responds to requests by 
+;;; creating a new chunk and placing it into the buffer and responds to modification
+;;; requests by modifying the chunk in the buffer.
+;;; 
+;;; Request:
+;;;
+;;; A request must be a unique specification of a chunk: no variables are allowed,
+;;; only the = modifier, and each slot may be specified at most once.
+;;;
+;;; The new chunk is placed into the buffer at the same time as the request by,
+;;; default, but one can provide a delay on the time it takes to put the
+;;; chunk into the buffer by having the module provide its own request function 
+;;; that calls the goal-style-request function with the optional delay parameter.
+;;;
+;;; Modification request:
+;;;
+;;; A modification request must be a valid buffer modification specification:
+;;; no variables, only the = modifier, and each slot specified at most once.
+;;;
+;;; The chunk in the buffer has the specified modifications made to it at the 
+;;; same time as the modification request by default, but one can provide a 
+;;; delay on the time it takes to put the chunk into the buffer by having the
+;;; module provide its own modification-request function that calls the 
+;;; goal-style-mod-request function with the optional delay parameter.
+;;;
+;;; It only responds to the required queries - state {busy, free, error}.
+;;;
+;;; State free will always return t.
+;;; State busy will always return nil.
+;;; State error will always return nil.
+;;;
+;;;
+;;; To create a basic goal style module, just place a file into the modules 
+;;; directory that contains the following (where <...> is replaced
+;;; with the value described within it):
+#|
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(require-compiled "GOAL-STYLE-MODULE")
+
+(define-module <the name of your module here>
+  (<the name of your buffer here which must be the same as the module name>)
+  nil
+  :version "Something about the version of your module"
+  :documentation "Something about the details of your module"
+  :query goal-style-query
+  :request goal-style-request
+  :buffer-mod goal-style-mod-request)
+
+|#
+
+;;; If one wants a delay on the time it takes to put the chunk into the
+;;; buffer then the code would look like this (assuming a fixed delay 
+;;; time was desired).
+
+;;; Note this shows the use of define-module-fct instead of the macro
+;;; for comparison to the previous one.  Either version can be used.
+#|
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(require-compiled "GOAL-STYLE-MODULE")
+
+(defun my-goal-style-request (instance buffer-name chunk-spec)
+  (goal-style-request instance buffer-name chunk-spec <delay time>))
+
+(defun my-goal-style-mod-request (instance buffer-name chunk-spec)
+  (goal-style-mod-request instance buffer-name chunk-spec <delay time>))
+
+
+(define-module-fct '<the name of your module here>
+  '(<the name of your buffer here which must be the same as the module name>)
+  nil
+  :version "Something about the version of your module"
+  :documentation "Something about the details of your module"
+  :query 'goal-style-query
+  :request 'my-goal-style-request
+  :buffer-mod 'my-goal-style-mod-request)
+
+|#
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;  (defun goal-style-query (instance buffer-name slot value)
+;;;
+;;;  This can be used as the query function for a module that will respond to
+;;;  the required queries in a static manner.  It will respond as follows:
+;;;
+;;;    State free will always return t.
+;;;    State busy will always return nil.
+;;;    State error will always return nil.
+;;;
+;;;  It ignores the instance and if a slot other than state is specified or a value
+;;;  other than free, busy, or error is given then it prints a warning and returns nil.
+;;;
+;;;
+;;;  (defun goal-style-request (instance buffer-name chunk-spec &optional (delay 0) (priority -1000)))
+;;;
+;;;  This can be used as the request function of a module to allow it to
+;;;  operate like the goal module i.e. create new chunks in response to a
+;;;  request.  The instance is not used and it is assumed that the module
+;;;  has the same name as the buffer.  
+;;;  The delay and priority are used to schedule the create-new-buffer-chunk 
+;;;  action.  The default priority is lower than any production action to
+;;;  ensure that all of the production actions at least "start" before 
+;;;  the event to create the new chunk happens.
+;;;
+;;;
+;;;  (defun goal-style-mod-request (instance buffer chunk-spec &optional (delay 0) (priority 20))
+;;;  
+;;;  This can be used as a modification request function of a module to allow
+;;;  it to handle modification requests like the goal module does - perform
+;;;  an immediate modification of the chunk in the buffer.  It assumes that
+;;;  the module and buffer have the same name and the instance of the module
+;;;  is ignored.
+;;;  The delay and priority are used to schedule a mod-buffer-chunk 
+;;;  action.  The default priority is higher than a production's clearing action
+;;;  priority (10) to ensure that all of the modification is made before a
+;;;  -<buffer> action in the production clears it. 
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;;   
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defun goal-style-query (instance buffer-name slot value)
+  (declare (ignore instance))
+  ;; don't care about the buffer name and only care about slot state
+  (if (eq slot 'state)
+    (case value
+      (busy nil)
+      (free t)
+      (error nil)
+      (t 
+       (print-warning "Unknown query state ~s to ~s buffer" value buffer-name)))
+    (print-warning "Unknown query ~s ~s to the ~s buffer" slot value buffer-name)))
+
+(defun goal-style-request (instance buffer-name chunk-spec &optional (delay 0) (priority -1000))
+  (declare (ignore instance))
+  (if (chunk-spec-to-chunk-def chunk-spec)
+      (schedule-set-buffer-chunk buffer-name chunk-spec delay
+                                 :module buffer-name :priority priority)
+    (print-warning "Invalid request made of the ~a buffer." buffer-name)))
+
+
+(defun clean-up-goal-chunk (name)
+  (purge-chunk-fct name))
+
+
+(defun goal-style-mod-request (instance buffer chunk-spec &optional (delay 0) (priority 20))
+  (declare (ignore instance))
+  (schedule-mod-buffer-chunk buffer chunk-spec delay :module buffer :priority priority))
+
+(provide "GOAL-STYLE-MODULE")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                               ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2014 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : hirschberg-diff-calculation.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Compute optimal alignment between two sequences using the
+;;;             : Hirschberg algorithm.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : [-] Really optimize things by not using subseq and instead
+;;;             :     just pass around indexes for the sequences.
+;;; 
+;;; ----- History -----
+;;; 2014.06.05 Dan [1.0]
+;;;             : * Initial creation.
+;;; 2014.06.06 Dan
+;;;             : * Tried an indexes only version, but it didn't seem to be
+;;;             :   much different.  I'm guessing that the compilers cheat with
+;;;             :   subseq and don't copy for non-modification uses.  So, I've
+;;;             :   left it with the subseq calls since it's easier to read.
+;;;             : * Coerce the results into string, list, or array based on
+;;;             :   the general types of the initial params.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Compute the alignment between two sequences using the Hirschberg algorithm:
+;;;
+;;;  Hirschberg, D. S. (1975). "A linear space algorithm for computing maximal common 
+;;;   subsequences". Communications of the ACM 18 (6): 341-343.
+;;; 
+;;; Based on the pseudocode from the Wikipedia page:
+;;;
+;;; <http://en.wikipedia.org/wiki/Hirschberg%27s_algorithm>
+;;;
+;;; as of 2014.06.05.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; hirschberg (x y &key (strip-ends t) (type 'character) (missing #\-) (key 'identity) 
+;;;                      (test 'eql) (ins -2) (del -2) (sub= 2) (sub!= -1) (coerce t)
+;;;
+;;; Align the sequences x and y and return two values.  Those values are vectors
+;;; of the same length.  The first is a vector of elements from x along with 
+;;; instances of the 'missing' element and the second is elements from y along 
+;;; with instances of the 'missing' element.  The two vectors indicate the 
+;;; best alignment of the sequences given the cost values for 'ins'erting
+;;; an item, 'del'eting an item, matching an item (sub=), and transforming
+;;; two items (sub!=).  It assumes that sub= > sub!= > [ins, del] in creating
+;;; the alignment.
+;;; 
+;;; Type should specify the type of the elements of the sequences x and y.
+;;; Missing should be a value of that type to be used for marking the points
+;;;   where one sequence has an item the other doesn't.
+;;; Key should be a function requiring one parameter.  It will be used to transform
+;;;   an element from a sequence into a value to be tested.
+;;; Test should be a function requiring two parameters.  It will be passed results
+;;;   of the key function applied to elements of the sequences for comparing them
+;;;   i.e. this test is performed to determine if an item from position i in 
+;;;   sequence x matches the item at position j in sequence y:
+;;;    (funcall test (funcall key (elt x i)) (funcall key (elt y j)))
+;;; Strip-ends determines whether the beginning and end of the sequences should
+;;;   first be tested for equality.  If true then it assumes that the best
+;;;   alignment occurs when all the elements at the beginning of the sequences
+;;;   which match are aligned and that all of the elements which match at the
+;;;   ends of the sequence are aligned.  This can save a lot of time on large
+;;;   sequences which have some overlap at either end.
+;;; Coerce determines whether or not the resulting sequences are coerced to be
+;;;   of the same general types as the respective input values.  If true then
+;;;   the results will be coerced into one of string, list, or array based on
+;;;   the input values.  If nil then the results will always be vectors.  The
+;;;   default value is true.
+;;;   
+;;; If either x or y isn't a sequence then it returns nil.  It doesn't catch any
+;;; other errors in the parameters.
+;;;
+;;; Here're some example results using the example sequences from the Wikipedia page:
+;;; 
+;;; > (hirschberg "AGTACGCA" "TATGC")
+;;; "AGTACGCA"
+;;; "--TATGC-"
+;;; > (hirschberg (list #\A #\G #\T #\A #\C #\G #\C #\A) "TATGC")
+;;; (#\A #\G #\T #\A #\C #\G #\C #\A)
+;;; "--TATGC-"
+;;; > (hirschberg "AGTACGCA" "TATGC" :coerce nil)
+;;; #(#\A #\G #\T #\A #\C #\G #\C #\A)
+;;; #(#\- #\- #\T #\A #\T #\G #\C #\-)
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (proclaim '(optimize (speed 3) (safety 1) (space 1) (debug 0))))
+
+(defun nwscore (x y &key key test ins del sub= sub!=)
+  (let* ((m (length x))
+         (n (length y))
+         (current)
+         (previous (make-array (list (1+ n)) :element-type 'fixnum :initial-element 0)))
+    
+    (dotimes (j n)
+      (setf (aref previous (1+ j)) (+ (aref previous j) ins)))
+    
+    (dotimes (i m)
+      (setf current (make-array (list (1+ n)) :element-type 'fixnum))
+      (dotimes (j (1+ n))
+        (let ((result (cond ((zerop j)
+                             (+ (aref previous 0) del))
+                            (t
+                             (max
+                              (+ (aref previous j) del)
+                              (+ (aref current (1- j)) ins)
+                              (+ (aref previous (1- j))
+                                 (if (funcall test (funcall key (elt x i)) (funcall key (elt y (1- j))))
+                                     sub= sub!=)))))))
+          (setf (aref current j) result)))
+      (setf previous current))
+    current))
+
+(defun partitiony (v1 v2)
+  (let ((best nil)
+        (index nil)
+        (len (length v1)))
+    (dotimes (i (length v1) index)
+      (let ((sum (+ (elt v1 i) (elt v2 (- len i 1)))))
+        (when (or (null best) (> sum best))
+          (setf best sum
+            index i))))))
+
+(defun hirschberg (x y &key (strip-ends t) (type 'character) (missing #\-) (key 'identity) (test 'eql) (ins -2) (del -2) (sub= 2) (sub!= -1) (coerce t))
+  (if (and (subtypep (type-of x) 'sequence)
+           (subtypep (type-of y) 'sequence))
+      (multiple-value-bind (z w)
+          (if strip-ends
+              (let* ((first-mismatch (do ((i 0 (1+ i)))
+                                         ((or (= i (length x)) 
+                                              (= i (length y)) 
+                                              (not (funcall test (funcall key (elt x i)) (funcall key (elt y i))))) i)))
+                     (end-match-count (do ((r (1- (length x)))
+                                           (o (1- (length y)))
+                                           (i 0 (1+ i)))
+                                          ((or (= i (- (length x) first-mismatch)) 
+                                               (= i (- (length y) first-mismatch)) 
+                                               (not (funcall test (funcall key (elt x (- r i))) (funcall key (elt y (- o i)))))) i))))
+                (if (= first-mismatch (length x) (length y))
+                    (values x y)
+                  (let ((start (subseq x 0 first-mismatch))
+                        (end (subseq x (- (length x) end-match-count))))
+                    (multiple-value-bind (z w)
+                        (hirschberg-rec (subseq x first-mismatch (- (length x) end-match-count))
+                                        (subseq y first-mismatch (- (length y) end-match-count))
+                                        :missing missing :type type :key key :test test :ins ins :del del :sub= sub= :sub!= sub!=)
+                      (values (concatenate 'vector start z end) (concatenate 'vector start w end))))))
+            (hirschberg-rec x y :missing missing :type type :key key :test test :ins ins :del del :sub= sub= :sub!= sub!=))
+        (if coerce
+            (values (coerce z (cond ((stringp x) 'string) ((listp x) 'list) (t 'array)))
+                    (coerce w (cond ((stringp y) 'string) ((listp y) 'list) (t 'array))))
+          (values z w)))
+    nil))
+  
+  
+(defun hirschberg-rec (x y &key type missing key test ins del sub= sub!=)
+  (let (z w)
+    (cond ((zerop (length x))
+           (setf z (make-array (length y) :initial-element missing :element-type type)
+             w y)) 
+          ((zerop (length y))
+           (setf w (make-array (length x) :initial-element missing :element-type type)
+             z x)) 
+          ((= 1 (length x))
+           (let ((pos (position (funcall key (elt x 0)) y :test test :key key)))
+             (setf w y
+               z (make-array (length y) :initial-element missing :element-type type))
+             (if pos
+                 (setf (elt z pos) (elt x 0))
+               (setf (elt z 0) (elt x 0)))))
+          ((= 1 (length y))
+           (let ((pos (position (funcall key (elt y 0)) x :test test :key key)))
+             (setf z x
+               w (make-array (length x) :initial-element missing :element-type type))
+             (if pos
+                 (setf (elt w pos) (elt y 0))
+               (setf (elt w 0) (elt y 0)))))
+          (t
+           (let* ((mid (floor (length x) 2))
+                  (xl (subseq x 0 mid))
+                  (xr (subseq x mid))
+                  (scorel (nwscore xl y :key key :test test :ins ins :del del :sub= sub= :sub!= sub!=))
+                  (scorer (nwscore (reverse xr) (reverse y) :key key :test test :ins ins :del del :sub= sub= :sub!= sub!=))
+                  (ymid (partitiony scorel scorer)))
+             (multiple-value-bind (zl wl)
+                 (hirschberg-rec xl (subseq y 0 ymid) :missing missing :type type :key key :test test :ins ins :del del :sub= sub= :sub!= sub!=)
+               (multiple-value-bind (zr wr)
+                   (hirschberg-rec xr (subseq y ymid) :missing missing :type type :key key :test test :ins ins :del del :sub= sub= :sub!= sub!=)
+                 (setf z (concatenate 'vector zl zr))
+                 (setf w (concatenate 'vector wl wr)))))))
+    (values z w)))
+
+(provide "HIRSCHBERG")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                       :SINGLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         (#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (857) ((ftype (function (t t) t) common-lisp-user::add-buffer-trace-notes) proclaim common-lisp-user::buffer-name->variable ext::location (defun common-lisp-user::buffer-name->variable) (#2=#P"/opt/actr/actr7.x/support/production-parsing.lisp" . 19912) ext::annotate :lambda-list (common-lisp-user::name) common-lisp-user::name string "=" symbol-name concatenate intern #Y(common-lisp-user::buffer-name->variable nil nil (24 45 9 26 15 10 15 11 10 0 16 12 12 19 3 13 12 19 1 14 29) #1# #2# 19912) si::fset common-lisp-user::safe-chunk-slot-equal (defun common-lisp-user::safe-chunk-slot-equal) (#2# . 20006) (common-lisp-user::c1 common-lisp-user::c2) common-lisp-user::c1 common-lisp-user::c2 common-lisp-user::chunk-slot-equal t #Y(common-lisp-user::safe-chunk-slot-equal nil nil (24 45 21 24 45 22 26 13 1 13 0 19 2 23 73 39 4 11 24 73 29) #1# #2# 20006) common-lisp-user::direct-request-single-item (defun common-lisp-user::direct-request-single-item) (#2# . 20081) (common-lisp-user::target common-lisp-user::definition common-lisp-user::production common-lisp-user::output) common-lisp-user::target common-lisp-user::definition common-lisp-user::production common-lisp-user::output common-lisp-user::production-bindings common-lisp-user::replace-variables common-lisp-user::define-chunk-spec-fct :time-in-ms :module common-lisp-user::procedural :priority :output common-lisp-user::schedule-module-request #Y(common-lisp-user::direct-request-single-item nil nil (24 45 30 24 45 31 24 45 32 24 45 33 26 13 3 13 2 13 1 19 1 34 12 19 2 35 12 19 1 36 12 9 0 14 37 14 24 14 38 15 39 14 40 9 50 14 41 13 0 19 11 42 29) #1# #2# 20081) common-lisp-user::direct-request-with-params (defun common-lisp-user::direct-request-with-params) (#2# . 20536) (common-lisp-user::target common-lisp-user::chunk common-lisp-user::production common-lisp-user::spec common-lisp-user::output) common-lisp-user::chunk common-lisp-user::spec common-lisp-user::chunk-name-to-chunk-spec common-lisp-user::merge-chunk-specs #Y(common-lisp-user::direct-request-with-params nil nil (24 45 30 24 45 48 24 45 32 24 45 49 24 45 33 26 13 4 13 3 13 2 19 1 34 12 19 2 35 12 19 1 50 12 13 1 19 2 51 12 9 0 14 37 14 24 14 38 15 39 14 40 9 50 14 41 13 0 19 11 42 29) #1# #2# 20536) common-lisp-user::create-production (defun common-lisp-user::create-production) (#2# . 21040) (common-lisp-user::prod common-lisp-user::definition) common-lisp-user::prod common-lisp-user::suppress-and-capture-warnings common-lisp-user::error-key :text copy-tree common-lisp-user::make-production common-lisp-user::strings common-lisp-user::unsuppress-warnings common-lisp-user::warn-text "print-warning" "~@?" "No production defined for ~s." common-lisp-user::production-text format common-lisp-user::evaluate-act-r-command si::%dolist-var common-lisp-user::x reverse "--- end of warnings for undefined production ~s ---" common-lisp-user::production-name common-lisp-user::it #Y(common-lisp-user::bad-production-exit nil nil (27 45 63 13 2 14 24 19 2 64 45 65 15 66 77 15 67 15 68 13 2 19 1 69 12 19 4 70 12 19 2 71 10 1 45 72 38 27 10 0 4 45 73 15 66 77 15 67 13 0 19 3 70 12 19 2 71 10 1 5 51 1 43 1 10 0 40 -29 43 1 10 0 16 74 45 72 38 27 10 0 4 45 73 15 66 77 15 67 13 0 19 3 70 12 19 2 71 10 1 5 51 1 43 1 10 0 40 -29 43 1 15 66 77 15 67 15 75 13 2 19 1 76 45 77 10 0 39 6 10 0 73 38 8 13 3 19 1 69 4 73 12 43 1 19 4 70 12 19 2 71 43 1 75 73 36 3 29) #1# #2# 21040) #:g14443 #:g14444 0 error si::temp #Y(nil nil nil (24 45 83 26 10 0 51 2 35 1 0 29) #1# #2# 21040) si::*handler-clusters* symbolp "Production name must be a symbol." #:g14446 #:g14448 #:g14447 si::structure-set stringp #:g14449 #:g14451 #:g14450 common-lisp-user::==> position common-lisp-user::model-buffers common-lisp-user::buffers subseq common-lisp-user::parse-conditions common-lisp-user::pre-lhs :error eq common-lisp-user::sort-for-binding common-lisp-user::lhs 1+ common-lisp-user::parse-actions common-lisp-user::rhs common-lisp-user::searched-buffers #:g14452 #:g14453 #:g14454 #:g14455 #:g14456 common-lisp-user::production-statement-op #\= common-lisp-user::production-statement-target #Y(nil nil nil (24 45 73 26 13 0 19 1 116 12 1 117 17 104 73 39 9 13 0 19 1 118 6 1 73 29) #1# #2# 21040) mapcan #:g14457 #:g14458 #\! #Y(nil nil nil (24 45 73 26 13 0 19 1 116 12 1 123 17 104 76 73 39 9 13 0 19 1 118 6 1 73 29) #1# #2# 21040) remove-duplicates #:g14459 common-lisp-user::production-lhs-buffers common-lisp-user::procedural-buffer-indices assoc #:g14465 #:g14463 #:g14464 common-lisp-user::production-rhs-buffers #:g14471 #:g14469 #:g14470 common-lisp-user::production-statement-spec common-lisp-user::act-r-chunk-spec-variables copy-list common-lisp-user::production-statement-definition common-lisp-user::find-variables #Y(nil nil nil (24 45 73 26 13 0 19 1 137 45 77 10 0 39 10 13 0 19 1 138 16 139 38 10 13 1 19 1 140 12 19 1 141 43 1 29) #1# #2# 21040) common-lisp-user::lhs-variables find #Y(nil nil nil (24 45 73 26 13 0 13 1 19 2 144 29) #1# #2# 21040) #Y(nil nil nil (24 45 73 26 13 0 19 1 137 45 77 10 0 39 10 13 0 19 1 138 16 139 38 10 13 1 19 1 140 12 19 1 141 43 1 29) #1# #2# 21040) remove-if common-lisp-user::rhs-variables eql #Y(nil nil nil (24 45 73 26 13 0 19 1 116 12 1 117 17 149 73 39 13 13 0 19 1 118 12 19 1 2 6 1 73 29) #1# #2# 21040) common-lisp-user::buffer-variables common-lisp-user::slot-variables common-lisp-user::dependencies common-lisp-user::rhs-dependencies common-lisp-user::unbound-vars common-lisp-user::b common-lisp-user::var common-lisp-user::buffer-requires-copies #:g14472 append #:g14473 make-hash-table common-lisp-user::var-table common-lisp-user::search-other common-lisp-user::search-bind search common-lisp-user::implicit common-lisp-user::selection common-lisp-user::binds common-lisp-user::others common-lisp-user::var2s common-lisp-user::vars common-lisp-user::constants common-lisp-user::buffer-name common-lisp-user::buffer-index common-lisp-user::bv common-lisp-user::bi common-lisp-user::bn remove common-lisp-user::searchable-buffer #:g14495 common-lisp-user::production-buffer-full common-lisp-user::buffer-mask logior #:g14496 #:g14499 #:g14497 common-lisp-user::production-buffer-list :key car adjoin #:g14498 si::hash-set :type common-lisp-user::bind-buffer :buffer :bi :value common-lisp-user::make-cr-condition common-lisp-user::buffer-set-chunk common-lisp-user::overwrite-buffer-chunk common-lisp-user::buffer-chunk #:g14507 #:g14508 rplacd #Y(nil nil nil (26 13 2 13 33 19 1 34 12 19 2 129 5 45 200 13 1 13 0 19 2 201 45 202 13 0 10 1 17 104 76 73 39 31 13 4 13 35 19 1 34 12 19 2 129 45 203 10 1 45 204 13 1 10 0 17 205 10 0 73 43 1 43 1 43 2 29) #1# #2# 21040) #:g14506 #:g14504 common-lisp-user::production-conflict-code #:g14505 common-lisp-user::buffer common-lisp-user::c common-lisp-user::act-r-slot-spec-value common-lisp-user::chunk-spec-variable-p common-lisp-user::act-r-slot-spec-name = common-lisp-user::act-r-slot-spec-modifier #Y(nil nil nil (24 45 73 26 13 0 19 1 213 12 19 1 214 39 22 13 0 19 1 215 12 19 1 214 76 39 10 15 216 13 0 19 1 217 17 104 73 39 9 13 0 19 1 213 6 1 73 29) #1# #2# 21040) common-lisp-user::act-r-chunk-spec-slots #Y(nil nil nil (24 45 73 26 13 0 19 1 213 12 19 1 214 39 21 13 0 19 1 215 12 19 1 214 39 10 15 216 13 0 19 1 217 17 149 73 39 16 13 0 19 1 215 12 13 0 19 1 213 3 6 1 73 29) #1# #2# 21040) common-lisp-user::variable-bound-slots common-lisp-user::constant-bound-slots common-lisp-user::act-r-chunk-spec-slot-vars common-lisp-user::act-r-chunk-spec-dependencies common-lisp-user::v gethash common-lisp-user::current common-lisp-user::var-slot common-lisp-user::search-slot common-lisp-user::fixed-slot common-lisp-user::s-v common-lisp-user::bind "indirection not allowed among search buffer slots." #\? common-lisp-user::safe-bind "Because variable ~s is bound more than once on the LHS." common-lisp-user::mv-bind common-lisp-user::bind-vars "Because variable ~s is bound more than once on the LHS." "Because slot-name variable ~s requires more than one level of indirection." "Because slot-name variable ~s is bound in a search buffer match." "Because slot-name variable ~s is bound in an

@@ -1,0 +1,1203 @@
+ 39 48 15 73 34 117 12 13 3 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 11 19 2 72 39 12 13 0 13 13 14 50 15 46 19 4 26 39 48 15 73 34 118 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 10 19 2 72 39 25 13 0 13 16 14 50 15 46 19 4 26 40 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 119 12 13 10 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 9 19 2 72 39 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 120 12 13 9 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 34 121 12 13 4 19 2 51 45 70 38 154 10 0 4 45 85 34 122 12 13 8 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 32 19 2 89 39 81 10 25 39 57 13 2 19 1 88 12 13 32 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 22 13 2 19 1 88 12 13 22 14 50 15 73 19 4 26 12 10 21 3 51 21 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -689 43 1 10 15 73 43 16 38 1276 13 7 15 123 19 2 26 39 8 13 4 15 124 19 2 26 39 960 75 45 28 34 125 12 10 9 4 12 19 2 37 12 19 1 38 45 93 34 126 12 10 10 16 36 12 19 2 37 12 19 1 38 45 95 34 127 12 10 8 4 12 19 2 37 12 19 1 38 45 42 34 128 12 10 9 16 36 12 19 2 37 12 19 1 38 45 45 34 129 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 99 34 130 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 101 34 131 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 55 34 132 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 57 13 7 13 11 19 2 58 45 104 13 7 13 12 19 2 58 45 105 13 7 13 12 19 2 58 45 60 13 7 13 13 19 2 58 45 61 34 133 12 13 3 19 2 107 12 13 2 19 2 23 45 59 13 8 13 7 19 2 23 12 14 108 15 109 19 3 68 45 53 34 134 12 13 1 19 2 65 12 34 135 12 13 3 19 2 65 12 34 136 12 13 2 19 2 65 12 19 3 23 12 19 1 68 45 69 10 0 45 70 38 687 10 0 4 45 71 10 3 40 7 10 10 40 3 10 9 39 492 13 0 13 3 19 2 72 39 8 13 0 13 10 19 2 72 39 84 15 73 34 137 12 13 3 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 138 12 13 12 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 11 19 2 72 39 8 13 0 13 9 19 2 72 39 84 15 73 34 139 12 13 11 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 140 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 3 19 2 72 39 12 13 0 13 14 14 50 15 46 19 4 26 39 48 15 73 34 141 12 13 3 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 11 19 2 72 39 12 13 0 13 13 14 50 15 46 19 4 26 39 48 15 73 34 142 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 10 19 2 72 39 25 13 0 13 16 14 50 15 46 19 4 26 40 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 143 12 13 10 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 9 19 2 72 39 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 144 12 13 9 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 34 145 12 13 4 19 2 51 45 70 38 154 10 0 4 45 85 34 146 12 13 8 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 32 19 2 89 39 81 10 25 39 57 13 2 19 1 88 12 13 32 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 22 13 2 19 1 88 12 13 22 14 50 15 73 19 4 26 12 10 21 3 51 21 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -689 43 1 10 15 73 43 16 38 299 13 7 15 147 19 2 26 39 8 13 4 15 148 19 2 26 39 279 75 45 28 34 149 12 10 9 4 12 19 2 37 12 19 1 38 45 39 34 150 12 10 7 4 12 19 2 37 12 19 1 38 45 42 13 1 13 5 19 2 58 45 59 13 1 13 5 19 2 58 45 60 34 151 12 13 1 19 2 65 12 34 152 12 13 0 19 2 65 12 19 2 153 45 69 10 0 45 70 38 184 10 0 4 45 71 34 154 12 13 4 19 2 51 45 70 38 154 10 0 4 45 85 34 155 12 13 5 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 22 19 2 89 39 81 10 15 39 57 13 2 19 1 88 12 13 22 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 11 3 51 11 38 22 13 2 19 1 88 12 13 12 14 50 15 73 19 4 26 12 10 11 3 51 11 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 11 3 51 11 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 11 3 51 11 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -186 43 1 10 5 73 43 6 38 3 75 73 43 4 29) #1# #2# 0) si::fset function "map references from p1 to p2 for goal style buffer" si::set-documentation common-lisp-user::compose-goal-buffer (defun common-lisp-user::compose-goal-buffer) (#2# . 34752) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::c1 #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 9 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::c2 #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 10 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::a1= #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 11 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::a2= #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 12 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::a1+ #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 13 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::a2+ #Y(nil nil nil (24 45 29 26 15 43 13 0 19 1 31 12 19 2 32 73 39 10 13 14 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::a1* #Y(nil nil nil (24 45 29 26 15 43 13 0 19 1 31 12 19 2 32 73 39 10 13 15 13 0 19 1 33 17 34 29) #1# #2# 34752) common-lisp-user::a2* 4 12 13 44 common-lisp-user::buffer+-union common-lisp-user::it 0 8 common-lisp-user::buffer-condition-union 9 40 common-lisp-user::compilation-module-no-harvest common-lisp-user::buffer=-union #Y(common-lisp-user::compose-goal-buffer nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 165 12 10 4 4 12 19 2 37 45 166 34 167 12 10 2 4 12 19 2 37 45 168 34 169 12 10 6 16 36 12 19 2 37 45 170 34 171 12 10 4 16 36 12 19 2 37 45 172 34 173 12 10 8 16 36 12 19 2 37 45 174 34 175 12 10 6 16 36 12 19 2 37 45 176 34 177 12 10 10 16 36 12 19 2 37 45 178 34 179 12 10 8 16 36 12 19 2 37 45 180 13 14 19 1 17 12 19 1 18 12 13 10 19 1 20 12 19 1 21 12 19 2 23 45 24 10 12 41 181 10 41 182 7 41 183 4 42 184 135 10 8 39 8 10 8 6 1 73 38 3 75 73 12 10 6 40 3 10 2 73 39 17 10 6 39 8 10 6 6 1 73 38 6 10 2 6 1 73 12 10 4 39 3 10 5 39 29 13 4 13 5 13 0 19 3 185 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 50 10 4 39 3 10 1 39 29 13 4 13 1 13 0 19 3 185 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 14 10 4 39 8 10 4 6 1 73 38 3 75 73 12 19 2 23 6 2 73 38 289 41 187 4 42 188 71 13 8 13 7 13 6 13 0 19 4 189 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 12 43 1 10 5 73 39 6 10 5 6 1 73 12 10 1 73 39 6 10 1 6 1 73 12 10 3 73 39 6 10 3 6 1 73 12 19 3 23 6 2 73 38 213 41 190 4 42 191 205 13 8 13 7 10 6 39 6 10 6 73 38 4 10 2 73 12 13 0 19 4 189 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 12 43 1 13 9 9 8 19 2 63 39 20 13 16 13 15 19 1 192 12 19 2 26 76 39 6 10 6 16 36 76 39 5 75 73 38 111 10 2 39 3 10 5 39 29 13 2 13 5 13 0 19 3 193 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 75 10 6 40 3 10 5 39 29 13 6 13 5 13 0 19 3 193 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 39 10 2 40 3 10 1 39 29 13 2 13 1 13 0 19 3 193 45 186 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 3 75 73 12 10 3 73 39 6 10 3 6 1 73 12 19 2 23 6 2 73 38 3 75 73 43 9 29) #1# #2# 34752) common-lisp-user::check-goal-consistency (defun common-lisp-user::check-goal-consistency) (#2# . 39164) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 30 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) common-lisp-user::production-bindings common-lisp-user::check-consistency #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 30 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 43 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) #Y(nil nil nil (24 45 29 26 13 0 19 1 31 12 15 40 19 2 32 73 39 11 13 0 19 1 33 12 10 8 17 34 29) #1# #2# 39164) t #Y(common-lisp-user::check-goal-consistency nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 10 3 41 181 7 41 182 4 42 183 47 13 6 34 199 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 200 12 10 1 4 12 19 2 37 12 13 2 19 1 201 12 19 5 202 38 151 42 184 47 13 6 34 203 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 204 12 10 1 4 12 19 2 37 12 13 2 19 1 201 12 19 5 202 38 102 42 190 47 13 6 34 205 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 206 12 10 1 4 12 19 2 37 12 13 2 19 1 201 12 19 5 202 38 53 42 191 47 13 6 34 207 12 10 4 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 34 208 12 10 1 4 12 19 2 37 12 13 2 19 1 201 12 19 5 202 38 4 11 209 73 29) #1# #2# 39164) common-lisp-user::no-rhs-goal-ref (defun common-lisp-user::no-rhs-goal-ref) (#2# . 42081) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) string "=" symbol-name concatenate intern common-lisp-user::recursive-find #Y(common-lisp-user::no-rhs-goal-ref nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 15 215 15 216 10 7 16 217 12 19 3 218 12 19 1 219 12 10 1 16 36 12 19 2 220 76 73 29) #1# #2# 42081) "Can't compile if the variable naming the buffer is used in the actions of p2" common-lisp-user::no-goal-harvesting (defun common-lisp-user::no-goal-harvesting) (#2# . 42420) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::no-goal-harvesting nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 19 1 192 12 19 2 26 29) #1# #2# 42420) common-lisp-user::no-goal-harvesting-or-null-mod (defun common-lisp-user::no-goal-harvesting-or-null-mod) (#2# . 42614) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 42614) mod #Y(common-lisp-user::no-goal-harvesting-or-null-mod nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 19 1 192 12 19 2 26 73 40 27 34 232 12 10 4 16 36 12 19 2 37 45 233 10 0 73 39 7 10 0 16 36 76 73 43 1 29) #1# #2# 42614) common-lisp-user::g-b-c1 (defun common-lisp-user::g-b-c1) (#2# . 42985) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(common-lisp-user::g-b-c1 nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 211 73 39 20 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 223 29) #1# #2# 42985) common-lisp-user::goal-reason (defun common-lisp-user::goal-reason) (#2# . 43208) (common-lisp-user::p1-index common-lisp-user::p2-index common-lisp-user::failed-function) common-lisp-user::failed-function eql "the buffer variable cannot be used in the actions of the second production if there is a request in the first production." "the buffer is being strict harvested." "either the buffer is being strict harvested or the buffer variable is used in the actions of the second production." "unknown reason ~s" format 2 6 10 11 14 15 42 43 46 47 "the buffer is explicitly cleared in the first production" 16 18 20 22 24 25 26 27 28 29 30 31 56 57 58 60 59 61 62 63 "there are queries of the buffer in the first production" 41 45 "the first production makes both a modification and a modification request" "the buffer is explicitly cleared in the second production" "there are queries of the buffer in the second production" "the second production makes both a modification and a modification request" "both productions make requests" "one production makes a modification and the other makes a modification request" #Y(common-lisp-user::goal-reason nil nil (24 45 11 24 45 14 24 45 244 26 10 0 39 50 13 0 1 211 17 245 39 6 1 246 73 38 35 13 0 1 223 17 245 39 6 1 247 73 38 22 13 0 1 235 17 245 39 6 1 248 73 38 9 77 15 249 13 0 19 3 250 38 249 10 2 41 251 28 41 252 25 41 253 22 41 254 19 41 255 16 41 256 13 41 257 10 41 258 7 41 259 4 42 260 6 1 261 73 38 212 41 262 58 41 263 55 41 264 52 41 265 49 41 266 46 41 267 43 41 268 40 41 269 37 41 270 34 41 271 31 41 272 28 41 273 25 41 274 22 41 275 19 41 276 16 41 277 13 41 278 10 41 279 7 41 280 4 42 281 6 1 282 73 38 147 41 283 4 42 284 6 1 285 73 38 136 10 1 41 251 28 41 252 25 41 253 22 41 254 19 41 255 16 41 256 13 41 257 10 41 258 7 41 259 4 42 260 6 1 286 73 38 99 41 262 58 41 263 55 41 264 52 41 265 49 41 266 46 41 267 43 41 268 40 41 269 37 41 270 34 41 271 31 41 272 28 41 273 25 41 274 22 41 275 19 41 276 16 41 277 13 41 278 10 41 279 7 41 280 4 42 281 6 1 287 73 38 34 41 283 4 42 284 6 1 288 73 38 23 10 2 41 181 10 41 182 7 41 183 4 42 184 6 1 289 73 38 4 1 290 73 29) #1# #2# 43208) common-lisp-user::goal ((44 40 common-lisp-user::no-rhs-goal-ref) (44 9 common-lisp-user::no-rhs-goal-ref) (44 8 common-lisp-user::g-b-c1) (44 0 t) (40 44 t) (40 40 t) (40 13 t) (40 12 t) (40 9 t) (40 8 common-lisp-user::no-goal-harvesting) (40 4 t) (40 0 t) (13 40 common-lisp-user::no-rhs-goal-ref) (13 9 common-lisp-user::no-rhs-goal-ref) (13 8 common-lisp-user::g-b-c1) (13 0 t) (12 40 common-lisp-user::no-rhs-goal-ref) (12 9 common-lisp-user::no-rhs-goal-ref) (12 8 common-lisp-user::g-b-c1) (12 0 t) (9 13 t) (9 12 t) (9 9 t) (9 8 common-lisp-user::no-goal-harvesting-or-null-mod) (9 4 t) (9 0 t) (8 44 common-lisp-user::no-goal-harvesting) (8 40 common-lisp-user::no-goal-harvesting) (8 13 common-lisp-user::no-goal-harvesting) (8 12 common-lisp-user::no-goal-harvesting) (8 9 common-lisp-user::no-goal-harvesting) (8 8 common-lisp-user::no-goal-harvesting) (8 4 t) (8 0 t) (4 40 common-lisp-user::no-rhs-goal-ref) (4 9 common-lisp-user::no-rhs-goal-ref) (4 8 common-lisp-user::g-b-c1) (4 0 t) (0 44 t) (0 40 t) (0 13 t) (0 12 t) (0 9 t) (0 8 t) (0 4 t)) (common-lisp-user::goal) common-lisp-user::define-compilation-type-fct)) #2# 0) #Y(si::bytecodes nil nil (15 161 15 1 15 162 15 163 19 4 4 15 161 14 5 77 15 164 19 4 4 15 161 1 194 12 19 2 157 1 161 73 29) #1# #2# 34752) #Y(si::bytecodes nil nil (15 195 15 1 15 196 15 197 19 4 4 15 195 14 5 77 15 198 19 4 4 15 195 1 210 12 19 2 157 1 195 73 29) #1# #2# 39164) #Y(si::bytecodes nil nil (15 211 15 1 15 212 15 213 19 4 4 15 211 14 5 77 15 214 19 4 4 15 211 1 221 12 19 2 157 15 211 15 158 15 222 19 3 160 1 211 73 29) #1# #2# 42081) #Y(si::bytecodes nil nil (15 223 15 1 15 224 15 225 19 4 4 15 223 14 5 77 15 226 19 4 4 15 223 1 227 12 19 2 157 1 223 73 29) #1# #2# 42420) #Y(si::bytecodes nil nil (15 228 15 1 15 229 15 230 19 4 4 15 228 14 5 77 15 231 19 4 4 15 228 1 234 12 19 2 157 1 228 73 29) #1# #2# 42614) #Y(si::bytecodes nil nil (15 235 15 1 15 236 15 237 19 4 4 15 235 14 5 77 15 238 19 4 4 15 235 1 239 12 19 2 157 1 235 73 29) #1# #2# 42985) #Y(si::bytecodes nil nil (15 240 15 1 15 241 15 242 19 4 4 15 240 14 5 77 15 243 19 4 4 15 240 1 291 12 19 2 157 1 240 73 29) #1# #2# 43208) #Y(si::bytecodes nil nil (15 292 15 293 15 294 15 0 15 161 15 195 15 209 77 15 240 19 9 295 29) #1# #2# 44845))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2010 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : goal-compilation.lisp
+;;; Version     : 6.0
+;;; 
+;;; Description : Production compilation GOAL style definition.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       :  [X] Update the functions to properly handle the modification requests.
+;;;             :  [ ] Consider allowing queries: any P1 --> P3 and P2 state free --> null.
+;;;
+;;; ----- History -----
+;;;
+;;; 2010.12.06 Dan
+;;;             : * Created automatically by build-compilation-type-file.
+;;;             : * Added the details of the functions.
+;;; 2010.12.07 Dan
+;;;             : * Added the appropriate support for modification requests to the
+;;;             :   functions.
+;;; 2010.12.15 Dan
+;;;             : * Added module to the mapping functions args list.
+;;; 2010.12.20 Dan
+;;;             : * Added some additional code to handle things better when 
+;;;             :   :ppm is enabled -- creates productions that match more closely
+;;;             :   to the same conditions as the original pair did and does 
+;;;             :   the "same" thing. 
+;;;             : * Allow subtypes to be composed in the consistency check.
+;;; 2011.04.28 Dan
+;;;             : * Added some declares to avoid compiler warnings.
+;;; 2012.04.04 Dan [1.1]
+;;;             : * Added the whynot reason function.
+;;; 2014.05.07 Dan [2.0]
+;;;             : * Start of conversion to typeless chunks.
+;;;             : * Pass the module to constant-value-p.
+;;;             : * References to compilation-module-previous are now using a
+;;;             :   structure instead of list.
+;;; 2014.05.27 Dan
+;;;             : * Fixed a bug in compose-goal-buffer with the (4 12 13 44) 
+;;;             :   case not wrapping c1 in a list.
+;;; 2015.08.17 Dan
+;;;             : * The last update actually broke things for the case where
+;;;             :   there is no condition in c1 and this fixes that.
+;;; 2016.08.05 Dan [3.0]
+;;;             : * Updated the compilation type definition with one that was
+;;;             :   created automatically by build-compilation-type-file from the
+;;;             :   new spreadsheet that better handles "safe" compilation based
+;;;             :   on whether the buffer is strict harvested or not.  Also added
+;;;             :   some cases which should have been allowed but weren't where
+;;;             :   an = action with a preceeding * can be put together into a *.
+;;;             : * Added the code necessary to deal with the new cases and the 
+;;;             :   new test functions.
+;;; 2020.06.22 Dan [4.0]
+;;;             : * The functions are now all passed the same set of parameters:
+;;;             :   buffer module p1 p1-s p1-index p2 p2-s p2-index
+;;;             :   the p1-s and p2-s are the new "standard" representation that
+;;;             :   can be decomposed with composition-rep-* where * is:
+;;;             :    op -- the character of the operation =,?,!,+,-,*,@
+;;;             :    name -- the symbol naming the buffer or bang action
+;;;             :    token -- the symbol of the production item for op and name
+;;;             :    slots -- list of slot-spec lists
+;;; 2021.02.05 Dan [5.0]
+;;;             : * Allowing the 9,8 case to happen if the mod in p1 is an empty
+;;;             :   mod when the buffer is strict harvested and then just drop
+;;;             :   the empty mod.
+;;; 2021.02.10 Dan [6.0]
+;;;             : * There isn't a pre-instantiation step for variablized slots
+;;;             :   now so that needs to be done here instead for both mapping
+;;;             :   and composition.
+;;;             : * Needs to deal with var->var, const->var, var->const, and
+;;;             :   the possibility of multiple vars being bound to the same
+;;;             :   slot name.
+;;; 2021.02.23 Dan
+;;;             : * Wasn't catching the possible action to action mappings for
+;;;             :   dynamic slots, only the action to condition.
+;;; 2022.11.09 Dan
+;;;             : * Fixed a bug in the case where P1 only has a LHS usage of
+;;;             :   the buffer.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defun MAP-GOAL-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "map references from p1 to p2 for goal style buffer"
+  ;; With the current restricted set of productions
+  ;; that could be composed it's the case that
+  ;; we only need to go from: a RHS + to a
+  ;; LHS = (includes when the RHS has both + and =),
+  ;; from a RHS = to a LHS = or from a LHS = with
+  ;; null RHS to a LHS =.  
+  ;;
+  ;; Additionally now we need to consider the 
+  ;; RHS * to LHS = (with both + and * on the RHS)
+  ;; and additional instances of the above cases
+  ;; which may include the RHS * options.
+  
+  (declare (ignore p1))
+  
+  (let* ((ppm (compilation-module-ppm module))
+         (p1-bindings (previous-production-bindings (compilation-module-previous module)))
+         (p2-bindings (production-compilation-instan (production-name p2)))
+         (bindings (when ppm 
+                     (append p1-bindings p2-bindings))))
+    
+    (cond (;; The RHS + to LHS = case -- also overrides when there's a RHS * in p1
+           (and (find p1-index '(4 12 13 44))
+                (find p2-index '(8 9 12 13 40 44)))
+           
+           ;; Map the RHS +'s with the LHS ='s
+           ;; here the slots of interest are just the intersection of the two sets
+           
+           (let* ((mappings nil)
+                  (original-p1-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  (original-p2-rhs-slots (compose-rep-slots (find-if (lambda (x) (and (eq buffer (compose-rep-name x))
+                                                                                      (or (char= #\= (compose-rep-op x))
+                                                                                          (char= #\* (compose-rep-op x)))))
+                                                                     (second p2-s))))
+                  (p1-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1-slots :key 'spec-slot-name)))
+                  (p2-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-slots :key 'spec-slot-name)))
+                  (p2-rhs-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-rhs-slots :key 'spec-slot-name)))
+                  
+                  (p1-slots (instantiate-slot-names
+                             original-p1-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (p2-rhs-slots (instantiate-slot-names
+                                 original-p2-rhs-slots
+                                 p2-bindings))
+                  (interesting-slots (remove-duplicates (append (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p1-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-rhs-slots)))))
+             
+                          
+             (dolist (slot interesting-slots)
+               
+               (when (or p1-var-slots p2-var-slots p2-rhs-var-slots) ;; there are dynamic slots which may need to be mapped
+                                                                     ;; if the same slot is variablized in both or a var slot maps
+                                                                     ;; to a constant slot in either direction (multiple options
+                                                                     ;; possible as well as multiple variables matching the same slot)
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in action and condition both
+                            (rassoc slot p2-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in both actions
+                            (rassoc slot p2-rhs-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 so need to instantiate
+                            (find slot original-p2-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 action so need to instantiate
+                            (find slot original-p2-rhs-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-var-slots)  ;; it's a variable in p2 and const in p1 so need to instantiate
+                            (find slot original-p1-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                     (push (cons p2-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-rhs-var-slots)  ;; it's a variable in p2 action and const in p1 so need to instantiate
+                            (find slot original-p1-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                     (push (cons p2-var slot) mappings))))
+               
+               
+                              
+               (dolist (p1slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p2-slots))
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             mappings))
+          
+          (;; The RHS = to a LHS = case
+           (and (find p1-index '(9))
+                (find p2-index '(8 9 12 13)))
+           
+           ;; Map the RHS ='s and LHS ='s not in the RHS with
+           ;; the LHS ='s
+           
+           ;; Here the slots of interest are the union of the
+           ;; p1 bits with the RHS superseding the LHS intersected
+           ;; with the LHS of the second one
+           
+           
+           (let* ((mappings nil)
+                  (original-p1a-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+                  (original-p1b-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+                  
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  (original-p2-rhs-slots (compose-rep-slots (find-if (lambda (x) (and (eq buffer (compose-rep-name x))
+                                                                                      (or (char= #\= (compose-rep-op x))
+                                                                                          (char= #\* (compose-rep-op x)))))
+                                                                     (second p2-s))))
+                  
+                  (p1-var-slotsa (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1a-slots :key 'spec-slot-name)))
+                  (p1-var-slotsb (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1b-slots :key 'spec-slot-name)))
+                  (p2-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-slots :key 'spec-slot-name)))
+                  (p2-rhs-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-rhs-slots :key 'spec-slot-name)))
+                  
+                  (p1-slotsa (instantiate-slot-names
+                             original-p1a-slots
+                             p1-bindings))
+                  (p1-slotsb (instantiate-slot-names
+                             original-p1b-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (p2-rhs-slots (instantiate-slot-names
+                                 original-p2-rhs-slots
+                                 p2-bindings))
+                  
+                  (p1-slots (append (remove-if (lambda (x)
+                                                   (or (not (eq (spec-slot-op x) '=))
+                                                       (find (spec-slot-name x) p1-slotsb :key 'spec-slot-name)))
+                                               p1-slotsa)
+                                    p1-slotsb))
+                  
+                  (p1-var-slots (remove-duplicates (append p1-var-slotsa p1-var-slotsb) :test 'equalp))
+                  
+                  (interesting-slots (remove-duplicates (append (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p1-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-rhs-slots)))))
+             
+             (dolist (slot interesting-slots)
+               
+               (when (or p1-var-slots p2-var-slots p2-rhs-var-slots) ;; there are dynamic slots which may need to be mapped
+                                                                     ;; if the same slot is variablized in both or a var slot maps
+                                                                     ;; to a constant slot in either direction (multiple options
+                                                                     ;; possible as well as multiple variables matching the same slot)
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in both
+                            (rassoc slot p2-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in both actions
+                            (rassoc slot p2-rhs-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 so need to instantiate
+                            (find slot original-p2-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in p1 and const in p2 action so need to instantiate
+                            (find slot original-p2-rhs-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-var-slots)  ;; it's a variable in p2 and const in p1 (somewhere) so need to instantiate
+                            (or                         ;; all p2 vars
+                             (find slot original-p1a-slots :key 'spec-slot-name)
+                             (find slot original-p1b-slots :key 'spec-slot-name))) 
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                     (push (cons p2-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-rhs-var-slots)  ;; it's a variable in p2 action and const in p1 so need to instantiate
+                            (find slot original-p1b-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                     (push (cons p2-var slot) mappings))))
+               
+               
+               (dolist (p1slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p2-slots))
+                   
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             
+             mappings))
+          
+          (;; The RHS * to a LHS = case
+           (and (find p1-index '(40))
+                (find p2-index '(8 12 40 44)))
+           
+           ;; Map the RHS *'s and LHS ='s not in the RHS with
+           ;; the LHS ='s
+           
+           ;; Here the slots of interest are the union of the
+           ;; p1 bits with the RHS superseding the LHS intersected
+           ;; with the LHS of the second one
+           
+           
+           (let* ((mappings nil)
+                  (original-p1a-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+                  (original-p1b-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\* (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+                  
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  (original-p2-rhs-slots (compose-rep-slots (find-if (lambda (x) (and (eq buffer (compose-rep-name x))
+                                                                                      (or (char= #\= (compose-rep-op x))
+                                                                                          (char= #\* (compose-rep-op x)))))
+                                                                     (second p2-s))))
+                  
+                  (p1-var-slotsa (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1a-slots :key 'spec-slot-name)))
+                  (p1-var-slotsb (mapcar (lambda (x) (assoc (spec-slot-name x) p1-bindings)) (remove-if-not 'chunk-spec-variable-p original-p1b-slots :key 'spec-slot-name)))
+                  (p2-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-slots :key 'spec-slot-name)))
+                  (p2-rhs-var-slots (mapcar (lambda (x) (assoc (spec-slot-name x) p2-bindings)) (remove-if-not 'chunk-spec-variable-p original-p2-rhs-slots :key 'spec-slot-name)))
+                  
+                  (p1-slotsa (instantiate-slot-names
+                             original-p1a-slots
+                             p1-bindings))
+                  (p1-slotsb (instantiate-slot-names
+                             original-p1b-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (p2-rhs-slots (instantiate-slot-names
+                                 original-p2-rhs-slots
+                                 p2-bindings))
+                  
+                  (p1-slots (append (remove-if (lambda (x)
+                                                   (or (not (eq (spec-slot-op x) '=))
+                                                       (find (spec-slot-name x) p1-slotsb :key 'spec-slot-name)))
+                                               p1-slotsa)
+                                    p1-slotsb))
+                  
+                  (p1-var-slots (remove-duplicates (append p1-var-slotsa p1-var-slotsb) :test 'equalp))
+                  
+                  (interesting-slots (remove-duplicates (append (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p1-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-slots)
+                                                                (mapcan (lambda (x)
+                                                                          (when (eq (spec-slot-op x) '=)
+                                                                            (list (spec-slot-name x))))
+                                                                  p2-rhs-slots)))))
+             
+             (dolist (slot interesting-slots)
+               
+               (when (or p1-var-slots p2-var-slots p2-rhs-var-slots) ;; there are dynamic slots which may need to be mapped
+                                                                     ;; if the same slot is variablized in both or a var slot maps
+                                                                     ;; to a constant slot in either direction (multiple options
+                                                                     ;; possible as well as multiple variables matching the same slot)
+                 
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in both
+                            (rassoc slot p2-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in both actions
+                            (rassoc slot p2-rhs-var-slots)) ;; so need to add all the variable to variable mappings  
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                       (push (cons p1-var p2-var) mappings))))
+                 
+                 (when (and (rassoc slot p1-var-slots)  ;; it's a variable in p1 and const in p2 so need to instantiate
+                            (find slot original-p2-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slots)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p1-var-slotsb)  ;; it's a variable in p1 and const in p2 action so need to instantiate
+                            (find slot original-p2-rhs-slots :key 'spec-slot-name)) ;; all p1 vars
+                   (dolist (p1-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p1-var-slotsb)))
+                     (push (cons p1-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-var-slots)  ;; it's a variable in p2 and const in p1 (somewhere) so need to instantiate
+                            (or                         ;; all p2 vars
+                             (find slot original-p1a-slots :key 'spec-slot-name)
+                             (find slot original-p1b-slots :key 'spec-slot-name))) 
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-var-slots)))
+                     (push (cons p2-var slot) mappings)))
+                 
+                 (when (and (rassoc slot p2-rhs-var-slots)  ;; it's a variable in p2 action and const in p1 so need to instantiate
+                            (find slot original-p1b-slots :key 'spec-slot-name)) ;; all p2 vars
+                   (dolist (p2-var (mapcar 'car (remove-if-not (lambda (x) (eq (cdr x) slot)) p2-rhs-var-slots)))
+                     (push (cons p2-var slot) mappings))))
+               
+               
+               (dolist (p1slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (eq (spec-slot-name x) slot)) p2-slots))
+                   
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             
+             mappings))
+                    
+          (;; The LHS = RHS null to a LHS = case
+           (and (find p1-index '(8))
+                (find p2-index '(8 9 12 13 40 44)))
+           
+           ;; Map the LHS ='s with the LHS ='s
+           
+           
+           ;; The slots of interest are the ones at the intersection of the
+           ;; two sets - the mappings are then done for those
+           ;; such that 
+           ;;   - if it's a variable in both then p2 vars go to p1 vars 
+           ;;   - if it's a constant in one then it goes from the var to the constant
+           ;;     (note that buffer variables are considered constants and not variables)
+           ;;   - if it's a constant in both we're in trouble if they aren't equal
+           ;;     because how did they fire...
+           ;;
+           ;; When there is more than one option we have to add both but they need to
+           ;; be evaluated in the order of variables before constants (that's handled
+           ;; elsewhere though)
+           
+           
+           (let* ((mappings nil)
+                  (original-p1-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s))))
+                  (original-p2-slots (compose-rep-slots (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s))))
+                  
+                  (p1-slots (instantiate-slot-names
+                             original-p1-slots
+                             p1-bindings))
+                  (p2-slots (instantiate-slot-names
+                             original-p2-slots
+                             p2-bindings))
+                  (interesting-slots (intersection (mapcan (lambda (x)
+                                                             (when (eq (spec-slot-op x) '=)
+                                                               (list (spec-slot-name x))))
+                                                     p1-slots)
+                                                   (mapcan (lambda (x)
+                                                               (when (eq (spec-slot-op x) '=)
+                                                                 (list (spec-slot-name x))))
+                                                     p2-slots))))
+             
+             (dolist (slot interesting-slots)
+               
+               ;; no dynamic slot issues because can't assume anything from just the conditions
+               
+               (dolist (p1slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p1-slots))
+                 (dolist (p2slots (remove-if-not (lambda (x) (and (eq (spec-slot-op x) '=) (eq (spec-slot-name x) slot))) p2-slots))
+                   (if (constant-value-p (spec-slot-value p2slots) module)
+                       (if ppm
+                           (if (constant-value-p (spec-slot-value p1slots) module)
+                               (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings)
+                             (push (find (spec-slot-value p1slots) bindings :key 'car) mappings))
+                         
+                         (push (cons (spec-slot-value p1slots) (spec-slot-value p2slots)) mappings))
+                     (push (cons (spec-slot-value p2slots) (spec-slot-value p1slots)) mappings)))))
+             mappings))
+          
+          (t
+           nil))))
+
+(defun COMPOSE-GOAL-BUFFER (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  ;; This is based on the limited set of conditions that can
+  ;; be composed.
+  ;;
+  ;; Generally:
+  ;;   If the first has a + (4, 12, 13, 44) then
+  ;;      the conditions are those of the first
+  ;;      the actions are the = or * of the first if there is one and
+  ;;      the + will be the + of the first (can't be a + in the second)
+  ;;      with the = or * of the second unioned in and overriding
+  ;;   If the first has no actions (0, 8)
+  ;;      the conditions are the union of those in the first
+  ;;      and those of the second
+  ;;      the actions are those of the second
+  ;;   Otherwise (9 & 40)
+  ;;      the conditions are the union of those in the first
+  ;;      and those from the second that are not set by the 
+  ;;      actions of the first
+  ;;      the actions are the = or * from the first with the = or * from
+  ;;      the second unioned in and overriding and
+  ;;      the + of the second if there is one
+  ;;
+  (declare (ignore p1))
+  
+  (let* ((c1 (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p1-s)))
+         (c2 (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (first p2-s)))
+         (a1= (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+         (a2= (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s)))
+         
+         (a1+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+         (a2+ (find-if (lambda (x) (and (char= #\+ (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s)))
+         (a1* (find-if (lambda (x) (and (char= #\* (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s)))
+         (a2* (find-if (lambda (x) (and (char= #\* (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p2-s)))
+         (bindings (append (previous-production-bindings (compilation-module-previous module)) 
+                           (production-compilation-instan (production-name p2)))))
+    
+    (case p1-index
+      ((4 12 13 44)
+       (list (if c1 (list c1) nil)
+             (append (when (or a1= a1*) ;; can't have both with current description
+                       (if a1= 
+                           (list a1=) 
+                         (list a1*))) 
+                     (cond ((and a1+ a2=)
+                            (awhen (buffer+-union a1+ a2= bindings) 
+                                   (list it)))
+                           ((and a1+ a2*)
+                            (awhen (buffer+-union a1+ a2* bindings) 
+                                   (list it)))
+                           (a1+
+                            (list a1+))
+                           (t 
+                            nil)))))
+      ((0 8)
+       (list (awhen (buffer-condition-union c1 c2 a1= bindings) ;; a1= is always nil, though  so why use it?
+                    (list it))  
+             (append (when a2= 
+                       (list a2=)) 
+                     (when a2* 
+                       (list a2*)) 
+                     (when a2+ 
+                       (list a2+)))))
+      ((9 40)
+       (list (awhen (buffer-condition-union c1 c2 (if a1= a1= a1*) bindings) 
+                    (list it))
+             (append 
+              (cond ((and (= p2-index 8) 
+                          (not (find buffer (compilation-module-no-harvest module))) ;; it is strict harvested
+                          (null (second a1=))) ;; the mod in a1 is a null mod
+                     nil)
+                    ((and a1* a2=)
+                     (awhen (buffer=-union a1* a2= bindings)
+                            (list it)))
+                    ((or a1= a2=) ;; if there's at least one = union those                             
+                     (awhen (buffer=-union a1= a2= bindings) 
+                            (list it)))
+                    ((or a1* a2*) ;; if there's at least one * union those
+                     (awhen (buffer=-union a1* a2* bindings) 
+                            (list it)))
+                    
+                    (t nil))
+              (when a2+ 
+                (list a2+))))))))
+
+
+(defun CHECK-GOAL-CONSISTENCY (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore p1 p2-index))
+  (case p1-index
+    ((4 12 13) ;; a RHS +
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\+)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+    ((44) ;; a RHS + with a * that's not considered
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\+)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+    
+    ((9) ;; a RHS =
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\=)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+    ((40) ;; a RHS *
+     (check-consistency module (find-if (lambda (x)
+                                          (and (char= (compose-rep-op x) #\*)
+                                               (eq (compose-rep-name x) buffer)))
+                                        (second p1-s))
+                        (previous-production-bindings (compilation-module-previous module))
+                        (find-if (lambda (x)
+                                   (and (char= (compose-rep-op x) #\=)
+                                        (eq (compose-rep-name x) buffer)))
+                                 (first p2-s))
+                        (production-bindings p2)))
+    (t
+     t)))
+
+
+(defun NO-RHS-GOAL-REF (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  "Can't compile if the variable naming the buffer is used in the actions of p2"
+  (declare (ignore p1 module p1-s p1-index p2 p2-index))
+  (not (recursive-find (intern (concatenate 'string "=" (symbol-name buffer)))
+                       (second p2-s))))
+
+
+(defun NO-GOAL-HARVESTING (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore p1 p1-s p1-index p2 p2-s p2-index))
+  (find buffer (compilation-module-no-harvest module)))
+
+(defun NO-GOAL-HARVESTING-OR-NULL-MOD (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (declare (ignore p1 p1-index p2 p2-s p2-index))
+  (or (find buffer (compilation-module-no-harvest module))
+      (let ((mod (find-if (lambda (x) (and (char= #\= (compose-rep-op x)) (eq buffer (compose-rep-name x)))) (second p1-s))))
+        (and mod (null (second mod))))))
+
+
+(defun G-B-C1 (buffer module p1 p1-s p1-index p2 p2-s p2-index)
+  (and (no-rhs-goal-ref buffer module p1 p1-s p1-index p2 p2-s p2-index) 
+       (no-goal-harvesting buffer module p1 p1-s p1-index p2 p2-s p2-index)))
+
+(defun goal-reason (p1-index p2-index failed-function)
+  (if failed-function
+      (cond ((eql failed-function 'no-rhs-goal-ref)
+             "the buffer variable cannot be used in the actions of the second production if there is a request in the first production.")
+            ((eql failed-function 'no-goal-harvesting)
+             "the buffer is being strict harvested.")
+            ((eql failed-function 'g-b-c1)
+             "either the buffer is being strict harvested or the buffer variable is used in the actions of the second production.")
+            (t
+             (format nil "unknown reason ~s" failed-function)))
+    (case p1-index
+      ((2 6 10 11 14 15 42 43 46 47)
+       "the buffer is explicitly cleared in the first production")
+      ((16 18 20 22 24 25 26 27 28 29 30 31 56 57 58 60 59 61 62 63)
+       "there are queries of the buffer in the first production")
+      ((41 45)
+       "the first production makes both a modification and a modification request")
+      (t
+       (case p2-index
+         ((2 6 10 11 14 15 42 43 46 47)
+          "the buffer is explicitly cleared in the second production")
+         ((16 18 20 22 24 25 26 27 28 29 30 31 56 57 58 60 59 61 62 63)
+          "there are queries of the buffer in the second production")
+         ((41 45)
+          "the second production makes both a modification and a modification request")
+         (t
+          (case p1-index
+            ((4 12 13 44)
+             "both productions make requests")
+            (t
+             "one production makes a modification and the other makes a modification request"))))))))
+
+
+
+(define-compilation-type GOAL ((44 40 NO-RHS-GOAL-REF)
+                               (44 9 NO-RHS-GOAL-REF) (44 8 G-B-C1)
+                               (44 0 T) (40 44 T) (40 40 T) (40 13 T)
+                               (40 12 T) (40 9 T)
+                               (40 8 NO-GOAL-HARVESTING) (40 4 T)
+                               (40 0 T) (13 40 NO-RHS-GOAL-REF)
+                               (13 9 NO-RHS-GOAL-REF) (13 8 G-B-C1)
+                               (13 0 T) (12 40 NO-RHS-GOAL-REF)
+                               (12 9 NO-RHS-GOAL-REF) (12 8 G-B-C1)
+                               (12 0 T) (9 13 T) (9 12 T) (9 9 T)
+                               (9 8 NO-GOAL-HARVESTING-OR-NULL-MOD) (9 4 T) (9 0 T)
+                               (8 44 NO-GOAL-HARVESTING)
+                               (8 40 NO-GOAL-HARVESTING)
+                               (8 13 NO-GOAL-HARVESTING)
+                               (8 12 NO-GOAL-HARVESTING)
+                               (8 9 NO-GOAL-HARVESTING)
+                               (8 8 NO-GOAL-HARVESTING) (8 4 T) (8 0 T)
+                               (4 40 NO-RHS-GOAL-REF)
+                               (4 9 NO-RHS-GOAL-REF) (4 8 G-B-C1)
+                               (4 0 T) (0 44 T) (0 40 T) (0 13 T)
+                               (0 12 T) (0 9 T) (0 8 T)
+                               (0 4 T)) 
+  (GOAL) MAP-GOAL-BUFFER COMPOSE-GOAL-BUFFER CHECK-GOAL-CONSISTENCY T NIL GOAL-REASON)
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        (#Y(si::bytecodes nil nil (15 0 14 1 14 2 33 3 12 19 4 4 76 73 39 346 15 0 11 5 3 52 5 75 76 39 18 15 6 15 7 15 0 19 1 8 12 15 9 19 4 10 38 2 75 45 11 11 12 39 12 13 0 19 1 13 12 19 1 14 38 298 57 15 60 93 75 45 16 57 17 61 1 68 15 18 34 20 3 6 1 12 11 21 3 48 21 15 22 19 1 13 12 14 23 14 24 19 3 25 45 26 64 18 13 0 19 1 27 69 10 0 39 6 13 0 19 1 28 70 65 10 0 39 10 13 0 14 29 14 30 19 3 28 66 43 1 36 2 44 1 10 1 45 31 77 13 0 72 2 43 1 36 2 62 43 1 63 45 32 15 0 13 0 14 2 15 3 19 4 33 5 45 34 13 0 11 35 17 36 76 45 37 13 3 19 1 13 12 13 0 19 2 14 45 38 10 0 39 155 10 2 39 32 15 0 13 3 14 2 15 3 19 4 33 45 39 11 35 45 40 13 1 10 0 17 41 10 0 43 1 43 1 38 12 15 0 11 35 3 12 10 3 3 51 3 57 42 60 105 75 45 43 57 17 61 1 80 15 18 34 44 3 6 1 12 11 21 3 48 21 15 45 19 1 13 12 14 23 14 46 14 47 14 48 14 49 14 50 19 7 25 45 26 64 22 13 7 14 51 13 0 19 3 52 69 10 0 39 6 13 0 19 1 28 70 65 10 0 39 10 13 0 14 29 14 30 19 3 28 66 43 1 36 2 44 1 10 1 45 31 77 13 0 72 2 43 1 36 2 62 43 1 63 10 0 73 43 4 43 1 29) #1=#A(t (94) ("CENTRAL-PARAMETERS" *modules* :test string= member common-lisp-user::*act-r-modules* string "ACT-R-support:" string-downcase ".lisp" concatenate common-lisp-user::pn common-lisp-user::*skip-recompiling* translate-logical-pathname common-lisp-user::compile-and-load #:g21715 #:g21716 0 error si::temp #Y(nil nil nil (24 45 19 26 10 0 51 2 35 1 0 29) #1# #2=#P"/opt/actr/actr7.x/tools/high-performance.lisp" 0) si::*handler-clusters* "ACT-R-support:require-mode.lisp" :direction :input open common-lisp-user::f read close :abort t condition common-lisp-user::previous assoc common-lisp-user::previous-mode common-lisp-user::*current-load-mode* eq common-lisp-user::need-to-compile common-lisp-user::result #:g21718 #:g21719 rplacd #:g21721 #:g21722 #Y(nil nil nil (24 45 19 26 10 0 51 2 35 1 0 29) #1# #2# 0) "ACT-R-support:require-mode.lisp" :output :if-does-not-exist :create :if-exists :supersede :stream write common-lisp-user::high-performance-param ext::location (defun common-lisp-user::high-performance-param) (#2# . 3201) ext::annotate :lambda-list (common-lisp-user::set-or-get common-lisp-user::value) common-lisp-user::set-or-get common-lisp-user::value common-lisp-user::*allow-event-output* (:starting-parameters) common-lisp-user::ssp-fct common-lisp-user::it "print-warning" "~@?" "Setting :high-performance will overwrite the current :starting-parameters setting of ~s" format common-lisp-user::evaluate-act-r-command (:starting-parameters (:ncnar nil :style-warnings nil :model-warnings nil :cmdt nil :lhst nil :rhst nil :stable-loc-names nil :visual-movement-tolerance 0)) (:starting-parameters nil) #Y(common-lisp-user::high-performance-param nil nil (24 45 60 24 45 61 26 10 1 39 54 10 0 76 52 62 10 0 39 40 15 63 19 1 64 4 45 65 10 0 39 19 15 66 77 15 67 15 68 13 0 19 4 69 12 19 2 70 38 1 43 1 15 71 19 1 64 38 6 15 72 19 1 64 11 62 76 73 29) #1# #2# 3201) si::fset common-lisp-user::high-performance-test (defun common-lisp-user::high-performance-test) (#2# . 3784) (common-lisp-user::val) common-lisp-user::val common-lisp-user::tornil common-lisp-user::mp-models length zerop #Y(common-lisp-user::high-performance-test nil nil (24 45 79 26 13 0 19 1 80 73 39 8 19 0 81 16 82 16 83 29) #1# #2# 3784) :high-performance :handler :documentation "Change default value for performance based parameters and disable the trace output." :valid-test :warning "T or nil and only when no models are defined" :default-value common-lisp-user::create-system-parameter)) #2# 0) #Y(si::bytecodes nil nil (15 53 15 54 15 55 15 56 19 4 57 15 53 14 58 77 15 59 19 4 57 15 53 1 73 12 19 2 74 1 53 73 29) #1# #2# 3201) #Y(si::bytecodes nil nil (15 75 15 54 15 76 15 77 19 4 57 15 75 14 58 77 15 78 19 4 57 15 75 1 84 12 19 2 74 1 75 73 29) #1# #2# 3784) #Y(si::bytecodes nil nil (14 85 14 86 15 53 14 87 15 88 14 89 15 75 14 90 15 91 14 92 77 19 11 93 29) #1# #2# 3882))
+                                                                                                                                                                                                  ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : high-performance.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Add a system parameter that kills the trace (bypasses the 
+;;;               filter tests) for all models and sets the default for some
+;;;               other parameters that affect speed.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2019.02.15 Dan [1.0]
+;;;             : * Initial creation.
+;;; 2018.03.04 Dan
+;;;             : * Added visual-movement-tolerance set to 0.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; New system parameter named :high-performance.  Can be set to t or nil, and
+;;; the default is nil.  Can only be changed when there are no models defined.
+;;; When set to nil it does not affect the system.  Setting it to t should 
+;;; provide a significant improvement in the time required to run a model, but
+;;; at the cost of all trace and diagnostic outputs.  When set to t it prevents
+;;; all model traces from being displayed without having to check the trace
+;;; filters.  It also sets the :starting-parameters system parameter like this:
+;;;
+;;; (:ncnar nil :style-warnings nil :model-warnings nil :cmdt nil :lhst nil 
+;;;  :rhst nil :stable-loc-names nil :visual-movement-tolerance 0)
+;;;
+;;; because those parameters default to t and when set can slow down the system.
+;;; 
+;;; The setting of :starting-parameters will overwrite any current settings and
+;;; it will print a warning if it does so.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; system parameter :high-performance can be set to t or nil.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Uses a simple global variable to store the value which is also the flag for
+;;; the scheduler to check, and by not allowing it to be changed when there are
+;;; models defined avoids the need for a lock which would basically defeat the
+;;; purpose.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+;; Make sure :starting-parameters exists 
+
+(require-compiled "CENTRAL-PARAMETERS")
+
+(defun high-performance-param (set-or-get value)
+  (when set-or-get
+    (setf *allow-event-output* (not value))
+    (if value
+        (progn
+          (awhen (car (ssp :starting-parameters))
+                 (print-warning "Setting :high-performance will overwrite the current :starting-parameters setting of ~s" it))
+          (ssp :starting-parameters (:ncnar nil :style-warnings nil :model-warnings nil :cmdt nil :lhst nil :rhst nil :stable-loc-names nil :visual-movement-tolerance 0))
+          )
+      (ssp :starting-parameters nil)))
+  (not *allow-event-output*))
+
+(defun high-performance-test (val)
+  (and (tornil val)
+       (zerop (length (mp-models)))))
+
+(create-system-parameter :high-performance
+                         :handler 'high-performance-param
+                         :documentation "Change default value for performance based parameters and disable the trace output."
+                         :valid-test 'high-performance-test
+                         :warning "T or nil and only when no models are defined"
+                         :default-value nil)
+
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 15 5 15 6 14 7 15 8 15 9 1 14 6 3 12 15 15 15 16 11 16 16 17 6 3 12 15 18 77 75 16 17 6 3 6 3 6 2 12 19 4 19 29) #1=#A(t (171) (common-lisp-user::image-vdi ext::location (defclass common-lisp-user::image-vdi) (#2=#P"/opt/actr/actr7.x/tools/image-feature.lisp" . 0) ext::annotate (common-lisp-user::virtual-dialog-item) ((:initargs (:file) :initform nil :writers ((setf common-lisp-user::file)) :readers (common-lisp-user::file) :name common-lisp-user::file)) :direct-default-initargs :id (string-downcase (symbol-name (common-lisp-user::new-symbol-fct #3="IMAGE-VDI"))) #3# common-lisp-user::new-symbol-fct symbol-name string-downcase #Y(nil nil nil (26 15 10 19 1 11 16 12 12 19 1 13 29) #1# #2# 0) :handles-click-p t constantly :action clos::load-defclass common-lisp-user::default-image-action (defun common-lisp-user::default-image-action) (#2# . 7593) :lambda-list (common-lisp-user::text position) common-lisp-user::text position "print-warning" "~@?" "Image ~s with no valid action clicked at position ~d,~d at time ~S." second common-lisp-user::mp-time format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::default-image-action nil nil (24 45 25 24 45 26 26 15 27 77 15 28 15 29 13 1 10 0 4 12 10 0 16 30 12 19 0 31 12 19 7 32 12 19 2 33 75 73 29) #1# #2# 7593) si::fset common-lisp-user::create-image-for-exp-window (defun common-lisp-user::create-image-for-exp-window) (#2# . 7781) (common-lisp-user::win common-lisp-user::text common-lisp-user::file &key (common-lisp-user::x 0) (common-lisp-user::y 0) (common-lisp-user::width 50) (common-lisp-user::height 50) (common-lisp-user::action nil) (common-lisp-user::clickable t)) common-lisp-user::win common-lisp-user::file (nil :clickable :action :height :width :y :x) common-lisp-user::x common-lisp-user::y common-lisp-user::width common-lisp-user::height common-lisp-user::action common-lisp-user::clickable common-lisp-user::agi-component common-lisp-user::agi common-lisp-user::determine-exp-window common-lisp-user::key common-lisp-user::window :x-pos :y-pos :dialog-item-text common-lisp-user::valid-button-action :height :width :file :lock common-lisp-user::window-lock make-instance common-lisp-user::item common-lisp-user::id string common-lisp-user::item-key common-lisp-user::global-agi-table si::hash-set #:g21507 #:g21504 common-lisp-user::window-objects-table #:g21505 gethash #:g21506 "Problem creating image item.  No image created." "No window available for creating an image." #Y(common-lisp-user::create-image-for-exp-window nil nil (24 45 40 24 45 25 24 45 41 28 42 22 40 3 9 0 46 43 22 40 3 9 0 46 44 22 40 3 9 50 46 45 22 40 3 9 50 46 46 22 40 2 77 46 47 22 40 3 14 16 46 48 19 0 49 45 50 13 0 13 9 19 2 51 47 1 52 45 53 10 0 39 164 15 0 14 54 13 8 14 55 13 7 14 56 13 10 14 18 10 3 73 39 16 13 4 19 1 57 39 6 10 4 73 38 4 1 20 73 12 14 15 13 3 14 58 13 5 14 59 13 6 14 60 13 9 14 61 13 0 19 1 62 12 19 19 63 45 64 13 2 13 0 19 1 65 16 66 6 2 45 67 10 4 39 3 10 1 39 57 13 0 13 4 19 1 68 12 13 1 19 3 69 10 1 45 70 10 4 45 71 13 6 19 1 72 45 73 13 2 13 1 13 0 19 2 74 3 45 75 13 2 13 1 13 0 19 3 69 43 4 10 0 73 38 17 15 27 77 15 28 15 76 19 3 32 12 19 2 33 75 73 43 2 38 17 15 27 77 15 28 15 77 19 3 32 12 19 2 33 75 73 43 2 43 1 29) #1# #2# 7781) function "Creates an image item for the experiment window" si::set-documentation common-lisp-user::external-create-image-for-exp-window (defun common-lisp-user::external-create-image-for-exp-window) (#2# . 9448) (common-lisp-user::win common-lisp-user::text common-lisp-user::file &optional common-lisp-user::params) common-lisp-user::params (:x :y :height :width :action :clickable) common-lisp-user::process-options-list common-lisp-user::ol common-lisp-user::valid apply #Y(common-lisp-user::external-create-image-for-exp-window nil nil (24 45 40 24 45 25 24 45 41 25 40 2 77 46 86 26 13 0 15 36 15 87 19 3 88 47 1 89 45 90 10 0 73 39 14 15 36 13 5 13 4 13 3 13 1 19 5 91 43 2 29) #1# #2# 9448) "create-image-for-exp-window" "Create an image item for the provided experiment window with the features specified. Params: window text file  {< x, y, width, height, action, clickable >}." common-lisp-user::add-act-r-command common-lisp-user::add-image-to-exp-window (defun common-lisp-user::add-image-to-exp-window) (#2# . 9997) (common-lisp-user::win common-lisp-user::text common-lisp-user::file &key (common-lisp-user::x 0) (common-lisp-user::y 0) (common-lisp-user::width 50) (common-lisp-user::height 50) (common-lisp-user::action nil) (common-lisp-user::clickable t)) (nil :clickable :action :height :width :y :x) symbolp :x :y :clickable common-lisp-user::add-items-to-exp-window #Y(common-lisp-user::add-image-to-exp-window nil nil (24 45 40 24 45 25 24 45 41 28 100 22 40 3 9 0 46 43 22 40 3 9 0 46 44 22 40 3 9 50 46 45 22 40 3 9 50 46 46 22 40 2 77 46 47 22 40 3 14 16 46 48 10 8 39 5 10 8 16 101 39 7 10 8 16 12 51 8 13 8 13 7 13 6 14 102 13 5 14 103 13 4 14 59 13 3 14 58 13 2 14 18 13 1 14 104 13 0 19 15 36 45 67 10 0 39 19 13 9 13 0 19 2 105 39 6 10 0 73 38 3 75 73 38 3 75 73 43 1 29) #1# #2# 9997) "Create and display an image item in the experiment window" common-lisp-user::external-add-image-to-exp-window (defun common-lisp-user::external-add-image-to-exp-window) (#2# . 10501) (common-lisp-user::win common-lisp-user::text common-lisp-user::file &optional common-lisp-user::params) (:x :y :height :width :action :clickable) #Y(common-lisp-user::external-add-image-to-exp-window nil nil (24 45 40 24 45 25 24 45 41 25 40 2 77 46 86 26 13 0 15 96 15 112 19 3 88 47 1 89 45 90 10 0 73 39 14 15 96 13 5 13 4 13 3 13 1 19 5 91 43 2 29) #1# #2# 10501) "add-image-to-exp-window" "Create an image item for the provided experiment window with the features specified and place it in the window. Params: window text file {<x, y, width, height, action, clickable >}." common-lisp-user::vv-click-event-handler (defmethod common-lisp-user::vv-click-event-handler (common-lisp-user::self common-lisp-user::image-vdi) position) (#2# . 11057) (common-lisp-user::image-vdi t) (common-lisp-user::self position) common-lisp-user::self common-lisp-user::action-function listp stringp common-lisp-user::result common-lisp-user::success "Image click action ~s reported error ~s." functionp fboundp macro-function common-lisp-user::dialog-item-text elt common-lisp-user::x-pos - common-lisp-user::y-pos "Image click action ~s reported error ~s." #Y(common-lisp-user::vv-click-event-handler nil nil (24 45 121 24 45 26 26 13 1 19 1 122 16 123 39 178 13 1 19 1 122 4 16 124 39 59 15 33 13 1 19 1 122 4 12 13 1 19 1 122 5 12 19 3 91 47 1 125 45 126 10 0 76 73 39 25 15 27 77 15 28 15 127 13 3 19 1 122 12 13 1 19 5 32 12 19 2 33 75 73 43 2 38 108 13 1 19 1 122 4 16 128 40 32 13 1 19 1 122 4 16 101 39 22 13 1 19 1 122 4 16 129 39 12 13 1 19 1 122 4 12 19 1 130 76 39 20 13 1 19 1 122 4 12 13 1 19 1 122 5 12 19 2 91 38 46 13 1 19 1 131 12 13 0 8 0 17 132 12 13 1 19 1 133 12 19 2 134 12 13 0 8 1 17 132 12 13 1 19 1 135 12 19 2 134 6 2 12 19 2 20 38 243 13 1 19 1 122 16 124 39 95 15 33 13 1 19 1 122 12 13 1 19 1 131 12 13 0 8 0 17 132 12 13 1 19 1 133 12 19 2 134 12 13 0 8 1 17 132 12 13 1 19 1 135 12 19 2 134 6 2 6 2 12 19 3 91 47 1 125 45 126 10 0 76 73 39 25 15 27 77 15 28 15 136 13 3 19 1 122 12 13 1 19 5 32 12 19 2 33 75 73 43 2 38 140 13 1 19 1 122 16 128 40 29 13 1 19 1 122 16 101 39 20 13 1 19 1 122 16 129 39 11 13 1 19 1 122 12 19 1 130 76 39 56 13 1 19 1 122 12 13 1 19 1 131 12 13 0 8 0 17 132 12 13 1 19 1 133 12 19 2 134 12 13 0 8 1 17 132 12 13 1 19 1 135 12 19 2 134 6 2 6 2 12 19 2 91 38 46 13 1 19 1 131 12 13 0 8 0 17 132 12 13 1 19 1 133 12 19 2 134 12 13 0 8 1 17 132 12 13 1 19 1 135 12 19 2 134 6 2 12 19 2 20 29) #1# #2# 11057) clos::install-method common-lisp-user::build-vis-locs-for (defmethod common-lisp-user::build-vis-locs-for (common-lisp-user::self common-lisp-user::image-vdi)) (#2# . 13523) (common-lisp-user::image-vdi) (common-lisp-user::self) common-lisp-user::find-top-level-window common-lisp-user::top vector common-lisp-user::top-xy common-lisp-user::image common-lisp-user::chunk-p-fct ((common-lisp-user::image common-lisp-user::name common-lisp-user::image)) common-lisp-user::define-chunks-fct common-lisp-user::chunk-type-p-fct ((common-lisp-user::image (:include common-lisp-user::visual-object)) (common-lisp-user::image t)) common-lisp-user::chunk-type-fct common-lisp-user::isa (common-lisp-user::visual-location common-lisp-user::image) common-lisp-user::value "~a" common-lisp-user::screen-x round + common-lisp-user::screen-y #Y(common-lisp-user::build-vis-locs-for nil nil (24 45 121 26 13 0 19 1 144 45 145 13 0 19 1 133 12 13 0 19 1 135 12 19 2 146 45 147 15 148 19 1 149 76 39 6 15 150 19 1 151 15 148 19 1 152 76 39 6 15 153 19 1 154 15 155 15 156 15 157 15 148 77 15 158 13 2 19 1 131 12 19 3 32 6 2 12 15 159 13 0 8 0 17 132 12 13 2 19 1 133 12 13 2 19 1 45 12 9 2 19 2 160 12 19 3 161 12 15 162 13 0 8 1 17 132 12 13 2 19 1 135 12 13 2 19 1 46 12 9 2 19 2 160 12 19 3 161 12 15 45 13 2 19 1 45 12 15 46 13 2 19 1 46 6 12 6 1 73 43 2 29) #1# #2# 13523) common-lisp-user::env-window-features (defmethod common-lisp-user::env-window-features (common-lisp-user::item common-lisp-user::image-vdi)) (#2# . 14536) (common-lisp-user::image-vdi) (common-lisp-user::item) "image" #Y(common-lisp-user::env-window-features nil nil (24 45 64 26 15 169 13 0 19 1 65 12 13 0 19 1 133 12 13 0 19 1 135 12 13 0 19 1 41 12 13 0 19 1 45 12 13 0 19 1 46 6 6 6 2 73 29) #1# #2# 14536))) #2# 0) #Y(si::bytecodes nil nil (15 20 15 1 15 21 15 22 19 4 4 15 20 14 23 77 15 24 19 4 4 15 20 1 34 12 19 2 35 1 20 73 29) #1# #2# 7593) #Y(si::bytecodes nil nil (15 36 15 1 15 37 15 38 19 4 4 15 36 14 23 77 15 39 19 4 4 15 36 1 78 12 19 2 35 15 36 15 79 15 80 19 3 81 1 36 73 29) #1# #2# 7781) #Y(si::bytecodes nil nil (15 82 15 1 15 83 15 84 19 4 4 15 82 14 23 77 15 85 19 4 4 15 82 1 92 12 19 2 35 1 82 73 29) #1# #2# 9448) #Y(si::bytecodes nil nil (15 93 15 82 15 94 19 3 95 29) #1# #2# 9749) #Y(si::bytecodes nil nil (15 96 15 1 15 97 15 98 19 4 4 15 96 14 23 77 15 99 19 4 4 15 96 1 106 12 19 2 35 15 96 15 79 15 107 19 3 81 1 96 73 29) #1# #2# 9997) #Y(si::bytecodes nil nil (15 108 15 1 15 109 15 110 19 4 4 15 108 14 23 77 15 111 19 4 4 15 108 1 113 12 19 2 35 1 108 73 29) #1# #2# 10501) #Y(si::bytecodes nil nil (15 114 15 108 15 115 19 3 95 29) #1# #2# 10790) #Y(si::bytecodes nil nil (15 116 15 1 15 117 15 118 19 4 4 15 116 77 15 119 15 120 1 137 12 19 5 138 29) #1# #2# 11057) #Y(si::bytecodes nil nil (15 139 15 1 15 140 15 141 19 4 4 15 139 77 15 142 15 143 1 163 12 19 5 138 29) #1# #2# 13523) #Y(si::bytecodes nil nil (15 164 15 1 15 165 15 166 19 4 4 15 164 77 15 167 15 168 1 170 12 19 5 138 29) #1# #2# 14536))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2018 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : image-feature.lisp
+;;; Version     : 1.1
+;;; 
+;;; Description : Provides an image item for the virtual windows of the AGI which
+;;;               can display a .gif through the visible virtual windows.
+;;; Bugs        : 
+;;; 
+;;; Todo        : 
+;;; 
+;;; ----- History -----
+;;; 18.01.31 Dan Bothell
+;;;             : * This was an example previously, but since it has too much
+;;;             :   "internal" code now it's not suitable as an example and I'm
+;;;             :   just rolling it into the sources.  It does however get tied
+;;;             :   in through some extensions I've added which makes it an 
+;;;             :   example for me of using those extensions.
+;;; 18.03.14 Dan
+;;;             : * Update the build-vis-locs-for method since that doesn't 
+;;;             :   get the vision module any more.
+;;; 18.03.19 Dan
+;;;             : * Add the window position to make visual-location in gloabl
+;;;             :   coordinates not local.
+;;; 18.04.27 Dan
+;;;             : * Copied the code for modifying buttons in here as a reference,
+;;;             :   but not yet adding a modify-image... because it doesn't have
+;;;             :   the subclass for a visible virtual window yet.
+;;; 18.05.02 Dan
+;;;             : * Updated because of new add-visicon-features spec.
+;;; 18.06.14 Dan
+;;;             : * Don't need to double-quote strings for the visicon features.
+;;; 18.06.22 Dan
+;;;             : * Use keyword params instead of optional and options list for
+;;;             :   remote versions.
+;;; 18.07.17 Dan
+;;;             : * Fix a bug with the call to create-image-... in add-image-...
+;;; 2018.08.03 Dan
+;;;             : * Updated the click handler to test things like the button
+;;;             :   handler does.
+;;; 2019.08.27 Dan
+;;;             : * Use new-symbol-fct instead of new-name-fct because it can be
+;;;             :   used when there isn't a current model.
+;;; 2021.05.11 Dan
+;;;             : * Changed reference to GUI directory to gui to avoid issues
+;;;             :   with logical pathnames (particularlly in SBCL).
+;;; 2022.03.02 Dan [1.1]
+;;;             : * Added the :clickable keyword parameter to create-image-...
+;;;             :   and add-image-... so that one can turn off the response to
+;;;             :   clicks if needed, for example when placing other items that
+;;;             :   are clickable (like buttons) overlapping an image.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Create a new virtual dialog item called an image which can be used to draw
+;;; .gif files in the visible virtual windows if those images are located in the
+;;; gui/AGI-images directory of the Environment.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; Two functions are provided for using them like the other AGI elements:
+;;; 
+;;; create-image-for-exp-window (win text file &key (x 0) (y 0) (width 50) (height 50) (action nil) (clickable t))
+;;;
+;;; and 
+;;; 
+;;; add-image-to-exp-window (win text file &key (x 0) (y 0) (width 50) (height 50) (action nil) (clickable t))
+;;;
+;;; Win is the window reference (as with other AGI items), text is a string which
+;;; will be the value the model sees for attending the item.  File should be the
+;;; name of a file in the gui/AGI-images directory of the Environment to display
+;;; in the visible virtual window.  X and y are the coordinates for the upper left
+;;; corner of the image in the window.  Width and height specify the size of the
+;;; image for display purposes and the .gif file will be clipped to fit if 
+;;; needed (it does not scale, center, or otherwise attempt to fit that space).
+;;; If clickable is specified as non-nil (the default) then an action function
+;;; can be set, otherwise the image will ignore mouse clicks. Action specifies a 
+;;; user function to call when the mouse is clicked within the boundaries of the
+;;; image, and it can be specified the same way as button actions:
+;;; a valid command string, a Lisp function, a symbol naming a Lisp function, or
+;;; a list where the first item is a command/function and the remaining items
+;;; are values which will be passed to that function.  If it is not a list, then
+;;; the command/function will be passed two items.  The text for the image object
+;;; and the relative position within the image where it was clicked as a 2
+;;; element list.
+;;;
+;;;
+;;; These calls (assuming there is only one open experiment window):
+;;;
+;;;    (add-image-to-exp-window nil "logo" "smalllogo.gif" :x 10 :y 10 :width 288 :height 142)
+;;;   
+;;;    (add-items-to-exp-window win (create-image-for-exp-window nil "brain" "ref-brain.gif" :x 10 :y 160 :width 128 :height 128))
+;;;
+;;; will result in these visicon features:
+;;;
+;;; Name              Att  Loc             Height  Width  Kind   Value    Size      
+;;; ----------------  ---  --------------  ------  -----  -----  -------  ----------
+;;; VISUAL-LOCATION1  NEW  ( 74 224 1080)  128     128    IMAGE  "brain"  46.0      
+;;; VISUAL-LOCATION0  NEW  (154  81 1080)  142     288    IMAGE  "logo"   114.259995
+;;;
+;;; and these visual chunks for the second item:
+;;; 
+;;; VISUAL-LOCATION0-0-0
+;;;    KIND  IMAGE
+;;;    VALUE  IMAGE
+;;;    HEIGHT  142
+;;;    WIDTH  288
+;;;    DISTANCE  1080
+;;;    SCREEN-X  154
+;;;    SCREEN-Y  81
+;;;    SIZE  114.259995
+;;; 
+;;; 
+;;; IMAGE0-0
+;;;    SCREEN-POS  VISUAL-LOCATION0-0-0
+;;;    VALUE  "logo"
+;;;    HEIGHT  142
+;;;    WIDTH  288
+;;;    DISTANCE  1080
+;;;    IMAGE  T
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Implemented using the extension mechanisms that I added to the AGI and
+;;; Environment visible-virtual window code to make it possible to add new items
+;;; without having to redefine things as was needed previously.
+;;; This goes along with the 999-image-item.tcl file to provide the corresponding
+;;; display support.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;;; The first step for creating a new virtual feature is to create a subclass
+;;; of the virtual-dialog-item and rpm-dialog-item classes.  Any new slots 
+;;; necessary for that class can be added, and it should automatically create
+;;; a unique id.
+
+(defclass image-vdi ( virtual-dialog-item)
+ 
+  ((file :accessor file :initform nil :initarg :file))
+  
+  (:default-initargs 
+    :id (string-downcase (symbol-name (new-symbol-fct "IMAGE-VDI"))) ;; make sure it gets a unique name
+    :handles-click-p t             ;; indicate that this item can be clicked on by a model
+    :action nil)) 
+
+  
+(defun default-image-action (text position)
+  (print-warning "Image ~s with no valid action clicked at position ~d,~d at time ~S." text (first position) (second position) (mp-time)))
+
+
+;;; The function for creating one which handles all the AGI setup necessary for
+;;; recording and accessing the underlying object cleanly.
+
+(defun create-image-for-exp-window (win text file &key (x 0) (y 0) (width 50) (height 50) (action nil) (clickable t))
+  "Creates an image item for the experiment window"
+  
+  ;(when (and win (symbolp win))
+  ;  (setf win (symbol-name win)))
+  
+  ; should be more error checking...
+  
+  (let ((agi (agi-component)))
+    (multiple-value-bind (window key) (determine-exp-window agi win)
+      (if window
+          (let* ((item (make-instance 'image-vdi
+                         :x-pos x
+                         :y-pos y
+                         :dialog-item-text text
+                         :action (when clickable 
+                                   (if (valid-button-action action) 
+                                       action
+                                     'default-image-action))
+                         :handles-click-p clickable
+                         :height height
+                         :width width 
+                         :file file
+                         :lock (window-lock window)))
+                 (item-key (list key (string (id item)))))
+              
+            (if (and agi item)
+                (bt:with-recursive-lock-held ((agi-lock agi))
+                  (setf (gethash item-key (global-agi-table agi)) item)
+                  (push item (gethash key (window-objects-table agi)))
+                  
+                  item-key)
+              (print-warning "Problem creating image item.  No image created.")))
+        (print-warning "No window available for creating an image.")))))
+
+(defun external-create-image-for-exp-window (win text file &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'create-image-for-exp-window '(:x :y :height :width :action :clickable))
+    (when valid 
+      (apply 'create-image-for-exp-window win text file ol))))
+
+(add-act-r-command "create-image-for-exp-window" 'external-create-image-for-exp-window "Create an image item for the provided experiment window with the features specified. Params: window text file  {< x, y, width, height, action, clickable >}.")
+
+(defun add-image-to-exp-window (win text file &key (x 0) (y 0) (width 50) (height 50) (action nil) (clickable t))
+  "Create and display an image item in the experiment window"
+  
+  (when (and win (symbolp win))
+    (setf win (symbol-name win)))
+  
+  (let ((item-key (create-image-for-exp-window win text file :x x :y y :width width :height height :action action :clickable clickable)))
+    (if item-key
+        (if (add-items-to-exp-window win item-key)
+            item-key
+          nil)
+      nil)))
+
+(defun external-add-image-to-exp-window (win text file &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'add-image-to-exp-window '(:x :y :height :width :action :clickable))
+    (when valid 
+      (apply 'add-image-to-exp-window win text file ol))))
+  
+(add-act-r-command "add-image-to-exp-window" 'external-add-image-to-exp-window "Create an image item for the provided experiment window with the features specified and place it in the window. Params: window text file {<x, y, width, height, action, clickable >}.")
+
+;;; The vv-click-event-handler is the method which must be written
+;;; to actually process the click which the model produces.  This is
+;;; the internal virtual window method that gets called and we use
+;;; that to call the action function for the image-vdi item.
+
+
+(defmethod vv-click-event-handler ((self image-vdi) position)
+  (if (listp (action-function self))
+      (cond ((stringp (first (action-function self)))
+             (multiple-value-bind (success result)
+                 (apply 'evaluate-act-r-command (first (action-function self)) (rest (action-function self)))
+               (unless success
+                 (print-warning "Image click action ~s reported error ~s." (action-function self) result))))
+            ((or (functionp (first (action-function self)))
+                 (and (symbolp (first (action-function self))) 
+                      (fboundp (first (action-function self)))
+                      (not (macro-function (first (action-function self))))))
+             (apply (first (action-function self)) (rest (action-function self))))
+            (t
+             (default-image-action (dialog-item-text self) 
+                 (list (- (px position) (x-pos self))
+                       (- (py position) (y-pos self))))))
+    (cond ((stringp (action-function self))
+           (multiple-value-bind (success result)
+               (apply 'evaluate-act-r-command (action-function self) (list (dialog-item-text self) 
+                                                                           (list (- (px position) (x-pos self))
+                                                                                 (- (py position) (y-pos self)))))
+               (unless success
+                 (print-warning "Image click action ~s reported error ~s." (action-function self) result))))
+          ((or (functionp (action-function self))
+               (and (symbolp (action-function self)) 
+                    (fboundp (action-function self))
+                    (not (macro-function (action-function self)))))
+           (apply (action-function self) (list (dialog-item-text self) 
+                                               (list (- (px position) (x-pos self))
+                                                     (- (py position) (y-pos self))))))
+          (t
+           (default-image-action (dialog-item-text self) 
+               (list (- (px position) (x-pos self))
+                     (- (py position) (y-pos self))))))))
+    
+
+
+;;; The build-vis-locs-for method is typically written for the
+;;; whole device, but the virtual windows in ACT-R extend that so
+;;; that the device actually calls that method for each of the
+;;; items in the window to create the features.  It needs to 
+;;; return the feature list for the visual information desired.
+
+(defmethod build-vis-locs-for ((self image-vdi))
+  (let* ((top (find-top-level-window self))
+         (top-xy (bt:with-recursive-lock-held ((window-lock top)) (vector (x-pos top) (y-pos top)))))
+           
+    
+    (unless (chunk-p image)
+      (define-chunks (image name image))) 
+    
+    (unless (chunk-type-p image)
+      (chunk-type (image (:include visual-object)) (image t)))
+    
+    `((isa (visual-location image)
+       value (image ,(format nil "~a" (dialog-item-text self)))
+       screen-x ,(+ (px top-xy) (x-pos self) (round (width self) 2))
+       screen-y ,(+ (py top-xy) (y-pos self) (round (height self) 2))
+       width ,(width self)
+       height ,(height self)))))
+  
+
+;;; This method is used by the extension to the visible-virtual handler
+;;; to create the feature list that is sent to the Environment.  It
+;;; needs an appropriate handler defined to process it (which is in the
+;;; 999-image-item.tcl file).
+
+(defmethod env-window-features ((item image-vdi))
+  (list "image" (list (id item) (x-pos item) (y-pos item)
+                      (file item) (width item) (height item))))
+
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 14 5 77 15 6 19 4 4 15 0 1 156 12 19 2 157 15 0 15 158 15 159 19 3 160 1 0 73 29) #1=#A(t (366) (common-lisp-user::map-imaginal-buffer ext::location (defun common-lisp-user::map-imaginal-buffer) (#2=#P"/opt/actr/actr7.x/tools/imaginal-compilation.lisp" . 0) ext::annotate :lambda-list (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index common-lisp-user::compilation-module-ppm common-lisp-user::ppm common-lisp-user::compilation-module-previous common-lisp-user::previous-production-bindings common-lisp-user::p1-bindings common-lisp-user::production-name common-lisp-user::production-compilation-instan common-lisp-user::p2-bindings append common-lisp-user::bindings (4 12 13 20 28 29) find (8 9 12 13 24 25 28 29 40 56) common-lisp-user::mappings common-lisp-user::x #\+ common-lisp-user::compose-rep-op char= common-lisp-user::compose-rep-name eq #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 13 13 0 19 1 33 17 34 29) #1# #2# 0) second find-if common-lisp-user::compose-rep-slots common-lisp-user::original-p1-slots #\= #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 14 13 0 19 1 33 17 34 29) #1# #2# 0) common-lisp-user::original-p2-slots #\* #Y(nil nil nil (24 45 29 26 13 15 13 0 19 1 33 17 34 73 39 26 15 40 13 0 19 1 31 12 19 2 32 73 40 12 15 43 13 0 19 1 31 12 19 2 32 29) #1# #2# 0) common-lisp-user::original-p2-rhs-slots common-lisp-user::spec-slot-name assoc #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 7 19 2 47 29) #1# #2# 0) common-lisp-user::chunk-spec-variable-p :key remove-if-not mapcar common-lisp-user::p1-var-slots #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 7 19 2 47 29) #1# #2# 0) common-lisp-user::p2-var-slots #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 8 19 2 47 29) #1# #2# 0) common-lisp-user::p2-rhs-var-slots common-lisp-user::instantiate-slot-names common-lisp-user::p1-slots common-lisp-user::p2-slots common-lisp-user::p2-rhs-slots common-lisp-user::spec-slot-op = #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) mapcan #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) remove-duplicates common-lisp-user::interesting-slots si::%dolist-var common-lisp-user::slot rassoc car #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) common-lisp-user::p1-var #Y(nil nil nil (24 45 29 26 10 0 5 12 10 3 17 34 29) #1# #2# 0) common-lisp-user::p2-var #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 3 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 11 13 0 19 1 46 12 10 1 17 34 29) #1# #2# 0) common-lisp-user::p1slots #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 11 13 0 19 1 46 12 10 3 17 34 29) #1# #2# 0) common-lisp-user::p2slots common-lisp-user::spec-slot-value common-lisp-user::constant-value-p (9 25) (8 9 12 13 24 25 28 29) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 13 13 0 19 1 33 17 34 29) #1# #2# 0) common-lisp-user::original-p1a-slots #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 14 13 0 19 1 33 17 34 29) #1# #2# 0) common-lisp-user::original-p1b-slots #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 15 13 0 19 1 33 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 16 13 0 19 1 33 17 34 73 39 26 15 40 13 0 19 1 31 12 19 2 32 73 40 12 15 43 13 0 19 1 31 12 19 2 32 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 8 19 2 47 29) #1# #2# 0) common-lisp-user::p1-var-slotsa #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 9 19 2 47 29) #1# #2# 0) common-lisp-user::p1-var-slotsb #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 9 19 2 47 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 10 19 2 47 29) #1# #2# 0) common-lisp-user::p1-slotsa common-lisp-user::p1-slotsb #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 76 73 40 16 13 0 19 1 46 12 13 3 14 50 15 46 19 4 26 29) #1# #2# 0) remove-if :test equalp #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 3 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 3 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 10 3 17 34 29) #1# #2# 0) (40 56) (8 9 24 25 40 56) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 13 13 0 19 1 33 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 15 43 13 0 19 1 31 12 19 2 32 73 39 10 13 14 13 0 19 1 33 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 15 13 0 19 1 33 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 16 13 0 19 1 33 17 34 73 39 26 15 40 13 0 19 1 31 12 19 2 32 73 40 12 15 43 13 0 19 1 31 12 19 2 32 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 8 19 2 47 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 9 19 2 47 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 9 19 2 47 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 13 10 19 2 47 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 76 73 40 16 13 0 19 1 46 12 13 3 14 50 15 46 19 4 26 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 3 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 3 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 10 0 5 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 46 12 10 3 17 34 29) #1# #2# 0) (8 24) (8 9 12 13 24 25 28 29 40 56) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 13 13 0 19 1 33 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 14 13 0 19 1 33 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 9 13 0 19 1 46 6 1 73 29) #1# #2# 0) intersection #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 11 13 0 19 1 46 12 10 1 17 34 29) #1# #2# 0) #Y(nil nil nil (24 45 29 26 13 0 19 1 62 12 1 63 17 34 73 39 11 13 0 19 1 46 12 10 3 17 34 29) #1# #2# 0) #Y(common-lisp-user::map-imaginal-buffer nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 13 6 19 1 15 45 16 13 7 19 1 17 12 19 1 18 45 19 13 4 19 1 20 12 19 1 21 45 22 10 2 39 8 13 1 13 0 19 2 23 45 24 13 7 15 25 19 2 26 39 8 13 4 15 27 19 2 26 39 869 75 45 28 34 35 12 10 9 16 36 12 19 2 37 12 19 1 38 45 39 34 41 12 10 7 4 12 19 2 37 12 19 1 38 45 42 34 44 12 10 8 16 36 12 19 2 37 12 19 1 38 45 45 34 48 12 15 49 13 2 14 50 15 46 19 4 51 12 19 2 52 45 53 34 54 12 15 49 13 2 14 50 15 46 19 4 51 12 19 2 52 45 55 34 56 12 15 49 13 2 14 50 15 46 19 4 51 12 19 2 52 45 57 13 5 13 9 19 2 58 45 59 13 5 13 9 19 2 58 45 60 13 5 13 10 19 2 58 45 61 34 64 12 13 2 19 2 65 12 34 66 12 13 1 19 2 65 12 34 67 12 13 0 19 2 65 12 19 3 23 12 19 1 68 45 69 10 0 45 70 38 674 10 0 4 45 71 10 8 40 7 10 7 40 3 10 6 39 479 13 0 13 8 19 2 72 39 8 13 0 13 7 19 2 72 39 84 15 73 34 74 12 13 8 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 76 12 13 9 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 16 3 51 16 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 8 19 2 72 39 8 13 0 13 6 19 2 72 39 84 15 73 34 78 12 13 8 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 79 12 13 8 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 16 3 51 16 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 8 19 2 72 39 12 13 0 13 10 14 50 15 46 19 4 26 39 48 15 73 34 80 12 13 8 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 14 3 51 14 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 8 19 2 72 39 12 13 0 13 9 14 50 15 46 19 4 26 39 48 15 73 34 81 12 13 8 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 14 3 51 14 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 7 19 2 72 39 12 13 0 13 11 14 50 15 46 19 4 26 39 48 15 73 34 82 12 13 7 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 14 3 51 14 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 6 19 2 72 39 12 13 0 13 11 14 50 15 46 19 4 26 39 48 15 73 34 83 12 13 6 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 14 3 51 14 10 1 5 51 1 43 1 10 0 40 -26 43 1 34 84 12 13 5 19 2 51 45 70 38 154 10 0 4 45 85 34 86 12 13 6 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 27 19 2 89 39 81 10 20 39 57 13 2 19 1 88 12 13 27 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 16 3 51 16 38 22 13 2 19 1 88 12 13 17 14 50 15 73 19 4 26 12 10 16 3 51 16 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 16 3 51 16 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 16 3 51 16 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -676 43 1 10 10 73 43 11 38 2253 13 7 15 90 19 2 26 39 8 13 4 15 91 19 2 26 39 960 75 45 28 34 92 12 10 9 4 12 19 2 37 12 19 1 38 45 93 34 94 12 10 10 16 36 12 19 2 37 12 19 1 38 45 95 34 96 12 10 8 4 12 19 2 37 12 19 1 38 45 42 34 97 12 10 9 16 36 12 19 2 37 12 19 1 38 45 45 34 98 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 99 34 100 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 101 34 102 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 55 34 103 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 57 13 7 13 11 19 2 58 45 104 13 7 13 12 19 2 58 45 105 13 7 13 12 19 2 58 45 60 13 7 13 13 19 2 58 45 61 34 106 12 13 3 19 2 107 12 13 2 19 2 23 45 59 13 8 13 7 19 2 23 12 14 108 15 109 19 3 68 45 53 34 110 12 13 1 19 2 65 12 34 111 12 13 3 19 2 65 12 34 112 12 13 2 19 2 65 12 19 3 23 12 19 1 68 45 69 10 0 45 70 38 687 10 0 4 45 71 10 3 40 7 10 10 40 3 10 9 39 492 13 0 13 3 19 2 72 39 8 13 0 13 10 19 2 72 39 84 15 73 34 113 12 13 3 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 114 12 13 12 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 11 19 2 72 39 8 13 0 13 9 19 2 72 39 84 15 73 34 115 12 13 11 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 116 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 3 19 2 72 39 12 13 0 13 14 14 50 15 46 19 4 26 39 48 15 73 34 117 12 13 3 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 11 19 2 72 39 12 13 0 13 13 14 50 15 46 19 4 26 39 48 15 73 34 118 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 10 19 2 72 39 25 13 0 13 16 14 50 15 46 19 4 26 40 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 119 12 13 10 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 9 19 2 72 39 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 120 12 13 9 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 34 121 12 13 4 19 2 51 45 70 38 154 10 0 4 45 85 34 122 12 13 8 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 32 19 2 89 39 81 10 25 39 57 13 2 19 1 88 12 13 32 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 22 13 2 19 1 88 12 13 22 14 50 15 73 19 4 26 12 10 21 3 51 21 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -689 43 1 10 15 73 43 16 38 1276 13 7 15 123 19 2 26 39 8 13 4 15 124 19 2 26 39 960 75 45 28 34 125 12 10 9 4 12 19 2 37 12 19 1 38 45 93 34 126 12 10 10 16 36 12 19 2 37 12 19 1 38 45 95 34 127 12 10 8 4 12 19 2 37 12 19 1 38 45 42 34 128 12 10 9 16 36 12 19 2 37 12 19 1 38 45 45 34 129 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 99 34 130 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 101 34 131 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 55 34 132 12 15 49 13 3 14 50 15 46 19 4 51 12 19 2 52 45 57 13 7 13 11 19 2 58 45 104 13 7 13 12 19 2 58 45 105 13 7 13 12 19 2 58 45 60 13 7 13 13 19 2 58 45 61 34 133 12 13 3 19 2 107 12 13 2 19 2 23 45 59 13 8 13 7 19 2 23 12 14 108 15 109 19 3 68 45 53 34 134 12 13 1 19 2 65 12 34 135 12 13 3 19 2 65 12 34 136 12 13 2 19 2 65 12 19 3 23 12 19 1 68 45 69 10 0 45 70 38 687 10 0 4 45 71 10 3 40 7 10 10 40 3 10 9 39 492 13 0 13 3 19 2 72 39 8 13 0 13 10 19 2 72 39 84 15 73 34 137 12 13 3 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 138 12 13 12 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 11 19 2 72 39 8 13 0 13 9 19 2 72 39 84 15 73 34 139 12 13 11 19 2 51 12 19 2 52 45 70 38 60 10 0 4 45 75 15 73 34 140 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 2 10 0 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -26 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 13 0 13 3 19 2 72 39 12 13 0 13 14 14 50 15 46 19 4 26 39 48 15 73 34 141 12 13 3 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 11 19 2 72 39 12 13 0 13 13 14 50 15 46 19 4 26 39 48 15 73 34 142 12 13 11 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 75 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 10 19 2 72 39 25 13 0 13 16 14 50 15 46 19 4 26 40 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 143 12 13 10 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 13 0 13 9 19 2 72 39 12 13 0 13 15 14 50 15 46 19 4 26 39 48 15 73 34 144 12 13 9 19 2 51 12 19 2 52 45 70 38 24 10 0 4 45 77 13 0 10 2 3 12 10 19 3 51 19 10 1 5 51 1 43 1 10 0 40 -26 43 1 34 145 12 13 4 19 2 51 45 70 38 154 10 0 4 45 85 34 146 12 13 8 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 32 19 2 89 39 81 10 25 39 57 13 2 19 1 88 12 13 32 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 22 13 2 19 1 88 12 13 22 14 50 15 73 19 4 26 12 10 21 3 51 21 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 21 3 51 21 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 21 3 51 21 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -689 43 1 10 15 73 43 16 38 299 13 7 15 147 19 2 26 39 8 13 4 15 148 19 2 26 39 279 75 45 28 34 149 12 10 9 4 12 19 2 37 12 19 1 38 45 39 34 150 12 10 7 4 12 19 2 37 12 19 1 38 45 42 13 1 13 5 19 2 58 45 59 13 1 13 5 19 2 58 45 60 34 151 12 13 1 19 2 65 12 34 152 12 13 0 19 2 65 12 19 2 153 45 69 10 0 45 70 38 184 10 0 4 45 71 34 154 12 13 4 19 2 51 45 70 38 154 10 0 4 45 85 34 155 12 13 5 19 2 51 45 70 38 124 10 0 4 45 87 13 0 19 1 88 12 13 22 19 2 89 39 81 10 15 39 57 13 2 19 1 88 12 13 22 19 2 89 39 21 13 2 19 1 88 12 13 0 19 1 88 3 12 10 11 3 51 11 38 22 13 2 19 1 88 12 13 12 14 50 15 73 19 4 26 12 10 11 3 51 11 38 19 13 2 19 1 88 12 13 0 19 1 88 3 12 10 11 3 51 11 38 19 13 0 19 1 88 12 13 2 19 1 88 3 12 10 11 3 51 11 10 1 5 51 1 43 1 10 0 40 -126 43 1 10 1 5 51 1 43 1 10 0 40 -156 43 1 10 1 5 51 1 43 1 10 0 40 -186 43 1 10 5 73 43 6 38 3 75 73 43 4 29) #1# #2# 0) si::fset function "map references from p1 to p2 for imaginal style buffer" si::set-documentation common-lisp-user::compose-imaginal-buffer (defun common-lisp-user::compose-imaginal-buffer) (#2# . 34579) (common-lisp-user::buffer common-lisp-user::module common-lisp-user::p1 common-lisp-user::p1-s common-lisp-user::p1-index common-lisp-user::p2 common-lisp-user::p2-s common-lisp-user::p2-index) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #\? #Y(nil nil nil (24 45 29 26 15 167 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 167 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 40 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 30 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 43 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) #Y(nil nil nil (24 45 29 26 15 43 13 0 19 1 31 12 19 2 32 73 39 10 13 8 13 0 19 1 33 17 34 29) #1# #2# 34579) common-lisp-user::a2* common-lisp-user::a1* common-lisp-user::a2+ common-lisp-user::a1+ common-lisp-user::a2= common-lisp-user::a1= common-lisp-user::q2 common-lisp-user::q1 common-lisp-user::c2 common-lisp-user::c1 4 12 13 20 28 29 common-lisp-user::buffer+-union common-lisp-user::it 0 8 16 24 common-lisp-user::buffer-condition-union common-lisp-user::compilation-module-no-harvest common-lisp-user::slots (= common-lisp-user::buffer common-lisp-user::empty) remove 9 40 25 56 common-lisp-user::buffer=-union #Y(common-lisp-user::compose-imaginal-buffer nil nil (24 45 7 24 45 8 24 45 9 24 45 10 24 45 11 24 45 12 24 45 13 24 45 14 26 34 165 12 10 4 4 12 19 2 37 12 34 166 12 10 1 4 12 19 2 37 12 34 168 12 10 4 4 12 19 2 37 12 34 169 12 10 1 4 12 19 2 37 12 34 170 12 10 4 16 36 12 19 2 37 12 34 171 12 10 1 16 36 12 19 2 37 12 34 172 12 10 4 16 36 12 19 2 37 12 34 173 12 10 1 16 36 12 19 2 37 12 34 174 12 10 4 16 36 12 19 2 37 12 34 175 12 10 1 16 36 12 19 2 37 12 13 6 19 1 17 12 19 1 18 12 13 2 19 1 20 12 19 1 21 12 19 2 23 12 46 24 46 176 46 177 46 178 46 179 46 180 46 181 46 182 46 183 46 184 46 185 10 14 41 186 16 41 187 13 41 188 10 41 189 7 41 190 4 42 191 147 10 0 73 39 6 10 0 6 1 73 12 10 2 73 39 6 10 2 6 1 73 12 19 2 23 12 10 4 40 3 10 8 73 39 17 10 4 39 8 10 4 6 1 73 38 6 10 8 6 1 73 12 10 6 39 3 10 5 39 29 13 6 13 5 13 10 19 3 192 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 50 10 6 39 3 10 9 39 29 13 6 13 9 13 10 19 3 192 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 43 1 38 14 10 6 39 8 10 6 6 1 73 38 3 75 73 12 19 2 23 6 2 73 38 461 41 194 10 41 195 7 41 196 4 42 197 156 13 0 13 1 13 4 13 10 19 4 198 45 193 10 0 39 8 10 0 6 1 73 38 3 75 73 12 43 1 10 2 39 8 10 2 6 1 73 38 70 10 3 39 64 13 18 13 17 19 1 199 12 19 2 26 39 8 10 3 6 1 73

@@ -1,0 +1,818 @@
+(#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (513) ((ftype (function (t &optional t) (values t t)) common-lisp-user::get-module-fct) proclaim (ftype (function nil t) common-lisp-user::current-model) (ftype (function (t) (values t t)) common-lisp-user::get-chunk) (ftype (function (&optional t) (values t t t)) common-lisp-user::new-name-fct) (ftype (function (t &optional t t) (values t t)) common-lisp-user::define-chunk-spec-fct) common-lisp-user::act-r-slot "ACT-R-SLOT-" (common-lisp-user::name common-lisp-user::index common-lisp-user::mask) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::index nil t nil 1 nil) (common-lisp-user::mask nil t nil 2 nil)) common-lisp-user::copy-act-r-slot (common-lisp-user::make-act-r-slot) common-lisp-user::act-r-slot-p si::define-structure ext::location (defstruct common-lisp-user::act-r-slot) (#2=#P"/opt/actr/actr7.x/framework/chunk-types.lisp" . 16767) ext::annotate common-lisp-user::make-act-r-slot (defun common-lisp-user::make-act-r-slot) (#2# . 16767) :lambda-list (&key #3=#:name #4=#:index #5=#:mask) (nil :mask :index :name) #3# #4# #5# 0 si::make-structure #Y(common-lisp-user::make-act-r-slot nil nil (28 23 22 40 2 77 46 24 22 40 2 77 46 25 22 40 2 77 46 26 15 27 13 2 13 1 13 0 19 4 28 29) #1# #2# 16767) si::fset find-class common-lisp-user::deep-copy-act-r-chunk-type (defun common-lisp-user::deep-copy-act-r-chunk-type) (#2# . 16807) (common-lisp-user::ct) common-lisp-user::ct common-lisp-user::copy-act-r-chunk-type common-lisp-user::new #:g1359 common-lisp-user::act-r-chunk-type-possible-slots copy-list #:g1360 common-lisp-user::act-r-chunk-type si::structure-set #Y(common-lisp-user::deep-copy-act-r-chunk-type nil nil (24 45 36 26 13 0 19 1 37 45 38 10 0 45 39 13 2 19 1 40 16 41 45 42 13 1 15 43 9 5 13 0 19 4 44 43 1 43 1 10 0 73 43 1 29) #1# #2# 16807) common-lisp-user::get-chunk-type (defun common-lisp-user::get-chunk-type) (#2# . 17131) (common-lisp-user::name) common-lisp-user::name common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model common-lisp-user::act-r-model-chunk-types-info common-lisp-user::info common-lisp-user::act-r-chunk-type-info-table gethash "print-warning" "~@?" "get-chunk-type called with no current model." format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::get-chunk-type nil nil (24 45 50 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 39 39 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 13 1 13 0 19 1 57 12 19 2 58 43 1 38 17 15 59 77 15 60 15 61 19 3 62 12 19 2 63 75 73 29) #1# #2# 17131) function "Internal command to get a chunk-type structure from its name" si::set-documentation common-lisp-user::chunk-type (defmacro common-lisp-user::chunk-type) (#2# . 17589) (&rest common-lisp-user::name-and-slots) #:g1362 #:g1361 #:g1363 common-lisp-user::name-and-slots common-lisp-user::chunk-type-fct quote #Y(common-lisp-user::chunk-type nil nil (24 45 72 24 45 73 26 10 1 5 45 74 10 0 45 75 15 76 15 77 10 0 6 2 6 2 73 29) #1# #2# 17589) t "The user macro to define a new chunk-type." (defun common-lisp-user::chunk-type-fct) (#2# . 17731) (common-lisp-user::name-and-slots) common-lisp-user::print-all-chunk-types listp "chunk-type-fct must be passed a list which defines a chunk-type." common-lisp-user::name-description consp common-lisp-user::modifier second stringp documentation cddr common-lisp-user::slots common-lisp-user::parents common-lisp-user::super-types common-lisp-user::chunk "Chunk-type ~S is already defined and redefinition is not allowed." common-lisp-user::x length = keywordp #Y(nil nil nil (24 45 99 26 10 0 16 85 73 39 19 9 2 10 0 16 100 12 19 2 101 73 39 6 10 0 4 16 102 29) #1# #2# 17731) every "Invalid modifier list specified with the chunk-type name: ~s" :static :key car find remove "Static modifier in chunk-type definitions is depricated and has no effect." si::%dolist-var :include eq "Invalid modifier ~s in ~s chunk-type definition." common-lisp-user::it equalp #:g1376 nconc "Non-existent chunk-type ~s specified as an :include in ~s chunk-type definition." common-lisp-user::slot atom symbolp common-lisp-user::isa symbol-name char alphanumericp "Unacceptable slot specification ~S for chunk-type ~S.  Chunk-type not created." common-lisp-user::chunk-type-slot-name mapcar remove-duplicates "Duplicate slot specifications in ~S for chunk-type ~S.  Chunk-type not created." :name :documentation :parents :super-types union common-lisp-user::act-r-chunk-type-super-types reduce common-lisp-user::make-act-r-chunk-type common-lisp-user::y :test #Y(nil nil nil (24 45 99 24 45 141 26 13 1 13 0 14 142 15 117 19 4 137 29) #1# #2# 17731) common-lisp-user::act-r-chunk-type-slots remove-if-not #Y(nil nil nil (24 45 99 26 15 85 13 0 19 1 144 12 19 2 145 29) #1# #2# 17731) common-lisp-user::unique-parent-defaults #Y(nil nil nil (24 45 99 26 13 0 19 1 129 12 13 6 14 107 15 129 19 4 109 29) #1# #2# 17731) remove-if common-lisp-user::needed-defaults first "The multiple parents specified for type ~s ~s have inconsistent default values in one or more slots.  Chunk-type not created." common-lisp-user::s common-lisp-user::act-r-chunk-type-info-slot->index common-lisp-user::act-r-chunk-type-info-index->slot vector-push-extend common-lisp-user::index :index :mask expt common-lisp-user::new-s si::hash-set #:g1385 1+ #:g1386 common-lisp-user::act-r-chunk-type-info common-lisp-user::parent-slot #:g1390 #:g1391 #:g1392 common-lisp-user::type-name type #:g1410 #:g1408 adjoin #:g1409 common-lisp-user::s-struct #:g1411 common-lisp-user::act-r-slot-mask common-lisp-user::act-r-chunk-type-possible-slot-vector logior #:g1412 common-lisp-user::filled-specs #:g1418 #:g1420 #:g1421 common-lisp-user::define-chunk-spec-fct #:g1422 #:g1426 #:g1428 common-lisp-user::act-r-chunk-type-info-types #:g1427 common-lisp-user::defaults common-lisp-user::ordered-slots common-lisp-user::named-slots common-lisp-user::act-r-slot-index < sort common-lisp-user::act-r-chunk-type-info-distinct-types common-lisp-user::possibles "Chunk-type ~s has the same specification as the chunk-type~p ~{~s~^, ~}." #:g1435 #:g1439 #:g1437 #:g1438 rplacd #:g1436 #:g1447 #:g1448 "chunk-type called with no current model." #Y(common-lisp-user::chunk-type-fct nil nil (24 45 75 26 57 76 60 1627 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 39 1592 10 1 76 39 6 19 0 84 38 1580 10 1 16 85 76 39 19 15 59 77 15 60 15 86 19 3 62 12 19 2 63 75 73 38 1555 10 1 4 45 87 10 0 16 88 39 6 10 0 4 38 3 10 0 45 50 10 1 16 88 39 6 10 1 5 38 2 75 45 89 10 4 16 90 16 91 39 5 10 4 16 90 45 92 10 0 39 7 10 5 16 93 38 4 10 5 5 45 94 75 45 95 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 75 45 96 15 97 13 1 19 1 57 12 19 2 58 6 1 51 0 13 6 13 1 19 1 57 12 19 2 58 39 21 15 59 77 15 60 15 98 13 6 19 4 62 12 19 2 63 75 73 36 8 10 5 39 233 34 103 12 13 5 19 2 104 76 39 21 15 59 77 15 60 15 105 13 5 19 4 62 12 19 2 63 75 73 36 8 14 106 13 5 14 107 15 108 19 4 109 39 28 14 106 13 5 14 107 15 108 19 4 110 51 5 15 59 77 15 60 15 111 19 3 62 12 19 2 63 10 5 45 112 38 150 10 0 4 45 99 10 0 4 12 11 113 17 114 76 39 25 15 59 77 15 60 15 115 10 0 4 12 13 8 19 5 62 12 19 2 63 75 73 36 10 10 0 16 90 12 13 3 19 1 57 12 19 2 58 45 116 10 0 39 56 13 3 15 97 13 4 19 1 57 12 19 2 58 6 1 17 117 39 9 10 0 6 1 51 3 38 8 13 0 10 3 3 51 3 10 1 16 90 6 1 45 118 13 6 13 0 19 2 119 51 6 43 1 38 26 15 59 77 15 60 15 120 10 1 16 90 12 13 9 19 5 62 12 19 2 63 75 73 36 11 43 1 10 1 5 51 1 43 1 10 0 40 -152 43 1 10 3 45 112 38 135 10 0 4 45 121 10 0 16 122 39 34 10 0 16 123 39 28 10 0 16 102 76 39 21 13 0 1 124 17 114 76 39 12 10 0 16 125 12 8 0 17 126 16 127 40 57 10 0 16 85 39 51 10 0 16 100 12 9 2 19 2 101 39 39 10 0 4 12 1 124 17 114 76 39 28 10 0 4 16 123 39 21 10 0 4 16 102 76 39 13 10 0 4 16 125 12 8 0 17 126 16 127 76 39 23 15 59 77 15 60 15 128 13 0 13 8 19 5 62 12 19 2 63 75 73 36 10 10 1 5 51 1 43 1 10 0 40 -137 43 1 10 3 16 100 12 15 129 13 3 19 2 130 12 19 1 131 16 100 12 19 2 101 76 39 23 15 59 77 15 60 15 132 13 3 13 6 19 5 62 12 19 2 63 75 73 36 8 14 133 13 6 14 134 13 4 14 135 13 2 14 136 13 6 15 137 13 0 14 107 15 138 19 4 139 3 12 19 8 140 45 36 34 143 12 13 1 14 107 34 146 12 19 4 139 45 147 34 148 12 13 0 19 2 149 45 150 10 0 16 100 12 13 0 14 107 15 151 19 3 131 16 100 12 19 2 101 76 39 23 15 59 77 15 60 15 152 13 9 13 5 19 5 62 12 19 2 63 75 73 36 11 43 2 15 129 13 4 19 2 130 45 112 38 102 10 0 4 45 153 13 0 13 4 19 1 154 12 19 2 58 76 39 76 13 0 13 4 19 1 155 12 19 2 156 45 157 14 133 13 1 14 158 13 0 14 159 9 2 10 0 17 160 12 19 6 18 45 161 13 2 13 6 19 1 154 12 13 0 19 3 162 10 6 45 163 10 2 16 164 45 165 13 1 15 166 9 2 13 0 19 4 44 43 1 43 1 43 2 10 1 5 51 1 43 1 10 0 40 -104 43 1 15 137 13 1 14 107 15 144 19 4 139 45 112 38 52 10 0 4 45 167 13 0 19 1 129 12 13 6 14 107 15 129 14 142 15 114 19 6 109 76 39 18 10 0 6 1 45 168 13 7 13 0 19 2 119 51 7 43 1 10 1 5 51 1 43 1 10 0 40 -54 43 1 10 0 45 169 10 5 45 170 13 1 15 43 9 4 13 0 19 4 44 43 1 43 1 13 0 19 1 138 45 112 38 158 10 0 4 45 171 13 0 10 9 17 114 39 5 10 2 38 12 13 0 13 4 19 1 57 12 19 2 58 45 172 15 129 13 7 19 2 130 45 112 38 102 10 0 4 45 153 10 0 45 173 10 3 45 174 13 1 13 0 19 1 40 12 14 142 15 114 19 4 175 45 176 13 1 15 43 9 5 13 0 19 4 44 43 3 13 0 13 7 19 1 154 12 19 2 58 45 177 10 3 45 178 13 1 19 1 179 12 13 4 19 1 180 12 19 2 181 45 182 13 1 15 43 9 7 13 0 19 4 44 43 1 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -104 43 1 43 1 10 1 5 51 1 43 1 10 0 40 -160 43 1 75 45 183 13 1 19 1 144 45 112 38 62 10 0 4 45 121 10 0 16 85 39 5 10 0 16 90 39 38 10 0 4 6 1 45 184 13 3 13 0 19 2 119 51 3 43 1 10 0 16 90 6 1 45 185 13 3 13 0 19 2 119 51 3 43 1 10 1 5 51 1 43 1 10 0 40 -64 43 1 10 1 45 186 13 1 19 1 187 45 188 13 1 15 43 9 8 13 0 19 4 44 43 1 43 1 43 1 13 7 13 2 19 1 57 12 13 0 19 3 162 10 2 45 189 10 8 6 1 45 190 13 1 19 1 191 12 13 0 19 2 119 45 192 13 2 15 166 9 7 13 0 19 4 44 43 3 9 0 77 77 46 193 46 194 46 195 13 3 19 1 144 45 112 38 60 10 0 4 45 121 13 0 19 1 129 12 13 7 19 1 154 12 19 2 58 45 177 13 0 19 1 179 12 13 3 19 2 181 51 3 13 1 13 0 19 1 196 6 2 12 10 4 3 51 4 43 1 10 1 5 51 1 43 1 10 0 40 -62 43 1 15 151 13 1 33 197 12 14 107 15 90 19 4 198 12 19 2 130 45 112 38 33 10 0 4 45 121 10 0 16 85 39 7 10 0 16 90 38 3 75 73 12 10 4 3 51 4 10 1 5 51 1 43 1 10 0 40 -35 43 1 13 0 13 5 19 1 199 12 19 2 58 45 200 10 0 39 123 13 3 13 0 14 142 15 117 14 107 15 108 19 6 109 45 116 10 0 39 73 15 59 77 15 60 15 201 13 12 10 0 5 16 100 12 10 0 5 12 19 6 62 12 19 2 63 10 0 45 202 10 13 45 203 10 2 45 204 13 1 10 0 5 3 45 205 13 1 10 0 17 206 10 0 43 3 45 207 13 1 10 0 17 206 10 0 43 1 43 1 38 26 13 2 13 7 19 1 199 12 13 4 10 12 6 1 3 12 10 0 3 51 0 12 19 3 162 43 1 38 22 13 1 13 6 19 1 199 12 13 3 10 11 6 1 3 6 1 12 19 3 162 43 1 10 3 45 208 10 1 45 209 13 1 15 43 9 6 13 0 19 4 44 43 1 43 1 10 10 73 43 3 43 1 43 8 38 17 15 59 77 15 60 15 210 19 3 62 12 19 2 63 75 73 63 29) #1# #2# 17731) "The user function to define a new chunk-type" common-lisp-user::chunk-type-external (defun common-lisp-user::chunk-type-external) (#2# . 28608) (common-lisp-user::vals) common-lisp-user::vals common-lisp-user::decode-string-names #Y(common-lisp-user::chunk-type-external nil nil (24 45 217 26 13 0 19 1 218 12 19 1 76 29) #1# #2# 28608) "chunk-type" "Create a new chunk type or print all chunk-types to command trace. Params: [ nil | ([name | (name (/:include/ parent)*)] {'doc-string'} [ slot | (slot 'default-value') ]*)]" common-lisp-user::add-act-r-command (defun common-lisp-user::chunk-type-slot-name) (#2# . 28920) (common-lisp-user::slot) #Y(common-lisp-user::chunk-type-slot-name nil nil (24 45 121 26 10 0 16 122 39 6 10 0 73 38 5 10 0 4 73 29) #1# #2# 28920) "Internal function for parsing chunk-types" (defun common-lisp-user::print-all-chunk-types) (#2# . 29050) common-lisp-user::types common-lisp-user::pprint-chunk-type-fct #Y(common-lisp-user::print-all-chunk-types nil nil (26 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 13 0 19 1 191 45 230 10 0 45 112 38 18 10 0 4 45 99 13 0 19 1 231 10 1 5 51 1 43 1 10 0 40 -20 75 45 99 10 2 73 43 1 43 1 43 1 43 1 29) #1# #2# 29050) "Internal function for printing all chunk-types" common-lisp-user::+pprint-chunk-type-string+ boundp symbol-value stream si::format-error :complaint "Required argument missing" :control-string "~S~@[ <- ~{~s~^, ~}~]~@[ ~S~]~%~{~{   ~s~@[ (~s)~]~%~}~}~%" :offset error #:format-arg-1449 #:format-arg-1450 #:format-arg-1451 #:format-arg-1452 si::args prin1 " <- " write-string si::orig-args 0 #:g1463 "No more arguments." #:g1680 #:g1679 #:g1678 <= eql ", " " " terpri #:g1465 "   " #:g1467 #:g1468 si::arg si::prev-args " (" #:g1470 ")" #Y(nil nil nil (24 45 237 25 40 19 15 238 14 239 15 240 14 241 15 242 14 243 9 1 19 7 244 12 46 245 25 40 19 15 238 14 239 15 240 14 241 15 242 14 243 9 10 19 7 244 12 46 246 25 40 19 15 238 14 239 15 240 14 241 15 242 14 243 9 26 19 7 244 12 46 247 25 40 19 15 238 14 239 15 240 14 241 15 242 14 243 9 32 19 7 244 12 46 248 27 45 249 13 4 13 5 19 2 250 10 3 39 156 15 251 13 5 19 2 252 10 3 45 253 10 0 45 249 58 60 136 57 254 61 1 1 10 2 76 39 5 75 73 36 1 10 2 39 24 10 2 45 255 10 0 4 12 10 0 5 51 0 10 0 51 3 22 73 43 1 38 18 15 238 14 239 15 256 14 241 15 242 14 243 9 12 19 7 244 12 13 9 19 2 250 77 77 77 46 257 46 258 46 259 10 2 39 12 13 0 13 1 13 2 19 3 260 38 28 10 1 39 9 13 0 10 1 17 261 38 16 10 0 39 9 13 0 8 0 17 261 38 4 10 5 76 43 3 39 5 75 73 36 1 15 262 13 9 19 2 252 35 0 0 62 63 43 2 10 2 39 15 15 263 13 5 19 2 252 13 2 13 5 19 2 250 13 5 19 1 264 10 1 45 253 10 0 45 249 58 60 280 57 254 61 1 1 10 2 76 39 5 75 73 36 1 10 2 39 23 10 2 45 265 10 0 4 12 10 0 5 51 0 10 0 51 3 22 43 1 38 18 15 238 14 239 15 256 14 241 15 242 14 243 9 34 19 7 244 45 253 10 0 45 249 58 60 207 57 254 61 1 1 10 2 76 39 5 75 73 36 1 15 266 13 13 19 2 252 10 2 39 24 10 2 45 267 10 0 4 12 10 0 5 51 0 10 0 51 3 22 73 43 1 38 18 15 238 14 239 15 256 14 241 15 242 14 243 9 39 19 7 244 12 13 13 19 2 250 13 2 10 2 39 24 10 2 45 268 10 0 4 12 10 0 5 51 0 10 0 51 3 22 73 43 1 38 18 15 238 14 239 15 256 14 241 15 242 14 243 9 42 19 7 244 12 46 269 46 270 10 1 39 69 10 0 51 4 15 271 13 15 19 2 252 10 4 39 24 10 4 45 272 10 0 4 12 10 0 5 51 0 10 0 51 5 22 73 43 1 38 18 15 238 14 239 15 256 14 241 15 242 14 243 9 46 19 7 244 12 13 15 19 2 250 15 273 13 15 19 2 252 43 2 13 13 19 1 264 35 0 0 62 63 43 2 35 0 0 62 63 43 2 13 5 19 1 264 10 0 73 29) #1# #2# 29403) si::*make-constant variable "Internal compiled format string used to print out chunk-types" (defconstant common-lisp-user::+pprint-chunk-type-string+) (#2# . 29403) common-lisp-user::pprint-ct (defun common-lisp-user::pprint-ct) (#2# . 29593) (common-lisp-user::chunk-type) common-lisp-user::printing-module common-lisp-user::get-module-fct #:g1500 #:g1499 #:g1502 #:g1501 common-lisp-user::printing-module-suppress-cmds common-lisp-user::printing-module-c common-lisp-user::act-r-output-stream "command-output" "~@?" common-lisp-user::act-r-chunk-type-name common-lisp-user::act-r-chunk-type-parents common-lisp-user::act-r-chunk-type-documentation #Y(nil nil nil (24 45 121 26 10 0 16 85 39 6 10 0 73 38 7 13 0 75 6 2 73 29) #1# #2# 29593) #Y(common-lisp-user::pprint-ct nil nil (24 45 68 26 15 284 19 1 285 47 1 286 45 287 10 1 39 86 77 77 46 288 46 289 13 2 19 1 290 51 0 13 2 19 1 291 12 19 1 292 51 1 10 1 39 4 10 0 76 39 51 15 293 77 15 294 77 14 234 13 4 19 1 295 12 13 4 19 1 296 12 13 4 19 1 297 12 34 298 12 13 4 19 1 144 12 19 2 130 12 19 6 62 12 19 3 62 12 19 2 63 43 2 43 2 13 0 19 1 295 29) #1# #2# 29593) "Pretty prints a chunk-type." common-lisp-user::pprint-chunk-type (defmacro common-lisp-user::pprint-chunk-type) (#2# . 30053) (common-lisp-user::chunk-type) #:g1506 #:g1505 #:g1507 si::dm-too-few-arguments si::dm-too-many-arguments #Y(common-lisp-user::pprint-chunk-type nil nil (24 45 305 24 45 306 26 10 1 5 45 307 10 0 76 39 6 13 2 19 1 308 10 0 4 12 10 0 5 51 0 22 45 68 10 1 39 6 13 3 19 1 309 15 231 15 77 10 0 6 2 6 2 73 29) #1# #2# 30053) (defun common-lisp-user::pprint-chunk-type-fct) (#2# . 30137) (common-lisp-user::chunk-type) "~s does not name a chunk-type in the current model." "pprint-chunk-type called with no current model." #Y(common-lisp-user::pprint-chunk-type-fct nil nil (24 45 68 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 39 41 13 0 19 1 46 45 116 10 0 39 8 13 0 19 1 280 38 19 15 59 77 15 60 15 314 13 1 19 4 62 12 19 2 63 75 73 43 1 38 17 15 59 77 15 60 15 315 19 3 62 12 19 2 63 75 73 29) #1# #2# 30137) common-lisp-user::pprint-chunk-type-external (defun common-lisp-user::pprint-chunk-type-external) (#2# . 30497) (common-lisp-user::name) common-lisp-user::string->name #Y(common-lisp-user::pprint-chunk-type-external nil nil (24 45 50 26 13 0 19 1 321 12 19 1 231 29) #1# #2# 30497) "pprint-chunk-type" "Print the details of a chunk-type to the command trace. Params: chunk-type-name" common-lisp-user::chunk-type-p (defmacro common-lisp-user::chunk-type-p) (#2# . 30737) (common-lisp-user::chunk-type-name?) #:g1509 #:g1508 #:g1510 common-lisp-user::chunk-type-name? common-lisp-user::chunk-type-p-fct #Y(common-lisp-user::chunk-type-p nil nil (24 45 329 24 45 330 26 10 1 5 45 331 10 0 76 39 6 13 2 19 1 308 10 0 4 12 10 0 5 51 0 22 45 332 10 1 39 6 13 3 19 1 309 15 333 15 77 10 0 6 2 6 2 73 29) #1# #2# 30737) "Predicate macro for verifying that a chunk-type of a given name exists" (defun common-lisp-user::chunk-type-p-fct) (#2# . 30897) (common-lisp-user::chunk-type-name?) #Y(common-lisp-user::chunk-type-p-fct nil nil (24 45 332 26 13 0 19 1 46 39 6 11 79 73 38 3 75 73 29) #1# #2# 30897) "Predicate function for verifying that a chunk-type of a given name exists" common-lisp-user::chunk-type-p-external (defun common-lisp-user::chunk-type-p-external) (#2# . 31073) (common-lisp-user::name) #Y(common-lisp-user::chunk-type-p-external nil nil (24 45 50 26 13 0 19 1 321 12 19 1 333 29) #1# #2# 31073) "chunk-type-p" "Test whether the given value names a valid chunk-type. Params: name" common-lisp-user::valid-slot-name (defun common-lisp-user::valid-slot-name) (#2# . 31285) (common-lisp-user::slot) #Y(common-lisp-user::valid-slot-name nil nil (24 45 121 26 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 10 0 73 39 12 13 1 13 0 19 1 154 12 19 2 58 12 43 1 72 1 29) #1# #2# 31285) "Function to determine if a slot name is valid for any chunk" common-lisp-user::valid-slot-index (defun common-lisp-user::valid-slot-index) (#2# . 31620) (common-lisp-user::slot) #Y(common-lisp-user::valid-slot-index nil nil (24 45 121 26 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 10 0 73 39 29 13 1 13 0 19 1 154 12 19 2 58 45 116 10 0 39 8 13 0 19 1 196 38 3 75 73 43 1 12 43 1 72 1 29) #1# #2# 31620) "Function to determine if a slot name is valid for any chunk" common-lisp-user::valid-query-name (defun common-lisp-user::valid-query-name) (#2# . 32002) (common-lisp-user::query) common-lisp-user::query common-lisp-user::act-r-chunk-type-info-query-slots #Y(common-lisp-user::valid-query-name nil nil (24 45 364 26 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 10 0 73 39 12 13 1 13 0 19 1 365 12 19 2 109 43 1 29) #1# #2# 32002) common-lisp-user::valid-chunk-type-slot (defun common-lisp-user::valid-chunk-type-slot) (#2# . 32248) (common-lisp-user::chunk-type-name common-lisp-user::slot) common-lisp-user::chunk-type-name common-lisp-user::valid-ct-slot "Invalid chunk-type name ~s passed to valid-chunk-type-slot." #Y(common-lisp-user::valid-chunk-type-slot nil nil (24 45 371 24 45 121 26 13 1 19 1 46 45 36 10 0 39 10 13 0 13 1 19 2 372 38 19 15 59 77 15 60 15 373 13 2 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 32248) (defun common-lisp-user::valid-ct-slot) (#2# . 32494) (common-lisp-user::chunk-type common-lisp-user::slot) common-lisp-user::valid-ct-slot-check #Y(common-lisp-user::valid-ct-slot nil nil (24 45 68 24 45 121 26 10 1 73 39 40 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 10 0 73 39 10 13 2 13 1 13 0 19 3 378 43 1 29) #1# #2# 32494) (defun common-lisp-user::valid-ct-slot-check) (#2# . 32698) (common-lisp-user::chunk-type common-lisp-user::slot common-lisp-user::info) common-lisp-user::struct logtest common-lisp-user::act-r-chunk-type-info-extended-slots #Y(common-lisp-user::valid-ct-slot-check nil nil (24 45 68 24 45 121 24 45 56 26 13 1 13 0 19 1 154 12 19 2 58 45 383 10 0 73 39 33 13 0 19 1 179 12 13 3 19 1 180 17 384 40 12 13 2 13 1 19 1 385 12 19 2 109 73 39 4 10 0 73 43 1 29) #1# #2# 32698) common-lisp-user::chunk-type-possible-slot-names-fct (defun common-lisp-user::chunk-type-possible-slot-names-fct) (#2# . 33112) (common-lisp-user::chunk-type-name) append "No chunk-types info available for call to chunk-type-possible-slot-names-fct." "Invalid chunk-type name ~s passed to chunk-type-possible-slot-names-fct." #Y(common-lisp-user::chunk-type-possible-slot-names-fct nil nil (24 45 371 26 13 0 19 1 46 45 36 10 0 39 69 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 10 0 39 22 13 1 19 1 40 12 13 0 19 1 385 12 19 2 391 12 19 1 131 38 17 15 59 77 15 60 15 392 19 3 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 393 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 33112) common-lisp-user::external-chunk-type-possible-slot-names-fct (defun common-lisp-user::external-chunk-type-possible-slot-names-fct) (#2# . 33802) (common-lisp-user::name) #Y(common-lisp-user::external-chunk-type-possible-slot-names-fct nil nil (24 45 50 26 13 0 19 1 321 12 19 1 387 29) #1# #2# 33802) "chunk-type-possible-slot-names-fct" "Returns a list of valid slots for the chunk-type provided. Params: name." common-lisp-user::extend-possible-slots (defun common-lisp-user::extend-possible-slots) (#2# . 34103) (common-lisp-user::slot-name &optional (warn t)) common-lisp-user::slot-name warn "Chunk-type info not available so the slot ~s cannot be added." "Nil is not a valid slot name when trying to extend slots." "~s cannot be used as a slot name because it is not a symbol or string." "~s cannot be used as a slot name because it does not start with an alphanumeric character." "~s cannot be used as a slot name because it is a keyword." #:g1524 #:g1522 #:g1523 "~s already names a possible slot for chunks." #:g1527 #:g1525 #:g1526 ash #:g1531 #:g1532 "Current model not available so the slot ~s cannot be added." #Y(common-lisp-user::extend-possible-slots nil nil (24 45 406 25 40 3 14 79 46 407 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 328 13 0 19 1 55 45 56 10 0 76 39 21 15 59 77 15 60 15 408 13 3 19 4 62 12 19 2 63 75 73 38 292 10 3 76 39 19 15 59 77 15 60 15 409 19 3 62 12 19 2 63 75 73 38 269 10 3 16 123 76 39 21 15 59 77 15 60 15 410 13 3 19 4 62 12 19 2 63 75 73 38 242 10 3 16 125 12 8 0 17 126 16 127 76 39 21 15 59 77 15 60 15 411 13 3 19 4 62 12 19 2 63 75 73 38 208 10 3 16 102 39 21 15 59 77 15 60 15 412 13 3 19 4 62 12 19 2 63 75 73 38 182 13 3 13 0 19 1 154 12 19 2 58 39 60 10 3 45 413 10 1 45 414 13 1 13 0 19 1 385 12 19 2 175 45 415 13 1 15 166 9 4 13 0 19 4 44 43 3 10 2 73 39 19 15 59 77 15 60 15 416 13 3 19 4 62 12 19 2 63 75 73 38 110 10 3 45 417 10 1 45 418 13 1 13 0 19 1 385 3 45 419 13 1 15 166 9 4 13 0 19 4 44 43 3 13 3 13 0 19 1 155 12 19 2 156 45 157 14 133 13 4 14 158 13 0 14 159 9 1 10 0 17 420 12 19 6 18 45 161 13 5 13 2 19 1 154 12 13 0 19 3 162 10 2 45 421 10 2 16 164 45 422 13 1 15 166 9 2 13 0 19 4 44 43 1 43 1 43 2 10 3 73 43 1 38 19 15 59 77 15 60 15 423 13 2 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 34103) common-lisp-user::remote-extend-possible-slots (defun common-lisp-user::remote-extend-possible-slots) (#2# . 36173) (common-lisp-user::slot-name &optional (warn t)) #Y(common-lisp-user::remote-extend-possible-slots nil nil (24 45 406 25 40 3 14 79 46 407 26 13 1 19 1 321 12 13 0 19 2 402 29) #1# #2# 36173) "extend-possible-slots" "Add a new slot name which can be used for any chunk, and if warn is true (the default) then print a warning if the slot specified already exists. Params: slot-name {warn}" common-lisp-user::add-request-parameter (defun common-lisp-user::add-request-parameter) (#2# . 36546) (common-lisp-user::parameter-name) common-lisp-user::parameter-name "Chunk-type info not available so the request parameter ~s cannot be added." "Nil is not a valid request parameter name." "~s cannot be used as a request parameter because it must be a keyword." #:g1543 #:g1541 #:g1542 #:g1547 #:g1548 "Current model not available so the request parameter ~s cannot be added." #Y(common-lisp-user::add-request-parameter nil nil (24 45 436 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 214 13 0 19 1 55 45 56 10 0 76 39 21 15 59 77 15 60 15 437 13 2 19 4 62 12 19 2 63 75 73 38 178 10 2 76 39 19 15 59 77 15 60 15 438 19 3 62 12 19 2 63 75 73 38 155 10 2 16 102 76 39 21 15 59 77 15 60 15 439 13 2 19 4 62 12 19 2 63 75 73 38 128 13 2 13 0 19 1 154 12 19 2 58 39 6 10 2 73 38 110 10 2 45 440 10 1 45 441 13 1 13 0 19 1 385 3 45 442 13 1 15 166 9 4 13 0 19 4 44 43 3 13 2 13 0 19 1 155 12 19 2 156 45 157 14 133 13 3 14 158 13 0 14 159 9 1 10 0 17 420 12 19 6 18 45 161 13 4 13 2 19 1 154 12 13 0 19 3 162 10 2 45 443 10 2 16 164 45 444 13 1 15 166 9 2 13 0 19 4 44 43 1 43 1 43 2 10 2 73 43 1 38 19 15 59 77 15 60 15 445 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 36546) common-lisp-user::add-buffer-query (defun common-lisp-user::add-buffer-query) (#2# . 38373) (common-lisp-user::query-name) common-lisp-user::query-name "Chunk-type info not available so the query ~s cannot be added." "Nil is not a valid query name." "~s cannot be used as a query parameter because it is a keyword." #:g1559 #:g1557 #:g1558 #:g1563 #:g1564 "Current model not available so the query ~s cannot be added." #Y(common-lisp-user::add-buffer-query nil nil (24 45 451 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 227 13 0 19 1 55 45 56 10 0 76 39 21 15 59 77 15 60 15 452 13 2 19 4 62 12 19 2 63 75 73 38 191 10 2 76 39 19 15 59 77 15 60 15 453 19 3 62 12 19 2 63 75 73 38 168 10 2 16 102 39 21 15 59 77 15 60 15 454 13 2 19 4 62 12 19 2 63 75 73 38 142 13 2 13 0 19 1 365 12 19 2 109 39 6 10 2 73 38 124 10 2 45 455 10 1 45 456 13 1 13 0 19 1 365 3 45 457 13 1 15 166 9 5 13 0 19 4 44 43 3 13 2 13 0 19 1 154 12 19 2 58 76 39 76 13 2 13 0 19 1 155 12 19 2 156 45 157 14 133 13 3 14 158 13 0 14 159 9 2 10 0 17 160 12 19 6 18 45 161 13 4 13 2 19 1 154 12 13 0 19 3 162 10 2 45 458 10 2 16 164 45 459 13 1 15 166 9 2 13 0 19 4 44 43 1 43 1 43 2 10 2 73 43 1 38 19 15 59 77 15 60 15 460 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 38373) common-lisp-user::slot-name->mask (defun common-lisp-user::slot-name->mask) (#2# . 39953) (common-lisp-user::slot-name) "~s does not name a valid slot in the current model." "Chunk-type info not available so a mask for the slot ~s cannot be found." "Current model not available so a mask for the slot ~s cannot be found." #Y(common-lisp-user::slot-name->mask nil nil (24 45 406 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 80 13 0 19 1 55 45 56 10 0 39 47 13 2 13 0 19 1 154 12 19 2 58 45 116 10 0 39 8 13 0 19 1 179 38 19 15 59 77 15 60 15 466 13 3 19 4 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 467 13 2 19 4 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 468 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 39953) common-lisp-user::slot-name->index (defun common-lisp-user::slot-name->index) (#2# . 40598) (common-lisp-user::slot-name) "~s does not name a valid slot in the current model." "Chunk-type info not available so an index for the slot ~s cannot be found." "Current model not available so an index for the slot ~s cannot be found." #Y(common-lisp-user::slot-name->index nil nil (24 45 406 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 80 13 0 19 1 55 45 56 10 0 39 47 13 2 13 0 19 1 154 12 19 2 58 45 116 10 0 39 8 13 0 19 1 196 38 19 15 59 77 15 60 15 474 13 3 19 4 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 475 13 2 19 4 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 476 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 40598) common-lisp-user::slot-index->name (defun common-lisp-user::slot-index->name) (#2# . 41249) (common-lisp-user::slot-index) common-lisp-user::slot-index aref "~s is not a valid slot index in the current model." "Chunk-type info not available so a name for the slot index ~s cannot be found." "Current model not available so a name for the slot index ~s cannot be found." #Y(common-lisp-user::slot-index->name nil nil (24 45 482 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 82 13 0 19 1 55 45 56 10 0 39 49 13 2 13 0 19 1 155 16 100 12 19 2 197 39 14 13 0 19 1 155 12 13 2 19 2 483 38 19 15 59 77 15 60 15 484 13 2 19 4 62 12 19 2 63 75 73 38 19 15 59 77 15 60 15 485 13 2 19 4 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 486 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 41249) common-lisp-user::slot-mask->names (defun common-lisp-user::slot-mask->names) (#2# . 41967) (common-lisp-user::slot-mask) common-lisp-user::slot-mask integer-length common-lisp-user::res common-lisp-user::len common-lisp-user::act-r-chunk-type-info-size si::%dotimes-var common-lisp-user::i logbitp #:g1572 "~s is not a valid slot mask in the current model." "Chunk-type info not available so slot names for the mask ~s cannot be found." "Current model not available so slot names for the mask ~s cannot be found." #Y(common-lisp-user::slot-mask->names nil nil (24 45 492 26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 45 116 10 0 39 145 13 0 19 1 55 45 56 10 0 39 112 10 2 16 493 12 77 46 494 46 495 13 0 13 2 19 1 496 12 19 2 260 39 67 10 0 45 497 8 0 45 498 38 41 13 0 10 6 17 499 39 27 13 4 19 1 155 12 13 0 19 2 483 6 1 45 500 13 4 13 0 19 2 119 51 4 43 1 10 0 16 164 51 0 13 0 13 1 19 2 197 40 -48 10 3 73 43 2 38 19 15 59 77 15 60 15 501 13 4 19 4 62 12 19 2 63 75 73 43 2 38 19 15 59 77 15 60 15 502 13 2 19 4 62 12 19 2 63 75 73 43 1 38 19 15 59 77 15 60 15 503 13 1 19 4 62 12 19 2 63 75 73 43 1 29) #1# #2# 41967) common-lisp-user::all-chunk-type-names (defun common-lisp-user::all-chunk-type-names) (#2# . 42846) "Chunk-type info not available cannot return chunk-type names." "all-chunk-type-names called with no current model." #Y(common-lisp-user::all-chunk-type-names nil nil (26 11 51 40 13 19 0 52 45 53 13 0 19 1 54 43 1 39 55 11 51 73 40 13 19 0 52 45 53 13 0 19 1 54 43 1 12 19 1 55 45 56 10 0 39 8 13 0 19 1 191 38 17 15 59 77 15 60 15 508 19 3 62 12 19 2 63 75 73 43 1 38 17 15 59 77 15 60 15 509 19 3 62 12 19 2 63 75 73 29) #1# #2# 42846) "all-chunk-type-names" "Returns a list with the names of all currently defined chunk-types. No params.")) #2# 0) #Y(si::bytecodes nil nil (1 2 16 1 29) #1# #2# 16510) #Y(si::bytecodes nil nil (1 3 16 1 29) #1# #2# 16558) #Y(si::bytecodes nil nil (1 4 16 1 29) #1# #2# 16614) #Y(si::bytecodes nil nil (1 5 16 1 29) #1# #2# 16685) #Y(si::bytecodes nil nil (15 6 15 7 77 77 15 8 15 9 15 10 77 77 77 15 11 9 3 77 77 15 12 19 15 13 15 6 15 14 15 15 15 16 19 4 17 15 18 15 14 15 19 15 20 19 4 17 15 18 14 21 77 15 22 19 4 17 15 6 19 1 31 78 27 15 18 1 29 12 19 2 30 1 6 73 29) #1# #2# 16767) #Y(si::bytecodes nil nil (15 32 15 14 15 33 15 34 19 4 17 15 32 14 21 77 15 35 19 4 17 15 32 1 45 12 19 2 30 1 32 73 29) #1# #2# 16807) #Y(si::bytecodes nil nil (15 46 15 14 15 47 15 48 19 4 17 15 46 14 21 77 15 49 19 4 17 15 46 1 64 12 19 2 30 15 46 15 65 15 66 19 3 67 1 46 73 29) #1# #2# 17131) #Y(si::bytecodes nil nil (15 68 15 14 15 69 15 70 19 4 17 15 68 14 21 77 15 71 19 4 17 15 68 1 78 12 14 79 9 1 19 4 30 15 68 15 65 15 80 19 3 67 1 68 73 29) #1# #2# 17589) #Y(si::bytecodes nil nil (15 76 15 14 15 81 15 82 19 4 17 15 76 14 21 77 15 83 19 4 17 15 76 1 211 12 19 2 30 15 76 15 65 15 212 19 3 67 1 76 73 29) #1# #2# 17731) #Y(si::bytecodes nil nil (15 213 15 14 15 214 15 215 19 4 17 15 213 14 21 77 15 216 19 4 17 15 213 1 219 12 19 2 30 1 213 73 29) #1# #2# 28608) #Y(si::bytecodes nil nil (15 220 15 213 15 221 19 3 222 29) #1# #2# 28690) #Y(si::bytecodes nil nil (15 129 15 14 15 223 15 224 19 4 17 15 129 14 21 77 15 225 19 4 17 15 129 1 226 12 19 2 30 15 129 15 65 15 227 19 3 67 1 129 73 29) #1# #2# 28920) #Y(si::bytecodes nil nil (15 84 15 14 15 228 15 229 19 4 17 15 84 14 21 77 77 19 4 17 15 84 1 232 12 19 2 30 15 84 15 65 15 233 19 3 67 1 84 73 29) #1# #2# 29050) #Y(si::bytecodes nil nil (15 234 1 234 16 235 39 7 1 234 16 236 38 3 1 274 17 275 15 234 15 276 15 277 19 3 67 15 234 15 14 15 278 15 279 19 4 17 1 234 73 29) #1# #2# 29403) #Y(si::bytecodes nil nil (15 280 15 14 15 281 15 282 19 4 17 15 280 14 21 77 15 283 19 4 17 15 280 1 299 12 19 2 30 15 280 15 65 15 300 19 3 67 1 280 73 29) #1# #2# 29593) #Y(si::bytecodes nil nil (15 301 15 14 15 302 15 303 19 4 17 15 301 14 21 77 15 304 19 4 17 15 301 1 310 12 14 79 9 2 19 4 30 1 301 73 29) #1# #2# 30053) #Y(si::bytecodes nil nil (15 231 15 14 15 311 15 312 19 4 17 15 231 14 21 77 15 313 19 4 17 15 231 1 316 12 19 2 30 1 231 73 29) #1# #2# 30137) #Y(si::bytecodes nil nil (15 317 15 14 15 318 15 319 19 4 17 15 317 14 21 77 15 320 19 4 17 15 317 1 322 12 19 2 30 1 317 73 29) #1# #2# 30497) #Y(si::bytecodes nil nil (15 323 15 317 15 324 19 3 222 29) #1# #2# 30586) #Y(si::bytecodes nil nil (15 325 15 14 15 326 15 327 19 4 17 15 325 14 21 77 15 328 19 4 17 15 325 1 334 12 14 79 9 2 19 4 30 15 325 15 65 15 335 19 3 67 1 325 73 29) #1# #2# 30737) #Y(si::bytecodes nil nil (15 333 15 14 15 336 15 337 19 4 17 15 333 14 21 77 15 338 19 4 17 15 333 1 339 12 19 2 30 15 333 15 65 15 340 19 3 67 1 333 73 29) #1# #2# 30897) #Y(si::bytecodes nil nil (15 341 15 14 15 342 15 343 19 4 17 15 341 14 21 77 15 344 19 4 17 15 341 1 345 12 19 2 30 1 341 73 29) #1# #2# 31073) #Y(si::bytecodes nil nil (15 346 15 341 15 347 77 19 4 222 29) #1# #2# 31152) #Y(si::bytecodes nil nil (15 348 15 14 15 349 15 350 19 4 17 15 348 14 21 77 15 351 19 4 17 15 348 1 352 12 19 2 30 15 348 15 65 15 353 19 3 67 1 348 73 29) #1# #2# 31285) #Y(si::bytecodes nil nil (15 354 15 14 15 355 15 356 19 4 17 15 354 14 21 77 15 357 19 4 17 15 354 1 358 12 19 2 30 15 354 15 65 15 359 19 3 67 1 354 73 29) #1# #2# 31620) #Y(si::bytecodes nil nil (15 360 15 14 15 361 15 362 19 4 17 15 360 14 21 77 15 363 19 4 17 15 360 1 366 12 19 2 30 1 360 73 29) #1# #2# 32002) #Y(si::bytecodes nil nil (15 367 15 14 15 368 15 369 19 4 17 15 367 14 21 77 15 370 19 4 17 15 367 1 374 12 19 2 30 1 367 73 29) #1# #2# 32248) #Y(si::bytecodes nil nil (15 372 15 14 15 375 15 376 19 4 17 15 372 14 21 77 15 377 19 4 17 15 372 1 379 12 19 2 30 1 372 73 29) #1# #2# 32494) #Y(si::bytecodes nil nil (15 378 15 14 15 380 15 381 19 4 17 15 378 14 21 77 15 382 19 4 17 15 378 1 386 12 19 2 30 1 378 73 29) #1# #2# 32698) #Y(si::bytecodes nil nil (15 387 15 14 15 388 15 389 19 4 17 15 387 14 21 77 15 390 19 4 17 15 387 1 394 12 19 2 30 1 387 73 29) #1# #2# 33112) #Y(si::bytecodes nil nil (15 395 15 14 15 396 15 397 19 4 17 15 395 14 21 77 15 398 19 4 17 15 395 1 399 12 19 2 30 1 395 73 29) #1# #2# 33802) #Y(si::bytecodes nil nil (15 400 15 395 15 401 77 19 4 222 29) #1# #2# 33921) #Y(si::bytecodes nil nil (15 402 15 14 15 403 15 404 19 4 17 15 402 14 21 77 15 405 19 4 17 15 402 1 424 12 19 2 30 1 402 73 29) #1# #2# 34103) #Y(si::bytecodes nil nil (15 425 15 14 15 426 15 427 19 4 17 15 425 14 21 77 15 428 19 4 17 15 425 1 429 12 19 2 30 1 425 73 29) #1# #2# 36173) #Y(si::bytecodes nil nil (15 430 15 425 15 431 19 3 222 29) #1# #2# 36298) #Y(si::bytecodes nil nil (15 432 15 14 15 433 15 434 19 4 17 15 432 14 21 77 15 435 19 4 17 15 432 1 446 12 19 2 30 1 432 73 29) #1# #2# 36546) #Y(si::bytecodes nil nil (15 447 15 14 15 448 15 449 19 4 17 15 447 14 21 77 15 450 19 4 17 15 447 1 461 12 19 2 30 1 447 73 29) #1# #2# 38373) #Y(si::bytecodes nil nil (15 462 15 14 15 463 15 464 19 4 17 15 462 14 21 77 15 465 19 4 17 15 462 1 469 12 19 2 30 1 462 73 29) #1# #2# 39953) #Y(si::bytecodes nil nil (15 470 15 14 15 471 15 472 19 4 17 15 470 14 21 77 15 473 19 4 17 15 470 1 477 12 19 2 30 1 470 73 29) #1# #2# 40598) #Y(si::bytecodes nil nil (15 478 15 14 15 479 15 480 19 4 17 15 478 14 21 77 15 481 19 4 17 15 478 1 487 12 19 2 30 1 478 73 29) #1# #2# 41249) #Y(si::bytecodes nil nil (15 488 15 14 15 489 15 490 19 4 17 15 488 14 21 77 15 491 19 4 17 15 488 1 504 12 19 2 30 1 488 73 29) #1# #2# 41967) #Y(si::bytecodes nil nil (15 505 15 14 15 506 15 507 19 4 17 15 505 14 21 77 77 19 4 17 15 505 1 510 12 19 2 30 1 505 73 29) #1# #2# 42846) #Y(si::bytecodes nil nil (15 511 15 505 15 512 77 19 4 222 29) #1# #2# 43255))
+                                                                                                                                                                                                                                                                                                                                                                                                  ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : chunk-types.lisp
+;;; Version     : 2.1
+;;; 
+;;; Description : Definition of chunk-types and function that manipulate them.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : [ ] Consider changing more of the commands to return two values
+;;;             :     with the second one indicating whether the chunk-type was
+;;;             :     valid as I did for chunk-type-slot-names-fct.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.09.02 Dan
+;;;             : Creation
+;;; 2005.01.16 Dan
+;;;             : * Removed the print-chunk-type function since I don't want to
+;;;             :   hide the structure since users shouldn't see them anyway.
+;;; 2005.01.17 Dan
+;;;             : * Changed pprint-chunk-type to use command-output and a
+;;;             :   compiled format string.
+;;; 2005.01.18 Dan
+;;;             : * Made it so chunk-type returns the name and not the struct.
+;;; 2005.01.21 Dan
+;;;             : * Fixed a bug with maintaining the subtypes information.
+;;; 2005.02.04 Dan
+;;;             : * Changed member to find for speed. (?)
+;;; 2005.02.24 Dan
+;;;             : * Changed pprint-chunk-type becasue some Lisps don't take a
+;;;             :   preformatted format string with the ~? directive.
+;;; 2005.03.25 Dan
+;;;             : * Changed chunk-type-fct so that when it builds a chunk-type
+;;;             :   as a subtype the slot ordering is maintained. 
+;;; 2005.09.01 Dan
+;;;             : * Added extend-chunk-type-slots to support the experimental
+;;;             :   change to p* that will allow a RHS modification to add
+;;;             :   new slots to a chunk.  This should NOT be used in general
+;;;             :   or by any other system/module/model at this time.
+;;;             : * Had to patch chunk-type-fct to copy the slots list because
+;;;             :   otherwise the macro calls inside of the existing code
+;;;             :   get thumped by extend-... making the change persistent.
+;;; 2006.01.18 Dan
+;;;             : * Modified extend-chunk-type-slots to also record the new
+;;;             :   slot names in a separate list.
+;;;             : * Added the extended-slot-name-p function to allow one to see
+;;;             :   whether or not a given slot name was one of the originals.
+;;; 2006.03.02 Dan [1.0]
+;;;             : * Fixed an issue with recording the subtype info that caused
+;;;             :   problems with retrievals when there were more than 2 levels
+;;;             :   of inheritance.
+;;; 2008.05.01 Dan
+;;;             : * Fixed a typo in one of the warning messages.
+;;;             : * Changed chunk-type-slot-names-fct so that it returns two
+;;;             :   values where the first is the list of slot names and the 
+;;;             :   second is t or nil to indicate whether the chunk-type named
+;;;             :   was valid.  This allows one to distinguish a return value
+;;;             :   of nil for a chunk-type with no slots from a failure due to
+;;;             :   an invalid chunk-type name.
+;;; 2008.12.08 Dan
+;;;             : * Added the calls to new-chunk-type-size so the model code
+;;;             :   can keep track of the largest possible chunk size.
+;;; 2009.11.17 Dan
+;;;             : * Fixed an issue in how subtypes are created if they specify
+;;;             :   slots which already exist in the parent because the current
+;;;             :   procedural matching code relies on the order of the slots
+;;;             :   and that's easier to address here than it is there.
+;;; 2010.06.14 Dan
+;;;             : * Renamed pprint-chunk-type to pprint-ct and made pprint-chunk-
+;;;             :   type and pprint-chunk-type-fct user level commands that take
+;;;             :   a chunk-type name.
+;;; 2010.11.18 Dan
+;;;             : * Explicitly prevent the creation of a chunk-type which has
+;;;             :   a slot named isa to avoid any problems with production 
+;;;             :   parsing.
+;;; 2011.04.27 Dan
+;;;             : * Added some declaims to avoid compiler warnings about 
+;;;             :   undefined functions.
+;;; 2012.02.10 Dan
+;;;             : * Added some safety checks into extend-chunk-type-slots.
+;;; 2012.03.21 Dan
+;;;             : * Added a declaim for current-model since something in the
+;;;             :   extend-chunk-type-slots checking uses it.
+;;; 2013.01.24 Dan
+;;;             : * Record indices for all the slots in a type and its subtypes
+;;;             :   so that things can remain "in order" even when chunk extension
+;;;             :   results in slot collisions between subtypes.
+;;; 2013.01.25 Dan
+;;;             : * Make sure that chunk-type size gets recorded as the size of
+;;;             :   the index table for the type and not just the slot list.
+;;;             : * Switch the indices from a hash-table to an adjustable vector
+;;;             :   since the mapping needs to go both ways. 
+;;;             : * Adding chunk-type-slot-name-from-index and chunk-type-slot-index
+;;;             :   commands for accessing the index information.
+;;; 2013.01.28 Dan
+;;;             : * Maintaining an additional possible-slots list with each type.
+;;;             : * Added the possible-chunk-type-slot command.
+;;; 2013.04.11 Dan
+;;;             : * Changed extend-chunk-type-slots to return the slot-name if
+;;;             :   it successfully adds the slot to the type and also to test
+;;;             :   that slot-name is a symbol.
+;;; 2013.05.17 Dan [1.1]
+;;;             : * Adding the "static" chunk-types which differ from normal
+;;;             :   types in that they don't extend the slots of a given type
+;;;             :   but instead create new subtypes when extended.
+;;;             :   The new type is created by indicating (:static) when 
+;;;             :   defining the type.  A subtype of a static type is also
+;;;             :   static (only one of :include or :static is allowed
+;;;             :   in the definition).
+;;;             :   Extending a static type will also immediately change the type 
+;;;             :   a chunk which is being extended which requires the additional 
+;;;             :   optional parameter to extend-chunk-type-slots to indicate the
+;;;             :   chunk.
+;;;             :   Subtypes generated through extension of a static are not bound
+;;;             :   by single inheritance and may have many different parent types,
+;;;             :   but all of those will be grounded by the "root" static type.
+;;;             : * Two system parameters are added with this to allow one to
+;;;             :   specify whether static is the default setting, :static-default,
+;;;             :   and to provide a hook function for creating the subtype names
+;;;             :   :new-static-type-name.
+;;; 2013.05.21 Dan
+;;;             : * Changed the extend-chunk-type-slots test from valid to
+;;;             :   possible since don't need to extend static chunks "again" for
+;;;             :   a slot it doesn't currently have.
+;;; 2013.05.22 Dan
+;;;             : * Added another system parameter :show-static-subtype-names.
+;;;             :   If t then it always shows the real chunk-type when printing
+;;;             :   a chunk of a static type but if nil it only ever shows the
+;;;             :   root type.  The default is nil.
+;;; 2013.05.29 Dan
+;;;             : * Fixed a bug with the static types if a subtype was made of
+;;;             :   a non-root type because the new type didn't get the slots of
+;;;             :   the actual parent only the root.
+;;;             : * Fixed a bug introduced with the last fix which broke the
+;;;             :   static subtypes of the root type not getting slots.
+;;; 2013.05.30 Dan
+;;;             : * Cleaned up an unused variable in chunk-type-fct.
+;;; 2013.08.12 Dan
+;;;             : * Added chunk-type-possible-slot-names command since that's
+;;;             :   needed by the new procedural pre-checking code.
+;;; 2013.10.25 Dan
+;;;             : * Adjust how static chunk-types are created.  No longer create
+;;;             :   the whole graph up front and instead create new static types
+;;;             :   on the fly.  
+;;; 2013.11.04 Dan
+;;;             : * Make sure that a static gets the possible slots from its 
+;;;             :   children as well as parents since it could be created in the
+;;;             :   "middle" of the hierarchy now.
+;;; 2014.02.12 Dan
+;;;             : * Added another option for :show-static-subtype-names so that
+;;;             :   it will show the type name as long as it wasn't generated
+;;;             :   automatically (defined).  To support that now set the
+;;;             :   user-defined slot of a chunk-type to nil when it is generated
+;;;             :   automatically and added the canonical-chunk-type-name
+;;;             :   function to handle determining which name to use based on the
+;;;             :   setting of :show-static-subtype-names.
+;;; 2014.02.13 Dan
+;;;             : * Switching the default behavior for chunk-types to be static,
+;;;             :   and reenabled the :static-default system parameter to do so.
+;;; 2014.02.24 Dan [2.0]
+;;;             : * What if chunk-types are only for preprocessing purposes?
+;;;             :   Here're the changes that are being tested:
+;;;             :   - Consider all chunk-types to inherit from type chunk
+;;;             :   - Forget about the static specifier
+;;;             :   - Allow duplicate types, but warn
+;;; 2014.05.13 Dan
+;;;             : * Changed valid-chunk-type-slot and valid-ct-slot to use the
+;;;             :   possible slots list so that slots of subtypes can be used.
+;;; 2014.05.23 Dan
+;;;             : * Make sure there's a current model in all the extend-...
+;;;             :   functions.
+;;;             : * Added an extend-chunk-type-slots function which prints a warning
+;;;             :   and then calls extend-possible-slots for backward compatability.
+;;; 2014.05.29 Dan
+;;;             : * Add in the hack to work with 6.0 models that adds an additional
+;;;             :   slot to every chunk-type with a default value of t so they're 
+;;;             :   all unique and subtypes still work out right.
+;;; 2014.06.09 Dan
+;;;             : * Allow the static keyword in definitions for backward 
+;;;             :   compatibility, but just warn that it doesn't do anything now.
+;;; 2014.06.18 Dan
+;;;             : * Valid-slot-name now returns the index for true.
+;;; 2014.06.20 Dan
+;;;             : * Only allow slots to have names which start with an alphanumeric
+;;;             :   character.
+;;; 2014.06.24 Dan
+;;;             : * Don't save subtype info.
+;;;             : * Allow multiple parent types!
+;;;             :   Any common default slots of the parents must match (not having
+;;;             :   a default value for a common slot is OK) to be defined.
+;;; 2014.06.25 Dan
+;;;             : * Change how a chunk-type is printed to show all the parent
+;;;             :   types when there's multiple inheritance.
+;;; 2014.08.15 Dan
+;;;             : * Fixed a bug with print-all-chunk-types.
+;;; 2014.09.24 Dan
+;;;             : * Changed extend-possible-slots so that if it gets passed a
+;;;             :   slot name that exists, but isn't on the extended-slots list
+;;;             :   adds it to the list since it may be needed for types other
+;;;             :   than the one which originally created it.  Then also changed
+;;;             :   chunk-type-possible-slot-names-fct to remove the duplicates
+;;;             :   since it returns the combination of a chunk's slots and the
+;;;             :   extended list.
+;;; 2014.09.26 Dan
+;;;             : * Bug in last update caused incorrect warnings to be reported.
+;;; 2014.09.29 Dan
+;;;             : * Changed the declaim for define-chunk-spec-fct to be 
+;;;             :   consistent with other declaim of that function.
+;;; 2014.10.16 Dan
+;;;             : * Changed the warning for extend-chunk-type-slots since it
+;;;             :   seemed to imply that it didn't do anything.
+;;;             : * Valid-slot-name only returns one value now.
+;;; 2014.12.17 Dan
+;;;             : * Changed the declaim for some functions because they didn't 
+;;;             :   indicate multiple return values and some Lisps care about that.
+;;;             : * Removed declaim for new-chunk-type-size.
+;;; 2015.07.28 Dan
+;;;             : * Removed the *act-r-6.0-compatibility* hack.
+;;; 2017.02.15 Dan
+;;;             : * Aded a dispatched extend-possible-slots and allow the slot-
+;;;             :   name to be provided as a string.
+;;; 2017.06.20 Dan
+;;;             : * Protect all access to the info struct with the lock.
+;;;             : * Remove extend-chunk-type-slots.
+;;; 2018.06.12 Dan
+;;;             : * Only the remote extend-possible-slots accepts strings.
+;;; 2019.03.06 Dan
+;;;             : * Adding a struct for the chunk-slot info so only one table
+;;;             :   necessary, and chunks can use that struct to avoid some
+;;;             :   lookups later -- it's returned from valid-slot-name.
+;;;             : * Valid-slot-name should check info before trying to grab a
+;;;             :   lock from it.
+;;;             : * Adding valid-slot-index because want to be able to test
+;;;             :   for an index with out the warning from slot-name->index.
+;;; 2019.03.13 Dan
+;;;             : * Ditching the struct and just storing a vector in the table.
+;;;             : * Added accessors for the conversions without warnings which 
+;;;             :   can be used when there's already a model.
+;;;             : * Switch from expt 2 index to ash 1 index.
+;;; 2019.03.14 Dan
+;;;             : * Undoing most of last update since it actually hurt performance.
+;;; 2019.03.15 Dan
+;;;             : * Using the slot-vector in valid-ct-slot-check.
+;;; 2019.03.19 Dan
+;;;             : * Using a new possible-slot-vector record instead.
+;;; 2019.04.04 Dan
+;;;             : * Have valid-ct-slot return the slot-struct.
+;;; 2019.11.15 Dan
+;;;             : * Add the query names into the slot list now to avoid warnings
+;;;             :   during production definitions.
+;;; 2020.01.31 Dan [2.1]
+;;;             : * Adding remote versions of most commands.
+;;; 2020.06.01 Dan
+;;;             : * Added a function to copy a chunk-type struct and make a new
+;;;             :   copy of the possible-slots list in the process since that
+;;;             :   gets destructively modified during a model run and need to
+;;;             :   be able to cache a clean version of the struct for the new
+;;;             :   caching of creation-time chunk-types.
+;;; 2020.08.24 Dan
+;;;             : * Replaced *pprint-chunk-type-string* with +...+ to avoid the
+;;;             :   warnings in SBCL.
+;;; 2020.08.25 Dan
+;;;             : * Switch from defconstant to the define-constant macro to 
+;;;             :   avoid issues with SBCL (instead of redefining defconstant
+;;;             :   for SBCL as was done previously).
+;;; 2021.10.19 Dan
+;;;             : * Changed the declaim for get-module-fct since it has an
+;;;             :   optional now.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; chunk-type structure for internal use only.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(declaim (ftype (function (t &optional t) (values t t)) get-module-fct))
+(declaim (ftype (function () t) current-model))
+(declaim (ftype (function (t) (values t t)) get-chunk))
+(declaim (ftype (function (&optional t) (values t t t)) new-name-fct))
+(declaim (ftype (function (t &optional t t) (values t t)) define-chunk-spec-fct))
+
+(defstruct act-r-slot name index mask)
+
+;; Needed for caching the chunk-type information
+;; since the possible-slots list is destructively modified
+;; as the model is built
+
+(defun deep-copy-act-r-chunk-type (ct)
+  (let ((new (copy-act-r-chunk-type ct)))
+    (setf (act-r-chunk-type-possible-slots new) (copy-list (act-r-chunk-type-possible-slots ct)))
+    new))
+
+
+(defun get-chunk-type (name)
+  "Internal command to get a chunk-type structure from its name"
+  (verify-current-mp  
+   "get-chunk-type called with no current meta-process."
+   (verify-current-model
+    "get-chunk-type called with no current model."
+    (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+      (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+        (gethash name (act-r-chunk-type-info-table info)))))))            
+
+(defmacro chunk-type (&rest name-and-slots)
+  "The user macro to define a new chunk-type."
+  `(chunk-type-fct ',name-and-slots))
+
+(defun chunk-type-fct (name-and-slots)
+  "The user function to define a new chunk-type"
+   (verify-current-model
+    "chunk-type called with no current model."
+    (cond ((null name-and-slots)
+           (print-all-chunk-types))
+          ((not (listp name-and-slots))
+           (print-warning "chunk-type-fct must be passed a list which defines a chunk-type."))
+          (t
+           (macrolet ((get-chunk-type (name) ;; a local macro to avoid having to get the table and lock again
+                                      `(gethash ,name (act-r-chunk-type-info-table info))))
+             (let* ((name-description (car name-and-slots))
+                    (name (if (consp name-description)
+                              (car name-description) 
+                            name-description))
+                    (modifier (if (consp name-description)
+                                  (cdr name-description) 
+                                nil))
+                    (documentation (when (stringp (second name-and-slots))
+                                     (second name-and-slots)))
+                    (slots (if documentation (cddr name-and-slots) 
+                             (cdr name-and-slots)))
+                    (parents nil)
+                    (info (act-r-model-chunk-types-info (current-model-struct)))
+                    super-types)
+               
+               (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info)) ;; just lock it down completely
+               
+                 (setf super-types (list (get-chunk-type 'chunk)))
+               
+                 (when (get-chunk-type name)
+                   (return-from chunk-type-fct 
+                     (print-warning "Chunk-type ~S is already defined and redefinition is not allowed." name)))
+             
+                 ; check type hierarchy
+                 
+                 (when modifier
+                   (unless (every (lambda (x) (and (listp x) (= 2 (length x)) (keywordp (first x)))) modifier)
+                     (return-from chunk-type-fct 
+                       (print-warning "Invalid modifier list specified with the chunk-type name: ~s" modifier)))
+                   
+                   (when (find :static modifier :key 'car)
+                     (setf modifier (remove :static modifier :key 'car))
+                     (print-warning "Static modifier in chunk-type definitions is depricated and has no effect."))
+                   
+                   (dolist (x modifier)
+                     (unless (eq (first x) :include)
+                       (return-from chunk-type-fct
+                         (print-warning "Invalid modifier ~s in ~s chunk-type definition." (first x) name)))
+                     (aif (get-chunk-type (second x))
+                          (progn
+                            (if (equalp super-types (list (get-chunk-type 'chunk)))
+                                (setf super-types (list it))
+                              (push it super-types))
+                            (push-last (second x) parents))
+                          (return-from chunk-type-fct
+                            (print-warning "Non-existent chunk-type ~s specified as an :include in ~s chunk-type definition." (second x) name)))))
+                 
+                 
+                 (dolist (slot slots)
+                   (unless (or (and (atom slot) (symbolp slot) (not (keywordp slot))
+                                    (not (eq slot 'isa)) (alphanumericp (char (symbol-name slot) 0)))
+                               (and (listp slot)
+                                    (= (length slot) 2)
+                                    (not (eq (car slot) 'isa))
+                                    (symbolp (car slot))
+                                    (not (keywordp (car slot)))
+                                    (alphanumericp (char (symbol-name (car slot)) 0))))
+                     (return-from chunk-type-fct 
+                       (print-warning "Unacceptable slot specification ~S for chunk-type ~S.  Chunk-type not created." slot name))))
+                 
+                 (unless (= (length slots) (length (remove-duplicates (mapcar 'chunk-type-slot-name slots))))
+                   (return-from chunk-type-fct 
+                     (print-warning "Duplicate slot specifications in ~S for chunk-type ~S.  Chunk-type not created." slots name)))
+                 
+                 (let ((ct (make-act-r-chunk-type 
+                            :name name 
+                            :documentation documentation
+                            :parents parents
+                            :super-types (cons name (reduce 'union super-types :key 'act-r-chunk-type-super-types)))))
+                   
+               
+                   ;; verify that all the parent types are compatible -- no conflicting default values
+                   (let* ((unique-parent-defaults (reduce (lambda (x y) 
+                                                            (union x y :test 'equalp)) 
+                                                          super-types :key (lambda (x) 
+                                                                             (remove-if-not 'listp (act-r-chunk-type-slots x)))))
+                          (needed-defaults (remove-if (lambda (x) (find (chunk-type-slot-name x) slots :key 'chunk-type-slot-name)) unique-parent-defaults)))
+                     (unless (= (length needed-defaults)
+                                (length (remove-duplicates needed-defaults :key 'first)))
+                       (return-from chunk-type-fct
+                         (print-warning "The multiple parents specified for type ~s ~s have inconsistent default values in one or more slots.  Chunk-type not created." name parents))))
+                   
+                   
+                   ;; Add any new slot names to the type info data
+                   
+                   (dolist (s (mapcar 'chunk-type-slot-name slots))
+                     (unless (gethash s (act-r-chunk-type-info-slot->index info))
+                       
+                       (let* ((index (vector-push-extend s (act-r-chunk-type-info-index->slot info)))
+                              (new-s (make-act-r-slot :name s :index index :mask (expt 2 index))))
+                         (setf (gethash s (act-r-chunk-type-info-slot->index info)) new-s)
+                         (setf (act-r-chunk-type-info-size info) (1+ index)))))
+                   
+                   
+                   ;; Build the list of slots and possible slots for this chunk-type from the parent slots 
+                   
+                   (dolist (parent-slot (reduce 'union super-types :key 'act-r-chunk-type-slots))
+                     (unless (find (chunk-type-slot-name parent-slot) slots :key 'chunk-type-slot-name :test 'eq)
+                       (push-last parent-slot slots)))
+               
+                   ;; slots now holds all the slots from the specification and all the parent slots
+                   ;; set that as the slots for the current type
+                   
+                   (setf (act-r-chunk-type-slots ct) slots)
+               
+                   ;; push the slot names for this type onto all of the parent's possible-slots lists 
+                   ;; as well as its own
+                   
+                   (dolist (type-name (act-r-chunk-type-super-types ct))
+                     (let ((type (if (eq type-name name) ct (get-chunk-type type-name))))
+                       (dolist (s (mapcar 'chunk-type-slot-name slots))
+                         (pushnew s (act-r-chunk-type-possible-slots type) :test 'eq)
+                         (let ((s-struct (gethash s (act-r-chunk-type-info-slot->index info))))
+                           (setf (act-r-chunk-type-possible-slot-vector type) 
+                             (logior (act-r-slot-mask s-struct) (act-r-chunk-type-possible-slot-vector type)))))))
+               
+               
+                   ;; set the default spec info (only care about filled slots, right?)
+               
+                   (let ((filled-specs))
+                     (dolist (slot (act-r-chunk-type-slots ct))
+                       (when (and (listp slot) (second slot))
+                         (push-last (first slot) filled-specs)
+                         (push-last (second slot) filled-specs)))
+                 
+                     (setf (act-r-chunk-type-initial-spec ct)
+                       (define-chunk-spec-fct filled-specs)))
+                   
+                   ;; add it to the table
+                   
+                   (setf (gethash name (act-r-chunk-type-info-table info)) ct)
+                   
+                   ;; and list of types
+               
+                   (push-last name (act-r-chunk-type-info-types info))
+               
+                   ;; Check and store the "signature" of the chunk-type to see
+                   ;; if it is identical to any others, and if so warn about it.
+                   
+                   (let ((named-slots 0) 
+                         (ordered-slots nil)
+                         (defaults nil))
+                     
+                     (dolist (slot (act-r-chunk-type-slots ct))
+                       (let ((s-struct (gethash (chunk-type-slot-name slot) (act-r-chunk-type-info-slot->index info))))
+                         (setf named-slots (logior (act-r-slot-mask s-struct) named-slots))
+                         (push (list slot (act-r-slot-index s-struct)) ordered-slots)))
+                 
+                     (dolist (slot (mapcar 'first (sort ordered-slots #'< :key 'second)))
+                       (push (if (listp slot) (second slot) nil) defaults))
+                     
+                     (let ((possibles (gethash named-slots (act-r-chunk-type-info-distinct-types info))))
+                       (if possibles
+                           (aif (find defaults possibles :test 'equalp :key 'car)
+                                (progn
+                                  (print-warning "Chunk-type ~s has the same specification as the chunk-type~p ~{~s~^, ~}." name (length (cdr it)) (cdr it))
+                                  (setf (cdr it) (push name (cdr it))))
+                                (setf (gethash named-slots (act-r-chunk-type-info-distinct-types info))
+                                  (push (cons defaults (list name)) it))) 
+                         (setf (gethash named-slots (act-r-chunk-type-info-distinct-types info))
+                           (list (cons defaults (list name))))))
+                 
+                     ;; don't return the bitvector of named slots
+                     
+                     (setf (act-r-chunk-type-slot-vector ct) named-slots)
+                     
+                     ;; just return the chunk-type name
+                     
+                     name)))))))))
+
+(defun chunk-type-external (vals)
+  (chunk-type-fct (decode-string-names vals)))
+
+(add-act-r-command "chunk-type" 'chunk-type-external "Create a new chunk type or print all chunk-types to command trace. Params: [ nil | ([name | (name (/:include/ parent)*)] {'doc-string'} [ slot | (slot 'default-value') ]*)]")
+
+(defun chunk-type-slot-name (slot)
+  "Internal function for parsing chunk-types"
+  (if (atom slot)
+      slot
+    (first slot)))
+
+(defun print-all-chunk-types ()
+  "Internal function for printing all chunk-types" 
+  (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+    (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+      (let ((types (act-r-chunk-type-info-types info)))
+        (dolist (x types types)
+          (pprint-chunk-type-fct x))))))
+
+(define-constant +pprint-chunk-type-string+
+     (formatter "~S~@[ <- ~{~s~^, ~}~]~@[ ~S~]~%~{~{   ~s~@[ (~s)~]~%~}~}~%")
+  "Internal compiled format string used to print out chunk-types")
+
+(defun pprint-ct (chunk-type)
+  "Pretty prints a chunk-type."
+  (command-output  
+   (format nil +pprint-chunk-type-string+
+     (act-r-chunk-type-name chunk-type)
+     (act-r-chunk-type-parents chunk-type)
+     (act-r-chunk-type-documentation chunk-type)
+     (mapcar (lambda (slot)
+               (if (listp slot)
+                   slot
+                 (list slot nil)))
+       (act-r-chunk-type-slots chunk-type))))
+  (act-r-chunk-type-name chunk-type))
+
+
+(defmacro pprint-chunk-type (chunk-type)
+  `(pprint-chunk-type-fct ',chunk-type))
+
+(defun pprint-chunk-type-fct (chunk-type)
+  (verify-current-mp  
+   "pprint-chunk-type called with no current meta-process."
+   (verify-current-model
+    "pprint-chunk-type called with no current model."
+    (aif (get-chunk-type chunk-type)
+         (pprint-ct it)
+         (print-warning "~s does not name a chunk-type in the current model." chunk-type)))))
+
+(defun pprint-chunk-type-external (name)
+  (pprint-chunk-type-fct (string->name name)))
+
+(add-act-r-command "pprint-chunk-type" 'pprint-chunk-type-external "Print the details of a chunk-type to the command trace. Params: chunk-type-name")
+
+(defmacro chunk-type-p (chunk-type-name?)
+  "Predicate macro for verifying that a chunk-type of a given name exists"
+  `(chunk-type-p-fct ',chunk-type-name?))
+
+(defun chunk-type-p-fct (chunk-type-name?)
+  "Predicate function for verifying that a chunk-type of a given name exists"
+  (if (get-chunk-type chunk-type-name?)
+      t nil))
+
+(defun chunk-type-p-external (name)
+  (chunk-type-p-fct (string->name name)))
+
+(add-act-r-command "chunk-type-p" 'chunk-type-p-external "Test whether the given value names a valid chunk-type. Params: name" nil)
+
+(defun valid-slot-name (slot)
+  "Function to determine if a slot name is valid for any chunk"
+  (values
+   (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+     (when info 
+       (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+         (gethash slot (act-r-chunk-type-info-slot->index info)))))))
+
+(defun valid-slot-index (slot)
+  "Function to determine if a slot name is valid for any chunk"
+  (values
+   (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+     (when info 
+       (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+         (awhen (gethash slot (act-r-chunk-type-info-slot->index info))
+                (act-r-slot-index it)))))))
+
+(defun valid-query-name (query)
+  (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+    (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+      (and info (find query (act-r-chunk-type-info-query-slots info))))))
+
+(defun valid-chunk-type-slot (chunk-type-name slot)
+  (let ((ct (get-chunk-type chunk-type-name)))
+    (if ct
+        (valid-ct-slot ct slot)
+      (print-warning "Invalid chunk-type name ~s passed to valid-chunk-type-slot." chunk-type-name))))
+
+
+(defun valid-ct-slot (chunk-type slot)
+  (when chunk-type
+    (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+      (when info
+        (valid-ct-slot-check chunk-type slot info)))))
+
+(defun valid-ct-slot-check (chunk-type slot info)
+  (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+    (let ((struct (gethash slot (act-r-chunk-type-info-slot->index info))))
+      (when struct
+        (and (or (logtest (act-r-slot-mask struct) (act-r-chunk-type-possible-slot-vector chunk-type))
+                 (find slot (act-r-chunk-type-info-extended-slots info)))
+            struct)))))
+
+(defun chunk-type-possible-slot-names-fct (chunk-type-name)
+  (let ((ct (get-chunk-type chunk-type-name)))
+    (if ct
+        (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+          (if info 
+              (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+                (remove-duplicates (append (act-r-chunk-type-possible-slots ct)
+                                           (act-r-chunk-type-info-extended-slots info))))
+            (print-warning "No chunk-types info available for call to chunk-type-possible-slot-names-fct.")))
+      (print-warning "Invalid chunk-type name ~s passed to chunk-type-possible-slot-names-fct." chunk-type-name))))
+
+(defun external-chunk-type-possible-slot-names-fct (name)
+  (chunk-type-possible-slot-names-fct (string->name name)))
+
+(add-act-r-command "chunk-type-possible-slot-names-fct" 'external-chunk-type-possible-slot-names-fct "Returns a list of valid slots for the chunk-type provided. Params: name." nil)
+      
+(defun extend-possible-slots (slot-name &optional (warn t))
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if (null info)
+             (print-warning "Chunk-type info not available so the slot ~s cannot be added." slot-name)
+           
+           (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+             (cond ((null slot-name)
+                    (print-warning "Nil is not a valid slot name when trying to extend slots."))
+                   ((not (symbolp slot-name))
+                    (print-warning "~s cannot be used as a slot name because it is not a symbol or string." slot-name))
+                   ((not (alphanumericp (char (symbol-name slot-name) 0)))
+                    (print-warning "~s cannot be used as a slot name because it does not start with an alphanumeric character." slot-name))
+                   ((keywordp slot-name)
+                    (print-warning "~s cannot be used as a slot name because it is a keyword." slot-name))
+                   ((gethash slot-name (act-r-chunk-type-info-slot->index info))
+                    (pushnew slot-name (act-r-chunk-type-info-extended-slots info))
+                    (when warn
+                      (print-warning "~s already names a possible slot for chunks." slot-name)))
+                   (t
+                    ;; add it to the list of extended slots and create the appropriate
+                    ;; entries for it.
+                    (push slot-name (act-r-chunk-type-info-extended-slots info))    
+                    (let* ((index (vector-push-extend slot-name (act-r-chunk-type-info-index->slot info)))
+                           (new-s (make-act-r-slot :name slot-name :index index :mask (ash 1 index))))
+                      (setf (gethash slot-name (act-r-chunk-type-info-slot->index info)) new-s)
+                      (setf (act-r-chunk-type-info-size info) (1+ index)))
+                    slot-name)))))
+       (print-warning "Current model not available so the slot ~s cannot be added." slot-name)))
+
+(defun remote-extend-possible-slots (slot-name &optional (warn t))
+  (extend-possible-slots (string->name slot-name) warn))
+
+(add-act-r-command "extend-possible-slots" 'remote-extend-possible-slots "Add a new slot name which can be used for any chunk, and if warn is true (the default) then print a warning if the slot specified already exists. Params: slot-name {warn}")
+
+(defun add-request-parameter (parameter-name)
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if (null info)
+             (print-warning "Chunk-type info not available so the request parameter ~s cannot be added." parameter-name)
+           
+           (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+             
+             (cond ((null parameter-name)
+                    (print-warning "Nil is not a valid request parameter name."))
+                   ((not (keywordp parameter-name))
+                    (print-warning "~s cannot be used as a request parameter because it must be a keyword." parameter-name))
+                   ((gethash parameter-name (act-r-chunk-type-info-slot->index info))
+                    parameter-name)
+                   ; just let it go
+                   ; because multiple modules may want to use the same 
+                   ; request parameter name (print-warning "~s already names a request parameter for chunks." parameter-name))
+                   (t
+                    ;; add it to the list of extended slots and create the appropriate
+                    ;; entries for it.
+                    (push parameter-name (act-r-chunk-type-info-extended-slots info))    
+                    (let* ((index (vector-push-extend parameter-name (act-r-chunk-type-info-index->slot info)))
+                           (new-s (make-act-r-slot :name parameter-name :index index :mask (ash 1 index))))
+                      (setf (gethash parameter-name (act-r-chunk-type-info-slot->index info)) new-s)
+                      (setf (act-r-chunk-type-info-size info) (1+ index)))
+                    parameter-name)))))
+       (print-warning "Current model not available so the request parameter ~s cannot be added." parameter-name)))
+
+
+(defun add-buffer-query (query-name)
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if (null info)
+             (print-warning "Chunk-type info not available so the query ~s cannot be added." query-name)
+           
+           (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+             (cond ((null query-name)
+                    (print-warning "Nil is not a valid query name."))
+                   ((keywordp query-name)
+                    (print-warning "~s cannot be used as a query parameter because it is a keyword." query-name))
+                   ((find query-name (act-r-chunk-type-info-query-slots info))
+                    query-name)
+                   (t
+                    ;; add it to the list of query slots and create a slot info for it now
+                    (push query-name (act-r-chunk-type-info-query-slots info))    
+                    (unless (gethash query-name (act-r-chunk-type-info-slot->index info))
+                       
+                       (let* ((index (vector-push-extend query-name (act-r-chunk-type-info-index->slot info)))
+                              (new-s (make-act-r-slot :name query-name :index index :mask (expt 2 index))))
+                         (setf (gethash query-name (act-r-chunk-type-info-slot->index info)) new-s)
+                         (setf (act-r-chunk-type-info-size info) (1+ index))))
+                   
+                    query-name)))))
+       (print-warning "Current model not available so the query ~s cannot be added." query-name)))
+
+
+(defun slot-name->mask (slot-name)
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if info
+             (aif (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info)) (gethash slot-name (act-r-chunk-type-info-slot->index info)))
+                  (act-r-slot-mask it)
+                  (print-warning "~s does not name a valid slot in the current model." slot-name))
+           (print-warning "Chunk-type info not available so a mask for the slot ~s cannot be found." slot-name)))
+       (print-warning "Current model not available so a mask for the slot ~s cannot be found." slot-name)))
+
+
+(defun slot-name->index (slot-name)
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if info
+             (aif (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info)) (gethash slot-name (act-r-chunk-type-info-slot->index info)))
+                  (act-r-slot-index it)
+                  (print-warning "~s does not name a valid slot in the current model." slot-name))
+           (print-warning "Chunk-type info not available so an index for the slot ~s cannot be found." slot-name)))
+       (print-warning "Current model not available so an index for the slot ~s cannot be found." slot-name)))
+
+
+
+(defun slot-index->name (slot-index)
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if info
+             (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+               (if (< slot-index (length (act-r-chunk-type-info-index->slot info)))
+                   (aref (act-r-chunk-type-info-index->slot info) slot-index)
+                 (print-warning "~s is not a valid slot index in the current model." slot-index)))
+           (print-warning "Chunk-type info not available so a name for the slot index ~s cannot be found." slot-index)))
+       (print-warning "Current model not available so a name for the slot index ~s cannot be found." slot-index)))
+
+
+(defun slot-mask->names (slot-mask)
+  (aif (current-model-struct)
+       (let ((info (act-r-model-chunk-types-info it)))
+         (if info
+             (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+               (let ((len (integer-length slot-mask))
+                     res)
+                 (if (<= len (act-r-chunk-type-info-size info))
+                     (dotimes (i len res)
+                       (when (logbitp i slot-mask)
+                         (push-last (aref (act-r-chunk-type-info-index->slot info) i) res)))
+                   (print-warning "~s is not a valid slot mask in the current model." slot-mask))))
+           (print-warning "Chunk-type info not available so slot names for the mask ~s cannot be found." slot-mask)))
+       (print-warning "Current model not available so slot names for the mask ~s cannot be found." slot-mask)))
+
+
+(defun all-chunk-type-names ()
+  (verify-current-model
+   "all-chunk-type-names called with no current model."
+   (let ((info (act-r-model-chunk-types-info (current-model-struct))))
+     (if info
+         (bt:with-recursive-lock-held ((act-r-chunk-type-info-lock info))
+          (act-r-chunk-type-info-types info))
+       (print-warning "Chunk-type info not available cannot return chunk-type names.")))))
+
+(add-act-r-command "all-chunk-type-names" 'all-chunk-type-names "Returns a list with the names of all currently defined chunk-types. No params." nil)
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                (#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (1234) ((ftype (function (t &optional t) (values t t)) common-lisp-user::get-module-fct) proclaim (ftype (function (&optional t) t) common-lisp-user::sgp-fct) (ftype (function nil t) common-lisp-user::current-model) (ftype (function nil t) common-lisp-user::use-short-copy-names) (ftype (function (&optional t) (values t t t)) common-lisp-user::new-name-fct) (ftype (function nil t) common-lisp-user::update-chunks-on-the-fly) (ftype (function (t) t) common-lisp-user::release-name-fct) (ftype (function nil t) common-lisp-user::notify-on-the-fly-hooks) (ftype (function (t) t) common-lisp-user::id-to-chunk-spec) (ftype (function (t) t) common-lisp-user::chunk-spec-to-chunk-def) common-lisp-user::*chunk-parameters-count* si::*make-special boundp ext::location (defvar common-lisp-user::*chunk-parameters-count*) (#2=#P"/opt/actr/actr7.x/framework/chunks.lisp" . 36296) ext::annotate common-lisp-user::*chunk-parameter-undefined* "Unused-Param" gentemp (defvar common-lisp-user::*chunk-parameter-undefined*) (#2# . 36333) common-lisp-user::*chunk-parameters-list* variable "Internal list of parameters that have been added to chunks" si::set-documentation (defvar common-lisp-user::*chunk-parameters-list*) (#2# . 36396) common-lisp-user::*chunk-parameters-copy-list* "Internal list of parameters that have a copy function" (defvar common-lisp-user::*chunk-parameters-copy-list*) (#2# . 36498) common-lisp-user::*chunk-parameters-merge-list* "Internal list of parameters that have a merge function" (defvar common-lisp-user::*chunk-parameters-merge-list*) (#2# . 36599) common-lisp-user::*chunk-parameters-merge-value-list* "Internal list of parameters that have a merge value function" (defvar common-lisp-user::*chunk-parameters-merge-value-list*) (#2# . 36702) common-lisp-user::*chunk-parameters-lock* (defvar common-lisp-user::*chunk-parameters-lock*) (#2# . 36817) common-lisp-user::chunk-parameter-default (defun common-lisp-user::chunk-parameter-default) (#2# . 36886) :lambda-list (common-lisp-user::param common-lisp-user::chunk-name) common-lisp-user::param common-lisp-user::chunk-name common-lisp-user::act-r-chunk-parameter-default-function common-lisp-user::dispatch-apply common-lisp-user::act-r-chunk-parameter-default-value #Y(common-lisp-user::chunk-parameter-default nil nil (24 45 49 24 45 50 26 13 1 19 1 51 39 14 13 1 19 1 51 12 13 0 19 2 52 38 6 13 1 19 1 53 29) #1# #2# 36886) si::fset function "Return a default value for a parameter in a chunk" common-lisp-user::+pprint-chunk-string+ symbol-value stream si::format-error :complaint "Required argument missing" :control-string "~S~:[ (~s)~;~*~]~%~@[~S~%~]~:{   ~s  ~s~%~}" :offset error #:format-arg-1573 #:format-arg-1574 #:format-arg-1575 #:format-arg-1577 #:format-arg-1578 si::args prin1 #:format-arg-1576 " (" write-string ")" terpri si::orig-args 0 #:g1598 "No more arguments." si::outside-args "   " #:g1601 "  " #:g1602 #Y(nil nil nil (24 45 60 25 40 19 15 61 14 62 15 63 14 64 15 65 14 66 9 1 19 7 67 12 46 68 25 40 19 15 61 14 62 15 63 14 64 15 65 14 66 9 4 19 7 67 12 46 69 25 40 19 15 61 14 62 15 63 14 64 15 65 14 66 9 13 19 7 67 12 46 70 25 40 19 15 61 14 62 15 63 14 64 15 65 14 66 9 22 19 7 67 12 46 71 25 40 19 15 61 14 62 15 63 14 64 15 65 14 66 9 29 19 7 67 12 46 72 27 45 73 13 5 13 6 19 2 74 10 4 39 5 10 3 38 28 10 3 45 75 15 76 13 7 19 2 77 13 0 13 7 19 2 74 15 78 13 7 19 2 77 43 1 13 6 19 1 79 10 2 39 13 13 2 13 6 19 2 74 13 6 19 1 79 10 1 45 80 10 0 45 73 58 60 194 57 81 61 1 1 10 2 76 39 5 75 73 36 1 10 2 39 23 10 2 45 82 10 0 4 12 10 0 5 51 0 10 0 51 3 22 43 1 38 18 15 61 14 62 15 83 14 64 15 65 14 66 9 29 19 7 67 45 80 10 3 45 84 10 1 45 73 15 85 13 13 19 2 77 10 0 39 24 10 0 45 86 10 0 4 12 10 0 5 51 0 10 0 51 1 22 73 43 1 38 18 15 61 14 62 15 83 14 64 15 65 14 66 9 34 19 7 67 12 13 13 19 2 74 15 87 13 13 19 2 77 10 0 39 24 10 0 45 88 10 0 4 12 10 0 5 51 0 10 0 51 1 22 73 43 1 38 18 15 61 14 62 15 83 14 64 15 65 14 66 9 38 19 7 67 12 13 13 19 2 74 13 13 19 1 79 43 3 35 0 0 62 63 43 2 10 0 73 29) #1# #2# 37176) si::*make-constant "compiled format string for printing chunks" (defconstant common-lisp-user::+pprint-chunk-string+) (#2# . 37176) common-lisp-user::+pprint-chunk-parameters-string+ "~@[  --chunk parameters--~%~:{   ~s  ~s~%~}~]~%" #:format-arg-1633 "  --chunk parameters--" #:g1653 "   " #:g1656 "  " #:g1657 #Y(nil nil nil (24 45 60 25 40 19 15 61 14 62 15 63 14 64 15 95 14 66 9 29 19 7 67 12 46 96 27 45 73 10 1 39 219 15 97 13 2 19 2 77 13 2 19 1 79 10 1 45 80 10 0 45 73 58 60 194 57 81 61 1 1 10 2 76 39 5 75 73 36 1 10 2 39 23 10 2 45 98 10 0 4 12 10 0 5 51 0 10 0 51 3 22 43 1 38 18 15 61 14 62 15 83 14 64 15 95 14 66 9 29 19 7 67 45 80 10 3 45 84 10 1 45 73 15 99 13 9 19 2 77 10 0 39 24 10 0 45 100 10 0 4 12 10 0 5 51 0 10 0 51 1 22 73 43 1 38 18 15 61 14 62 15 83 14 64 15 95 14 66 9 34 19 7 67 12 13 9 19 2 74 15 101 13 9 19 2 77 10 0 39 24 10 0 45 102 10 0 4 12 10 0 5 51 0 10 0 51 1 22 73 43 1 38 18 15 61 14 62 15 83 14 64 15 95 14 66 9 38 19 7 67 12 13 9 19 2 74 13 9 19 1 79 43 3 35 0 0 62 63 43 2 13 2 19 1 79 10 0 73 29) #1# #2# 37323) "compiled format string for printing chunk parameters" (defconstant common-lisp-user::+pprint-chunk-parameters-string+) (#2# . 37323) common-lisp-user::pprint-a-chunk (defun common-lisp-user::pprint-a-chunk) (#2# . 37494) (common-lisp-user::name &optional (common-lisp-user::w-params t)) common-lisp-user::name t common-lisp-user::w-params common-lisp-user::get-chunk common-lisp-user::chunk common-lisp-user::printing-module common-lisp-user::get-module-fct #:g1696 #:g1695 #:g1698 #:g1697 common-lisp-user::printing-module-suppress-cmds common-lisp-user::printing-module-c common-lisp-user::act-r-output-stream "command-output" "~@?" "~a" common-lisp-user::act-r-chunk-name eql common-lisp-user::act-r-chunk-documentation common-lisp-user::slot common-lisp-user::act-r-slot-name #Y(nil nil nil (24 45 131 26 10 0 4 12 19 1 132 12 10 0 5 6 2 73 29) #1# #2# 37494) common-lisp-user::act-r-chunk-slot-value-lists copy-tree < :key common-lisp-user::x common-lisp-user::act-r-slot-index #Y(nil nil nil (24 45 138 26 10 0 4 12 19 1 139 29) #1# #2# 37494) sort mapcar format common-lisp-user::evaluate-act-r-command #:g1702 #:g1701 #:g1704 #:g1703 "~a" common-lisp-user::act-r-chunk-parameter-name common-lisp-user::act-r-chunk-parameter-accessor #Y(nil nil nil (24 45 49 26 13 0 19 1 150 12 13 0 19 1 151 12 13 7 20 1 23 6 2 73 29) #1# #2# 37494) :error #Y(common-lisp-user::pprint-a-chunk nil nil (24 45 111 25 40 3 14 112 46 113 26 13 1 19 1 114 45 115 10 0 39 214 15 116 19 1 117 47 1 118 45 119 10 1 39 108 77 77 46 120 46 121 13 2 19 1 122 51 0 13 2 19 1 123 12 19 1 124 51 1 10 1 39 4 10 0 76 39 73 15 125 77 15 126 15 127 77 14 58 13 6 13 6 13 4 19 1 128 17 129 12 13 4 19 1 128 12 13 4 19 1 130 12 34 133 12 13 4 19 1 134 16 135 12 33 136 12 14 137 34 140 12 19 4 141 12 19 2 142 12 19 7 143 12 19 4 143 12 19 2 144 43 2 43 2 10 1 39 82 15 116 19 1 117 47 1 145 45 146 10 1 39 66 77 77 46 147 46 148 13 2 19 1 122 51 0 13 2 19 1 123 12 19 1 124 51 1 10 1 39 4 10 0 76 39 31 15 125 77 15 126 15 149 77 14 94 34 152 12 14 23 19 2 142 12 19 3 143 12 19 4 143 12 19 2 144 43 2 43 2 10 2 73 38 4 11 153 73 43 1 29) #1# #2# 37494) "Internal function for printing a chunk" common-lisp-user::printed-chunk (defun common-lisp-user::printed-chunk) (#2# . 38907) (common-lisp-user::name &optional common-lisp-user::w-params) make-string-output-stream common-lisp-user::s #Y(nil nil nil (24 45 131 26 10 0 4 12 19 1 132 12 10 0 5 6 2 73 29) #1# #2# 38907) #Y(nil nil nil (24 45 138 26 10 0 4 12 19 1 139 29) #1# #2# 38907) "~%" #Y(nil nil nil (24 45 49 26 13 0 19 1 150 12 13 0 19 1 151 12 13 4 20 1 23 6 2 73 29) #1# #2# 38907) get-output-stream-string "" #Y(common-lisp-user::printed-chunk nil nil (24 45 111 25 40 2 77 46 113 26 13 1 19 1 114 45 115 10 0 39 99 19 0 160 45 161 13 0 14 58 13 3 13 3 13 1 19 1 128 17 129 12 13 1 19 1 128 12 13 1 19 1 130 12 34 162 12 13 1 19 1 134 16 135 12 33 136 12 14 137 34 163 12 19 4 141 12 19 2 142 12 19 7 143 10 2 39 24 13 0 15 164 19 2 143 13 0 14 94 34 165 12 14 23 19 2 142 12 19 3 143 10 0 16 166 43 1 38 4 1 167 73 43 1 29) #1# #2# 38907) common-lisp-user::external-printed-chunk (defun common-lisp-user::external-printed-chunk) (#2# . 40071) (common-lisp-user::name &optional common-lisp-user::w-params) common-lisp-user::string->name #Y(common-lisp-user::external-printed-chunk nil nil (24 45 111 25 40 2 77 46 113 26 13 1 19 1 173 12 13 0 19 2 156 29) #1# #2# 40071) "printed-chunk" "Return the text output of printing a chunk optionally with the parameter values. Params: chunk-name {show-parameters?}." common-lisp-user::add-act-r-command common-lisp-user::pprint-chunks (defmacro common-lisp-user::pprint-chunks) (#2# . 40363) (&rest common-lisp-user::chunk-names) #:g1708 #:g1707 #:g1709 common-lisp-user::chunk-names common-lisp-user::pprint-chunks-fct quote #Y(common-lisp-user::pprint-chunks nil nil (24 45 182 24 45 183 26 10 1 5 45 184 10 0 45 185 15 186 15 187 10 0 6 2 6 2 73 29) #1# #2# 40363) "Print the chunks" (defun common-lisp-user::pprint-chunks-fct) (#2# . 40467) (common-lisp-user::chunk-names-list) common-lisp-user::chunk-names-list common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model common-lisp-user::res common-lisp-user::chunks si::%dolist-var #:g1717 nconc "print-warning" "~@?" "pprint-chunks called with no current model." #Y(common-lisp-user::pprint-chunks-fct nil nil (24 45 193 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 39 71 75 45 198 10 1 76 39 6 19 0 199 38 3 10 1 45 200 38 34 10 0 4 45 115 13 0 77 19 2 107 6 1 45 201 13 3 13 0 19 2 202 51 3 43 1 10 1 5 51 1 43 1 10 0 40 -36 75 45 115 10 2 73 43 1 43 1 43 1 38 17 15 203 77 15 204 15 205 19 3 143 12 19 2 144 75 73 29) #1# #2# 40467) "Print the chunks" common-lisp-user::pprint-chunks-external (defun common-lisp-user::pprint-chunks-external) (#2# . 40760) (&rest common-lisp-user::chunk-names-list) common-lisp-user::string->name-recursive #Y(common-lisp-user::pprint-chunks-external nil nil (27 45 193 13 0 19 1 212 12 19 1 186 29) #1# #2# 40760) "pprint-chunks" "Print the indicated chunks. Params: chunk-name*." common-lisp-user::chunk-back-links (defun common-lisp-user::chunk-back-links) (#2# . 40997) (common-lisp-user::chunk-name) common-lisp-user::model common-lisp-user::act-r-model-chunk-ref-table gethash #Y(common-lisp-user::chunk-back-links nil nil (24 45 50 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 45 220 13 1 13 0 19 1 221 12 19 2 222 43 1 29) #1# #2# 40997) common-lisp-user::set-chunk-back-links (defun common-lisp-user::set-chunk-back-links) (#2# . 41208) (common-lisp-user::chunk-name common-lisp-user::val) common-lisp-user::val si::hash-set #Y(common-lisp-user::set-chunk-back-links nil nil (24 45 50 24 45 228 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 45 220 13 2 13 0 19 1 221 12 13 1 19 3 229 43 1 29) #1# #2# 41208) (defsetf common-lisp-user::chunk-back-links) (#2# . 41437) si::do-defsetf common-lisp-user::pprint-chunks-plus (defmacro common-lisp-user::pprint-chunks-plus) (#2# . 41486) (&rest common-lisp-user::chunk-names) #:g1726 #:g1725 #:g1727 common-lisp-user::pprint-chunks-plus-fct #Y(common-lisp-user::pprint-chunks-plus nil nil (24 45 238 24 45 239 26 10 1 5 45 240 10 0 45 185 15 241 15 187 10 0 6 2 6 2 73 29) #1# #2# 41486) "Print the chunks and their chunk parameters" (defun common-lisp-user::pprint-chunks-plus-fct) (#2# . 41628) (&optional common-lisp-user::chunk-names-list) #:g1735 "pprint-chunks-plus called with no current model." #Y(common-lisp-user::pprint-chunks-plus-fct nil nil (25 40 2 77 46 193 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 39 72 75 45 198 10 1 76 39 6 19 0 199 38 3 10 1 45 200 38 35 10 0 4 45 115 13 0 14 112 19 2 107 6 1 45 247 13 3 13 0 19 2 202 51 3 43 1 10 1 5 51 1 43 1 10 0 40 -37 75 45 115 10 2 73 43 1 43 1 43 1 38 17 15 203 77 15 204 15 248 19 3 143 12 19 2 144 75 73 29) #1# #2# 41628) "Print the chunks and their parameters" common-lisp-user::pprint-chunks-plus-external (defun common-lisp-user::pprint-chunks-plus-external) (#2# . 41960) (&rest common-lisp-user::chunk-names-list) #Y(common-lisp-user::pprint-chunks-plus-external nil nil (27 45 193 13 0 19 1 212 12 19 1 241 29) #1# #2# 41960) "pprint-chunks-plus" "Print the indicated chunks along with chunk parameters. Params: chunk-name*." (defun common-lisp-user::chunks) (#2# . 42246) common-lisp-user::act-r-model-chunks-table common-lisp-user::hash-table-keys "chunks called with no current model." #Y(common-lisp-user::chunks nil nil (26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 39 32 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 45 220 13 0 19 1 260 12 19 1 261 43 1 38 17 15 203 77 15 204 15 262 19 3 143 12 19 2 144 75 73 29) #1# #2# 42246) "Returns a list of the names of all currently defined chunks" "chunks" "Returns a list of all the currently defined chunks. No params." (defun common-lisp-user::get-chunk) (#2# . 42750) (common-lisp-user::name) "get-chunk called with no current model." #Y(common-lisp-user::get-chunk nil nil (24 45 111 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 39 34 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 45 220 13 1 13 0 19 1 260 12 19 2 222 43 1 38 17 15 203 77 15 204 15 270 19 3 143 12 19 2 144 75 73 29) #1# #2# 42750) "Internal function for getting the chunk structure from its name" common-lisp-user::get-chunk-warn (defun common-lisp-user::get-chunk-warn) (#2# . 43079) (common-lisp-user::name) common-lisp-user::c "~s does not name a chunk in the current model." "get-chunk called with no current model." #Y(common-lisp-user::get-chunk-warn nil nil (24 45 111 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 39 65 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 45 220 13 1 13 0 19 1 260 12 19 2 222 43 1 45 277 10 0 39 6 10 0 73 38 19 15 203 77 15 204 15 278 13 1 19 4 143 12 19 2 144 75 73 43 1 38 17 15 203 77 15 204 15 279 19 3 143 12 19 2 144 75 73 29) #1# #2# 43079) "Internal function for getting the chunk structure from its name" common-lisp-user::chunk-p (defmacro common-lisp-user::chunk-p) (#2# . 43535) (common-lisp-user::chunk-name?) #:g1737 #:g1736 #:g1738 si::dm-too-few-arguments common-lisp-user::chunk-name? si::dm-too-many-arguments common-lisp-user::chunk-p-fct #Y(common-lisp-user::chunk-p nil nil (24 45 286 24 45 287 26 10 1 5 45 288 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 290 10 1 39 6 13 3 19 1 291 15 292 15 187 10 0 6 2 6 2 73 29) #1# #2# 43535) "Check a name to see if it names a chunk" (defun common-lisp-user::chunk-p-fct) (#2# . 43644) (common-lisp-user::chunk-name?) #Y(common-lisp-user::chunk-p-fct nil nil (24 45 290 26 13 0 19 1 114 39 6 11 112 73 38 3 75 73 29) #1# #2# 43644) "Check a name to see if it names a chunk" common-lisp-user::external-chunk-p-fct (defun common-lisp-user::external-chunk-p-fct) (#2# . 43760) (common-lisp-user::chunk-name?) #Y(common-lisp-user::external-chunk-p-fct nil nil (24 45 290 26 13 0 19 1 173 12 19 1 292 29) #1# #2# 43760) "chunk-p" "Returns whether the given name is the name of a chunk in the model. Params: chunk-name." common-lisp-user::chunk-slots-vector (defun common-lisp-user::chunk-slots-vector) (#2# . 43994) (common-lisp-user::chunk-name) common-lisp-user::act-r-chunk-filled-slots #Y(common-lisp-user::chunk-slots-vector nil nil (24 45 50 26 13 0 19 1 273 45 277 10 0 73 39 6 13 0 19 1 311 43 1 29) #1# #2# 43994) "Return the bitvector of slots with values for a chunk" common-lisp-user::chunk-documentation (defmacro common-lisp-user::chunk-documentation) (#2# . 44246) (common-lisp-user::chunk-name) #:g1740 #:g1739 #:g1741 common-lisp-user::chunk-documentation-fct #Y(common-lisp-user::chunk-documentation nil nil (24 45 318 24 45 319 26 10 1 5 45 320 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 39 6 13 3 19 1 291 15 321 15 187 10 0 6 2 6 2 73 29) #1# #2# 44246) "Return the documentation string for a chunk" (defun common-lisp-user::chunk-documentation-fct) (#2# . 44381) (common-lisp-user::chunk-name) #Y(common-lisp-user::chunk-documentation-fct nil nil (24 45 50 26 13 0 19 1 273 45 277 10 0 73 39 6 13 0 19 1 130 43 1 29) #1# #2# 44381) "Return the documentation string for a chunk" common-lisp-user::external-chunk-documentation-fct (defun common-lisp-user::external-chunk-documentation-fct) (#2# . 44627) (common-lisp-user::name) #Y(common-lisp-user::external-chunk-documentation-fct nil nil (24 45 111 26 13 0 19 1 173 12 19 1 321 29) #1# #2# 44627) "chunk-documentation" "Return the documentation string of the specified chunk if it has one. Params: chunk-name." common-lisp-user::create-undefined-chunk (defun common-lisp-user::create-undefined-chunk) (#2# . 44897) (common-lisp-user::name) #:g1747 #:g1746 #:g1748 common-lisp-user::printing-module-v common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "Creating chunk ~S with no slots" (common-lisp-user::isa common-lisp-user::chunk) common-lisp-user::define-chunks-fct #Y(common-lisp-user::create-undefined-chunk nil nil (24 45 111 26 15 116 19 1 117 47 1 340 45 341 10 1 39 44 75 45 342 13 1 19 1 343 12 19 1 124 39 6 13 1 19 1 344 51 0 10 0 39 17 15 345 77 15 346 15 347 13 3 19 4 143 12 19 2 144 43 1 43 2 13 0 1 348 7 2 6 1 12 19 1 349 29) #1# #2# 44897) "Create a new chunk with the given name of chunk-type chunk with a warning" common-lisp-user::copy-chunk (defmacro common-lisp-user::copy-chunk) (#2# . 45114) (common-lisp-user::chunk-name) #:g1751 #:g1750 #:g1752 common-lisp-user::copy-chunk-fct #Y(common-lisp-user::copy-chunk nil nil (24 45 356 24 45 357 26 10 1 5 45 358 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 39 6 13 3 19 1 291 15 359 15 187 10 0 6 2 6 2 73 29) #1# #2# 45114) "Create a new chunk which is a copy of the given chunk" (defun common-lisp-user::copy-chunk-fct) (#2# . 45242) (common-lisp-user::chunk-name) common-lisp-user::use-short-copy-names common-lisp-user::act-r-chunk-base-name #:g1792 string symbol-name "-" concatenate #:g1793 common-lisp-user::act-r-chunk si::structure-set "-" common-lisp-user::new-name-fct common-lisp-user::new-name :name :base-name :merged-chunks :filled-slots :parameter-values :initial-element make-array :slot-value-lists common-lisp-user::make-act-r-chunk common-lisp-user::new-chunk common-lisp-user::update-chunks-on-the-fly common-lisp-user::old common-lisp-user::slot-name common-lisp-user::bl hash-table-p #:g1806 #:g1803 #:g1804 #:g1805 make-hash-table common-lisp-user::ht common-lisp-user::undefined copy-list common-lisp-user::act-r-chunk-parameter-copy common-lisp-user::act-r-chunk-parameter-values common-lisp-user::act-r-chunk-parameter-index aref common-lisp-user::current eq si::aset common-lisp-user::act-r-chunk-parameter-copy-from-chunk #:g1826 #:g1827 #Y(common-lisp-user::copy-chunk-fct nil nil (24 45 50 26 13 0 19 1 273 45 115 10 0 73 39 468 19 0 365 39 42 13 0 19 1 366 76 39 34 10 0 45 367 15 368 10 2 16 369 12 15 370 19 3 371 45 372 13 1 15 373 9 1 13 0 19 4 374 43 1 43 1 19 0 365 39 8 13 0 19 1 366 38 13 15 368 10 1 16 369 12 15 375 19 3 371 12 19 1 376 45 377 14 378 13 0 14 379 13 1 19 1 366 12 14 380 10 0 6 1 12 14 381 13 1 19 1 311 12 14 382 14 11 14 383 14 18 19 3 384 12 14 385 13 1 19 1 134 16 135 12 19 12 386 45 387 19 0 388 39 131 13 2 19 1 134 45 200 38 116 10 0 4 45 131 10 0 4 12 19 1 132 12 10 0 5 12 46 389 46 390 13 1 19 1 292 39 79 13 1 19 1 216 45 391 10 0 16 392 39 38 10 1 45 393 10 7 45 394 10 2 45 395 13 2 13 1 13 0 19 2 222 3 45 396 13 2 13 1 13 0 19 3 229 43 4 38 27 19 0 397 45 398 13 7 13 0 10 2 6 1 12 19 3 229 13 3 13 0 19 2 224 43 1 43 1 43 2 10 1 5 51 1 43 1 10 0 40 -118 43 1 77 77 46 399 46 400 11 29 51 0 11 18 51 1 10 0 45 200 38 114 10 0 4 45 49 13 0 19 1 401 39 68 13 6 19 1 402 12 13 0 19 1 403 12 19 2 404 45 405 13 5 19 1 402 12 13 1 19 1 403 12 13 1 19 1 401 12 13 0 10 4 17 406 39 10 13 1 13 8 19 2 44 38 4 10 0 73 12 19 2 52 12 19 3 407 43 1 38 28 13 4 19 1 402 12 13 0 19 1 403 12 13 0 19 1 408 12 13 7 19 2 52 12 19 3 407 10 1 5 51 1 43 1 10 0 40 -116 43 1 43 2 10 0 45 409 10 4 45 410 13 1 15 373 9 5 13 0 19 4 374 43 1 43 1 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 45 220 13 2 13 0 19 1 260 12 13 1 19 3 229 43 1 10 1 73 43 2 43 1 29) #1# #2# 45242) "Create a new chunk which is a copy of the given chunk" common-lisp-user::external-copy-chunk-fct (defun common-lisp-user::external-copy-chunk-fct) (#2# . 48867) (common-lisp-user::chunk-name?) #Y(common-lisp-user::external-copy-chunk-fct nil nil (24 45 290 26 13 0 19 1 173 12 19 1 359 29) #1# #2# 48867) "copy-chunk" "Returns the name of a chunk which is a copy of the chunk name provided. Params: chunk-name." common-lisp-user::copy-chunk-to-chunk-fct (defun common-lisp-user::copy-chunk-to-chunk-fct) (#2# . 49117) (common-lisp-user::from-chunk common-lisp-user::to-chunk) common-lisp-user::from-chunk common-lisp-user::to-chunk common-lisp-user::t-chunk common-lisp-user::f-chunk common-lisp-user::act-r-chunk-not-storable common-lisp-user::param-count remove common-lisp-user::new-links remhash #:g1889 #:g1890 #:g1891 #:g1892 #:g1893 #:g1894 #:g1895 #:g1896 #:g1909 #:g1906 #:g1907 #:g1908 #:g1927 #:g1928 #Y(common-lisp-user::copy-chunk-to-chunk-fct nil nil (24 45 424 24 45 425 26 13 1 19 1 273 12 13 0 19 1 273 12 46 426 46 427 10 0 39 3 10 1 73 39 525 13 1 19 1 428 73 39 517 77 77 77 46 400 46 399 46 429 11 11 51 0 11 29 51 2 11 18 51 1 19 0 388 39 93 13 4 19 1 134 45 200 38 78 10 0 4 45 405 10 0 5 45 389 13 0 19 1 292 39 52 13 0 19 1 216 45 391 10 2 4 12 19 1 132 12 13 9 13 0 19 2 222 12 19 2 430 45 431 10 0 39 12 13 10 13 1 13 0 19 3 229 38 7 13 10 10 1 17 432 43 2 43 1 10 1 5 51 1 43 1 10 0 40 -80 43 1 10 4 45 433 13 4 19 1 366 45 434 13 1 15 373 9 1 13 0 19 4 374 43 1 43 1 10 4 45 435 13 4 19 1 311 45 436 13 1 15 373 9 3 13 0 19 4 374 43 1 43 1 10 4 45 437 13 4 19 1 134 16 135 45 438 13 1 15 373 9 4 13 0 19 4 374 43 1 43 1 10 4 45 439 13 1 14 383 13 2 19 3 384 45 440 13 1 15 373 9 7 13 0 19 4 374 43 1 43 1 19 0 388 39 131 13 4 19 1 134 45 200 38 116 10 0 4 45 131 10 0 4 12 19 1 132 12 10 0 5 12 46 389 46 390 13 1 19 1 292 39 79 13 1 19 1 216 45 391 10 0 16 392 39 38 10 1 45 441 10 11 45 442 10 2 45 443 13 2 13 1 13 0 19 2 222 3 45 444 13 2 13 1 13 0 19 3 229 43 4 38 27 19 0 397 45 398 13 11 13 0 10 2 6 1 12 19 3 229 13 3 13 0 19 2 224 43 1 43 1 43 2 10 1 5 51 1 43 1 10 0 40 -118 43 1 10 2 45 200 38 114 10 0 4 45 49 13 0 19 1 401 39 68 13 5 19 1 402 12 13 0 19 1 403 12 19 2 404 45 405 13 7 19 1 402 12 13 1 19 1 403 12 13 1 19 1 401 12 13 0 10 4 17 406 39 10 13 1 13 7 19 2 44 38 4 10 0 73 12 19 2 52 12 19 3 407 43 1 38 28 13 6 19 1 402 12 13 0 19 1 403 12 13 0 19 1 408 12 13 8 19 2 52 12 19 3 407 10 1 5 51 1 43 1 10 0 40 -116 43 1 43 3 10 1 45 445 10 4 45 446 13 1 15 373 9 5 13 0 19 4 374 43 1 43 1 10 2 73 43 2 29) #1# #2# 49117) "Copy the from-chunk into the reusable chunk to-chunk" common-lisp-user::external-copy-chunk-to-chunk-fct (defun common-lisp-user::external-copy-chunk-to-chunk-fct) (#2# . 53050) (common-lisp-user::from-chunk common-lisp-user::to-chunk) #Y(common-lisp-user::external-copy-chunk-to-chunk-fct nil nil (24 45 424 24 45 425 26 13 1 19 1 173 12 13 0 19 1 173 12 19 2 420 29) #1# #2# 53050) "copy-chunk-to-chunk-fct" "Copy the from-chunk into the reusable chunk to-chunk and returns to-chunk if successful.  Params: from-chunk to-chunk." common-lisp-user::buffer-chunk-spec-to-chunk-list (defun common-lisp-user::buffer-chunk-spec-to-chunk-list) (#2# . 53398) (common-lisp-user::chunk-spec) common-lisp-user::chunk-spec common-lisp-user::act-r-chunk-spec-p common-lisp-user::act-r-chunk-spec-request-param-slots zerop common-lisp-user::act-r-chunk-spec-slot-vars common-lisp-user::act-r-chunk-spec-variables common-lisp-user::act-r-chunk-spec-duplicate-slots common-lisp-user::act-r-chunk-spec-negated-slots common-lisp-user::act-r-chunk-spec-relative-slots common-lisp-user::act-r-slot-spec-name keywordp common-lisp-user::act-r-slot-spec-value #Y(nil nil nil (24 45 138 26 13 0 19 1 469 16 470 76 73 39 14 13 0 19 1 469 12 13 0 19 1 471 3 73 29) #1# #2# 53398) common-lisp-user::act-r-chunk-spec-slots common-lisp-user::id-to-chunk-spec common-lisp-user::it common-lisp-user::chunk-spec-to-chunk-def #Y(common-lisp-user::buffer-chunk-spec-to-chunk-list nil nil (24 45 460 26 13 0 19 1 461 39 76 13 0 19 1 462 16 463 76 40 43 13 0 19 1 464 40 36 13 0 19 1 465 40 29 13 0 19 1 466 16 463 76 40 19 13 0 19 1 467 16 463 76 40 9 13 0 19 1 468 16 463 76 76 73 39 18 14 112 34 472 12 13 0 19 1 473 12 19 2 142 12 72 2 38 23 13 0 19 1 474 45 475 10 0 39 8 13 0 19 1 476 38 3 75 73 43 1 29) #1# #2# 53398) "Convert a chunk-spec to a list of slot-value conses" common-lisp-user::copy-chunk-spec-to-chunk-fct (defun common-lisp-user::copy-chunk-spec-to-chunk-fct) (#2# . 54374) (common-lisp-user::chunk-spec common-lisp-user::to-chunk) common-lisp-user::slots common-lisp-user::valid #:g1953 #:g1954 #:g1955 #:g1956 #:g1957 #:g1958 #:g1959 #:g1960 common-lisp-user::valid-slot-name common-lisp-user::set-c-slot-value #Y(common-lisp-user::copy-chunk-spec-to-chunk-fct nil nil (24 45 460 24 45 425 26 13 1 19 1 456 47 1 483 45 484 10 0 73 39 292 13 2 19 1 273 45 426 10 0 73 39 278 13 0 19 1 428 73 39 270 77 77 46 399 46 429 11 11 51 0 11 18 51 1 19 0 388 39 93 13 2 19 1 134 45 200 38 78 10 0 4 45 405 10 0 5 45 389 13 0 19 1 292 39 52 13 0 19 1 216 45 391 10 2 4 12 19 1 132 12 13 9 13 0 19 2 222 12 19 2 430 45 431 10 0 39 12 13 10 13 1 13 0 19 3 229 38 7 13 10 10 1 17 432 43 2 43 1 10 1 5 51 1 43 1 10 0 40 -80 43 1 10 2 45 485 75 45 486 13 1 15 373 9 1 13 0 19 4 374 43 1 43 1 10 2 45 487 8 0 45 488 13 1 15 373 9 3 13 0 19 4 374 43 1 43 1 10 2 45 489 75 45 490 13 1 15 373 9 4 13 0 19 4 374 43 1 43 1 10 2 45 491 13 1 14 383 13 2 19 3 384 45 492 13 1 15 373 9 7 13 0 19 4 374 43 1 43 1 10 4 45 200 38 45 10 0 4 45 161 10 0 4 12 19 1 493 45 475 10 0 39 18 13 5 13 0 10 1 4 12 10 1 5 12 19 4 494 38 1 43 1 10 1 5 51 1 43 1 10 0 40 -47 43 1 10 5 73 43 2 43 1 43 2 29) #1# #2# 54374) "Copy the info from the chunk-spec into the reusable chunk to-chunk" common-lisp-user::chunk-copied-from (defmacro common-lisp-user::chunk-copied-from) (#2# . 56792) (common-lisp-user::chunk-name) #:g1962 #:g1961 #:g1963 common-lisp-user::chunk-copied-from-fct #Y(common-lisp-user::chunk-copied-from nil nil (24 45 501 24 45 502 26 10 1 5 45 503 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 39 6 13 3 19 1 291 15 504 15 187 10 0 6 2 6 2 73 29) #1# #2# 56792) "Return the name of the chunk from which the provided chunk was copied" (defun common-lisp-user::chunk-copied-from-fct) (#2# . 56950) (common-lisp-user::chunk-name) common-lisp-user::act-r-chunk-copied-from common-lisp-user::copied-from common-lisp-user::equal-chunks-fct #Y(common-lisp-user::chunk-copied-from-fct nil nil (24 45 50 26 13 0 19 1 273 45 115 10 0 73 39 39 13 0 19 1 510 45 511 10 0 39 15 13 0 19 1 292 39 8 13 2 13 0 19 2 512 73 39 4 10 0 73 12 13 0 72 2 43 1 43 1 29) #1# #2# 56950) "Return the name of the chunk from which the provided chunk was copied" common-lisp-user::external-chunk-copied-from (defun common-lisp-user::external-chunk-copied-from) (#2# . 57412) (common-lisp-user::chunk-name) #Y(common-lisp-user::external-chunk-copied-from nil nil (24 45 50 26 13 0 19 1 173 12 19 1 504 29) #1# #2# 57412) "chunk-copied-from" "Returns the name of the chunk from which the given chunk was copied. Params: chunk-name." common-lisp-user::define-chunks (defmacro common-lisp-user::define-chunks) (#2# . 57673) (&rest common-lisp-user::chunk-defs) #:g1965 #:g1964 #:g1966 common-lisp-user::chunk-defs #Y(common-lisp-user::define-chunks nil nil (24 45 526 24 45 527 26 10 1 5 45 528 10 0 45 529 15 349 15 187 10 0 6 2 6 2 73 29) #1# #2# 57673) "Create chunks in the current model" common-lisp-user::get-true-slot-value-name (defun common-lisp-user::get-true-slot-value-name) (#2# . 57794) (common-lisp-user::chunk common-lisp-user::slot-name common-lisp-user::value) common-lisp-user::value common-lisp-user::chunkp symbolp numberp char alphanumericp common-lisp-user::true-chunk-name-fct #:g1983 #:g1980 #:g1981 #:g1982 #Y(common-lisp-user::get-true-slot-value-name nil nil (24 45 115 24 45 390 24 45 536 26 75 45 537 10 1 39 41 10 1 16 538 39 35 10 1 16 470 76 39 28 10 1 16 539 76 39 21 14 112 10 1 17 406 76 39 12 10 1 16 369 12 8 0 17 540 16 541 39 18 13 1 19 1 292 76 39 6 13 1 19 1 336 11 112 51 0 10 0 39 4 19 0 388 39 93 13 1 19 1 542 51 1 13 1 19 1 216 45 391 10 0 16 392 39 41 10 3 45 543 13 5 19 1 128 45 544 10 2 45 545 13 2 13 1 13 0 19 2 222 3 45 546 13 2 13 1 13 0 19 3 229 43 4 38 31 19 0 397 45 398 13 5 19 1 128 12 13 0 10 4 6 1 12 19 3 229 13 3 13 0 19 2 224 43 1 43 1 10 1 73 43 1 29) #1# #2# 57794) (defun common-lisp-user::define-chunks-fct) (#2# . 58762) (common-lisp-user::chunk-def-list) common-lisp-user::chunk-def-list common-lisp-user::chunk-list #Y(nil nil nil (24 45 138 26 10 0 16 538 29) #1# #2# 58762) every "Invalid chunk definition: ~S chunk name must be a symbol starting with an alphanumeric character." "Invalid chunk definition: ~S names a chunk which already exists." :documentation #:g2105 listp common-lisp-user::chunk-def common-lisp-user::isa position stringp length min subseq position-if oddp common-lisp-user::odd common-lisp-user::even common-lisp-user::parity common-lisp-user::doc-pos common-lisp-user::type-pos common-lisp-user::slots-and-values type common-lisp-user::doc count > "Invalid chunk definition: ~S has more than one ISA." "Invalid chunk definition: ~S too many specifiers before ISA." 1+ = "Invalid chunk definition: ~S no chunk-type specified after ISA." nth common-lisp-user::get-chunk-type "Invalid chunk definition: ~S chunk-type specified does not exist." "Invalid chunk definition: ~S odd number of items after type specification." "Invalid chunk definition: ~s odd number of items after type specification." "Invalid chunk definition: ~s non-string between name and isa." common-lisp-user::act-r-chunk-type-name "CHUNK" + "Invalid chunk definition: ~S ISA does not specify a valid type." "Invalid chunk definition: ~S chunk name is not a valid symbol." "Invalid chunk definition: ~S chunk name must be a symbol starting with an alphanumeric character." "Invalid chunk definition: ~S names a chunk which already exists." common-lisp-user::s-name second common-lisp-user::s-val common-lisp-user::valid-ct-slot common-lisp-user::slot-struct assoc #:g2166 #:g2167 rplacd "Invalid slot ~s specified when creating chunk with type ~s, but creating chunk ~s anyway." #:g2169 #:g2170 "Invalid slot ~s specified when creating chunk ~s with type ~s.  Extending chunks with slot named ~s." common-lisp-user::extend-possible-slots #:g2174 #:g2173 #:g2175 "Extending chunks with slot named ~s because of chunk definition ~s" "Invalid chunk definition: ~S invalid slot name ~s." cddr common-lisp-user::act-r-chunk-type-initial-spec #:g2181 "Invalid chunk definitions list provided to define-chunks ~s.  Must be all lists or all names." common-lisp-user::slots-list common-lisp-user::specified-slots #Y(nil nil nil (24 45 138 26 13 0 19 1 469 12 13 0 19 1 471 3 73 29) #1# #2# 58762) common-lisp-user::default-slots common-lisp-user::default slot-value #:g2205 common-lisp-user::act-r-slot-mask logior #:g2206 #:g2207 #:g2208 "define-chunks called with no current model." #Y(common-lisp-user::define-chunks-fct nil nil (24 45 551 26 11 194 40 13 19 0 195 45 196 13 0 19 1 197 43 1 39 1582 11 194 73 40 13 19 0 195 45 196 13 0 19 1 197 43 1 12 77 46 552 46 220 34 553 12 13 2 19 2 554 39 150 10 2 45 200 38 136 10 0 4 45 111 10 0 16 369 12 8 0 17 540 16 541 76 39 19 15 203 77 15 204 15 555 13 0 19 4 143 12 19 2 144 38 92 13 0 19 1 292 39 19 15 203 77 15 204 15 556 13 0 19 4 143 12 19 2 144 38 67 14 378 13 0 14 380 10 0 6 1 12 14 557 77 14 382 14 11 14 383 14 18 19 3 384 12 14 385 77 19 10 386 45 277 10 0 6 1 45 558 13 5 13 0 19 2 202 51 5 43 1 13 1 13 3 19 1 260 12 13 0 19 3 229 43 1 10 1 5 51 1 43 1 10 0 40 -138 43 1 38 1134 15 559 13 2 19 2 554 39 1109 10 2 45 200 38 1095 10 0 4 45 560 77 77 77 77 77 15 561 13 0 19 2 562 12 15 563 13 0 9 0 10 0 16 564 12 9 2 19 2 565 12 19 3 566 12 19 2 567 12 10 0 16 564 16 568 39 6 1 569 73 38 4 1 570 73 12 46 571 46 572 46 573 46 574 46 483 46 575 46 576 46 111 10 5 39 14 15 561 13 8 19 2 577 12 9 1 19 2 578 39 19 15 203 77 15 204 15 579 13 8 19 4 143 12 19 2 144 38 973 10 5 39 8 13 5 9 2 19 2 578 39 19 15 203 77 15 204 15 580 13 8 19 4 143 12 19 2 144 38 942 10 5 39 14 10 5 16 581 12 10 8 16 564 12 19 2 582 39 19 15 203 77 15 204 15 583 13 8 19 4 143 12 19 2 144 38 905 10 5 39 15 10 5 16 581 12 10 8 17 584 12 19 1 585 76 39 19 15 203 77 15 204 15 586 13 8 19 4 143 12 19 2 144 38 867 10 5 39 16 13 5 9 1 19 2 582 39 7 13 7 1 570 17 406 39 19 15 203 77 15 204 15 587 13 8 19 4 143 12 19 2 144 38 828 10 5 39 13 10 5 16 463 39 7 13 7 1 569 17 406 39 19 15 203 77 15 204 15 588 13 8 19 4 143 12 19 2 144 38 792 10 5 39 13 10 6 76 39 8 13 5 9 2 19 2 582 39 19 15 203 77 15 204 15 589 13 8 19 4 143 12 19 2 144 38 756 10 5 39 16 10 5 16 581 12 10 8 17 584 12 19 1 585 51 2 13 7 1 569 17 406 39 4 10 5 76 40 38 13 7 1 569 17 406 39 4 10 6 76 40 25 10 5 39 21 13 5 9 2 19 2 582 39 12 10 6 39 8 13 6 9 1 19 2 582 39 8 10 8 4 51 0 38 23 10 2 39 10 13 2 19 1 590 16 369 38 4 1 591 73 12 19 1 376 51 0 10 6 39 3 10 5 39 9 13 6 10 8 17 584 51 1 10 5 39 16 13 8 9 2 13 5 19 2 592 12 19 2 566 38 20 13 7 1 570 17 406 39 5 10 8 38 8 13 8 9 1 19 2 566 51 4 10 5 39 4 10 2 76 39 19 15 203 77 15 204 15 593 13 8 19 4 143 12 19 2 144 38 573 10 0 76 40 12 10 0 16 538 76 40 5 10 0 16 470 39 19 15 203 77 15 204 15 594 13 8 19 4 143 12 19 2 144 38 537 10 0 16 369 12 8 0 17 540 16 541 76 39 19 15 203 77 15 204 15 595 13 8 19 4 143 12 19 2 144 38 505 13 0 19 1 292 39 19 15 203 77 15 204 15 596 13 8 19 4 143 12 19 2 144 38 480 10 4 45 161 10 0 4 45 597 10 1 16 598 45 599 38 365 10 5 39 10 13 5 13 1 19 2 600 38 6 13 1 19 1 493 45 601 10 0 39 6 10 2 16 470 76 39 51 13 0 13 7 19 2 602 45 475 10 0 39 23 10 0 45 603 10 3 45 604 13 1 10 0 17 605 10 0 43 1 43 1 38 12 13 1 10 2 3 12 10 8 3 51 8 43 1 38 265 10 2 16 538 39 19 10 2 16 470 76 39 12 10 2 16 369 12 8 0 17 540 16 541 39 214 10 6 39 127 10 0 39 75 15 203 77 15 204 15 606 13 2 13 6 19 1 590 12 13 4 19 6 143 12 19 2 144 13 0 13 7 19 2 602 45 475 10 0 39 23 10 0 45 607 10 3 45 608 13 1 10 0 17 605 10 0 43 1 43 1 38 12 13 1 10 2 3 12 10 8 3 51 8 43 1 38 47 15 203 77 15 204 15 609 13 2 13 4 13 6 19 1 590 12 13 2 19 7 143 12 19 2 144 13 2 19 1 610 13 2 19 1 493 12 10 1 3 12 10 7 3 51 7 38 82 15 116 19 1 117 47 1 611 45 612 10 1 39 46 75 45 613 13 1 19 1 343 12 19 1 124 39 6 13 1 19 1 344 51 0 10 0 39 19 15 345 77 15 346 15 614 13 5 13 15 19 5 143 12 19 2 144 43 1 43 2 13 2 19 1 610 13 2 19 1 493 12 10 1 3 12 10 7 3 51 7 38 26 15 203 77 15 204 15 615 13 12 13 2 19 5 143 12 19 2 144 75 51 3 11 153 51 7 43 1 10 2 16 616 51 2 10 2 4 51 1 10 2 16 598 51 0 10 2 76 39 -368 43 3 13 3 11 153 17 406 76 39 83 14 378 13 0 14 380 10 0 6 1 12 14 557 13 1 14 382 14 11 14 383 14 18 19 3 384 12 14 385 13 3 10 2 39 8 13 2 19 1 617 38 2 75 3 12 19 10 386 45 277 10 0 6 1 45 618 13 13 13 0 19 2 202 51 13 43 1 13 1 13 11 19 1 260 12 13 0 19 3 229 43 1 43 8 10 1 5 51 1 43 1 10 0 40 -1097 43 1 38 17 15 203 77 15 204 15 619 13 2 19 4 143 12 19 2 144 10 1 45 200 38 244 10 0 4 45 115 75 45 620 13 1 19 1 134 4 45 621 34 622 12 13 2 19 1 134 5 45 475 10 0 39 8 13 0 19 1 473 38 3 75 73 12 43 1 19 2 142 45 623 10 0 45 200 38 47 10 0 4 45 624 10 0 4 12 13 3 14 137 15 132 19 4 602 76 39 19 10 0 4 12 19 1 493 12 10 0 5 3 12 10 3 3 51 3 10 1 5 51 1 43 1 10 0 40 -49 43 1 10 1 45 200 38 94 10 0 4 45 131 10 0 4 45 601 13 0 19 1 132 45 390 10 2 5 45 625 10 0 39 59 13 8 13 1 13 0 19 3 532 51 0 13 2 10 0 3 12 10 7 3 51 7 10 8 45 626 13 9 19 1 311 12 13 3 19 1 627 12 19 2 628 45 629 13 1 15 373 9 3 13 0 19 4 374 43 1 43 1 43 3 10 1 5 51 1 43 1 10 0 40 -96 43 1 10 3 45 630 10 3 45 631 13 1 15 373 9 4 13 0 19 4 374 43 1 43 1 43 3 10 1 5 51 1 43 1 10 0 40 -246 43 1 15 128 13 1 19 2 142 43 2 38 17 15 203 77 15 204 15 632 19 3 143 12 19 2 144 75 73 29) #1# #2# 58762) "Create chunks in the current model" common-lisp-user::external-define-chunks (defun common-lisp-user::external-define-chunks) (#2# . 70182) (&rest common-lisp-user::chunks) common-lisp-user::decode-string-names #Y(common-lisp-user::external-define-chunks nil nil (27 45 199 13 0 19 1 639 12 19 1 349 29) #1# #2# 70182) "define-chunks" "Create chunks in the current model. Params: [ 'chunk-description'* | chunk-name* ]." common-lisp-user::chk-slot-value (defun common-lisp-user::chk-slot-value) (#2# . 70432) (common-lisp-user::chunk common-lisp-user::slot-name) #Y(common-lisp-user::chk-slot-value nil nil (24 45 115 24 45 390 26 13 0 13 1 19 1 134 12 14 137 15 132 19 4 602 5 73 29) #1# #2# 70432) "Internal function for getting the value of a slot in a chunk structure" common-lisp-user::chunk-slot-value (defmacro common-lisp-user::chunk-slot-value) (#2# . 70677) (common-lisp-user::chunk-name common-lisp-user::slot-name) #:g2210 #:g2209 #:g2211 common-lisp-user::chunk-slot-value-fct #Y(common-lisp-user::chunk-slot-value nil nil (24 45 653 24 45 654 26 10 1 5 45 655 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 76 39 6 13 3 19 1 289 10 1 4 12 10 1 5 51 1 22 45 390 10 2 39 6 13 4 19 1 291 15 656 15 187 10 1 6 2 12 15 187 10 0 6 2 6 3 73 29) #1# #2# 70677) "Return the value of a slot for the named chunk" (defun common-lisp-user::chunk-slot-value-fct) (#2# . 70831) (common-lisp-user::chunk-name common-lisp-user::slot-name) #Y(common-lisp-user::chunk-slot-value-fct nil nil (24 45 50 24 45 390 26 13 1 19 1 273 45 277 10 0 73 39 8 13 0 13 1 19 2 643 43 1 29) #1# #2# 70831) "Return the value of a slot for the named chunk" common-lisp-user::external-chunk-slot-value (defun common-lisp-user::external-chunk-slot-value) (#2# . 71086) (common-lisp-user::chunk common-lisp-user::slot) common-lisp-user::encode-string #Y(common-lisp-user::external-chunk-slot-value nil nil (24 45 115 24 45 131 26 13 1 19 1 173 12 13 0 19 1 173 12 19 2 656 12 19 1 668 29) #1# #2# 71086) "chunk-slot-value" "Return the value of a slot in a chunk. Params: chunk-name slot-name" common-lisp-user::chunk-filled-slots-list (defmacro common-lisp-user::chunk-filled-slots-list) (#2# . 71357) (common-lisp-user::chunk-name &optional common-lisp-user::sorted) #:g2213 #:g2212 #:g2214 common-lisp-user::sorted common-lisp-user::chunk-filled-slots-list-fct #Y(common-lisp-user::chunk-filled-slots-list nil nil (24 45 676 24 45 677 26 10 1 5 45 678 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 39 13 10 1 4 12 10 1 5 51 1 22 38 2 75 45 679 10 2 39 6 13 4 19 1 291 15 680 15 187 10 1 6 2 12 10 0 6 3 73 29) #1# #2# 71357) "Return a sorted list of slots that exist in the named chunk" (defun common-lisp-user::chunk-filled-slots-list-fct) (#2# . 71541) (common-lisp-user::chunk-name &optional common-lisp-user::sorted) #Y(nil nil nil (24 45 138 26 10 0 4 12 19 1 132 29) #1# #2# 71541) #:g2217 #Y(nil nil nil (24 45 138 26 10 0 4 12 19 1 139 29) #1# #2# 71541) #:g2218 #Y(nil nil nil (24 45 138 26 10 0 4 12 19 1 132 29) #1# #2# 71541) #Y(common-lisp-user::chunk-filled-slots-list-fct nil nil (24 45 50 25 40 2 77 46 679 26 13 1 19 1 273 45 277 10 0 73 39 64 10 1 39 48 34 686 12 10 0 45 687 13 1 19 1 134 12 33 136 12 14 137 34 688 12 19 4 141 45 689 13 1 15 373 9 4 13 0 19 4 374 12 43 1 43 1 19 2 142 38 13 34 690 12 13 0 19 1 134 12 19 2 142 43 1 29) #1# #2# 71541) common-lisp-user::external-chunk-filled-slots-list-fct (defun common-lisp-user::external-chunk-filled-slots-list-fct) (#2# . 72052) (common-lisp-user::chunk-name &optional common-lisp-user::sorted) #Y(common-lisp-user::external-chunk-filled-slots-list-fct nil nil (24 45 50 25 40 2 77 46 679 26 13 1 19 1 173 12 13 0 19 2 680 29) #1# #2# 72052) "chunk-filled-slots-list" "Returns the list of slot names for the chunk provided which can be in an arbitrary or cannonical ordering. Params: chunk-name {cannonical-order?}." common-lisp-user::set-chunk-slot-value (defmacro common-lisp-user::set-chunk-slot-value) (#2# . 72432) (common-lisp-user::chunk-name common-lisp-user::slot-name common-lisp-user::value) #:g2220 #:g2219 #:g2221 common-lisp-user::set-chunk-slot-value-fct #Y(common-lisp-user::set-chunk-slot-value nil nil (24 45 703 24 45 704 26 10 1 5 45 705 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 76 39 6 13 3 19 1 289 10 1 4 12 10 1 5 51 1 22 45 390 10 2 76 39 6 13 4 19 1 289 10 2 4 12 10 2 5 51 2 22 45 536 10 3 39 6 13 5 19 1 291 15 706 15 187 10 2 6 2 12 15 187 10 1 6 2 12 15 187 10 0 6 2 6 4 73 29) #1# #2# 72432) "Set the value of a chunk's slot" (defun common-lisp-user::set-chunk-slot-value-fct) (#2# . 72594) (common-lisp-user::chunk-name common-lisp-user::slot-name common-lisp-user::value) common-lisp-user::set-chk-slot-value #Y(common-lisp-user::set-chunk-slot-value-fct nil nil (24 45 50 24 45 390 24 45 536 26 13 2 19 1 273 45 277 10 0 73 39 10 13 0 13 2 13 1 19 3 712 43 1 29) #1# #2# 72594) "Set the value of a chunk's slot" common-lisp-user::external-set-chunk-slot-value (defun common-lisp-user::external-set-chunk-slot-value) (#2# . 73066) (common-lisp-user::chunk common-lisp-user::slot common-lisp-user::value) common-lisp-user::decode-string #Y(common-lisp-user::external-set-chunk-slot-value nil nil (24 45 115 24 45 131 24 45 536 26 13 2 19 1 173 12 13 1 19 1 173 12 13 0 19 1 719 12 19 3 706 12 19 1 668 29) #1# #2# 73066) "set-chunk-slot-value" "Change the value of a slot in a chunk. Params: chunk-name slot-name 'new-value'" common-lisp-user::make-chunk-immutable (defun common-lisp-user::make-chunk-immutable) (#2# . 73393) (common-lisp-user::chunk-name) #:g2224 #:g2225 #Y(common-lisp-user::make-chunk-immutable nil nil (24 45 50 26 13 0 19 1 114 45 277 10 0 73 39 24 10 0 45 727 11 112 45 728 13 1 15 373 9 8 13 0 19 4 374 43 1 43 1 43 1 29) #1# #2# 73393) common-lisp-user::external-make-chunk-immutable (defun common-lisp-user::external-make-chunk-immutable) (#2# . 73589) (common-lisp-user::chunk) #Y(common-lisp-user::external-make-chunk-immutable nil nil (24 45 115 26 13 0 19 1 173 12 19 1 723 29) #1# #2# 73589) "make-chunk-immutable" "Prevent any changes to a chunk's contents. Params: chunk-name" common-lisp-user::make-chunk-reusable (defun common-lisp-user::make-chunk-reusable) (#2# . 73821) (common-lisp-user::chunk-name) common-lisp-user::act-r-chunk-merged-chunks #:g2230 #:g2231 #:g2232 #:g2233 #Y(common-lisp-user::make-chunk-reusable nil nil (24 45 50 26 13 0 19 1 114 45 277 10 0 73 39 88 13 0 19 1 428 76 39 26 13 0 19 1 741 16 564 12 9 1 19 2 582 39 11 13 1 13 0 19 1 741 4 17 406 39 51 10 0 45 742 75 45 743 13 1 15 373 9 6 13 0 19 4 374 43 1 43 1 10 0 45 744 11 112 45 745 13 1 15 373 9 9 13 0 19 4 374 43 1 43 1 11 112 73 38 3 75 73 43 1 29) #1# #2# 73821) common-lisp-user::external-make-chunk-reusable (defun common-lisp-user::external-make-chunk-reusable) (#2# . 74315) (common-lisp-user::chunk) #Y(common-lisp-user::external-make-chunk-reusable nil nil (24 45 115 26 13 0 19 1 173 12 19 1 737 29) #1# #2# 74315) "make-chunk-reusable" "Mark a chunk so that it can be used with copy-to-chunk and not be deletable. Params: chunk-name" common-lisp-user::chunk-not-storable (defun common-lisp-user::chunk-not-storable) (#2# . 74577) (common-lisp-user::chunk-name) #Y(common-lisp-user::chunk-not-storable nil nil (24 45 50 26 13 0 19 1 114 45 277 10 0 73 39 6 13 0 19 1 428 43 1 29) #1# #2# 74577) common-lisp-user::external-chunk-not-storable (defun common-lisp-user::external-chunk-not-storable) (#2# . 74764) (common-lisp-user::chunk) #Y(common-lisp-user::external-chunk-not-storable nil nil (24 45 115 26 13 0 19 1 173 12 19 1 754 29) #1# #2# 74764) "chunk-not-storable" "Check if a chunk has been marked as not storable (a reusable chunk). Params: chunk-name" (defun common-lisp-user::set-chk-slot-value) (#2# . 75014) (common-lisp-user::c common-lisp-user::slot-name common-lisp-user::value) common-lisp-user::act-r-chunk-immutable common-lisp-user::chunk-slot-equal "Cannot change contents of chunk ~s." "~s is not a valid slot name.  You can use extend-possible-slots to add it first if needed." #Y(common-lisp-user::set-chk-slot-value nil nil (24 45 277 24 45 390 24 45 536 26 57 712 60 93 13 3 19 1 769 39 41 13 1 13 3 13 2 19 2 643 12 19 2 770 76 39 25 15 203 77 15 204 15 771 13 3 19 1 128 12 19 4 143 12 19 2 144 75 73 36 0 13 2 19 1 493 45 475 10 0 39 14 13 4 13 0 13 3 13 2 19 4 494 38 19 15 203 77 15 204 15 772 13 3 19 4 143 12 19 2 144 75 73 43 1 63 29) #1# #2# 75014) "internal chunk slot setting function" (defun common-lisp-user::set-c-slot-value) (#2# . 75610) (common-lisp-user::c common-lisp-user::slot-struct common-lisp-user::slot-name common-lisp-user::value) #:g2251 #:g2252 common-lisp-user::mask #:g2257 #:g2258 #:g2261 #:g2259 #:g2260 #:g2262 #:g2263 logtest #:g2264 car delete #:g2265 #:g2266 logandc1 #:g2267 #Y(common-lisp-user::set-c-slot-value nil nil (24 45 277 24 45 601 24 45 390 24 45 536 26 10 3 45 778 75 45 779 13 1 15 373 9 5 13 0 19 4 374 43 1 43 1 13 2 13 3 19 1 134 12 19 2 602 45 405 10 0 39 4 19 0 388 39 72 10 0 5 45 389 13 0 19 1 292 39 58 13 0 19 1 216 45 391 13 4 13 6 19 1 128 12 13 0 19 2 222 12 19 2 430 45 431 10 0 39 16 13 7 19 1 128 12 13 1 13 0 19 3 229 38 11 13 7 19 1 128 12 10 1 17 432 43 2 43 1 13 4 13 2 13 1 19 3 532 51 1 13 3 19 1 627 45 780 10 2 39 95 10 1 39 23 10 1 45 781 10 3 45 782 13 1 10 0 17 605 10 0 43 1 43 1 38 67 13 4 10 2 3 45 783 10 6 45 784 13 1 13 0 19 1 134 3 45 785 13 1 15 373 9 4 13 0 19 4 374 43 3 10 5 45 786 13 1 13 6 19 1 311 12 19 2 628 45 787 13 1 15 373 9 3 13 0 19 4 374 43 1 43 1 38 78 13 0 13 5 19 1 311 17 788 39 67 10 5 45 789 13 5 13 6 19 1 134 12 14 137 15 790 19 4 791 45 792 13 1 15 373 9 4 13 0 19 4 374 43 1 43 1 10 5 45 793 13 1 13 6 19 1 311 17 794 45 795 13 1 15 373 9 3 13 0 19 4 374 43 1 43 1 43 1 10 1 73 43 1 29) #1# #2# 75610) "Set the chunk's slot value assuming the chunk is not immutable and the slot name is valid" common-lisp-user::mod-chunk (defmacro common-lisp-user::mod-chunk) (#2# . 77715) (common-lisp-user::chunk-name &rest common-lisp-user::modifications) #:g2269 #:g2268 #:g2270 common-lisp-user::modifications common-lisp-user::mod-chunk-fct #Y(common-lisp-user::mod-chunk nil nil (24 45 802 24 45 803 26 10 1 5 45 804 10 0 76 39 6 13 2 19 1 289 10 0 4 12 10 0 5 51 0 22 45 50 10 1 45 805 15 806 15 187 10 1 6 2 12 15 187 10 0 6 2 6 3 73 29) #1# #2# 77715) "Modify the slot values of a chunk" (defun common-lisp-user::mod-chunk-fct) (#2# . 77856) (common-lisp-user::chunk-name common-lisp-user::modifications-list) common-lisp-user::modifications-list "Cannot modify chunk ~s because it is immutable." "Odd length modifications list in call to mod-chunk." adjoin "Slot name used more than once in modifications list." #:g2279 "Invalid slot name ~s specified for mod-chunk." third #Y(common-lisp-user::mod-chunk-fct nil nil (24 45 50 24 45 812 26 57 806 60 299 13 2 19 1 273 45 277 10 0 73 39 284 13 0 19 1 769 39 21 15 203 77 15 204 15 813 13 3 19 4 143 12 19 2 144 75 73 38 257 10 2 16 564 16 568 39 19 15 203 77 15 204 15 814 19 3 143 12 19 2 144 75 73 38 231 77 77 46 483 46 574 10 4 45 161 38 34 10 0 4 12 13 2 19 2 815 51 2 10 0 4 12 10 0 16 598 3 12 10 1 3 51 1 10 0 16 616 12 53 0 10 0 76 39 -37 43 1 10 1 16 564 12 10 0 16 564 12 19 2 582 76 39 19 15 203 77 15 204 15 816 19 3 143 12 19 2 144 75 73 38 143 75 51 1 10 0 45 200 38 77 10 0 4 45 138 10 0 4 45 111 13 0 19 1 493 45 601 10 0 39 27 13 0 13 1 10 2 5 6 3 6 1 45 817 13 6 13 0 19 2 202 51 6 43 1 38 21 15 203 77 15 204 15 818 13 1 19 4 143 12 19 2 144 75 73 36 7 43 2 10 1 5 51 1 43 1 10 0 40 -79 43 1 10 1 45 200 38 32 10 0 4 45 625 13 4 10 0 4 12 10 0 16 598 12 10 0 16 819 12 19 4 494 10 1 5 51 1 43 1 10 0 40 -34 75 45 625 10 7 73 43 1 43 1 43 2 43 1 63 29) #1# #2# 77856) "Modify the slot values of a chunk" common-lisp-user::mod-chunk-external (defun common-lisp-user::mod-chunk-external) (#2# . 79833) (common-lisp-user::name &rest common-lisp-user::modifications) #Y(common-lisp-user::mod-chunk-external nil nil (24 45 111 27 45 805 13 1 19 1 173 12 13 0 19 1 639 12 19 2 806 29) #1# #2# 79833) "mod-chunk" "Modify the contents of the specified chunk with the list of slots and values provided. Params: chunk-name '{slot-name new-slot-value}'*" common-lisp-user::fast-chunk-slot-value-fct (defun common-lisp-user::fast-chunk-slot-value-fct) (#2# . 80157) (common-lisp-user::chunk-name common-lisp-user::slot-name) #Y(common-lisp-user::fast-chunk-slot-value-fct nil nil (24 45 50 24 45 390 26 13 1 19 1 114 45 277 10 0 73 39 8 13 0 13 1 19 2 643 43 1 29) #1# #2# 80157) "Return the value of a slot for the named chunk without testing validity" common-lisp-user::fast-set-chunk-slot-value-fct (defun common-lisp-user::fast-set-chunk-slot-value-fct) (#2# . 80622) (common-lisp-user::chunk-name common-lisp-user::slot-name common-lisp-user::value) #Y(common-lisp-user::fast-set-chunk-slot-value-fct nil nil (24 45 50 24 45 390 24 45 536 26 13 2 19 1 114 45 277 10 0 73 39 10 13 0 13 2 13 1 19 3 712 43 1 29) #1# #2# 80622)

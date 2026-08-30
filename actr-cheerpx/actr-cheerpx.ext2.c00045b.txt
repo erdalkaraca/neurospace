@@ -1,0 +1,1340 @@
+/.
+/bin
+/bin/login
+/etc
+/etc/login.defs
+/etc/pam.d
+/etc/pam.d/login
+/usr
+/usr/bin
+/usr/bin/faillog
+/usr/bin/lastlog
+/usr/bin/newgrp
+/usr/sbin
+/usr/sbin/nologin
+/usr/share
+/usr/share/doc
+/usr/share/doc/login
+/usr/share/doc/login/NEWS.Debian.gz
+/usr/share/doc/login/changelog.Debian.gz
+/usr/share/doc/login/changelog.gz
+/usr/share/doc/login/copyright
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/login
+/usr/share/locale
+/usr/share/locale/bs
+/usr/share/locale/bs/LC_MESSAGES
+/usr/share/locale/bs/LC_MESSAGES/shadow.mo
+/usr/share/locale/ca
+/usr/share/locale/ca/LC_MESSAGES
+/usr/share/locale/ca/LC_MESSAGES/shadow.mo
+/usr/share/locale/cs
+/usr/share/locale/cs/LC_MESSAGES
+/usr/share/locale/cs/LC_MESSAGES/shadow.mo
+/usr/share/locale/da
+/usr/share/locale/da/LC_MESSAGES
+/usr/share/locale/da/LC_MESSAGES/shadow.mo
+/usr/share/locale/de
+/usr/share/locale/de/LC_MESSAGES
+/usr/share/locale/de/LC_MESSAGES/shadow.mo
+/usr/share/locale/dz
+/usr/share/locale/dz/LC_MESSAGES
+/usr/share/locale/dz/LC_MESSAGES/shadow.mo
+/usr/share/locale/el
+/usr/share/locale/el/LC_MESSAGES
+/usr/share/locale/el/LC_MESSAGES/shadow.mo
+/usr/share/locale/es
+/usr/share/locale/es/LC_MESSAGES
+/usr/share/locale/es/LC_MESSAGES/shadow.mo
+/usr/share/locale/eu
+/usr/share/locale/eu/LC_MESSAGES
+/usr/share/locale/eu/LC_MESSAGES/shadow.mo
+/usr/share/locale/fi
+/usr/share/locale/fi/LC_MESSAGES
+/usr/share/locale/fi/LC_MESSAGES/shadow.mo
+/usr/share/locale/fr
+/usr/share/locale/fr/LC_MESSAGES
+/usr/share/locale/fr/LC_MESSAGES/shadow.mo
+/usr/share/locale/gl
+/usr/share/locale/gl/LC_MESSAGES
+/usr/share/locale/gl/LC_MESSAGES/shadow.mo
+/usr/share/locale/he
+/usr/share/locale/he/LC_MESSAGES
+/usr/share/locale/he/LC_MESSAGES/shadow.mo
+/usr/share/locale/hu
+/usr/share/locale/hu/LC_MESSAGES
+/usr/share/locale/hu/LC_MESSAGES/shadow.mo
+/usr/share/locale/id
+/usr/share/locale/id/LC_MESSAGES
+/usr/share/locale/id/LC_MESSAGES/shadow.mo
+/usr/share/locale/it
+/usr/share/locale/it/LC_MESSAGES
+/usr/share/locale/it/LC_MESSAGES/shadow.mo
+/usr/share/locale/ja
+/usr/share/locale/ja/LC_MESSAGES
+/usr/share/locale/ja/LC_MESSAGES/shadow.mo
+/usr/share/locale/ka
+/usr/share/locale/ka/LC_MESSAGES
+/usr/share/locale/ka/LC_MESSAGES/shadow.mo
+/usr/share/locale/kk
+/usr/share/locale/kk/LC_MESSAGES
+/usr/share/locale/kk/LC_MESSAGES/shadow.mo
+/usr/share/locale/km
+/usr/share/locale/km/LC_MESSAGES
+/usr/share/locale/km/LC_MESSAGES/shadow.mo
+/usr/share/locale/ko
+/usr/share/locale/ko/LC_MESSAGES
+/usr/share/locale/ko/LC_MESSAGES/shadow.mo
+/usr/share/locale/nb
+/usr/share/locale/nb/LC_MESSAGES
+/usr/share/locale/nb/LC_MESSAGES/shadow.mo
+/usr/share/locale/ne
+/usr/share/locale/ne/LC_MESSAGES
+/usr/share/locale/ne/LC_MESSAGES/shadow.mo
+/usr/share/locale/nl
+/usr/share/locale/nl/LC_MESSAGES
+/usr/share/locale/nl/LC_MESSAGES/shadow.mo
+/usr/share/locale/nn
+/usr/share/locale/nn/LC_MESSAGES
+/usr/share/locale/nn/LC_MESSAGES/shadow.mo
+/usr/share/locale/pl
+/usr/share/locale/pl/LC_MESSAGES
+/usr/share/locale/pl/LC_MESSAGES/shadow.mo
+/usr/share/locale/pt
+/usr/share/locale/pt/LC_MESSAGES
+/usr/share/locale/pt/LC_MESSAGES/shadow.mo
+/usr/share/locale/pt_BR
+/usr/share/locale/pt_BR/LC_MESSAGES
+/usr/share/locale/pt_BR/LC_MESSAGES/shadow.mo
+/usr/share/locale/ro
+/usr/share/locale/ro/LC_MESSAGES
+/usr/share/locale/ro/LC_MESSAGES/shadow.mo
+/usr/share/locale/ru
+/usr/share/locale/ru/LC_MESSAGES
+/usr/share/locale/ru/LC_MESSAGES/shadow.mo
+/usr/share/locale/sk
+/usr/share/locale/sk/LC_MESSAGES
+/usr/share/locale/sk/LC_MESSAGES/shadow.mo
+/usr/share/locale/sq
+/usr/share/locale/sq/LC_MESSAGES
+/usr/share/locale/sq/LC_MESSAGES/shadow.mo
+/usr/share/locale/sv
+/usr/share/locale/sv/LC_MESSAGES
+/usr/share/locale/sv/LC_MESSAGES/shadow.mo
+/usr/share/locale/tl
+/usr/share/locale/tl/LC_MESSAGES
+/usr/share/locale/tl/LC_MESSAGES/shadow.mo
+/usr/share/locale/tr
+/usr/share/locale/tr/LC_MESSAGES
+/usr/share/locale/tr/LC_MESSAGES/shadow.mo
+/usr/share/locale/uk
+/usr/share/locale/uk/LC_MESSAGES
+/usr/share/locale/uk/LC_MESSAGES/shadow.mo
+/usr/share/locale/vi
+/usr/share/locale/vi/LC_MESSAGES
+/usr/share/locale/vi/LC_MESSAGES/shadow.mo
+/usr/share/locale/zh_CN
+/usr/share/locale/zh_CN/LC_MESSAGES
+/usr/share/locale/zh_CN/LC_MESSAGES/shadow.mo
+/usr/share/locale/zh_TW
+/usr/share/locale/zh_TW/LC_MESSAGES
+/usr/share/locale/zh_TW/LC_MESSAGES/shadow.mo
+/usr/share/man
+/usr/share/man/cs
+/usr/share/man/cs/man5
+/usr/share/man/cs/man5/faillog.5.gz
+/usr/share/man/cs/man8
+/usr/share/man/cs/man8/faillog.8.gz
+/usr/share/man/cs/man8/lastlog.8.gz
+/usr/share/man/cs/man8/nologin.8.gz
+/usr/share/man/da
+/usr/share/man/da/man1
+/usr/share/man/da/man1/newgrp.1.gz
+/usr/share/man/da/man1/sg.1.gz
+/usr/share/man/da/man8
+/usr/share/man/da/man8/nologin.8.gz
+/usr/share/man/de
+/usr/share/man/de/man1
+/usr/share/man/de/man1/login.1.gz
+/usr/share/man/de/man1/newgrp.1.gz
+/usr/share/man/de/man1/sg.1.gz
+/usr/share/man/de/man5
+/usr/share/man/de/man5/faillog.5.gz
+/usr/share/man/de/man5/login.defs.5.gz
+/usr/share/man/de/man8
+/usr/share/man/de/man8/faillog.8.gz
+/usr/share/man/de/man8/lastlog.8.gz
+/usr/share/man/de/man8/nologin.8.gz
+/usr/share/man/fr
+/usr/share/man/fr/man1
+/usr/share/man/fr/man1/login.1.gz
+/usr/share/man/fr/man1/newgrp.1.gz
+/usr/share/man/fr/man1/sg.1.gz
+/usr/share/man/fr/man5
+/usr/share/man/fr/man5/faillog.5.gz
+/usr/share/man/fr/man5/login.defs.5.gz
+/usr/share/man/fr/man8
+/usr/share/man/fr/man8/faillog.8.gz
+/usr/share/man/fr/man8/lastlog.8.gz
+/usr/share/man/fr/man8/nologin.8.gz
+/usr/share/man/hu
+/usr/share/man/hu/man1
+/usr/share/man/hu/man1/login.1.gz
+/usr/share/man/hu/man1/newgrp.1.gz
+/usr/share/man/hu/man8
+/usr/share/man/hu/man8/lastlog.8.gz
+/usr/share/man/id
+/usr/share/man/id/man1
+/usr/share/man/id/man1/login.1.gz
+/usr/share/man/it
+/usr/share/man/it/man1
+/usr/share/man/it/man1/login.1.gz
+/usr/share/man/it/man1/newgrp.1.gz
+/usr/share/man/it/man1/sg.1.gz
+/usr/share/man/it/man5
+/usr/share/man/it/man5/faillog.5.gz
+/usr/share/man/it/man5/login.defs.5.gz
+/usr/share/man/it/man8
+/usr/share/man/it/man8/faillog.8.gz
+/usr/share/man/it/man8/lastlog.8.gz
+/usr/share/man/it/man8/nologin.8.gz
+/usr/share/man/ja
+/usr/share/man/ja/man1
+/usr/share/man/ja/man1/login.1.gz
+/usr/share/man/ja/man1/newgrp.1.gz
+/usr/share/man/ja/man5
+/usr/share/man/ja/man5/faillog.5.gz
+/usr/share/man/ja/man5/login.defs.5.gz
+/usr/share/man/ja/man8
+/usr/share/man/ja/man8/faillog.8.gz
+/usr/share/man/ja/man8/lastlog.8.gz
+/usr/share/man/ko
+/usr/share/man/ko/man1
+/usr/share/man/ko/man1/login.1.gz
+/usr/share/man/man1
+/usr/share/man/man1/login.1.gz
+/usr/share/man/man1/newgrp.1.gz
+/usr/share/man/man1/sg.1.gz
+/usr/share/man/man5
+/usr/share/man/man5/faillog.5.gz
+/usr/share/man/man5/login.defs.5.gz
+/usr/share/man/man8
+/usr/share/man/man8/faillog.8.gz
+/usr/share/man/man8/lastlog.8.gz
+/usr/share/man/man8/nologin.8.gz
+/usr/share/man/pl
+/usr/share/man/pl/man1
+/usr/share/man/pl/man1/newgrp.1.gz
+/usr/share/man/pl/man1/sg.1.gz
+/usr/share/man/pl/man5
+/usr/share/man/pl/man5/faillog.5.gz
+/usr/share/man/pl/man8
+/usr/share/man/pl/man8/faillog.8.gz
+/usr/share/man/pl/man8/lastlog.8.gz
+/usr/share/man/ru
+/usr/share/man/ru/man1
+/usr/share/man/ru/man1/login.1.gz
+/usr/share/man/ru/man1/newgrp.1.gz
+/usr/share/man/ru/man1/sg.1.gz
+/usr/share/man/ru/man5
+/usr/share/man/ru/man5/faillog.5.gz
+/usr/share/man/ru/man5/login.defs.5.gz
+/usr/share/man/ru/man8
+/usr/share/man/ru/man8/faillog.8.gz
+/usr/share/man/ru/man8/lastlog.8.gz
+/usr/share/man/ru/man8/nologin.8.gz
+/usr/share/man/sv
+/usr/share/man/sv/man1
+/usr/share/man/sv/man1/newgrp.1.gz
+/usr/share/man/sv/man1/sg.1.gz
+/usr/share/man/sv/man5
+/usr/share/man/sv/man5/faillog.5.gz
+/usr/share/man/sv/man8
+/usr/share/man/sv/man8/faillog.8.gz
+/usr/share/man/sv/man8/lastlog.8.gz
+/usr/share/man/sv/man8/nologin.8.gz
+/usr/share/man/tr
+/usr/share/man/tr/man1
+/usr/share/man/tr/man1/login.1.gz
+/usr/share/man/uk
+/usr/share/man/uk/man1
+/usr/share/man/uk/man1/login.1.gz
+/usr/share/man/uk/man1/newgrp.1.gz
+/usr/share/man/uk/man1/sg.1.gz
+/usr/share/man/uk/man5
+/usr/share/man/uk/man5/faillog.5.gz
+/usr/share/man/uk/man5/login.defs.5.gz
+/usr/share/man/uk/man8
+/usr/share/man/uk/man8/faillog.8.gz
+/usr/share/man/uk/man8/lastlog.8.gz
+/usr/share/man/uk/man8/nologin.8.gz
+/usr/share/man/zh_CN
+/usr/share/man/zh_CN/man1
+/usr/share/man/zh_CN/man1/login.1.gz
+/usr/share/man/zh_CN/man1/newgrp.1.gz
+/usr/share/man/zh_CN/man1/sg.1.gz
+/usr/share/man/zh_CN/man5
+/usr/share/man/zh_CN/man5/faillog.5.gz
+/usr/share/man/zh_CN/man5/login.defs.5.gz
+/usr/share/man/zh_CN/man8
+/usr/share/man/zh_CN/man8/faillog.8.gz
+/usr/share/man/zh_CN/man8/lastlog.8.gz
+/usr/share/man/zh_CN/man8/nologin.8.gz
+/usr/share/man/zh_TW
+/usr/share/man/zh_TW/man1
+/usr/share/man/zh_TW/man1/newgrp.1.gz
+/usr/bin/sg
+/usr/share/man/hu/man1/sg.1.gz
+/usr/share/man/ja/man1/sg.1.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  9f0d058fee97ca8ff26247ad5b23d399  bin/login
+47fa50b8fdad5491ffbc4882a5c95c4f  usr/bin/faillog
+ae29b52da23f87919bbedbdf4aedb660  usr/bin/lastlog
+ccc47122a57b2f14a42f251ba5546353  usr/bin/newgrp
+300d028a7d19dc8c083c0119329d7b63  usr/sbin/nologin
+ac3f76f2fa4d5af0fd55c8a7fb4550c7  usr/share/doc/login/NEWS.Debian.gz
+835efc377921112f8e1ebd566543e3cc  usr/share/doc/login/changelog.Debian.gz
+76acb0f2c68a79b867f2ae5f3d7aac1f  usr/share/doc/login/changelog.gz
+b421f2c7316ef9958c2d87a76a434119  usr/share/doc/login/copyright
+59d56da30dad09bc375fd989e769e6c7  usr/share/lintian/overrides/login
+1cc1aaa693c56d89a5bb40d34002d202  usr/share/locale/bs/LC_MESSAGES/shadow.mo
+96d7d796669454ffef363d931f69ea4f  usr/share/locale/ca/LC_MESSAGES/shadow.mo
+d670c395fd0b9c8a5321d7960eed6416  usr/share/locale/cs/LC_MESSAGES/shadow.mo
+8590fa97e837e16783a1d8efdf06a772  usr/share/locale/da/LC_MESSAGES/shadow.mo
+5d96a3abf85d98e1ca0bc41d42a90eba  usr/share/locale/de/LC_MESSAGES/shadow.mo
+024b32d9f0e4cc63c3ae30ef67317db1  usr/share/locale/dz/LC_MESSAGES/shadow.mo
+459576839c7e429b027df24759629297  usr/share/locale/el/LC_MESSAGES/shadow.mo
+c8e8fea40dc86e8036ed94b55a840073  usr/share/locale/es/LC_MESSAGES/shadow.mo
+c10d8a6b7a02431c6505df7449de1031  usr/share/locale/eu/LC_MESSAGES/shadow.mo
+c45c7d83151ad386847b09c1c8f502e2  usr/share/locale/fi/LC_MESSAGES/shadow.mo
+feeea39d001af74c3c7c1b38f05b00f0  usr/share/locale/fr/LC_MESSAGES/shadow.mo
+8c87d1c43a49dd167d72127c9215ac67  usr/share/locale/gl/LC_MESSAGES/shadow.mo
+74634ddb274ba14b71ced07bbafd5a06  usr/share/locale/he/LC_MESSAGES/shadow.mo
+20374a06531f63dd260da36400920dc3  usr/share/locale/hu/LC_MESSAGES/shadow.mo
+d15ddd069dbcc2463ecec72f2a8b2a18  usr/share/locale/id/LC_MESSAGES/shadow.mo
+76165478e3593c69f9323822085e38f8  usr/share/locale/it/LC_MESSAGES/shadow.mo
+e0d1b5ee2ca8c982ad64e59e79542f80  usr/share/locale/ja/LC_MESSAGES/shadow.mo
+b000d4b605823d833fd19c150c7e69bd  usr/share/locale/ka/LC_MESSAGES/shadow.mo
+e8dc30f2ea9fd49b632df754dea628a2  usr/share/locale/kk/LC_MESSAGES/shadow.mo
+1f84783f7ab15cd6d25748d1ce713d5e  usr/share/locale/km/LC_MESSAGES/shadow.mo
+26a4572d7f8cf671221dd4b99c78cab1  usr/share/locale/ko/LC_MESSAGES/shadow.mo
+e5a72793f536dab33c2605e8048b50e5  usr/share/locale/nb/LC_MESSAGES/shadow.mo
+cbad8722ffb39c591d3d2deb8e8c0b32  usr/share/locale/ne/LC_MESSAGES/shadow.mo
+18d9a7b06c5d15dd5b3f07ca605f07a4  usr/share/locale/nl/LC_MESSAGES/shadow.mo
+e5ed52d60133d4a422aa9ce525449f30  usr/share/locale/nn/LC_MESSAGES/shadow.mo
+76c9319e562be0a016fb7d7a1346bc10  usr/share/locale/pl/LC_MESSAGES/shadow.mo
+0114b03d02b5711629ba13511f12bfa2  usr/share/locale/pt/LC_MESSAGES/shadow.mo
+78bd8409bdaa01687b37f2b600d8939f  usr/share/locale/pt_BR/LC_MESSAGES/shadow.mo
+bdc60eafeb2a3e360bf3039fad512cf5  usr/share/locale/ro/LC_MESSAGES/shadow.mo
+c3a96e0eb92324762db08f6ca09b989c  usr/share/locale/ru/LC_MESSAGES/shadow.mo
+507b0620495ac1d45d954161d0056526  usr/share/locale/sk/LC_MESSAGES/shadow.mo
+c7634e9d529f5ba1d5ef6b169508f29d  usr/share/locale/sq/LC_MESSAGES/shadow.mo
+8332af81966baff96f368292b51d055a  usr/share/locale/sv/LC_MESSAGES/shadow.mo
+e3ec6bad09d72e3972b85f319acc8d21  usr/share/locale/tl/LC_MESSAGES/shadow.mo
+8acf3607f9b9cb33f50b14b3d14ec253  usr/share/locale/tr/LC_MESSAGES/shadow.mo
+b30aeaa00b7bdae4e0288288d1650391  usr/share/locale/uk/LC_MESSAGES/shadow.mo
+743d594cab0a362eeeb11c118aef4d0c  usr/share/locale/vi/LC_MESSAGES/shadow.mo
+720e2f5d7d69d7e374605b36de67cda5  usr/share/locale/zh_CN/LC_MESSAGES/shadow.mo
+899c81f0eebeee30a0e4b4df4a7070d9  usr/share/locale/zh_TW/LC_MESSAGES/shadow.mo
+3dc0bd3c39913fcf0831dbadfd8fee96  usr/share/man/cs/man5/faillog.5.gz
+dab018e3b0452b0d405cb1a0eface871  usr/share/man/cs/man8/faillog.8.gz
+1dff03183fadffe020b48b0c5bf6c706  usr/share/man/cs/man8/lastlog.8.gz
+b415fb43f8778a0542c390c48eac7fd1  usr/share/man/cs/man8/nologin.8.gz
+5eb21c9ee55452e88919c97e572bfe80  usr/share/man/da/man1/newgrp.1.gz
+ea5a1b9d515d83e8b53bee15a6c07098  usr/share/man/da/man1/sg.1.gz
+cbc26a100b6468b6301c5359cb35de20  usr/share/man/da/man8/nologin.8.gz
+c8d69d7fa48c7eeb2ab4365eec140b54  usr/share/man/de/man1/login.1.gz
+12c3d852d385384dabfa8379fd1986cf  usr/share/man/de/man1/newgrp.1.gz
+b421893b10e04b3cc307304235c54ef6  usr/share/man/de/man1/sg.1.gz
+599b710f62d9412a050a3b3df0339452  usr/share/man/de/man5/faillog.5.gz
+56a05714acc0ccc2df5950afb1022584  usr/share/man/de/man5/login.defs.5.gz
+0b59d19c259bd9cd69502b1b35807e76  usr/share/man/de/man8/faillog.8.gz
+008e8f7bab115d89e263e71d644a5da8  usr/share/man/de/man8/lastlog.8.gz
+0609dcbecc8719b60737793fb2a2abb2  usr/share/man/de/man8/nologin.8.gz
+1a22ef1ed75ae98780f0c72579679137  usr/share/man/fr/man1/login.1.gz
+502c22743c3a275561da15f07d9726e2  usr/share/man/fr/man1/newgrp.1.gz
+7b86951e43217e2ac7d0c9623a66312c  usr/share/man/fr/man1/sg.1.gz
+f2cfe6623001b55759df58a95c36a9ea  usr/share/man/fr/man5/faillog.5.gz
+4742718e564302170fc473dfac074cc1  usr/share/man/fr/man5/login.defs.5.gz
+ba3b91b95d437156daa39f32cca7666d  usr/share/man/fr/man8/faillog.8.gz
+ea831b606f4b85ffee49dc2c8c7d325b  usr/share/man/fr/man8/lastlog.8.gz
+d307d4877b44eceaab0ec4a3d12ed5a9  usr/share/man/fr/man8/nologin.8.gz
+8ca38fa435a335697bfb710497f406e5  usr/share/man/hu/man1/login.1.gz
+0d194c8993b60eee3a71735517ea37c3  usr/share/man/hu/man1/newgrp.1.gz
+ab04434778785251e189cb1e9a25622b  usr/share/man/hu/man8/lastlog.8.gz
+af3137d66656cf5acf99934caf855ede  usr/share/man/id/man1/login.1.gz
+1ae7756ad052b9bfc9d57dbd0828b343  usr/share/man/it/man1/login.1.gz
+f20ad73cb8967a3765837e33015d7435  usr/share/man/it/man1/newgrp.1.gz
+71cc49b87eb01482d4a3d15d980f5c9f  usr/share/man/it/man1/sg.1.gz
+ccb607dab98fbb88c09ad0b4ce0b7b10  usr/share/man/it/man5/faillog.5.gz
+252781ba66fea13335d8a58b8b35fe8b  usr/share/man/it/man5/login.defs.5.gz
+946a0a19bbc23b6224b4c63ef16c9da3  usr/share/man/it/man8/faillog.8.gz
+ba37ce89805e08a9b734bbe6e02a00e1  usr/share/man/it/man8/lastlog.8.gz
+25a56abb1a4b8795043c247548ca4c5b  usr/share/man/it/man8/nologin.8.gz
+95c51c5551c94c3eea7382c456d8c2af  usr/share/man/ja/man1/login.1.gz
+68dc9a910500890a0c8e147b03225f97  usr/share/man/ja/man1/newgrp.1.gz
+d58312974f1c5b5600f5a82ed8fcfd9f  usr/share/man/ja/man5/faillog.5.gz
+00490117533cea5b97a1c651deb4d037  usr/share/man/ja/man5/login.defs.5.gz
+73ecc988396be77f338ceec98e03725f  usr/share/man/ja/man8/faillog.8.gz
+cecf83e25d93f09cfb4dd33457526029  usr/share/man/ja/man8/lastlog.8.gz
+f83045ff2d0c47f32ab3a0d18bc026d0  usr/share/man/ko/man1/login.1.gz
+7ab0a9069e918e61083fd5876a5ba0dd  usr/share/man/man1/login.1.gz
+04a05163246e6e006aa5b05e592aa06f  usr/share/man/man1/newgrp.1.gz
+419b503f09e18a8cf8c8e30edfb85f96  usr/share/man/man1/sg.1.gz
+921bae5255e3e667408fdca2b14b74be  usr/share/man/man5/faillog.5.gz
+c50ef4b9285b10d40471a5fb9da9a50c  usr/share/man/man5/login.defs.5.gz
+f2cb0d293c1e694dd7dcc63bf77cd222  usr/share/man/man8/faillog.8.gz
+d6a0cd738f55c7c396a67d03f8579900  usr/share/man/man8/lastlog.8.gz
+1c7cbfc9c4da52e6231fb582a1286da2  usr/share/man/man8/nologin.8.gz
+40ee50a945af0317a0de653176c35d55  usr/share/man/pl/man1/newgrp.1.gz
+4c66f06e864af49ae2319c5bbfd18b26  usr/share/man/pl/man1/sg.1.gz
+7e7a218f2da730f03f88aed833c92bd7  usr/share/man/pl/man5/faillog.5.gz
+2fa5c780d9590d9cae6bf5461a4768d4  usr/share/man/pl/man8/faillog.8.gz
+cbb5a80c266302ee4aa1a978864e7c2d  usr/share/man/pl/man8/lastlog.8.gz
+3442a5dacc5a0445c7653fd4c43df89a  usr/share/man/ru/man1/login.1.gz
+1f9a82f31187e99468886c427c7b5373  usr/share/man/ru/man1/newgrp.1.gz
+0f276aeb2bc67b3589f07de62a625680  usr/share/man/ru/man1/sg.1.gz
+b128747b7c0d5e38d98701cbd1bc862e  usr/share/man/ru/man5/faillog.5.gz
+982aadfd76db87bcba6e239f063de2c6  usr/share/man/ru/man5/login.defs.5.gz
+c3376e19983fa0306bfe76256dc95d2b  usr/share/man/ru/man8/faillog.8.gz
+4437adbd2feffdb8d19798df15f28a25  usr/share/man/ru/man8/lastlog.8.gz
+5cc36c3ceaf10555fe8497b6c0e611d8  usr/share/man/ru/man8/nologin.8.gz
+56e800960833c6c399b7a767e6c527c1  usr/share/man/sv/man1/newgrp.1.gz
+7b11a2c8a27166d9211098eb95553e01  usr/share/man/sv/man1/sg.1.gz
+f57d1666ad1463a1ccfb62356bc10730  usr/share/man/sv/man5/faillog.5.gz
+b49b596790b95eb92212c0322e923ded  usr/share/man/sv/man8/faillog.8.gz
+c14ae88680ae523f487e77e588e2589c  usr/share/man/sv/man8/lastlog.8.gz
+677b2d8cfcc557eee1cfc9e35e9df1bf  usr/share/man/sv/man8/nologin.8.gz
+b33af6a61fe7344e8514c2e74199dee2  usr/share/man/tr/man1/login.1.gz
+d4b07f5684ef8d1f1e47c242f16fbb9a  usr/share/man/uk/man1/login.1.gz
+366deda9c1110d003e4d36832b284c2e  usr/share/man/uk/man1/newgrp.1.gz
+82094d03666e581654980c4f3e2f34c8  usr/share/man/uk/man1/sg.1.gz
+322a8538f9860505b09fc644ce778433  usr/share/man/uk/man5/faillog.5.gz
+65e90f4bc70981896b3a9f9402ee35d8  usr/share/man/uk/man5/login.defs.5.gz
+190b1c16a30175831995c3f32b828853  usr/share/man/uk/man8/faillog.8.gz
+fe208737fe91fc6cb9439ff542766ed3  usr/share/man/uk/man8/lastlog.8.gz
+45127d362698b8bfaf0bdfccdce68ab5  usr/share/man/uk/man8/nologin.8.gz
+9f568b8a322f6e1015b03ae56889cf1e  usr/share/man/zh_CN/man1/login.1.gz
+7f1fa9d7bfda27e85208ca17e4e84724  usr/share/man/zh_CN/man1/newgrp.1.gz
+1acc4f97569c0cd7752d6b1df947277d  usr/share/man/zh_CN/man1/sg.1.gz
+ca1031265c3d3c86d88435f4479750f7  usr/share/man/zh_CN/man5/faillog.5.gz
+b695376e7d4544829a21febe9e958808  usr/share/man/zh_CN/man5/login.defs.5.gz
+7623ddc2afd08f92c783b2037efa4d4d  usr/share/man/zh_CN/man8/faillog.8.gz
+fea93da76d0b039a650f316cb6b9e7fa  usr/share/man/zh_CN/man8/lastlog.8.gz
+706f7f6e4bc04063b13b779a9b0deffd  usr/share/man/zh_CN/man8/nologin.8.gz
+1ee0cef586821b40e08c07c2e8df0af4  usr/share/man/zh_TW/man1/newgrp.1.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  #!/bin/sh
+
+set -e
+
+
+if [ "$1" = "configure" ]; then
+	# Install faillog during initial installs only
+	if [ "$2" = "" ] && [ ! -f "$DPKG_ROOT/var/log/faillog" ] ; then
+		touch "$DPKG_ROOT/var/log/faillog"
+		chown 0:0 "$DPKG_ROOT/var/log/faillog"
+		chmod 644 "$DPKG_ROOT/var/log/faillog"
+	fi
+
+	# Create subuid/subgid if missing
+	if [ ! -e "$DPKG_ROOT/etc/subuid" ]; then
+		touch "$DPKG_ROOT/etc/subuid"
+		chown 0:0 "$DPKG_ROOT/etc/subuid"
+		chmod 644 "$DPKG_ROOT/etc/subuid"
+	fi
+
+	if [ ! -e "$DPKG_ROOT/etc/subgid" ]; then
+		touch "$DPKG_ROOT/etc/subgid"
+		chown 0:0 "$DPKG_ROOT/etc/subgid"
+		chmod 644 "$DPKG_ROOT/etc/subgid"
+	fi
+fi
+
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/securetty 1:4.7-1\~ -- "$@"
+# End automatically added section
+
+
+exit 0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         #!/bin/sh
+set -e
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/securetty 1:4.7-1\~ -- "$@"
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         #!/bin/sh
+set -e
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/securetty 1:4.7-1\~ -- "$@"
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         #!/bin/sh
+set -e
+# Automatically added by dh_installdeb/13.11.4
+dpkg-maintscript-helper rm_conffile /etc/securetty 1:4.7-1\~ -- "$@"
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         /.
+/sbin
+/sbin/logsave
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/logsave
+/usr/share/doc/logsave/changelog.Debian.gz
+/usr/share/doc/logsave/changelog.Debian.i386.gz
+/usr/share/doc/logsave/copyright
+/usr/share/man
+/usr/share/man/man8
+/usr/share/man/man8/logsave.8.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   43ddbea9becf2cac6ee0e91bd75faafd  sbin/logsave
+4a7febbcfbecaa5f4659d97a4ef90470  usr/share/doc/logsave/changelog.Debian.gz
+f721c58ee877e4063439706f8bd5dc14  usr/share/doc/logsave/changelog.Debian.i386.gz
+1310ed8edd8d42af06394a2c050f9c8c  usr/share/doc/logsave/copyright
+9bce00b2f861028e0ef2cea1e6ff6d95  usr/share/man/man8/logsave.8.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                /.
+/usr
+/usr/bin
+/usr/bin/mawk
+/usr/share
+/usr/share/doc
+/usr/share/doc/mawk
+/usr/share/doc/mawk/ACKNOWLEDGMENT
+/usr/share/doc/mawk/README
+/usr/share/doc/mawk/changelog.Debian.gz
+/usr/share/doc/mawk/changelog.gz
+/usr/share/doc/mawk/copyright
+/usr/share/doc/mawk/examples
+/usr/share/doc/mawk/examples/ct_length.awk
+/usr/share/doc/mawk/examples/decl.awk
+/usr/share/doc/mawk/examples/deps.awk
+/usr/share/doc/mawk/examples/eatc.awk
+/usr/share/doc/mawk/examples/gdecl.awk
+/usr/share/doc/mawk/examples/hcal
+/usr/share/doc/mawk/examples/hical
+/usr/share/doc/mawk/examples/nocomment.awk
+/usr/share/doc/mawk/examples/primes.awk
+/usr/share/doc/mawk/examples/qsort.awk
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/mawk.1.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             50679f9a7291bdd64a9a40b545c4afc3  usr/bin/mawk
+5f141143c36933d1212238a986f7a3b6  usr/share/doc/mawk/ACKNOWLEDGMENT
+beda9507694b46ec3e775ec048fca0ff  usr/share/doc/mawk/README
+8663e4c709f95d432306a085c9c8acaf  usr/share/doc/mawk/changelog.Debian.gz
+03fd3e3bde333d9e4e74eca16c542164  usr/share/doc/mawk/changelog.gz
+011eb8c22864408cf4d3ee25723a2965  usr/share/doc/mawk/copyright
+fc119ca517f2c5469eac3bd700ec9f48  usr/share/doc/mawk/examples/ct_length.awk
+60f32158c4e91149fbea1555cfa84d90  usr/share/doc/mawk/examples/decl.awk
+f5cd81d4d56dcb96d08a3b636221489a  usr/share/doc/mawk/examples/deps.awk
+24a21d4b4163562c9ed993c254d7fa39  usr/share/doc/mawk/examples/eatc.awk
+8c30333217f6c3261d55ee5875dc0a6c  usr/share/doc/mawk/examples/gdecl.awk
+b49a1ad9d99bf64db1eb3b0fad028ea8  usr/share/doc/mawk/examples/hcal
+d27acaced201bb42222486bd76a4c37e  usr/share/doc/mawk/examples/hical
+0dcd1737b5d65dcc948d431e45a476c1  usr/share/doc/mawk/examples/nocomment.awk
+844ba747af7f318c98fe601236722525  usr/share/doc/mawk/examples/primes.awk
+32b7e764592bcfed4b1a4d94d0e464f1  usr/share/doc/mawk/examples/qsort.awk
+21eb35e9c646bca55dfac23827c588fb  usr/share/man/man1/mawk.1.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           #!/bin/sh
+set -e
+# Automatically added by dh_installalternatives/13.7.1
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ]; then
+        update-alternatives --install /usr/bin/awk awk /usr/bin/mawk 5 \
+            --slave /usr/share/man/man1/awk.1.gz awk.1.gz /usr/share/man/man1/mawk.1.gz \
+            --slave /usr/bin/nawk nawk /usr/bin/mawk \
+            --slave /usr/share/man/man1/nawk.1.gz nawk.1.gz /usr/share/man/man1/mawk.1.gz
+fi
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  #!/bin/sh
+set -e
+# Automatically added by dh_installalternatives/13.7.1
+if [ "$1" = "remove" ]; then
+	update-alternatives --remove awk /usr/bin/mawk
+fi
+# End automatically added section
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /.
+/bin
+/bin/mount
+/bin/umount
+/sbin
+/sbin/losetup
+/sbin/swapoff
+/sbin/swapon
+/usr
+/usr/share
+/usr/share/bash-completion
+/usr/share/bash-completion/completions
+/usr/share/bash-completion/completions/losetup
+/usr/share/bash-completion/completions/mount
+/usr/share/bash-completion/completions/swapoff
+/usr/share/bash-completion/completions/swapon
+/usr/share/bash-completion/completions/umount
+/usr/share/doc
+/usr/share/doc/mount
+/usr/share/doc/mount/changelog.Debian.gz
+/usr/share/doc/mount/changelog.gz
+/usr/share/doc/mount/copyright
+/usr/share/doc/mount/examples
+/usr/share/doc/mount/examples/filesystems
+/usr/share/doc/mount/examples/fstab
+/usr/share/doc/mount/examples/mount.fstab
+/usr/share/doc/mount/mount.txt
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/mount
+/usr/share/man
+/usr/share/man/man5
+/usr/share/man/man5/fstab.5.gz
+/usr/share/man/man8
+/usr/share/man/man8/losetup.8.gz
+/usr/share/man/man8/mount.8.gz
+/usr/share/man/man8/swapon.8.gz
+/usr/share/man/man8/umount.8.gz
+/usr/share/man/man8/swapoff.8.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            a04adbace9cb347750fa5a6ea602bce4  bin/mount
+e174bad95aacb87cde35d73e60b0c242  bin/umount
+124ebda701c13d77fc6bc20e64ae5123  sbin/losetup
+60ad86c11c1e60fde299d25087bb5339  sbin/swapoff
+5274f09293525c08dde5f8a2e4290ef4  sbin/swapon
+f723e3dec8b50f553cda9e1f26b5696c  usr/share/bash-completion/completions/losetup
+75e8aa4a4091b18c0638176f4c428841  usr/share/bash-completion/completions/mount
+30690e8195997100bdbd13f85837ecde  usr/share/bash-completion/completions/swapoff
+ba248c7b614e27bde0cfaa0d4366a000  usr/share/bash-completion/completions/swapon
+e143728b1d2129ac4c7e4f8d19ef9cfc  usr/share/bash-completion/completions/umount
+860aeb54355835ebf21cbd51c8ccf056  usr/share/doc/mount/changelog.Debian.gz
+0bb7fd1ae3732779966184f543b8a91e  usr/share/doc/mount/changelog.gz
+353888f385cfb82eb97a693e78f3cc9b  usr/share/doc/mount/copyright
+13be744623247f4f2d5fd1ecc7be3d84  usr/share/doc/mount/examples/filesystems
+249eb88bfe44caea382802b0f827dfc2  usr/share/doc/mount/examples/fstab
+74795f232bfb794a00a8292447e505ea  usr/share/doc/mount/examples/mount.fstab
+a57b70b42bf92daae75a130e14c60bc9  usr/share/doc/mount/mount.txt
+8821ada54aa01f5750e691459bd1b7ea  usr/share/lintian/overrides/mount
+d18b84bd815844ab0afb703eda338fe6  usr/share/man/man5/fstab.5.gz
+10fdb50bf5fb0de91e8bcc9d082151d2  usr/share/man/man8/losetup.8.gz
+de2f02d0e6605d67b6f36248700b1b87  usr/share/man/man8/mount.8.gz
+7d9dce1358145a68e72ed554e0a35261  usr/share/man/man8/swapon.8.gz
+6d6d1568731b1f4d38e23dddda55678f  usr/share/man/man8/umount.8.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               /etc/terminfo/README
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /.
+/etc
+/etc/terminfo
+/etc/terminfo/README
+/lib
+/lib/terminfo
+/lib/terminfo/E
+/lib/terminfo/E/Eterm
+/lib/terminfo/a
+/lib/terminfo/a/ansi
+/lib/terminfo/c
+/lib/terminfo/c/cons25
+/lib/terminfo/c/cons25-debian
+/lib/terminfo/c/cygwin
+/lib/terminfo/d
+/lib/terminfo/d/dumb
+/lib/terminfo/h
+/lib/terminfo/h/hurd
+/lib/terminfo/l
+/lib/terminfo/l/linux
+/lib/terminfo/m
+/lib/terminfo/m/mach
+/lib/terminfo/m/mach-bold
+/lib/terminfo/m/mach-color
+/lib/terminfo/m/mach-gnu
+/lib/terminfo/m/mach-gnu-color
+/lib/terminfo/p
+/lib/terminfo/p/pcansi
+/lib/terminfo/r
+/lib/terminfo/r/rxvt
+/lib/terminfo/r/rxvt-basic
+/lib/terminfo/r/rxvt-unicode
+/lib/terminfo/r/rxvt-unicode-256color
+/lib/terminfo/s
+/lib/terminfo/s/screen
+/lib/terminfo/s/screen-256color
+/lib/terminfo/s/screen-256color-bce
+/lib/terminfo/s/screen-bce
+/lib/terminfo/s/screen-s
+/lib/terminfo/s/screen-w
+/lib/terminfo/s/screen.xterm-256color
+/lib/terminfo/s/sun
+/lib/terminfo/t
+/lib/terminfo/t/tmux
+/lib/terminfo/t/tmux-256color
+/lib/terminfo/v
+/lib/terminfo/v/vt100
+/lib/terminfo/v/vt102
+/lib/terminfo/v/vt220
+/lib/terminfo/v/vt52
+/lib/terminfo/w
+/lib/terminfo/w/wsvt25
+/lib/terminfo/w/wsvt25m
+/lib/terminfo/x
+/lib/terminfo/x/xterm
+/lib/terminfo/x/xterm-256color
+/lib/terminfo/x/xterm-color
+/lib/terminfo/x/xterm-mono
+/lib/terminfo/x/xterm-r5
+/lib/terminfo/x/xterm-r6
+/lib/terminfo/x/xterm-vt220
+/lib/terminfo/x/xterm-xfree86
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/ncurses-base
+/usr/share/doc/ncurses-base/FAQ
+/usr/share/doc/ncurses-base/TODO.Debian
+/usr/share/doc/ncurses-base/changelog.Debian.gz
+/usr/share/doc/ncurses-base/changelog.gz
+/usr/share/doc/ncurses-base/copyright
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/ncurses-base
+/usr/share/tabset
+/usr/share/tabset/std
+/usr/share/tabset/stdcrt
+/usr/share/tabset/vt100
+/usr/share/tabset/vt300
+/usr/share/terminfo
+/lib/terminfo/E/Eterm-color
+/lib/terminfo/r/rxvt-m
+/lib/terminfo/x/xterm-debian
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           0cf656c105ff2a636e1268608731ebe9  lib/terminfo/E/Eterm
+1e43e61b0e4fba70d63b5b6d3dce2a7c  lib/terminfo/a/ansi
+a446b9abe10d999c3f65c4e1aa079059  lib/terminfo/c/cons25
+8e1fa378b0d8a5aaf95738b3f47dfbd0  lib/terminfo/c/cons25-debian
+962c85df3fb97b9555d271163e584f41  lib/terminfo/c/cygwin
+ca3b114f0727da81a9b957b553a9915d  lib/terminfo/d/dumb
+f0c8478195a775ff6a9aa29b7f808c4d  lib/terminfo/h/hurd
+46ba8283b9049e9264cfd368550d140f  lib/terminfo/l/linux
+4525a57ea8297db1778cb72f4a19e0c2  lib/terminfo/m/mach
+bd0ca1baff8aa9034a68b00b3bc090c6  lib/terminfo/m/mach-bold
+24f1e2e6793e274ac3f064fc83a05468  lib/terminfo/m/mach-color
+141f1b49cc1f3f1912f0e18076bb2c28  lib/terminfo/m/mach-gnu
+b0b60c7e9793275c4458348ec4343606  lib/terminfo/m/mach-gnu-color
+a1a451f1c2570b4b8919ed8ea9282792  lib/terminfo/p/pcansi
+dc49c31389f060fe90c477ba5d145271  lib/terminfo/r/rxvt
+2f6238bca760f50c7aafdaf85bf2dcfb  lib/terminfo/r/rxvt-basic
+a68ebfd0af7e34f2898c9835987ccdfc  lib/terminfo/r/rxvt-unicode
+6aaf94b35deb8e03970a346abec0cbf8  lib/terminfo/r/rxvt-unicode-256color
+26782aef2c68a519d71cd09df4f38d68  lib/terminfo/s/screen
+eaffe585178ec5b5639e9034df19190f  lib/terminfo/s/screen-256color
+6c1bdac70c3d495031a6a1c6069b3d27  lib/terminfo/s/screen-256color-bce
+8996119356f59a6c2b4ef3358e3889c1  lib/terminfo/s/screen-bce
+19f7c53d7125ed46f180fbb62cbb6a03  lib/terminfo/s/screen-s
+e23dca32cb0eff51ae99f435a004a251  lib/terminfo/s/screen-w
+1ac76315b8bc6395650b501ad41586da  lib/terminfo/s/screen.xterm-256color
+430390b5b3a52aef2cf94d6f7a6aa000  lib/terminfo/s/sun
+ed00a4b191a13201b4cbac8a0324c001  lib/terminfo/t/tmux
+a03b41a03850b54c3f3db7de42a4476f  lib/terminfo/t/tmux-256color
+df9446f7fd9c4fdb33d411ae92710c27  lib/terminfo/v/vt100
+3083e2d71619d482b4b6abbb005c0355  lib/terminfo/v/vt102
+e0fe59d705ba2adc5d930dfeb0a489ba  lib/terminfo/v/vt220
+cead4a9d4527b35b3fe8860bcbbbd19b  lib/terminfo/v/vt52
+fbb970323e77c4200ae32bb2d5de06cc  lib/terminfo/w/wsvt25
+06d6cf8d37220d1ac4bcf80460cff50e  lib/terminfo/w/wsvt25m
+fbe611ffc559259b01ac142a80ab03d9  lib/terminfo/x/xterm
+faaa5048b306eb866e1ebc81fb1dd00c  lib/terminfo/x/xterm-256color
+60cf779afa539204a8fae90e07f57689  lib/terminfo/x/xterm-color
+d62887921329328900a50dbddf32e184  lib/terminfo/x/xterm-mono
+ddc200c30ecff55f71dd3c19d5375006  lib/terminfo/x/xterm-r5
+8b88ffea0ba02455c2467d730ca57407  lib/terminfo/x/xterm-r6
+8706efd765ed53ccbf33ae198d54b293  lib/terminfo/x/xterm-vt220
+94d6414f04d7208738e9d1815d321992  lib/terminfo/x/xterm-xfree86
+4bdf342194c8b3dcf47416c4d8aa6fe9  usr/share/doc/ncurses-base/FAQ
+7493372c830eef9ed0a64ae64131d144  usr/share/doc/ncurses-base/TODO.Debian
+574c5c99156af41bbc161eff2c956485  usr/share/doc/ncurses-base/changelog.Debian.gz
+72817235b2d74616e4435718d0bc8849  usr/share/doc/ncurses-base/changelog.gz
+6ff7d32947f8538e046380c0b1c959a5  usr/share/doc/ncurses-base/copyright
+9cf5c92ba0c81e6d6f69098449ea2e98  usr/share/lintian/overrides/ncurses-base
+0633f2811ab9958deef70a4ceb124d2e  usr/share/tabset/std
+75738443f4560dabbbb5781a43b6076f  usr/share/tabset/stdcrt
+932387cdf8429aba6dd9c6567022829a  usr/share/tabset/vt100
+fd329c87dc8cfd0191c9e9b4c891460b  usr/share/tabset/vt300
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /.
+/usr
+/usr/bin
+/usr/bin/clear
+/usr/bin/infocmp
+/usr/bin/tabs
+/usr/bin/tic
+/usr/bin/toe
+/usr/bin/tput
+/usr/bin/tset
+/usr/share
+/usr/share/doc
+/usr/share/doc/ncurses-bin
+/usr/share/doc/ncurses-bin/changelog.Debian.gz
+/usr/share/doc/ncurses-bin/changelog.gz
+/usr/share/doc/ncurses-bin/copyright
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/captoinfo.1.gz
+/usr/share/man/man1/clear.1.gz
+/usr/share/man/man1/infocmp.1.gz
+/usr/share/man/man1/infotocap.1.gz
+/usr/share/man/man1/tabs.1.gz
+/usr/share/man/man1/tic.1.gz
+/usr/share/man/man1/toe.1.gz
+/usr/share/man/man1/tput.1.gz
+/usr/share/man/man1/tset.1.gz
+/usr/share/man/man5
+/usr/share/man/man5/scr_dump.5.gz
+/usr/share/man/man5/term.5.gz
+/usr/share/man/man5/terminfo.5.gz
+/usr/share/man/man5/user_caps.5.gz
+/usr/share/man/man7
+/usr/share/man/man7/term.7.gz
+/usr/bin/captoinfo
+/usr/bin/infotocap
+/usr/bin/reset
+/usr/share/man/man1/reset.1.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              4e8e14c4b28251371770431c300509e2  usr/bin/clear
+42d00704494b444bb5d66a66f94649e7  usr/bin/infocmp
+26a6d8ec96d058be467b39c137f87459  usr/bin/tabs
+033a55e0e50ca1535006abcd60688bbf  usr/bin/tic
+5f535b0d476b9192c265803dc05df72f  usr/bin/toe
+723d2a4d13e46371c882aa8e682a7391  usr/bin/tput
+5ef85038e951b71bdef12eb7fb18b7ed  usr/bin/tset
+9f49f505b8444d8f87e857cdf927b0ab  usr/share/doc/ncurses-bin/changelog.Debian.gz
+72817235b2d74616e4435718d0bc8849  usr/share/doc/ncurses-bin/changelog.gz
+6ff7d32947f8538e046380c0b1c959a5  usr/share/doc/ncurses-bin/copyright
+60271071723b2735017f95b1eab1c915  usr/share/man/man1/captoinfo.1.gz
+0ab85bec4c641cd7417349e2739e8983  usr/share/man/man1/clear.1.gz
+3196743c1445c0cce2d2a820fa44b76b  usr/share/man/man1/infocmp.1.gz
+d8f0f3338524a0e1f7895f74cc746aaa  usr/share/man/man1/infotocap.1.gz
+81566f3d29dd1e78dbf66950778b8dd3  usr/share/man/man1/tabs.1.gz
+9ea81cd8f673907f1fac8562aae9fff6  usr/share/man/man1/tic.1.gz
+c7745c9478b2491d8b1795086fec5619  usr/share/man/man1/toe.1.gz
+6b1d8fae7dda26a000528c22270c8296  usr/share/man/man1/tput.1.gz
+49b2526a66e9ef9570c21927c640a820  usr/share/man/man1/tset.1.gz
+348597a6e515ba89fff87aedb45b5e69  usr/share/man/man5/scr_dump.5.gz
+c8ce0efe21e07b246fcd60ab0d55de09  usr/share/man/man5/term.5.gz
+7606e65afeb70108ff8d65144da7055a  usr/share/man/man5/terminfo.5.gz
+1640cb4e2084f828ff0b158e6d12bb41  usr/share/man/man5/user_caps.5.gz
+b146f86f7d0dfb5b73a2fb204cda5400  usr/share/man/man7/term.7.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /etc/ssl/openssl.cnf
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /.
+/etc
+/etc/ssl
+/etc/ssl/certs
+/etc/ssl/openssl.cnf
+/etc/ssl/private
+/usr
+/usr/bin
+/usr/bin/c_rehash
+/usr/bin/openssl
+/usr/lib
+/usr/lib/ssl
+/usr/lib/ssl/misc
+/usr/lib/ssl/misc/CA.pl
+/usr/lib/ssl/misc/tsget.pl
+/usr/share
+/usr/share/doc
+/usr/share/doc/openssl
+/usr/share/doc/openssl/HOWTO
+/usr/share/doc/openssl/HOWTO/certificates.txt.gz
+/usr/share/doc/openssl/HOWTO/keys.txt
+/usr/share/doc/openssl/NEWS.Debian.gz
+/usr/share/doc/openssl/NEWS.md.gz
+/usr/share/doc/openssl/README-ENGINES.md.gz
+/usr/share/doc/openssl/README.Debian
+/usr/share/doc/openssl/README.md.gz
+/usr/share/doc/openssl/README.optimization
+/usr/share/doc/openssl/changelog.Debian.gz
+/usr/share/doc/openssl/changelog.gz
+/usr/share/doc/openssl/copyright
+/usr/share/doc/openssl/fingerprints.txt
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/openssl
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/CA.pl.1ssl.gz
+/usr/share/man/man1/openssl-asn1parse.1ssl.gz
+/usr/share/man/man1/openssl-ca.1ssl.gz
+/usr/share/man/man1/openssl-ciphers.1ssl.gz
+/usr/share/man/man1/openssl-cmds.1ssl.gz
+/usr/share/man/man1/openssl-cmp.1ssl.gz
+/usr/share/man/man1/openssl-cms.1ssl.gz
+/usr/share/man/man1/openssl-crl.1ssl.gz
+/usr/share/man/man1/openssl-crl2pkcs7.1ssl.gz
+/usr/share/man/man1/openssl-dgst.1ssl.gz
+/usr/share/man/man1/openssl-dhparam.1ssl.gz
+/usr/share/man/man1/openssl-dsa.1ssl.gz
+/usr/share/man/man1/openssl-dsaparam.1ssl.gz
+/usr/share/man/man1/openssl-ec.1ssl.gz
+/usr/share/man/man1/openssl-ecparam.1ssl.gz
+/usr/share/man/man1/openssl-enc.1ssl.gz
+/usr/share/man/man1/openssl-engine.1ssl.gz
+/usr/share/man/man1/openssl-errstr.1ssl.gz
+/usr/share/man/man1/openssl-fipsinstall.1ssl.gz
+/usr/share/man/man1/openssl-format-options.1ssl.gz
+/usr/share/man/man1/openssl-gendsa.1ssl.gz
+/usr/share/man/man1/openssl-genpkey.1ssl.gz
+/usr/share/man/man1/openssl-genrsa.1ssl.gz
+/usr/share/man/man1/openssl-info.1ssl.gz
+/usr/share/man/man1/openssl-kdf.1ssl.gz
+/usr/share/man/man1/openssl-list.1ssl.gz
+/usr/share/man/man1/openssl-mac.1ssl.gz
+/usr/share/man/man1/openssl-namedisplay-options.1ssl.gz
+/usr/share/man/man1/openssl-nseq.1ssl.gz
+/usr/share/man/man1/openssl-ocsp.1ssl.gz
+/usr/share/man/man1/openssl-passphrase-options.1ssl.gz
+/usr/share/man/man1/openssl-passwd.1ssl.gz
+/usr/share/man/man1/openssl-pkcs12.1ssl.gz
+/usr/share/man/man1/openssl-pkcs7.1ssl.gz
+/usr/share/man/man1/openssl-pkcs8.1ssl.gz
+/usr/share/man/man1/openssl-pkey.1ssl.gz
+/usr/share/man/man1/openssl-pkeyparam.1ssl.gz
+/usr/share/man/man1/openssl-pkeyutl.1ssl.gz
+/usr/share/man/man1/openssl-prime.1ssl.gz
+/usr/share/man/man1/openssl-rand.1ssl.gz
+/usr/share/man/man1/openssl-rehash.1ssl.gz
+/usr/share/man/man1/openssl-req.1ssl.gz
+/usr/share/man/man1/openssl-rsa.1ssl.gz
+/usr/share/man/man1/openssl-rsautl.1ssl.gz
+/usr/share/man/man1/openssl-s_client.1ssl.gz
+/usr/share/man/man1/openssl-s_server.1ssl.gz
+/usr/share/man/man1/openssl-s_time.1ssl.gz
+/usr/share/man/man1/openssl-sess_id.1ssl.gz
+/usr/share/man/man1/openssl-smime.1ssl.gz
+/usr/share/man/man1/openssl-speed.1ssl.gz
+/usr/share/man/man1/openssl-spkac.1ssl.gz
+/usr/share/man/man1/openssl-srp.1ssl.gz
+/usr/share/man/man1/openssl-storeutl.1ssl.gz
+/usr/share/man/man1/openssl-ts.1ssl.gz
+/usr/share/man/man1/openssl-verification-options.1ssl.gz
+/usr/share/man/man1/openssl-verify.1ssl.gz
+/usr/share/man/man1/openssl-version.1ssl.gz
+/usr/share/man/man1/openssl-x509.1ssl.gz
+/usr/share/man/man1/openssl.1ssl.gz
+/usr/share/man/man1/tsget.1ssl.gz
+/usr/share/man/man5
+/usr/share/man/man5/config.5ssl.gz
+/usr/share/man/man5/fips_config.5ssl.gz
+/usr/share/man/man5/x509v3_config.5ssl.gz
+/usr/share/man/man7
+/usr/share/man/man7/EVP_ASYM_CIPHER-RSA.7ssl.gz
+/usr/share/man/man7/EVP_ASYM_CIPHER-SM2.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-AES.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-ARIA.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-BLOWFISH.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-CAMELLIA.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-CAST.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-CHACHA.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-DES.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-IDEA.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-NULL.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-RC2.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-RC4.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-RC5.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-SEED.7ssl.gz
+/usr/share/man/man7/EVP_CIPHER-SM4.7ssl.gz
+/usr/share/man/man7/EVP_KDF-HKDF.7ssl.gz
+/usr/share/man/man7/EVP_KDF-KB.7ssl.gz
+/usr/share/man/man7/EVP_KDF-KRB5KDF.7ssl.gz
+/usr/share/man/man7/EVP_KDF-PBKDF1.7ssl.gz
+/usr/share/man/man7/EVP_KDF-PBKDF2.7ssl.gz
+/usr/share/man/man7/EVP_KDF-PKCS12KDF.7ssl.gz
+/usr/share/man/man7/EVP_KDF-SCRYPT.7ssl.gz
+/usr/share/man/man7/EVP_KDF-SS.7ssl.gz
+/usr/share/man/man7/EVP_KDF-SSHKDF.7ssl.gz
+/usr/share/man/man7/EVP_KDF-TLS13_KDF.7ssl.gz
+/usr/share/man/man7/EVP_KDF-TLS1_PRF.7ssl.gz
+/usr/share/man/man7/EVP_KDF-X942-ASN1.7ssl.gz
+/usr/share/man/man7/EVP_KDF-X942-CONCAT.7ssl.gz
+/usr/share/man/man7/EVP_KDF-X963.7ssl.gz
+/usr/share/man/man7/EVP_KEM-RSA.7ssl.gz
+/usr/share/man/man7/EVP_KEYEXCH-DH.7ssl.gz
+/usr/share/man/man7/EVP_KEYEXCH-ECDH.7ssl.gz
+/usr/share/man/man7/EVP_KEYEXCH-X25519.7ssl.gz
+/usr/share/man/man7/EVP_MAC-BLAKE2.7ssl.gz
+/usr/share/man/man7/EVP_MAC-CMAC.7ssl.gz
+/usr/share/man/man7/EVP_MAC-GMAC.7ssl.gz
+/usr/share/man/man7/EVP_MAC-HMAC.7ssl.gz
+/usr/share/man/man7/EVP_MAC-KMAC.7ssl.gz
+/usr/share/man/man7/EVP_MAC-Poly1305.7ssl.gz
+/usr/share/man/man7/EVP_MAC-Siphash.7ssl.gz
+/usr/share/man/man7/EVP_MD-BLAKE2.7ssl.gz
+/usr/share/man/man7/EVP_MD-MD2.7ssl.gz
+/usr/share/man/man7/EVP_MD-MD4.7ssl.gz
+/usr/share/man/man7/EVP_MD-MD5-SHA1.7ssl.gz
+/usr/share/man/man7/EVP_MD-MD5.7ssl.gz
+/usr/share/man/man7/EVP_MD-MDC2.7ssl.gz
+/usr/share/man/man7/EVP_MD-NULL.7ssl.gz
+/usr/share/man/man7/EVP_MD-RIPEMD160.7ssl.gz
+/usr/share/man/man7/EVP_MD-SHA1.7ssl.gz
+/usr/share/man/man7/EVP_MD-SHA2.7ssl.gz
+/usr/share/man/man7/EVP_MD-SHA3.7ssl.gz
+/usr/share/man/man7/EVP_MD-SHAKE.7ssl.gz
+/usr/share/man/man7/EVP_MD-SM3.7ssl.gz
+/usr/share/man/man7/EVP_MD-WHIRLPOOL.7ssl.gz
+/usr/share/man/man7/EVP_MD-common.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-DH.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-DSA.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-EC.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-FFC.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-HMAC.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-RSA.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-SM2.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-X25519.7ssl.gz
+/usr/share/man/man7/EVP_RAND-CTR-DRBG.7ssl.gz
+/usr/share/man/man7/EVP_RAND-HASH-DRBG.7ssl.gz
+/usr/share/man/man7/EVP_RAND-HMAC-DRBG.7ssl.gz
+/usr/share/man/man7/EVP_RAND-SEED-SRC.7ssl.gz
+/usr/share/man/man7/EVP_RAND-TEST-RAND.7ssl.gz
+/usr/share/man/man7/EVP_RAND.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-DSA.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-ECDSA.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-ED25519.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-HMAC.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-RSA.7ssl.gz
+/usr/share/man/man7/OSSL_PROVIDER-FIPS.7ssl.gz
+/usr/share/man/man7/OSSL_PROVIDER-base.7ssl.gz
+/usr/share/man/man7/OSSL_PROVIDER-default.7ssl.gz
+/usr/share/man/man7/OSSL_PROVIDER-legacy.7ssl.gz
+/usr/share/man/man7/OSSL_PROVIDER-null.7ssl.gz
+/usr/share/man/man7/RAND.7ssl.gz
+/usr/share/man/man7/RSA-PSS.7ssl.gz
+/usr/share/man/man7/X25519.7ssl.gz
+/usr/share/man/man7/bio.7ssl.gz
+/usr/share/man/man7/crypto.7ssl.gz
+/usr/share/man/man7/ct.7ssl.gz
+/usr/share/man/man7/des_modes.7ssl.gz
+/usr/share/man/man7/evp.7ssl.gz
+/usr/share/man/man7/fips_module.7ssl.gz
+/usr/share/man/man7/life_cycle-cipher.7ssl.gz
+/usr/share/man/man7/life_cycle-digest.7ssl.gz
+/usr/share/man/man7/life_cycle-kdf.7ssl.gz
+/usr/share/man/man7/life_cycle-mac.7ssl.gz
+/usr/share/man/man7/life_cycle-pkey.7ssl.gz
+/usr/share/man/man7/life_cycle-rand.7ssl.gz
+/usr/share/man/man7/migration_guide.7ssl.gz
+/usr/share/man/man7/openssl-core.h.7ssl.gz
+/usr/share/man/man7/openssl-core_dispatch.h.7ssl.gz
+/usr/share/man/man7/openssl-core_names.h.7ssl.gz
+/usr/share/man/man7/openssl-env.7ssl.gz
+/usr/share/man/man7/openssl-glossary.7ssl.gz
+/usr/share/man/man7/openssl-threads.7ssl.gz
+/usr/share/man/man7/openssl_user_macros.7ssl.gz
+/usr/share/man/man7/ossl_store-file.7ssl.gz
+/usr/share/man/man7/ossl_store.7ssl.gz
+/usr/share/man/man7/passphrase-encoding.7ssl.gz
+/usr/share/man/man7/property.7ssl.gz
+/usr/share/man/man7/provider-asym_cipher.7ssl.gz
+/usr/share/man/man7/provider-base.7ssl.gz
+/usr/share/man/man7/provider-cipher.7ssl.gz
+/usr/share/man/man7/provider-decoder.7ssl.gz
+/usr/share/man/man7/provider-digest.7ssl.gz
+/usr/share/man/man7/provider-encoder.7ssl.gz
+/usr/share/man/man7/provider-kdf.7ssl.gz
+/usr/share/man/man7/provider-kem.7ssl.gz
+/usr/share/man/man7/provider-keyexch.7ssl.gz
+/usr/share/man/man7/provider-keymgmt.7ssl.gz
+/usr/share/man/man7/provider-mac.7ssl.gz
+/usr/share/man/man7/provider-object.7ssl.gz
+/usr/share/man/man7/provider-rand.7ssl.gz
+/usr/share/man/man7/provider-signature.7ssl.gz
+/usr/share/man/man7/provider-storemgmt.7ssl.gz
+/usr/share/man/man7/provider.7ssl.gz
+/usr/share/man/man7/proxy-certificates.7ssl.gz
+/usr/share/man/man7/ssl.7ssl.gz
+/usr/share/man/man7/x509.7ssl.gz
+/usr/lib/ssl/cert.pem
+/usr/lib/ssl/certs
+/usr/lib/ssl/misc/tsget
+/usr/lib/ssl/openssl.cnf
+/usr/lib/ssl/private
+/usr/share/man/man1/asn1parse.1ssl.gz
+/usr/share/man/man1/c_rehash.1ssl.gz
+/usr/share/man/man1/ca.1ssl.gz
+/usr/share/man/man1/ciphers.1ssl.gz
+/usr/share/man/man1/cmp.1ssl.gz
+/usr/share/man/man1/cms.1ssl.gz
+/usr/share/man/man1/crl.1ssl.gz
+/usr/share/man/man1/crl2pkcs7.1ssl.gz
+/usr/share/man/man1/dgst.1ssl.gz
+/usr/share/man/man1/dhparam.1ssl.gz
+/usr/share/man/man1/dsa.1ssl.gz
+/usr/share/man/man1/dsaparam.1ssl.gz
+/usr/share/man/man1/ec.1ssl.gz
+/usr/share/man/man1/ecparam.1ssl.gz
+/usr/share/man/man1/enc.1ssl.gz
+/usr/share/man/man1/engine.1ssl.gz
+/usr/share/man/man1/errstr.1ssl.gz
+/usr/share/man/man1/gendsa.1ssl.gz
+/usr/share/man/man1/genpkey.1ssl.gz
+/usr/share/man/man1/genrsa.1ssl.gz
+/usr/share/man/man1/info.1ssl.gz
+/usr/share/man/man1/kdf.1ssl.gz
+/usr/share/man/man1/mac.1ssl.gz
+/usr/share/man/man1/nseq.1ssl.gz
+/usr/share/man/man1/ocsp.1ssl.gz
+/usr/share/man/man1/passwd.1ssl.gz
+/usr/share/man/man1/pkcs12.1ssl.gz
+/usr/share/man/man1/pkcs7.1ssl.gz
+/usr/share/man/man1/pkcs8.1ssl.gz
+/usr/share/man/man1/pkey.1ssl.gz
+/usr/share/man/man1/pkeyparam.1ssl.gz
+/usr/share/man/man1/pkeyutl.1ssl.gz
+/usr/share/man/man1/prime.1ssl.gz
+/usr/share/man/man1/rand.1ssl.gz
+/usr/share/man/man1/rehash.1ssl.gz
+/usr/share/man/man1/req.1ssl.gz
+/usr/share/man/man1/rsa.1ssl.gz
+/usr/share/man/man1/rsautl.1ssl.gz
+/usr/share/man/man1/s_client.1ssl.gz
+/usr/share/man/man1/s_server.1ssl.gz
+/usr/share/man/man1/s_time.1ssl.gz
+/usr/share/man/man1/sess_id.1ssl.gz
+/usr/share/man/man1/smime.1ssl.gz
+/usr/share/man/man1/speed.1ssl.gz
+/usr/share/man/man1/spkac.1ssl.gz
+/usr/share/man/man1/srp.1ssl.gz
+/usr/share/man/man1/storeutl.1ssl.gz
+/usr/share/man/man1/ts.1ssl.gz
+/usr/share/man/man1/verify.1ssl.gz
+/usr/share/man/man1/version.1ssl.gz
+/usr/share/man/man1/x509.1ssl.gz
+/usr/share/man/man7/EVP_KEYEXCH-X448.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-CMAC.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-DH.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-DHX.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-DSA.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-EC.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-ED25519.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-ED448.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-HMAC.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-Poly1305.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-RSA.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-SM2.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-Siphash.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-X25519.7ssl.gz
+/usr/share/man/man7/EVP_KEYMGMT-X448.7ssl.gz
+/usr/share/man/man7/EVP_MAC-BLAKE2BMAC.7ssl.gz
+/usr/share/man/man7/EVP_MAC-BLAKE2SMAC.7ssl.gz
+/usr/share/man/man7/EVP_MAC-KMAC128.7ssl.gz
+/usr/share/man/man7/EVP_MAC-KMAC256.7ssl.gz
+/usr/share/man/man7/EVP_MD-KECCAK-KMAC.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-CMAC.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-DHX.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-ED25519.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-ED448.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-Poly1305.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-Siphash.7ssl.gz
+/usr/share/man/man7/EVP_PKEY-X448.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-CMAC.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-ED448.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-Poly1305.7ssl.gz
+/usr/share/man/man7/EVP_SIGNATURE-Siphash.7ssl.gz
+/usr/share/man/man7/Ed25519.7ssl.gz
+/usr/share/man/man7/Ed448.7ssl.gz
+/usr/share/man/man7/OPENSSL_API_COMPAT.7ssl.gz
+/usr/share/man/man7/OPENSSL_NO_DEPRECATED.7ssl.gz
+/usr/share/man/man7/RSA.7ssl.gz
+/usr/share/man/man7/SM2.7ssl.gz
+/usr/share/man/man7/X448.7ssl.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  da43d7440fd071ba2d10ef739364f404  usr/bin/c_rehash
+3df09e7b41aa5547435f89019e6294e5  usr/bin/openssl
+00e0c8061833f1a4c5e288ee71847f23  usr/lib/ssl/misc/CA.pl
+71d026c849ae7074ce573fe8815d7c15  usr/lib/ssl/misc/tsget.pl
+eadb4e56c1b0397e44bc5a1bf3c20ffe  usr/share/doc/openssl/HOWTO/certificates.txt.gz
+e3536a51362f8847d789ef737e409cc1  usr/share/doc/openssl/HOWTO/keys.txt
+e9bba0f22af6c7fa96a5901e46646625  usr/share/doc/openssl/NEWS.Debian.gz
+1e26f92f033c95228969bcf1d0491054  usr/share/doc/openssl/NEWS.md.gz
+2f55f9f6819f63e005c06fdb78718844  usr/share/doc/openssl/README-ENGINES.md.gz
+393e5b180c24924a7a795d722273df3c  usr/share/doc/openssl/README.Debian
+59259ee6c55105c29812f4d3a64bc520  usr/share/doc/openssl/README.md.gz
+2f3c8587f54a1bd34a1ea62f103b537d  usr/share/doc/openssl/README.optimization
+11cf8035040f5242129e3249078eec2a  usr/share/doc/openssl/changelog.Debian.gz
+df46610cc78405c7ba48d4b2ee8ef4e0  usr/share/doc/openssl/changelog.gz
+6264b3617e9bd0092102a2ab8db06adb  usr/share/doc/openssl/copyright
+f60d9b8675f35d94500034bbf8d74ab1  usr/share/doc/openssl/fingerprints.txt
+53597829a54ca69c6e803649039214bc  usr/share/lintian/overrides/openssl
+aeb67d68b909e5e9ac1b2c51b392b7a7  usr/share/man/man1/CA.pl.1ssl.gz
+77a121948aff992494c9cd1b33f0a0d0  usr/share/man/man1/openssl-asn1parse.1ssl.gz
+67333deb42d72b2070e72501a095b7ea  usr/share/man/man1/openssl-ca.1ssl.gz
+843ee1cc15df0d5d9ee3c1f0c92955ff  usr/share/man/man1/openssl-ciphers.1ssl.gz
+d945bc7c3f1b588fa413762c5c27de35  usr/share/man/man1/openssl-cmds.1ssl.gz
+0c90328bd4831bbf6048378802218302  usr/share/man/man1/openssl-cmp.1ssl.gz
+b84ec7d148c3c26d4fc85cada1a2e202  usr/share/man/man1/openssl-cms.1ssl.gz
+de95f499d3e5b0df90ae81990a33e64d  usr/share/man/man1/openssl-crl.1ssl.gz
+ff125fee1832445224e45abae0efe88d  usr/share/man/man1/openssl-crl2pkcs7.1ssl.gz
+49cb217489e94d749733b9939a90b450  usr/share/man/man1/openssl-dgst.1ssl.gz
+bb2c70647697408a65c271cc683b3266  usr/share/man/man1/openssl-dhparam.1ssl.gz
+7feef4a1240695cca0b11a0358beab5a  usr/share/man/man1/openssl-dsa.1ssl.gz
+23e8672bd178eabcd799cdeb06b62177  usr/share/man/man1/openssl-dsaparam.1ssl.gz
+76853bbbec0bfca0c4f0f8fc6ed4751c  usr/share/man/man1/openssl-ec.1ssl.gz
+ca7a1794a388668015c0f5e74d4cb760  usr/share/man/man1/openssl-ecparam.1ssl.gz
+4abeed8ed13325315a7f7db49b494c09  usr/share/man/man1/openssl-enc.1ssl.gz
+9d5e06fd252663f0efad959a4b3ead59  usr/share/man/man1/openssl-engine.1ssl.gz
+ee1e2c3c19a2fbebc7b04b9dcc481c4b  usr/share/man/man1/openssl-errstr.1ssl.gz
+ff6f0d35ee3aa49fc16bf602d286b101  usr/share/man/man1/openssl-fipsinstall.1ssl.gz
+bd950c3552943c01a594947fd1efaf65  usr/share/man/man1/openssl-format-options.1ssl.gz
+ecb56c8e44678a8e56f2f9711d3ef771  usr/share/man/man1/openssl-gendsa.1ssl.gz
+06a575a879648df692aaf368e0e67f9d  usr/share/man/man1/openssl-genpkey.1ssl.gz
+a75d5f7513bdd59d710dc5b29700f784  usr/share/man/man1/openssl-genrsa.1ssl.gz
+fcc425f163ff496d754ac1ab029d6972  usr/share/man/man1/openssl-info.1ssl.gz
+6f428c8455c86d58c8e9ee07910b3b48  usr/share/man/man1/openssl-kdf.1ssl.gz
+eb997046cdaeec5234c9486972cdbf41  usr/share/man/man1/openssl-list.1ssl.gz
+bf068f44db557b1e2070eed5580beb9f  usr/share/man/man1/openssl-mac.1ssl.gz
+2aec9333206a2a0f9edb5a5cc28ec919  usr/share/man/man1/openssl-namedisplay-options.1ssl.gz
+e1cf1afa3b6655eb4dd8a4141e0ea845  usr/share/man/man1/openssl-nseq.1ssl.gz
+209663b91bd4496dd3547495e7e56286  usr/share/man/man1/openssl-ocsp.1ssl.gz
+c671866e826045ee6e6a72ffe9fffe4c  usr/share/man/man1/openssl-passphrase-options.1ssl.gz
+be7a268a5f4e661b395767c7f67c5581  usr/share/man/man1/openssl-passwd.1ssl.gz
+a1acfff1bf054ee25796e6899df83d43  usr/share/man/man1/openssl-pkcs12.1ssl.gz
+57b32107dd835df6f95791ea86b25d3a  usr/share/man/man1/openssl-pkcs7.1ssl.gz
+2bca43b99be825c1bdccd03b9558af6e  usr/share/man/man1/openssl-pkcs8.1ssl.gz
+3d6522f6a6073d3eace6f4fc179a83b4  usr/share/man/man1/openssl-pkey.1ssl.gz
+1ac4ff41895d10c6564de76abdcab4e0  usr/share/man/man1/openssl-pkeyparam.1ssl.gz
+fed288038eca155af386cd338d44ff59  usr/share/man/man1/openssl-pkeyutl.1ssl.gz
+7ae7f65b39236126d2db82074712e0d5  usr/share/man/man1/openssl-prime.1ssl.gz
+aa70c66bb9a4f21860d0bb374300e457  usr/share/man/man1/openssl-rand.1ssl.gz
+0bf995c23b44196a7d73045183319382  usr/share/man/man1/openssl-rehash.1ssl.gz
+95ba32f534546b59e8c1f544af76b5d3  usr/share/man/man1/openssl-req.1ssl.gz
+b1db2e9500b3830a2ef0f56657b5bcb7  usr/share/man/man1/openssl-rsa.1ssl.gz
+2561e21e1c3d512d25829ee745846ac3  usr/share/man/man1/openssl-rsautl.1ssl.gz
+b9d909c77c4f1ad628b2bcb26349ffb1  usr/share/man/man1/openssl-s_client.1ssl.gz
+2fc3eab71d3d9315a489e8c31abaaaaf  usr/share/man/man1/openssl-s_server.1ssl.gz
+c3571b594465b41456ba036c0351e755  usr/share/man/man1/openssl-s_time.1ssl.gz
+b0ce904464dcd534ca76adda0b3d5933  usr/share/man/man1/openssl-sess_id.1ssl.gz
+6b3a9931e402734cc9dc29e43469abf6  usr/share/man/man1/openssl-smime.1ssl.gz
+3b8814b8160968433dc09d1874e2d663  usr/share/man/man1/openssl-speed.1ssl.gz
+e635a12501b86ad6fd62ed8c0c6bab6c  usr/share/man/man1/openssl-spkac.1ssl.gz
+41fb2ab28086b0297de303507b821e22  usr/share/man/man1/openssl-srp.1ssl.gz
+645558c88d4e94719ebf06bc4d675e1d  usr/share/man/man1/openssl-storeutl.1ssl.gz
+ec6173c73713d6d625fef9dd9fade141  usr/share/man/man1/openssl-ts.1ssl.gz
+6197f7ca0d6b93a6c1f6a28163a010f2  usr/share/man/man1/openssl-verification-options.1ssl.gz
+6e7589bbb162438f28e86c30cf3d8511  usr/share/man/man1/openssl-verify.1ssl.gz
+1fc4ac7ffdc9f53f5f0806fe18a287df  usr/share/man/man1/openssl-version.1ssl.gz
+8259bec862e887be61d05ab99c6a5002  usr/share/man/man1/openssl-x509.1ssl.gz
+403ef15f9ca0a8634046b82a9fac9118  usr/share/man/man1/openssl.1ssl.gz
+b84549171693220c947025a17d01b8ee  usr/share/man/man1/tsget.1ssl.gz
+08453a72ec0481a91e2e56f9d0d49169  usr/share/man/man5/config.5ssl.gz
+4b1b9c3e3403bbcf2ac24f5e7d5bc579  usr/share/man/man5/fips_config.5ssl.gz
+5c64f854e2c7b4b33759fb8935bc4d24  usr/share/man/man5/x509v3_config.5ssl.gz
+dabb7d18d8b1ddf515837798cd8671b0  usr/share/man/man7/EVP_ASYM_CIPHER-RSA.7ssl.gz
+641b0af0005b070cc1d2c9aeb3e343a3  usr/share/man/man7/EVP_ASYM_CIPHER-SM2.7ssl.gz
+52ec06187b2835b74ab46de38587905e  usr/share/man/man7/EVP_CIPHER-AES.7ssl.gz
+aac2122ce8dd2db3d8003bdd9cf434de  usr/share/man/man7/EVP_CIPHER-ARIA.7ssl.gz
+28297aa45244adcdf1e8371df7bb99e8  usr/share/man/man7/EVP_CIPHER-BLOWFISH.7ssl.gz
+aaef1264c78042a7cb2909d18882fb64  usr/share/man/man7/EVP_CIPHER-CAMELLIA.7ssl.gz
+344b6dbbfb3e130cef4a6fed726d3726  usr/share/man/man7/EVP_CIPHER-CAST.7ssl.gz
+56e02fdd2978fdc8b1de1e1e4524f455  usr/share/man/man7/EVP_CIPHER-CHACHA.7ssl.gz
+f0fb12039d378d7b57e9c8ae9c67e98e  usr/share/man/man7/EVP_CIPHER-DES.7ssl.gz
+099697ac005449552f06d0dcdd2bc37b  usr/share/man/man7/EVP_CIPHER-IDEA.7ssl.gz
+15c9231345d478bd8820144d052337dd  usr/share/man/man7/EVP_CIPHER-NULL.7ssl.gz
+56973b78aa518e943198f6007678459c  usr/share/man/man7/EVP_CIPHER-RC2.7ssl.gz
+d13ad76e84262e2be908edc7a0090a99  usr/share/man/man7/EVP_CIPHER-RC4.7ssl.gz
+73205b559fb64b9d6ffe470092760469  usr/share/man/man7/EVP_CIPHER-RC5.7ssl.gz
+ad35b07abba34ddba2c20ca87b3fc23b  usr/share/man/man7/EVP_CIPHER-SEED.7ssl.gz
+54bc93ce1a77472cfe9ec557f98b563c  usr/share/man/man7/EVP_CIPHER-SM4.7ssl.gz
+fdb82367c151d283fe7321c86b6fded9  usr/share/man/man7/EVP_KDF-HKDF.7ssl.gz
+3d5b7f7ba2a0061b2190543bde020470  usr/share/man/man7/EVP_KDF-KB.7ssl.gz
+03ea38a0e910e7874b0afd91bc2570d2  usr/share/man/man7/EVP_KDF-KRB5KDF.7ssl.gz
+e145bcfc59ae7627c19b658c3f0b4f47  usr/share/man/man7/EVP_KDF-PBKDF1.7ssl.gz
+3fb01e8d14c3baf5029d6f72b10f3595  usr/share/man/man7/EVP_KDF-PBKDF2.7ssl.gz
+d15c1c7cc2439ec9d2ca0f366e473669  usr/share/man/man7/EVP_KDF-PKCS12KDF.7ssl.gz
+7439f3e36fce8aef759b5c126e38d473  usr/share/man/man7/EVP_KDF-SCRYPT.7ssl.gz
+73be1a5b77765e612f55e55b494e2d87  usr/share/man/man7/EVP_KDF-SS.7ssl.gz
+479c22ded2290c82ebf3f73471013ef3  usr/share/man/man7/EVP_KDF-SSHKDF.7ssl.gz
+f8138236fe4a9f2f1623a9de996a37ac  usr/share/man/man7/EVP_KDF-TLS13_KDF.7ssl.gz
+bd08155ac5c17b27ff451116eff4c743  usr/share/man/man7/EVP_KDF-TLS1_PRF.7ssl.gz
+c0d8e81015167a1ac37c893721cbf947  usr/share/man/man7/EVP_KDF-X942-ASN1.7ssl.gz
+8d54d64060ef59c853acd8bf0f0ec3d1  usr/share/man/man7/EVP_KDF-X942-CONCAT.7ssl.gz
+d5c2245335b6b9c16b4bdddad5519200  usr/share/man/man7/EVP_KDF-X963.7ssl.gz
+5e8f0d59725c12804430aeb3d18c76fb  usr/share/man/man7/EVP_KEM-RSA.7ssl.gz
+3499c07099645f6a70cf4882c92786c4  usr/share/man/man7/EVP_KEYEXCH-DH.7ssl.gz
+40ca110ea431abb7ac4223e67c917a70  usr/share/man/man7/EVP_KEYEXCH-ECDH.7ssl.gz
+b122218b965eb8282056de1164cf4e62  usr/share/man/man7/EVP_KEYEXCH-X25519.7ssl.gz
+99ff2263430f7f475d220e9ae139360b  usr/share/man/man7/EVP_MAC-BLAKE2.7ssl.gz
+46bcdd39354ba4c23d5a791cd1f764a1  usr/share/man/man7/EVP_MAC-CMAC.7ssl.gz
+b7960fd303c54772679e4b75a3881138  usr/share/man/man7/EVP_MAC-GMAC.7ssl.gz
+948def0487a07c3ae484ab0c12077ef4  usr/share/man/man7/EVP_MAC-HMAC.7ssl.gz
+43257d10af9e6b5532bd3b92d0383edb  usr/share/man/man7/EVP_MAC-KMAC.7ssl.gz
+3dfd75c9bfd99f761136b1cd855e1444  usr/share/man/man7/EVP_MAC-Poly1305.7ssl.gz
+bb38b6e075b3c654e5bb3bebe07d7248  usr/share/man/man7/EVP_MAC-Siphash.7ssl.gz
+261c1648ed6abb10d58019cc6ff2dbb7  usr/share/man/man7/EVP_MD-BLAKE2.7ssl.gz
+9f6047070dee8ffa73b772f90cb637fe  usr/share/man/man7/EVP_MD-MD2.7ssl.gz
+0d68898e1fa4e0267a25e4decc0e8509  usr/share/man/man7/EVP_MD-MD4.7ssl.gz
+15110c98c7da992bc5370143d0b680a3  usr/share/man/man7/EVP_MD-MD5-SHA1.7ssl.gz
+8b0f9fa3ca7d5a9e6a6daba9026bfb3f  usr/share/man/man7/EVP_MD-MD5.7ssl.gz
+1c43ade3eccd41f0787f819e6d830aac  usr/share/man/man7/EVP_MD-MDC2.7ssl.gz
+10773ca663da751212b7d046b6653bc8  usr/share/man/man7/EVP_MD-NULL.7ssl.gz
+886dd5877b5e79d4d147ffe5d989fa6b  usr/share/man/man7/EVP_MD-RIPEMD160.7ssl.gz
+0c12c401cedfe1bbdb91c74997d22e86  usr/share/man/man7/EVP_MD-SHA1.7ssl.gz
+55c4ee21e8acd4048839aa0e89767523  usr/share/man/man7/EVP_MD-SHA2.7ssl.gz
+030082538b44fa6fffecfadd8ac263c4  usr/share/man/man7/EVP_MD-SHA3.7ssl.gz
+22035d63583b9e655d25d21887eaa877  usr/share/man/man7/EVP_MD-SHAKE.7ssl.gz
+f6201e3847b7fc17f3550a2453020e9b  usr/share/man/man7/EVP_MD-SM3.7ssl.gz
+c8f72d7455e348f98aeda5a875aec5f8  usr/share/man/man7/EVP_MD-WHIRLPOOL.7ssl.gz
+ca3c2a694a0431f9197e335b155f3bda  usr/share/man/man7/EVP_MD-common.7ssl.gz
+24d8e0a9c9eddf2d7c9ec0b89093c8b3  usr/share/man/man7/EVP_PKEY-DH.7ssl.gz
+22c8a63452be57fb34c395e86f24a534  usr/share/man/man7/EVP_PKEY-DSA.7ssl.gz
+cf0a7b372593e0d32033459fdde415aa  usr/share/man/man7/EVP_PKEY-EC.7ssl.gz
+0208e5cd50b2ceddc22a53e8d1478bf4  usr/share/man/man7/EVP_PKEY-FFC.7ssl.gz
+de724a69a08d908952cb293da154254e  usr/share/man/man7/EVP_PKEY-HMAC.7ssl.gz
+6ff87fbfca3de187b5d0ec671bbf43c1  usr/share/man/man7/EVP_PKEY-RSA.7ssl.gz
+8edc1fb4a04e1fcc890c10c787b8222e  usr/share/man/man7/EVP_PKEY-SM2.7ssl.gz
+f06c28240331cc6fe557121a5991aa76  usr/share/man/man7/EVP_PKEY-X25519.7ssl.gz
+9de665e9cfae3869befec8949c34ee77  usr/share/man/man7/EVP_RAND-CTR-DRBG.7ssl.gz
+d2d57647931c68e723bf2339b2a52cd0  usr/share/man/man7/EVP_RAND-HASH-DRBG.7ssl.gz
+00216d81364cdc59533dcb991a53ea48  usr/share/man/man7/EVP_RAND-HMAC-DRBG.7ssl.gz
+190326dff5409779d0e421d62b489a57  usr/share/man/man7/EVP_RAND-SEED-SRC.7ssl.gz
+c80c9f45654a70c1bd58a4ac8199762b  usr/share/man/man7/EVP_RAND-TEST-RAND.7ssl.gz
+d0f74750789d746e2083ddd36ead7948  usr/share/man/man7/EVP_RAND.7ssl.gz
+c3b67249dcea886756b88370f4718cab  usr/share/man/man7/EVP_SIGNATURE-DSA.7ssl.gz
+864b1b81badb14a703ba379bd636ea28  usr/share/man/man7/EVP_SIGNATURE-ECDSA.7ssl.gz
+88653f45df74d8daa7701d458359d0a2  usr/share/man/man7/EVP_SIGNATURE-ED25519.7ssl.gz
+c5c14fa7303587ec6810319222a96285  usr/share/man/man7/EVP_SIGNATURE-HMAC.7ssl.gz
+16780c8f1da30e3d21f213c695c8ab4d  usr/share/man/man7/EVP_SIGNATURE-RSA.7ssl.gz
+ab1cbc4d0053ccef0befb549782c61ad  usr/share/man/man7/OSSL_PROVIDER-FIPS.7ssl.gz
+ec1f544b7e01f6bdfd0d2e0cd14f6ef3  usr/share/man/man7/OSSL_PROVIDER-base.7ssl.gz
+11442d3e0e9f125e83287b670a29070f  usr/share/man/man7/OSSL_PROVIDER-default.7ssl.gz
+133e8536b935c792d4b766da0ad240be  usr/share/man/man7/OSSL_PROVIDER-legacy.7ssl.gz
+c036ad7c639984ebe37cbe394db18701  usr/share/man/man7/OSSL_PROVIDER-null.7ssl.gz
+3aa9b0235ef45e36722e9f96fc9940c3  usr/share/man/man7/RAND.7ssl.gz
+d65231dd28f57a03ee1d415838b93e0a  usr/share/man/man7/RSA-PSS.7ssl.gz
+dd4eb2eef9c1add20f3e269e87400b1c  usr/share/man/man7/X25519.7ssl.gz
+197ad1103b23e7a89024fe5a26ca41c5  usr/share/man/man7/bio.7ssl.gz
+dea611b532f6976d17a07179ae1ae968  usr/share/man/man7/crypto.7ssl.gz
+2737d7f47ffcd1fa9392b365bd7ec03d  usr/share/man/man7/ct.7ssl.gz
+737c774265e1c3fd5e25dd911e507262  usr/share/man/man7/des_modes.7ssl.gz
+2f3968e8f813040dd153a1c17c1128c9  usr/share/man/man7/evp.7ssl.gz
+9bb2108c60187ed457503504618e6d6d  usr/share/man/man7/fips_module.7ssl.gz
+09c16cfc48bb973eb25656638835da87  usr/share/man/man7/life_cycle-cipher.7ssl.gz
+5c5abcc78c0be957fc5544707e052a61  usr/share/man/man7/life_cycle-digest.7ssl.gz
+9402ec129a16e5bdf385992c85db597f  usr/share/man/man7/life_cycle-kdf.7ssl.gz
+70cc0416e4e149780cc9c356d7222a62  usr/share/man/man7/life_cycle-mac.7ssl.gz
+8a616c1e78d86859b4cee34a1f6f7cef  usr/share/man/man7/life_cycle-pkey.7ssl.gz
+f5bb1c02579d1ea6c4faef68e2ac6c9e  usr/share/man/man7/life_cycle-rand.7ssl.gz
+7459a6aa591226adc31e4415e015a2a0  usr/share/man/man7/migration_guide.7ssl.gz
+61629a76cfa597a984eff7d43b869979  usr/share/man/man7/openssl-core.h.7ssl.gz
+5b3a9a3f73bf29ab50dafae727c37ac5  usr/share/man/man7/openssl-core_dispatch.h.7ssl.gz
+c520b4d5c7e74dc2593f839756a8c682  usr/share/man/man7/openssl-core_names.h.7ssl.gz
+63a52a8d40bd1db83796738ece6e88a5  usr/share/man/man7/openssl-env.7ssl.gz
+25201af46a3d9a1b320a5729ae8096b9  usr/share/man/man7/openssl-glossary.7ssl.gz
+22b439346adeac69d154d5d9a2ffa251  usr/share/man/man7/openssl-threads.7ssl.gz
+bcfce32e0a711fd998f173588c9c61d1  usr/share/man/man7/openssl_user_macros.7ssl.gz
+22b217662dad5e3a2e8d939932064b12  usr/share/man/man7/ossl_store-file.7ssl.gz
+70e86fa7e979069778f3c8b52d0d5476  usr/share/man/man7/ossl_store.7ssl.gz
+9b64b3aa394c71e27b7d002be8187a1a  usr/share/man/man7/passphrase-encoding.7ssl.gz
+c382af62a5d10889aa45c2a4fcc88c65  usr/share/man/man7/property.7ssl.gz
+57471ae971b631d497ec15f0e5ecf6e8  usr/share/man/man7/provider-asym_cipher.7ssl.gz
+d6bbd90fa12087a9c254bf3422bc62e4  usr/share/man/man7/provider-base.7ssl.gz
+5ab4a5b9a6c3aa6f498847c66d07767d  usr/share/man/man7/provider-cipher.7ssl.gz
+c23b67d270a71a2af643a4a64d442038  usr/share/man/man7/provider-decoder.7ssl.gz
+7919aa682c37b92fc844a74d682ee783  usr/share/man/man7/provider-digest.7ssl.gz
+6969a70c72806d4f06bf5047baf08c42  usr/share/man/man7/provider-encoder.7ssl.gz
+03aa8b3d8f5bff2d737b94067c3221a4  usr/share/man/man7/provider-kdf.7ssl.gz
+6b11d4508cd4cefe1dea32be39b1a32a  usr/share/man/man7/provider-kem.7ssl.gz
+547cf832267d690050768cf1c248a155  usr/share/man/man7/provider-keyexch.7ssl.gz
+f1fe9489314215a215c4e8260e754f2d  usr/share/man/man7/provider-keymgmt.7ssl.gz
+b166160b52142e3a23495863cf5e7011  usr/share/man/man7/provider-mac.7ssl.gz
+54fb0aaed9208cc10c3c24431dbf6c89  usr/share/man/man7/provider-object.7ssl.gz
+aefb36b7c8c1f87cb07e8b486d01717c  usr/share/man/man7/provider-rand.7ssl.gz
+a0aa7161eb912577250945cf3237515b  usr/share/man/man7/provider-signature.7ssl.gz
+afbdcf17bfb6b44bdb44b23b3975b62e  usr/share/man/man7/provider-storemgmt.7ssl.gz
+49f960425eceaf6afea2bb4d37376c06  usr/share/man/man7/provider.7ssl.gz
+f8841f77743b70ef8bda9dbc20d54796  usr/share/man/man7/proxy-certificates.7ssl.gz
+b02727d38b8aab2771738d9098e0f93c  usr/share/man/man7/ssl.7ssl.gz
+dc889cfcc66968b1b0e3e6875088758e  usr/share/man/man7/x509.7ssl.gz
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

@@ -1,0 +1,1647 @@
+ternal-make-chunk-immutable "Prevent any changes to a chunk's contents. Params: chunk-name")
+
+(defun make-chunk-reusable (chunk-name)
+  (let ((c (get-chunk chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (if (and (null (act-r-chunk-not-storable c))
+                 (= (length (act-r-chunk-merged-chunks c)) 1)
+                 (eq chunk-name (car (act-r-chunk-merged-chunks c))))
+            (progn
+              (setf (act-r-chunk-merged-chunks c) nil)
+              (setf (act-r-chunk-not-storable c) t)
+              t)
+          nil)))))
+
+(defun external-make-chunk-reusable (chunk)
+  (make-chunk-reusable (string->name chunk)))
+
+(add-act-r-command "make-chunk-reusable" 'external-make-chunk-reusable "Mark a chunk so that it can be used with copy-to-chunk and not be deletable. Params: chunk-name")
+
+(defun chunk-not-storable (chunk-name)
+  (let ((c (get-chunk chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (act-r-chunk-not-storable c)))))
+
+(defun external-chunk-not-storable (chunk)
+  (chunk-not-storable (string->name chunk)))
+
+(add-act-r-command "chunk-not-storable" 'external-chunk-not-storable "Check if a chunk has been marked as not storable (a reusable chunk). Params: chunk-name")
+  
+
+(defun set-chk-slot-value (c slot-name value) ;; only call when the lock is held
+  "internal chunk slot setting function"
+  (when (act-r-chunk-immutable c)
+    (unless (chunk-slot-equal value (chk-slot-value c slot-name))
+      (print-warning "Cannot change contents of chunk ~s." (act-r-chunk-name c))
+      (return-from set-chk-slot-value nil)))
+  (aif (valid-slot-name slot-name) ;; any slot name available can be set
+      (set-c-slot-value c it slot-name value)
+    (print-warning "~s is not a valid slot name.  You can use extend-possible-slots to add it first if needed." slot-name)))
+
+
+
+(defun set-c-slot-value (c slot-struct slot-name value) ;; only call when the lock is held
+  "Set the chunk's slot value assuming the chunk is not immutable and the slot name is valid"
+  
+  ;; changing the chunk automatically breaks it as a copy
+  ;; even if the change were to set a slot to the same
+  ;; value it has currently.
+  
+  (setf (act-r-chunk-copied-from c) nil)
+  
+  (let ((current (assoc slot-struct (act-r-chunk-slot-value-lists c))))
+    
+    ;; If the value in the slot now is a chunk then
+    ;; remove this chunk from the back links of that chunk
+    
+    (when (and current (update-chunks-on-the-fly))
+      (let ((old (cdr current)))
+        (when (chunk-p-fct old)
+          (bt:with-recursive-lock-held ((act-r-model-chunk-lock (current-model-struct)))
+            (let* ((bl (chunk-back-links old))
+                   (new-links (remove slot-name (gethash (act-r-chunk-name c) bl))))
+              (if new-links
+                  (setf (gethash (act-r-chunk-name c) bl) new-links)
+                (remhash (act-r-chunk-name c) bl)))))))
+    
+    ;; If the new value should be a chunk but isn't
+    ;; create one for it and if it is get its true name
+    ;; when necessary
+    
+    (setf value (get-true-slot-value-name c slot-name value))
+    
+    ;; Set the new slot value
+    (let ((mask (act-r-slot-mask slot-struct)))
+      
+      (if value
+          (if current
+              ;; already there so just replace the value
+              (setf (cdr current) value)
+            ;; add the slot to the list and set the filled slot bit
+            (progn
+              (push (cons slot-struct value) (act-r-chunk-slot-value-lists c))
+              (setf (act-r-chunk-filled-slots c) (logior mask (act-r-chunk-filled-slots c)))))
+        
+        ;; if it's on the list remove it and clear the filled bit
+        (when (logtest mask (act-r-chunk-filled-slots c))
+          (setf (act-r-chunk-slot-value-lists c) (delete slot-struct (act-r-chunk-slot-value-lists c) :key 'car))
+          (setf (act-r-chunk-filled-slots c) (logandc1 mask (act-r-chunk-filled-slots c))))))
+    value))
+
+(defmacro mod-chunk (chunk-name &rest modifications)
+  "Modify the slot values of a chunk"
+  `(mod-chunk-fct ',chunk-name ',modifications))
+
+(defun mod-chunk-fct (chunk-name modifications-list)
+  "Modify the slot values of a chunk"
+  
+  #| shouldn't happen...
+   (when (stringp chunk-name)
+    (setf chunk-name (string->name chunk-name))
+    (setf modifications-list (decode-string-names modifications-list)))
+  |#
+  
+  (let ((c (get-chunk-warn chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (cond ((act-r-chunk-immutable c)
+               (print-warning "Cannot modify chunk ~s because it is immutable." chunk-name))
+              
+              ((oddp (length modifications-list))
+               (print-warning "Odd length modifications list in call to mod-chunk."))
+              
+              (t
+               (let ((slots-and-values nil)
+                     (slots nil))
+                 (do ((s modifications-list (cddr s)))
+                     ((null s))
+                   (pushnew (car s) slots)
+                   (push (cons (car s) (second s)) slots-and-values))
+                 
+                 (cond ((not (= (length slots) (length slots-and-values)))
+                        (print-warning "Slot name used more than once in modifications list."))
+                       (t
+                        (setf slots nil)
+                        (dolist (x slots-and-values)
+                          (let* ((name (car x))
+                                 (slot-struct (valid-slot-name name)))
+                            (if slot-struct
+                                (push-last  (list slot-struct name (cdr x)) slots)
+                              (progn
+                                
+                                (print-warning "Invalid slot name ~s specified for mod-chunk."  name)
+                                (return-from mod-chunk-fct)))))
+                        
+                        (dolist (slot-value slots chunk-name)
+                          (set-c-slot-value c (first slot-value) (second slot-value) (third slot-value))))))))))))
+
+(defun mod-chunk-external (name &rest modifications)
+  (mod-chunk-fct (string->name name) (decode-string-names modifications)))
+
+(add-act-r-command "mod-chunk" 'mod-chunk-external "Modify the contents of the specified chunk with the list of slots and values provided. Params: chunk-name '{slot-name new-slot-value}'*" nil)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; to potentially speed things way up provide un-checked but fast accessors
+;;; to the chunk info...
+
+
+(defun fast-chunk-slot-value-fct (chunk-name slot-name)
+  "Return the value of a slot for the named chunk without testing validity"
+  (let ((c (get-chunk chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (chk-slot-value c slot-name)))))
+
+(defun fast-set-chunk-slot-value-fct (chunk-name slot-name value)
+  "Set the value of a chunk's slot without testing validity"
+  (let ((c (get-chunk chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (set-chk-slot-value c slot-name value)))))
+
+
+(defun fast-mod-chunk-fct (chunk-name modifications-list)
+  "Modify the slot values of a chunk without testing validity"
+  (let ((c (get-chunk chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (unless (oddp (length modifications-list))
+          (loop 
+            (when (null modifications-list) (return))
+            (set-chk-slot-value 
+             c
+             (pop modifications-list)
+             (pop modifications-list)))
+          chunk-name)))))
+
+(defun mod-chunk-with-spec-fct (chunk-name mod-spec)
+  "Modify the slot values without testing except to skip request parameters and variables"
+  (let ((c (get-chunk chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (if (act-r-chunk-immutable c)
+            (print-warning "Cannot modify chunk ~s because it is immutable." chunk-name)
+          (dolist (x (act-r-chunk-spec-slots mod-spec) chunk-name)
+            (let ((name (act-r-slot-spec-name x)))
+              (unless (or (keywordp name) (chunk-spec-variable-p name)) 
+                (set-c-slot-value c (valid-slot-name name) name (act-r-slot-spec-value x))))))))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+(defmacro delete-chunk (chunk-name)
+  "Delete a chunk from a model"
+  `(delete-chunk-fct ',chunk-name))
+
+(defun delete-chunk-fct (chunk-name)
+  "Delete a chunk from a model"
+  (let ((c (get-chunk-warn chunk-name)))
+    (when c
+      (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+        (if (act-r-chunk-immutable c)
+            (print-warning "Cannot delete chunk ~s because it is marked as immutable." chunk-name)
+          (if (act-r-chunk-not-storable c)
+              (print-warning "Cannot delete chunk ~s because it is marked as reusable." chunk-name)
+            
+            (let ((tn (act-r-chunk-name c))
+                  (model (current-model-struct)))
+              (bt:with-recursive-lock-held ((act-r-model-chunk-lock model))
+                
+                ;; If this chunk has back-links from others to it then warn because
+                ;; that's likely a problem
+                (when (update-chunks-on-the-fly) 
+                  (let ((bl (chunk-back-links chunk-name)))
+                    (when (and (hash-table-p bl) (not (zerop (hash-table-count bl))))
+                      (model-warning "Chunk ~s is being deleted but it is still used as a slot value in other chunks." chunk-name))
+                    
+                    (when (not (eq tn chunk-name))
+                      (let ((t-bl (chunk-back-links tn)))
+                        (when (and (hash-table-p t-bl) (not (zerop (hash-table-count t-bl))))
+                          (model-warning "Chunk ~s is being deleted but its true name ~s is still used as a slot value in other chunks." chunk-name tn)))))
+                  
+                  ;; Delete all of the back-links to this chunk
+                  
+                  (dolist (slots (act-r-chunk-slot-value-lists c))
+                    (let ((slot-name (act-r-slot-name (car slots)))
+                          (old (cdr slots)))
+                      (when (chunk-p-fct old)
+                        (let* ((bl (chunk-back-links old))
+                               (new-links (remove slot-name (gethash tn bl))))
+                          (if new-links
+                              (setf (gethash tn bl) new-links)
+                            (remhash tn bl)))))))
+                
+                ;; Take all the related chunks out of the main hash-table
+                
+                (dolist (x (act-r-chunk-merged-chunks c))
+                  (remhash x (act-r-model-chunks-table model))
+                  
+                  ;; Take them out of the meta-data table too
+                  
+                  (when (update-chunks-on-the-fly)
+                    (remhash x (act-r-model-chunk-ref-table model)))))
+              
+              chunk-name)))))))
+
+(defmacro purge-chunk (chunk-name)
+  "delete a chunk and release its name"
+  `(purge-chunk-fct ',chunk-name))
+
+(defun purge-chunk-fct (chunk-name)
+  (let ((name (delete-chunk-fct chunk-name)))
+    (when name
+      (release-name-fct name))))
+
+
+(defun remote-delete-chunk (chunk-name)
+  (delete-chunk-fct (string->name chunk-name)))
+
+(add-act-r-command "delete-chunk" 'remote-delete-chunk "Delete a chunk from the model. Params: chunk-name.")
+
+(defun remote-purge-chunk (chunk-name)
+  (purge-chunk-fct (string->name chunk-name)))
+
+(add-act-r-command "purge-chunk" 'remote-purge-chunk "Delete a chunk from the model and release the name. Params: chunk-name.")
+
+
+
+(defmacro merge-chunks (chunk-name1 chunk-name2)
+  "Merge two chunks into a single representation"
+  `(merge-chunks-fct ',chunk-name1 ',chunk-name2))
+
+(defun merge-chunks-fct (chunk-name1 chunk-name2)
+  "Merge two chunks into a single representation"
+  (let ((c1 (get-chunk-warn chunk-name1))
+        (c2 (get-chunk-warn chunk-name2)))
+    (when (and c1 c2)
+      (unless (chunk-equal-test c1 c2)
+        (return-from merge-chunks-fct nil))
+      (unless (eq c1 c2)
+        
+        (bt:with-recursive-lock-held ((act-r-chunk-lock c1))
+          (bt:with-recursive-lock-held ((act-r-chunk-lock c2))
+            
+            ;; update the parameters for c1
+            
+            (dolist (param (bt:with-lock-held (*chunk-parameters-lock*)
+                             *chunk-parameters-merge-list*))
+              (setf (aref (act-r-chunk-parameter-values c1) (act-r-chunk-parameter-index param))
+                (case (act-r-chunk-parameter-merge param)
+                  (:second 
+                   (let ((v (aref (act-r-chunk-parameter-values c2) (act-r-chunk-parameter-index param))))
+                     (if (eq v *chunk-parameter-undefined*)
+                         (chunk-parameter-default param chunk-name2)
+                         v)))
+                  (:second-if
+                   (let ((v (aref (act-r-chunk-parameter-values c2) (act-r-chunk-parameter-index param))))
+                     (when (eq v *chunk-parameter-undefined*)
+                       (setf v (chunk-parameter-default param chunk-name2)))
+                     (if v
+                         v
+                       (aref (act-r-chunk-parameter-values c1) (act-r-chunk-parameter-index param)))))
+                  (t
+                   (dispatch-apply (act-r-chunk-parameter-merge param) chunk-name1 chunk-name2)))))
+            
+            (dolist (param (bt:with-lock-held (*chunk-parameters-lock*)
+                             *chunk-parameters-merge-value-list*))
+              (setf (aref (act-r-chunk-parameter-values c1) (act-r-chunk-parameter-index param))
+                (let ((c1-val (aref (act-r-chunk-parameter-values c1) (act-r-chunk-parameter-index param)))
+                      (c2-val (aref (act-r-chunk-parameter-values c2) (act-r-chunk-parameter-index param))))
+                  (dispatch-apply (act-r-chunk-parameter-merge-value param) 
+                                  (if (eq c1-val *chunk-parameter-undefined*)
+                                      (chunk-parameter-default param chunk-name1)
+                                    c1-val)
+                                  (if (eq c2-val *chunk-parameter-undefined*)
+                                      (chunk-parameter-default param chunk-name2)
+                                    c2-val)))))
+            
+            ;; If either is immutable then the result should be as well.
+            ;; Since c1 will maintain its immutability need to check if c2 
+            ;; is immutable and then make c1 immutable if c2 is.
+            
+            (when (act-r-chunk-immutable c2)
+              (setf (act-r-chunk-immutable c1) t))
+            
+            ;; For any chunks which had been merged with c2 also remap them
+            ;; and indicate them in c1
+            
+            (let ((model (current-model-struct)))
+              (bt:with-recursive-lock-held ((act-r-model-chunk-lock model))
+                (dolist (x (act-r-chunk-merged-chunks c2))
+                  (setf (gethash x (act-r-model-chunks-table model)) c1)
+                  (push x (act-r-chunk-merged-chunks c1)))
+                
+                
+                ;; When name-remapping is on
+                
+                (when (update-chunks-on-the-fly)
+                  
+                  ;; delete all back-links to the c2 chunk
+                  
+                  (dolist (slots (act-r-chunk-slot-value-lists c2))
+                    (let ((slot-name (act-r-slot-name (car slots)))
+                          (old (cdr slots)))
+                      
+                      (when (chunk-p-fct old)
+                        (let* ((bl (chunk-back-links old))
+                               (new-links (remove slot-name (gethash chunk-name2 bl))))
+                          (if new-links
+                              (setf (gethash chunk-name2 bl) new-links)
+                            (remhash chunk-name2 bl))))))
+                  
+                  ;; replace all the slot values which hold chunk-name2 with chunk-name1
+                  
+                  (when (hash-table-p (chunk-back-links chunk-name2))
+                    (maphash (lambda (chunk slots)
+                               (dolist (x slots)
+                                 (fast-set-chunk-slot-value-fct chunk x chunk-name1)
+                                 (dolist (notify (notify-on-the-fly-hooks))
+                                   (dispatch-apply notify chunk))))
+                             (chunk-back-links chunk-name2))
+                    (clrhash (chunk-back-links chunk-name2)))))))))
+      
+      chunk-name1)))
+
+(defun external-merge-chunks-fct (c1 c2)
+  (merge-chunks-fct (string->name c1) (string->name c2)))
+
+(add-act-r-command "merge-chunks" 'external-merge-chunks-fct "Merge the two named chunks into one chunk if they are equivalent. Params: chunk-name-1 chunk-name-2")
+
+
+(defmacro create-chunk-alias (chunk alias)
+  `(create-chunk-alias-fct ',chunk ',alias))
+
+(defun create-chunk-alias-fct (chunk alias)
+  (verify-current-model
+   "create-chunk-alias called with no current model."
+   (cond ((not (chunk-p-fct chunk))
+          (model-warning "~s is not the name of a chunk in the current model." chunk))
+         ((chunk-p-fct alias)
+          (model-warning "~s is already the name of a chunk in the current model and cannot be used as an alias." alias))
+         ((not (symbolp alias))
+          (model-warning "~s is not a symbol and thus cannot be used as a chunk alias." alias))
+         (t
+          (let ((model (current-model-struct)))
+            (bt:with-recursive-lock-held ((act-r-model-chunk-lock model))
+              (let ((c (get-chunk chunk)))
+                (setf (gethash alias (act-r-model-chunks-table model)) c)
+                (push alias (act-r-chunk-merged-chunks c))
+                alias)))))))
+
+(defun external-create-chunk-alias-fct (c a)
+  (create-chunk-alias-fct (string->name c) (string->name a)))
+
+(add-act-r-command "create-chunk-alias" 'external-create-chunk-alias-fct "Create an alternate name by which the named chunk can be referenced. Params: chunk-name alternate-name")
+
+
+(defmacro eq-chunks (chunk-name1 chunk-name2)
+  "Return t if two chunks have the same underlying representation"
+  `(eq-chunks-fct ',chunk-name1 ',chunk-name2))
+
+(defun eq-chunks-fct (chunk-name1 chunk-name2)
+  "Return t if two chunks have the same underlying representation"
+  (bt:with-recursive-lock-held ((act-r-model-chunk-lock (current-model-struct)))
+    (let ((c1 (get-chunk-warn chunk-name1))
+          (c2 (get-chunk-warn chunk-name2)))
+      (and c1 c2 (eq c1 c2)))))
+
+(defun external-eq-chunks-fct (c1 c2)
+  (eq-chunks-fct (string->name c1) (string->name c2)))
+
+(add-act-r-command "eq-chunks" 'external-eq-chunks-fct "Return whether the two named chunks are the same chunk. Params: chunk-name-1 chunk-name-2" nil)
+
+
+(defmacro true-chunk-name (chunk-name)
+  "Return the prototypical name of a chunk in the event of merging"
+  `(true-chunk-name-fct ',chunk-name))
+
+(defun true-chunk-name-fct (chunk-name)
+  "Return the prototypical name of a chunk in the event of merging"
+  (let ((c (get-chunk chunk-name)))
+    (if c
+        (act-r-chunk-name c)
+      chunk-name)))
+
+(defun external-true-chunk-name-fct (c)
+  (true-chunk-name-fct (string->name c)))
+
+(add-act-r-command "true-chunk-name" 'external-true-chunk-name-fct "Return the true name of a chunk. Params: chunk-name")
+
+
+(defmacro equal-chunks (chunk-name1 chunk-name2)
+  "Return t if two chunks are of the same chunk-type and have equal slot values"
+  `(equal-chunks-fct ',chunk-name1 ',chunk-name2))
+
+(defun equal-chunks-fct (chunk-name1 chunk-name2)
+  "Return t if two chunks are of the same chunk-type and have equal slot values"
+  (let ((c1 (get-chunk-warn chunk-name1))
+        (c2 (get-chunk-warn chunk-name2)))
+    (chunk-equal-test c1 c2)))
+
+(defun external-equal-chunks-fct (c1 c2)
+  (equal-chunks-fct (string->name c1) (string->name c2)))
+
+(add-act-r-command "equal-chunks" 'external-equal-chunks-fct "Return whether the two named chunks are equivalent. Params: chunk-name-1 chunk-name-2" nil)
+
+(defun chunk-equal-test (c1 c2)
+  "Internal function for comparing the equality of two chunks"
+  (and c1 c2 (or (eq c1 c2)
+                 (bt:with-recursive-lock-held ((act-r-chunk-lock c1))
+                   (bt:with-recursive-lock-held ((act-r-chunk-lock c2))
+                     (and (= (act-r-chunk-filled-slots c1)
+                             (act-r-chunk-filled-slots c2))
+                          (every (lambda (slot) 
+                                   (chunk-slot-equal
+                                    (cdr slot)
+                                    (chk-slot-value c2 (act-r-slot-name (car slot)))))
+                                 (act-r-chunk-slot-value-lists c1))))))))
+
+
+(defun chunk-slot-equal (val1 val2)
+  (if (eq val1 val2)
+      t
+    (let (c1 c2)
+      (cond ((bt:with-recursive-lock-held ((act-r-model-chunk-lock (current-model-struct))) ;; possible for them to merge between the get-chunk calls...
+               (and (setf c1 (get-chunk val1))   
+                    (setf c2 (get-chunk val2))))
+             (eq c1 c2))
+            ((stringp val1) 
+             (and (stringp val2) (string-equal val1 val2)))
+            (t (equalp val1 val2))))))
+
+(defun external-chunk-slot-equal (val1 val2)
+  (chunk-slot-equal (decode-string-names val1) (decode-string-names val2)))
+
+(add-act-r-command "chunk-slot-equal" 'external-chunk-slot-equal "Returns whether the provided items are considered equal values for chunk slots. Params: 'val1' 'val2'.")
+
+(defvar *suppress-extend-item-warning* nil)
+
+(defun suppress-extension-warnings ()
+  (setf *suppress-extend-item-warning* t))
+
+(defun unsuppress-extension-warnings ()
+  (setf *suppress-extend-item-warning* nil))
+
+
+(defmacro extend-chunks (parameter-name &key (default-value nil)
+                                        (default-function nil)
+                                        (merge-function nil)
+                                        (merge-value-function nil)
+                                        (copy-function nil)
+                                        (copy-from-chunk-function nil))
+  "Add new parameters to all chunks"
+  (if (or (not (symbolp parameter-name)) (keywordp parameter-name))
+      (print-warning "~s is not a valid name for specifying a chunk parameter." parameter-name)
+    
+    (let* ((accessor (concatenate 'string "chunk-"  (string-downcase parameter-name)))
+           (remote-setter (concatenate 'string "set-chunk-" (string-downcase parameter-name)))
+           (accessor-name (intern (string-upcase accessor)))
+           (setf-name (intern (concatenate 'string "CHUNK-" (string-upcase parameter-name) "-SETF")))
+           (external-name (intern (concatenate 'string "EXTERNAL-CHUNK-"  (string-upcase parameter-name))))
+           (external-setf-name (intern (concatenate 'string "EXTERNAL-CHUNK-"  (string-upcase parameter-name) "-SETF")))
+           (index (gensym))
+           (exists (gensym))
+           (param (gensym)))
+      
+      (if (find parameter-name (bt:with-lock-held (*chunk-parameters-lock*)
+                                 *chunk-parameters-list*)
+                :key #'act-r-chunk-parameter-name)
+          (progn
+            (print-warning "Parameter ~s already defined for chunks." parameter-name)
+            :duplicate-parameter)
+        `(eval-when (:compile-toplevel :load-toplevel :execute)
+           (unless *suppress-extend-item-warning*
+             (when (fboundp ',accessor-name)
+               (print-warning "Function ~s already exists and is being redefined." ',accessor-name))
+             (when (fboundp ',setf-name)
+               (print-warning "Function ~s already exists and is being redefined." ',setf-name))
+             (when (fboundp ',external-name)
+               (print-warning "Function ~s already exists and is being redefined." ',external-name))
+             (when (fboundp ',external-setf-name)
+               (print-warning "Function ~s already exists and is being redefined." ',external-setf-name)))
+           (bt:with-lock-held (*chunk-parameters-lock*)
+             (let* ((,index *chunk-parameters-count*)
+                    (,exists (find ',parameter-name *chunk-parameters-list* :key #'act-r-chunk-parameter-name))
+                    (,param (make-act-r-chunk-parameter :name ',parameter-name
+                                                        :index ,index
+                                                        :default-value ',default-value
+                                                        :default-function ',default-function
+                                                        :merge ',merge-function
+                                                        :merge-value ',merge-value-function
+                                                        :copy ',copy-function
+                                                        :copy-from-chunk ',copy-from-chunk-function
+                                                        :accessor ',accessor-name)))
+               (if ,exists
+                   (progn
+                     (setf ,index (act-r-chunk-parameter-index ,exists))
+                     (setf *chunk-parameters-list* (remove ,exists *chunk-parameters-list*))
+                     (setf *chunk-parameters-copy-list* (remove ,exists *chunk-parameters-copy-list*))
+                     (setf *chunk-parameters-merge-list* (remove ,exists *chunk-parameters-merge-list*))
+                     (setf *chunk-parameters-merge-value-list* (remove ,exists *chunk-parameters-merge-value-list*))
+                     (setf (act-r-chunk-parameter-index ,param) (act-r-chunk-parameter-index ,exists)))
+                 (incf *chunk-parameters-count*))
+               
+               (push ,param *chunk-parameters-list*)
+               
+               (if ',copy-function 
+                   (push ,param *chunk-parameters-copy-list*)
+                 (when ',copy-from-chunk-function
+                   (push ,param *chunk-parameters-copy-list*)))
+               
+               (when ',merge-function
+                 (push ,param *chunk-parameters-merge-list*))
+               
+               (when ',merge-value-function 
+                 (push ,param *chunk-parameters-merge-value-list*))
+               
+               (defun ,accessor-name (chunk-name)
+                 (let ((c (get-chunk chunk-name)))
+                   (if c
+                       (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+                         (let ((v (aref (act-r-chunk-parameter-values c) ,index)))
+                           (if (eq v *chunk-parameter-undefined*)
+                               (setf (aref (act-r-chunk-parameter-values c) ,index)
+                                 (chunk-parameter-default ,param chunk-name))
+                             v)))
+                     (print-warning "Chunk ~s does not exist in attempt to access ~a." chunk-name ',accessor-name))))
+               (defun ,setf-name (chunk-name new-value)
+                 (let ((c (get-chunk chunk-name)))
+                   (if c
+                       (bt:with-recursive-lock-held ((act-r-chunk-lock c))
+                         (setf (aref (act-r-chunk-parameter-values c) ,index) new-value))
+                     (print-warning "Chunk ~s does not exist in attempt to set ~a." chunk-name ',accessor-name))))
+               (defsetf ,accessor-name ,setf-name)
+               
+               
+               (defun ,external-name (chunk-name)
+                 (encode-string-names (,accessor-name (string->name chunk-name))))
+               
+               (defun ,external-setf-name (chunk-name new-value)
+                 (encode-string-names (,setf-name (string->name chunk-name) (decode-string-names new-value))))
+               
+               (when (check-act-r-command ,accessor)
+                 (unless *suppress-extend-item-warning*
+                   (print-warning "Remote command ~s already exists and will attempt to be removed to create chunk accessor." ,accessor))
+                 (remove-act-r-command ,accessor))
+               
+               (when (check-act-r-command ,remote-setter)
+                 (unless *suppress-extend-item-warning*
+                   (print-warning "Remote command ~s already exists and will attempt to be removed to create chunk accessor." ,remote-setter))
+                 (remove-act-r-command ,remote-setter))
+               
+               (add-act-r-command ,accessor ',external-name (format nil "Command to get the chunk parameter named ~s. Params: chunk-name" ',parameter-name))
+               (add-act-r-command ,remote-setter ',external-setf-name (format nil "Command to set the chunk parameter named ~s. Params: chunk-name 'value'" ',parameter-name))
+               
+               ',accessor-name)))))))
+
+
+(defun external-extend-chunks (parameter-name &optional params)
+  (multiple-value-bind (valid ol) 
+      (process-options-list params 'extend-chunks '(:default-value :default-function :merge-function :merge-value-function :copy-function :copy-from-chunk-function))
+    (when valid 
+      (eval `(extend-chunks ,(string->name parameter-name) ,@(convert-options-list-items ol nil '(:default-function :merge-function :merge-value-function :copy-function :copy-from-chunk-function :default-value)))))))
+
+
+(add-act-r-command "extend-chunks" 'external-extend-chunks 
+                   "Create a new parameter for chunks. Params: parameter-name { < 'default-value',  'default-function', 'merge-function', 'merge-value-function', 'copy-function', 'copy-from-chunk-function' > }."
+                   nil)
+
+(defun normalize-chunk-names (&optional (unintern? nil))
+  (let ((model (current-model-struct)))
+    
+    (if model
+        (bt:with-recursive-lock-held ((act-r-model-chunk-lock model))
+          
+          (if (update-chunks-on-the-fly) 
+              
+              ;; Use the meta-data table to do the work
+              (maphash (lambda (key value)
+                         (when (not (eq key (act-r-chunk-name value))) ;; not a used chunk
+                           
+                           ;; Square up all names for unused chunks
+                           
+                           (let ((bl (chunk-back-links key)))
+                             (when (hash-table-p bl)
+                               (let ((tn (true-chunk-name-fct key)))
+                                 (maphash (lambda (c ss)
+                                            (dolist (s ss)
+                                              (fast-set-chunk-slot-value-fct c s tn)
+                                              (dolist (notify (notify-on-the-fly-hooks))
+                                                (dispatch-apply notify c))))
+                                          bl))
+                               (clrhash bl)))
+                           
+                           ;; release names of unused chunks
+                           
+                           (when unintern?
+                             
+                             ;; Take it out of the main hash-table
+                             (remhash key (act-r-model-chunks-table model))
+                             
+                             ;; Take it out of the meta-data table too
+                             (remhash key (act-r-model-chunk-ref-table model))
+                             
+                             ;; unintern the name
+                             (release-name-fct key))))
+                       (act-r-model-chunks-table model))
+            
+            ;; Without the meta-data do it the hard way
+            (let ((possible-removals nil))
+              (maphash (lambda (key value)
+                         (when (not (eq key (act-r-chunk-name value)))
+                           (push key possible-removals)))
+                       (act-r-model-chunks-table model))
+              
+              ;; clean up the chunk references
+              ;; this could take a while
+              
+              (when possible-removals
+                (maphash (lambda (chunk val)
+                           (when (eq chunk (act-r-chunk-name val))
+                             (dolist (slot-val (act-r-chunk-slot-value-lists (get-chunk chunk)))
+                               (let ((slot (act-r-slot-name (car slot-val)))
+                                     (value (cdr slot-val)))
+                                 (when (and (chunk-p-fct value) (member value possible-removals))
+                                   (fast-set-chunk-slot-value-fct chunk slot (true-chunk-name-fct value))
+                                   (dolist (notify (notify-on-the-fly-hooks))
+                                     (dispatch-apply notify chunk)))))))
+                         (act-r-model-chunks-table model)))
+              
+              (when unintern?
+                (dolist (x possible-removals)
+                  (remhash x (act-r-model-chunks-table model))
+                  (release-name-fct x))))))
+      
+      (print-warning "No current model in which to normalize chunk names."))))
+
+(add-act-r-command "normalize-chunk-names" 'normalize-chunk-names "Replace all chunk slot values that are chunk names with the true name of that chunk, and delete the other names if indicated. Params: {delete}")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 77 15 5 15 6 15 7 14 8 1 9 12 1 10 7 3 12 15 11 15 12 15 13 15 14 15 15 15 16 15 17 14 8 1 18 12 1 19 7 3 12 14 8 1 20 12 1 21 7 3 12 14 8 1 25 12 1 26 7 3 12 15 27 14 8 1 28 12 1 29 7 3 6 16 12 77 19 4 30 29) #1=#A(t (495) (common-lisp-user::device-interface ext::location (defclass common-lisp-user::device-interface) (#2=#P"/opt/actr/actr7.x/framework/device-interface.lisp" . 0) ext::annotate (:initform 72 :initargs (:ppi) :writers ((setf common-lisp-user::ppi)) :readers (common-lisp-user::ppi) :name common-lisp-user::pixels-per-inch) (:initform 15.0 :writers ((setf common-lisp-user::viewing-distance)) :readers (common-lisp-user::viewing-distance) :name common-lisp-user::viewing-distance) (:initform nil :writers ((setf common-lisp-user::device)) :readers (common-lisp-user::device) :name common-lisp-user::device) :initfunction #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-lock "device-lock") :writers ((setf common-lisp-user::device-lock)) :readers (common-lisp-user::device-lock) :name common-lisp-user::device-lock) (:initform 0.01 :writers ((setf common-lisp-user::key-closure-time)) :readers (common-lisp-user::key-closure-time) :name common-lisp-user::key-closure-time) (:initform nil :writers ((setf common-lisp-user::with-cursor-p)) :readers (common-lisp-user::with-cursor-p) :name common-lisp-user::with-cursor-p) (:initform 0.1 :writers ((setf common-lisp-user::mouse-fitts-coeff)) :readers (common-lisp-user::mouse-fitts-coeff) :name common-lisp-user::mouse-fitts-coeff) (:initform nil :initargs (:show-focus-p) :writers ((setf common-lisp-user::show-focus-p)) :readers (common-lisp-user::show-focus-p) :name common-lisp-user::show-focus-p) (:initform t :initargs (:needs-mouse-p) :writers ((setf common-lisp-user::needs-mouse-p)) :readers (common-lisp-user::needs-mouse-p) :name common-lisp-user::needs-mouse-p) (:initform "7.3" :initargs (:version-string) :writers ((setf common-lisp-user::version-string)) :readers (common-lisp-user::version-string) :name common-lisp-user::version-string) (:initform t :initargs (:stable-names) :writers ((setf common-lisp-user::stable-names)) :readers (common-lisp-user::stable-names) :name common-lisp-user::stable-names) #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-lock "device-param") :writers ((setf common-lisp-user::device-param-lock)) :readers (common-lisp-user::device-param-lock) :name common-lisp-user::param-lock) #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:allocation :class :initform (bordeaux-threads::make-lock "device-tables") :writers ((setf common-lisp-user::device-tables-lock)) :readers (common-lisp-user::device-tables-lock) :name common-lisp-user::device-tables-lock) :test equalp make-hash-table #Y(nil nil nil (26 14 22 15 23 19 2 24 29) #1# #2# 0) (:allocation :class :initform (make-hash-table :test 'equalp) :writers ((setf common-lisp-user::interface-table)) :readers (common-lisp-user::interface-table) :name common-lisp-user::interface-table) (:initform 1.0 :initargs (:default-target-width) :writers ((setf common-lisp-user::default-target-width)) :readers (common-lisp-user::default-target-width) :name common-lisp-user::default-target-width) #Y(nil nil nil (26 14 22 15 23 19 2 24 29) #1# #2# 0) (:allocation :class :initform (make-hash-table :test 'equalp) :writers ((setf common-lisp-user::device-table)) :readers (common-lisp-user::device-table) :name common-lisp-user::device-table) clos::load-defclass common-lisp-user::*default-device-interface* si::*make-special boundp make-instance (defvar common-lisp-user::*default-device-interface*) (#2# . 25241) common-lisp-user::interface "INTERFACE-" (common-lisp-user::name common-lisp-user::init remove common-lisp-user::single-device common-lisp-user::notification) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::init nil t nil 1 nil) (remove nil t nil 2 nil) (common-lisp-user::single-device nil t nil 3 nil) (common-lisp-user::notification nil t nil 4 nil)) common-lisp-user::copy-interface (common-lisp-user::make-interface) common-lisp-user::interface-p si::define-structure (defstruct common-lisp-user::interface) (#2# . 25312) common-lisp-user::make-interface (defun common-lisp-user::make-interface) (#2# . 25312) :lambda-list (&key #3=#:name #4=#:init #5=#:remove #6=#:single-device #7=#:notification) (nil :notification :single-device :remove :init :name) #3# #4# #5# #6# #7# 0 si::make-structure #Y(common-lisp-user::make-interface nil nil (28 52 22 40 2 77 46 53 22 40 2 77 46 54 22 40 2 77 46 55 22 40 2 77 46 56 22 40 2 77 46 57 15 58 13 4 13 3 13 2 13 1 13 0 19 6 59 29) #1# #2# 25312) si::fset find-class common-lisp-user::act-r-device "ACT-R-DEVICE-" (common-lisp-user::init remove common-lisp-user::notification set common-lisp-user::unset) ((common-lisp-user::init nil t nil 0 nil) (remove nil t nil 1 nil) (common-lisp-user::notification nil t nil 2 nil) (set nil t nil 3 nil) (common-lisp-user::unset nil t nil 4 nil)) common-lisp-user::copy-act-r-device (common-lisp-user::make-act-r-device) common-lisp-user::act-r-device-p (defstruct common-lisp-user::act-r-device) (#2# . 25381) common-lisp-user::make-act-r-device (defun common-lisp-user::make-act-r-device) (#2# . 25381) (&key #8=#:init #9=#:remove #10=#:notification #11=#:set #12=#:unset) (nil :unset :set :notification :remove :init) #8# #9# #10# #11# #12# 0 #Y(common-lisp-user::make-act-r-device nil nil (28 76 22 40 2 77 46 77 22 40 2 77 46 78 22 40 2 77 46 79 22 40 2 77 46 80 22 40 2 77 46 81 15 82 13 4 13 3 13 2 13 1 13 0 19 6 59 29) #1# #2# 25381) common-lisp-user::define-interface (defun common-lisp-user::define-interface) (#2# . 25441) (common-lisp-user::name &optional common-lisp-user::init remove common-lisp-user::single? common-lisp-user::notification) common-lisp-user::name common-lisp-user::init remove common-lisp-user::single? common-lisp-user::notification common-lisp-user::di common-lisp-user::interface-table gethash "print-warning" "~@?" "Interface ~s already exists and cannot be created." format common-lisp-user::evaluate-act-r-command common-lisp-user::check-act-r-command "Init function ~s specified for interface ~s is not available.  Cannot create interface." "Remove function ~s specified for interface ~s is not available.  Cannot create interface." "Notification function ~s specified for interface ~s is not available.  Cannot create interface." :name :init :remove :single-device :notification si::hash-set t #Y(common-lisp-user::define-interface nil nil (24 45 88 25 40 2 77 46 89 25 40 2 77 46 90 25 40 2 77 46 91 25 40 2 77 46 92 26 57 84 60 181 11 31 45 93 13 6 13 0 19 1 94 12 19 2 95 39 21 15 96 77 15 97 15 98 13 6 19 4 99 12 19 2 100 75 73 38 141 10 5 39 31 13 5 19 1 101 76 39 23 15 96 77 15 97 15 102 13 5 13 6 19 5 99 12 19 2 100 75 73 36 1 10 4 39 31 13 4 19 1 101 76 39 23 15 96 77 15 97 15 103 13 4 13 6 19 5 99 12 19 2 100 75 73 36 1 10 2 39 31 13 2 19 1 101 76 39 23 15 96 77 15 97 15 104 13 2 13 6 19 5 99 12 19 2 100 75 73 36 1 13 6 13 0 19 1 94 12 14 105 13 6 14 106 13 5 14 107 13 4 14 108 13 3 14 109 13 2 19 10 47 12 19 3 110 11 111 73 43 1 63 29) #1# #2# 25441) "define-interface" "Command to add a new interface. Params: name {init-command {remove-command {single-device {notification}}}}" common-lisp-user::add-act-r-command common-lisp-user::undefine-interface (defun common-lisp-user::undefine-interface) (#2# . 26872) (common-lisp-user::name) remhash #Y(common-lisp-user::undefine-interface nil nil (24 45 88 26 11 31 45 93 13 1 13 0 19 1 94 12 19 2 95 73 39 13 13 1 13 0 19 1 94 17 120 11 111 73 43 1 29) #1# #2# 26872) "undefine-interface" "Command to remove an interface. Params: name" common-lisp-user::notify-interface (defun common-lisp-user::notify-interface) (#2# . 27211) (common-lisp-user::name common-lisp-user::features) common-lisp-user::features common-lisp-user::interface-notification common-lisp-user::it common-lisp-user::dispatch-apply "Interface ~s does not accept notifications. Ignoring notification features ~s." "Interface ~s could not be found when calling notify-interface with features ~s." #Y(common-lisp-user::notify-interface nil nil (24 45 88 24 45 128 26 11 31 45 93 13 2 13 0 19 1 94 12 19 2 95 45 37 10 0 39 45 13 0 19 1 129 45 130 10 0 39 10 13 0 13 3 19 2 131 38 21 15 96 77 15 97 15 132 13 4 13 3 19 5 99 12 19 2 100 75 73 43 1 38 21 15 96 77 15 97 15 133 13 3 13 2 19 5 99 12 19 2 100 75 73 43 2 29) #1# #2# 27211) function "Send the provided features to the named interface" si::set-documentation common-lisp-user::external-notify-interface (defun common-lisp-user::external-notify-interface) (#2# . 27807) (common-lisp-user::name common-lisp-user::features) common-lisp-user::decode-string-names #Y(common-lisp-user::external-notify-interface nil nil (24 45 88 24 45 128 26 13 1 13 0 19 1 142 12 19 2 124 29) #1# #2# 27807) "notify-interface" "Send features to the indicated interface. Params: interface 'features'" common-lisp-user::define-device (defun common-lisp-user::define-device) (#2# . 28061) (common-lisp-user::name &optional common-lisp-user::init remove common-lisp-user::notification common-lisp-user::set-hand common-lisp-user::unset-hand) common-lisp-user::set-hand common-lisp-user::unset-hand common-lisp-user::device-table "Device ~s already exists and cannot be created." "Init function ~s specified for device ~s is not available.  Cannot define device." "Remove function ~s specified for device ~s is not available.  Cannot define device." "Notification function ~s specified for device ~s is not available.  Cannot define device." "Set-hand function ~s specified for device ~s is not available.  Cannot define device." "Unset-hand function ~s specified for device ~s is not available.  Cannot define device." :set :unset #Y(common-lisp-user::define-device nil nil (24 45 88 25 40 2 77 46 89 25 40 2 77 46 90 25 40 2 77 46 92 25 40 2 77 46 150 25 40 2 77 46 151 26 57 146 60 249 11 31 45 93 13 7 13 0 19 1 152 12 19 2 95 39 21 15 96 77 15 97 15 153 13 7 19 4 99 12 19 2 100 75 73 38 209 10 6 39 31 13 6 19 1 101 76 39 23 15 96 77 15 97 15 154 13 6 13 7 19 5 99 12 19 2 100 75 73 36 1 10 5 39 31 13 5 19 1 101 76 39 23 15 96 77 15 97 15 155 13 5 13 7 19 5 99 12 19 2 100 75 73 36 1 10 4 39 31 13 4 19 1 101 76 39 23 15 96 77 15 97 15 156 13 4 13 7 19 5 99 12 19 2 100 75 73 36 1 10 3 39 31 13 3 19 1 101 76 39 23 15 96 77 15 97 15 157 13 3 13 7 19 5 99 12 19 2 100 75 73 36 1 10 2 39 31 13 2 19 1 101 76 39 23 15 96 77 15 97 15 158 13 2 13 7 19 5 99 12 19 2 100 75 73 36 1 13 7 13 0 19 1 152 12 14 106 13 6 14 107 13 5 14 109 13 4 14 159 13 3 14 160 13 2 19 10 72 12 19 3 110 11 111 73 43 1 63 29) #1# #2# 28061) "define-device" "Command to add a new device. Params: name {init-command {remove-command {notification-command {hand-set {hand-unset}}}}" common-lisp-user::undefine-device (defun common-lisp-user::undefine-device) (#2# . 30130) (common-lisp-user::name) #Y(common-lisp-user::undefine-device nil nil (24 45 88 26 11 31 45 93 13 1 13 0 19 1 152 12 19 2 95 73 39 13 13 1 13 0 19 1 152 17 120 11 111 73 43 1 29) #1# #2# 30130) "undefine-device" "Command to remove a device. Params: name" common-lisp-user::install-device (defun common-lisp-user::install-device) (#2# . 30460) (common-lisp-user::device-list) common-lisp-user::device-list common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model listp length <= second common-lisp-user::current-device-interface common-lisp-user::device common-lisp-user::devin common-lisp-user::device-name common-lisp-user::interface-name "Invalid interface ~s in call to install-device with ~s. No device installed." "Invalid device ~s in call to install-device with ~s. No device installed." common-lisp-user::d find "The device ~s is already installed. No device installed." common-lisp-user::interface-single-device :key first string-equal common-lisp-user::interface-remove list common-lisp-user::result values-list si::%dolist-var common-lisp-user::x common-lisp-user::act-r-device-remove #:g4959 #:g4960 (setf common-lisp-user::device) #:g4963 #:g4961 #:g4962 (setf common-lisp-user::device) common-lisp-user::interface-init #:g4964 #:g4965 (setf common-lisp-user::device) common-lisp-user::act-r-device-init #:g4966 #:g4967 (setf common-lisp-user::device) "Invalid device-list provided ~s.  No device installed." "install-device called with no current model." #Y(common-lisp-user::install-device nil nil (24 45 175 26 57 171 60 743 11 176 40 13 19 0 177 45 178 13 0 19 1 179 43 1 39 708 10 1 16 180 39 13 9 2 10 1 16 181 12 9 3 19 3 182 39 668 10 1 4 12 10 1 16 183 12 19 0 184 12 77 77 46 185 46 37 46 186 46 187 46 188 13 0 13 2 19 1 94 12 19 2 95 51 3 13 1 13 2 19 1 152 12 19 2 95 51 4 10 3 76 39 23 15 96 77 15 97 15 189 13 0 13 6 19 5 99 12 19 2 100 75 73 38 586 10 4 76 39 23 15 96 77 15 97 15 190 13 1 13 6 19 5 99 12 19 2 100 75 73 38 559 13 2 19 1 185 45 191 13 7 13 0 14 22 15 23 19 4 192 39 21 15 96 77 15 97 15 193 13 7 19 4 99 12 19 2 100 75 73 38 517 13 4 19 1 194 39 16 13 1 13 0 14 195 15 196 14 22 15 197 19 6 192 45 130 10 0 39 216 13 5 19 1 198 39 85 15 199 13 5 19 1 198 12 13 0 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 5 75 73 36 7 13 6 19 1 204 39 85 15 199 13 6 19 1 204 12 13 0 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 5 75 73 36 7 10 4 45 205 13 1 13 5 19 1 185 12 19 2 90 45 206 13 0 13 1 33 207 18 2 43 1 43 1 51 1 38 1 43 1 10 7 45 208 10 4 45 209 13 1 13 0 19 1 185 3 45 210 13 0 13 1 33 211 18 2 43 3 13 4 19 1 212 39 114 15 199 13 4 19 1 212 12 13 7 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 34 10 3 45 213 13 8 13 4 19 1 185 12 19 2 90 45 214 13 0 13 1 33 215 18 2 43 1 43 1 75 73 36 6 13 5 19 1 216 39 114 15 199 13 5 19 1 216 12 13 7 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 34 10 3 45 217 13 8 13 4 19 1 185 12 19 2 90 45 218 13 0 13 1 33 219 18 2 43 1 43 1 75 73 36 6 10 7 73 43 1 43 5 38 19 15 96 77 15 97 15 220 13 1 19 4 99 12 19 2 100 75 73 38 17 15 96 77 15 97 15 221 19 3 99 12 19 2 100 75 73 63 29) #1# #2# 30460) "Set a device with which a model will interact" "install-device" "Command to install a device for an interface. Params: (interface device {device-detail})" common-lisp-user::remove-device (defun common-lisp-user::remove-device) (#2# . 34221) (common-lisp-user::device-list) common-lisp-user::exists "Invalid interface ~s in call to remove-device with ~s. No device removed." "Invalid device ~s in call to remove-device with ~s. No device removed." #:g4970 #:g4971 (setf common-lisp-user::device) "Device ~s is not currently installed and cannot be removed." "remove-device called with no current model." #Y(common-lisp-user::remove-device nil nil (24 45 175 26 57 226 60 404 11 176 40 13 19 0 177 45 178 13 0 19 1 179 43 1 39 369 19 0 184 45 186 13 0 19 1 185 45 185 13 3 13 0 14 22 15 23 19 4 192 45 230 10 0 39 318 10 4 4 12 10 4 16 183 12 77 77 46 185 46 37 46 187 46 188 13 0 13 6 19 1 94 12 19 2 95 51 2 13 1 13 6 19 1 152 12 19 2 95 51 3 10 2 76 39 23 15 96 77 15 97 15 231 13 0 13 8 19 5 99 12 19 2 100 75 73 38 242 10 3 76 39 23 15 96 77 15 97 15 232 13 1 13 8 19 5 99 12 19 2 100 75 73 38 215 13 2 19 1 198 39 85 15 199 13 2 19 1 198 12 13 8 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 5 75 73 36 7 13 3 19 1 204 39 85 15 199 13 3 19 1 204 12 13 8 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 5 75 73 36 7 10 6 45 233 13 5 13 7 19 1 185 12 19 2 90 45 234 13 0 13 1 33 235 18 2 43 1 43 1 11 111 73 43 4 38 19 15 96 77 15 97 15 236 13 4 19 4 99 12 19 2 100 75 73 43 3 38 17 15 96 77 15 97 15 237 19 3 99 12 19 2 100 75 73 63 29) #1# #2# 34221) "Remove a device with which a model is interacting" "remove-device" "Command to remove a device for an interface. Params: (interface device {device-detail})" common-lisp-user::current-devices (defun common-lisp-user::current-devices) (#2# . 36482) (common-lisp-user::interface) #Y(nil nil nil (24 45 203 26 13 2 10 0 4 12 19 2 197 29) #1# #2# 36482) remove-if-not "~s does not name a valid interface in call to current-devices." "current-devices called with no current model." #Y(common-lisp-user::current-devices nil nil (24 45 37 26 11 176 40 13 19 0 177 45 178 13 0 19 1 179 43 1 39 55 19 0 184 45 186 13 1 13 0 19 1 94 12 19 2 95 39 15 34 246 12 13 0 19 1 185 12 19 2 247 38 19 15 96 77 15 97 15 248 13 1 19 4 99 12 19 2 100 75 73 43 1 38 17 15 96 77 15 97 15 249 19 3 99 12 19 2 100 75 73 29) #1# #2# 36482) "Return the devices for the named interface in the current model" "current-devices" "Get the list of all devices installed for an interface. Params: interface" (defun common-lisp-user::current-device-interface) (#2# . 37139) :device common-lisp-user::get-module-fct #Y(common-lisp-user::current-device-interface nil nil (26 15 256 77 19 2 257 12 72 1 29) #1# #2# 37139) "Return the device-interface for current model" common-lisp-user::defined-devices (defun common-lisp-user::defined-devices) (#2# . 37258) common-lisp-user::hash-table-keys #Y(common-lisp-user::defined-devices nil nil (26 11 31 45 93 13 0 19 1 152 12 19 1 263 43 1 29) #1# #2# 37258) common-lisp-user::defined-interfaces (defun common-lisp-user::defined-interfaces) (#2# . 37420) #Y(common-lisp-user::defined-interfaces nil nil (26 11 31 45 93 13 0 19 1 94 12 19 1 263 43 1 29) #1# #2# 37420) "defined-devices" "Command to get the list of all defined devices. No params" "defined-interfaces" "Command to get the list of all defined interfaces. No params" common-lisp-user::notify-device (defun common-lisp-user::notify-device) (#2# . 37842) (common-lisp-user::device-list common-lisp-user::features) common-lisp-user::act-r-device-notification "Device ~s is not installed when trying to notify with features ~s." "Device-interface could not be found when trying notify device ~s." "notify-device called with no current model." #Y(common-lisp-user::notify-device nil nil (24 45 175 24 45 128 26 11 176 40 13 19 0 177 45 178 13 0 19 1 179 43 1 39 109 19 0 184 45 93 10 0 39 78 13 0 19 1 185 45 191 13 3 13 0 14 22 15 23 19 4 192 39 34 10 3 16 183 12 13 1 19 1 152 12 19 2 95 45 185 13 0 19 1 277 12 13 4 13 3 19 3 131 43 1 38 21 15 96 77 15 97 15 278 13 3 13 2 19 5 99 12 19 2 100 75 73 43 1 38 19 15 96 77 15 97 15 279 13 2 19 4 99 12 19 2 100 75 73 43 1 38 17 15 96 77 15 97 15 280 19 3 99 12 19 2 100 75 73 29) #1# #2# 37842) "Send the provided features to the named device for the specified interface in the current model in the current meta-process if such a function was provided" common-lisp-user::external-notify-device (defun common-lisp-user::external-notify-device) (#2# . 38741) (common-lisp-user::device-list common-lisp-user::features) #Y(common-lisp-user::external-notify-device nil nil (24 45 175 24 45 128 26 13 1 13 0 19 1 142 12 19 2 273 29) #1# #2# 38741) "notify-device" "Send features to the given device. Params: device-list 'features'" common-lisp-user::notify-device-hand-set (defun common-lisp-user::notify-device-hand-set) (#2# . 38990) (common-lisp-user::device-list common-lisp-user::hand) common-lisp-user::hand common-lisp-user::act-r-device-set "Device ~s is not installed when trying to notify for hand being set." "Device-interface could not be found when trying notify device ~s for hand being set." "notify-device-hand-set called with no current model." #Y(common-lisp-user::notify-device-hand-set nil nil (24 45 175 24 45 294 26 11 176 40 13 19 0 177 45 178 13 0 19 1 179 43 1 39 124 19 0 184 45 93 10 0 39 93 13 0 19 1 185 45 191 13 3 13 0 14 22 15 23 19 4 192 39 51 10 3 16 183 12 13 1 19 1 152 12 19 2 95 45 185 10 0 39 6 13 0 19 1 295 45 130 10 0 39 12 13 0 13 5 13 4 19 3 131 38 3 75 73 43 1 43 1 38 19 15 96 77 15 97 15 296 13 3 19 4 99 12 19 2 100 75 73 43 1 38 19 15 96 77 15 97 15 297 13 2 19 4 99 12 19 2 100 75 73 43 1 38 17 15 96 77 15 97 15 298 19 3 99 12 19 2 100 75 73 29) #1# #2# 38990) "Call the set-hand command for the device if it has one" common-lisp-user::notify-device-hand-unset (defun common-lisp-user::notify-device-hand-unset) (#2# . 39843) (common-lisp-user::device-list common-lisp-user::hand) common-lisp-user::act-r-device-unset "Device ~s is not installed when trying to notify for hand being unset." "Device-interface could not be found when trying notify device ~s for hand being unset." "notify-device-hand-set called with no current model." #Y(common-lisp-user::notify-device-hand-unset nil nil (24 45 175 24 45 294 26 11 176 40 13 19 0 177 45 178 13 0 19 1 179 43 1 39 124 19 0 184 45 93 10 0 39 93 13 0 19 1 185 45 191 13 3 13 0 14 22 15 23 19 4 192 39 51 10 3 16 183 12 13 1 19 1 152 12 19 2 95 45 185 10 0 39 6 13 0 19 1 305 45 130 10 0 39 12 13 0 13 5 13 4 19 3 131 38 3 75 73 43 1 43 1 38 19 15 96 77 15 97 15 306 13 3 19 4 99 12 19 2 100 75 73 43 1 38 19 15 96 77 15 97 15 307 13 2 19 4 99 12 19 2 100 75 73 43 1 38 17 15 96 77 15 97 15 308 19 3 99 12 19 2 100 75 73 29) #1# #2# 39843) "Call the unset-hand command for the device if it has one" common-lisp-user::my-name (defmethod common-lisp-user::my-name (mod common-lisp-user::device-interface)) (#2# . 40706) (common-lisp-user::device-interface) (mod) mod #Y(common-lisp-user::my-name nil nil (24 45 316 26 11 256 73 29) #1# #2# 40706) clos::install-method common-lisp-user::angle->pixels-mth (defgeneric common-lisp-user::angle->pixels-mth) (#2# . 40889) (common-lisp-user::devin common-lisp-user::angle &optional common-lisp-user::dist) :delete-methods :documentation "Determine the number of pixels subtending a visual angle." ensure-generic-function (defmethod common-lisp-user::angle->pixels-mth (common-lisp-user::devin common-lisp-user::device-interface) (common-lisp-user::angle number) &optional common-lisp-user::dist) (#2# . 41030) (common-lisp-user::device-interface number) (common-lisp-user::devin common-lisp-user::angle &optional common-lisp-user::dist) common-lisp-user::angle common-lisp-user::dist numberp / common-lisp-user::deg->rad tan * round common-lisp-user::viewing-distance common-lisp-user::ppi #Y(common-lisp-user::angle->pixels-mth nil nil (24 45 186 24 45 331 25 40 2 77 46 332 26 10 0 16 333 39 28 9 2 13 0 13 1 9 2 19 2 334 12 19 1 335 16 336 12 19 3 337 12 19 1 338 38 36 9 2 13 2 19 1 339 12 13 2 19 1 340 12 13 1 9 2 19 2 334 12 19 1 335 16 336 12 19 4 337 12 19 1 338 29) #1# #2# 41030) common-lisp-user::pixels->angle-mth (defgeneric common-lisp-user::pixels->angle-mth) (#2# . 41334) (common-lisp-user::devin common-lisp-user::pixels &optional common-lisp-user::dist) "Determine the amount of visual angle subtended by <pixels>." (defmethod common-lisp-user::pixels->angle-mth (common-lisp-user::devin common-lisp-user::device-interface) (common-lisp-user::pixels number) &optional common-lisp-user::dist) (#2# . 41479) (common-lisp-user::device-interface number) (common-lisp-user::devin common-lisp-user::pixels &optional common-lisp-user::dist) common-lisp-user::pixels atan common-lisp-user::rad->deg #Y(common-lisp-user::pixels->angle-mth nil nil (24 45 186 24 45 351 25 40 2 77 46 332 26 10 0 16 333 39 26 9 2 13 1 9 2 19 2 334 12 13 0 19 2 352 12 19 2 337 12 19 1 353 38 38 9 2 13 1 9 2 19 2 334 12 13 2 19 1 340 12 13 2 19 1 339 12 19 2 337 12 19 2 352 12 19 2 337 12 19 1 353 29) #1# #2# 41479) common-lisp-user::find-viewing-dist-mth (defgeneric common-lisp-user::find-viewing-dist-mth) (#2# . 41776) (common-lisp-user::devin common-lisp-user::angle common-lisp-user::pixels &optional common-lisp-user::in-pixels) "Given the number of pixels an angle subtends, what's the viewing distance?" (defmethod common-lisp-user::find-viewing-dist-mth (common-lisp-user::devin common-lisp-user::device-interface) common-lisp-user::angle common-lisp-user::pixels &optional common-lisp-user::in-pixels) (#2# . 41951) (common-lisp-user::device-interface t t) (common-lisp-user::devin common-lisp-user::angle common-lisp-user::pixels &optional common-lisp-user::in-pixels) common-lisp-user::in-pixels floor #Y(common-lisp-user::find-viewing-dist-mth nil nil (24 45 186 24 45 331 24 45 351 25 40 2 77 46 364 26 10 0 39 28 13 1 9 2 19 2 334 12 13 2 9 2 19 2 334 12 19 1 335 16 336 12 19 2 365 38 36 13 1 9 2 19 2 334 12 13 2 9 2 19 2 334 12 19 1 335 16 336 12 13 3 19 1 340 12 19 2 337 12 19 2 365 29) #1# #2# 41951) common-lisp-user::pm-pixels-to-angle (defun common-lisp-user::pm-pixels-to-angle) (#2# . 42245) (common-lisp-user::pixels &optional common-lisp-user::dist) #Y(common-lisp-user::pm-pixels-to-angle nil nil (24 45 351 25 40 2 77 46 332 26 19 0 184 12 13 1 13 0 19 3 342 29) #1# #2# 42245) "Convert <pixels> to degress of visual angle." common-lisp-user::pm-angle-to-pixels (defun common-lisp-user::pm-angle-to-pixels) (#2# . 42521) (common-lisp-user::angle &optional common-lisp-user::dist) #Y(common-lisp-user::pm-angle-to-pixels nil nil (24 45 331 25 40 2 77 46 332 26 19 0 184 12 13 1 13 0 19 3 319 29) #1# #2# 42521) "Convert visual <angle> in degress to pixels." common-lisp-user::reset-device (defmethod common-lisp-user::reset-device (common-lisp-user::devin common-lisp-user::device-interface)) (#2# . 42682) (common-lisp-user::device-interface) (common-lisp-user::devin) common-lisp-user::delete-device #:g4978 #:g4979 (setf common-lisp-user::device) #Y(common-lisp-user::reset-device nil nil (24 45 186 26 13 0 19 1 384 10 0 45 385 75 45 386 13 0 13 1 33 387 18 2 43 1 43 1 29) #1# #2# 42682) (defmethod common-lisp-user::delete-device (common-lisp-user::devin common-lisp-user::device-interface)) (#2# . 42985) (common-lisp-user::device-interface) (common-lisp-user::devin) "Invalid interface ~s while trying to remove-device with ~s. No device removed." "Invalid device ~s while trying to remove-device with ~s. No device removed." "Interface-remove failed for ~S" "Device-remove failed for ~S ~S" #Y(common-lisp-user::delete-device nil nil (24 45 186 26 77 77 46 185 46 37 13 2 19 1 185 45 202 38 313 10 0 4 45 175 10 0 4 12 13 4 19 1 94 12 19 2 95 51 2 10 0 16 183 12 13 4 19 1 152 12 19 2 95 51 3 10 2 76 39 23 15 96 77 15 97 15 393 10 0 4 12 13 0 19 5 99 12 19 2 100 38 243 10 3 76 39 24 15 96 77 15 97 15 394 10 0 16 183 12 13 0 19 5 99 12 19 2 100 38 215 13 2 19 1 198 39 97 15 199 13 2 19 1 198 12 13 0 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 17 15 96 77 15 97 15 395 13 0 19 4 99 12 19 2 100 13 3 19 1 204 39 103 15 199 13 3 19 1 204 12 13 0 19 2 100 69 21 23 45 200 10 0 4 39 8 10 0 5 16 201 38 46 10 0 5 45 202 38 27 10 0 4 45 203 15 96 77 15 97 13 0 19 3 99 12 19 2 100 10 1 5 51 1 43 1 10 0 40 -29 75 45 203 75 43 1 43 1 43 1 76 39 23 15 96 77 15 97 15 396 13 3 19 1 204 12 13 0 19 5 99 12 19 2 100 11 111 10 1 5 51 1 43 1 10 0 40 -315 75 73 43 1 43 2 29) #1# #2# 42985) common-lisp-user::params-device-module (defun common-lisp-user::params-device-module) (#2# . 44497) (common-lisp-user::device common-lisp-user::param) common-lisp-user::param consp :pixels-per-inch #:g5012 #:g5013 (setf common-lisp-user::ppi) :process-cursor #:g5014 #:g5015 (setf common-lisp-user::with-cursor-p) :viewing-distance #:g5016 #:g5017 (setf common-lisp-user::viewing-distance) :cursor-fitts-coeff #:g5018 #:g5019 (setf common-lisp-user::mouse-fitts-coeff) :needs-mouse #:g5020 #:g5021 (setf common-lisp-user::needs-mouse-p) :default-target-width #:g5022 #:g5023 (setf common-lisp-user::default-target-width) :stable-loc-names #:g5024 #:g5025 (setf common-lisp-user::stable-names) :key-closure-time #:g5026 #:g5027 (setf common-lisp-user::key-closure-time) common-lisp-user::with-cursor-p common-lisp-user::mouse-fitts-coeff common-lisp-user::needs-mouse-p common-lisp-user::key-closure-time common-lisp-user::stable-names common-lisp-user::default-target-width #Y(common-lisp-user::params-device-module nil nil (24 45 185 24 45 402 26 10 0 16 403 39 216 10 0 4 42 404 24 10 1 45 405 10 1 5 45 406 13 0 13 1 33 407 18 2 43 1 43 1 38 185 42 408 24 10 1 45 409 10 1 5 45 410 13 0 13 1 33 411 18 2 43 1 43 1 38 159 42 412 24 10 1 45 413 10 1 5 45 414 13 0 13 1 33 415 18 2 43 1 43 1 38 133 42 416 24 10 1 45 417 10 1 5 45 418 13 0 13 1 33 419 18 2 43 1 43 1 38 107 42 420 24 10 1 45 421 10 1 5 45 422 13 0 13 1 33 423 18 2 43 1 43 1 38 81 42 424 24 10 1 45 425 10 1 5 45 426 13 0 13 1 33 427 18 2 43 1 43 1 38 55 42 428 24 10 1 45 429 10 1 5 45 430 13 0 13 1 33 431 18 2 43 1 43 1 38 29 42 432 24 10 1 45 433 10 1 5 45 434 13 0 13 1 33 435 18 2 43 1 43 1 38 3 75 73 38 85 10 0 42 404 8 13 1 19 1 340 38 73 42 408 8 13 1 19 1 436 38 63 42 412 8 13 1 19 1 339 38 53 42 416 8 13 1 19 1 437 38 43 42 420 8 13 1 19 1 438 38 33 42 432 8 13 1 19 1 439 38 23 42 428 8 13 1 19 1 440 38 13 42 424 8 13 1 19 1 441 38 3 75 73 29) #1# #2# 44497) common-lisp-user::tornilorsymbolorstring (defun common-lisp-user::tornilorsymbolorstring) (#2# . 46040) (common-lisp-user::x) common-lisp-user::tornil symbolp stringp #Y(common-lisp-user::tornilorsymbolorstring nil nil (24 45 203 26 13 0 19 1 447 73 40 12 10 0 16 448 73 40 5 10 0 16 449 29) #1# #2# 46040) common-lisp-user::create-device-module (defun common-lisp-user::create-device-module) (#2# . 46224) (common-lisp-user::x) #Y(common-lisp-user::create-device-module nil nil (24 45 203 26 15 0 19 1 34 29) #1# #2# 46224) :valid-test common-lisp-user::posnum :default-value 72.0 :warning "a non-negative number" "Pixels per inch of display" common-lisp-user::define-parameter "T or NIL" "Should the AGI create a visicon feature for the mouse cursor?" 15.0 "a non-negative number" "Distance of the eyes from the display, in inches." common-lisp-user::nonneg "a number" 0.01 "Time between when a key is contacted and it registers as being hit." 0.1 "a non-negative number" "b coefficient in Fitts's equation for aimed movements." "T, NIL, a symbol, or string" "Should the AGI install a mouse device?" "T or NIL" "Whether or not to sort the virtual window's subviews to guarantee the names always line up" 1.0 "a non-negative number" "Width of targets with unspecified widths for approach-width calculations and ply motor actions (no units)." :version common-lisp-user::version-string "The device interface for a model" :creation :reset :delete :params :required :motor :vision :speech common-lisp-user::define-module-fct)) #2# 0) #Y(si::bytecodes nil nil (1 31 16 32 1 31 16 33 76 39 8 15 0 19 1 34 52 31 15 31 15 1 15 35 15 36 19 4 4 1 31 73 29) #1# #2# 25241) #Y(si::bytecodes nil nil (15 37 15 38 77 77 15 39 15 40 15 41 77 77 77 15 42 9 5 77 77 15 43 19 15 44 15 37 15 1 15 45 15 46 19 4 4 15 47 15 1 15 48 15 49 19 4 4 15 47 14 50 77 15 51 19 4 4 15 37 19 1 62 78 58 15 47 1 60 12 19 2 61 1 37 73 29) #1# #2# 25312) #Y(si::bytecodes nil nil (15 63 15 64 77 77 15 65 15 66 15 67 77 77 77 15 68 9 5 77 77 15 69 19 15 44 15 63 15 1 15 70 15 71 19 4 4 15 72 15 1 15 73 15 74 19 4 4 15 72 14 50 77 15 75 19 4 4 15 63 19 1 62 78 82 15 72 1 83 12 19 2 61 1 63 73 29) #1# #2# 25381) #Y(si::bytecodes nil nil (15 84 15 1 15 85 15 86 19 4 4 15 84 14 50 77 15 87 19 4 4 15 84 1 112 12 19 2 61 1 84 73 29) #1# #2# 25441) #Y(si::bytecodes nil nil (15 113 15 84 15 114 19 3 115 29) #1# #2# 26704) #Y(si::bytecodes nil nil (15 116 15 1 15 117 15 118 19 4 4 15 116 14 50 77 15 119 19 4 4 15 116 1 121 12 19 2 61 1 116 73 29) #1# #2# 26872) #Y(si::bytecodes nil nil (15 122 15 116 15 123 19 3 115 29) #1# #2# 27102) #Y(si::bytecodes nil nil (15 124 15 1 15 125 15 126 19 4 4 15 124 14 50 77 15 127 19 4 4 15 124 1 134 12 19 2 61 15 124 15 135 15 136 19 3 137 1 124 73 29) #1# #2# 27211) #Y(si::bytecodes nil nil (15 138 15 1 15 139 15 140 19 4 4 15 138 14 50 77 15 141 19 4 4 15 138 1 143 12 19 2 61 1 138 73 29) #1# #2# 27807) #Y(si::bytecodes nil nil (15 144 15 138 15 145 77 19 4 115 29) #1# #2# 27916) #Y(si::bytecodes nil nil (15 146 15 1 15 147 15 148 19 4 4 15 146 14 50 77 15 149 19 4 4 15 146 1 161 12 19 2 61 1 146 73 29) #1# #2# 28061) #Y(si::bytecodes nil nil (15 162 15 146 15 163 19 3 115 29) #1# #2# 29956) #Y(si::bytecodes nil nil (15 164 15 1 15 165 15 166 19 4 4 15 164 14 50 77 15 167 19 4 4 15 164 1 168 12 19 2 61 1 164 73 29) #1# #2# 30130) #Y(si::bytecodes nil nil (15 169 15 164 15 170 19 3 115 29) #1# #2# 30361) #Y(si::bytecodes nil nil (15 171 15 1 15 172 15 173 19 4 4 15 171 14 50 77 15 174 19 4 4 15 171 1 222 12 19 2 61 15 171 15 135 15 223 19 3 137 1 171 73 29) #1# #2# 30460) #Y(si::bytecodes nil nil (15 224 15 171 15 225 77 19 4 115 29) #1# #2# 34072) #Y(si::bytecodes nil nil (15 226 15 1 15 227 15 228 19 4 4 15 226 14 50 77 15 229 19 4 4 15 226 1 238 12 19 2 61 15 226 15 135 15 239 19 3 137 1 226 73 29) #1# #2# 34221) #Y(si::bytecodes nil nil (15 240 15 226 15 241 77 19 4 115 29) #1# #2# 36336) #Y(si::bytecodes nil nil (15 242 15 1 15 243 15 244 19 4 4 15 242 14 50 77 15 245 19 4 4 15 242 1 250 12 19 2 61 15 242 15 135 15 251 19 3 137 1 242 73 29) #1# #2# 36482) #Y(si::bytecodes nil nil (15 252 15 242 15 253 77 19 4 115 29) #1# #2# 37002) #Y(si::bytecodes nil nil (15 184 15 1 15 254 15 255 19 4 4 15 184 14 50 77 77 19 4 4 15 184 1 258 12 19 2 61 15 184 15 135 15 259 19 3 137 1 184 73 29) #1# #2# 37139) #Y(si::bytecodes nil nil (15 260 15 1 15 261 15 262 19 4 4 15 260 14 50 77 77 19 4 4 15 260 1 264 12 19 2 61 1 260 73 29) #1# #2# 37258) #Y(si::bytecodes nil nil (15 265 15 1 15 266 15 267 19 4 4 15 265 14 50 77 77 19 4 4 15 265 1 268 12 19 2 61 1 265 73 29) #1# #2# 37420) #Y(si::bytecodes nil nil (15 269 15 260 15 270 77 19 4 115 29) #1# #2# 37594) #Y(si::bytecodes nil nil (15 271 15 265 15 272 77 19 4 115 29) #1# #2# 37714) #Y(si::bytecodes nil nil (15 273 15 1 15 274 15 275 19 4 4 15 273 14 50 77 15 276 19 4 4 15 273 1 281 12 19 2 61 15 273 15 135 15 282 19 3 137 1 273 73 29) #1# #2# 37842) #Y(si::bytecodes nil nil (15 283 15 1 15 284 15 285 19 4 4 15 283 14 50 77 15 286 19 4 4 15 283 1 287 12 19 2 61 1 283 73 29) #1# #2# 38741) #Y(si::bytecodes nil nil (15 288 15 283 15 289 77 19 4 115 29) #1# #2# 38857) #Y(si::bytecodes nil nil (15 290 15 1 15 291 15 292 19 4 4 15 290 14 50 77 15 293 19 4 4 15 290 1 299 12 19 2 61 15 290 15 135 15 300 19 3 137 1 290 73 29) #1# #2# 38990) #Y(si::bytecodes nil nil (15 301 15 1 15 302 15 303 19 4 4 15 301 14 50 77 15 304 19 4 4 15 301 1 309 12 19 2 61 15 301 15 135 15 310 19 3 137 1 301 73 29) #1# #2# 39843) #Y(si::bytecodes nil nil (15 311 15 1 15 312 15 313 19 4 4 15 311 77 15 314 15 315 1 317 12 19 5 318 29) #1# #2# 40706) #Y(si::bytecodes nil nil (15 319 15 1 15 320 15 321 19 4 4 15 319 14 50 77 15 322 19 4 4 15 319 14 323 14 111 14 50 15 322 15 324 15 325 19 7 326 29) #1# #2# 40889) #Y(si::bytecodes nil nil (15 319 15 1 15 327 15 328 19 4 4 15 319 77 15 329 15 330 1 341 12 19 5 318 29) #1# #2# 41030) #Y(si::bytecodes nil nil (15 342 15 1 15 343 15 344 19 4 4 15 342 14 50 77 15 345 19 4 4 15 342 14 323 14 111 14 50 15 345 15 324 15 346 19 7 326 29) #1# #2# 41334) #Y(si::bytecodes nil nil (15 342 15 1 15 347 15 348 19 4 4 15 342 77 15 349 15 350 1 354 12 19 5 318 29) #1# #2# 41479) #Y(si::bytecodes nil nil (15 355 15 1 15 356 15 357 19 4 4 15 355 14 50 77 15 358 19 4 4 15 355 14 323 14 111 14 50 15 358 15 324 15 359 19 7 326 29) #1# #2# 41776) #Y(si::bytecodes nil nil (15 355 15 1 15 360 15 361 19 4 4 15 355 77 15 362 15 363 1 366 12 19 5 318 29) #1# #2# 41951) #Y(si::bytecodes nil nil (15 367 15 1 15 368 15 369 19 4 4 15 367 14 50 77 15 370 19 4 4 15 367 1 371 12 19 2 61 15 367 15 135 15 372 19 3 137 1 367 73 29) #1# #2# 42245) #Y(si::bytecodes nil nil (15 373 15 1 15 374 15 375 19 4 4 15 373 14 50 77 15 376 19 4 4 15 373 1 377 12 19 2 61 15 373 15 135 15 378 19 3 137 1 373 73 29) #1# #2# 42521) #Y(si::bytecodes nil nil (15 379 15 1 15 380 15 381 19 4 4 15 379 77 15 382 15 383 1 388 12 19 5 318 29) #1# #2# 42682) #Y(si::bytecodes nil nil (15 384 15 1 15 389 15 390 19 4 4 15 384 77 15 391 15 392 1 397 12 19 5 318 29) #1# #2# 42985) #Y(si::bytecodes nil nil (15 398 15 1 15 399 15 400 19 4 4 15 398 14 50 77 15 401 19 4 4 15 398 1 442 12 19 2 61 1 398 73 29) #1# #2# 44497) #Y(si::bytecodes nil nil (15 443 15 1 15 444 15 445 19 4 4 15 443 14 50 77 15 446 19 4 4 15 443 1 450 12 19 2 61 1 443 73 29) #1# #2# 46040) #Y(si::bytecodes nil nil (15 451 15 1 15 452 15 453 19 4 4 15 451 14 50 77 15 454 19 4 4 15 451 1 455 12 19 2 61 1 451 73 29) #1# #2# 46224) #Y(si::bytecodes nil nil (14 256 77 14 404 14 456 15 457 14 458 15 459 14 460 15 461 14 324 15 462 19 9 463 12 14 408 14 456 15 447 14 458 77 14 460 15 464 14 324 15 465 19 9 463 12 14 412 14 456 15 457 14 458 15 466 14 460 15 467 14 324 15 468 19 9 463 12 14 432 14 456 15 469 14 460 15 470 14 458 15 471 14 324 15 472 19 9 463 12 14 416 14 456 15 469 14 458 15 473 14 460 15 474 14 324 15 475 19 9 463 12 14 420 14 456 15 443 14 458 77 14 460 15 476 14 324 15 477 19 9 463 12 14 428 14 456 15 447 14 458 14 111 14 460 15 478 14 324 15 479 19 9 463 12 14 424 14 456 15 469 14 458 15 480 14 460 15 481 14 324 15 482 19 9 463 6 8 12 14 483 15 0 19 1 34 12 19 1 484 12 14 324 15 485 14 486 15 451 14 487 15 379 14 488 15 384 14 489 15 398 14 490 14 491 14 492 11 493 6 3 12 19 17 494 29) #1# #2# 46318))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Authors     : Mike Byrne & Dan Bothell
+;;; Address     : Rice University, MS-25
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;; 
+;;; Copyright   : (c)1998-2005 Mike Byrne & Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LICENSE.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : device-interface.lisp
+;;; Version     : 7.3
+;;; 
+;;; Description : File for managing the device interface.
+;;; 
+;;; Bugs        : None known.
+;;; 
+;;; Todo        : Nothing pending.
+;;; 
+;;; ----- History -----
+;;; 2004.10.19 Dan [Moved into ACT-R 6]
+;;;             : Lots of changes - first being a reset of version to 1.0a1
+;;;
+;;;             : Added the package switches for the act-r package and
+;;;             : the "clean" packaging
+;;;
+;;;             : Removed the following:
+;;;                      pm-get-time, pm-timed-event, pm-delayed-event
+;;;                         new functions replace these: mp-time and all of the
+;;;                         new scheduling functions
+;;;                         may want to put back as depricated to ease transition
+;;;
+;;;                      reset-module 
+;;;                         because a model reset calls reset-device directly
+;;;                      
+;;;                      run-events, new-message 
+;;;                         everything goes through the central scheduler
+;;;                         instead of separate event queues
+;;;
+;;;                      pm-install-module, update-module, silent-events
+;;;                         master-process functionality replaced
+;;;
+;;;                      process-display and update-cursor-feat
+;;;                         moved specific methods to the vision module since 
+;;;                         that's really more the critical class and the
+;;;                         device preceeds the specific modules now
+;;;
+;;;             : Added:
+;;;                      current-device-interface, install-device, 
+;;;                      current-device, proc-display
+;;;
+;;;             : Moved these from elsewhere to here
+;;;                      pm-angle-to-pixels, pm-pixels-to-angle  
+;;; 2005.01.11 mdb
+;;;             : Added a couple toplevel functions for backward compatibility.        
+;;;
+;;; 2005.01.12 Dan
+;;;             : Made the device an actual module so that it can have its
+;;;             : own parameters.
+;;;             :
+;;;             : Moved the newly added backward compatibility functions to the
+;;;             : backward file in support.
+;;; 2005.01.13 Dan
+;;;             : * Added the the two new methods lock-device and unlock-device
+;;;             :   along with the appropriate slots and changes to reset-device
+;;;             :   to allow other modules to block and unblock proc-display 
+;;;             :   from actually going.  [Right now, that's a problem with
+;;;             :   productions potentially jamming vision if a proc-display
+;;;             :   happens between the time of the query for free and the
+;;;             :   time that the +visual command is actually sent.]
+;;; 2005.02.17 Dan
+;;;             : * Fixed the references in the *pixels-per-inch-* settings
+;;;             :   so that ACL gets the packaging correct.
+;;; 2005.05.11 Dan
+;;;             : * Added the :vwt paramter and corresponding virtual-trace
+;;;             :   slot to the device interface to control the output of the
+;;;             :   << ... >> printing from the vw-output command used by the
+;;;             :   virtual window device.
+;;; 2005.08.10 Dan
+;;;             : * Removed a duplicate definition of prod-display.
+;;; 2005.11.02 Dan
+;;;             : * Updated unlock-device so that tracking updates can be
+;;;             :   recognized and handled as well as full proc-displays.
+;;; 2006.03.07 Dan
+;;;             : * Fixed an old bug which I don't know how it got back in...
+;;;             :   the theta for hyphen in the key mapping should be -1.11.
+;;; 2006.03.08 Dan
+;;;             : * Made the key-to-loc and key-to-command tables consistent
+;;;             :   with respect to - and hyphen.  Both tables now have entries
+;;;             :   for both symbols mapped to the same things.
+;;; 2006.09.11 Dan
+;;;             : * Changed valid test for :mouse-fitts-coeff from posnum to nonneg.
+;;; 2006.12.14 Dan
+;;;             : * Changed current-device-interface so that it only returns
+;;;             :   one value.
+;;;             : * Reset all the versions to 1.1...
+;;; 2006.12.18 Dan
+;;;             : * Removed the :speech-hook parameter since it was depricated
+;;;             :   long ago.
+;;;             : * Also removed the :output-speech parameter because it doesn't
+;;;             :   really have a purpose now - the default devices all have a
+;;;             :   device-speak-string method even if it doesn't do anything.
+;;; 2006.12.28 Dan
+;;;             : * Made proc-display better check for current mp/model/device.
+;;; 2007.01.09 Dan
+;;;             : * Make output-key check the keyboard array boundaries to avoid
+;;;             :   errors when bad key-locations come in.
+;;; 2007.05.24 Dan
+;;;             : * Removed the device-hook slot and call from the update-device
+;;;             :   method since it was depricated long ago.
+;;; 2007.06.20 Dan
+;;;             : * Changed dmo-to-xy to xy-loc for use with the new vision
+;;;             :   module.
+;;;             : * Replaced the generic build-features-for and cursor-to-feature
+;;;             :   with build-vis-loc-for and cursor-to-vis-loc.
+;;; 2007.07.16 Dan
+;;;             : * Fixed a bug in the default device-speak-string method that
+;;;             :   would cause it to throw the "wrong" error.
+;;; 2008.08.11 Dan [1.2]
+;;;             : * Added a new parameter :stable-loc-names which controls
+;;;             :   whether or not the virtual device sorts the subviews to
+;;;             :   guarantee the same names on different runs.  The default is
+;;;             :   t which means it still does the sorting.  Setting it to nil
+;;;             :   should improve performance when using the virtual devices.
+;;;             : * Also took the package setting out of the mode line at the
+;;;             :   top since there isn't a specific package for any of the
+;;;             :   source files.
+;;; 2009.09.08 Dan
+;;;             : * Fixed the key-to-command mapping for the period.
+;;; 2010.08.26 Dan
+;;;             : * Why is the space bar represented as space in the the
+;;;             :   key->command table but spc in the key->loc table, and
+;;;             :   why is it entered multiple times when they're all just
+;;;             :   overwriting the same entry?  Adding an entry for space
+;;;             :   into the key->loc table at 6,6 so there's at least a
+;;;             :   way to relate things.
+;;; 2011.01.19 Dan
+;;;             : * Changed unlock-device to use unlock-tracking instead of
+;;;             :   update-tracking since that has been depricated.
+;;; 2011.04.28 Dan
+;;;             : * Added some declaims to avoid compiler warnings about 
+;;;             :   undefined functions.
+;;; 2011.05.16 Dan
+;;;             : * Added a parameter to allow enabling trace-mouse-p and added
+;;;             :   a function, get-mouse-trace, to return the list of postions
+;;;             :   and times that have been recorded.
+;;; 2011.11.21 Dan
+;;;             : * Removing *actr-enabled-p* since it doesn't really do much
+;;;             :   of anything important, but its use in the tutorial models
+;;;             :   makes it seem like it's something "special" and that requires 
+;;;             :   edit/save/reloads which aren't really needed.  
+;;;             :   Instead, replacing it with a command model-generated-action 
+;;;             :   which returns true during the handling of the device methods
+;;;             :   that get called as a result of the model performing the 
+;;;             :   action so that they can be distinguished from a person if
+;;;             :   needed.  However, this can't really be used at the "user"
+;;;             :   level in general because it may or may not be valid during
+;;;             :   the rpm-window- handler or the button action functions
+;;;             :   when "real windows" are being used.
+;;; 2012.06.26 Dan [1.3]
+;;;             : * An installed device no longer persists across a reset.
+;;;             : * Update-attended-loc now only gets called when the attention
+;;;             :   actually changes or when the device changes.
+;;;             : * Update-attended-loc can now get called with nil for the location
+;;;             :   when the vision module "stops" attending to something which
+;;;             :   can happen when there's an explicit visual clear request or
+;;;             :   when the device changes, and it also gets called with nil
+;;;             :   when the window gets initially installed.
+;;;             : * There is a slot in the device interface for holding the 
+;;;             :   attention marker which can be used so that each model has
+;;;             :   its own: it can be accessed via the visual-fixation-marker 
+;;;             :   function which takes no parameters and there is a setf function 
+;;;             :   defined for it.  It returns the value for that slot from the
+;;;             :   current model's device interface. It defaults to nil when
+;;;             :   the model is initialized, but isn't changed at reset time
+;;;             :   since the device itself could persist.
+;;; 2012.08.27 Dan
+;;;             : * Changed the indicate-model-generated macro to actually setf
+;;;             :   the variable instead of using a let so that it "works" when
+;;;             :   different processes may need to check the value since 
+;;;             :   the rpm-window-key-event-handler may be called from an event
+;;;             :   thread instead of in the "ACT-R" thread.
+;;; 2012.09.07 Dan
+;;;             : * Removed the test for :actr-env-alone in the pixels-per-inch
+;;;             :   setting for ACL.
+;;; 2014.04.24 Dan
+;;;             : * Added commands to the press-key table so that all the keys
+;;;             :   in the "primary area" have a mapping, but it does assume that
+;;;             :   the model has a long right pinkie and can hit things 3+ keys
+;;;             :   away without moving the hand...
+;;;             : * Renamed some of the keys in the loc table because there were
+;;;             :   duplicates between the "primary area" and the keypad.  Now
+;;;             :   all of the keypad keys which appear in both areas are 
+;;;             :   prefixed with "keypad-".
+;;; 2014.05.21 Dan [2.0]
+;;;             : * Just now noticed that the pixels-to-angle code isn't quite 
+;;;             :   right given that we compute the location of something as
+;;;             :   it's center point.  It should be 2*(atan (/ (w/2) d) not
+;;;             :   just (atan (/ w d)) because that assumes a view from one
+;;;             :   end.  Of course, it's even odder than that because we also
+;;;             :   consider everything on the screen as the same distance, but
+;;;             :   really that's only true if the display is a spherical
+;;;             :   surface centered on the viewing position...
+;;;             :   The difference in values between those 2 calculations is
+;;;             :   generally negligible for the typical sizes and default 
+;;;             :   viewing distance.  However, since I'm adding in code to
+;;;             :   allow for distances other than the default I'm going to
+;;;             :   switch to the "better" calculation.
+;;; 2014.10.31 Dan
+;;;             : * Changed synch-mouse so that it has an optional parameter
+;;;             :   for indicating whether the action was "model generated"
+;;;             :   instead of treating all usage like it was.
+;;; 2015.05.20 Dan 
+;;;             : * Adding a new method for devices: vis-loc-coordinate-slots.
+;;;             :   It needs to return a list of three values which indicate the
+;;;             :   names of the slots used to hold the x, y, and z coordinates
+;;;             :   respectively for the visual location chunks created by the
+;;;             :   device.  The default is '(screen-x screen-y distance), but
+;;;             :   now one can use something else instead.
+;;;             :   It is only called when the device is installed thus it can't
+;;;             :   change dynamically and must be consistent for all features 
+;;;             :   in the device.
+;;; 2015.05.21 Dan
+;;;             : * Fixed the decalim for xy-loc.
+;;; 2015.09.01 Dan
+;;;             : * Added press-key shortcuts for the keypad assuming that the
+;;;             :   hand has been moved to it with hand-to-keypad or start-hand-
+;;;             :   at-keypad.
+;;; 2016.04.04 Dan [2.1]
+;;;             : * Allow :show-focus to also take string and symbol values for
+;;;             :   true.  Those values MAY be used by the device to indicate
+;;;             :   a color for the fixation ring.
+;;; 2016.07.20 Dan
+;;;             : * Update-device now sends the clof value to device-update-attended-loc
+;;;             :   since the current-marker value may not be a chunk anymore.
+;;; 2016.12.15 Dan [3.0]
+;;;             : * Start of the work to basically eliminate the device approach
+;;;             :   to PM interfacing to better support remote modeling.  For now
+;;;             :   all I've done is remove proc-display and the lock/unlock-device
+;;;             :   commands since those really belong to vision.
+;;; 2016.12.16 Dan
+;;;             : * Removed the declaim for unlock-tracking and the pending-procs
+;;;             :   slot.
+;;; 2016.12.19 Dan
+;;;             : * Remove the generic process-display method.
+;;; 2017.01.05 Dan 
+;;;             : * Complete overhaul.  This is no longer tied to any particular
+;;;             :   modules by default.  A module must register as an interface
+;;;             :   if it needs access to "devices".  Devices must be registered
+;;;             :   as well.  Both the interface and the device indicate init
+;;;             :   and remove commands (if needed) when registered.  Install-
+;;;             :   device takes a list of 2 or 3 items: module device {details}.
+;;;             :   When installing a device:
+;;;             :    - if that device and details are already installed for
+;;;             :       indicated module then do nothing
+;;;             :    - else  
+;;;             :     - if the indicated module only allows a single device and
+;;;             :       there is one already installed
+;;;             :         call the remove commands for the module then device
+;;;             :     - call the init commands for the module and device
+;;;             :     - store the record for this device being installed
+;;; 2017.01.11 Dan
+;;;             : * Removed the show-focus parameter and moved it to vision.
+;;; 2017.01.13 Dan
+;;;             : * Added the interface function to a device definition and the
+;;;             :   signal-device command for communicating with it through that
+;;;             :   function.
+;;;             : * Removed the keyboard related code.
+;;; 2017.01.18 Dan
+;;;             : * Removed the echo-act-r-output from commands.  The assumption
+;;;             :   now is that echoing is handled by the user.
+;;;             : * Use handle-evaluate-results.
+;;; 2017.01.26 Dan
+;;;             : * Removed output-speech.  That happens directly from speech
+;;;             :   module now.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.02.08 Dan
+;;;             : * Reworked the local versions of most remote commands to not
+;;;             :   go out through the dispatcher.
+;;;             : * Fixed bugs with the last change.
+;;; 2017.03.02 Dan
+;;;             : * Removed all the mouse code.
+;;; 2017.03.03 Dan
+;;;             : * Remove-device now returns t when remove is successful.
+;;; 2017.03.07 Dan [4.0]
+;;;             : * Signal-device command can't be single instance because it
+;;;             :   may be possible for a device being signaled to signal another
+;;;             :   which would cause a deadlock (the mouse signaling the exp-window
+;;;             :   is where it occurred).
+;;;             : * Reset and delete need to remove any installed devices.
+;;;             : * Adding a delete function to handle that now.
+;;;             : * When installing a device put it on the list before calling
+;;;             :   the init functions so that it can be referenced from there.
+;;;             :   Not certain that's the best way to handle things yet, but it
+;;;             :   fixes an issue with a window installing a mouse that then 
+;;;             :   needs to tell the window to draw the mouse...
+;;; 2017.06.02 Dan
+;;;             : * Wrapped some handle-evaluate-results around the evaluate 
+;;;             :   calls to catch errors.
+;;; 2017.06.16 Dan
+;;;             : * Adding a lock for protecting the device slot of the interface,
+;;;             :   a lock for the device-table and interface-table, a lock for the
+;;;             :   visual-fixation-marker, and a lock for the params.
+;;;             : * Removed the mouse tracing param and slots.
+;;; 2017.06.20 Dan
+;;;             : * Rewored install-, remove-, and signal- device to only lock as
+;;;             :   needed to avoid issues with devices that install devices (like
+;;;             :   experiment windows) and a recursive lock won't help because 
+;;;             :   since the interface/device actions themselves could be dispatched.
+;;;             : * Also marking them as not single instance.
+;;; 2017.06.23 Dan
+;;;             : * Added names for all the locks.
+;;; 2017.08.03 Dan
+;;;             : * Actually store the name of the interface in the structure.
+;;; 2017.08.09 Dan
+;;;             : * Remove all the declaims since they're unnecessary now. 
+;;; 2017.08.17 Dan
+;;;             : * Fixed a potential deadlock with respect to delete-device
+;;;             :   because it called the remove functions for devices and 
+;;;             :   interfaces while it held the device module's locks.
+;;; 2017.10.11 Dan
+;;;             : * Eliminate the vwt parameter and virtual-trace slot.
+;;; 2018.01.29 Dan
+;;;             : * Reformating the remove-device code since I was trying to
+;;;             :   figure out a problem with removing a mouse and realized that
+;;;             :   the indentation was off for remove-device eventhough it did
+;;;             :   work correctly.
+;;; 2018.02.08 Dan
+;;;             : * Don't abort from delete-device just because some device fails.
+;;;             :   Print a warning about that and continue with the rest.
+;;; 2018.03.05 Dan
+;;;             : * Rename signal-device notify-device since I call commands
+;;;             :   with no function signals...
+;;;             : * Why does notify-device have to go through dispatcher?  Is
+;;;             :   that necessary -- should it be monitorable?
+;;; 2018.03.12 Dan [5.0]
+;;;             : * Added available-devices and available-interfaces functions.
+;;;             : * Reworking it so that it's possible to install more than
+;;;             :   one of the same device -- that simplifies things with
+;;;             :   respect to a mouse because the device can be a cursor and
+;;;             :   the details can then specify mouse, joystick1, or joystick2
+;;;             :   and the same move-cursor command can just use whichever
+;;;             :   cursor device the hand is on.  It also allows more than
+;;;             :   one exp-window to be installed which means the cursor
+;;;             :   can be in global coordinates and if the windows translate
+;;;             :   things appropriately multiple windows could be available
+;;;             :   to vision at the same time.
+;;;             : * Interface fns all get whole device-list.
+;;; 2018.03.14 Dan
+;;;             : * Needs-mouse param can now be a symbol or string and will be
+;;;             :   converted to a color for the outline like show-focus does
+;;;             :   since each model has its own mouse now.  It also defaults to
+;;;             :   nil instead of t to avoid having to deal with it unless it's
+;;;             :   actually needed.
+;;; 2018.04.25 Dan [6.0]
+;;;             : * Eliminate the *pixels-per-inch-?* variables and just default
+;;;             :   to 72.
+;;;             : * Removed the visual-fixation-marker support and the cursor-loc.
+;;;             : * Renamed :mouse-fitts-coeff to :cursor-fitts-coeff.
+;;; 2018.04.26 Dan
+;;;             : * Current-devices now prints a warning if an invalid interface
+;;;             :   is provided.
+;;;             : * Added a remote current-devices.
+;;;             : * Defined-devices and defined-interfaces don't require a current
+;;;             :   model to operate.
+;;; 2018.05.21 Dan
+;;;             : * Renamed the slot from act-r-device-interface to -notification
+;;;             :   since it's called from notify-device to keep the terminology
+;;;             :   consistent.
+;;; 2018.05.30 Dan
+;;;             : * Put the key-closure-time param here instead of it being a
+;;;             :   fixed value (it was being added in the motor extensions).
+;;; 2018.06.13 Dan
+;;;             : * Updated the doc strings for remote commands to match the 
+;;;             :   current spec style.
+;;; 2018.10.04 Dan [7.0]
+;;;             : * An interface can now also provide a notification function 
+;;;             :   and there's a notify-interface command.  That allows for
+;;;             :   a better separation of device from module (for example
+;;;             :   keyboard and cursor device implementations currently access
+;;;             :   the motor module directly).
+;;;             : * Create a global variable with a default device interface to
+;;;             :   avoid having to create one for the non-model based commands.
+;;;             : * Notify-device and notify-interface decode the features provided
+;;;             :   from external calls with the embedded string mechanism, but
+;;;             :   don't decode the device or interface names.
+;;; 2018.11.01 Dan [7.1]
+;;;             : * A device now has two additional optional functions it can
+;;;             :   specify which are called by the motor module when a hand is
+;;;             :   set to the device and when the hand is unset from the device.
+;;;             :   They are called with two parameters: the device-list and the
+;;;             :   hand (left or right).
+;;;             : * Moved the default-target-width parameter here from motor.
+;;; 2020.01.10 Dan [7.2]
+;;;             : * Removed the #' and lambdas from the module interface functions
+;;;             :   since that's not allowed in the general system now.
+;;; 2021.10.19 Dan [7.3]
+;;;             : * Set the required flag for the module to a list of :motor, 
+;;;             :   :vision, and :speech, but it may be needed at other times
+;;;             :   since it handles all devices.
+;;; 2025.02.14 Dan 
+;;;             : * notify-device now prints a when there's an error in the
+;;;             :   interface function called instead of just passing the nil
+;;;             :   and error message back to the caller.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+;;; Class for the device-interface and a default one for convenience.
+
+(defclass device-interface ()
+  ((pixels-per-inch :accessor ppi :initarg :ppi :initform 72)
+   (viewing-distance :accessor viewing-distance :initform 15.0)
+   (device :accessor device :initform nil)
+   (device-lock :accessor device-lock :initform (bt:make-lock "device-lock"))
+   (key-closure-time :accessor key-closure-time :initform 0.010)
+   (with-cursor-p :accessor with-cursor-p :initform nil)
+   (mouse-fitts-coeff :accessor mouse-fitts-coeff :initform 0.1)
+   (show-focus-p :accessor show-focus-p :initarg :show-focus-p :initform nil)
+   (needs-mouse-p :accessor needs-mouse-p :initarg :needs-mouse-p :initform t)
+   (version-string :accessor version-string :initarg :version-string :initform "7.3")
+   (stable-names :accessor stable-names :initarg :stable-names :initform t)
+   (param-lock :accessor device-param-lock :initform (bt:make-lock "device-param"))
+   (device-tables-lock :accessor device-tables-lock :initform (bt:make-lock "device-tables") :allocation :class)
+   (interface-table :accessor interface-table :initform (make-hash-table :test 'equalp) :allocation :class)
+   (default-target-width :accessor default-target-width :initarg :default-target-width :initform 1.0)
+   (device-table :accessor device-table :initform (make-hash-table :test 'equalp) :allocation :class)))
+
+(defvar *default-device-interface* (make-instance 'device-interface))
+
+
+
+(defstruct interface name init remove single-device notification)
+(defstruct act-r-device init remove notification set unset) 
+
+(defun define-interface (name &optional init remove single? notification)
+  (let ((di *default-device-interface*))
+    (bt:with-lock-held ((device-tables-lock di))
+      (if (gethash name (interface-table di))
+          (print-warning "Interface ~s already exists and cannot be created." name)
+        (progn
+          (when init 
+            (unless (check-act-r-command init)
+              (print-warning "Init function ~s specified for interface ~s is not available.  Cannot create interface." init name)
+              (return-from define-interface)))
+          (when remove 
+            (unless (check-act-r-command remove)
+              (print-warning "Remove function ~s specified for interface ~s is not available.  Cannot create interface." remove name)
+              (return-from define-interface)))
+          (when notification 
+            (unless (check-act-r-command notification)
+              (print-warning "Notification function ~s specified for interface ~s is not available.  Cannot create interface." notification name)
+              (return-from define-interface)))
+          (setf (gethash name (interface-table di)) (make-interface :name name :init init :remove remove :single-device single? :notification notification))
+          t)))))
+
+(add-act-r-command "define-interface" 'define-interface "Command to add a new interface. Params: name {init-command {remove-command {single-device {notification}}}}")
+
+(defun undefine-interface (name)
+  (let ((di *default-device-interface*))
+    (bt:with-lock-held ((device-tables-lock di))
+      (when (gethash name (interface-table di))
+        (remhash name (interface-table di))
+        t))))
+
+(add-act-r-command "undefine-interface" 'undefine-interface "Command to remove an interface. Params: name")
+
+
+
+(defun notify-interface (name features)
+  "Send the provided features to the named interface"
+  (let* ((di *default-device-interface*)
+         (interface (bt:with-lock-held ((device-tables-lock di)) (gethash name (interface-table di)))))
+    (if interface
+        (aif (interface-notification interface)
+             (dispatch-apply it features)
+             (print-warning "Interface ~s does not accept notifications. Ignoring notification features ~s." name features))
+      (print-warning "Interface ~s could not be found when calling notify-interface with features ~s." name features))))
+
+
+(defun external-notify-interface (name features)
+  (notify-interface name (decode-string-names features)))
+
+
+(add-act-r-command "notify-interface" 'external-notify-interface "Send features to the indicated interface. Params: interface 'features'" nil)
+
+(defun define-device (name &optional init remove notification set-hand unset-hand)
+  (let ((di *default-device-interface*))
+    (bt:with-lock-held ((device-tables-lock di))
+      (if (gethash name (device-table di))
+          (print-warning "Device ~s already exists and cannot be created." name)
+        (progn
+          (when init 
+            (unless (check-act-r-command init)
+              (print-warning "Init function ~s specified for device ~s is not available.  Cannot define device."
+                             init name)
+              (return-from define-device)))
+          (when remove 
+            (unless (check-act-r-command remove)
+              (print-warning "Remove function ~s specified for device ~s is not available.  Cannot define device."
+                             remove name)
+              (return-from define-device)))
+          (when notification 
+            (unless (check-act-r-command notification)
+              (print-warning "Notification function ~s specified for device ~s is not available.  Cannot define device."
+                             notification name)
+              (return-from define-device)))
+          (when set-hand 
+            (unless (check-act-r-command set-hand)
+              (print-warning "Set-hand function ~s specified for device ~s is not available.  Cannot define device."
+                             set-hand name)
+              (return-from define-device)))
+          (when unset-hand 
+            (unless (check-act-r-command unset-hand)
+              (print-warning "Unset-hand function ~s specified for device ~s is not available.  Cannot define device."
+                             unset-hand name)
+              (return-from define-device)))
+          (setf (gethash name (device-table di)) (make-act-r-device :init init :remove remove :notification notification :set set-hand :unset unset-hand))
+          t)))))
+
+(add-act-r-command "define-device" 'define-device "Command to add a new device. Params: name {init-command {remove-command {notification-command {hand-set {hand-unset}}}}")
+
+        
+
+(defun undefine-device (name)
+  (let ((di *default-device-interface*))
+    (bt:with-lock-held ((device-tables-lock di))
+      (when (gethash name (device-table di))
+        (remhash name (device-table di))
+        t))))
+
+(add-act-r-command "undefine-device" 'undefine-device "Command to remove a device. Params: name")
+
+
+
+(defun install-device (device-list)
+  "Set a device with which a model will interact"
+  (verify-current-model
+   "install-device called with no current model."
+      
+      (if (and (listp device-list) 
+               (<= 2 (length device-list) 3))
+          (let ((interface-name (first device-list))
+                (device-name (second device-list))
+                (devin (current-device-interface))
+                interface device)
+            
+            (bt:with-lock-held ((device-tables-lock devin))
+              (setf interface (gethash interface-name (interface-table devin)))
+              (setf device (gethash device-name (device-table devin))))
+            
+            (cond ((null interface)
+                   (print-warning "Invalid interface ~s in call to install-device with ~s. No device installed."
+                                  interface-name device-list))
+                  ((null device)
+                   (print-warning "Invalid device ~s in call to install-device with ~s. No device installed."
+                                  device-name device-list))
+                  (t
+                   (let ((d (bt:with-lock-held ((device-lock devin))
+                              (device devin))))
+                     
+                     (if (find device-list d :test 'equalp)
+                         (print-warning "The device ~s is already installed. No device installed." device-list)
+                       (progn
+                         (awhen (and (interface-single-device interface)
+                                     (find interface-name d :key 'first :test 'string-equal))
+                                (when (interface-remove interface)
+                                  (unless (handle-evaluate-results (evaluate-act-r-command (interface-remove interface) it))
+                                    (return-from install-device nil)))
+                                (when (act-r-device-remove device)
+                                  (unless (handle-evaluate-results (evaluate-act-r-command (act-r-device-remove device) it))
+                                    (return-from install-device nil)))
+                                (bt:with-lock-held ((device-lock devin))
+                                  (setf d (setf (device devin) (remove it (device devin))))))
+                         
+                         ;; should be there before trying to init 
+                         ;; but needs to be removed if errors occur
+                           
+                         (bt:with-lock-held ((device-lock devin))
+                           (push device-list (device devin)))
+                         
+                         (when (interface-init interface)
+                           (unless (handle-evaluate-results (evaluate-act-r-command (interface-init interface) device-list))
+                             (bt:with-lock-held ((device-lock devin))
+                               (setf (device devin) (remove device-list (device devin))))
+                             (return-from install-device nil)))
+                         (when (act-r-device-init device)
+                           (unless (handle-evaluate-results (evaluate-act-r-command (act-r-device-init device) device-list))
+                             (bt:with-lock-held ((device-lock devin))
+                               (setf (device devin) (remove device-list (device devin))))
+                             (return-from install-device nil)))
+                         device-list))))))
+        (print-warning "Invalid device-list provided ~s.  No device installed." device-list))))
+
+(add-act-r-command "install-device" 'install-device "Command to install a device for an interface. Params: (interface device {device-detail})" nil)
+
+(defun remove-device (device-list)
+  "Remove a device with which a model is interacting"
+   (verify-current-model
+    "remove-device called with no current model."
+    (let* ((devin (current-device-interface))
+           (device (bt:with-lock-held ((device-lock devin)) (device devin)))
+           (exists (find device-list device :test 'equalp)))
+          
+      (if exists
+          (let ((interface-name (first device-list))
+                (device-name (second device-list))
+                interface device)
+            (bt:with-lock-held ((device-tables-lock devin))
+              (setf interface (gethash interface-name (interface-table devin)))
+              (setf device (gethash device-name (device-table devin))))
+                
+            ;; The warning cases shouldn't happen since it was installed
+            ;; but it's possible that one was undefined after the install 
+            ;; which doesn't get caught currently.
+            
+            (cond ((null interface)
+                   (print-warning "Invalid interface ~s in call to remove-device with ~s. No device removed."
+                                  interface-name device-list))
+                  ((null device)
+                   (print-warning "Invalid device ~s in call to remove-device with ~s. No device removed."
+                                  device-name device-list))
+                  (t
+                   (when (interface-remove interface)
+                     (unless (handle-evaluate-results (evaluate-act-r-command (interface-remove interface) device-list))
+                           (return-from remove-device nil)))
+                   (when (act-r-device-remove device)
+                     (unless (handle-evaluate-results (evaluate-act-r-command (act-r-device-remove device) device-list))
+                       (return-from remove-device nil)))
+                   (bt:with-lock-held ((device-lock devin))
+                     (setf (device devin) (remove exists (device devin))))
+                   t)))
+        (print-warning "Device ~s is not currently installed and cannot be removed." device-list)))))
+
+(add-act-r-command "remove-device" 'remove-device "Command to remove a device for an interface. Params: (interface device {device-detail})" nil)
+
+(defun current-devices (interface)
+  "Return the devices for the named interface in the current model"
+  (verify-current-model
+   "current-devices called with no current model."
+   (let ((devin (current-device-interface)))
+     (bt:with-lock-held ((device-lock devin))
+       (if (gethash interface (interface-table devin))
+           (remove-if-not (lambda (x) (string-equal interface (first x))) (device devin))
+         (print-warning "~s does not name a valid interface in call to current-devices." interface))))))
+
+
+(add-act-r-command "current-devices" 'current-devices "Get the list of all devices installed for an interface. Params: interface" nil)
+
+(defun current-device-interface ()
+  "Return the device-interface for current model"
+  (values (get-module :device)))
+
+(defun defined-devices ()
+  (let ((di *default-device-interface*))
+    (bt:with-lock-held ((device-tables-lock di))
+      (hash-table-keys (device-table di)))))
+     
+
+(defun defined-interfaces ()
+  (let ((di *default-device-interface*))
+    (bt:with-lock-held ((device-tables-lock di))
+      (hash-table-keys (interface-table di)))))
+
+(add-act-r-command "defined-devices" 'defined-devices "Command to get the list of all defined devices. No params" nil)
+(add-act-r-command "defined-interfaces" 'defined-interfaces "Command to get the list of all defined interfaces. No params" nil)
+
+
+(defun notify-device (device-list features)
+  "Send the provided features to the named device for the specified interface in the current model in the current meta-process if such a function was provided"
+  (verify-current-model
+   "notify-device called with no current model."
+   (let ((di (current-device-interface)))
+     (if di
+         (let ((d (bt:with-lock-held ((device-lock di)) (device di))))
+           (if (find device-list d :test 'equalp)
+               (let ((device (gethash (second device-list) (bt:with-lock-held ((device-tables-lock di)) (device-table di)))))
+                 (dispatch-apply (act-r-device-notification device) device-list features))
+             (print-warning "Device ~s is not installed when trying to notify with features ~s." device-list features)))
+       (print-warning "Device-interface could not be found when trying notify device ~s." device-list)))))
+
+(defun external-notify-device (device-list features)
+  (notify-device device-list (decode-string-names features)))
+
+(add-act-r-command "notify-device" 'external-notify-device "Send features to the given device. Params: device-list 'features'" nil)
+
+(defun notify-device-hand-set (device-list hand)
+  "Call the set-hand command for the device if it has one"
+  (verify-current-model
+   "notify-device-hand-set called with no current model."
+   (let ((di (current-device-interface)))
+     (if di
+         (let ((d (bt:with-lock-held ((device-lock di)) (device di))))
+           (if (find device-list d :test 'equalp)
+               (let ((device (gethash (second device-list) (bt:with-lock-held ((device-tables-lock di)) (device-table di)))))
+                 (awhen (and device (act-r-device-set device))
+                   (dispatch-apply it device-list hand)))
+             (print-warning "Device ~s is not installed when trying to notify for hand being set." device-list)))
+       (print-warning "Device-interface could not be found when trying notify device ~s for hand being set." device-list)))))
+
+(defun notify-device-hand-unset (device-list hand)
+  "Call the unset-hand command for the device if it has one"
+  (verify-current-model
+   "notify-device-hand-set called with no current model."
+   (let ((di (current-device-interface)))
+     (if di
+         (let ((d (bt:with-lock-held ((device-lock di)) (device di))))
+           (if (find device-list d :test 'equalp)
+               (let ((device (gethash (second device-list) (bt:with-lock-held ((device-tables-lock di)) (device-table di)))))
+                 (awhen (and device (act-r-device-unset device))
+                   (dispatch-apply it device-list hand)))
+             (print-warning "Device ~s is not installed when trying to notify for hand being unset." device-list)))
+       (print-warning "Device-interface could not be found when trying notify device ~s for hand being unset." device-list)))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; some simple device-interface methods.
+
+
+(defmethod my-name ((mod device-interface))
+  :DEVICE)
+
+(defgeneric angle->pixels-mth (devin angle &optional dist)
+  (:documentation  "Determine the number of pixels subtending a visual angle."))
+
+(defmethod angle->pixels-mth ((devin device-interface) (angle number) &optional dist)
+  (bt:with-lock-held ((device-param-lock devin))
+    (if (numberp dist)
+        (round (* 2 dist (tan (deg->rad (/ angle 2)))))
+      (round (* 2 (viewing-distance devin) (ppi devin) (tan (deg->rad (/ angle 2))))))))
+
+
+(defgeneric pixels->angle-mth (devin pixels &optional dist)
+  (:documentation  "Determine the amount of visual angle subtended by <pixels>."))
+
+(defmethod pixels->angle-mth ((devin device-interface) (pixels number) &optional dist)
+  (bt:with-lock-held ((device-param-lock devin))
+    (if (numberp dist)
+        (rad->deg (* 2 (atan (/ pixels 2) dist)))
+      (rad->deg (* 2 (atan (/ pixels 2) (* (ppi devin) (viewing-distance devin))))))))
+
+
+(defgeneric find-viewing-dist-mth (devin angle pixels &optional in-pixels)
+  (:documentation  "Given the number of pixels an angle subtends, what's the viewing distance?"))
+
+(defmethod find-viewing-dist-mth ((devin device-interface) angle pixels &optional in-pixels)
+  (bt:with-lock-held ((device-param-lock devin))
+    (if in-pixels
+        (floor (/ pixels 2) (tan (deg->rad (/ angle 2))))
+      (floor (/ pixels 2) (* (tan (deg->rad (/ angle 2))) (ppi devin))))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; some simple user commands
+
+(defun pm-pixels-to-angle (pixels &optional dist)
+  "Convert <pixels> to degress of visual angle."
+  (pixels->angle-mth (current-device-interface) pixels dist))
+
+
+(defun pm-angle-to-pixels (angle &optional dist)
+  "Convert visual <angle> in degress to pixels."
+  (angle->pixels-mth (current-device-interface) angle dist))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; The actual module interface code.
+
+(defmethod reset-device ((devin device-interface))
+  
+  (delete-device devin)
+  
+  ;; Clear the installed devices now
+  (bt:with-lock-held ((device-lock devin))
+    (setf (device devin) nil)))
+
+(defmethod delete-device ((devin device-interface))
+  (let (interface device)
+    
+    (dolist (device-list (bt:with-lock-held ((device-lock devin)) (device devin)))
+      (bt:with-lock-held ((device-tables-lock devin))
+        (setf interface (gethash (first device-list) (interface-table devin))
+          device (gethash (second device-list) (device-table devin))))
+      
+      ;; The warning cases shouldn't happen since it was installed
+      ;; but it's possible that one was undefined after the install 
+      ;; which doesn't get caught currently.
+      
+      (cond ((null interface)
+             (print-warning "Invalid interface ~s while trying to remove-device with ~s. No device removed."
+                            (first device-list) device-list))
+            ((null device)
+             (print-warning "Invalid device ~s while trying to remove-device with ~s. No device removed."
+                            (second device-list) device-list))
+            (t
+             (when (interface-remove interface)
+               (unless (handle-evaluate-results (evaluate-act-r-command (interface-remove interface) device-list))
+                 (print-warning "Interface-remove failed for ~S" device-list)))
+             (when (act-r-device-remove device)
+               (unless (handle-evaluate-results (evaluate-act-r-command (act-r-device-remove device) device-list))
+                 (print-warning "Device-remove failed for ~S ~S" (act-r-device-remove device) device-list)))
+             t)))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Module interface functions
+
+(defun params-device-module (device param)
+    (bt:with-lock-held ((device-param-lock device))
+      (if (consp param)
+          (case (car param)
+            (:pixels-per-inch
+             (setf (ppi device) (cdr param)))
+            (:process-cursor
+             (setf (with-cursor-p device) (cdr param)))
+            (:viewing-distance
+             (setf (viewing-distance device) (cdr param)))
+            
+            (:cursor-fitts-coeff
+             (setf (mouse-fitts-coeff device) (cdr param)))
+            
+            (:needs-mouse
+             (setf (needs-mouse-p device) (cdr param)))
+            (:default-target-width
+             (setf (default-target-width device) (cdr param)))
+            (:stable-loc-names
+             (setf (stable-names device) (cdr param)))
+            (:key-closure-time
+             (setf (key-closure-time device) (cdr param)))
+            )
+        (case param
+          (:pixels-per-inch
+           (ppi device))
+          (:process-cursor
+           (with-cursor-p device))
+          (:viewing-distance
+           (viewing-distance device))
+          (:cursor-fitts-coeff
+           (mouse-fitts-coeff device))
+          (:needs-mouse
+           (needs-mouse-p device))
+          (:key-closure-time
+           (key-closure-time device))
+          (:stable-loc-names
+           (stable-names device))
+          (:default-target-width
+           (default-target-width device))))))
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Interface functions 
+
+(defun tornilorsymbolorstring (x) (or (tornil x) (symbolp x) (stringp x))) 
+
+(defun create-device-module (x)
+  (declare (ignore x))
+  (make-instance 'device-interface))
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Module definition
+
+(define-module-fct :device
+    nil
+  (list 
+   ;; From vision
+   (define-parameter :pixels-per-inch
+     :valid-test 'posnum 
+     :default-value 72.0
+     :warning "a non-negative number"
+     :documentation "Pixels per inch of display")
+   
+   (define-parameter :process-cursor
+     :valid-test 'tornil 
+     :default-value nil
+     :warning "T or NIL"
+     :documentation "Should the AGI create a visicon feature for the mouse cursor?")
+   
+   (define-parameter :viewing-distance
+     :valid-test 'posnum 
+     :default-value 15.0
+     :warning "a non-negative number"
+     :documentation "Distance of the eyes from the display, in inches.")
+   
+   ;; From motor
+   
+   (define-parameter :key-closure-time
+       :valid-test 'nonneg
+       :warning "a number"
+       :default-value 0.01
+       :documentation "Time between when a key is contacted and it registers as being hit.")
+   
+   (define-parameter :cursor-fitts-coeff
+     :valid-test 'nonneg 
+     :default-value 0.1
+     :warning "a non-negative number"
+     :documentation "b coefficient in Fitts's equation for aimed movements.")
+   
+   (define-parameter :needs-mouse
+     :valid-test 'tornilorsymbolorstring 
+     :default-value nil
+     :warning "T, NIL, a symbol, or string"
+     :documentation "Should the AGI install a mouse device?")
+   
+   (define-parameter :stable-loc-names
+     :valid-test 'tornil 
+     :default-value t
+     :warning "T or NIL"
+     :documentation "Whether or not to sort the virtual window's subviews to guarantee the names always line up")
+   
+   (define-parameter :default-target-width
+     :valid-test 'nonneg 
+     :default-value 1.0
+     :warning "a non-negative number"
+     :documentation 
+     "Width of targets with unspecified widths for approach-width calculations and ply motor actions (no units)."))
+  
+  :version (version-string (make-instance 'device-interface))
+  :documentation "The device interface for a model"
+  :creation 'create-device-module
+  :reset 'reset-device
+  :delete 'delete-device
+  :params 'params-device-module
+  :required (list :motor :vision :speech))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc.,  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

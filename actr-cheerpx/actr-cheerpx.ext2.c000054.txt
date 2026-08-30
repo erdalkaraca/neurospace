@@ -1,0 +1,1272 @@
+a item in call to history-data-available." name)))))))
+
+(add-act-r-command "history-data-available" 'history-data-available-fct "Return whether there is any data available for the indicated history stream. Params: history-name {param*}")
+
+(defmacro get-history-data (name &optional file &rest rest)
+  `(apply 'get-history-data-fct ',name ',file ',rest))
+
+(defun get-history-data-fct (name &optional file &rest rest)
+  #+:single-threaded-act-r (when file 
+                             (print-warning "History file access unavailable in single-threaded model.")
+                             (return-from get-history-data-fct))
+  (if (not (stringp name))
+      (print-warning "Get-history-data given name ~s but names must be strings." name)
+    (let ((history-recorder (get-component history-recorder)))
+      (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+        (setf name (string->name name))
+        (let ((s (gethash name (history-recorder-streams-table history-recorder))))
+          
+          (cond ((and (data-stream-p s) (data-stream-parent s))
+                 (apply 'get-history-data-fct (data-stream-external-name (data-stream-parent s)) file rest))
+                ((data-processor-p s)
+                 (process-history-data-fct (data-processor-external-name s) file rest nil))
+                ((data-stream-p s)
+                 (if file
+                     (multiple-value-bind (result err) (ignore-errors (probe-file file))
+                       (if (subtypep (type-of err) 'condition)   
+                           (print-warning "Error ~/print-error-message/ encountered while trying to open file ~s for get-history-data." err file)
+                         (if result
+                             (multiple-value-bind (d c) (parse-saved-history-data (data-stream-internal-name s) result)
+                               (if d
+                                   (if c
+                                       (values d c)
+                                     d)
+                                 (print-warning "File ~s does not contain valid data for history data source ~s in attempt get-history-data." file name)))
+                           (print-warning "File ~s could not be found in attempt to get-history-data for ~s." file name))))
+                   
+                   (if (and (data-stream-model-based s) (null (current-model)))
+                       (print-warning "Model based history ~a requires a current model to get data." name)
+                     
+                     (multiple-value-bind (enabled data alive)
+                         (dispatch-apply-list (data-stream-status s) rest)
+                       (if data
+                           (let ((d (dispatch-apply-list (data-stream-get s) rest)))
+                             (if (and d (listp d)
+                                      (every (lambda (x)
+                                               (and (listp x)
+                                                    (numberp (first x))))
+                                             d))
+                                 (multiple-value-bind (result err)
+                                     (ignore-errors (json:encode-json-to-string d))
+                                   (if (subtypep (type-of err) 'condition)   
+                                       (print-warning "Error ~/print-error-message/ encountered converting data from ~s to JSON." err d)
+                                     result))
+                               (print-warning "Get-history-data for history data source ~s with parameters ~s returned invalid data ~s." name rest d)))
+                         (let ((m (if (data-stream-model-based s)
+                                      (suppress-warnings (get-module :history-recorder))
+                                    (history-recorder-module history-recorder))))
+                           (if m
+                               (let ((state (gethash (data-stream-internal-name s) (history-module-state-table m))))
+                                 (cond ((null alive)
+                                        (print-warning "There is no data available for history data source ~s because the source is no longer available." name))
+                                       ((and (null enabled) (null state))
+                                        (print-warning "There is no data available for history data source ~s because recording was never started." name))
+                                       ((and (null enabled) (eq state :enabled))
+                                        (print-warning "There is no data available for history data source ~s and although recording was started it has since been disabled through other means." name))
+                                       ((and (null enabled) (eq state :was-enabled))
+                                        (print-warning "There is no data available for history data source ~s and it appears that recording was not started because it had been enabled through other means and has since been disabled through other means." name))
+                                       ((and (null enabled) (eq state :disabled))
+                                        (print-warning "There is no data available for history data source ~s and recording was already stopped." name))
+                                       (enabled
+                                        (print-warning "There is no data available for history data source ~s but the recording is currently enabled." name))
+                                       (t 
+                                        (print-warning "There is no data available for history data source ~s and no indication as to why." name))))
+                             (print-warning "There is no data available for history data source ~s and there is no current model to determine the reason why." name))))))))
+                (t
+                 (print-warning "~s does not name a history data source in call to get-history-data." name))))))))
+
+(add-act-r-command "get-history-data" 'get-history-data-fct "Return the indicated history stream data from the specfied file or current data using indicated parameters if no file given. Params: history-name {file-name-or-nil} {additional-parameters}*")
+
+(defmacro process-history-data (name &optional file data-params processor-params)
+  `(process-history-data-fct ',name ',file ',data-params ',processor-params))
+
+(defun process-history-data-fct (name &optional file data-params processor-params)
+  #+:single-threaded-act-r (when file 
+                             (print-warning "History file access unavailable in single-threaded model.")
+                             (return-from process-history-data-fct))
+  (if (not (stringp name))
+      (print-warning "Process-history-data given name ~s but names must be strings." name)
+    (let ((history-recorder (get-component history-recorder)))
+      (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+        (setf name (string->name name))
+        (let ((p (gethash name (history-recorder-streams-table history-recorder))))
+          (if (data-processor-p p)
+              (multiple-value-bind (data comment) (apply 'get-history-data-fct (data-stream-external-name (data-processor-stream p)) file data-params)
+                (if data
+                    (let ((d (dispatch-apply-list (data-processor-get p) (append (list data) processor-params))))
+                      (multiple-value-bind (result err)
+                          (ignore-errors (json:encode-json-to-string d))
+                        (if (subtypep (type-of err) 'condition)   
+                            (print-warning "Error ~/print-error-message/ encountered converting data from ~s to JSON." err d)
+                          (values result comment))))
+                  (print-warning "No history data available from the source for processor ~a" name)))
+            (print-warning "~a does not name a history data processor in call to process-history-data" name)))))))
+
+(add-act-r-command "process-history-data" 'process-history-data-fct "Return the result of applying the named processor to the history data from the specfied file or current data using indicated parameters if no file given. Params: processor-name {file-name-or-nil} {additional-parameters}*")
+
+
+(defun start-incremental-history-data-fct (name size &optional file &rest rest)
+  #+:single-threaded-act-r (when file 
+                             (print-warning "History file access unavailable in single-threaded model.")
+                             (return-from start-incremental-history-data-fct))
+  (if (not (stringp name))
+      (print-warning "Start-incremental-history-data given name ~s but names must be strings." name)
+    (let ((history-recorder (get-component history-recorder)))
+      (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+        
+        (if file
+            (multiple-value-bind (results comment) (apply 'get-history-data-fct (append (list name) (list (if file file nil)) rest))
+              (if results
+                  (let* ((id (incf (history-recorder-current-id history-recorder)))
+                         (data (json:decode-json-from-string results))
+                         (segments (ceiling (length results) size))
+                         (step-size (max 1 (floor (length data) segments))))
+                    (setf (gethash id (history-recorder-incremental-table history-recorder))
+                      (list :file step-size (if comment comment "") data))
+                    id)
+                nil))
+          
+          (let ((results (apply 'get-history-data-fct name file rest)))
+            (if results
+                (let* ((id (incf (history-recorder-current-id history-recorder)))
+                       (data (json:decode-json-from-string results))
+                       (segments (ceiling (length results) size))
+                       (step-size (max 1 (floor (length data) segments))))
+                  (setf (gethash id (history-recorder-incremental-table history-recorder))
+                    (list :data step-size data))
+                  id)
+              nil)))))))
+
+(add-act-r-command "start-incremental-history-data" 'start-incremental-history-data-fct "Returns an id for incrementally acquiring the history data from the specfied file or current data using the indicated parameters if no file given in segements roughly the length specified. Params: processor-name byte-size-suggestion {file-name-or-nil} {additional-parameters}*")
+
+(defun get-incremental-history-data-fct (id)
+  (let ((history-recorder (get-component history-recorder)))
+    (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+      (multiple-value-bind (item exists) (gethash id (history-recorder-incremental-table history-recorder))
+        (if exists
+            (if (eq (car item) :file)
+                (let* ((step (second item))
+                       (comment (third item))
+                       (data (fourth item))
+                       (send (json:encode-json-to-string comment)))
+                  (setf (gethash id (history-recorder-incremental-table history-recorder)) (list :data step data))
+                  send)
+              (let* ((step (second item))
+                     (data (third item))
+                     (end (min step (length data)))
+                     (sub (subseq data 0 end))
+                     (send (json:encode-json-to-string sub))
+                     (remain (when (<= end (length data)) (subseq data end))))
+                (if data
+                    (setf (gethash id (history-recorder-incremental-table history-recorder)) (list :data step remain))
+                  (remhash id (history-recorder-incremental-table history-recorder))
+                  )
+                send))
+          (print-warning "Invalid id ~s given for get-incremental-history-data." id))))))
+
+(add-act-r-command "get-incremental-history-data" 'get-incremental-history-data-fct "Return the next segment from the history data associated with the given id or an empty list if there is no more data. Params: id")
+
+(defmacro save-history-data (name file &optional comment &rest rest)
+  `(save-history-data-fct ',name ',file ',comment ',@rest))
+
+(defun save-history-data-fct (name file &optional comment &rest rest)
+  #+:single-threaded-act-r (when file 
+                             (print-warning "History file access unavailable in single-threaded model.")
+                             (return-from save-history-data-fct))
+  (if (not (stringp name))
+      (print-warning "Save-history-data given name ~s but names must be strings." name)
+    (let ((history-recorder (get-component history-recorder)))
+      (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+        (setf name (string->name name))
+        (let* ((start (gethash name (history-recorder-streams-table history-recorder)))
+               (s (cond ((data-stream-p start)
+                         (aif (data-stream-parent start) it start))
+                        ((data-processor-p start)
+                         (data-processor-stream start)))))
+          (if s
+              (let ((data (apply 'get-history-data-fct (append (list (data-stream-external-name s) nil) rest))))
+                (if data
+                    (handler-case 
+                        (progn
+                          (with-open-file (f file :direction :output :if-does-not-exist :create :if-exists :supersede)
+                            (format f "{\"name\": \"~a\",~%" (data-stream-internal-name s))
+                            (multiple-value-bind (second minute hour date month year) (get-decoded-time)
+                              (format f "\"date\": \"~d/~2,'0d/~2,'0d ~2,'0d:~2,'0d:~2,'0d\",~%"  year month date hour minute second))
+                            (format f "\"version\": ~s,~%" (act-r-version-string))
+                            (if (stringp comment)
+                                (format f "\"comment\": ~s,~%" comment)
+                              (print-warning "A comment for save-history-data must be a string but given ~s which will be ignored." comment))
+                            (format f "\"data\": ~s~%}" data))
+                          t)
+                      (error (x) 
+                        (print-warning "Error ~/print-error-message/ occurred while trying to save history ~s to file ~s." x name file)))
+                  (print-warning "No history data available for ~a in call to save-history-data." name)))
+            (print-warning "~a does not name a history data source item in call to save-history-data." name)))))))
+
+(add-act-r-command "save-history-data" 'save-history-data-fct "Save the current history data from the indicated history stream and parameters to the specifed file. Params: history-name file-name {additional-parameters}*")
+
+
+(defun parse-saved-history-data (requested file)
+  (declare (ignorable requested))
+  #+:single-threaded-act-r (when file 
+                             (print-warning "History file access unavailable in single-threaded model.")
+                             (return-from parse-saved-history-data))
+  #-:single-threaded-act-r (handler-case
+                               (let* ((d (json:decode-json-from-source file))
+                                      (name (cdr (assoc :name d)))
+                                      (version (cdr (assoc :version d)))
+                                      (data (cdr (assoc :data d)))
+                                      (comment (cdr (assoc :comment d))))
+                                 (if (eq (string->name name) requested)
+                                     (progn
+                                       (written-for-act-r-version version (format nil "Saved history data stream ~s in file ~s" requested file))
+                                       (if comment 
+                                           (values data comment) 
+                                         data))
+                                   (print-warning "File ~s contains data for history ~s instead of desired history ~s." file name requested)))
+                             (error (x) 
+                               (print-warning "Error ~/print-error-message/ occurred while trying to read history ~s from file ~s." x requested file))))
+
+
+(defmacro record-history (&rest names)
+  `(apply 'record-history-fct ',names))
+  
+(defun record-history-fct (&rest names)
+  (let ((history-recorder (get-component history-recorder))
+        (results (make-list (length names) :initial-element nil)))
+    (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+      (dotimes (i (length names) (values-list results))
+        (let ((n (nth i names)))
+          (if (not (stringp n))
+              (print-warning "Record-history given name ~s but names must be strings." n)
+            
+            (let* ((o-name (string->name n))
+                   (start (gethash o-name (history-recorder-streams-table history-recorder)))
+                   (s (cond ((data-stream-p start)
+                             start)
+                            ((data-processor-p start)
+                             (data-processor-stream start))))
+                   (name (when s (data-stream-internal-name s))))
+              (if s
+                (let ((m (if (data-stream-model-based s)
+                             (suppress-warnings (get-module :history-recorder))
+                           (history-recorder-module history-recorder))))
+                  (if m
+                      (multiple-value-bind (enabled data alive)
+                          (dispatch-apply (data-stream-status s))
+                        (declare (ignore data))
+                        (if alive
+                            (let ((state (gethash name (history-module-state-table m))))
+                              (cond ((and enabled (or (eq state :disabled) (null state)))
+                                     (setf (gethash name (history-module-state-table m))
+                                       :was-enabled))
+                                    (enabled 
+                                     ;; do nothing - either was-enabled or enabled so what expected
+                                     )
+                                    ((and (null enabled) (eq state :enabled))
+                                     (print-warning "History data source ~s should have already been recording, but was off and is being re-enabled." name)
+                                     (dispatch-apply (data-stream-enable s)))
+                                    ((and (null enabled) (eq state :was-enabled))
+                                     (print-warning "History data source ~s had been enabled for recording by other means and is now off, but is being re-enabled." name)
+                                     (dispatch-apply (data-stream-enable s)))
+                                    ((null enabled)
+                                     (dispatch-apply (data-stream-enable s))
+                                     (setf (gethash name (history-module-state-table m)) :enabled)))
+                              
+                              (if (gethash name (history-module-requests-table m))
+                                  (incf (gethash name (history-module-requests-table m)))
+                                (setf (gethash name (history-module-requests-table m)) 1))
+                              
+                              (when (data-stream-parent s)
+                                (unless (dispatch-apply (data-stream-status (data-stream-parent s)))
+                                  (print-warning "Data source constituent ~s enabled but parent source ~s is not." name (data-stream-external-name (data-stream-parent s)))))
+                              (setf (nth i results) t))
+                          (print-warning "Cannot enable history data source ~s because the current source is no longer available." name)))
+                    (print-warning "Cannot enable model-based history data source ~s when no model is available." name)))
+              (print-warning "~s does not name a history data source in call to record-history." n)))))))))
+  
+(add-act-r-command "record-history" 'record-history-fct "Start recording the named history information if not already being recorded. Params: history-name*")
+
+(defmacro stop-recording-history (&rest names)
+  `(apply 'stop-recording-history-fct ',names))
+  
+(defun stop-recording-history-fct (&rest names)
+  (let ((history-recorder (get-component history-recorder))
+        (results (make-list (length names) :initial-element nil)))
+    (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+      (dotimes (i (length names) (values-list results))
+        (let ((n (nth i names)))
+          (if (not (stringp n))
+              (print-warning "Stop-recording-history given name ~s but names must be strings." n)
+            (let* ((o-name (string->name n))
+                   (start (gethash o-name (history-recorder-streams-table history-recorder)))
+                   (s (cond ((data-stream-p start)
+                             start)
+                            ((data-processor-p start)
+                             (data-processor-stream start))))
+                   (name (when s (data-stream-internal-name s))))
+              (if s
+                  (let ((m (if (data-stream-model-based s)
+                               (suppress-warnings (get-module :history-recorder))
+                             (history-recorder-module history-recorder))))
+                    (if m
+                        (multiple-value-bind (enabled data alive)
+                            (dispatch-apply (data-stream-status s))
+                          (declare (ignore data))
+                          
+                          (when alive ;; if it's not alive don't care about disabling and no need to warn
+                            (let ((state (gethash name (history-module-state-table m)))
+                                  (val (gethash name (history-module-requests-table m))))
+                              
+                              (cond ((and val (numberp val) (plusp val))
+                                     (setf val (decf (gethash name (history-module-requests-table m)))))
+                                    ((and val (not (and (numberp val) (zerop val))))
+                                     (print-warning "Clearing unexpected value in recording table when attempting to stop recording of history source ~s." name)
+                                     (setf (gethash name (history-module-requests-table m)) 0
+                                       val 0))
+                                    (t
+                                     (print-warning "Attempting to stop recording history source ~s but it hasn't explicitly been started." name)))
+                              
+                              (setf (nth i results)
+                                (cond ((and enabled (eq state :enabled) (zerop val))
+                                       (dispatch-apply (data-stream-disable s))
+                                       (setf (gethash name (history-module-state-table m))
+                                         :disabled)
+                                       t)
+                                      ((and enabled (eq state :enabled))
+                                       ; do nothing already decremented
+                                       nil)
+                                      ((and enabled (null state))
+                                       (setf (gethash name (history-module-state-table m))
+                                         :was-enabled)
+                                       (print-warning "Cannot disable recording for history source ~s because it was enabled by other means." name))
+                                      (enabled
+                                       (print-warning "Cannot disable recording for history source ~s because it was enabled by other means." name))
+                                      ((and (eq state :enabled) (zerop val))
+                                       (setf (gethash name (history-module-state-table m)) :disabled) 
+                                       (print-warning "History recording for history source ~s was disabled by other means." name)
+                                       t)
+                                      ((eq state :enabled)
+                                       (print-warning "History recording for history source ~s was disabled externally but there are still pending requests to start it." name))
+                                      ((null state)
+                                       t)
+                                      (t 
+                                       (print-warning "History recording for history source ~s encounterd unexpected state because it toggled from enabled to disabled through other means." name)))))))
+                      (print-warning "Cannot disable model-based history data source ~s when no model is available." name)))
+                (print-warning "~s does not name a history data source in call to stop-recording-history." n)))))))))
+
+(add-act-r-command "stop-recording-history" 'stop-recording-history-fct "Stop recording the named history information if all requested starts have stopped. Params: history-name*")
+
+
+(defun reset-history-recorder (module) 
+  ;; If there are any unstopped starts (>0 value in requests)
+  ;; make sure it's turned on
+  (let ((history-recorder (get-component history-recorder)))
+    
+    (bt:with-recursive-lock-held ((history-recorder-lock history-recorder))
+      
+      (maphash (lambda (name val)
+                 (when (and (numberp val) (> val 0))
+                   (let ((s (gethash name (history-recorder-streams-table history-recorder))))
+                     (when s
+                       (unless (dispatch-apply (data-stream-status s))
+                         (dispatch-apply (data-stream-enable s)))))))
+               (history-module-requests-table module)))))
+
+(defun create-history-recorder-module (x)
+  (declare (ignore x))
+  (make-history-module))
+
+(define-module-fct :history-recorder nil nil
+  :creation 'create-history-recorder-module
+  :reset '(nil nil reset-history-recorder)
+  :required t
+  :version "2.2"
+  :documentation "Module to support the saving and accessing of information as a model runs.")
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : internal-macros.lisp
+;;; Version     : 1.0a1
+;;; 
+;;; Description : All of the defmacros for the internal code.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.10.07 Dan
+;;;             : Created.
+;;; 2013.01.04 Dan
+;;;             : * Added the cannot-define-model macro here.
+;;; 2013.01.07 Dan
+;;;             : * Changed cannot-define-model to use a count instead of t/nil.
+;;; 2016.09.27 Dan
+;;;             : * Moved current-mp here since it's just a simple closure now.
+;;; 2016.09.28 Dan
+;;;             : * Moved verify-current-mp here but it's just a dummy to avoid
+;;;             :   having to fix that everywhere else for now.
+;;; 2017.03.29 Dan
+;;;             : * Replaced the current-model slot in the meta-process and just
+;;;             :   using a global since there's only one meta-process and this
+;;;             :   lets me rebind it in a let on a per-thread basis.
+;;; 2017.03.30 Dan
+;;;             : * Moved current-mp and current-mp-fct to the structures file
+;;;             :   because they're needed for the locks code.
+;;;             : * Also moved the model related code.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; These are not for general use!
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; NONE!
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; I had some odd compiling order issues with the defstructs and defmacros
+;;; so for now the easy (only?) fix was to make sure that they are all 
+;;; available from the start.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+
+(defmacro cannot-define-model (&body body)
+  `(progn
+     (incf (meta-p-cannot-define-model (current-mp)))
+     (unwind-protect
+         (progn ,@body)
+       (decf (meta-p-cannot-define-model (current-mp))))))
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     (#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (692) ((ftype (function (t &rest t) t) common-lisp-user::evaluate-act-r-command) proclaim (ftype (function nil t) common-lisp-user::current-model) (ftype (function nil t) common-lisp-user::mp-models) common-lisp-user::act-r-buffer "ACT-R-BUFFER-" (#2="The internal structure for a buffer" common-lisp-user::name common-lisp-user::chunk common-lisp-user::flags common-lisp-user::module common-lisp-user::spread common-lisp-user::queries common-lisp-user::requests (common-lisp-user::requests-mask 0) common-lisp-user::parameter-name common-lisp-user::requested common-lisp-user::status-printing common-lisp-user::multi common-lisp-user::searchable common-lisp-user::chunk-set common-lisp-user::copy common-lisp-user::trackable (common-lisp-user::lock #3=(bordeaux-threads::make-recursive-lock #4="buffer-lock")) common-lisp-user::index common-lisp-user::mask common-lisp-user::module-instance common-lisp-user::reuse-chunk common-lisp-user::reuse?) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::chunk nil t nil 1 nil) (common-lisp-user::flags nil t nil 2 nil) (common-lisp-user::module nil t nil 3 nil) (common-lisp-user::spread nil t nil 4 nil) (common-lisp-user::queries nil t nil 5 nil) (common-lisp-user::requests nil t nil 6 nil) (common-lisp-user::requests-mask 0 t nil 7 nil) (common-lisp-user::parameter-name nil t nil 8 nil) (common-lisp-user::requested nil t nil 9 nil) (common-lisp-user::status-printing nil t nil 10 nil) (common-lisp-user::multi nil t nil 11 nil) (common-lisp-user::searchable nil t nil 12 nil) (common-lisp-user::chunk-set nil t nil 13 nil) (common-lisp-user::copy nil t nil 14 nil) (common-lisp-user::trackable nil t nil 15 nil) (common-lisp-user::lock #3# t nil 16 nil) (common-lisp-user::index nil t nil 17 nil) (common-lisp-user::mask nil t nil 18 nil) (common-lisp-user::module-instance nil t nil 19 nil) (common-lisp-user::reuse-chunk nil t nil 20 nil) (common-lisp-user::reuse? nil t nil 21 nil)) common-lisp-user::copy-act-r-buffer (common-lisp-user::make-act-r-buffer) #2# common-lisp-user::act-r-buffer-p si::define-structure ext::location (defstruct common-lisp-user::act-r-buffer) (#5=#P"/opt/actr/actr7.x/framework/internal-structures.lisp" . 25788) ext::annotate common-lisp-user::make-act-r-buffer (defun common-lisp-user::make-act-r-buffer) (#5# . 25788) :lambda-list (&key #6=#:name #7=#:chunk #8=#:flags #9=#:module #10=#:spread #11=#:queries #12=#:requests (#13=#:requests-mask 0) #14=#:parameter-name #15=#:requested #16=#:status-printing #17=#:multi #18=#:searchable #19=#:chunk-set #20=#:copy #21=#:trackable (#22=#:lock (bordeaux-threads::make-recursive-lock #4#)) #23=#:index #24=#:mask #25=#:module-instance #26=#:reuse-chunk #27=#:reuse?) (nil :reuse? :reuse-chunk :module-instance :mask :index :lock :trackable :copy :chunk-set :searchable :multi :status-printing :requested :parameter-name :requests-mask :requests :queries :spread :module :flags :chunk :name) #6# #7# #8# #9# #10# #11# #12# #13# #14# #15# #16# #17# #18# #19# #20# #21# #22# #23# #24# #25# #26# #27# 0 si::make-structure #Y(common-lisp-user::make-act-r-buffer nil nil (28 22 22 40 2 77 46 23 22 40 2 77 46 24 22 40 2 77 46 25 22 40 2 77 46 26 22 40 2 77 46 27 22 40 2 77 46 28 22 40 2 77 46 29 22 40 3 9 0 46 30 22 40 2 77 46 31 22 40 2 77 46 32 22 40 2 77 46 33 22 40 2 77 46 34 22 40 2 77 46 35 22 40 2 77 46 36 22 40 2 77 46 37 22 40 2 77 46 38 22 40 2 77 46 39 22 40 2 77 46 40 22 40 2 77 46 41 22 40 2 77 46 42 22 40 2 77 46 43 22 40 2 77 46 44 15 45 13 21 13 20 13 19 13 18 13 17 13 16 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 23 46 29) #1# #5# 25788) si::fset find-class common-lisp-user::act-r-chunk-spec "ACT-R-CHUNK-SPEC-" (#28="The internal structure of a chunk-spec" (common-lisp-user::filled-slots 0) (common-lisp-user::empty-slots 0) (common-lisp-user::request-param-slots 0) (common-lisp-user::duplicate-slots 0) (common-lisp-user::equal-slots 0) (common-lisp-user::negated-slots 0) (common-lisp-user::relative-slots 0) common-lisp-user::variables common-lisp-user::slot-vars common-lisp-user::dependencies common-lisp-user::slots common-lisp-user::testable-slots common-lisp-user::slot-names) ((common-lisp-user::filled-slots 0 t nil 0 nil) (common-lisp-user::empty-slots 0 t nil 1 nil) (common-lisp-user::request-param-slots 0 t nil 2 nil) (common-lisp-user::duplicate-slots 0 t nil 3 nil) (common-lisp-user::equal-slots 0 t nil 4 nil) (common-lisp-user::negated-slots 0 t nil 5 nil) (common-lisp-user::relative-slots 0 t nil 6 nil) (common-lisp-user::variables nil t nil 7 nil) (common-lisp-user::slot-vars nil t nil 8 nil) (common-lisp-user::dependencies nil t nil 9 nil) (common-lisp-user::slots nil t nil 10 nil) (common-lisp-user::testable-slots nil t nil 11 nil) (common-lisp-user::slot-names nil t nil 12 nil)) common-lisp-user::copy-act-r-chunk-spec (common-lisp-user::make-act-r-chunk-spec) #28# common-lisp-user::act-r-chunk-spec-p (defstruct common-lisp-user::act-r-chunk-spec) (#5# . 26202) common-lisp-user::make-act-r-chunk-spec (defun common-lisp-user::make-act-r-chunk-spec) (#5# . 26202) (&key (#29=#:filled-slots 0) (#30=#:empty-slots 0) (#31=#:request-param-slots 0) (#32=#:duplicate-slots 0) (#33=#:equal-slots 0) (#34=#:negated-slots 0) (#35=#:relative-slots 0) #36=#:variables #37=#:slot-vars #38=#:dependencies #39=#:slots #40=#:testable-slots #41=#:slot-names) (nil :slot-names :testable-slots :slots :dependencies :slot-vars :variables :relative-slots :negated-slots :equal-slots :duplicate-slots :request-param-slots :empty-slots :filled-slots) #29# #30# #31# #32# #33# #34# #35# #36# #37# #38# #39# #40# #41# 0 #Y(common-lisp-user::make-act-r-chunk-spec nil nil (28 64 22 40 3 9 0 46 65 22 40 3 9 0 46 66 22 40 3 9 0 46 67 22 40 3 9 0 46 68 22 40 3 9 0 46 69 22 40 3 9 0 46 70 22 40 3 9 0 46 71 22 40 2 77 46 72 22 40 2 77 46 73 22 40 2 77 46 74 22 40 2 77 46 75 22 40 2 77 46 76 22 40 2 77 46 77 15 78 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 14 46 29) #1# #5# 26202) common-lisp-user::act-r-slot-spec "ACT-R-SLOT-SPEC-" (#42="The internal structure of a chunk-spec's slot specification" (common-lisp-user::modifier #43='=) common-lisp-user::name common-lisp-user::value variable) ((common-lisp-user::modifier #43# t nil 0 nil) (common-lisp-user::name nil t nil 1 nil) (common-lisp-user::value nil t nil 2 nil) (variable nil t nil 3 nil)) common-lisp-user::copy-act-r-slot-spec (common-lisp-user::make-act-r-slot-spec) #42# common-lisp-user::act-r-slot-spec-p (defstruct common-lisp-user::act-r-slot-spec) (#5# . 26499) common-lisp-user::make-act-r-slot-spec (defun common-lisp-user::make-act-r-slot-spec) (#5# . 26499) (&key (#44=#:modifier '=) #45=#:name #46=#:value #47=#:variable) (nil :variable :value :name :modifier) = #44# #45# #46# #47# 0 #Y(common-lisp-user::make-act-r-slot-spec nil nil (28 94 22 40 3 15 95 46 96 22 40 2 77 46 97 22 40 2 77 46 98 22 40 2 77 46 99 15 100 13 3 13 2 13 1 13 0 19 5 46 29) #1# #5# 26499) common-lisp-user::act-r-chunk-type "ACT-R-CHUNK-TYPE-" (#48="The internal structure of a chunk-type" common-lisp-user::name documentation common-lisp-user::super-types common-lisp-user::parents common-lisp-user::slots common-lisp-user::possible-slots common-lisp-user::slot-vector (common-lisp-user::possible-slot-vector 0) (common-lisp-user::initial-spec #49=(common-lisp-user::make-act-r-chunk-spec))) ((common-lisp-user::name nil t nil 0 nil) (documentation nil t nil 1 nil) (common-lisp-user::super-types nil t nil 2 nil) (common-lisp-user::parents nil t nil 3 nil) (common-lisp-user::slots nil t nil 4 nil) (common-lisp-user::possible-slots nil t nil 5 nil) (common-lisp-user::slot-vector nil t nil 6 nil) (common-lisp-user::possible-slot-vector 0 t nil 7 nil) (common-lisp-user::initial-spec #49# t nil 8 nil)) common-lisp-user::copy-act-r-chunk-type (common-lisp-user::make-act-r-chunk-type) #48# common-lisp-user::act-r-chunk-type-p (defstruct common-lisp-user::act-r-chunk-type) (#5# . 26629) common-lisp-user::make-act-r-chunk-type (defun common-lisp-user::make-act-r-chunk-type) (#5# . 26629) (&key #50=#:name #51=#:documentation #52=#:super-types #53=#:parents #54=#:slots #55=#:possible-slots #56=#:slot-vector (#57=#:possible-slot-vector 0) (#58=#:initial-spec (common-lisp-user::make-act-r-chunk-spec))) (nil :initial-spec :possible-slot-vector :slot-vector :possible-slots :slots :parents :super-types :documentation :name) #50# #51# #52# #53# #54# #55# #56# #57# #58# 0 #Y(common-lisp-user::make-act-r-chunk-type nil nil (28 116 22 40 2 77 46 117 22 40 2 77 46 118 22 40 2 77 46 119 22 40 2 77 46 120 22 40 2 77 46 121 22 40 2 77 46 122 22 40 2 77 46 123 22 40 3 9 0 46 124 22 40 5 19 0 60 12 46 125 15 126 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 10 46 29) #1# #5# 26629) common-lisp-user::act-r-chunk-type-info "ACT-R-CHUNK-TYPE-INFO-" (#59="The structure to hold chunk-type information for a model" (common-lisp-user::slot->index #60=(make-hash-table)) (common-lisp-user::index->slot #61=(make-array (list 0) :adjustable t :fill-pointer t)) (common-lisp-user::size 0) (common-lisp-user::distinct-types #62=(make-hash-table)) common-lisp-user::extended-slots common-lisp-user::query-slots (common-lisp-user::table #63=(make-hash-table)) (common-lisp-user::types #64=(list 'common-lisp-user::chunk)) (common-lisp-user::lock #65=(bordeaux-threads::make-recursive-lock #66="chunk-type"))) ((common-lisp-user::slot->index #60# t nil 0 nil) (common-lisp-user::index->slot #61# t nil 1 nil) (common-lisp-user::size 0 t nil 2 nil) (common-lisp-user::distinct-types #62# t nil 3 nil) (common-lisp-user::extended-slots nil t nil 4 nil) (common-lisp-user::query-slots nil t nil 5 nil) (common-lisp-user::table #63# t nil 6 nil) (common-lisp-user::types #64# t nil 7 nil) (common-lisp-user::lock #65# t nil 8 nil)) common-lisp-user::copy-act-r-chunk-type-info (common-lisp-user::make-act-r-chunk-type-info) #59# common-lisp-user::act-r-chunk-type-info-p (defstruct common-lisp-user::act-r-chunk-type-info) (#5# . 27082) common-lisp-user::make-act-r-chunk-type-info (defun common-lisp-user::make-act-r-chunk-type-info) (#5# . 27082) (&key (#67=#:slot->index (make-hash-table)) (#68=#:index->slot (make-array (list 0) :adjustable t :fill-pointer t)) (#69=#:size 0) (#70=#:distinct-types (make-hash-table)) #71=#:extended-slots #72=#:query-slots (#73=#:table (make-hash-table)) (#74=#:types (list 'common-lisp-user::chunk)) (#75=#:lock (bordeaux-threads::make-recursive-lock #66#))) (nil :lock :types :table :query-slots :extended-slots :distinct-types :size :index->slot :slot->index) make-hash-table #67# :adjustable t :fill-pointer make-array #68# #69# #70# #71# #72# #73# common-lisp-user::chunk #74# #75# 0 #Y(common-lisp-user::make-act-r-chunk-type-info nil nil (28 142 22 40 5 19 0 143 12 46 144 22 40 18 8 0 6 1 12 14 145 14 146 14 147 14 146 19 5 148 12 46 149 22 40 3 9 0 46 150 22 40 5 19 0 143 12 46 151 22 40 2 77 46 152 22 40 2 77 46 153 22 40 5 19 0 143 12 46 154 22 40 6 1 155 6 1 12 46 156 22 40 2 77 46 157 15 158 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 10 46 29) #1# #5# 27082) common-lisp-user::act-r-chunk "ACT-R-CHUNK-" (#76="The internal structure of a chunk" common-lisp-user::name common-lisp-user::base-name documentation (common-lisp-user::filled-slots 0) common-lisp-user::slot-value-lists common-lisp-user::copied-from common-lisp-user::merged-chunks common-lisp-user::parameter-values common-lisp-user::immutable common-lisp-user::not-storable (common-lisp-user::lock #77=(bordeaux-threads::make-recursive-lock))) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::base-name nil t nil 1 nil) (documentation nil t nil 2 nil) (common-lisp-user::filled-slots 0 t nil 3 nil) (common-lisp-user::slot-value-lists nil t nil 4 nil) (common-lisp-user::copied-from nil t nil 5 nil) (common-lisp-user::merged-chunks nil t nil 6 nil) (common-lisp-user::parameter-values nil t nil 7 nil) (common-lisp-user::immutable nil t nil 8 nil) (common-lisp-user::not-storable nil t nil 9 nil) (common-lisp-user::lock #77# t nil 10 nil)) common-lisp-user::copy-act-r-chunk (common-lisp-user::make-act-r-chunk) #76# common-lisp-user::act-r-chunk-p (defstruct common-lisp-user::act-r-chunk) (#5# . 27465) common-lisp-user::make-act-r-chunk (defun common-lisp-user::make-act-r-chunk) (#5# . 27465) (&key #78=#:name #79=#:base-name #80=#:documentation (#81=#:filled-slots 0) #82=#:slot-value-lists #83=#:copied-from #84=#:merged-chunks #85=#:parameter-values #86=#:immutable #87=#:not-storable (#88=#:lock (bordeaux-threads::make-recursive-lock))) (nil :lock :not-storable :immutable :parameter-values :merged-chunks :copied-from :slot-value-lists :filled-slots :documentation :base-name :name) #78# #79# #80# #81# #82# #83# #84# #85# #86# #87# #88# 0 #Y(common-lisp-user::make-act-r-chunk nil nil (28 174 22 40 2 77 46 175 22 40 2 77 46 176 22 40 2 77 46 177 22 40 3 9 0 46 178 22 40 2 77 46 179 22 40 2 77 46 180 22 40 2 77 46 181 22 40 2 77 46 182 22 40 2 77 46 183 22 40 2 77 46 184 22 40 2 77 46 185 15 186 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 12 46 29) #1# #5# 27465) common-lisp-user::act-r-chunk-parameter "ACT-R-CHUNK-PARAMETER-" (#89="The internal structure of a chunk parameter" common-lisp-user::name common-lisp-user::index common-lisp-user::default-value common-lisp-user::default-function merge common-lisp-user::merge-value common-lisp-user::copy common-lisp-user::copy-from-chunk common-lisp-user::accessor) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::index nil t nil 1 nil) (common-lisp-user::default-value nil t nil 2 nil) (common-lisp-user::default-function nil t nil 3 nil) (merge nil t nil 4 nil) (common-lisp-user::merge-value nil t nil 5 nil) (common-lisp-user::copy nil t nil 6 nil) (common-lisp-user::copy-from-chunk nil t nil 7 nil) (common-lisp-user::accessor nil t nil 8 nil)) common-lisp-user::copy-act-r-chunk-parameter (common-lisp-user::make-act-r-chunk-parameter) #89# common-lisp-user::act-r-chunk-parameter-p (defstruct common-lisp-user::act-r-chunk-parameter) (#5# . 27712) common-lisp-user::make-act-r-chunk-parameter (defun common-lisp-user::make-act-r-chunk-parameter) (#5# . 27712) (&key #90=#:name #91=#:index #92=#:default-value #93=#:default-function #94=#:merge #95=#:merge-value #96=#:copy #97=#:copy-from-chunk #98=#:accessor) (nil :accessor :copy-from-chunk :copy :merge-value :merge :default-function :default-value :index :name) #90# #91# #92# #93# #94# #95# #96# #97# #98# 0 #Y(common-lisp-user::make-act-r-chunk-parameter nil nil (28 202 22 40 2 77 46 203 22 40 2 77 46 204 22 40 2 77 46 205 22 40 2 77 46 206 22 40 2 77 46 207 22 40 2 77 46 208 22 40 2 77 46 209 22 40 2 77 46 210 22 40 2 77 46 211 15 212 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 10 46 29) #1# #5# 27712) common-lisp-user::act-r-event "ACT-R-EVENT-" (#99="Internal ACT-R event" common-lisp-user::mstime (common-lisp-user::priority 0) common-lisp-user::action common-lisp-user::model common-lisp-user::mp common-lisp-user::module common-lisp-user::destination common-lisp-user::params common-lisp-user::details (common-lisp-user::output t) common-lisp-user::wait-condition common-lisp-user::dynamic common-lisp-user::precondition common-lisp-user::num min max) ((common-lisp-user::mstime nil t nil 0 nil) (common-lisp-user::priority 0 t nil 1 nil) (common-lisp-user::action nil t nil 2 nil) (common-lisp-user::model nil t nil 3 nil) (common-lisp-user::mp nil t nil 4 nil) (common-lisp-user::module nil t nil 5 nil) (common-lisp-user::destination nil t nil 6 nil) (common-lisp-user::params nil t nil 7 nil) (common-lisp-user::details nil t nil 8 nil) (common-lisp-user::output t t nil 9 nil) (common-lisp-user::wait-condition nil t nil 10 nil) (common-lisp-user::dynamic nil t nil 11 nil) (common-lisp-user::precondition nil t nil 12 nil) (common-lisp-user::num nil t nil 13 nil) (min nil t nil 14 nil) (max nil t nil 15 nil)) common-lisp-user::copy-act-r-event (common-lisp-user::make-act-r-event) #99# common-lisp-user::act-r-event-p (defstruct common-lisp-user::act-r-event) (#5# . 27887) common-lisp-user::make-act-r-event (defun common-lisp-user::make-act-r-event) (#5# . 27887) (&key #100=#:mstime (#101=#:priority 0) #102=#:action #103=#:model #104=#:mp #105=#:module #106=#:destination #107=#:params #108=#:details (#109=#:output t) #110=#:wait-condition #111=#:dynamic #112=#:precondition #113=#:num #114=#:min #115=#:max) (nil :max :min :num :precondition :dynamic :wait-condition :output :details :params :destination :module :mp :model :action :priority :mstime) #100# #101# #102# #103# #104# #105# #106# #107# #108# #109# #110# #111# #112# #113# #114# #115# 0 #Y(common-lisp-user::make-act-r-event nil nil (28 228 22 40 2 77 46 229 22 40 3 9 0 46 230 22 40 2 77 46 231 22 40 2 77 46 232 22 40 2 77 46 233 22 40 2 77 46 234 22 40 2 77 46 235 22 40 2 77 46 236 22 40 2 77 46 237 22 40 3 14 146 46 238 22 40 2 77 46 239 22 40 2 77 46 240 22 40 2 77 46 241 22 40 2 77 46 242 22 40 2 77 46 243 22 40 2 77 46 244 15 245 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 17 46 29) #1# #5# 27887) common-lisp-user::act-r-maintenance-event "ACT-R-MAINTENANCE-EVENT-" (#116="Events for system maintenance") ((common-lisp-user::mstime nil t nil 0 common-lisp-user::act-r-event-mstime) (common-lisp-user::priority 0 t nil 1 common-lisp-user::act-r-event-priority) (common-lisp-user::action nil t nil 2 common-lisp-user::act-r-event-action) (common-lisp-user::model nil t nil 3 common-lisp-user::act-r-event-model) (common-lisp-user::mp nil t nil 4 common-lisp-user::act-r-event-mp) (common-lisp-user::module nil t nil 5 common-lisp-user::act-r-event-module) (common-lisp-user::destination nil t nil 6 common-lisp-user::act-r-event-destination) (common-lisp-user::params nil t nil 7 common-lisp-user::act-r-event-params) (common-lisp-user::details nil t nil 8 common-lisp-user::act-r-event-details) (common-lisp-user::output #117='common-lisp-user::low t nil 9 common-lisp-user::act-r-event-output) (common-lisp-user::wait-condition nil t nil 10 common-lisp-user::act-r-event-wait-condition) (common-lisp-user::dynamic nil t nil 11 common-lisp-user::act-r-event-dynamic) (common-lisp-user::precondition nil t nil 12 common-lisp-user::act-r-event-precondition) (common-lisp-user::num nil t nil 13 common-lisp-user::act-r-event-num) (min nil t nil 14 common-lisp-user::act-r-event-min) (max nil t nil 15 common-lisp-user::act-r-event-max)) common-lisp-user::copy-act-r-maintenance-event (common-lisp-user::make-act-r-maintenance-event) #116# common-lisp-user::act-r-maintenance-event-p #118=(common-lisp-user::act-r-maintenance-event (:include common-lisp-user::act-r-event (common-lisp-user::output #117#))) (defstruct #118#) (#5# . 28072) common-lisp-user::make-act-r-maintenance-event (defun common-lisp-user::make-act-r-maintenance-event) (#5# . 28072) (&key #119=#:mstime (#120=#:priority 0) #121=#:action #122=#:model #123=#:mp #124=#:module #125=#:destination #126=#:params #127=#:details (#128=#:output 'common-lisp-user::low) #129=#:wait-condition #130=#:dynamic #131=#:precondition #132=#:num #133=#:min #134=#:max) (nil :max :min :num :precondition :dynamic :wait-condition :output :details :params :destination :module :mp :model :action :priority :mstime) #119# #120# #121# #122# #123# #124# #125# #126# #127# common-lisp-user::low #128# #129# #130# #131# #132# #133# #134# 0 #Y(common-lisp-user::make-act-r-maintenance-event nil nil (28 262 22 40 2 77 46 263 22 40 3 9 0 46 264 22 40 2 77 46 265 22 40 2 77 46 266 22 40 2 77 46 267 22 40 2 77 46 268 22 40 2 77 46 269 22 40 2 77 46 270 22 40 2 77 46 271 22 40 3 15 272 46 273 22 40 2 77 46 274 22 40 2 77 46 275 22 40 2 77 46 276 22 40 2 77 46 277 22 40 2 77 46 278 22 40 2 77 46 279 15 280 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 17 46 29) #1# #5# 28072) common-lisp-user::act-r-break-event "ACT-R-BREAK-EVENT-" (#135="The ACT-R break events") (#136=(common-lisp-user::mstime nil t nil 0 common-lisp-user::act-r-maintenance-event-mstime) #137=(common-lisp-user::priority 0 t nil 1 common-lisp-user::act-r-maintenance-event-priority) (common-lisp-user::action #138='common-lisp-user::act-r-event-break-action t nil 2 common-lisp-user::act-r-maintenance-event-action) #139=(common-lisp-user::model nil t nil 3 common-lisp-user::act-r-maintenance-event-model) #140=(common-lisp-user::mp nil t nil 4 common-lisp-user::act-r-maintenance-event-mp) #141=(common-lisp-user::module nil t nil 5 common-lisp-user::act-r-maintenance-event-module) #142=(common-lisp-user::destination nil t nil 6 common-lisp-user::act-r-maintenance-event-destination) #143=(common-lisp-user::params nil t nil 7 common-lisp-user::act-r-maintenance-event-params) #144=(common-lisp-user::details nil t nil 8 common-lisp-user::act-r-maintenance-event-details) #145=(common-lisp-user::output 'common-lisp-user::low t nil 9 common-lisp-user::act-r-maintenance-event-output) #146=(common-lisp-user::wait-condition nil t nil 10 common-lisp-user::act-r-maintenance-event-wait-condition) #147=(common-lisp-user::dynamic nil t nil 11 common-lisp-user::act-r-maintenance-event-dynamic) #148=(common-lisp-user::precondition nil t nil 12 common-lisp-user::act-r-maintenance-event-precondition) #149=(common-lisp-user::num nil t nil 13 common-lisp-user::act-r-maintenance-event-num) #150=(min nil t nil 14 common-lisp-user::act-r-maintenance-event-min) #151=(max nil t nil 15 common-lisp-user::act-r-maintenance-event-max)) common-lisp-user::copy-act-r-break-event (common-lisp-user::make-act-r-break-event) #135# common-lisp-user::act-r-break-event-p #152=(common-lisp-user::act-r-break-event (:include common-lisp-user::act-r-maintenance-event (common-lisp-user::action #138#))) (defstruct #152#) (#5# . 28182) common-lisp-user::make-act-r-break-event (defun common-lisp-user::make-act-r-break-event) (#5# . 28182) (&key #153=#:mstime (#154=#:priority 0) (#155=#:action 'common-lisp-user::act-r-event-break-action) #156=#:model #157=#:mp #158=#:module #159=#:destination #160=#:params #161=#:details (#162=#:output 'common-lisp-user::low) #163=#:wait-condition #164=#:dynamic #165=#:precondition #166=#:num #167=#:min #168=#:max) (nil :max :min :num :precondition :dynamic :wait-condition :output :details :params :destination :module :mp :model :action :priority :mstime) #153# #154# common-lisp-user::act-r-event-break-action #155# #156# #157# #158# #159# #160# #161# #162# #163# #164# #165# #166# #167# #168# 0 #Y(common-lisp-user::make-act-r-break-event nil nil (28 297 22 40 2 77 46 298 22 40 3 9 0 46 299 22 40 3 15 300 46 301 22 40 2 77 46 302 22 40 2 77 46 303 22 40 2 77 46 304 22 40 2 77 46 305 22 40 2 77 46 306 22 40 2 77 46 307 22 40 3 15 272 46 308 22 40 2 77 46 309 22 40 2 77 46 310 22 40 2 77 46 311 22 40 2 77 46 312 22 40 2 77 46 313 22 40 2 77 46 314 15 315 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 17 46 29) #1# #5# 28182) common-lisp-user::act-r-periodic-event "ACT-R-PERIODIC-EVENT-" (#169="special event that repeatedly schedules a user's event" common-lisp-user::id) (#136# #137# (common-lisp-user::action nil t nil 2 common-lisp-user::act-r-maintenance-event-action) #139# #140# #141# #142# #143# #144# #145# #146# #147# #148# #149# #150# #151# (common-lisp-user::id nil t nil 16 nil)) common-lisp-user::copy-act-r-periodic-event (common-lisp-user::make-act-r-periodic-event) #169# common-lisp-user::act-r-periodic-event-p #170=(common-lisp-user::act-r-periodic-event (:include common-lisp-user::act-r-maintenance-event)) (defstruct #170#) (#5# . 28329) common-lisp-user::make-act-r-periodic-event (defun common-lisp-user::make-act-r-periodic-event) (#5# . 28329) (&key #171=#:mstime (#172=#:priority 0) #173=#:action #174=#:model #175=#:mp #176=#:module #177=#:destination #178=#:params #179=#:details (#180=#:output 'common-lisp-user::low) #181=#:wait-condition #182=#:dynamic #183=#:precondition #184=#:num #185=#:min #186=#:max #187=#:id) (nil :id :max :min :num :precondition :dynamic :wait-condition :output :details :params :destination :module :mp :model :action :priority :mstime) #171# #172# #173# #174# #175# #176# #177# #178# #179# #180# #181# #182# #183# #184# #185# #186# #187# 0 #Y(common-lisp-user::make-act-r-periodic-event nil nil (28 332 22 40 2 77 46 333 22 40 3 9 0 46 334 22 40 2 77 46 335 22 40 2 77 46 336 22 40 2 77 46 337 22 40 2 77 46 338 22 40 2 77 46 339 22 40 2 77 46 340 22 40 2 77 46 341 22 40 3 15 272 46 342 22 40 2 77 46 343 22 40 2 77 46 344 22 40 2 77 46 345 22 40 2 77 46 346 22 40 2 77 46 347 22 40 2 77 46 348 22 40 2 77 46 349 15 350 13 16 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 18 46 29) #1# #5# 28329) common-lisp-user::meta-process common-lisp-user::meta-p- (#188="The internal representation of the meta-process" (time 0) common-lisp-user::start-time common-lisp-user::start-real-time (common-lisp-user::models nil) (common-lisp-user::model-count 0) (common-lisp-user::model-name-len 0) common-lisp-user::events common-lisp-user::delayed common-lisp-user::dynamics break common-lisp-user::pre-events common-lisp-user::post-events (common-lisp-user::time-function #189='get-internal-real-time) (common-lisp-user::units-per-second internal-time-units-per-second) (common-lisp-user::slack-function #190='common-lisp-user::real-time-slack) (common-lisp-user::time-mode #191='common-lisp-user::interval) (common-lisp-user::next-hook-id 0) (common-lisp-user::hook-table #192=(make-hash-table)) (common-lisp-user::event-hook-lock #193=(bordeaux-threads::make-lock #194="mp-event-hooks")) (common-lisp-user::version common-lisp-user::*actr-version-string*) (documentation #195="") (common-lisp-user::running nil) (common-lisp-user::run-lock #196=(bordeaux-threads::make-lock #197="run-lock")) common-lisp-user::model-order (common-lisp-user::models-lock #198=(bordeaux-threads::make-lock #199="models-lock")) common-lisp-user::default-model (common-lisp-user::schedule-lock #200=(bordeaux-threads::make-recursive-lock #201="schedule-lock")) (common-lisp-user::event-id 0) common-lisp-user::temp-event (common-lisp-user::lock-table #202=(make-hash-table :test 'equal)) (common-lisp-user::component-lock #203=(bordeaux-threads::make-lock #204="component")) common-lisp-user::component-list (common-lisp-user::component-length 0)) ((time 0 t nil 0 nil) (common-lisp-user::start-time nil t nil 1 nil) (common-lisp-user::start-real-time nil t nil 2 nil) (common-lisp-user::models nil t nil 3 nil) (common-lisp-user::model-count 0 t nil 4 nil) (common-lisp-user::model-name-len 0 t nil 5 nil) (common-lisp-user::events nil t nil 6 nil) (common-lisp-user::delayed nil t nil 7 nil) (common-lisp-user::dynamics nil t nil 8 nil) (break nil t nil 9 nil) (common-lisp-user::pre-events nil t nil 10 nil) (common-lisp-user::post-events nil t nil 11 nil) (common-lisp-user::time-function #189# t nil 12 nil) (common-lisp-user::units-per-second internal-time-units-per-second t nil 13 nil) (common-lisp-user::slack-function #190# t nil 14 nil) (common-lisp-user::time-mode #191# t nil 15 nil) (common-lisp-user::next-hook-id 0 t nil 16 nil) (common-lisp-user::hook-table #192# t nil 17 nil) (common-lisp-user::event-hook-lock #193# t nil 18 nil) (common-lisp-user::version common-lisp-user::*actr-version-string* t nil 19 nil) (documentation #195# t nil 20 nil) (common-lisp-user::running nil t nil 21 nil) (common-lisp-user::run-lock #196# t nil 22 nil) (common-lisp-user::model-order nil t nil 23 nil) (common-lisp-user::models-lock #198# t nil 24 nil) (common-lisp-user::default-model nil t nil 25 nil) (common-lisp-user::schedule-lock #200# t nil 26 nil) (common-lisp-user::event-id 0 t nil 27 nil) (common-lisp-user::temp-event nil t nil 28 nil) (common-lisp-user::lock-table #202# t nil 29 nil) (common-lisp-user::component-lock #203# t nil 30 nil) (common-lisp-user::component-list nil t nil 31 nil) (common-lisp-user::component-length 0 t nil 32 nil)) common-lisp-user::copy-meta-process (common-lisp-user::make-meta-process) #188# common-lisp-user::meta-process-p #205=(common-lisp-user::meta-process (:conc-name common-lisp-user::meta-p-)) (defstruct #205#) (#5# . 28465) common-lisp-user::make-meta-process (defun common-lisp-user::make-meta-process) (#5# . 28465) (&key (#206=#:time 0) #207=#:start-time #208=#:start-real-time #209=#:models (#210=#:model-count 0) (#211=#:model-name-len 0) #212=#:events #213=#:delayed #214=#:dynamics #215=#:break #216=#:pre-events #217=#:post-events (#218=#:time-function 'get-internal-real-time) (#219=#:units-per-second internal-time-units-per-second) (#220=#:slack-function 'common-lisp-user::real-time-slack) (#221=#:time-mode 'common-lisp-user::interval) (#222=#:next-hook-id 0) (#223=#:hook-table (make-hash-table)) (#224=#:event-hook-lock (bordeaux-threads::make-lock #194#)) (#225=#:version common-lisp-user::*actr-version-string*) (#226=#:documentation #195#) #227=#:running (#228=#:run-lock (bordeaux-threads::make-lock #197#)) #229=#:model-order (#230=#:models-lock (bordeaux-threads::make-lock #199#)) #231=#:default-model (#232=#:schedule-lock (bordeaux-threads::make-recursive-lock #201#)) (#233=#:event-id 0) #234=#:temp-event (#235=#:lock-table (make-hash-table :test 'equal)) (#236=#:component-lock (bordeaux-threads::make-lock #204#)) #237=#:component-list (#238=#:component-length 0)) (nil :component-length :component-list :component-lock :lock-table :temp-event :event-id :schedule-lock :default-model :models-lock :model-order :run-lock :running :documentation :version :event-hook-lock :hook-table :next-hook-id :time-mode :slack-function :units-per-second :time-function :post-events :pre-events :break :dynamics :delayed :events :model-name-len :model-count :models :start-real-time :start-time :time) #206# #207# #208# #209# #210# #211# #212# #213# #214# #215# #216# #217# get-internal-real-time #218# internal-time-units-per-second #219# common-lisp-user::real-time-slack #220# common-lisp-user::interval #221# #222# #223# #224# common-lisp-user::*actr-version-string* #225# #195# #226# #227# #228# #229# #230# #231# #232# #233# #234# :test equal #235# #236# #237# #238# 0 #Y(common-lisp-user::make-meta-process nil nil (28 367 22 40 3 9 0 46 368 22 40 2 77 46 369 22 40 2 77 46 370 22 40 2 77 46 371 22 40 3 9 0 46 372 22 40 3 9 0 46 373 22 40 2 77 46 374 22 40 2 77 46 375 22 40 2 77 46 376 22 40 2 77 46 377 22 40 2 77 46 378 22 40 2 77 46 379 22 40 3 15 380 46 381 22 40 3 14 382 46 383 22 40 3 15 384 46 385 22 40 3 15 386 46 387 22 40 3 9 0 46 388 22 40 5 19 0 143 12 46 389 22 40 2 77 46 390 22 40 3 14 391 46 392 22 40 3 15 393 46 394 22 40 2 77 46 395 22 40 2 77 46 396 22 40 2 77 46 397 22 40 2 77 46 398 22 40 2 77 46 399 22 40 2 77 46 400 22 40 3 9 0 46 401 22 40 2 77 46 402 22 40 9 14 403 15 404 19 2 143 12 46 405 22 40 2 77 46 406 22 40 2 77 46 407 22 40 3 9 0 46 408 15 409 13 32 13 31 13 30 13 29 13 28 13 27 13 26 13 25 13 24 13 23 13 22 13 21 13 20 13 19 13 18 13 17 13 16 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 34 46 29) #1# #5# 28465) common-lisp-user::mp common-lisp-user::current-mp (defun common-lisp-user::current-mp) (#5# . 29419) #Y(common-lisp-user::current-mp nil nil (26 10 0 73 29) #1# #5# 29419) common-lisp-user::current-mp-fct (defun common-lisp-user::current-mp-fct) (#5# . 29419) #Y(common-lisp-user::current-mp-fct nil nil (26 10 0 73 29) #1# #5# 29419) common-lisp-user::act-r-component "ACT-R-COMPONENT-" (common-lisp-user::name common-lisp-user::instance common-lisp-user::destroy common-lisp-user::clear-all common-lisp-user::model-create common-lisp-user::model-destroy common-lisp-user::version documentation common-lisp-user::before-reset common-lisp-user::after-reset) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::instance nil t nil 1 nil) (common-lisp-user::destroy nil t nil 2 nil) (common-lisp-user::clear-all nil t nil 3 nil) (common-lisp-user::model-create nil t nil 4 nil) (common-lisp-user::model-destroy nil t nil 5 nil) (common-lisp-user::version nil t nil 6 nil) (documentation nil t nil 7 nil) (common-lisp-user::before-reset nil t nil 8 nil) (common-lisp-user::after-reset nil t nil 9 nil)) common-lisp-user::copy-act-r-component (common-lisp-user::make-act-r-component) common-lisp-user::act-r-component-p (defstruct common-lisp-user::act-r-component) (#5# . 29522) common-lisp-user::make-act-r-component (defun common-lisp-user::make-act-r-component) (#5# . 29522) (&key #239=#:name #240=#:instance #241=#:destroy #242=#:clear-all #243=#:model-create #244=#:model-destroy #245=#:version #246=#:documentation #247=#:before-reset #248=#:after-reset) (nil :after-reset :before-reset :documentation :version :model-destroy :model-create :clear-all :destroy :instance :name) #239# #240# #241# #242# #243# #244# #245# #246# #247# #248# 0 #Y(common-lisp-user::make-act-r-component nil nil (28 433 22 40 2 77 46 434 22 40 2 77 46 435 22 40 2 77 46 436 22 40 2 77 46 437 22 40 2 77 46 438 22 40 2 77 46 439 22 40 2 77 46 440 22 40 2 77 46 441 22 40 2 77 46 442 22 40 2 77 46 443 15 444 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 11 46 29) #1# #5# 29522) common-lisp-user::verify-current-mp (defmacro common-lisp-user::verify-current-mp) (#5# . 29677) (warning &body common-lisp-user::body) #:g137 #:g136 #:g138 si::dm-too-few-arguments warning common-lisp-user::body progn #Y(common-lisp-user::verify-current-mp nil nil (24 45 450 24 45 451 26 10 1 5 45 452 10 0 76 39 6 13 2 19 1 453 10 0 4 12 10 0 5 51 0 22 45 454 10 1 45 455 15 456 10 0 7 2 73 29) #1# #5# 29677) common-lisp-user::act-r-output "ACT-R-OUTPUT-" (#249="The internal structure of an output stream for the printing module" stream common-lisp-user::file common-lisp-user::shared common-lisp-user::name) ((stream nil t nil 0 nil) (common-lisp-user::file nil t nil 1 nil) (common-lisp-user::shared nil t nil 2 nil) (common-lisp-user::name nil t nil 3 nil)) common-lisp-user::copy-act-r-output (common-lisp-user::make-act-r-output) #249# common-lisp-user::act-r-output-p (defstruct common-lisp-user::act-r-output) (#5# . 29776) common-lisp-user::make-act-r-output (defun common-lisp-user::make-act-r-output) (#5# . 29776) (&key #250=#:stream #251=#:file #252=#:shared #253=#:name) (nil :name :shared :file :stream) #250# #251# #252# #253# 0 #Y(common-lisp-user::make-act-r-output nil nil (28 472 22 40 2 77 46 473 22 40 2 77 46 474 22 40 2 77 46 475 22 40 2 77 46 476 15 477 13 3 13 2 13 1 13 0 19 5 46 29) #1# #5# 29776) common-lisp-user::printing-module (defclass common-lisp-user::printing-module) (#5# . 29899) :initfunction :stream #Y(nil nil nil (26 14 483 14 146 19 2 468 29) #1# #5# 29899) (:initform (common-lisp-user::make-act-r-output :stream t) :writers ((setf common-lisp-user::printing-module-v)) :readers (common-lisp-user::printing-module-v) :name common-lisp-user::v) #Y(nil nil nil (26 14 483 14 146 19 2 468 29) #1# #5# 29899) (:initform (common-lisp-user::make-act-r-output :stream t) :writers ((setf common-lisp-user::printing-module-c)) :readers (common-lisp-user::printing-module-c) :name common-lisp-user::c) (:initform nil :writers ((setf common-lisp-user::printing-module-suppress-cmds)) :readers (common-lisp-user::printing-module-suppress-cmds) :name common-lisp-user::suppress-cmds) (:initform nil :writers ((setf common-lisp-user::printing-module-filter)) :readers (common-lisp-user::printing-module-filter) :name common-lisp-user::filter) (:initform 'common-lisp-user::high :writers ((setf common-lisp-user::printing-module-detail)) :readers (common-lisp-user::printing-module-detail) :name common-lisp-user::detail) (:initform t :writers ((setf common-lisp-user::printing-module-model-warnings)) :readers (common-lisp-user::printing-module-model-warnings) :name common-lisp-user::model-warnings) (:initform nil :writers ((setf common-lisp-user::printing-module-cbct)) :readers (common-lisp-user::printing-module-cbct) :name common-lisp-user::cbct) (:initform nil :writers ((setf common-lisp-user::printing-module-one-time-tags)) :readers (common-lisp-user::printing-module-one-time-tags) :name common-lisp-user::one-time-tags) #Y(nil nil nil (26 75 73 29) #1# #5# 29899) (:initform (bordeaux-threads::make-recursive-lock "printing-param") :writers ((setf common-lisp-user::printing-module-param-lock)) :readers (common-lisp-user::printing-module-param-lock) :name common-lisp-user::param-lock) (:allocation :class :initform nil :writers ((setf common-lisp-user::printing-module-capture-warnings)) :readers (common-lisp-user::printing-module-capture-warnings) :name common-lisp-user::capture-warnings) (:allocation :class :initform nil :writers ((setf common-lisp-user::printing-module-captured-warnings)) :readers (common-lisp-user::printing-module-captured-warnings) :name common-lisp-user::captured-warnings) #Y(nil nil nil (26 75 73 29) #1# #5# 29899) (:allocation :class :initform (bordeaux-threads::make-recursive-lock "printing-lock") :writers ((setf common-lisp-user::printing-module-lock)) :readers (common-lisp-user::printing-module-lock) :name common-lisp-user::printing-lock) clos::load-defclass common-lisp-user::*act-r-warning-capture* si::*make-special boundp make-instance (defvar common-lisp-user::*act-r-warning-capture*) (#5# . 30898) common-lisp-user::print-warning (defmacro common-lisp-user::print-warning) (#5# . 31485) (common-lisp-user::message &rest common-lisp-user::arguments) #:g140 #:g139 #:g141 common-lisp-user::message common-lisp-user::arguments common-lisp-user::evaluate-act-r-command "print-warning" format "~@?" #Y(common-lisp-user::print-warning nil nil (24 45 511 24 45 512 26 10 1 5 45 513 10 0 76 39 6 13 2 19 1 453 10 0 4 12 10 0 5 51 0 22 45 514 10 1 45 515 15 456 15 516 15 517 15 518 77 15 519 13 1 10 0 7 5 6 3 12 75 6 3 73 29) #1# #5# 31485) function "Outputs a warning of message and arguments." si::set-documentation common-lisp-user::act-r-model "ACT-R-MODEL-" (#254="The internal structure of a model" (common-lisp-user::modules-table #255=(make-hash-table)) (common-lisp-user::modules-lock #256=(bordeaux-threads::make-lock #257="model-modules")) (common-lisp-user::buffers-lock #258=(bordeaux-threads::make-lock #259="model-buffers")) (common-lisp-user::buffers #260=(make-hash-table)) (common-lisp-user::chunk-lock #261=(bordeaux-threads::make-recursive-lock #262="model-chunk")) (common-lisp-user::chunks-table #263=(make-hash-table)) (common-lisp-user::chunk-ref-table #264=(make-hash-table)) (common-lisp-user::chunk-types-info #265=(common-lisp-user::make-act-r-chunk-type-info)) common-lisp-user::name common-lisp-user::code (common-lisp-user::chunk-updating-lock #266=(bordeaux-threads::make-lock #267="model-chunk-updating")) (common-lisp-user::chunk-update t) (common-lisp-user::dynamic-update t) common-lisp-user::delete-chunks common-lisp-user::dynamic-update-hooks common-lisp-user::short-copy-names (common-lisp-user::tracked-requests-lock #268=(bordeaux-threads::make-lock #269="tracked-requests")) common-lisp-user::tracked-requests (common-lisp-user::tracked-requests-id 0) (common-lisp-user::lock-table #270=(make-hash-table :test 'equal)) (common-lisp-user::buffer-state 0) common-lisp-user::module-instances common-lisp-user::starting-slot-vector common-lisp-user::starting-ct-size common-lisp-user::starting-slot-structs common-lisp-user::starting-chunk-types common-lisp-user::starting-distinct-types common-lisp-user::initial-chunks common-lisp-user::params) ((common-lisp-user::modules-table #255# t nil 0 nil) (common-lisp-user::modules-lock #256# t nil 1 nil) (common-lisp-user::buffers-lock #258# t nil 2 nil) (common-lisp-user::buffers #260# t nil 3 nil) (common-lisp-user::chunk-lock #261# t nil 4 nil) (common-lisp-user::chunks-table #263# t nil 5 nil) (common-lisp-user::chunk-ref-table #264# t nil 6 nil) (common-lisp-user::chunk-types-info #265# t nil 7 nil) (common-lisp-user::name nil t nil 8 nil) (common-lisp-user::code nil t nil 9 nil) (common-lisp-user::chunk-updating-lock #266# t nil 10 nil) (common-lisp-user::chunk-update t t nil 11 nil) (common-lisp-user::dynamic-update t t nil 12 nil) (common-lisp-user::delete-chunks nil t nil 13 nil) (common-lisp-user::dynamic-update-hooks nil t nil 14 nil) (common-lisp-user::short-copy-names nil t nil 15 nil) (common-lisp-user::tracked-requests-lock #268# t nil 16 nil) (common-lisp-user::tracked-requests nil t nil 17 nil) (common-lisp-user::tracked-requests-id 0 t nil 18 nil) (common-lisp-user::lock-table #270# t nil 19 nil) (common-lisp-user::buffer-state 0 t nil 20 nil) (common-lisp-user::module-instances nil t nil 21 nil) (common-lisp-user::starting-slot-vector nil t nil 22 nil) (common-lisp-user::starting-ct-size nil t nil 23 nil) (common-lisp-user::starting-slot-structs nil t nil 24 nil) (common-lisp-user::starting-chunk-types nil t nil 25 nil) (common-lisp-user::starting-distinct-types nil t nil 26 nil) (common-lisp-user::initial-chunks nil t nil 27 nil) (common-lisp-user::params nil t nil 28 nil)) common-lisp-user::copy-act-r-model (common-lisp-user::make-act-r-model) #254# common-lisp-user::act-r-model-p (defstruct common-lisp-user::act-r-model) (#5# . 31692) common-lisp-user::make-act-r-model (defun common-lisp-user::make-act-r-model) (#5# . 31692) (&key (#271=#:modules-table (make-hash-table)) (#272=#:modules-lock (bordeaux-threads::make-lock #257#)) (#273=#:buffers-lock (bordeaux-threads::make-lock #259#)) (#274=#:buffers (make-hash-table)) (#275=#:chunk-lock (bordeaux-threads::make-recursive-lock #262#)) (#276=#:chunks-table (make-hash-table)) (#277=#:chunk-ref-table (make-hash-table)) (#278=#:chunk-types-info (common-lisp-user::make-act-r-chunk-type-info)) #279=#:name #280=#:code (#281=#:chunk-updating-lock (bordeaux-threads::make-lock #267#)) (#282=#:chunk-update t) (#283=#:dynamic-update t) #284=#:delete-chunks #285=#:dynamic-update-hooks #286=#:short-copy-names (#287=#:tracked-requests-lock (bordeaux-threads::make-lock #269#)) #288=#:tracked-requests (#289=#:tracked-requests-id 0) (#290=#:lock-table (make-hash-table :test 'equal)) (#291=#:buffer-state 0) #292=#:module-instances #293=#:starting-slot-vector #294=#:starting-ct-size #295=#:starting-slot-structs #296=#:starting-chunk-types #297=#:starting-distinct-types #298=#:initial-chunks #299=#:params) (nil :params :initial-chunks :starting-distinct-types :starting-chunk-types :starting-slot-structs :starting-ct-size :starting-slot-vector :module-instances :buffer-state :lock-table :tracked-requests-id :tracked-requests :tracked-requests-lock :short-copy-names :dynamic-update-hooks :delete-chunks :dynamic-update :chunk-update :chunk-updating-lock :code :name :chunk-types-info :chunk-ref-table :chunks-table :chunk-lock :buffers :buffers-lock :modules-lock :modules-table) #271# #272# #273# #274# #275# #276# #277# #278# #279# #280# #281# #282# #283# #284# #285# #286# #287# #288# #289# #290# #291# #292# #293# #294# #295# #296# #297# #298# #299# 0 #Y(common-lisp-user::make-act-r-model nil nil (28 538 22 40 5 19 0 143 12 46 539 22 40 2 77 46 540 22 40 2 77 46 541 22 40 5 19 0 143 12 46 542 22 40 2 77 46 543 22 40 5 19 0 143 12 46 544 22 40 5 19 0 143 12 46 545 22 40 5 19 0 138 12 46 546 22 40 2 77 46 547 22 40 2 77 46 548 22 40 2 77 46 549 22 40 3 14 146 46 550 22 40 3 14 146 46 551 22 40 2 77 46 552 22 40 2 77 46 553 22 40 2 77 46 554 22 40 2 77 46 555 22 40 2 77 46 556 22 40 3 9 0 46 557 22 40 9 14 403 15 404 19 2 143 12 46 558 22 40 3 9 0 46 559 22 40 2 77 46 560 22 40 2 77 46 561 22 40 2 77 46 562 22 40 2 77 46 563 22 40 2 77 46 564 22 40 2 77 46 565 22 40 2 77 46 566 22 40 2 77 46 567 15 568 13 28 13 27 13 26 13 25 13 24 13 23 13 22 13 21 13 20 13 19 13 18 13 17 13 16 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 30 46 29) #1# #5# 31692) common-lisp-user::*current-act-r-model* (defvar common-lisp-user::*current-act-r-model*) (#5# . 32621) common-lisp-user::current-model-struct (defmacro common-lisp-user::current-model-struct) (#5# . 32657) #:g143 #:g142 #:g144 si::dm-too-many-arguments (or common-lisp-user::*current-act-r-model* (let ((common-lisp-user::mp (common-lisp-user::current-mp))) (bordeaux-threads::with-lock-held ((common-lisp-user::meta-p-models-lock common-lisp-user::mp)) (common-lisp-user::meta-p-default-model common-lisp-user::mp)))) #Y(common-lisp-user::current-model-struct nil nil (24 45 576 24 45 577 26 10 1 5 45 578 10 0 39 6 13 2 19 1 579 1 580 73 29) #1# #5# 32657) common-lisp-user::verify-current-model (defmacro common-lisp-user::verify-current-model) (#5# . 32821) (warning &body common-lisp-user::body) #:g146 #:g145 #:g147 if (or common-lisp-user::*current-act-r-model* (let ((common-lisp-user::mp (common-lisp-user::current-mp))) (bordeaux-threads::with-lock-held ((common-lisp-user::meta-p-models-lock common-lisp-user::mp)) (common-lisp-user::meta-p-default-model common-lisp-user::mp)))) #Y(common-lisp-user::verify-current-model nil nil (24 45 586 24 45 587 26 10 1 5 45 588 10 0 76 39 6 13 2 19 1 453 10 0 4 12 10 0 5 51 0 22 45 454 10 1 45 455 15 589 15 590 15 456 10 0 7 2 12 15 507 10 1 6 2 6 4 73 29) #1# #5# 32821) common-lisp-user::with-current-model (defmacro common-lisp-user::with-current-model) (#5# . 33060) (warning &body common-lisp-user::body) #:g149 #:g148 #:g150 let ((common-lisp-user::current-model (or common-lisp-user::*current-act-r-model* (let ((common-lisp-user::mp (common-lisp-user::current-mp))) (bordeaux-threads::with-lock-held ((common-lisp-user::meta-p-models-lock common-lisp-user::mp)) (common-lisp-user::meta-p-default-model common-lisp-user::mp)))))) common-lisp-user::current-model #Y(common-lisp-user::with-current-model nil nil (24 45 596 24 45 597 26 10 1 5 45 598 10 0 76 39 6 13 2 19 1 453 10 0 4 12 10 0 5 51 0 22 45 454 10 1 45 455 15 599 15 600 15 589 15 601 15 456 10 0 7 2 12 15 507 10 1 6 2 6 4 6 3 73 29) #1# #5# 33060) common-lisp-user::act-r-modules "ACT-R-MODULES-" (#300="The internal structure that holds the modules" (common-lisp-user::table #301=(make-hash-table)) (count 0) (common-lisp-user::name-len 0) common-lisp-user::notify common-lisp-user::update common-lisp-user::run-notify common-lisp-user::run-over-notify common-lisp-user::sorted-names (common-lisp-user::lock #302=(bordeaux-threads::make-recursive-lock #303="modules"))) ((common-lisp-user::table #301# t nil 0 nil) (count 0 t nil 1 nil) (common-lisp-user::name-len 0 t nil 2 nil) (common-lisp-user::notify nil t nil 3 nil) (common-lisp-user::update nil t nil 4 nil) (common-lisp-user::run-notify nil t nil 5 nil) (common-lisp-user::run-over-notify nil t nil 6 nil) (common-lisp-user::sorted-names nil t nil 7 nil) (common-lisp-user::lock #302# t nil 8 nil)) common-lisp-user::copy-act-r-modules (common-lisp-user::make-act-r-modules) #300# common-lisp-user::act-r-modules-p (defstruct common-lisp-user::act-r-modules) (#5# . 33344) common-lisp-user::make-act-r-modules (defun common-lisp-user::make-act-r-modules) (#5# . 33344) (&key (#304=#:table (make-hash-table)) (#305=#:count 0) (#306=#:name-len 0) #307=#:notify #308=#:update #309=#:run-notify #310=#:run-over-notify #311=#:sorted-names (#312=#:lock (bordeaux-threads::make-recursive-lock #303#))) (nil :lock :sorted-names :run-over-notify :run-notify :update :notify :name-len :count :table) #304# #305# #306# #307# #308# #309# #310# #311# #312# 0 #Y(common-lisp-user::make-act-r-modules nil nil (28 617 22 40 5 19 0 143 12 46 618 22 40 3 9 0 46 619 22 40 3 9 0 46 620 22 40 2 77 46 621 22 40 2 77 46 622 22 40 2 77 46 623 22 40 2 77 46 624 22 40 2 77 46 625 22 40 2 77 46 626 15 627 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 10 46 29) #1# #5# 33344) common-lisp-user::act-r-module "ACT-R-MODULE-" (#313="The internal structure of a module" common-lisp-user::name common-lisp-user::buffers common-lisp-user::version documentation common-lisp-user::creation common-lisp-user::reset common-lisp-user::query common-lisp-user::request common-lisp-user::buffer-mod common-lisp-user::params delete common-lisp-user::notify-on-clear common-lisp-user::update common-lisp-user::secondary-reset common-lisp-user::tertiary-reset warn search common-lisp-user::offset common-lisp-user::run-notify common-lisp-user::run-over-notify common-lisp-user::external common-lisp-user::required) ((common-lisp-user::name nil t nil 0 nil) (common-lisp-user::buffers nil t nil 1 nil) (common-lisp-user::version nil t nil 2 nil) (documentation nil t nil 3 nil) (common-lisp-user::creation nil t nil 4 nil) (common-lisp-user::reset nil t nil 5 nil) (common-lisp-user::query nil t nil 6 nil) (common-lisp-user::request nil t nil 7 nil) (common-lisp-user::buffer-mod nil t nil 8 nil) (common-lisp-user::params nil t nil 9 nil) (delete nil t nil 10 nil) (common-lisp-user::notify-on-clear nil t nil 11 nil) (common-lisp-user::update nil t nil 12 nil) (common-lisp-user::secondary-reset nil t nil 13 nil) (common-lisp-user::tertiary-reset nil t nil 14 nil) (warn nil t nil 15 nil) (search nil t nil 16 nil) (common-lisp-user::offset nil t nil 17 nil) (common-lisp-user::run-notify nil t nil 18 nil) (common-lisp-user::run-over-notify nil t nil 19 nil) (common-li•
+  –
+  —
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      sp-user::external nil t nil 20 nil) (common-lisp-user::required nil t nil 21 nil)) common-lisp-user::copy-act-r-module (common-lisp-user::make-act-r-module) #313# common-lisp-user::act-r-module-p (defstruct common-lisp-user::act-r-module) (#5# . 33585) common-lisp-user::make-act-r-module (defun common-lisp-user::make-act-r-module) (#5# . 33585) (&key #314=#:name #315=#:buffers #316=#:version #317=#:documentation #318=#:creation #319=#:reset #320=#:query #321=#:request #322=#:buffer-mod #323=#:params #324=#:delete #325=#:notify-on-clear #326=#:update #327=#:secondary-reset #328=#:tertiary-reset #329=#:warn #330=#:search #331=#:offset #332=#:run-notify #333=#:run-over-notify #334=#:external #335=#:required) (nil :required :external :run-over-notify :run-notify :offset :search :warn :tertiary-reset :secondary-reset :update :notify-on-clear :delete :params :buffer-mod :request :query :reset :creation :documentation :version :buffers :name) #314# #315# #316# #317# #318# #319# #320# #321# #322# #323# #324# #325# #326# #327# #328# #329# #330# #331# #332# #333# #334# #335# 0 #Y(common-lisp-user::make-act-r-module nil nil (28 643 22 40 2 77 46 644 22 40 2 77 46 645 22 40 2 77 46 646 22 40 2 77 46 647 22 40 2 77 46 648 22 40 2 77 46 649 22 40 2 77 46 650 22 40 2 77 46 651 22 40 2 77 46 652 22 40 2 77 46 653 22 40 2 77 46 654 22 40 2 77 46 655 22 40 2 77 46 656 22 40 2 77 46 657 22 40 2 77 46 658 22 40 2 77 46 659 22 40 2 77 46 660 22 40 2 77 46 661 22 40 2 77 46 662 22 40 2 77 46 663 22 40 2 77 46 664 22 40 2 77 46 665 15 666 13 21 13 20 13 19 13 18 13 17 13 16 13 15 13 14 13 13 13 12 13 11 13 10 13 9 13 8 13 7 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 23 46 29) #1# #5# 33585) common-lisp-user::act-r-parameter "ACT-R-PARAMETER-" (#336="The internal structure of a parameter" common-lisp-user::param-name common-lisp-user::default common-lisp-user::test warning common-lisp-user::details common-lisp-user::owner common-lisp-user::users) ((common-lisp-user::param-name nil t nil 0 nil) (common-lisp-user::default nil t nil 1 nil) (common-lisp-user::test nil t nil 2 nil) (warning nil t nil 3 nil) (common-lisp-user::details nil t nil 4 nil) (common-lisp-user::owner nil t nil 5 nil) (common-lisp-user::users nil t nil 6 nil)) common-lisp-user::copy-act-r-parameter (common-lisp-user::make-act-r-parameter) #336# common-lisp-user::act-r-parameter-p (defstruct common-lisp-user::act-r-parameter) (#5# . 33866) common-lisp-user::make-act-r-parameter (defun common-lisp-user::make-act-r-parameter) (#5# . 33866) (&key #337=#:param-name #338=#:default #339=#:test #340=#:warning #341=#:details #342=#:owner #343=#:users) (nil :users :owner :details :warning :test :default :param-name) #337# #338# #339# #340# #341# #342# #343# 0 #Y(common-lisp-user::make-act-r-parameter nil nil (28 682 22 40 2 77 46 683 22 40 2 77 46 684 22 40 2 77 46 685 22 40 2 77 46 686 22 40 2 77 46 687 22 40 2 77 46 688 22 40 2 77 46 689 15 690 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 46 29) #1# #5# 33866))) #5# 0) #Y(si::bytecodes nil nil (1 2 16 1 29) #1# #5# 25696) #Y(si::bytecodes nil nil (1 3 16 1 29) #1# #5# 25744) #Y(si::bytecodes nil nil (15 4 15 5 77 77 15 6 15 7 15 8 77 77 77 15 9 9 22 77 15 10 15 11 19 15 12 15 4 15 13 15 14 15 15 19 4 16 15 17 15 13 15 18 15 19 19 4 16 15 17 14 20 77 15 21 19 4 16 15 4 19 1 49 78 45 15 17 1 47 12 19 2 48 1 4 73 29) #1# #5# 25788) #Y(si::bytecodes nil nil (15 50 15 51 77 77 15 52 15 53 15 54 77 77 77 15 55 9 13 77 15 56 15 57 19 15 12 15 50 15 13 15 58 15 59 19 4 16 15 60 15 13 15 61 15 62 19 4 16 15 60 14 20 77 15 63 19 4 16 15 50 19 1 49 78 78 15 60 1 79 12 19 2 48 1 50 73 29) #1# #5# 26202) #Y(si::bytecodes nil nil (15 80 15 81 77 77 15 82 15 83 15 84 77 77 77 15 85 9 4 77 15 86 15 87 19 15 12 15 80 15 13 15 88 15 89 19 4 16 15 90 15 13 15 91 15 92 19 4 16 15 90 14 20 77 15 93 19 4 16 15 80 19 1 49 78 100 15 90 1 101 12 19 2 48 1 80 73 29) #1# #5# 26499) #Y(si::bytecodes nil nil (15 102 15 103 77 77 15 104 15 105 15 106 77 77 77 15 107 9 9 77 15 108 15 109 19 15 12 15 102 15 13 15 110 15 111 19 4 16 15 112 15 13 15 113 15 114 19 4 16 15 112 14 20 77 15 115 19 4 16 15 102 19 1 49 78 126 15 112 1 127 12 19 2 48 1 102 73 29) #1# #5# 26629) #Y(si::bytecodes nil nil (15 128 15 129 77 77 15 130 15 131 15 132 77 77 77 15 133 9 9 77 15 134 15 135 19 15 12 15 128 15 13 15 136 15 137 19 4 16 15 138 15 13 15 139 15 140 19 4 16 15 138 14 20 77 15 141 19 4 16 15 128 19 1 49 78 158 15 138 1 159 12 19 2 48 1 128 73 29) #1# #5# 27082) #Y(si::bytecodes nil nil (15 160 15 161 77 77 15 162 15 163 15 164 77 77 77 15 165 9 11 77 15 166 15 167 19 15 12 15 160 15 13 15 168 15 169 19 4 16 15 170 15 13 15 171 15 172 19 4 16 15 170 14 20 77 15 173 19 4 16 15 160 19 1 49 78 186 15 170 1 187 12 19 2 48 1 160 73 29) #1# #5# 27465) #Y(si::bytecodes nil nil (15 188 15 189 77 77 15 190 15 191 15 192 77 77 77 15 193 9 9 77 15 194 15 195 19 15 12 15 188 15 13 15 196 15 197 19 4 16 15 198 15 13 15 199 15 200 19 4 16 15 198 14 20 77 15 201 19 4 16 15 188 19 1 49 78 212 15 198 1 213 12 19 2 48 1 188 73 29) #1# #5# 27712) #Y(si::bytecodes nil nil (15 214 15 215 77 77 15 216 15 217 15 218 77 77 77 15 219 9 16 77 15 220 15 221 19 15 12 15 214 15 13 15 222 15 223 19 4 16 15 224 15 13 15 225 15 226 19 4 16 15 224 14 20 77 15 227 19 4 16 15 214 19 1 49 78 245 15 224 1 246 12 19 2 48 1 214 73 29) #1# #5# 27887) #Y(si::bytecodes nil nil (15 247 15 248 77 77 15 249 15 250 15 251 15 214 77 77 15 252 9 16 77 15 253 15 254 19 15 12 15 255 15 13 15 256 15 257 19 4 16 15 258 15 13 15 259 15 260 19 4 16 15 258 14 20 77 15 261 19 4 16 15 247 19 1 49 78 280 15 258 1 281 12 19 2 48 1 247 73 29) #1# #5# 28072) #Y(si::bytecodes nil nil (15 282 15 283 77 77 15 284 15 285 15 286 15 247 77 77 15 287 9 16 77 15 288 15 289 19 15 12 15 290 15 13 15 291 15 292 19 4 16 15 293 15 13 15 294 15 295 19 4 16 15 293 14 20 77 15 296 19 4 16 15 282 19 1 49 78 315 15 293 1 316 12 19 2 48 1 282 73 29) #1# #5# 28182) #Y(si::bytecodes nil nil (15 317 15 318 77 77 15 319 15 320 15 321 15 247 77 77 15 322 9 17 77 15 323 15 324 19 15 12 15 325 15 13 15 326 15 327 19 4 16 15 328 15 13 15 329 15 330 19 4 16 15 328 14 20 77 15 331 19 4 16 15 317 19 1 49 78 350 15 328 1 351 12 19 2 48 1 317 73 29) #1# #5# 28329) #Y(si::bytecodes nil nil (15 352 15 353 77 77 15 354 15 355 15 356 77 77 77 15 357 9 33 77 15 358 15 359 19 15 12 15 360 15 13 15 361 15 362 19 4 16 15 363 15 13 15 364 15 365 19 4 16 15 363 14 20 77 15 366 19 4 16 15 352 19 1 49 78 409 15 363 1 410 12 19 2 48 1 352 73 29) #1# #5# 28465) #Y(si::bytecodes nil nil (19 0 363 45 411 15 412 15 13 15 413 15 414 19 4 16 15 412 14 20 77 77 19 4 16 15 412 34 415 12 19 2 48 15 416 15 13 15 417 15 418 19 4 16 15 416 14 20 77 77 19 4 16 15 416 34 419 12 19 2 48 1 416 73 43 1 29) #1# #5# 29419) #Y(si::bytecodes nil nil (15 420 15 421 77 77 15 422 15 423 15 424 77 77 77 15 425 9 10 77 77 15 426 19 15 12 15 420 15 13 15 427 15 428 19 4 16 15 429 15 13 15 430 15 431 19 4 16 15 429 14 20 77 15 432 19 4 16 15 420 19 1 49 78 444 15 429 1 445 12 19 2 48 1 420 73 29) #1# #5# 29522) #Y(si::bytecodes nil nil (15 446 15 13 15 447 15 448 19 4 16 15 446 14 20 77 15 449 19 4 16 15 446 1 457 12 14 146 9 2 19 4 48 1 446 73 29) #1# #5# 29677) #Y(si::bytecodes nil nil (15 458 15 459 77 77 15 460 15 461 15 462 77 77 77 15 463 9 4 77 15 464 15 465 19 15 12 15 458 15 13 15 466 15 467 19 4 16 15 468 15 13 15 469 15 470 19 4 16 15 468 14 20 77 15 471 19 4 16 15 458 19 1 49 78 477 15 468 1 478 12 19 2 48 1 458 73 29) #1# #5# 29776) #Y(si::bytecodes nil nil (15 479 15 13 15 480 15 481 19 4 16 15 479 77 14 482 1 484 12 1 485 7 3 12 14 482 1 486 12 1 487 7 3 12 15 488 15 489 15 490 15 491 15 492 15 493 14 482 1 494 12 1 495 7 3 12 15 496 15 497 14 482 1 498 12 1 499 7 3 6 12 12 77 19 4 500 29) #1# #5# 29899) #Y(si::bytecodes nil nil (1 501 16 502 1 501 16 503 76 39 8 15 479 19 1 504 52 501 15 501 15 13 15 505 15 506 19 4 16 1 501 73 29) #1# #5# 30898) #Y(si::bytecodes nil nil (15 507 15 13 15 508 15 509 19 4 16 15 507 14 20 77 15 510 19 4 16 15 507 1 520 12 14 146 9 2 19 4 48 15 507 15 521 15 522 19 3 523 1 507 73 29) #1# #5# 31485) #Y(si::bytecodes nil nil (15 524 15 525 77 77 15 526 15 527 15 528 77 77 77 15 529 9 29 77 15 530 15 531 19 15 12 15 524 15 13 15 532 15 533 19 4 16 15 534 15 13 15 535 15 536 19 4 16 15 534 14 20 77 15 537 19 4 16 15 524 19 1 49 78 568 15 534 1 569 12 19 2 48 1 524 73 29) #1# #5# 31692) #Y(si::bytecodes nil nil (1 570 16 502 1 570 16 503 76 39 4 75 52 570 15 570 15 13 15 571 15 572 19 4 16 1 570 73 29) #1# #5# 32621) #Y(si::bytecodes nil nil (15 573 15 13 15 574 15 575 19 4 16 15 573 14 20 77 77 19 4 16 15 573 1 581 12 14 146 9 1 19 4 48 1 573 73 29) #1# #5# 32657) #Y(si::bytecodes nil nil (15 582 15 13 15 583 15 584 19 4 16 15 582 14 20 77 15 585 19 4 16 15 582 1 591 12 14 146 9 2 19 4 48 1 582 73 29) #1# #5# 32821) #Y(si::bytecodes nil nil (15 592 15 13 15 593 15 594 19 4 16 15 592 14 20 77 15 595 19 4 16 15 592 1 602 12 14 146 9 2 19 4 48 1 592 73 29) #1# #5# 33060) #Y(si::bytecodes nil nil (15 603 15 604 77 77 15 605 15 606 15 607 77 77 77 15 608 9 9 77 15 609 15 610 19 15 12 15 603 15 13 15 611 15 612 19 4 16 15 613 15 13 15 614 15 615 19 4 16 15 613 14 20 77 15 616 19 4 16 15 603 19 1 49 78 627 15 613 1 628 12 19 2 48 1 603 73 29) #1# #5# 33344) #Y(si::bytecodes nil nil (15 629 15 630 77 77 15 631 15 632 15 633 77 77 77 15 634 9 22 77 15 635 15 636 19 15 12 15 629 15 13 15 637 15 638 19 4 16 15 639 15 13 15 640 15 641 19 4 16 15 639 14 20 77 15 642 19 4 16 15 629 19 1 49 78 666 15 639 1 667 12 19 2 48 1 629 73 29) #1# #5# 33585) #Y(si::bytecodes nil nil (15 668 15 669 77 77 15 670 15 671 15 672 77 77 77 15 673 9 7 77 15 674 15 675 19 15 12 15 668 15 13 15 676 15 677 19 4 16 15 678 15 13 15 679 15 680 19 4 16 15 678 14 20 77 15 681 19 4 16 15 668 19 1 49 78 690 15 678 1 691 12 19 2 48 1 668 73 29) #1# #5# 33866))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : internal-structures.lisp
+;;; Version     : 5.0
+;;; 
+;;; Description : All of the defstructs for the internal code.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.10.07 Dan
+;;;             : Created.
+;;; 2005.01.05 Dan
+;;;             : Changed the version on the meta-process so that it indicates
+;;;             : the svn revision because it's going to be used to create a
+;;;             : snapshot for the website.
+;;; 2005.01.10 Dan
+;;;             : Same as above - added r20 and this time it's actually going
+;;;             : out to the site!
+;;; 2005.01.12 Dan
+;;;             : Because device is becoming a module it doesn't need to be
+;;;             : a slot in the model.
+;;; 2005.01.15 Dan
+;;;             : * Taking the r20 out of the meta-process version and uping
+;;;             :   it to 1.0a2.
+;;;             : * Moving to 80 charater width.
+;;;             : * Adding the copied-from slot to chunks.
+;;; 2005.01.16 Dan
+;;;             : * Removed the print-functions for chunks and chunk-types
+;;;             :   because users shouldn't be seeing those and there's no
+;;;             :   need to hide the details.
+;;; 2005.01.21 Dan
+;;;             : * Added the merge-list slot to chunks to help speed up the
+;;;             :   merging action.
+;;; 2005.01.27 Dan
+;;;             : * Added the filter slot to the printing module structure.
+;;; 2005.01.29 Dan
+;;;             : * Added r33 to the meta-process version for distribution
+;;;             :   on the ACT-R website.
+;;; 2005.01.31 Dan 
+;;;             : * Removed the r33 from the version and updated it to 1.0a3.
+;;; 2005.02.02 Dan
+;;;             : * Added the detail slot to the printing module.
+;;;             : * Changed the default output for break events to be low
+;;;             :   for use wth the detail level.
+;;; 2005.02.11 Dan
+;;;             : * Changed the make-hash-tables in the chunk structure to
+;;;             :   limit the size to just a little bigger than needed and
+;;;             :   in the meta-process to 5 for models.
+;;; 2005.03.23 Dan
+;;;             : * Added the secondary-reset slot to the module structure.
+;;; 2005.04.08 Dan
+;;;             : * Added r67 to meta-process version for distribution on
+;;;             :   the website.
+;;; 2005.04.14 Dan
+;;;             : * Added the suppress-cmds slot to the printing module to get
+;;;             :   around a problem with no-output and trying to read the :cmdt
+;;;             :   parameter...
+;;; 2005.04.20 Dan
+;;;             : * Took the r67 off of the meta-process version.
+;;; 2005.05.11 Dan
+;;;             : * Changed the version to 1.0b1 [r79]. 
+;;; 2005.05.12 Dan
+;;;             : * Removed the [r79] from the version.
+;;; 2005.06.10 Dan
+;;;             : * Changed the version to 1.0b2 [r120]. 
+;;; 2005.06.11 Dan
+;;;             : * Changed version to 1.0b2
+;;; 2005.07.12 Dan
+;;;             : * Changed the framework version to 1.0 [r130].
+;;; 2005.07.13 Dan
+;;;             : * Removed the r130 from the version number.
+;;; 2005.08.30 Dan
+;;;             : * Changed the framework version to 1.0 [r144].
+;;; 2005.08.30 Dan
+;;;             : * Oops, mis-encoded the file with mac line endings, so
+;;;             :   now changing to [r145].
+;;; 2005.09.01 Dan
+;;;             : * Taking the [r145] off.
+;;; 2005.09.08 Dan
+;;;             : * Added the model-warnings slot to the printing module 
+;;;             :   struct to support suppression of all model warnings.
+;;; 2005.11.16 Dan
+;;;             : * Changing framework version to 1.0 [r168].
+;;; 2005.11.17 Dan
+;;;             : * Changing framework version to back to 1.0.
+;;; 2006.01.16 Dan
+;;;             : * Changed the version to [r187] for release.
+;;; 2006.01.17 Dan
+;;;             : * Changing framework version to 1.1.
+;;; 2006.01.18 Dan
+;;;             : * Added the extended-slots slot to the chunk-type structure
+;;;             :   so that one can differentiate between the original slots
+;;;             :   and any that are added on the fly.
+;;;             : * Added the show-all-slots slot to the printing module to hold
+;;;             :   the new parameter.
+;;; 2006.01.30 Dan
+;;;             : * Adding the maintenance event type for use in things like
+;;;             :   terminating events and periodic events.  The schedule-event-
+;;;             :   after functions will have a keyword that specifies whether
+;;;             :   or not to consider maintenance events that defaults to nil.
+;;; 2006.02.27 Dan
+;;;             : * Added slots to the meta-process to handle the configuration
+;;;             :   of the real time management.
+;;; 2006.03.03 Dan
+;;;             : * Added the max-time-delta slot to the meta-process.
+;;; 2006.03.06 Dan
+;;;             : * Changed the version to [r204] for release.
+;;; 2006.03.06 Dan
+;;;             : * Removed the [r204] from the version.
+;;; 2006.03.14 Dan
+;;;             : * Changed version to [r212] for web release.
+;;; 2006.03.14 Dan
+;;;             : * Removed the [r212].
+;;; 2006.03.15 Dan
+;;;             : * Changed version to [r216] for web release.
+;;; 2006.03.15 Dan
+;;;             : * Removed the [r216].
+;;; 2006.03.21 Dan
+;;;             : * Changed version to [r219] for web release.
+;;; 2006.03.21 Dan
+;;;             : * Changed version to [r220] for web release.
+;;; 2006.03.28 Dan
+;;;             : * Changed version to [r222] for web release.
+;;; 2006.03.28 Dan
+;;;             : * Removed the [r222].
+;;; 2006.07.10 Dan
+;;;             : * Changed version to [r248] for web release.
+;;; 2006.07.10 Dan
+;;;             : * Removed the [r248].
+;;; 2006.11.20 Dan
+;;;             : * Added the warn slot to the act-r-module structure.
+;;; 2007.01.15 Dan
+;;;             : * Changed the version setting in the meta-process structure
+;;;             :   to be the value of *actr-version-string* so that I don't
+;;;             :   have to touch this file to mark the version changes.
+;;; 2007.04.13 Dan
+;;;             : * Added a new slot to the printing module struct to hold
+;;;             :   the cbct parameter.
+;;; 2008.10.20 Dan
+;;;             : * Added new slots to the model structure to hold the flags
+;;;             :   for normalizing.
+;;; 2008.11.03 Dan
+;;;             : * Updated the chunk and chunk parameter structures to work 
+;;;             :   with the new array representation of the parameters.
+;;; 2008.11.13 Dan
+;;;             : * Added the dynamic-update-hooks slot to the model struct.
+;;; 2008.12.01 Dan
+;;;             : * Added the tertiary-reset slot to the module structure.
+;;; 2008.12.08 Dan
+;;;             : * Added the the largest-chunk-type slot to the model struct
+;;;             :   to keep track of the largest possible chunk size.
+;;; 2008.12.10 Dan
+;;;             : * Added the copy-from-chunk slot to the chunk parameter
+;;;             :   struct.
+;;; 2009.02.13 Dan
+;;;             : * Added the base-name slot to chunks to support the new
+;;;             :   short copy names.
+;;;             : * Added the short-copy-names slot to the model structure too.
+;;; 2009.04.29 Dan
+;;;             : * Adding a slot to the meta-process so I can detect recursive
+;;;             :   calls to run and signal a warning.
+;;; 2009.09.09 Dan
+;;;             : * Added the multi, searchable and chunk-set slots to the buffer 
+;;;             :   struct.
+;;; 2009.12.03 Dan
+;;;             : * Adding the dynamics, allow-dynamics, and in-slack to the meta-process 
+;;;             :   to provide more flexibility with real-time when a slack-hook 
+;;;             :   is used and add the dynamic tag to events.
+;;; 2010.01.14 Dan
+;;;             : * Adding the copy slot to the buffer struct.
+;;; 2010.09.02 Dan
+;;;             : * Added a slot to the meta-process to record whether or not the
+;;;             :   time overflow warning has been displayed or not.
+;;; 2010.11.03 Dan
+;;;             : * Changed the event structure's time slot to be mstime because
+;;;             :   that's what will be used elsewhere.  To go with that have
+;;;             :   added an evt-time function which makes the conversion to
+;;;             :   keep the API right.
+;;; 2010.12.22 Dan
+;;;             : * Added a run-notify slot to the module structures to support
+;;;             :   the new run-notify option for modules.
+;;; 2011.01.11 Dan
+;;;             : * Added a run-over-notify slot to the module structures since
+;;;             :   a module may want to know about both situations.
+;;; 2011.03.25 Dan
+;;;             : * Added a safety check to evt-time so that if there's not a
+;;;             :   time it doesn't throw an error.
+;;; 2011.04.01 Dan
+;;;             : * Changed the initial value for the meta-process time to be 0 
+;;;             :   instead of 0.0.
+;;; 2012.08.08 Dan
+;;;             : * Adding another slot to the meta-process so that it can 
+;;;             :   record the order in which models are defined so that they
+;;;             :   can be reset in that same order for consistency.
+;;; 2013.01.03 Dan
+;;;             : * Adding a max-time-maintenance slot to the meta-process.
+;;; 2013.01.04 Dan
+;;;             : * Added the cannot-define-model slot to the meta-process to
+;;;             :   provide a way of avoiding a nasty situation that can occur
+;;;             :   if something tries to create a model while the "current" 
+;;;             :   model is being changed for other reasons.  Now, anytime there's
+;;;             :   a (setf (meta-p-current-model ...)) it should be wrapped in
+;;;             :   a (cannot-define-model ...) construct since that macro sets
+;;;             :   and clears this slot.
+;;; 2013.01.07 Dan
+;;;             : * Changed cannot-define-model to be a count since t/nil doesn't
+;;;             :   work since cannot-define-model macros could be nested.
+;;; 2013.01.24 Dan
+;;;             : * Adding a new slot to the chunk-type structure to keep track
+;;;             :   of an index for slots because the production matching code
+;;;             :   builds an array of bufferXslot values but chunk extension
+;;;             :   mixed with subtyping can cause issues with that.
+;;; 2013.01.28 Dan
+;;;             : * Adding another new slot to the chunk-type structure: possible-slots.
+;;;             :   That will hold the names of slots in subtypes of a type but
+;;;             :   not members of the type itself.  Needed to allow for the
+;;;             :   ability to specify subtype slots in conditions as constants
+;;;             :   which seems to follow as a logical conclusion, but which hasn't
+;;;             :   been implemented previously.
+;;; 2013.05.17 Dan [1.2]
+;;;             : * Added new slots to the chunk-type structure to indicate
+;;;             :   and manage the new static chunk-types which create 
+;;;             :   subtypes instead of growing the base type when extended.
+;;; 2013.10.02 Dan
+;;;             : * Took the # off of the setting for the default break event
+;;;             :   action since that function isn't defined at this point.
+;;; 2014.02.12 Dan
+;;;             : * Added the user-defined slot to chunk-types for use with
+;;;             :   printing 'cannonical' names of types based on the added
+;;;             :   option of defined for the :show-static-subtype-names param.
+;;; 2014.02.17 Dan
+;;;             : * Added the creation-type slot to chunks to allow things like
+;;;             :   this to still work with static chunks:
+;;;             :    (chunk-type foo)
+;;;             :    (chunk-type (bar (:include foo)) slot)
+;;;             :    (define-chunks (a isa bar))
+;;;             :    (set-chunk-slot-value a slot t)
+;;; 2014.02.24 Dan [2.0]
+;;;             : * Chunks no longer maintain a chunk-type, just a vector of filled
+;;;             :   slots and now an immutable tag since changing DM chunks 
+;;;             :   will really be a problem without types to organize things.
+;;;             : * Chunk-types don't have a static specifier since they aren't
+;;;             :   really used at run time and don't need to maintain a lot
+;;;             :   of info.
+;;;             : * Instead there's a structure for the model which holds the
+;;;             :   chunk-type info instead of just a table of types.
+;;;             : * Chunk-specs now have filled slot and empty slot vectors 
+;;;             :   instead of a type.
+;;; 2014.03.13 Dan
+;;;             : * Chunk-specs now hold more details directly: 
+;;;             :    - which slots have multiple specifications
+;;;             :    - which slots have inequality tests
+;;;             :    - which slots have equality tests
+;;;             :    - which slots have negation tests
+;;;             :    - any potential variable markers in slot tests (non alphanumericp
+;;;             :      initial characters)
+;;; 2014.03.14 Dan
+;;;             : * Request parameters get treated just like slots in a chunk-spec
+;;;             :   which means that they will need to be added as slots when 
+;;;             :   defined with modules.  Keep track of them in the spec for
+;;;             :   comparing a chunk-spec to a chunk-type signature.
+;;; 2014.05.14 Dan
+;;;             : * Maintain query info separately in the chunk-type-info struct.
+;;; 2014.06.24 Dan
+;;;             : * Chunk-types don't need to record subtypes info now.
+;;;             : * Do want to record the specific parent types given, if any.
+;;; 2014.06.25 Dan
+;;;             : * Record the chunk-type names as they're created in the chunk-
+;;;             :   type-info struct so that printing them out is consistent
+;;;             :   among Lisps and so they don't need to be ordered by inheritance
+;;;             :   when saving a model.
+;;; 2014.08.14 Dan
+;;;             : * Printing module no longer needs the show-all-slots slot.
+;;; 2014.09.26 Dan
+;;;             : * Maintain a sorted list of module names so that things like
+;;;             :   resetting can always be applied in the same order unlike
+;;;             :   maphash which varies from Lisp to Lisp.
+;;; 2014.11.04 Dan
+;;;             : * Added a slot to indicate a request-param to the slot-spec
+;;;             :   structure.
+;;; 2015.03.19 Dan
+;;;             : * Added the flags slot to the buffer struct to handle the
+;;;             :   new failure option and provide a way for implementing other
+;;;             :   such markers in the future.
+;;; 2015.06.01 Dan
+;;;             : * Added the one-time-tags slot to the printing module struct
+;;;             :   to support the new one-time-model-warning command.
+;;; 2015.07.29 Dan [2.1]
+;;;             : * Changed the version number set in the meta-process to be
+;;;             :   the concatenation of the two version strings.
+;;;             : * Added a precondition slot to events which will be used to
+;;;             :   allow ignoring "unneeded" events.
+;;; 2015.08.03 Dan
+;;;             : * Going back to *actr-version-string* being the whole thing
+;;;             :   and changing that in the version-string file.
+;;; 2015.08.25 Dan
+;;;             : * Adding the real-time-scale slot to the meta-process to make
+;;;             :   it easier to control the scaling in real-time mode.
+;;; 2015.09.09 Dan [3.0]
+;;;             : * Slot added to buffers to indicate whether its module will
+;;;             :   report on completion of requests i.e. trackable.
+;;;             : * Slot added to model struct for tracking requests.
+;;; 2016.04.11 Dan
+;;;             : * Converted the printing module to a class because then
+;;;             :   supporting the :save-trace parameter and show-model-trace 
+;;;             :   command can be done with a class allocated slot to hold
+;;;             :   the event hook ids.  Keep the accessors for the slots the
+;;;             :   same as they were for the struct to avoid having to change
+;;;             :   lots of other code too.
+;;; 2016.09.27 Dan [4.0]
+;;;             : * Removed the meta-processes structure.
+;;; 2016.09.28 Dan
+;;;             : * The printing module's event-hook doesn't need to be a hash-table
+;;;             :   since there's only one meta-process.
+;;; 2017.02.27 Dan
+;;;             : * Added class allocated slots to the printing-module to allow
+;;;             :   warnings to be captured cleanly since *error-output* can't
+;;;             :   just be monitored now.
+;;; 2017.03.29 Dan
+;;;             : * Added slots for lock tables in the meta-process and model
+;;;             :   along with a lock in the buffer struct and a class lock in
+;;;             :   the printing-module.
+;;;             : * Removed the current-model and cannot-define-model slots.
+;;; 2017.03.30 Dan
+;;;             : * Moved the current-mp and current-mp-fct code here.
+;;;             : * Also moved the model code from internal-macros here.
+;;;             : * Added with-current-model which works like verify-current-model
+;;;             :   except that it binds current-model to the current model struct
+;;;             :   for use in the body.
+;;;             : * Moved print-warning here too.
+;;; 2017.04.27 Dan
+;;;             : * Added a lock to the buffer structure to protect access.
+;;; 2017.05.30 Dan
+;;;             : * Adding a new piece to the internal organization -- a "component".
+;;;             :   A component is installed at the meta-process level not the
+;;;             :   model level.  It is not directly affected by resets, only 
+;;;             :   clear-alls.  It has 5 interface functions:
+;;;             :    - creation (called once at define-component time)
+;;;             :    - destroy (called once at undefine-component time)
+;;;             :    - clear-all (called at every clear-all)
+;;;             :    - model-creation (called for every model that's defined)
+;;;             :    - model-destruction (called for every model that's undefined)
+;;;             :   Like a module its returned creation is the 'instance' and
+;;;             :   there will be a get-component command, but since there is 
+;;;             :   only 1 instance of a component it may not be necessary.
+;;; 2017.06.02 Dan
+;;;             : * Cleaned up some issues with the "current model" setting and
+;;;             :   use.  Now nothing ever setfs *current-act-r-model* and 
+;;;             :   current-model-struct is an or of that and the meta-p-default-
+;;;             :   model.
+;;; 2017.06.05 Dan
+;;;             : * Adding slots for reset functions to components.
+;;; 2017.06.15 Dan
+;;;             : * Make the 'current model' macros thread safe by locking the
+;;;             :   read of the meta-process default model slot.
+;;;             : * Added a lock to the model struct to protect the modules table.
+;;;             : * Added another lock to the printing module for checking/setting
+;;;             :   parameters within a model (the other lock is class allocated).
+;;;             : * Add the schedule-lock to the meta-process for locking all of
+;;;             :   the time and event queue access.
+;;;             : * Add a lock to the modules struct.
+;;; 2017.06.16 Dan
+;;;             : * Added another lock to printing module for the saved trace.
+;;;             : * Make the printing module param lock recursive.
+;;;             : * Added a component-lock to the meta-process.
+;;; 2017.06.20 Dan
+;;;             : * Added a lock to the act-r-chunk-type-info struct to protect
+;;;             :   all access.  Since chunk-types are only modifided in the 
+;;;             :   chunk-type functions the info lock is used to protect the 
+;;;             :   underlying structs too.
+;;; 2017.06.21 Dan
+;;;             : * Added a lock for the chunk 'updating' slots to the model.
+;;; 2017.06.23 Dan
+;;;             : * Added names for all the locks.
+;;; 2017.06.28 Dan
+;;;             : * Removed the in-slack slot of the meta-process because it
+;;;             :   isn't used anymore.
+;;; 2017.06.29 Dan
+;;;             : * Add a lock to the model struct for the buffers table.
+;;; 2017.05.30 Dan
+;;;             : * Add a lock for the meta-process event hook slots.
+;;; 2017.07.14 Dan
+;;;             : * Add a lock to the model for tracked-requests.
+;;; 2017.09.19 Dan
+;;;             : * Remove all the slots needed for the printing module to 
+;;;             :   support the :save-trace parameter.
+;;; 2017.12.07 Dan
+;;;             : * Added an external slot to modules sturcture.
+;;; 2018.02.05 Dan
+;;;             : * Removed the evt- :conc-name from the event structure and
+;;;             :   added a num slot for use as an id.
+;;;             : * Added event-id slot to meta-process for creating them.
+;;; 2018.02.07 Dan
+;;;             : * Remove the unnecessary real-time params from the meta-process
+;;;             :   and added the mode.
+;;; 2018.04.13 Dan
+;;;             : * The buffer-lock needs to be a recursive lock because buffer-
+;;;             :   chunk locks it but get-m-buffer-chunks also does for a multi-
+;;;             :   buffer.
+;;; 2018.04.17 Dan
+;;;             : * The modules lock also needs to be recursive.
+;;; 2018.06.08 Dan
+;;;             : * Add a tracked-requests id counter which is what the 'tracker'
+;;;             :   uses to check things.
+;;; 2019.01.30 Dan
+;;;             : * Updating the chunk-spec related structs to eliminate some 
+;;;             :   unused slots and add some others to help with how they're used.
+;;; 2019.02.05 Dan
+;;;             : * Adjust meta-p-models to be an alist instead of hashtable.
+;;; 2019.02.13 Dan
+;;;             : * Add a slot to the model to hold a bitvector of buffers with
+;;;             :   chunks in them and slots to the buffer to hold their index
+;;;             :   and a mask.
+;;; 2019.03.13 Dan
+;;;             : * Change the chunk-type-info to get rid of slot->mask and to
+;;;             :   specify tests for the hash tables.
+;;; 2019.03.14 Dan
+;;;             : * Can't use = as the test for a hash-table outside of ACL.
+;;;             : * Just removing all the tests now.
+;;; 2019.03.19 Dan
+;;;             : * Added a slot to chunk-types for a possible-slots vector.
+;;; 2019.04.03 Dan
+;;;             : * Store a module instance in the buffer struct of a model
+;;;             :   and a list of instances in the model.
+;;; 2019.04.03 Dan
+;;;             : * Added a slot to store the unique slot names in a chunk-spec
+;;;             :   to avoid having to recompute them.
+;;; 2019.04.09 Dan
+;;;             : * Have the event priorities default to 0 and add slots for min
+;;;             :   and max so priority values are always numbers.
+;;; 2020.02.12 Dan
+;;;             : * Added the merge-value slot to chunk parameters.
+;;; 2020.05.29 Dan
+;;;             : * Removed the name from the chunks' locks.
+;;;             : * Added some slots to the model struct to store chunk-type
+;;;             :   information after module creation to reapply at reset time
+;;;             :   instead of repeatedly calling chunk-type i.e. if a module
+;;;             :   calls it in the creation function it doesn't have to be done
+;;;             :   in the reset function every time.
+;;; 2020.06.01 Dan
+;;;             : * Added some more slots to the model struct for caching the 
+;;;             :   creation time chunks as well.
+;;; 2020.07.23 Dan
+;;;             : * Added slots to the act-r-output struct to indicate
+;;;             :   whether the :v and :cmdt are using the same stream to fix
+;;;             :   a problem when they're set to the same file.
+;;; 2021.06.03 Dan [5.0]
+;;;             : * Buffer struct has a slot to store the name of the reusable
+;;;             :   chunk that it will use, and a flag to indicate if it should
+;;;             :   use it.
+;;;             : * Chunk struct has a slot to indicate not storable.
+;;; 2021.10.14 Dan [6.0]
+;;;             : * Added a new slot to modules to indicate whether they are
+;;;             :   required to exist or not.
+;;;             : * Also added a slot to models for the parameters it has since
+;;;             :   it will only have parameters for the used modules.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; These are not for general use!
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; NONE!
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; I had some odd compiling order issues with the defstructs and defmacros 
+;;; so for now the easy fix was to make sure that they are all 
+;;; available from the start.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(declaim (ftype (function (t &rest t) t) evaluate-act-r-command))
+(declaim (ftype (function () t) current-model))
+(declaim (ftype (function () t) mp-models))
+
+(defstruct act-r-buffer 
+  "The internal structure for a buffer"
+  name
+  chunk  ;; holds the chunk name not struct - copy issues and such...
+  flags
+  module
+  spread
+  queries
+  requests
+  (requests-mask 0)
+  parameter-name
+  requested
+  status-printing
+  multi
+  searchable
+  chunk-set
+  copy
+  trackable
+  (lock (bt:make-recursive-lock "buffer-lock"))
+  index
+  mask
+  module-instance
+  reuse-chunk
+  reuse?)
+
+(defstruct act-r-chunk-spec 
+  "The internal structure of a chunk-spec"
+  (filled-slots 0) 
+  (empty-slots 0) 
+  (request-param-slots 0)
+  (duplicate-slots 0)
+  (equal-slots 0)
+  (negated-slots 0)
+  (relative-slots 0)
+  variables
+  slot-vars
+  dependencies
+  slots
+  testable-slots
+  slot-names)
+
+(defstruct act-r-slot-spec 
+  "The internal structure of a chunk-spec's slot specification"
+  (modifier '=) name value variable)
+
+(defstruct act-r-chunk-type 
+  "The internal structure of a chunk-type"
+  name documentation super-types parents
+  ;; don't need this any more: subtypes 
+  slots ;; your slots (direct and inherited) including possible default values
+  possible-slots ;; slot names only of all the slots of self and children
+  slot-vector ;; a mask of the direct slots
+  (possible-slot-vector 0) ;; a mask of the possible-slots
+  (initial-spec (make-act-r-chunk-spec)))
+
+(defstruct act-r-chunk-type-info 
+  "The structure to hold chunk-type information for a model"
+  (slot->index (make-hash-table))
+  (index->slot (make-array (list 0) :adjustable t :fill-pointer t)) 
+   
+  (size 0) 
+  (distinct-types (make-hash-table))
+  extended-slots
+  query-slots
+  (table (make-hash-table))
+  (types (list 'chunk))
+  (lock (bt:make-recursive-lock "chunk-type")))
+
+(defstruct act-r-chunk 
+  "The internal structure of a chunk"
+  name base-name
+  documentation 
+  (filled-slots 0)
+  slot-value-lists 
+  copied-from
+  merged-chunks
+  parameter-values
+  immutable
+  not-storable
+  (lock (bt:make-recursive-lock)))
+
+(defstruct act-r-chunk-parameter
+  "The internal structure of a chunk parameter"
+  name index default-value default-function merge merge-value copy copy-from-chunk accessor)
+
+(defstruct act-r-event  
+  "Internal ACT-R event"
+  mstime (priority 0) action model mp module destination params details (output t)
+  wait-condition dynamic precondition num min max)
+
+(defstruct (act-r-maintenance-event (:include act-r-event (output 'low)))
+  "Events for system maintenance")
+
+(defstruct (act-r-break-event 
+            (:include act-r-maintenance-event (action 'act-r-event-break-action))) 
+  "The ACT-R break events"
+  )
+
+(defstruct (act-r-periodic-event (:include act-r-maintenance-event)) 
+  "special event that repeatedly schedules a user's event"
+  id)
+
+(defstruct (meta-process (:conc-name meta-p-))
+  "The internal representation of the meta-process"
+  (time 0)
+  start-time
+  start-real-time
+  (models nil)
+  
+  (model-count 0)
+  (model-name-len 0)
+  events
+  delayed
+  dynamics
+  break
+  pre-events
+  post-events
+  
+  (time-function 'get-internal-real-time)
+  (units-per-second internal-time-units-per-second)
+  (slack-function 'real-time-slack)
+  (time-mode 'interval)
+  
+  (next-hook-id 0)
+  (hook-table (make-hash-table))
+  (event-hook-lock (bt:make-lock "mp-event-hooks"))
+  
+  (version *actr-version-string*)
+  (documentation "")
+  (running nil)
+  (run-lock (bt:make-lock "run-lock"))
+  model-order
+  (models-lock (bt:make-lock "models-lock"))
+  default-model
+  
+  (schedule-lock (bt:make-recursive-lock "schedule-lock"))
+  
+  (event-id 0)
+  temp-event
+  
+  
+  (lock-table (make-hash-table :test 'equal))
+  
+  (component-lock (bt:make-lock "component"))
+  component-list
+  (component-length 0)
+  )
+
+(let ((mp (make-meta-process)))
+  (defun current-mp ()
+    mp)
+  
+  (defun current-mp-fct ()
+    mp))
+
+(defstruct act-r-component
+  name
+  instance
+  destroy
+  clear-all
+  model-create
+  model-destroy
+  version
+  documentation
+  before-reset
+  after-reset)
+
+
+(defmacro verify-current-mp (warning &body body)
+  (declare (ignore warning))
+  `(progn ,@body))
+
+(defstruct act-r-output
+  "The internal structure of an output stream for the printing module"
+  stream file shared name)
+
+(defclass printing-module ()
+  ((v :accessor printing-module-v :initform (make-act-r-output :stream t))
+   (c :accessor printing-module-c :initform (make-act-r-output :stream t))
+   (suppress-cmds :accessor printing-module-suppress-cmds :initform nil)
+   (filter :accessor printing-module-filter :initform nil)
+   (detail :accessor printing-module-detail :initform 'high)
+   (model-warnings :accessor printing-module-model-warnings :initform t)
+   (cbct :accessor printing-module-cbct :initform nil)
+   (one-time-tags :accessor printing-module-one-time-tags :initform nil)
+   (param-lock :accessor printing-module-param-lock :initform (bt:make-recursive-lock "printing-param"))
+   (capture-warnings :accessor printing-module-capture-warnings :initform nil :allocation :class)
+   (captured-warnings :accessor printing-module-captured-warnings :initform nil :allocation :class)
+   (printing-lock :accessor printing-module-lock :initform (bt:make-recursive-lock "printing-lock") :allocation :class)))
+
+
+;;; print-warning
+;;;
+;;; (defmacro print-warning (control-string &rest args))
+;;;
+;;; control-string is a control-string as would be passed to the format function
+;;; args are the arguments to use in that control string
+;;;
+;;; control-string and args are passed to format on the stream *error-output* 
+;;; with the text "#|Warning: " proceeding it and "|#" after it so that it would 
+;;; appear as a comment if the stream were to be read.
+;;;
+;;; nil is returned.  
+
+
+;;; variable for use in suppressing warnings
+;;;
+(defvar *act-r-warning-capture* (make-instance 'printing-module))
+
+
+(defmacro print-warning (message &rest arguments)
+  "Outputs a warning of message and arguments."
+  `(progn
+     (evaluate-act-r-command "print-warning" (format nil "~@?" ,message ,@arguments))
+     nil))
+
+
+
+
+(defstruct act-r-model
+  "The internal structure of a model"
+  (modules-table (make-hash-table)) 
+  (modules-lock (bt:make-lock "model-modules"))
+  (buffers-lock (bt:make-lock "model-buffers"))
+  (buffers (make-hash-table))
+  (chunk-lock (bt:make-recursive-lock "model-chunk"))
+  (chunks-table (make-hash-table))
+  (chunk-ref-table (make-hash-table))
+  (chunk-types-info (make-act-r-chunk-type-info))
+  name 
+  code
+  
+  (chunk-updating-lock (bt:make-lock "model-chunk-updating"))
+  (chunk-update t)
+  (dynamic-update t)
+  delete-chunks
+  dynamic-update-hooks
+  short-copy-names
+  
+  (tracked-requests-lock (bt:make-lock "tracked-requests"))
+  tracked-requests
+  (tracked-requests-id 0)
+  (lock-table (make-hash-table :test 'equal))
+  (buffer-state 0)
+  module-instances
+  
+  
+  starting-slot-vector
+  starting-ct-size
+  starting-slot-structs
+  starting-chunk-types
+  starting-distinct-types
+  
+  initial-chunks
+  params
+  )
+
+(defvar *current-act-r-model* nil)
+
+(defmacro current-model-struct ()
+  `(or *current-act-r-model* (let ((mp (current-mp))) (bt:with-lock-held ((m

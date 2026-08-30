@@ -1,0 +1,1250 @@
+(hand to-key offsets)))
+
+(defgeneric point-hand-at-key (mtr-mod &key hand to-key offsets request-spec)
+  (:documentation  "Move the hand to a new location, specified by the key at which the index finger should point."))
+
+(defmethod point-hand-at-key ((mtr-mod motor-module) &key hand to-key offsets request-spec)
+  (aif (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+       (let ((k (current-keyboard)))
+         (if k
+             (progn
+               (unless (stringp to-key)
+                 (setf to-key (princ-to-string to-key)))
+               
+               (let ((new-loc (key->loc k to-key)))
+                 (if new-loc
+                     (let* ((polar (xy-to-polar (hand-loc hand :current nil) new-loc))
+                            (keyboard-hand (if (eq hand 'left) 
+                                               (keyboard-hand-location k 'left-home)
+                                             (keyboard-hand-location k 'right-home)))
+                            (target-offsets (if (eq offsets 'standard)
+                                                (mapcar (lambda (x)
+                                                          (list (first x) (px (second x)) (py (second x))))
+                                                  (case hand
+                                                    (right 
+                                                     (right-standard-offsets))
+                                                    (left
+                                                     (left-standard-offsets))))
+                                              (if offsets offsets (rest keyboard-hand))))
+                            
+                            (hand-pos (hand-position hand :current nil))
+                            (device (device-for-hand hand :current nil)))
+                       (if (and (= (vr polar) 0)
+                                device
+                                (string-equal (second device) "keyboard")
+                                (every (lambda (x) (awhen (find (first x) (hand-pos-fingers hand-pos) :key 'first)
+                                                          (and (= (px (second it)) (second x))
+                                                               (= (py (second it)) (third x)))))
+                                       target-offsets))
+                      (model-warning "POINT-HAND-AT-KEY requested but hand already is (or will be) at the requested key position.")
+                         (point-hand mtr-mod :hand hand :r (vr polar) :theta (vtheta polar) 
+                                     :offsets offsets :request-spec request-spec :device it)))
+                   (print-warning "No key mapping available for key ~s. Point-hand-at-key action ignored." to-key))))
+           (print-warning "Invalid keyboard found cannot move hand to key.")))
+       (print-warning "No keyboard device installed for motor module.  Point-hand-at-key action ignored.")))
+
+(extend-manual-requests (point-hand-at-key hand to-key offsets) handle-partial-style-request)
+
+
+
+;;; User actions for the keyboard go through the motor module's notification interface.
+
+;;; HOME-HANDS      [Method]
+;;; Date        : 97.02.20
+;;; Description : Sets the hand and finger locations to the keyboard home row.
+
+(defgeneric home-hands (keyboard &optional force-hand-to-device)
+  (:documentation  "Sets the hand and finger locations to home row locations"))
+
+(defmethod home-hands ((k virtual-keyboard) &optional force-hand-to-device)
+  (let ((device (find "keyboard" (current-devices "motor") :test 'string-equal :key 'second)))
+    (when (or force-hand-to-device (null (notify-interface "motor" '(get-hand-device right))))
+      (let* ((r-home (keyboard-hand-location k 'right-home))
+             (r-pos (find 'hand r-home :key 'first))
+             (r-fingers (remove r-pos r-home)))
+        (notify-interface "motor" (list 'set-hand-device 'right device))
+        (notify-interface "motor" (list 'set-hand-position 'right (second r-pos) (third r-pos)))
+        (notify-interface "motor" (append (list 'set-finger-offset 'right) r-fingers))))
+      
+    (when (or force-hand-to-device (null (notify-interface "motor" '(get-hand-device left))))
+      (let* ((l-home (keyboard-hand-location k 'left-home))
+             (l-pos (find 'hand l-home :key 'first))
+             (l-fingers (remove l-pos l-home)))
+        (notify-interface "motor" (list 'set-hand-device 'left device))
+        (notify-interface "motor" (list 'set-hand-position 'left (second l-pos) (third l-pos)))
+        (notify-interface "motor" (append (list 'set-finger-offset 'left) l-fingers))))))
+
+
+(defun start-hands-at-home ()
+  "Start the hands on the home row locations"
+  (verify-current-model 
+   "No current model.  Cannot start hands at home positions."
+   
+   (unless (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+     (install-device (list "motor" "keyboard"))
+     (model-warning "Default keyboard device installed automatically by start-hands-at-home"))
+   
+   (home-hands (current-keyboard) t)
+   t))
+
+(add-act-r-command "start-hands-at-home" 'start-hands-at-home "Place the model's hands on the home row positions of a keyboard device (installing one if necessary). No params.")
+
+
+(defun start-hand-at-key (hand key)
+  "Start a hand on the indicated key instead of the 'home row' location"
+   (verify-current-model 
+    "No current model.  Cannot start hand at key."
+    (unless (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+      (install-device (list "motor" "keyboard"))
+      (model-warning "Default keyboard device installed automatically by start-hand-at-key."))
+    
+    (let ((k (current-keyboard)))
+      (unless (stringp key)
+        (setf key (princ-to-string key)))
+      (if (or (eq hand 'right) (eq hand 'left))
+          (aif (key->loc k key)
+               (progn
+                 (notify-interface "motor" (list 'set-hand-device hand (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)))
+                 (notify-interface "motor" (list 'set-hand-position hand (px it) (py it))))
+               (print-warning "Invalid key ~s in start-hand-at-key." key))
+        (print-warning "Invalid hand ~s in start-hand-at-key." hand)))))
+
+
+(defun external-start-hand-at-key (hand key)
+  (start-hand-at-key (string->name hand) key))
+
+(add-act-r-command "start-hand-at-key" 'external-start-hand-at-key "Place the model's indicated hand on the keyboard device with the index finger over the named key. Params: hand key-name")
+
+
+(defun start-hand-at-keypad ()
+  "Starts the right hand on the keypad instead of the 'home row' location"
+  (verify-current-model 
+    "No current model.  Cannot start hand at key."
+    (unless (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)
+      (install-device (list "motor" "keyboard"))
+      (model-warning "Default keyboard device installed automatically by start-hand-at-keypad."))
+    
+   (let* ((k (current-keyboard))
+          (keypad-loc (keyboard-hand-location k 'keypad))
+          (pos (find 'hand keypad-loc :key 'first))
+          (fingers (remove pos keypad-loc)))
+     (notify-interface "motor" (list 'set-hand-device 'right (find "keyboard" (current-devices "motor") :key 'second :test 'string-equal)))
+     (notify-interface "motor" (list 'set-hand-position 'right (second pos) (third pos)))
+     (notify-interface "motor" (append (list 'set-finger-offset 'right) fingers)))))
+                 
+(add-act-r-command "start-hand-at-keypad" 'start-hand-at-keypad "Place the model's right hand on middle row of the keyboard device's keypad area. No params.")
+
+
+
+;;;;;; Create a component for recording the keyboards for each model
+
+
+(defun clear-keyboard-component (keyboard-component)
+  (bt:with-lock-held ((keyboard-component-lock keyboard-component))
+    (clrhash (keyboard-component-table keyboard-component))))
+
+(defun remove-model-keyboard (k-c model)
+  (bt:with-lock-held ((keyboard-component-lock k-c))
+    (remhash model (keyboard-component-table k-c))))
+
+(defun set-default-keyboard (class)
+  (let ((k-c (get-component keyboard-table)))
+    (if k-c
+        (if (or (null class) (subtypep class 'virtual-keyboard))
+            (progn
+              (bt:with-lock-held ((keyboard-component-lock k-c))
+                (setf (keyboard-component-default k-c) class))
+              t)
+          (print-warning "Set-default-keyboard requires nil or a subclass of virtual-keyboard but given ~s." class))
+      (print-warning "No keyboard-table component found when calling set-default-keyboard."))))
+               
+(defun current-keyboard ()
+  (awhen (current-model)
+         (let ((k-c (get-component keyboard-table)))
+           (when k-c
+             (bt:with-lock-held ((keyboard-component-lock k-c))
+               (gethash it (keyboard-component-table k-c)))))))
+
+(define-component keyboard-table :version "3.1" :documentation "Record the keyboards used for each model."
+  :creation make-keyboard-component
+  :clear-all clear-keyboard-component
+  :delete clear-keyboard-component
+  :delete-model remove-model-keyboard)
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  (#Y(si::bytecodes nil nil (15 0 77 15 1 19 3 2 29) #1=#A(t (31) ("output-speech" "Command called when the model performs a speech action which can be monitored.  It is passed 2 parameters: model-name and the text spoken. Should not be called directly." common-lisp-user::add-act-r-command common-lisp-user::microphone-interface ext::location (defun common-lisp-user::microphone-interface) (#2=#P"/opt/actr/actr7.x/other-files/microphone.lisp" . 2612) ext::annotate :lambda-list (common-lisp-user::device-list common-lisp-user::features) common-lisp-user::device-list common-lisp-user::features common-lisp-user::start eq second common-lisp-user::speak "output-speech" :params common-lisp-user::current-model third :module common-lisp-user::microphone common-lisp-user::schedule-event-now common-lisp-user::check-subvocalize #Y(common-lisp-user::microphone-interface nil nil (24 45 10 24 45 11 26 10 0 4 12 1 12 17 13 39 10 10 0 16 14 12 1 15 17 13 39 25 15 16 14 17 19 0 18 12 10 0 16 19 6 2 12 14 20 15 21 19 5 22 38 14 10 0 4 12 1 23 17 13 73 39 3 75 73 29) #1# #2# 2612) si::fset "microphone-interface-fn" "Function which can process the speech module's notifications. Do not call directly." "microphone" "microphone-interface-fn" common-lisp-user::define-device)) #2# 0) #Y(si::bytecodes nil nil (15 3 15 4 15 5 15 6 19 4 7 15 3 14 8 77 15 9 19 4 7 15 3 1 24 12 19 2 25 1 3 73 29) #1# #2# 2612) #Y(si::bytecodes nil nil (15 26 15 3 15 27 19 3 2 29) #1# #2# 3028) #Y(si::bytecodes nil nil (15 28 77 77 15 29 19 4 30 29) #1# #2# 3185))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2018 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : microphone.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Implement a simple virtual microphone device for models.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2018.03.05 Dan [1.0]
+;;;             : * Create a device which generates the output-speech signal 
+;;;             :   instead of doing it directly from speech module.  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Instead of having the speech module directly create the output-speech
+;;; signal it seems like the right thing to do is have a device for that both
+;;; for consistency and extendability.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; The output-speech signal can be monitored to detect the start of model speech.
+;;; It gets two parametes: the current model name and the spoken text.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Keep it very simple - no need for anything other than the interface functions
+;;; since there's no state for this.
+;;;
+;;; Only respond to the start of speech.  One could extend that since the speech
+;;; module now sends the notice of start & stop for both speak and subvocalize.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(add-act-r-command "output-speech" nil "Command called when the model performs a speech action which can be monitored.  It is passed 2 parameters: model-name and the text spoken. Should not be called directly.")
+
+
+(defun microphone-interface (device-list features)
+  (declare (ignore device-list))
+  (if (and (eq (first features) 'start)
+             (eq (second features) 'speak))
+      (schedule-event-now "output-speech" :params (list (current-model) (third features)) :module 'microphone)
+    ;; effectively unnecessary but doing so for completeness
+    (when (eq (first features) 'check-subvocalize)
+      nil)))
+
+(add-act-r-command "microphone-interface-fn" 'microphone-interface "Function which can process the speech module's notifications. Do not call directly.")
+
+(define-device "microphone" nil nil "microphone-interface-fn")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#                                                                                                                            (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 77 14 5 1 6 12 1 7 7 3 12 14 5 1 8 12 1 9 7 3 12 14 5 1 10 12 1 11 7 3 12 14 5 1 12 12 1 13 7 3 12 15 14 15 15 15 16 15 17 15 18 1 19 6 10 12 77 19 4 20 29) #1=#A(t (598) (common-lisp-user::virtual-cursor ext::location (defclass common-lisp-user::virtual-cursor) (#2=#P"/opt/actr/actr7.x/other-files/mouse.lisp" . 0) ext::annotate :initfunction #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-lock "virtual-cursor") :writers ((setf common-lisp-user::cursor-lock)) :readers (common-lisp-user::cursor-lock) :name common-lisp-user::cursor-lock) #Y(nil nil nil (26 9 0 8 0 6 2 73 29) #1# #2# 0) (:initargs (:cursor-loc) :initform (list 0 0) :writers ((setf common-lisp-user::cursor-loc)) :readers (common-lisp-user::cursor-loc) :name common-lisp-user::cursor-loc) #Y(nil nil nil (26 9 0 8 0 6 2 73 29) #1# #2# 0) (:initargs (:cursor-pos) :initform (list 0 0) :writers ((setf common-lisp-user::cursor-pos)) :readers (common-lisp-user::cursor-pos) :name common-lisp-user::cursor-pos) #Y(nil nil nil (26 9 0 8 0 6 2 73 29) #1# #2# 0) (:initargs (:initial-loc) :initform (list 0 0) :writers ((setf common-lisp-user::initial-loc)) :readers (common-lisp-user::initial-loc) :name common-lisp-user::initial-loc) (:initform nil :writers ((setf common-lisp-user::cursor-feature)) :readers (common-lisp-user::cursor-feature) :name common-lisp-user::cursor-feature) (:initform 'common-lisp-user::pointer :writers ((setf common-lisp-user::cursor-ptr)) :readers (common-lisp-user::cursor-ptr) :name common-lisp-user::cursor-ptr) (:initargs (:cursor-name) :writers ((setf common-lisp-user::cursor-name)) :readers (common-lisp-user::cursor-name) :name common-lisp-user::cursor-name) (:initargs (:cursor-vis-type) :initform 'common-lisp-user::cursor :writers ((setf common-lisp-user::cursor-vis-type)) :readers (common-lisp-user::cursor-vis-type) :name common-lisp-user::cursor-vis-type) (:initargs (:device-order) :initform 0 :writers ((setf common-lisp-user::device-order)) :readers (common-lisp-user::device-order) :name common-lisp-user::device-order) (:initform nil :writers ((setf common-lisp-user::interfaces)) :readers (common-lisp-user::interfaces) :name common-lisp-user::interfaces) clos::load-defclass common-lisp-user::mouse (defclass common-lisp-user::mouse) (#2# . 9537) (common-lisp-user::virtual-cursor) :direct-default-initargs :cursor-name "mouse" constantly :cursor-pos (list 28 2) #Y(nil nil nil (26 9 28 8 2 6 2 73 29) #1# #2# 9537) common-lisp-user::joystick1 (defclass common-lisp-user::joystick1) (#2# . 9652) (common-lisp-user::virtual-cursor) "joystick1" (list 28 0) #Y(nil nil nil (26 9 28 8 0 6 2 73 29) #1# #2# 9652) :device-order common-lisp-user::joystick2 (defclass common-lisp-user::joystick2) (#2# . 9795) (common-lisp-user::virtual-cursor) "joystick2" (list 28 4) #Y(nil nil nil (26 9 28 8 4 6 2 73 29) #1# #2# 9795) common-lisp-user::cursor-initialization (defmethod common-lisp-user::cursor-initialization (common-lisp-user::c common-lisp-user::virtual-cursor) common-lisp-user::device) (#2# . 9938) (common-lisp-user::virtual-cursor t) (common-lisp-user::c common-lisp-user::device) common-lisp-user::c common-lisp-user::device #Y(common-lisp-user::cursor-initialization nil nil (24 45 52 24 45 53 26 75 73 29) #1# #2# 9938) clos::install-method common-lisp-user::other-notifications (defmethod common-lisp-user::other-notifications (common-lisp-user::c common-lisp-user::virtual-cursor) common-lisp-user::device common-lisp-user::features) (#2# . 10029) (common-lisp-user::virtual-cursor t t) (common-lisp-user::c common-lisp-user::device common-lisp-user::features) common-lisp-user::features "print-warning" "~@?" "Cursor device can not process notification from device ~s with features ~s." format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::other-notifications nil nil (24 45 52 24 45 53 24 45 61 26 15 62 77 15 63 15 64 13 1 13 0 19 5 65 12 19 2 66 75 73 29) #1# #2# 10029) common-lisp-user::default-cursor-distance (defun common-lisp-user::default-cursor-distance) (#2# . 10211) :lambda-list * common-lisp-user::printing-module common-lisp-user::get-module-fct #:g24138 #:g24137 #:g24139 common-lisp-user::printing-module-suppress-cmds #:g24141 t #:g24142 (setf common-lisp-user::printing-module-suppress-cmds) (:viewing-distance :pixels-per-inch) common-lisp-user::sgp-fct #:g24143 #:g24144 (setf common-lisp-user::printing-module-suppress-cmds) apply round #Y(common-lisp-user::default-cursor-distance nil nil (26 15 72 15 73 19 1 74 47 1 75 45 76 10 1 73 39 62 75 45 77 13 1 19 1 78 51 0 10 1 45 79 11 80 45 81 13 0 13 1 33 82 18 2 43 1 43 1 64 7 15 83 19 1 84 65 10 1 45 85 10 1 45 86 13 0 13 1 33 87 18 2 43 1 43 1 66 43 1 12 43 2 19 2 88 12 19 1 89 29) #1# #2# 10211) si::fset common-lisp-user::initialize-cursor (defun common-lisp-user::initialize-cursor) (#2# . 10322) (common-lisp-user::device-list) common-lisp-user::device-list common-lisp-user::current-model common-lisp-user::model common-lisp-user::interface-name third common-lisp-user::string->name common-lisp-user::details eq common-lisp-user::default-cursor-class class "Cannot install a cursor without specifying the type." subtypep "Invalid cursor type ~s provided for installing a cursor." common-lisp-user::key common-lisp-user::find-model-cursor common-lisp-user::cursor common-lisp-user::interfaces :test string-equal find "Cursor ~s already installed for the interface ~s in model ~s and only one is allowed." #:g24147 #:g24145 #:g24146 (setf common-lisp-user::interfaces) common-lisp-user::initial-loc length = #:g24148 #:g24150 nconc #:g24149 (setf common-lisp-user::initial-loc) #:g24151 #:g24152 (setf common-lisp-user::cursor-loc) "vision" #:g24153 common-lisp-user::isa common-lisp-user::visual-location common-lisp-user::cursor-vis-type common-lisp-user::value common-lisp-user::cursor-name common-lisp-user::screen-x common-lisp-user::cursor-loc elt common-lisp-user::screen-y common-lisp-user::distance common-lisp-user::add-visicon-features #:g24154 (setf common-lisp-user::cursor-feature) make-instance common-lisp-user::init-cursor-chunk-types-and-chunks #:g24158 #:g24156 #:g24157 (setf common-lisp-user::interfaces) #:g24159 #:g24161 #:g24160 (setf common-lisp-user::initial-loc) #:g24162 #:g24163 (setf common-lisp-user::cursor-loc) common-lisp-user::add-cursor "move-cursor" "vision" #:g24164 #:g24165 (setf common-lisp-user::cursor-feature) #Y(common-lisp-user::initialize-cursor nil nil (24 45 96 26 57 92 60 604 19 0 97 45 98 10 2 4 45 99 10 3 16 100 12 19 1 101 45 102 13 0 1 21 17 103 39 6 19 0 104 38 3 10 0 45 105 10 1 76 39 19 15 62 77 15 63 15 106 19 3 65 12 19 2 66 75 73 36 4 13 0 15 0 19 2 107 76 39 21 15 62 77 15 63 15 108 13 5 19 4 65 12 19 2 66 75 73 36 4 13 3 10 1 6 2 45 109 13 0 19 1 110 45 111 10 0 39 246 13 4 13 0 19 1 112 12 14 113 15 114 19 4 115 39 25 15 62 77 15 63 15 116 13 3 13 4 13 5 19 6 65 12 19 2 66 75 73 38 203 10 4 45 117 10 1 45 118 13 1 13 0 19 1 112 3 45 119 13 0 13 1 33 120 18 2 43 3 13 0 19 1 121 16 122 12 9 2 19 2 123 39 35 10 0 45 124 19 0 68 6 1 45 125 13 1 19 1 121 12 13 0 19 2 126 45 127 13 0 13 2 33 128 18 2 43 3 10 0 45 129 13 1 19 1 121 45 130 13 0 13 1 33 131 18 2 43 1 43 1 13 0 13 7 19 2 47 13 4 15 132 19 2 114 39 84 10 0 45 133 15 134 15 135 13 1 19 1 136 6 2 12 15 137 13 1 19 1 138 12 15 139 13 1 19 1 140 12 8 0 17 141 12 15 142 13 1 19 1 140 12 8 1 17 141 12 15 143 13 1 19 1 140 12 8 2 17 141 6 10 12 19 1 144 4 45 145 13 0 13 1 33 146 18 2 43 1 43 1 11 80 73 38 245 13 2 19 1 147 51 0 13 0 19 1 138 12 19 1 148 10 4 45 149 10 1 45 150 13 1 13 0 19 1 112 3 45 151 13 0 13 1 33 152 18 2 43 3 13 0 19 1 121 16 122 12 9 2 19 2 123 39 35 10 0 45 153 19 0 68 6 1 45 154 13 1 19 1 121 12 13 0 19 2 126 45 155 13 0 13 2 33 156 18 2 43 3 10 0 45 157 13 1 19 1 121 45 158 13 0 13 1 33 159 18 2 43 1 43 1 13 1 13 0 19 2 160 13 0 13 7 19 2 47 15 161 13 5 13 0 19 1 138 12 13 0 19 1 121 12 19 4 66 13 4 15 162 19 2 114 39 84 10 0 45 163 15 134 15 135 13 1 19 1 136 6 2 12 15 137 13 1 19 1 138 12 15 139 13 1 19 1 121 12 8 0 17 141 12 15 142 13 1 19 1 121 12 8 1 17 141 12 15 143 13 1 19 1 140 12 8 2 17 141 6 10 12 19 1 144 4 45 164 13 0 13 1 33 165 18 2 43 1 43 1 11 80 73 43 2 43 4 63 29) #1# #2# 10322) "initialize-cursor" "Function which sets up a cursor when it is installed. Do not call directly." common-lisp-user::add-act-r-command common-lisp-user::uninstall-cursor (defun common-lisp-user::uninstall-cursor) (#2# . 14314) (common-lisp-user::device-list) common-lisp-user::it #:g24170 remove #:g24171 (setf common-lisp-user::interfaces) "vision" common-lisp-user::cursor-feature common-lisp-user::delete-visicon-features #:g24172 #:g24173 (setf common-lisp-user::cursor-feature) "delete-cursor" common-lisp-user::remove-cursor #Y(common-lisp-user::uninstall-cursor nil nil (24 45 96 26 19 0 97 45 98 10 1 4 45 99 10 2 16 100 12 19 1 101 45 174 10 0 39 5 10 0 38 3 1 21 43 1 45 102 13 2 10 0 6 2 45 109 13 0 19 1 110 45 111 10 0 39 121 13 3 13 0 19 1 112 12 14 113 15 114 19 4 115 39 104 10 0 45 175 13 4 13 1 19 1 112 12 14 113 15 114 19 4 176 45 177 13 0 13 1 33 178 18 2 43 1 43 1 13 3 15 179 19 2 114 39 36 13 0 19 1 180 39 29 13 0 19 1 180 12 19 1 181 10 0 45 182 75 45 183 13 0 13 1 33 184 18 2 43 1 43 1 13 0 19 1 112 76 39 19 15 185 13 4 13 0 19 1 138 12 19 3 66 13 1 19 1 186 11 80 73 43 5 29) #1# #2# 14314) "uninstall-cursor" "Function which cleans up a cursor being uninstalled.  Do not call directly." common-lisp-user::internal-cursor-interface (defun common-lisp-user::internal-cursor-interface) (#2# . 15552) (common-lisp-user::device-list common-lisp-user::features) "Notice sent to cursor ~s but no such cursor could be found for model ~s." common-lisp-user::current-position common-lisp-user::device-location common-lisp-user::cursor-pos list coerce common-lisp-user::control-order common-lisp-user::device-order common-lisp-user::set-position #:g24187 second fourth #:g24188 (setf common-lisp-user::cursor-loc) common-lisp-user::modify-visicon-features "move-cursor" common-lisp-user::attention listp every :key first common-lisp-user::style common-lisp-user::hand common-lisp-user::loc common-lisp-user::new-loc common-lisp-user::l common-lisp-user::h common-lisp-user::s common-lisp-user::m (common-lisp-user::punch common-lisp-user::peck common-lisp-user::peck-recoil common-lisp-user::move-cursor) common-lisp-user::punch common-lisp-user::peck common-lisp-user::peck-recoil common-lisp-user::xyz common-lisp-user::my common-lisp-user::mx common-lisp-user::x common-lisp-user::y common-lisp-user::left common-lisp-user::direction common-lisp-user::index + common-lisp-user::middle common-lisp-user::ring common-lisp-user::pinkie - common-lisp-user::thumb "Invalid ~s cursor click finger position ~s." common-lisp-user::f common-lisp-user::current-mp #:g24192 common-lisp-user::valid-model-name #:g24193 common-lisp-user::*current-act-r-model* "click-mouse" :params :maintenance :module common-lisp-user::schedule-event-now "click-cursor" "~S does not name a model in the current meta-process" "No actions taken in with-model because there is no current meta-process" common-lisp-user::move-cursor #:g24195 #:g24196 #:g24197 (setf common-lisp-user::cursor-loc) #:g24198 #:g24199 "move-cursor" #Y(common-lisp-user::internal-cursor-interface nil nil (24 45 96 24 45 61 26 19 0 97 45 98 10 2 16 100 12 19 1 101 45 102 13 1 10 0 6 2 45 109 13 0 19 1 110 45 111 10 0 76 39 23 15 62 77 15 63 15 194 13 5 13 3 19 5 65 12 19 2 66 75 73 38 922 10 4 4 12 1 195 17 103 39 8 13 0 19 1 140 38 905 10 4 4 12 1 196 17 103 39 13 13 0 19 1 197 12 1 198 17 199 38 883 10 4 4 12 1 200 17 103 39 8 13 0 19 1 201 38 866 10 4 4 12 1 202 17 103 39 130 10 0 45 203 10 5 16 204 12 10 5 16 100 12 10 5 16 205 45 174 10 0 39 5 10 0 38 4 19 0 68 43 1 6 3 45 206 13 0 13 1 33 207 18 2 43 1 43 1 13 0 19 1 180 39 48 13 0 19 1 180 12 15 139 10 4 16 204 12 15 142 10 4 16 100 12 15 143 10 4 16 205 45 174 10 0 39 5 10 0 38 4 19 0 68 43 1 6 7 12 19 1 208 15 209 13 3 13 0 19 1 138 12 13 0 19 1 140 12 19 4 66 13 0 19 1 140 38 727 10 4 4 12 1 210 17 103 73 40 716 15 211 13 4 19 2 212 73 39 706 15 98 13 4 14 213 15 214 19 4 115 16 204 12 15 215 13 4 14 213 15 214 19 4 115 16 204 12 15 216 13 4 14 213 15 214 19 4 115 16 204 12 15 217 13 4 14 213 15 214 19 4 115 40 12 15 218 13 4 14 213 15 214 19 4 115 16 204 12 46 219 46 220 46 221 46 222 10 0 39 20 10 1 39 16 10 2 39 12 10 3 39 8 13 1 15 223 19 2 115 39 593 10 1 41 224 7 41 225 4 42 226 389 77 77 77 46 227 46 228 46 229 13 7 19 1 197 12 8 0 17 141 51 0 13 7 19 1 197 12 8 1 17 141 51 1 13 7 19 1 140 51 2 13 6 8 0 17 141 45 230 13 7 8 1 17 141 45 231 13 7 1 232 17 103 39 5 8 -1 38 3 8 1 45 233 13 2 13 3 19 2 123 39 8 13 1 13 4 19 2 123 39 5 1 234 38 150 13 2 13 3 13 0 19 2 235 12 19 2 123 39 8 13 1 13 4 19 2 123 39 5 1 236 38 122 13 2 13 3 13 0 9 2 19 2 72 12 19 2 235 12 19 2 123 39 8 13 1 13 4 19 2 123 39 5 1 237 38 88 13 2 13 3 13 0 9 3 19 2 72 12 19 2 235 12 19 2 123 39 8 13 1 13 4 19 2 123 39 5 1 238 38 54 13 2 13 3 13 0 19 2 239 12 19 2 123 39 14 13 1 13 4 9 2 19 2 235 12 19 2 123 39 5 1 240 38 20 15 62 77 15 63 15 241 13 12 13 9 19 5 65 12 19 2 66 75 45 242 10 0 73 39 133 19 0 243 45 244 10 0 39 106 13 8 19 1 245 45 246 10 0 39 73 10 0 48 247 13 15 1 21 17 103 39 27 15 248 14 249 13 9 13 8 10 2 6 3 12 14 250 14 80 14 251 15 21 19 7 252 38 31 15 253 14 249 13 9 13 13 19 1 138 12 13 8 10 2 6 4 12 14 250 14 80 14 251 13 15 19 7 252 44 1 38 19 15 62 77 15 63 15 254 13 0 19 4 65 12 19 2 66 75 73 43 1 38 17 15 62 77 15 63 15 255 19 3 65 12 19 2 66 75 73 43 1 43 4 43 3 38 192 42 256 187 10 3 16 122 12 9 2 19 2 123 39 19 19 0 68 6 1 45 257 13 4 13 0 19 2 126 51 4 43 1 10 4 45 258 10 4 45 259 13 0 13 1 33 260 18 2 43 1 43 1 13 4 19 1 180 39 32 13 4 19 1 180 12 15 139 10 3 4 12 15 142 10 3 16 204 12 15 143 10 3 16 100 6 7 12 19 1 208 19 0 243 45 261 10 0 39 70 13 1 19 1 245 45 262 10 0 39 37 10 0 48 247 15 263 14 249 13 2 13 6 19 1 138 12 10 5 6 3 12 14 250 14 80 14 251 13 8 19 7 252 44 1 38 19 15 62 77 15 63 15 254 13 0 19 4 65 12 19 2 66 75 73 43 1 38 17 15 62 77 15 63 15 255 19 3 65 12 19 2 66 75 73 43 1 38 3 75 73 38 10 13 4 13 9 13 8 19 3 56 43 4 43 4 29) #1# #2# 15552) "cursor-interface-fn" "Function which receives the signals for all the cursor devices. Do not call directly." "cursor" "initialize-cursor" "uninstall-cursor" "cursor-interface-fn" common-lisp-user::define-device "click-mouse" "Command called when a finger presses a button on the virtual mouse or a real mouse click occurs on a visible exp-window which can be monitored.  It is passed 3 parameters: model name, location list, and finger name. Should not be called directly." "click-cursor" "Command called when a finger presses a button on a non-mouse cursor which can be monitored.  It is passed 4 parameters: model name, cursor name, location list, and finger name. Should not be called directly." "move-cursor" "Command called when a virtual cursor is moved which can be monitored.  It is passed 3 parameters: model name, cursor name, and a list of the new x, y, z position. Should not be called directly." "delete-cursor" "Command called when the virtual cursor is uninstalled which can be monitored.  It is passed 2 parameters: model name and cursor name. Should not be called directly." common-lisp-user::click-the-mouse (defun common-lisp-user::click-the-mouse) (#2# . 22365) (common-lisp-user::model common-lisp-user::location common-lisp-user::finger) common-lisp-user::location common-lisp-user::finger "click-mouse" common-lisp-user::result values-list si::%dolist-var #Y(common-lisp-user::click-the-mouse nil nil (24 45 98 24 45 284 24 45 285 26 15 198 15 286 13 2 13 1 13 0 19 4 66 69 21 23 45 287 10 0 4 39 8 10 0 5 16 288 38 47 10 0 5 45 289 38 27 10 0 4 45 230 15 62 77 15 63 13 0 19 3 65 12 19 2 66 10 1 5 51 1 43 1 10 0 40 -29 75 45 230 75 73 43 1 43 1 43 1 29) #1# #2# 22365) common-lisp-user::click-mouse (defgeneric common-lisp-user::click-mouse) (#2# . 22548) (common-lisp-user::mtr-mod common-lisp-user::request) :delete-methods :documentation "Execute a mouse click operation (a punch with the right hand index finger)" ensure-generic-function (defmethod common-lisp-user::click-mouse (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::request) (#2# . 23172) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::request) common-lisp-user::mtr-mod common-lisp-user::request common-lisp-user::right :current common-lisp-user::device-for-hand "motor" "cursor" "mouse" equalp :hand :finger :request-spec #:g24225 #:g24224 #:g24226 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "CLICK-MOUSE requested when hand not at mouse!" #:g24229 #:g24228 #:g24230 "CLICK-MOUSE requested but no mouse device available." #Y(common-lisp-user::click-mouse nil nil (24 45 303 24 45 304 26 19 0 97 45 98 13 0 1 21 6 2 12 19 1 110 45 21 10 0 39 107 15 305 14 306 77 19 3 307 45 53 13 0 15 308 15 309 1 310 6 3 17 311 39 20 13 4 14 312 15 305 14 313 15 234 14 314 13 3 19 7 224 38 60 15 73 19 1 74 47 1 315 45 316 10 1 39 42 75 45 317 13 1 19 1 318 12 19 1 319 39 6 13 1 19 1 320 51 0 10 0 39 15 15 321 77 15 322 15 323 19 3 65 12 19 2 66 43 1 75 73 43 2 43 1 38 60 15 73 19 1 74 47 1 324 45 325 10 1 39 42 75 45 326 13 1 19 1 318 12 19 1 319 39 6 13 1 19 1 320 51 0 10 0 39 15 15 321 77 15 322 15 327 19 3 65 12 19 2 66 43 1 75 73 43 2 43 2 29) #1# #2# 23172) (common-lisp-user::click-mouse) common-lisp-user::handle-simple-command-request common-lisp-user::extend-manual-requests-fct common-lisp-user::hand-to-cursor (defgeneric common-lisp-user::hand-to-cursor) (#2# . 23778) (common-lisp-user::mtr-mod common-lisp-user::request common-lisp-user::cursor) "Moves the right hand to the indicated cursor" (defmethod common-lisp-user::hand-to-cursor (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::request common-lisp-user::cursor) (#2# . 23900) (common-lisp-user::motor-module t t) (common-lisp-user::mtr-mod common-lisp-user::request common-lisp-user::cursor) "motor" "cursor" "motor" common-lisp-user::current-devices common-lisp-user::c-pos common-lisp-user::hand-loc common-lisp-user::h-pos common-lisp-user::vpt= "motor" "cursor" #:g24257 #:g24256 #:g24258 "HAND-TO-~:@(~a~) requested but hand already is (or will be) at the ~a device." common-lisp-user::xy-to-polar common-lisp-user::polar :r :theta :twidth 4.0 :device "motor" "cursor" :offsets standard common-lisp-user::point-hand #:g24261 #:g24260 #:g24262 "HAND-TO-~a requested but no ~a device available." #Y(common-lisp-user::hand-to-cursor nil nil (24 45 303 24 45 304 24 45 111 26 15 341 15 342 10 0 6 3 12 15 343 19 1 344 12 14 113 15 311 19 4 115 39 198 19 0 97 12 13 0 19 1 101 6 2 12 19 1 110 45 52 13 0 19 1 197 45 345 15 305 14 306 77 19 3 346 45 347 15 305 14 306 77 19 3 307 45 53 13 2 13 1 19 2 348 39 13 13 0 15 349 15 350 10 4 6 3 17 311 39 66 15 73 19 1 74 47 1 351 45 352 10 1 39 46 75 45 353 13 1 19 1 318 12 19 1 319 39 6 13 1 19 1 320 51 0 10 0 39 19 15 321 77 15 322 15 354 13 7 13 7 19 5 65 12 19 2 66 43 1 75 73 43 2 38 62 13 1 13 2 19 2 355 45 356 13 7 14 312 15 305 14 357 13 0 8 0 17 141 12 14 358 13 0 8 1 17 141 12 14 359 15 360 14 361 15 362 15 363 10 5 6 3 12 14 364 15 365 14 314 13 6 19 15 366 43 1 43 4 38 64 15 73 19 1 74 47 1 367 45 368 10 1 39 46 75 45 369 13 1 19 1 318 12 19 1 319 39 6 13 1 19 1 320 51 0 10 0 39 19 15 321 77 15 322 15 370 13 3 13 3 19 5 65 12 19 2 66 43 1 75 73 43 2 29) #1# #2# 23900) common-lisp-user::hand-to-mouse (defgeneric common-lisp-user::hand-to-mouse) (#2# . 24982) (common-lisp-user::mtr-mod common-lisp-user::request) "Moves the right hand to the mouse" (defmethod common-lisp-user::hand-to-mouse (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::request) (#2# . 25085) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::request) "mouse" #Y(common-lisp-user::hand-to-mouse nil nil (24 45 303 24 45 304 26 13 1 13 0 15 381 19 3 332 29) #1# #2# 25085) (common-lisp-user::hand-to-mouse) common-lisp-user::hand-to-joystick1 (defgeneric common-lisp-user::hand-to-joystick1) (#2# . 25260) (common-lisp-user::mtr-mod common-lisp-user::request) "Moves the right hand to the joystick1 cursor" (defmethod common-lisp-user::hand-to-joystick1 (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::request) (#2# . 25378) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::request) "joystick1" #Y(common-lisp-user::hand-to-joystick1 nil nil (24 45 303 24 45 304 26 13 1 13 0 15 393 19 3 332 29) #1# #2# 25378) (common-lisp-user::hand-to-joystick1) common-lisp-user::hand-to-joystick2 (defgeneric common-lisp-user::hand-to-joystick2) (#2# . 25565) (common-lisp-user::mtr-mod common-lisp-user::request) "Moves the right hand to the joystick2 cursor" (defmethod common-lisp-user::hand-to-joystick2 (common-lisp-user::mtr-mod common-lisp-user::motor-module) common-lisp-user::request) (#2# . 25682) (common-lisp-user::motor-module t) (common-lisp-user::mtr-mod common-lisp-user::request) "joystick2" #Y(common-lisp-user::hand-to-joystick2 nil nil (24 45 303 24 45 304 26 13 1 13 0 15 405 19 3 332 29) #1# #2# 25682) (common-lisp-user::hand-to-joystick2) common-lisp-user::start-hand-at-cursor (defun common-lisp-user::start-hand-at-cursor) (#2# . 25869) (common-lisp-user::cursor) common-lisp-user::mp common-lisp-user::meta-p-default-model "motor" "cursor" "motor" #:g24265 #:g24264 #:g24266 "Installing a default ~a because of start-hand-at-~a." "motor" "cursor" common-lisp-user::install-device #:g24269 #:g24268 #:g24270 "Could not install a ~a cursor for the motor interface." common-lisp-user::pos "motor" common-lisp-user::set-hand-device "motor" "cursor" common-lisp-user::notify-interface "motor" common-lisp-user::set-hand-position "No current model.  Cannot set hand at ~a." #Y(common-lisp-user::start-hand-at-cursor nil nil (24 45 111 26 57 408 60 278 11 247 40 13 19 0 243 45 412 13 0 19 1 413 43 1 39 236 15 414 15 415 10 1 6 3 12 15 416 19 1 344 12 14 113 15 311 19 4 115 76 39 140 15 73 19 1 74 47 1 417 45 418 10 1 39 46 75 45 419 13 1 19 1 318 12 19 1 319 39 6 13 1 19 1 320 51 0 10 0 39 19 15 321 77 15 322 15 420 13 4 13 4 19 5 65 12 19 2 66 43 1 43 2 15 421 15 422 10 1 6 3 12 19 1 423 76 39 64 15 73 19 1 74 47 1 424 45 425 10 1 39 44 75 45 426 13 1 19 1 318 12 19 1 319 39 6 13 1 19 1 320 51 0 10 0 39 17 15 321 77 15 322 15 427 13 4 19 4 65 12 19 2 66 43 1 43 2 75 73 36 0 19 0 97 12 13 1 19 1 101 6 2 12 19 1 110 45 52 13 0 19 1 197 45 428 15 429 15 430 15 305 15 431 15 432 10 3 6 3 6 3 12 19 2 433 15 434 15 435 15 305 10 0 4 12 10 0 16 204 6 4 12 19 2 433 11 80 73 43 2 38 24 15 62 77 15 63 77 15 436 13 1 19 3 65 12 19 3 65 12 19 2 66 75 73 63 29) #1# #2# 25869) function "Starts the right hand on the indicated cursor instead of the 'home row' location" si::set-documentation common-lisp-user::start-hand-at-mouse (defun common-lisp-user::start-hand-at-mouse) (#2# . 26929) "mouse" #Y(common-lisp-user::start-hand-at-mouse nil nil (26 15 444 19 1 408 29) #1# #2# 26929) "start-hand-at-mouse" "Have the model place its right hand on the mouse before running. No parameters" common-lisp-user::start-hand-at-joystick1 (defun common-lisp-user::start-hand-at-joystick1) (#2# . 27140) "joystick1" #Y(common-lisp-user::start-hand-at-joystick1 nil nil (26 15 451 19 1 408 29) #1# #2# 27140) "start-hand-at-joystick1" "Have the model place its right hand on the joystick1 cursor before running. No parameters" common-lisp-user::start-hand-at-joystick2 (defun common-lisp-user::start-hand-at-joystick2) (#2# . 27378) "joystick2" #Y(common-lisp-user::start-hand-at-joystick2 nil nil (26 15 458 19 1 408 29) #1# #2# 27378) "start-hand-at-joystick2" "Have the model place its right hand on the joystick2 cursor before running. No parameters" common-lisp-user::set-cursor-position (defmacro common-lisp-user::set-cursor-position) (#2# . 27615) (common-lisp-user::x common-lisp-user::y &optional common-lisp-user::z (common-lisp-user::cursor-name #3="mouse")) #:g24273 #:g24272 #:g24274 si::dm-too-few-arguments common-lisp-user::z #3# si::dm-too-many-arguments if numberp common-lisp-user::set-cursor-position-fct quote #Y(common-lisp-user::set-cursor-position nil nil (24 45 466 24 45 467 26 10 1 5 45 468 10 0 76 39 6 13 2 19 1 469 10 0 4 12 10 0 5 51 0 22 45 230 10 1 76 39 6 13 3 19 1 469 10 1 4 12 10 1 5 51 1 22 45 231 10 2 39 13 10 2 4 12 10 2 5 51 2 22 38 2 75 45 470 10 3 39 13 10 3 4 12 10 3 5 51 3 22 38 3 1 471 45 138 10 4 39 6 13 6 19 1 472 15 473 10 1 16 474 12 15 475 15 476 13 3 13 2 10 1 6 3 6 2 12 10 0 6 3 12 15 475 15 476 13 3 13 2 19 0 68 6 3 6 2 12 10 0 6 3 6 4 73 29) #1# #2# 27615) "Sets the position of the cursor." (defun common-lisp-user::set-cursor-position-fct) (#2# . 27892) (common-lisp-user::xyloc &optional (common-lisp-user::cursor-name #4="mouse")) common-lisp-user::xyloc #4# vectorp <= #:g24279 "motor" "cursor" "motor" "motor" "cursor" common-lisp-user::notify-device "Failed to set the position ~s for cursor ~s." "No cursor device named ~s is currently installed for the motor interface." "Location for set-cursor-position-fct must be a list of two or three values but ~s provided." "No current model.  Cannot set cursor position." #Y(common-lisp-user::set-cursor-position-fct nil nil (24 45 482 25 40 3 15 483 46 138 26 11 247 40 13 19 0 243 45 412 13 0 19 1 413 43 1 39 222 10 1 16 211 40 5 10 1 16 484 39 13 9 2 10 1 16 122 12 9 3 19 3 485 39 176 10 1 16 122 12 9 2 19 2 123 39 48 10 1 16 211 39 21 19 0 68 6 1 45 486 13 2 13 0 19 2 126 51 2 43 1 38 22 13 1 8 0 17 141 12 13 1 8 1 17 141 12 19 0 68 6 3 51 1 15 487 15 488 10 0 6 3 12 15 489 19 1 344 12 14 113 15 311 19 4 115 39 73 15 490 15 491 10 0 6 3 12 15 202 13 1 8 0 17 141 12 13 1 8 1 17 141 12 13 1 8 2 17 141 6 4 12 19 2 492 45 287 10 0 39 6 10 0 73 38 21 15 62 77 15 63 15 493 13 2 13 1 19 5 65 12 19 2 66 75 73 43 1 38 19 15 62 77 15 63 15 494 13 0 19 4 65 12 19 2 66 75 73 38 19 15 62 77 15 63 15 495 13 1 19 4 65 12 19 2 66 75 73 38 17 15 62 77 15 63 15 496 19 3 65 12 19 2 66 75 73 29) #1# #2# 27892) common-lisp-user::external-set-cursor-position (defun common-lisp-user::external-set-cursor-position) (#2# . 28967) (common-lisp-user::x common-lisp-user::y &optional common-lisp-user::z (common-lisp-user::cursor-name #5="mouse")) #5# #Y(common-lisp-user::external-set-cursor-position nil nil (24 45 230 24 45 231 25 40 2 77 46 470 25 40 3 15 502 46 138 26 10 1 16 474 39 17 13 3 13 2 10 1 6 3 12 13 0 19 2 475 38 13 13 3 10 2 6 2 12 13 0 19 2 475 29) #1# #2# 28967) "set-cursor-position" "Set the position of the named virtual cursor. Params: x-pos y-pos {z-pos {cursor-name}}" "set-cursor-position-fct" "Set the position of the named virtual cursor. Params: (x-pos y-pos {z-pos}) {cursor-name}" common-lisp-user::cursor-component "CURSOR-COMPONENT-" ((common-lisp-user::lock #6=(bordeaux-threads::make-lock #7="cursor-component")) (common-lisp-user::table #8=(make-hash-table :test 'equalp)) (common-lisp-user::default #9='common-lisp-user::mouse)) ((common-lisp-user::lock #6# t nil 0 nil) (common-lisp-user::table #8# t nil 1 nil) (common-lisp-user::default #9# t nil 2 nil)) common-lisp-user::copy-cursor-component (common-lisp-user::make-cursor-component) common-lisp-user::cursor-component-p si::define-structure (defstruct common-lisp-user::cursor-component) (#2# . 29500) common-lisp-user::make-cursor-component (defun common-lisp-user::make-cursor-component) (#2# . 29500) (&key (#10=#:lock (bordeaux-threads::make-lock #7#)) (#11=#:table (make-hash-table :test 'equalp)) (#12=#:default 'common-lisp-user::mouse)) (nil :default :table :lock) #10# make-hash-table #11# #12# 0 si::make-structure #Y(common-lisp-user::make-cursor-component nil nil (28 522 22 40 2 77 46 523 22 40 9 14 113 15 311 19 2 524 12 46 525 22 40 3 15 21 46 526 15 527 13 2 13 1 13 0 19 4 528 29) #1# #2# 29500) find-class common-lisp-user::set-default-mouse (defun common-lisp-user::set-default-mouse) (#2# . 29790) (class) common-lisp-user::cursor-table common-lisp-user::get-component-fct common-lisp-user::c-c #:g24285 #:g24286 si::structure-set #:g24287 #:g24288 "Set-default-mouse requires nil or a subclass of virtual-cursor but given ~s." "No cursor-table component found when calling set-default-mouse." #Y(common-lisp-user::set-default-mouse nil nil (24 45 105 26 15 535 19 1 536 45 537 10 0 39 91 10 1 76 39 29 10 0 45 538 1 21 45 539 13 1 15 508 9 2 13 0 19 4 540 43 1 43 1 11 80 73 38 56 13 1 15 0 19 2 107 39 29 10 0 45 541 10 2 45 542 13 1 15 508 9 2 13 0 19 4 540 43 1 43 1 11 80 73 38 19 15 62 77 15 63 15 543 13 1 19 4 65 12 19 2 66 75 73 38 17 15 62 77 15 63 15 544 19 3 65 12 19 2 66 75 73 43 1 29) #1# #2# 29790) common-lisp-user::clear-cursor-component (defun common-lisp-user::clear-cursor-component) (#2# . 30530) (common-lisp-user::cursor-component) common-lisp-user::cursor-component-table clrhash #Y(common-lisp-user::clear-cursor-component nil nil (24 45 508 26 13 0 19 1 550 16 551 29) #1# #2# 30530) (defun common-lisp-user::init-cursor-chunk-types-and-chunks) (#2# . 30703) (common-lisp-user::name) common-lisp-user::name common-lisp-user::visual-object common-lisp-user::chunk-type-p-fct ((common-lisp-user::cursor (:include common-lisp-user::visual-object)) (common-lisp-user::cursor t)) common-lisp-user::chunk-type-fct stringp common-lisp-user::chunk-p-fct (common-lisp-user::cursor) common-lisp-user::define-chunks-fct common-lisp-user::make-chunk-immutable #Y(common-lisp-user::init-cursor-chunk-types-and-chunks nil nil (24 45 556 26 15 557 19 1 558 39 7 15 111 19 1 558 76 39 6 15 559 19 1 560 10 0 16 561 39 8 13 0 19 1 101 51 0 15 111 19 1 562 76 39 11 15 563 19 1 564 15 111 19 1 565 13 0 19 1 562 76 73 39 14 10 0 6 1 12 19 1 564 13 0 19 1 565 29) #1# #2# 30703) :version "4.0" "Record the cursor devices that are used." :creation :delete :clear-all :create-model :delete-model :before-reset :after-reset common-lisp-user::define-component-fct (defun common-lisp-user::find-model-cursor) (#2# . 31408) (common-lisp-user::key) common-lisp-user::m-c gethash #Y(common-lisp-user::find-model-cursor nil nil (24 45 109 26 15 535 19 1 536 45 581 10 0 73 39 12 13 1 13 0 19 1 550 12 19 2 582 43 1 29) #1# #2# 31408) (defun common-lisp-user::add-cursor) (#2# . 31650) (common-lisp-user::key common-lisp-user::cursor) si::hash-set #Y(common-lisp-user::add-cursor nil nil (24 45 109 24 45 111 26 15 535 19 1 536 45 581 10 0 73 39 14 13 2 13 0 19 1 550 12 13 1 19 3 587 43 1 29) #1# #2# 31650) (defun common-lisp-user::remove-cursor) (#2# . 31864) (common-lisp-user::key) remhash #Y(common-lisp-user::remove-cursor nil nil (24 45 109 26 15 535 19 1 536 45 581 10 0 73 39 10 13 1 13 0 19 1 550 17 592 43 1 29) #1# #2# 31864) (defun common-lisp-user::default-cursor-class) (#2# . 32060) common-lisp-user::cursor-component-default #Y(common-lisp-user::default-cursor-class nil nil (26 15 535 19 1 536 45 581 10 0 73 39 6 13 0 19 1 596 43 1 29) #1# #2# 32060))) #2# 0) #Y(si::bytecodes nil nil (15 21 15 1 15 22 15 23 19 4 4 15 21 15 24 77 14 25 15 26 15 27 1 27 16 28 6 3 12 15 29 15 30 1 31 6 3 6 2 6 2 12 19 4 20 29) #1# #2# 9537) #Y(si::bytecodes nil nil (15 32 15 1 15 33 15 34 19 4 4 15 32 15 35 77 14 25 15 26 15 36 1 36 16 28 6 3 12 15 29 15 37 1 38 6 3 12 15 39 9 1 8 1 16 28 6 3 6 3 6 2 12 19 4 20 29) #1# #2# 9652) #Y(si::bytecodes nil nil (15 40 15 1 15 41 15 42 19 4 4 15 40 15 43 77 14 25 15 26 15 44 1 44 16 28 6 3 12 15 29 15 45 1 46 6 3 12 15 39 9 2 8 2 16 28 6 3 6 3 6 2 12 19 4 20 29) #1# #2# 9795) #Y(si::bytecodes nil nil (15 47 15 1 15 48 15 49 19 4 4 15 47 77 15 50 15 51 1 54 12 19 5 55 29) #1# #2# 9938) #Y(si::bytecodes nil nil (15 56 15 1 15 57 15 58 19 4 4 15 56 77 15 59 15 60 1 67 12 19 5 55 29) #1# #2# 10029) #Y(si::bytecodes nil nil (15 68 15 1 15 69 15 70 19 4 4 15 68 14 71 77 77 19 4 4 15 68 1 90 12 19 2 91 1 68 73 29) #1# #2# 10211) #Y(si::bytecodes nil nil (15 92 15 1 15 93 15 94 19 4 4 15 92 14 71 77 15 95 19 4 4 15 92 1 166 12 19 2 91 1 92 73 29) #1# #2# 10322) #Y(si::bytecodes nil nil (15 167 15 92 15 168 19 3 169 29) #1# #2# 14162) #Y(si::bytecodes nil nil (15 170 15 1 15 171 15 172 19 4 4 15 170 14 71 77 15 173 19 4 4 15 170 1 187 12 19 2 91 1 170 73 29) #1# #2# 14314) #Y(si::bytecodes nil nil (15 188 15 170 15 189 19 3 169 29) #1# #2# 15413) #Y(si::bytecodes nil nil (15 190 15 1 15 191 15 192 19 4 4 15 190 14 71 77 15 193 19 4 4 15 190 1 264 12 19 2 91 1 190 73 29) #1# #2# 15552) #Y(si::bytecodes nil nil (15 265 15 190 15 266 19 3 169 29) #1# #2# 21065) #Y(si::bytecodes nil nil (15 267 15 268 15 269 15 270 19 4 271 29) #1# #2# 21224) #Y(si::bytecodes nil nil (15 272 77 15 273 19 3 169 29) #1# #2# 21312) #Y(si::bytecodes nil nil (15 274 77 15 275 19 3 169 29) #1# #2# 21672) #Y(si::bytecodes nil nil (15 276 77 15 277 19 3 169 29) #1# #2# 21922) #Y(si::bytecodes nil nil (15 278 77 15 279 19 3 169 29) #1# #2# 22157) #Y(si::bytecodes nil nil (15 280 15 1 15 281 15 282 19 4 4 15 280 14 71 77 15 283 19 4 4 15 280 1 290 12 19 2 91 1 280 73 29) #1# #2# 22365) #Y(si::bytecodes nil nil (15 291 15 1 15 292 15 293 19 4 4 15 291 14 71 77 15 294 19 4 4 15 291 14 295 14 80 14 71 15 294 15 296 15 297 19 7 298 29) #1# #2# 22548) #Y(si::bytecodes nil nil (15 291 15 1 15 299 15 300 19 4 4 15 291 77 15 301 15 302 1 328 12 19 5 55 29) #1# #2# 23172) #Y(si::bytecodes nil nil (15 329 15 330 19 2 331 29) #1# #2# 23707) #Y(si::bytecodes nil nil (15 332 15 1 15 333 15 334 19 4 4 15 332 14 71 77 15 335 19 4 4 15 332 14 295 14 80 14 71 15 335 15 296 15 336 19 7 298 29) #1# #2# 23778) #Y(si::bytecodes nil nil (15 332 15 1 15 337 15 338 19 4 4 15 332 77 15 339 15 340 1 371 12 19 5 55 29) #1# #2# 23900) #Y(si::bytecodes nil nil (15 372 15 1 15 373 15 374 19 4 4 15 372 14 71 77 15 375 19 4 4 15 372 14 295 14 80 14 71 15 375 15 296 15 376 19 7 298 29) #1# #2# 24982) #Y(si::bytecodes nil nil (15 372 15 1 15 377 15 378 19 4 4 15 372 77 15 379 15 380 1 382 12 19 5 55 29) #1# #2# 25085) #Y(si::bytecodes nil nil (15 383 15 330 19 2 331 29) #1# #2# 25188) #Y(si::bytecodes nil nil (15 384 15 1 15 385 15 386 19 4 4 15 384 14 71 77 15 387 19 4 4 15 384 14 295 14 80 14 71 15 387 15 296 15 388 19 7 298 29) #1# #2# 25260) #Y(si::bytecodes nil nil (15 384 15 1 15 389 15 390 19 4 4 15 384 77 15 391 15 392 1 394 12 19 5 55 29) #1# #2# 25378) #Y(si::bytecodes nil nil (15 395 15 330 19 2 331 29) #1# #2# 25489) #Y(si::bytecodes nil nil (15 396 15 1 15 397 15 398 19 4 4 15 396 14 71 77 15 399 19 4 4 15 396 14 295 14 80 14 71 15 399 15 296 15 400 19 7 298 29) #1# #2# 25565) #Y(si::bytecodes nil nil (15 396 15 1 15 401 15 402 19 4 4 15 396 77 15 403 15 404 1 406 12 19 5 55 29) #1# #2# 25682) #Y(si::bytecodes nil nil (15 407 15 330 19 2 331 29) #1# #2# 25793) #Y(si::bytecodes nil nil (15 408 15 1 15 409 15 410 19 4 4 15 408 14 71 77 15 411 19 4 4 15 408 1 437 12 19 2 91 15 408 15 438 15 439 19 3 440 1 408 73 29) #1# #2# 25869) #Y(si::bytecodes nil nil (15 441 15 1 15 442 15 443 19 4 4 15 441 14 71 77 77 19 4 4 15 441 1 445 12 19 2 91 1 441 73 29) #1# #2# 26929) #Y(si::bytecodes nil nil (15 446 15 441 15 447 19 3 169 29) #1# #2# 26995) #Y(si::bytecodes nil nil (15 448 15 1 15 449 15 450 19 4 4 15 448 14 71 77 77 19 4 4 15 448 1 452 12 19 2 91 1 448 73 29) #1# #2# 27140) #Y(si::bytecodes nil nil (15 453 15 448 15 454 19 3 169 29) #1# #2# 27214) #Y(si::bytecodes nil nil (15 455 15 1 15 456 15 457 19 4 4 15 455 14 71 77 77 19 4 4 15 455 1 459 12 19 2 91 1 455 73 29) #1# #2# 27378) #Y(si::bytecodes nil nil (15 460 15 455 15 461 19 3 169 29) #1# #2# 27451) #Y(si::bytecodes nil nil (15 462 15 1 15 463 15 464 19 4 4 15 462 14 71 77 15 465 19 4 4 15 462 1 477 12 14 80 9 5 19 4 91 15 462 15 438 15 478 19 3 440 1 462 73 29) #1# #2# 27615) #Y(si::bytecodes nil nil (15 475 15 1 15 479 15 480 19 4 4 15 475 14 71 77 15 481 19 4 4 15 475 1 497 12 19 2 91 1 475 73 29) #1# #2# 27892) #Y(si::bytecodes nil nil (15 498 15 1 15 499 15 500 19 4 4 15 498 14 71 77 15 501 19 4 4 15 498 1 503 12 19 2 91 1 498 73 29) #1# #2# 28967) #Y(si::bytecodes nil nil (15 504 15 498 15 505 19 3 169 29) #1# #2# 29174) #Y(si::bytecodes nil nil (15 506 15 475 15 507 19 3 169 29) #1# #2# 29337) #Y(si::bytecodes nil nil (15 508 15 509 77 77 15 510 15 511 15 512 77 77 77 15 513 9 3 77 77 15 514 19 15 515 15 508 15 1 15 516 15 517 19 4 4 15 518 15 1 15 519 15 520 19 4 4 15 518 14 71 77 15 521 19 4 4 15 508 19 1 530 78 527 15 518 1 529 12 19 2 91 1 508 73 29) #1# #2# 29500) #Y(si::bytecodes nil nil (15 531 15 1 15 532 15 533 19 4 4 15 531 14 71 77 15 534 19 4 4 15 531 1 545 12 19 2 91 1 531 73 29) #1# #2# 29790) #Y(si::bytecodes nil nil (15 546 15 1 15 547 15 548 19 4 4 15 546 14 71 77 15 549 19 4 4 15 546 1 552 12 19 2 91 1 546 73 29) #1# #2# 30530) #Y(si::bytecodes nil nil (15 148 15 1 15 553 15 554 19 4 4 15 148 14 71 77 15 555 19 4 4 15 148 1 566 12 19 2 91 1 148 73 29) #1# #2# 30703) #Y(si::bytecodes nil nil (15 535 14 567 15 568 14 296 15 569 14 570 15 518 14 571 15 546 14 572 15 546 14 573 77 14 574 77 14 575 15 546 14 576 77 19 19 577 29) #1# #2# 31159) #Y(si::bytecodes nil nil (15 110 15 1 15 578 15 579 19 4 4 15 110 14 71 77 15 580 19 4 4 15 110 1 583 12 19 2 91 1 110 73 29) #1# #2# 31408) #Y(si::bytecodes nil nil (15 160 15 1 15 584 15 585 19 4 4 15 160 14 71 77 15 586 19 4 4 15 160 1 588 12 19 2 91 1 160 73 29) #1# #2# 31650) #Y(si::bytecodes nil nil (15 186 15 1 15 589 15 590 19 4 4 15 186 14 71 77 15 591 19 4 4 15 186 1 593 12 19 2 91 1 186 73 29) #1# #2# 31864) #Y(si::bytecodes nil nil (15 104 15 1 15 594 15 595 19 4 4 15 104 14 71 77 77 19 4 4 15 104 1 597 12 19 2 91 1 104 73 29) #1# #2# 32060))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2017 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : mouse.lisp
+;;; Version     : 4.0
+;;; 
+;;; Description : Implements a mouse device.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2017.03.02 Dan [1.0]
+;;;             : * First pass at separating the mouse from the internals of the
+;;;             :   motor module and device-interface as was done for the keyboard.
+;;; 2017.03.07 Dan
+;;;             : * Moved the start-hand-at-mouse command here.
+;;; 2017.03.08 Dan
+;;;             : * The virtual-cursor class isn't something that can be assumed
+;;;             :   by the motor module because that couldn't be provided by an
+;;;             :   external cursor.  Instead the cursor has to respond to a 
+;;;             :   bunch of signals for that info.
+;;; 2017.03.10 Dan
+;;;             : * Added a remote start-hand-at-mouse command.
+;;; 2017.06.08 Dan
+;;;             : * Initialize-mouse needs to return a true value.
+;;; 2017.08.10 Dan [2.0]
+;;;             : * Like the keyboard, install a component to handle the mouse
+;;;             :   table instead of using a global variable.  Now, keep old
+;;;             :   mouse items around and reuse them when switching windows.
+;;; 2017.08.17 Dan
+;;;             : * Start-hand-at-mouse needs to speicify a list when creating
+;;;             :   a default mouse.
+;;; 2017.08.23 Dan
+;;;             : * Don't need the dummy functions for the actions now.
+;;; 2018.01.29 Dan
+;;;             : * Fixed a bug with start-hand-at-mouse because it was assuming
+;;;             :   that the mouse was associated with a visual interface, but
+;;;             :   the one it creates by default is not. 
+;;;             : * Remove-mouse needs to return t to indicate successful removal.
+;;; 2018.03.05 Dan
+;;;             : * Signal-device was renamed to notify-device.
+;;; 2018.03.06 Dan [3.0]
+;;;             : * Reworking it so that it's one mouse per model -- not per
+;;;             :   window which has issues with models sharing a window.
+;;;             : * Also, reset the mouse positions upon init instead of letting
+;;;             :   them stay where they were.
+;;; 2018.03.07 Dan
+;;;             : * Don't directly communicate with the exp-windows.  Instead
+;;;             :   create some signals for init, move, click, and remove.
+;;; 2018.03.08 Dan
+;;;             : * Reworking it yet again after some work on the move-cursor
+;;;             :   request from motor.  Actually install a "cursor" and have
+;;;             :   the details indicate whether it's a mouse, joystick1, or
+;;;             :   joystick2 which is then created.  
+;;;             : * Also, don't need the device-hand -- the hand knows where it
+;;;             :   is so don't need to consult the device!
+;;; 2018.03.13 Dan
+;;;             : * Interface fns now get the whole device list and allow a cursor
+;;;             :   to be installed for vision or motor!  When installed for vision
+;;;             :   it creates a feature in global coordinates.
+;;; 2018.03.16 Dan
+;;;             : * Warn if start-hand-at-mouse called with :needs-mouse nil.
+;;; 2018.03.29 Dan
+;;;             : * Don't need to ignore a variable in init-cursor-chunk-type-and-chunks
+;;;             :   since it isn't passed in anymore.
+;;; 2018.04.26 Dan
+;;;             : * Only need to create the cursor chunk-type if it doesn't
+;;;             :   already exist.
+;;; 2018.05.22 Dan
+;;;             : * Update the calls to add-visicon-features since the syntax of
+;;;             :   that has changed.
+;;; 2018.06.04 Dan
+;;;             : * Moved set-cursor-position here from the motor module, fixed a
+;;;             :   bug in it, and added remote versions.
+;;; 2018.06.13 Dan
+;;;             : * Set the cursor-pos slots to lists instead of vectors since
+;;;             :   set-hand-location uses lists now too.
+;;; 2018.07.26 Dan [3.1]
+;;;             : * Don't worry about completing requests.
+;;; 2018.10.09 Dan [3.2]
+;;;             : * Removed some unnecessary tests for motor module in top level
+;;;             :   commands.
+;;;             : * Allow for user defined cursors in the same way as keyboards,
+;;;             :   and add a set-default-cursor and other-notifications method.
+;;;             : * Allow for custom initialization and don't require install
+;;;             :   to only be for motor and vision interfaces.
+;;; 2018.10.10 Dan
+;;;             : * Instead of setting the default cursor, change it to set-default-mouse
+;;;             :   since the AGI automatically installs a mouse, and that's 
+;;;             :   likely the cursor which will be used most often.  So, it
+;;;             :   changes the class used when "mouse" is specified.
+;;; 2018.10.11 Dan
+;;;             : * Fixed click-mouse because it was accessing the device of a
+;;;             :   hand without grabbing the lock.
+;;; 2018.10.12 Dan
+;;;             : * Because the type of the "mouse" cursor can change need to
+;;;             :   make sure it's always referenced by 'mouse in the table.
+;;; 2019.09.30 Dan
+;;;             : * Can't allow it to default to a mouse cursor when no detail
+;;;             :   is given because motor then records a device with no detail
+;;;             :   which breaks when something like start-hand-at-mouse checks
+;;;             :   to see if there is a mouse installed.
+;;;             : * Don't check :needs-mouse for start-hand-at-mouse since it
+;;;             :   already installs a device if needed anyway.
+;;;             : * Added start-hand-at-joystick1/2 command and hand-to-joystick1/2
+;;;             :   motor actions.
+;;; 2019.10.01 Dan [3.3]
+;;;             : * Always represent cursor positions with three coordinates, and
+;;;             :   use default viewing distance when not provided.
+;;;             : * Added a click-cursor signal for when it's not a mouse cursor.
+;;;             : * Use the cursor name for the scheduled event module label
+;;;             :   instead of always using mouse.
+;;;             : * Set-cursor-position now takes an optional z parameter and
+;;;             :   set-cursor-position-fct can take a 2 or 3 element list as
+;;;             :   the first parameter.
+;;; 2020.03.27 Dan [4.0]
+;;;             : * Fixed bug in external-set-cursor-position because it did not
+;;;             :   include the z parameter.
+;;;             : * Use the updated hand and device calls to get positions since
+;;;             :   it needs to take into account the pending actions to get the
+;;;             :   features correct.
+;;; 2025.02.14 Dan
+;;;             : * Fixed a bug with internal-cursor-interface because it didn't
+;;;             :   have a case to handle the attention notification that it 
+;;;             :   will get if installed to the vision module.
+;;; 2025.02.17 Dan
+;;;             : * Start-hand-at-cursor uses the notifications now instead of
+;;;             :   calling set-hand-location-fct for consistency with other
+;;;             :   devices.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Create a cursor as its own device under the new interface approach which can
+;;; be a mouse, joystick1, or joystick2, and make an instance of an appropriate
+;;; cursor device with which a model can interact.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Extend by providing a new class and use that class name as the details.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+;;; The class for a virtual cursor and the provided cursors.
+;;; Subclass this to create a custom cursor with the appropriate
+;;; values and define a cursor-initialization and other-notifications methods
+;;; if needed.
+
+(defclass virtual-cursor ()
+  ((cursor-lock :accessor cursor-lock :initform (bt:make-lock "virtual-cursor"))
+   (cursor-loc :accessor cursor-loc :initform (list 0 0) :initarg :cursor-loc)
+   (cursor-pos :accessor cursor-pos :initform (list 0 0) :initarg :cursor-pos)
+   (initial-loc :accessor initial-loc :initform (list 0 0) :initarg :initial-loc)
+   (cursor-feature :accessor cursor-feature :initform nil)
+   (cursor-ptr :accessor cursor-ptr :initform 'pointer)
+   (cursor-name :accessor cursor-name :initarg :cursor-name)
+   (cursor-vis-type :accessor cursor-vis-type :initform 'cursor :initarg :cursor-vis-type)
+   (device-order :accessor device-order :initform 0 :initarg :device-order)
+   (interfaces :accessor interfaces :initform nil)))
+
+(defclass mouse (virtual-cursor)
+  ()
+  (:default-initargs
+    :cursor-name "mouse"
+    :cursor-pos (list 28 2)))
+
+(defclass joystick1 (virtual-cursor)
+  ()
+  (:default-initargs
+    :cursor-name "joystick1"
+    :cursor-pos (list 28 0)
+    :device-order 1))
+
+(defclass joystick2 (virtual-cursor)
+  ()
+  (:default-initargs
+    :cursor-name "joystick2"
+    :cursor-pos (list 28 4)
+    :device-order 2))
+
+(defmethod cursor-initialization ((c virtual-cursor) device)
+  (declare (ignore device)))
+
+(defmethod other-notifications ((c virtual-cursor) device features)
+  (print-warning "Cursor device can not process notification from device ~s with features ~s." device features))
+
+
+(defun default-cursor-distance ()
+  (round (apply '* (no-output (sgp :viewing-distance :pixels-per-inch)))))
+                
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The cursor device definition
+
+(defun initialize-cursor (device-list)
+  (let* ((model (current-model))
+         (interface-name (first device-list))
+         (details (string->name (third device-list)))
+         (class (cond ((eq details 'mouse)
+                       (default-cursor-class))
+                      (t details))))
+    
+    ;; can't allow no details to default to mouse because
+    ;; that results in problems with things that check/reference
+    ;; the installed devices for a mouse cursor.
+    
+    (when (null details)
+      (print-warning "Cannot install a cursor without specifying the type.")
+      (return-from initialize-cursor nil))
+    
+    (unless (subtypep class 'virtual-cursor)
+      (print-warning "Invalid cursor type ~s provided for installing a cursor." device-list)
+      (return-from initialize-cursor nil))
+    
+    (let* ((key (list model details))
+           (cursor (find-model-cursor key)))
+      
+      (if cursor
+          (if (find interface-name (bt:with-lock-held ((cursor-lock cursor)) (interfaces cursor)) :test 'string-equal)
+              (print-warning "Cursor ~s already installed for the interface ~s in model ~s and only one is allowed." details interface-name model)
+            (progn
+              (bt:with-lock-held ((cursor-lock cursor)) 
+                (push interface-name (interfaces cursor))
+                (when (= (length (initial-loc cursor)) 2)
+                  (push-last (default-cursor-distance) (initial-loc cursor)))
+                (setf (cursor-loc cursor) (initial-loc cursor)))
+              
+              ;; initialization: custom, then default
+              (cursor-initialization cursor device-list)
+              
+              (when (string-equal interface-name "vision")
+                (bt:with-lock-held ((cursor-lock cursor))
+                  (setf (cursor-feature cursor) 
+                    (first (add-visicon-features `(isa (visual-location ,(cursor-vis-type cursor)) 
+                                                       value ,(cursor-name cursor)
+                                                       screen-x ,(px (cursor-loc cursor))
+                                                       screen-y ,(py (cursor-loc cursor))
+                                                       distance ,(pz (cursor-loc cursor))))))))
+              t))
+        (progn
+          (setf cursor (make-instance class))
+          (init-cursor-chunk-types-and-chunks (cursor-name cursor))
+          
+          (bt:with-lock-held ((cursor-lock cursor))
+            (push interface-name (interfaces cursor))
+            (when (= (length (initial-loc cursor)) 2)
+              (push-last (default-cursor-distance) (initial-loc cursor)))
+            (setf (cursor-loc cursor) (initial-loc cursor)))
+          
+          (add-cursor key cursor)
+          
+          ;; custom initialization if needed
+          
+          (cursor-initialization cursor device-list)
+          
+          ;; signal movement to initial position
+          
+          (evaluate-act-r-command "move-cursor" model (cursor-name cursor) (initial-loc cursor))
+          
+          ;; default initialization
+          
+          (when (string-equal interface-name "vision")
+            (bt:with-lock-held ((cursor-lock cursor))
+              (setf (cursor-feature cursor) 
+                (first (add-visicon-features `(isa (visual-location ,(cursor-vis-type cursor)) 
+                                                   value ,(cursor-name cursor)
+                                                   screen-x ,(px (initial-loc cursor))
+                                                   screen-y ,(py (initial-loc cursor))
+                                                   distance ,(pz (cursor-loc cursor))))))))
+          t)))))
+              
+(add-act-r-command "initialize-cursor" 'initialize-cursor "Function which sets up a cursor when it is installed. Do not call directly.")
+
+(defun uninstall-cursor (device-list) 
+  (let* ((model (current-model))
+         (interface-name (first device-list))
+         (details (aif (string->name (third device-list)) it 'mouse))
+         (key (list model details))
+         (cursor (find-model-cursor key)))
+    
+    ;; If it's not in the table or not on the interface list then just ignore it and call
+    ;; it a success anyway -- shouldn't have gotten here if
+    ;; it wasn't installed...
+    
+    (when cursor
+      (bt:with-lock-held ((cursor-lock cursor))
+        (when (find interface-name (interfaces cursor) :test 'string-equal)
+          (setf (interfaces cursor) (remove interface-name (interfaces cursor) :test 'string-equal))
+        
+          (when (string-equal interface-name "vision")
+            (when (cursor-feature cursor)
+              (delete-visicon-features (cursor-feature cursor))
+              (setf (cursor-feature cursor) nil)))
+          
+          (when (null (interfaces cursor))
+            (evaluate-act-r-command "delete-cursor" model (cursor-name cursor))
+            (remove-cursor key)))))
+    t))
+  
+
+(add-act-r-command "uninstall-cursor" 'uninstall-cursor "Function which cleans up a cursor being uninstalled.  Do not call directly.")
+
+
+(defun internal-cursor-interface (device-list features)
+  (let* ((model (current-model))
+         (details (string->name (third device-list)))
+         (key (list model details))
+         (cursor (find-model-cursor key)))
+    
+    (if (not cursor)
+        (print-warning "Notice sent to cursor ~s but no such cursor could be found for model ~s." device-list model)
+      (progn
+        ;; The possible signals we'll get are:
+        ;;  ((model <>) (style {punch | peck | peck-recoil}) (hand {left | right}) (loc (x,y,{z})))
+        ;;   - which indicates a button press
+        ;;
+        ;;  ((model <>) (style move-cursor) (hand {left | right}) (loc (x,y,{z})))
+        ;;  
+        ;;  (set-position x y {z})
+        ;;  
+        ;;  (current-position)
+        ;;
+        ;;  (device-location)
+        ;;  
+        ;;  (control-order)
+        ;;
+        ;;  (attention x y color) -- when the cursor is connected to vision
+        ;; 
+        ;; Do we care where they came from?
+        ;; For now doesn't matter which interface, but may want to
+        ;; change that at some point.
+        
+        (cond ((eq (first features) 'current-position)
+               (bt:with-lock-held ((cursor-lock cursor))
+                 (cursor-loc cursor)))
+              ((eq (first features) 'device-location)
+               (bt:with-lock-held ((cursor-lock cursor))
+                 (coerce (cursor-pos cursor) 'list)))
+              ((eq (first features) 'control-order)
+               (bt:with-lock-held ((cursor-lock cursor))
+                 (device-order cursor)))
+              ((eq (first features) 'set-position)
+               (bt:with-lock-held ((cursor-lock cursor))
+                 (setf (cursor-loc cursor)
+                   (list (second features) (third features) (aif (fourth features) it (default-cursor-distance))))
+                 
+                 (when (cursor-feature cursor)
+                   (modify-visicon-features (list (cursor-feature cursor) 'screen-x (second features) 'screen-y (third features) 'distance (aif (fourth features) it (default-cursor-distance)))))
+                 
+                 (evaluate-act-r-command "move-cursor" model (cursor-name cursor) (cursor-loc cursor))
+                 (cursor-loc cursor)))
+              ((eq (first features) 'attention)
+               )
+              ((every 'listp features)
+               (let ((m (second (find 'model features :key 'first)))
+                     (s (second (find 'style features :key 'first)))
+                     (h (second (find 'hand features :key 'first)))
+                     (l (second (or (find 'loc features :key 'first)
+                                    (find 'new-loc features :key 'first)))))
+                 
+                 (if (and m s h l (find s '(punch peck peck-recoil move-cursor))) ;; the default notifications
+            
+                     (case s
+                       ((punch peck peck-recoil)
+                        (let (mx my xyz)
+                          (bt:with-lock-held ((cursor-lock cursor))
+                            (setf mx (px (cursor-pos cursor))
+                              my (py (cursor-pos cursor))
+                              xyz (cursor-loc cursor)))
+                          
+                          (let* ((x (px l)) (y (py l))
+                                 (direction (if (eq h 'left) -1 1))
+                                 (f (cond ((and (= x mx) (= y my))
+                                           'index)
+                                          ((and (= x (+ mx direction)) (= y my))
+                                           'middle)
+                                          ((and (= x (+ mx (* direction 2))) (= y my))
+                                           'ring)
+                                          ((and (= x (+ mx (* direction 3))) (= y my))
+                                           'pinkie)
+                                          ((and (= x (- mx direction)) (= y (+ my 2)))
+                                           'thumb)
+                                          (t
+                                           (print-warning "Invalid ~s cursor click finger position ~s." details l)))))
+                            (when f
+                              ;; Is this necessary? shouldn't it always be in the right model?
+                              (with-model-eval m
+                                (if (eq details 'mouse)
+                                    (schedule-event-now "click-mouse" :params (list m xyz f) :maintenance t :module 'mouse)
+                                  (schedule-event-now "click-cursor" :params (list m (cursor-name cursor) xyz f) :maintenance t :module details))
+                                )))))
+                   
+                       (move-cursor
+                        (bt:with-lock-held ((cursor-lock cursor))
+                          (when (= (length l) 2)
+                            (push-last (default-cursor-distance) l))
+                          (setf (cursor-loc cursor) l)
+                          (when (cursor-feature cursor)
+                            (modify-visicon-features (list (cursor-feature cursor) 'screen-x (first l) 'screen-y (second l) 'distance (third l)))))
+                        
+                        (with-model-eval m
+                          (schedule-event-now "move-cursor" :params (list m (cursor-name cursor) l) :maintenance t :module details))))
+                   (other-notifications cursor device-list features)))))))))
+
+
+(add-act-r-command "cursor-interface-fn" 'internal-cursor-interface "Function which receives the signals for all the cursor devices. Do not call directly.")
+
+
+(define-device "cursor" "initialize-cursor" "uninstall-cursor" "cursor-interface-fn")
+
+
+;; These are the commands that it evaluates for monitoring purposes.
+
+
+(add-act-r-command "click-mouse" nil "Command called when a finger presses a button on the virtual mouse or a real mouse click occurs on a visible exp-window which can be monitored.  It is passed 3 parameters: model name, location list, and finger name. Should not be called directly.")
+
+(add-act-r-command "click-cursor" nil "Command called when a finger presses a button on a non-mouse cursor which can be monitored.  It is passed 4 parameters: model name, cursor name, location list, and finger name. Should not be called directly.")
+
+(add-act-r-command "move-cursor" nil "Command called when a virtual cursor is moved which can be monitored.  It is passed 3 parameters: model name, cursor name, and a list of the new x, y, z position. Should not be called directly.")
+
+(add-act-r-command "delete-cursor" nil "Command called when the virtual cursor is uninstalled which can be monitored.  It is passed 2 parameters: model name and cursor name. Should not be called directly.")
+
+
+;; this is needed for real windows to call
+
+(defun click-the-mouse (model location finger)
+  (handle-evaluate-results (evaluate-act-r-command "click-mouse" model location finger)))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Additional motor actions for a mouse because the general move-cursor
+;;;; is used to move it around.  Because these are handled by the internal
+;;;; extension commands they get passed the motor module so use it instead
+;;;; of interface notifications.
+
+;;; CLICK-MOUSE      [Method]
+;;; Date        : 97.02.13
+;;; Description : Clicking the mouse is really just a punch with the index finger.  
+
+(defgeneric click-mouse (mtr-mod request)
+  (:documentation  "Execute a mouse click operation (a punch with the right hand index finger)"))
+
+(defmethod click-mouse ((mtr-mod motor-module) request)
+  (let* ((model (current-model))
+         (mouse (find-model-cursor (list model 'mouse))))
+    (if mouse
+        (let ((device (device-for-hand 'right :current nil)))
+          
+          (if (equalp device (list "motor" "cursor" "mouse"))
+              (punch mtr-mod :hand 'right :finger 'index :request-spec request)
+            (model-warning "CLICK-MOUSE requested when hand not at mouse!")))
+      (model-warning "CLICK-MOUSE requested but no mouse device available."))))
+
+
+(extend-manual-requests (click-mouse) handle-simple-command-request)
+
+
+(defgeneric hand-to-cursor (mtr-mod request cursor)
+  (:documentation  "Moves the right hand to the indicated cursor"))
+
+(defmethod hand-to-cursor ((mtr-mod motor-module) request cursor)
+  (cond ((find (list "motor" "cursor" cursor) (current-devices "motor") :test 'equalp)
+         (let* ((c (find-model-cursor (list (current-model) (string->name cursor))))
+                (c-pos (bt:with-lock-held ((cursor-lock c)) (cursor-pos c)))
+                (h-pos (hand-loc 'right :current nil))
+                (device (device-for-hand 'right :current nil)))
+                    
+           (if (and (vpt= c-pos h-pos)
+                    (equalp device (list "motor" "cursor" cursor)))
+               (model-warning "HAND-TO-~:@(~a~) requested but hand already is (or will be) at the ~a device." cursor cursor)
+             (let ((polar (xy-to-polar h-pos c-pos)))
+               (point-hand mtr-mod :hand 'right :r (vr polar) :theta (vtheta polar) :twidth 4.0 
+                           :device (list "motor" "cursor" cursor)
+                           :offsets 'standard :request-spec request)))))
+        (t
+         (model-warning "HAND-TO-~a requested but no ~a device available." cursor cursor))))
+
+
+(defgeneric hand-to-mouse (mtr-mod request)
+  (:documentation  "Moves the right hand to the mouse"))
+
+(defmethod hand-to-mouse ((mtr-mod motor-module) request)
+  (hand-to-cursor mtr-mod request "mouse"))
+
+(extend-manual-requests (hand-to-mouse) handle-simple-command-request)
+
+
+(defgeneric hand-to-joystick1 (mtr-mod request)
+  (:documentation  "Moves the right hand to the joystick1 cursor"))
+
+(defmethod hand-to-joystick1 ((mtr-mod motor-module) request)
+  (hand-to-cursor mtr-mod request "joystick1"))
+
+(extend-manual-requests (hand-to-joystick1) handle-simple-command-request)
+
+(defgeneric hand-to-joystick2 (mtr-mod request)
+  (:documentation  "Moves the right hand to the joystick2 cursor"))
+
+(defmethod hand-to-joystick2 ((mtr-mod motor-module) request)
+  (hand-to-cursor mtr-mod request "joystick2"))
+
+(extend-manual-requests (hand-to-joystick2) handle-simple-command-request)
+
+
+
+;;; Top level commands
+;;; use the notifications or available commands for these instead of the motor
+;;; module itself.
+
+(defun start-hand-at-cursor (cursor)
+  "Starts the right hand on the indicated cursor instead of the 'home row' location"
+  (verify-current-model 
+   (format nil "No current model.  Cannot set hand at ~a." cursor)
+   (unless (find (list "motor" "cursor" cursor) (current-devices "motor") :test 'equalp)
+     (model-warning "Installing a default ~a because of start-hand-at-~a." cursor cursor)
+     (unless (install-device (list "motor" "cursor" cursor))
+       (model-warning "Could not install a ~a cursor for the motor interface." cursor)
+       (return-from start-hand-at-cursor nil)))
+   
+   (let* ((c (find-model-cursor (list (current-model) (string->name cursor))))
+          (pos (bt:with-lock-held ((cursor-lock c))(cursor-pos c))))
+     (notify-interface "motor" (list 'set-hand-device 'right (list "motor" "cursor" cursor)))
+     (notify-interface "motor" (list 'set-hand-position 'right (first pos) (second pos)))
+     t)))
+
+
+(defun start-hand-at-mouse ()
+  (start-hand-at-cursor "mouse"))
+
+(add-act-r-command "start-hand-at-mouse" 'start-hand-at-mouse "Have the model place its right hand on the mouse before running. No parameters")
+
+
+(defun start-hand-at-joystick1 ()
+  (start-hand-at-cursor "joystick1"))
+
+(add-act-r-command "start-hand-at-joystick1" 'start-hand-at-joystick1 "Have the model place its right hand on the joystick1 cursor before running. No parameters")
+
+(defun start-hand-at-joystick2 ()
+  (start-hand-at-cursor "joystick2"))
+
+(add-act-r-command "start-hand-at-joystick2" 'start-hand-at-joystick2 "Have the model place its right hand on the joystick2 cursor before running. No parameters")
+
+
+(defmacro set-cursor-position (x y &optional z (cursor-name "mouse"))
+  "Sets the position of the cursor."
+  `(if ,(numberp z)
+       (set-cursor-position-fct ',(list x y z) ,cursor-name)
+       (set-cursor-position-fct ',(list x y (default-cursor-distance)) ,cursor-name)))
+
+(defun set-cursor-position-fct (xyloc &optional (cursor-name "mouse"))
+  (verify-current-model 
+   "No current model.  Cannot set cursor position."
+   (if (and (or (listp xyloc) (vectorp xyloc))
+            (<= 2 (length xyloc) 3))
+       (progn
+         (when (= (length xyloc) 2)
+           (if (listp xyloc)
+               (push-last (default-cursor-distance) xyloc)
+             (setf xyloc (list (px xyloc) (py xyloc) (default-cursor-distance)))))
+       (if (find (list "motor" "cursor" cursor-name) (current-devices "motor") :test 'equalp)
+           (let ((result (notify-device (list "motor" "cursor" cursor-name) (list 'set-position (elt xyloc 0) (elt xyloc 1) (elt xyloc 2)))))
+             (if result
+                 result
+               (print-warning "Failed to set the position ~s for cursor ~s." xyloc cursor-name)))
+         (print-warning "No cursor device named ~s is currently installed for the motor interface." cursor-name)))
+     (print-warning "Location for set-cursor-position-fct must be a list of two or three values but ~s provided." xyloc))))
+
+(defun external-set-cursor-position (x y &optional z (cursor-name "mouse"))
+  (if (numberp z)
+      (set-cursor-position-fct (list x y z) cursor-name)
+    (set-cursor-position-fct (list x y) cursor-name)))
+
+(add-act-r-command "set-cursor-position" 'external-set-cursor-position "Set the position of the named virtual cursor. Params: x-pos y-pos {z-pos {cursor-name}}")
+(add-act-r-command "set-cursor-position-fct" 'set-cursor-position-fct "Set the position of the named virtual cursor. Params: (x-pos y-pos {z-pos}) {cursor-name}")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Create a component for recording the cursor devices which are created
+;;; as needed.
+
+(defstruct cursor-component (lock (bt:make-lock "cursor-component")) (table (make-hash-table :test 'equalp)) (default 'mouse))
+
+(defun set-default-mouse (class)
+  (let ((c-c (get-component cursor-table)))
+    (if c-c
+        (cond ((null class) 
+               (progn
+                 (bt:with-lock-held ((cursor-component-lock c-c))
+                   (setf (cursor-component-default c-c) 'mouse))
+                 t))
+              ((subtypep class 'virtual-cursor)
+               (progn
+                 (bt:with-lock-held ((cursor-component-lock c-c))
+                   (setf (cursor-component-default c-c) class))
+                 t))
+              (t
+               (print-warning "Set-default-mouse requires nil or a subclass of virtual-cursor but given ~s." class)))
+      (print-warning "No cursor-table component found when calling set-default-mouse."))))
+
+
+(defun clear-cursor-component (cursor-component)
+  (bt:with-lock-held ((cursor-component-lock cursor-component))
+    (clrhash (cursor-component-table cursor-component))))
+
+
+(defun init-cursor-chunk-types-and-chunks (name)
+  (when (and (chunk-type-p visual-object)
+             (not (chunk-type-p cursor)))
+    (chunk-type (cursor (:include visual-object)) (cursor t)))
+  
+  (when (stringp name)
+    (setf name (string->name name)))
+  
+  (unless (chunk-p cursor)
+    (define-chunks cursor)
+    (make-chunk-immutable 'cursor))
+  
+  (unless (chunk-p-fct name)
+    (define-chunks-fct (list name))
+    (make-chunk-immutable name)))
+
+
+(define-component cursor-table :version "4.0" :documentation "Record the cursor devices that are used."
+  :creation make-cursor-component
+  :clear-all clear-cursor-component
+  :delete clear-cursor-component
+  :before-reset clear-cursor-component)
+
+
+;; Accessors for cursor component table
+
+(defun find-model-cursor (key)
+  (let ((m-c (get-component cursor-table)))
+    (when m-c
+      (bt:with-lock-held ((cursor-component-lock m-c))
+        (gethash key (cursor-component-table m-c))))))
+
+(defun add-cursor (key cursor)
+  (let ((m-c (get-component cursor-table)))
+    (when m-c
+      (bt:with-lock-held ((cursor-component-lock m-c))
+        (setf (gethash key (cursor-component-table m-c)) cursor)))))
+
+(defun remove-cursor (key)
+  (let ((m-c (get-component cursor-table)))
+    (when m-c
+      (bt:with-lock-held ((cursor-component-lock m-c))
+        (remhash key (cursor-component-table m-c))))))
+
+(defun default-cursor-class ()
+  (let ((m-c (get-component cursor-table)))
+    (when m-c
+      (bt:with-lock-held ((cursor-component-lock m-c))
+        (cursor-component-default m-c)))))
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 77 15 5 14 6 1 7 12 1 8 7 3 12 15 9 15 10 15 11 15 12 15 13 1 14 6 8 12 77 19 4 15 29) #1=#A(t (281) (common-lisp-user::perceptual-history ext::location (defclass common-lisp-user::perceptual-history) (#2=#P"/opt/actr/actr7.x/other-files/perceptual-history.lisp" . 0) ext::annotate (:initform nil :writers ((setf common-lisp-user::perceptual-history)) :readers (common-lisp-user::perceptual-history) :name common-lisp-user::perceptual-history) :initfunction #Y(nil nil nil (26 75 73 29) #1# #2# 0) (:initform (bordeaux-threads::make-lock "perceptual-history") :writers ((setf common-lisp-user::history-lock)) :readers (common-lisp-user::history-lock) :name common-lisp-user::history-lock) (:initform "" :writers ((setf common-lisp-user::last-item)) :readers (common-lisp-user::last-item) :name common-lisp-user::last-item) (:initform nil :writers ((setf common-lisp-user::save-history)) :readers (common-lisp-user::save-history) :name common-lisp-user::save-history) (:initform t :writers ((setf common-lisp-user::alive)) :readers (common-lisp-user::alive) :name common-lisp-user::alive) (:initargs (:cmd) :initform nil :writers ((setf common-lisp-user::cmd-to-monitor)) :readers (common-lisp-user::cmd-to-monitor) :name common-lisp-user::cmd-to-monitor) (:initargs (:recorder) :initform nil :writers ((setf common-lisp-user::recorder)) :readers (common-lisp-user::recorder) :name common-lisp-user::recorder) (:initargs (:data-cmd) :initform nil :writers ((setf common-lisp-user::data-cmd)) :readers (common-lisp-user::data-cmd) :name common-lisp-user::data-cmd) clos::load-defclass common-lisp-user::audicon-history (defclass common-lisp-user::audicon-history) (#2# . 7325) (common-lisp-user::perceptual-history) ((:allocation :class :initform 0 :writers ((setf common-lisp-user::monitor-count)) :readers (common-lisp-user::monitor-count) :name common-lisp-user::monitor-count)) :direct-default-initargs :cmd "new-sound" constantly :recorder "monitor-audicon-updates" :data-cmd 'common-lisp-user::printed-audicon common-lisp-user::printed-audicon common-lisp-user::visicon-history (defclass common-lisp-user::visicon-history) (#2# . 7568) (common-lisp-user::perceptual-history) ((:allocation :class :initform 0 :writers ((setf common-lisp-user::monitor-count)) :readers (common-lisp-user::monitor-count) :name common-lisp-user::monitor-count)) "visicon-update" "monitor-visicon-updates" 'common-lisp-user::printed-visicon common-lisp-user::printed-visicon common-lisp-user::monitor-visicon-updates (defun common-lisp-user::monitor-visicon-updates) (#2# . 7822) :lambda-list :visicon-history common-lisp-user::get-module-fct common-lisp-user::instance "visicon" common-lisp-user::perceptual-history-update #Y(common-lisp-user::monitor-visicon-updates nil nil (26 15 43 77 19 2 44 45 45 13 0 15 46 19 2 47 43 1 29) #1# #2# 7822) si::fset common-lisp-user::monitor-audicon-updates (defun common-lisp-user::monitor-audicon-updates) (#2# . 7979) :audicon-history "audicon" #Y(common-lisp-user::monitor-audicon-updates nil nil (26 15 53 77 19 2 44 45 45 13 0 15 54 19 2 47 43 1 29) #1# #2# 7979) "monitor-visicon-updates" "Perceptual history tool for recording visicon updates via a monitor of visicon-update. Do not call directly." common-lisp-user::add-act-r-command "monitor-audicon-updates" "Perceptual history tool for recording audicon updates via a monitor of new-sound. Do not call directly." (defun common-lisp-user::perceptual-history-update) (#2# . 8477) (common-lisp-user::instance common-lisp-user::name) common-lisp-user::name common-lisp-user::save-history common-lisp-user::data-cmd common-lisp-user::current common-lisp-user::last-item string-equal #:g24044 #:g24045 (setf common-lisp-user::last-item) last caar common-lisp-user::last-time common-lisp-user::mp-time-ms = #:g24046 #:g24048 nconc #:g24047 rplaca #:g24049 #:g24051 #:g24050 (setf common-lisp-user::perceptual-history) "print-warning" "~@?" "No ~a history module available cannot record ~a information" format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::perceptual-history-update nil nil (24 45 45 24 45 64 26 10 1 39 169 13 1 19 1 65 73 39 159 13 1 19 1 66 12 20 0 23 45 67 13 2 19 1 68 12 13 0 19 2 69 76 73 39 131 10 2 45 70 10 1 45 71 13 0 13 1 33 72 18 2 43 1 43 1 13 2 19 1 0 12 19 1 73 16 74 45 75 10 0 39 10 13 0 19 0 76 12 19 2 77 39 42 13 3 19 1 0 12 19 1 73 45 78 10 2 6 1 45 79 10 1 4 12 13 0 19 2 80 45 81 13 2 10 0 17 82 10 0 73 43 3 38 40 10 3 45 83 19 0 76 12 10 2 6 2 6 1 45 84 13 1 19 1 0 12 13 0 19 2 80 45 85 13 0 13 2 33 86 18 2 43 3 43 1 43 1 38 21 15 87 77 15 88 15 89 13 0 13 0 19 5 90 12 19 2 91 75 73 29) #1# #2# 8477) common-lisp-user::reset-perceptual-history (defun common-lisp-user::reset-perceptual-history) (#2# . 9213) (common-lisp-user::module) common-lisp-user::module #:g24061 #:g24062 (setf common-lisp-user::perceptual-history) #:g24063 "" #:g24064 (setf common-lisp-user::last-item) #:g24065 #:g24066 (setf common-lisp-user::save-history) #:g24067 #:g24069 common-lisp-user::monitor-count - #:g24068 (setf common-lisp-user::monitor-count) zerop common-lisp-user::cmd-to-monitor common-lisp-user::recorder common-lisp-user::remove-act-r-command-monitor #Y(common-lisp-user::reset-perceptual-history nil nil (24 45 97 26 10 0 45 98 75 45 99 13 0 13 1 33 100 18 2 43 1 43 1 10 0 45 101 1 102 45 103 13 0 13 1 33 104 18 2 43 1 43 1 13 0 19 1 65 73 39 76 10 0 45 105 75 45 106 13 0 13 1 33 107 18 2 43 1 43 1 10 0 45 108 8 1 45 109 13 1 19 1 110 12 13 0 19 2 111 45 112 13 0 13 2 33 113 18 2 43 3 13 0 19 1 110 16 114 73 39 16 13 0 19 1 115 12 13 0 19 1 116 12 19 2 117 29) #1# #2# 9213) common-lisp-user::disable-perceptual-history (defun common-lisp-user::disable-perceptual-history) (#2# . 9612) (common-lisp-user::module) #:g24075 #:g24076 (setf common-lisp-user::save-history) #:g24077 #:g24079 #:g24078 (setf common-lisp-user::monitor-count) t #Y(common-lisp-user::disable-perceptual-history nil nil (24 45 97 26 13 0 19 1 65 39 75 10 0 45 123 75 45 124 13 0 13 1 33 125 18 2 43 1 43 1 10 0 45 126 8 1 45 127 13 1 19 1 110 12 13 0 19 2 111 45 128 13 0 13 2 33 129 18 2 43 3 13 0 19 1 110 16 114 39 16 13 0 19 1 115 12 13 0 19 1 116 12 19 2 117 11 130 73 29) #1# #2# 9612) common-lisp-user::delete-perceptual-history (defun common-lisp-user::delete-perceptual-history) (#2# . 9942) (common-lisp-user::module) #:g24087 #:g24088 (setf common-lisp-user::alive) #:g24089 #:g24090 (setf common-lisp-user::save-history) #:g24091 #:g24093 #:g24092 (setf common-lisp-user::monitor-count) #Y(common-lisp-user::delete-perceptual-history nil nil (24 45 97 26 10 0 45 136 75 45 137 13 0 13 1 33 138 18 2 43 1 43 1 13 0 19 1 65 39 75 10 0 45 139 75 45 140 13 0 13 1 33 141 18 2 43 1 43 1 10 0 45 142 8 1 45 143 13 1 19 1 110 12 13 0 19 2 111 45 144 13 0 13 2 33 145 18 2 43 3 13 0 19 1 110 16 114 39 16 13 0 19 1 115 12 13 0 19 1 116 12 19 2 117 11 130 73 29) #1# #2# 9942) common-lisp-user::create-audicon-history-module (defun common-lisp-user::create-audicon-history-module) (#2# . 10302) (common-lisp-user::x) common-lisp-user::x make-instance #Y(common-lisp-user::create-audicon-history-module nil nil (24 45 151 26 15 16 19 1 152 29) #1# #2# 10302) common-lisp-user::create-visicon-history-module (defun common-lisp-user::create-visicon-history-module) (#2# . 10404) (common-lisp-user::x) #Y(common-lisp-user::create-visicon-history-module nil nil (24 45 151 26 15 30 19 1 152 29) #1# #2# 10404) :creation :reset :delete :version "3.1" :documentation "Module to record audicon changes." common-lisp-user::define-module-fct "3.1" "Module to record visicon changes." common-lisp-user::show-visicon-history (defun common-lisp-user::show-visicon-history) (#2# . 10969) (&optional common-lisp-user::start common-lisp-user::end) common-lisp-user::start common-lisp-user::end "visicon" common-lisp-user::show-perceptual-history #Y(common-lisp-user::show-visicon-history nil nil (25 40 2 77 46 173 25 40 2 77 46 174 26 15 43 77 19 2 44 45 45 13 0 15 175 13 2 13 1 19 4 176 43 1 29) #1# #2# 10969) common-lisp-user::show-audicon-history (defun common-lisp-user::show-audicon-history) (#2# . 11133) (&optional common-lisp-user::start common-lisp-user::end) "audicon" #Y(common-lisp-user::show-audicon-history nil nil (25 40 2 77 46 173 25 40 2 77 46 174 26 15 53 77 19 2 44 45 45 13 0 15 182 13 2 13 1 19 4 176 43 1 29) #1# #2# 11133) (defun common-lisp-user::show-perceptual-history) (#2# . 11295) (common-lisp-user::instance common-lisp-user::name common-lisp-user::start common-lisp-user::end) common-lisp-user::numornil "Start value for show-~a-history must be a number or nil, but given ~s" "End value for show-~a-history must be a number or nil, but given ~s" numberp > "End value for show-~a-history must be greater-than or equal to the start value, but given start=~f and end=~f" common-lisp-user::history common-lisp-user::seconds->ms >= #Y(nil nil nil (24 45 151 26 10 0 4 12 13 3 19 1 194 12 19 2 195 29) #1# #2# 11295) position-if common-lisp-user::it length common-lisp-user::si #Y(nil nil nil (24 45 151 26 10 0 4 12 13 3 19 1 194 12 19 2 191 29) #1# #2# 11295) common-lisp-user::ei subseq si::%dolist-var common-lisp-user::printing-module #:g24113 #:g24112 #:g24115 #:g24114 common-lisp-user::printing-module-suppress-cmds common-lisp-user::printing-module-c common-lisp-user::act-r-output-stream "command-output" "~@?" "Time: ~f~%~{~a~}" common-lisp-user::ms->seconds copy-seq "No ~a history module available cannot show ~a history" #Y(common-lisp-user::show-perceptual-history nil nil (24 45 45 24 45 64 24 45 173 24 45 174 26 10 3 39 299 13 1 19 1 187 76 39 23 15 87 77 15 88 15 188 13 2 13 1 19 5 90 12 19 2 91 75 73 38 267 13 0 19 1 187 76 39 23 15 87 77 15 88 15 189 13 2 13 0 19 5 90 12 19 2 91 75 73 38 237 10 1 16 190 39 14 10 0 16 190 39 8 13 1 13 0 19 2 191 39 25 15 87 77 15 88 15 192 13 2 13 1 13 0 19 6 90 12 19 2 91 75 73 38 192 13 3 19 1 0 45 193 10 2 16 190 39 27 34 196 12 13 0 19 2 197 45 198 10 0 39 5 10 0 38 5 10 1 16 199 43 1 38 3 8 0 45 200 10 2 16 190 39 11 34 201 12 13 1 19 2 197 38 5 10 1 16 199 45 202 13 2 13 1 13 0 19 3 203 45 204 38 90 10 0 4 45 151 15 205 19 1 44 47 1 206 45 207 10 1 39 62 77 77 46 208 46 209 13 2 19 1 210 51 0 13 2 19 1 211 12 19 1 212 51 1 10 1 39 4 10 0 76 39 27 15 213 77 15 214 15 215 10 4 4 12 19 1 216 12 10 4 5 12 19 5 90 12 19 2 91 43 2 43 2 10 1 5 51 1 43 1 10 0 40 -92 75 45 151 13 4 13 3 13 2 19 3 203 16 217 43 1 43 1 43 3 38 21 15 87 77 15 88 15 218 13 2 13 2 19 5 90 12 19 2 91 75 73 29) #1# #2# 11295) common-lisp-user::enable-audicon-history (defun common-lisp-user::enable-audicon-history) (#2# . 12766) common-lisp-user::enable-perceptual-history #Y(common-lisp-user::enable-audicon-history nil nil (26 15 53 77 19 2 44 12 19 1 223 29) #1# #2# 12766) common-lisp-user::enable-visicon-history (defun common-lisp-user::enable-visicon-history) (#2# . 12861) #Y(common-lisp-user::enable-visicon-history nil nil (26 15 43 77 19 2 44 12 19 1 223 29) #1# #2# 12861) (defun common-lisp-user::enable-perceptual-history) (#2# . 12956) (common-lisp-user::module) #:g24123 #:g24124 (setf common-lisp-user::save-history) common-lisp-user::monitor-act-r-command #:g24125 #:g24127 + #:g24126 (setf common-lisp-user::monitor-count) #Y(common-lisp-user::enable-perceptual-history nil nil (24 45 97 26 13 0 19 1 65 76 39 76 10 0 45 232 11 130 45 233 13 0 13 1 33 234 18 2 43 1 43 1 13 0 19 1 110 16 114 39 16 13 0 19 1 115 12 13 0 19 1 116 12 19 2 235 10 0 45 236 8 1 45 237 13 1 19 1 110 12 13 0 19 2 238 45 239 13 0 13 2 33 240 18 2 43 3 11 130 73 29) #1# #2# 12956) common-lisp-user::disable-audicon-history (defun common-lisp-user::disable-audicon-history) (#2# . 13278) #Y(common-lisp-user::disable-audicon-history nil nil (26 15 53 77 19 2 44 12 19 1 119 29) #1# #2# 13278) common-lisp-user::disable-visicon-history (defun common-lisp-user::disable-visicon-history) (#2# . 13375) #Y(common-lisp-user::disable-visicon-history nil nil (26 15 43 77 19 2 44 12 19 1 119 29) #1# #2# 13375) common-lisp-user::audicon-history-status (defun common-lisp-user::audicon-history-status) (#2# . 13472) common-lisp-user::perceptual-history-status #Y(common-lisp-user::audicon-history-status nil nil (26 15 53 77 19 2 44 12 19 1 253 29) #1# #2# 13472) common-lisp-user::visicon-history-status (defun common-lisp-user::visicon-history-status) (#2# . 13568) #Y(common-lisp-user::visicon-history-status nil nil (26 15 43 77 19 2 44 12 19 1 253 29) #1# #2# 13568) (defun common-lisp-user::perceptual-history-status) (#2# . 13663) (common-lisp-user::module) common-lisp-user::alive #Y(common-lisp-user::perceptual-history-status nil nil (24 45 97 26 13 0 19 1 65 12 13 0 19 1 0 73 39 4 11 130 73 12 13 0 19 1 262 12 72 3 29) #1# #2# 13663) common-lisp-user::get-audicon-history (defun common-lisp-user::get-audicon-history) (#2# . 13840) common-lisp-user::get-perceptual-history #Y(common-lisp-user::get-audicon-history nil nil (26 15 53 77 19 2 44 12 19 1 267 29) #1# #2# 13840) common-lisp-user::get-visicon-history (defun common-lisp-user::get-visicon-history) (#2# . 13930) #Y(common-lisp-user::get-visicon-history nil nil (26 15 43 77 19 2 44 12 19 1 267 29) #1# #2# 13930) (defun common-lisp-user::get-perceptual-history) (#2# . 14019) (common-lisp-user::module) copy-list #Y(common-lisp-user::get-perceptual-history nil nil (24 45 97 26 13 0 19 1 0 16 276 29) #1# #2# 14019) "audicon-history" common-lisp-user::define-history-fct "visicon-history")) #2# 0) #Y(si::bytecodes nil nil (15 16 15 1 15 17 15 18 19 4 4 15 16 15 19 15 20 14 21 15 22 15 23 1 23 16 24 6 3 12 15 25 15 26 1 26 16 24 6 3 12 15 27 15 28 1 29 16 24 6 3 6 3 6 2 12 19 4 15 29) #1# #2# 7325) #Y(si::bytecodes nil nil (15 30 15 1 15 31 15 32 19 4 4 15 30 15 33 15 34 14 21 15 22 15 35 1 35 16 24 6 3 12 15 25 15 36 1 36 16 24 6 3 12 15 27 15 37 1 38 16 24 6 3 6 3 6 2 12 19 4 15 29) #1# #2# 7568) #Y(si::bytecodes nil nil (15 39 15 1 15 40 15 41 19 4 4 15 39 14 42 77 77 19 4 4 15 39 1 48 12 19 2 49 1 39 73 29) #1# #2# 7822) #Y(si::bytecodes nil nil (15 50 15 1 15 51 15 52 19 4 4 15 50 14 42 77 77 19 4 4 15 50 1 55 12 19 2 49 1 50 73 29) #1# #2# 7979) #Y(si::bytecodes nil nil (15 56 15 39 15 57 19 3 58 29) #1# #2# 8117) #Y(si::bytecodes nil nil (15 59 15 50 15 60 19 3 58 29) #1# #2# 8300) #Y(si::bytecodes nil nil (15 47 15 1 15 61 15 62 19 4 4 15 47 14 42 77 15 63 19 4 4 15 47 1 92 12 19 2 49 1 47 73 29) #1# #2# 8477) #Y(si::bytecodes nil nil (15 93 15 1 15 94 15 95 19 4 4 15 93 14 42 77 15 96 19 4 4 15 93 1 118 12 19 2 49 1 93 73 29) #1# #2# 9213) #Y(si::bytecodes nil nil (15 119 15 1 15 120 15 121 19 4 4 15 119 14 42 77 15 122 19 4 4 15 119 1 131 12 19 2 49 1 119 73 29) #1# #2# 9612) #Y(si::bytecodes nil nil (15 132 15 1 15 133 15 134 19 4 4 15 132 14 42 77 15 135 19 4 4 15 132 1 146 12 19 2 49 1 132 73 29) #1# #2# 9942) #Y(si::bytecodes nil nil (15 147 15 1 15 148 15 149 19 4 4 15 147 14 42 77 15 150 19 4 4 15 147 1 153 12 19 2 49 1 147 73 29) #1# #2# 10302) #Y(si::bytecodes nil nil (15 154 15 1 15 155 15 156 19 4 4 15 154 14 42 77 15 157 19 4 4 15 154 1 158 12 19 2 49 1 154 73 29) #1# #2# 10404) #Y(si::bytecodes nil nil (14 53 77 77 14 159 15 147 14 160 15 93 14 161 15 132 14 162 15 163 14 164 15 165 19 13 166 29) #1# #2# 10506) #Y(si::bytecodes nil nil (14 43 77 77 14 159 15 154 14 160 15 93 14 161 15 119 14 162 15 167 14 164 15 168 19 13 166 29) #1# #2# 10737) #Y(si::bytecodes nil nil (15 169 15 1 15 170 15 171 19 4 4 15 169 14 42 77 15 172 19 4 4 15 169 1 177 12 19 2 49 1 169 73 29) #1# #2# 10969) #Y(si::bytecodes nil nil (15 178 15 1 15 179 15 180 19 4 4 15 178 14 42 77 15 181 19 4 4 15 178 1 183 12 19 2 49 1 178 73 29) #1# #2# 11133) #Y(si::bytecodes nil nil (15 176 15 1 15 184 15 185 19 4 4 15 176 14 42 77 15 186 19 4 4 15 176 1 219 12 19 2 49 1 176 73 29) #1# #2# 11295) #Y(si::bytecodes nil nil (15 220 15 1 15 221 15 222 19 4 4 15 220 14 42 77 77 19 4 4 15 220 1 224 12 19 2 49 1 220 73 29) #1# #2# 12766) #Y(si::bytecodes nil nil (15 225 15 1 15 226 15 227 19 4 4 15 225 14 42 77 77 19 4 4 15 225 1 228 12 19 2 49 1 225 73 29) #1# #2# 12861) #Y(si::bytecodes nil nil (15 223 15 1 15 229 15 230 19 4 4 15 223 14 42 77 15 231 19 4 4 15 223 1 241 12 19 2 49 1 223 73 29) #1# #2# 12956) #Y(si::bytecodes nil nil (15 242 15 1 15 243 15 244 19 4 4 15 242 14 42 77 77 19 4 4 15 242 1 245 12 19 2 49 1 242 73 29) #1# #2# 13278) #Y(si::bytecodes nil nil (15 246 15 1 15 247 15 248 19 4 4 15 246 14 42 77 77 19 4 4 15 246 1 249 12 19 2 49 1 246 73 29) #1# #2# 13375) #Y(si::bytecodes nil nil (15 250 15 1 15 251 15 252 19 4 4 15 250 14 42 77 77 19 4 4 15 250 1 254 12 19 2 49 1 250 73 29) #1# #2# 13472) #Y(si::bytecodes nil nil (15 255 15 1 15 256 15 257 19 4 4 15 255 14 42 77 77 19 4 4 15 255 1 258 12 19 2 49 1 255 73 29) #1# #2# 13568) #Y(si::bytecodes nil nil (15 253 15 1 15 259 15 260 19 4 4 15 253 14 42 77 15 261 19 4 4 15 253 1 263 12 19 2 49 1 253 73 29) #1# #2# 13663) #Y(si::bytecodes nil nil (15 264 15 1 15 265 15 266 19 4 4 15 264 14 42 77 77 19 4 4 15 264 1 268 12 19 2 49 1 264 73 29) #1# #2# 13840) #Y(si::bytecodes nil nil (15 269 15 1 15 270 15 271 19 4 4 15 269 14 42 77 77 19 4 4 15 269 1 272 12 19 2 49 1 269 73 29) #1# #2# 13930) #Y(si::bytecodes nil nil (15 267 15 1 15 273 15 274 19 4 4 15 267 14 42 77 15 275 19 4 4 15 267 1 277 12 19 2 49 1 267 73 29) #1# #2# 14019) #Y(si::bytecodes nil nil (15 278 15 220 15 242 15 250 15 264 15 130 19 6 279 29) #1# #2# 14150) #Y(si::bytecodes nil nil (15 280 15 225 15 246 15 255 15 269 15 130 19 6 279 29) #1# #2# 14276))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2016 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : perceptual-history.lisp
+;;; Version     : 3.1
+;;; 
+;;; Description : Record visicon and audicon data when requested.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2016.04.06 Dan [1.0a1] 
+;;;             : * Initial creation.
+;;; 2016.04.11 Dan [1.0a2]
+;;;             : * Doesn't work right in a multi-model situation since each
+;;;             :   model wants to remove the event hook as soon as it no longer
+;;;             :   needs it.  Instead keep a counter with the hook so that all
+;;;             :   models in a meta-process know if anyone else is using it.
+;;; 2016.04.12 Dan
+;;;             : * Fix the text box response functions for the environment so
+;;;             :   that they don't display nil when there's nothing to show.
+;;; 2016.04.15 Dan
+;;;             : * Fixed a bug in setting :save-audicon-history -- turning it
+;;;             :   off turned off the visicon history.
+;;; 2016.04.22 Dan
+;;;             : * Added the "get" functions for the data to support the saving
+;;;             :   of data from the environment. 
+;;; 2016.04.27 Dan
+;;;             : * Changed the environment interface functions to also accept
+;;;             :   a key for the data and then call get-history-information 
+;;;             :   instead of using the module info directly.
+;;; 2016.05.18 Dan
+;;;             : * Fixed a bug with tracking the data for wheteher or not to
+;;;             :   keep the event hook in place.
+;;; 2016.06.24 Dan [1.0a3]
+;;;             : * The after methods for process-display and new-sound-event
+;;;             :   didn't check whether the module actually enabled the recording
+;;;             :   of the data and thus were always capturing that component of
+;;;             :   things.
+;;; 2016.11.17 Dan
+;;;             : * Replace current-meta-process with current-mp.
+;;; 2016.12.19 Dan [2.0]
+;;;             : * Start the transition to the new central dispatcher and don't
+;;;             :   rely on the methods of the modules themselves.  For vision 
+;;;             :   now record visicon updates using a monitor on the update-visicon
+;;;             :   command instead of a method on process-display.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.08.03 Dan
+;;;             : * Monitor new-sound instead of adding a method on new-sound-event.
+;;;             : * Make the visicon monitor a simple monitor command.
+;;; 2017.08.09 Dan
+;;;             : * Use printed-visicon and printed-audicon instead of capturing
+;;;             :   the output of the commands.
+;;;             : * Don't need the event hooks anymore.
+;;;             : * Adding a state-lock to protect the internals and params.
+;;;             : * Only monitor when needed instead of always.
+;;; 2017.09.20 Dan [3.0]
+;;;             : * Use the history recorder mechanism and eliminate the parameters
+;;;             :   for saving the info.  Still need to track whether or not the
+;;;             :   monitor is enabled, but that's easier since the bulk of the
+;;;             :   work is handled by the history recorder interface and there's
+;;;             :   only one meta-process.
+;;;             : * Makes sense to just have two modules now as well using a 
+;;;             :   single simpler class.
+;;; 2017.09.21 Dan
+;;;             : * Cleaned up the interface code and defined all the history
+;;;             :   stream functions necessary.
+;;;             : * Added the alive slot so that it can provide that in the 
+;;;             :   status which is necessary when deleting the module because
+;;;             :   don't want to assume the stop recordings will come in, and
+;;;             :   even if they do, there's a potential race with respect to 
+;;;             :   deletion order (assuming the stops are also driven by deletion).
+;;; 2018.06.22 Dan
+;;;             * Added "Do not call directly" to command the doc strings.
+;;; 2020.01.13 Dan [3.1]
+;;;             : * Removed the lambdas from the module interfaces.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; To support visicon history and audicon history tools in the Environment there
+;;; needs to be something which saves the information.
+;;; Since it's being saved might as well also provide commands for a text output
+;;; as well.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;; show-visicon-history 
+;;; 
+;;; Takes no parameters.  If there is any saved history for the visicon then for
+;;; each time that there was a visicon change recorded this command will print
+;;; the time of the change followed by the output from print-visicon at that
+;;; time.  It's possible that there could be more than one change at a given
+;;; time, in which case the different print-visicon outputs will be shown in 
+;;; the order that they occurred (the older ones before the new ones).  It will
+;;; always return nil.
+;;;
+;;; show-audicon-history 
+;;; 
+;;; Takes no parameters.  If there is any saved history for the audicon then for
+;;; each time that there was an audicon change recorded this command will print
+;;; the time of the change followed by the output from print-audicon at that
+;;; time.  It's possible that there could be more than one change at a given
+;;; time, in which case the different print-audicon outputs will be shown in 
+;;; the order that they occurred (the older ones before the new ones).  It will
+;;; always return nil.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Use the monitoring functionality of the dispatcher to get called when needed
+;;; for visicon-update and new-sound actions.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defclass perceptual-history ()
+  ((perceptual-history :accessor perceptual-history :initform nil)
+   (history-lock :accessor history-lock :initform (bt:make-lock "perceptual-history"))
+   (last-item :accessor last-item :initform "")
+   (save-history :accessor save-history :initform nil)
+   (alive :accessor alive :initform t)
+   (cmd-to-monitor :accessor cmd-to-monitor :initform nil :initarg :cmd)
+   (recorder :accessor recorder :initform nil :initarg :recorder)
+   (data-cmd :accessor data-cmd :initform nil :initarg :data-cmd)))
+
+(defclass audicon-history (perceptual-history)
+  ((monitor-count :accessor monitor-count :initform 0 :allocation :class))
+  (:default-initargs 
+      :cmd "new-sound" 
+    :recorder "monitor-audicon-updates" 
+    :data-cmd 'printed-audicon))
+      
+(defclass visicon-history (perceptual-history)
+  ((monitor-count :accessor monitor-count :initform 0 :allocation :class))
+  (:default-initargs 
+      :cmd "visicon-update" 
+    :recorder "monitor-visicon-updates" 
+    :data-cmd 'printed-visicon))      
+    
+ 
+      
+(defun monitor-visicon-updates ()
+  (let ((instance (get-module :visicon-history)))
+    (perceptual-history-update instance "visicon")))
+
+(defun monitor-audicon-updates ()
+  (let ((instance (get-module :audicon-history)))
+    (perceptual-history-update instance "audicon")))
+
+(add-act-r-command "monitor-visicon-updates" 'monitor-visicon-updates "Perceptual history tool for recording visicon updates via a monitor of visicon-update. Do not call directly.")
+(add-act-r-command "monitor-audicon-updates" 'monitor-audicon-updates "Perceptual history tool for recording audicon updates via a monitor of new-sound. Do not call directly.")
+
+(defun perceptual-history-update (instance name)
+  (if instance
+      (bt:with-lock-held ((history-lock instance))
+        (when (save-history instance)
+          (let ((current (funcall (data-cmd instance))))
+            (unless (string-equal (last-item instance) current)
+              (setf (last-item instance) current)
+              (let ((last-time (caar (last (perceptual-history instance)))))
+                (if (and last-time (= last-time (mp-time-ms)))
+                    (push-last current (car (last (perceptual-history instance))))
+                  (push-last (list (mp-time-ms) current) (perceptual-history instance))))))))
+    (print-warning "No ~a history module available cannot record ~a information" name name)))
+
+
+(defun reset-perceptual-history (module)
+  (bt:with-lock-held ((history-lock module))
+    (setf (perceptual-history module) nil)
+    (setf (last-item module) "")
+    (when (save-history module)
+      (setf (save-history module) nil)
+      (decf (monitor-count module))
+      (when (zerop (monitor-count module))
+        (remove-act-r-command-monitor (cmd-to-monitor module) (recorder module))))))
+
+(defun disable-perceptual-history (module)
+  (bt:with-lock-held ((history-lock module))
+    (when (save-history module)
+      (setf (save-history module) nil)
+      (decf (monitor-count module))
+      (when (zerop (monitor-count module))
+        (remove-act-r-command-monitor (cmd-to-monitor module) (recorder module))))
+    t))
+
+
+(defun delete-perceptual-history (module)
+  (bt:with-lock-held ((history-lock module))
+    (setf (alive module) nil)
+    (when (save-history module)
+      (setf (save-history module) nil)
+      (decf (monitor-count module))
+      (when (zerop (monitor-count module))
+        (remove-act-r-command-monitor (cmd-to-monitor module) (recorder module))))
+    t))
+
+(defun create-audicon-history-module (x) 
+  (declare (ignore x))
+  (make-instance 'audicon-history))
+
+(defun create-visicon-history-module (x) 
+  (declare (ignore x))
+  (make-instance 'visicon-history))
+
+(define-module-fct :audicon-history nil nil
+  :creation 'create-audicon-history-module
+  :reset 'reset-perceptual-history
+  :delete 'delete-perceptual-history
+  :version "3.1"
+  :documentation "Module to record audicon changes.")
+
+(define-module-fct :visicon-history nil nil
+  :creation 'create-visicon-history-module
+  :reset 'reset-perceptual-history
+  :delete 'disable-perceptual-history
+  :version "3.1"
+  :documentation "Module to record visicon changes.")
+
+
+
+(defun show-visicon-history (&optional start end)
+  (let ((instance (get-module :visicon-history)))
+    (show-perceptual-history instance "visicon" start end)))
+
+(defun show-audicon-history (&optional start end)
+  (let ((instance (get-module :audicon-history)))
+    (show-perceptual-history instance "audicon" start end)))
+
+(defun show-perceptual-history (instance name start end)
+  (if instance
+      (cond ((not (numornil start))
+             (print-warning "Start value for show-~a-history must be a number or nil, but given ~s" name start))
+            ((not (numornil end))
+             (print-warning "End value for show-~a-history must be a number or nil, but given ~s" name end))
+            ((and (numberp start) (numberp end) (> start end))
+             (print-warning "End value for show-~a-history must be greater-than or equal to the start value, but given start=~f and end=~f" name start end))
+            (t
+             (bt:with-lock-held ((history-lock instance))
+               
+               (let* ((history (perceptual-history instance))
+                      (si (if (numberp start) 
+                              (aif (position-if (lambda (x) (>= (first x) (seconds->ms start))) history)
+                                   it
+                                   (length history))
+              

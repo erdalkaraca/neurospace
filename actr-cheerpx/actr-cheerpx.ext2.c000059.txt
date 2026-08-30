@@ -1,0 +1,1359 @@
+         (setf (act-r-parameter-users param)
+                 (remove module-name (act-r-parameter-users param))))
+             *act-r-parameters-table*)))
+
+
+(defun remove-parameter (param-name)
+  "Remove a specific parameter from the table"
+  (bt:with-lock-held (*parameters-table-lock*)
+    (remhash param-name *act-r-parameters-table*)))
+ 
+(defmacro sgp (&rest parameters)
+  `(sgp-fct ',parameters))
+
+(defun sgp-fct (&optional (parameters-list nil))
+  (verify-current-mp  
+   "sgp called with no current meta-process."
+   (verify-current-model
+    "sgp called with no current model."
+    (set-or-get-parameters parameters-list))))
+    
+
+(defun set-or-get-parameters (params)
+  (if (null params)
+      (show-all-parameters)
+    (if (every 'keywordp params)
+        (get-parameters params)
+      (set-parameters params))))
+
+
+(defun internal-get-parameter-value (parameter)
+  (first (get-parameters (list parameter) nil)))
+
+(defun get-parameter-value (parameter)
+  (let ((m (current-model)))
+    (cond ((null m)
+           (print-warning "get-parameter-value called with no current model.")
+           :no-model)
+          (t
+           (let ((p (internal-get-parameter-value parameter)))
+             (when (eq p :bad-parameter-name)
+               (print-warning "Invalid parameter name ~s in call to get-parameter-value." parameter))
+             p)))))
+
+(defun remote-get-parameter-value (parameter)
+  (encode-string-names (get-parameter-value (string->name parameter))))
+
+(add-act-r-command "get-parameter-value" 'remote-get-parameter-value "Return the current value of a parameter in the current model. Params: parameter-name." nil)
+
+
+(defun get-parameters (params &optional (output t))
+  (let ((res nil))
+    (dolist (p-name params (reverse res))
+      (aif (get-parameter-struct p-name)
+          (let* ((owner (act-r-parameter-owner it))
+                 (val (process-parameters owner p-name nil)))
+            (if (get-module-fct owner t)
+                (progn
+                  (push val res)
+                  (when output
+                    (command-output "~S ~S (default ~S) : ~A"
+                                    p-name
+                                    val
+                                    (act-r-parameter-default it)
+                                    (act-r-parameter-details it))))
+              (push :bad-parameter-name res)))
+              
+        (push :bad-parameter-name res)))))
+
+
+(defun get-parameter-struct (p-name)
+  (bt:with-lock-held (*parameters-table-lock*)
+    (gethash p-name *act-r-parameters-table*)))
+
+(defun valid-parameter-name (p-name)
+  (bt:with-lock-held (*parameters-table-lock*)
+    (gethash p-name *act-r-parameters-table*)))
+
+
+(defun set-parameters (params)
+  (if (evenp (length params))
+      (let ((res nil))
+        (while params
+          (let ((p-name (pop params))
+                (p-val (pop params)))
+            (push-last (test-and-set-parameter-value p-name p-val) res)))
+        res)
+    (print-warning "Odd number of parameters and values passed to sgp.")))
+
+
+(defun test-and-set-parameter-value (p-name value)
+  (let ((param (bt:with-lock-held (*parameters-table-lock*) (gethash p-name *act-r-parameters-table*))))
+    (if param
+        (if (or (null (act-r-parameter-test param))
+                (funcall (act-r-parameter-test param) value))
+            (internal-set-parameter-value param value)
+          (progn
+            (print-warning "Parameter ~S cannot take value ~s because it must be ~A."
+                           p-name value (act-r-parameter-warning param))
+            :invalid-value))
+      (progn
+        (print-warning "Parameter ~s is not the name of an available parameter" p-name)
+        :bad-parameter-name))))
+
+(defun internal-set-parameter-value (param value)
+  (let* ((current-value (process-parameters (act-r-parameter-owner param)
+                                            (cons (act-r-parameter-param-name param) value)
+                                            nil)))
+    (if (get-module-fct (act-r-parameter-owner param) t)
+        
+        (dolist (s (bt:with-lock-held (*parameters-table-lock*) (act-r-parameter-users param)) current-value)
+          
+          (process-parameters s (cons (act-r-parameter-param-name param) current-value) t))
+      :bad-parameter-name)))
+
+(defun set-parameter-value (param value)
+  (let ((m (current-model)))
+    (cond ((null m)
+           (print-warning "set-parameter-value called with no current model.")
+           :no-model)
+          (t
+           (test-and-set-parameter-value param value)))))
+
+(defun remote-set-parameter-value (param val)
+  (encode-string-names (set-parameter-value (string->name param) (decode-string-names val))))
+
+(add-act-r-command "set-parameter-value" 'remote-set-parameter-value "Sets the current value of a parameter in the current model. Params: parameter-name 'new-value'." nil)
+
+(defmacro with-parameters (temp-params &body body)
+  (let ((params (gensym))
+        (current-vals (gensym))
+        (new-vals (gensym))
+        (p-name (gensym))
+        (p-val (gensym))
+        (val (gensym)))
+    
+    `(let ((,params ',temp-params))
+       (block with-parameters
+         (verify-current-mp  
+          "with-parameters called with no current meta-process."
+          (verify-current-model
+           "with-parameters called with no current model."
+           (if (oddp (length ,params))
+               (print-warning "Odd length parameters list in call to with-parameters. The body is ignored.")
+             
+             (let ((,current-vals nil)
+                   (,new-vals nil))
+               
+               (while ,params
+                 (let ((,p-name (pop ,params))
+                       (,p-val (pop ,params)))
+                   (unless (valid-parameter-name ,p-name)
+                     (print-warning "~s is not the name of a parameter. with-parameters body ignored." ,p-name)
+                     (return-from with-parameters nil))
+                   (push (cons ,p-name (car (get-parameters (list ,p-name) nil))) ,current-vals)
+                   (push-last (cons ,p-name ,p-val) ,new-vals)))
+               
+               (unwind-protect 
+                   (progn 
+                     (dolist (,val ,new-vals)
+                       (test-and-set-parameter-value (car ,val) (cdr ,val)))
+                     ,@body)
+                 (dolist (,val ,current-vals)
+                       (test-and-set-parameter-value (car ,val) (cdr ,val))))))))))))
+
+(defmacro with-parameters-fct (temp-params &body body)
+  (let ((params (gensym))
+        (current-vals (gensym))
+        (new-vals (gensym))
+        (p-name (gensym))
+        (p-val (gensym))
+        (val (gensym)))
+    
+    `(let ((,params (list ,@temp-params)))
+       (block with-parameters
+         (verify-current-mp  
+          "with-parameters called with no current meta-process."
+          (verify-current-model
+           "with-parameters called with no current model."
+           (if (oddp (length ,params))
+               (print-warning "Odd length parameters list in call to with-parameters. The body is ignored.")
+             
+             (let ((,current-vals nil)
+                   (,new-vals nil))
+               
+               (while ,params
+                 (let ((,p-name (pop ,params))
+                       (,p-val (pop ,params)))
+                   (unless (valid-parameter-name ,p-name)
+                     (print-warning "~s is not the name of a parameter. with-parameters body ignored." ,p-name)
+                     (return-from with-parameters nil))
+                   (push (cons ,p-name (car (get-parameters (list ,p-name) nil))) ,current-vals)
+                   (push-last (cons ,p-name ,p-val) ,new-vals)))
+               
+               (unwind-protect 
+                   (progn 
+                     (dolist (,val ,new-vals)
+                       (test-and-set-parameter-value (car ,val) (cdr ,val)))
+                     ,@body)
+                 (dolist (,val ,current-vals)
+                       (test-and-set-parameter-value (car ,val) (cdr ,val))))))))))))
+
+(defun show-all-parameters ()
+  (let ((current-val-table (make-hash-table)))
+    (maphash (lambda (p-name param)
+               (when (get-module-fct (act-r-parameter-owner param) t)
+                 (push 
+                  (cons param (process-parameters (act-r-parameter-owner param) p-name nil)) 
+                  (gethash (act-r-parameter-owner param) current-val-table))))
+             (bt:with-lock-held (*parameters-table-lock*) *act-r-parameters-table*))
+    (let ((name-len (1+ (apply #'max 
+                               (mapcar (lambda (x) 
+                                         (length (string x)))
+                                 (hash-table-keys (bt:with-lock-held (*parameters-table-lock*) *act-r-parameters-table*))))))
+          (default-len (apply #'max 
+                              (with-hash-table-iterator (generator-fn (bt:with-lock-held (*parameters-table-lock*) *act-r-parameters-table*))
+                                (let ((items nil))
+                                  (loop     
+                                    (multiple-value-bind (more? key value) (generator-fn)
+                                      (declare (ignore key))
+                                      (unless more? (return items))
+                                      (push (length (format nil "~s" (act-r-parameter-default value)))
+                                            items)))))))
+                                          
+          (value-len (apply #'max 
+                            (with-hash-table-iterator (generator-fn current-val-table)
+                              (let ((items nil))
+                                (loop     
+                                  (multiple-value-bind (more? key value) (generator-fn)
+                                    (declare (ignore key))
+                                    (unless more? (return items))
+                                    (dolist (param value)
+                                      (push (length (format nil "~S" (cdr param))) 
+                                            items)))))))))
+      
+      
+      (dolist (module-name (sort (hash-table-keys current-val-table) #'string< :key 'symbol-name))
+        (when (get-module-fct module-name t)
+          (command-output "--------------------------------~%~S module" module-name)
+          (command-output "--------------------------------")
+          (dolist (param (sort (gethash module-name current-val-table)  #'string< :key (lambda (x) (symbol-name (act-r-parameter-param-name (car x))))))
+            
+            (command-output "~vS ~vS default: ~vS : ~A"
+                            name-len
+                            (act-r-parameter-param-name (car param))
+                            value-len
+                            (cdr param)
+                            default-len
+                            (act-r-parameter-default (car param))
+                            (act-r-parameter-details (car param)))))))))
+      
+  
+(defun get-parameter-default-value (param)
+  (aif (get-parameter-struct param)
+       (act-r-parameter-default it)
+       (progn
+         (print-warning "Invalid parameter name ~S in call to get-parameter-default-value." param)
+         :bad-parameter-name)))
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                 (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 14 5 77 15 6 19 4 4 15 0 1 10 12 19 2 11 1 0 73 29) #1=#A(t (290) (common-lisp-user::create-printing-module ext::location (defun common-lisp-user::create-printing-module) (#2=#P"/opt/actr/actr7.x/framework/printing.lisp" . 0) ext::annotate :lambda-list (common-lisp-user::model-name) common-lisp-user::model-name common-lisp-user::printing-module make-instance #Y(common-lisp-user::create-printing-module nil nil (24 45 7 26 15 8 19 1 9 29) #1# #2# 0) si::fset common-lisp-user::verify-printing-param (defun common-lisp-user::verify-printing-param) (#2# . 12187) (common-lisp-user::param) common-lisp-user::param t eq streamp pathnamep stringp parse-namestring #Y(common-lisp-user::verify-printing-param nil nil (24 45 16 26 10 0 76 73 40 36 13 0 11 17 17 18 73 40 27 10 0 16 19 73 40 20 10 0 16 20 73 40 13 10 0 16 21 73 39 6 13 0 19 1 22 29) #1# #2# 12187) common-lisp-user::safe-close-printing-stream (defun common-lisp-user::safe-close-printing-stream) (#2# . 12346) (common-lisp-user::target common-lisp-user::other common-lisp-user::cmd) common-lisp-user::target common-lisp-user::other common-lisp-user::cmd common-lisp-user::act-r-output-shared #:g5407 #:g5408 common-lisp-user::act-r-output si::structure-set #:g5409 #:g5410 #:g5411 #:g5412 0 error si::temp #Y(nil nil nil (24 45 42 26 10 0 51 2 35 1 0 29) #1# #2# 12346) si::*handler-clusters* common-lisp-user::act-r-output-stream close condition common-lisp-user::err common-lisp-user::result type-of subtypep "print-warning" "~@?" "Error encountered when trying to close the file associated with the ~s parameter:~% ~s" format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::safe-close-printing-stream nil nil (24 45 28 24 45 29 24 45 30 26 13 2 19 1 31 39 47 10 1 45 32 75 45 33 13 1 15 34 9 2 13 0 19 4 35 43 1 43 1 10 2 45 36 75 45 37 13 1 15 34 9 2 13 0 19 4 35 43 1 43 1 38 101 57 38 60 53 75 45 39 57 40 61 1 27 15 41 34 43 3 6 1 12 11 44 3 48 44 13 5 19 1 45 12 19 1 46 36 2 44 1 10 1 45 47 77 13 0 72 2 43 1 36 2 62 73 43 1 63 47 1 48 45 49 10 1 39 11 10 1 16 50 12 15 47 19 2 51 39 19 15 52 77 15 53 15 54 13 2 13 1 19 5 55 12 19 2 56 10 0 73 43 2 29) #1# #2# 12346) common-lisp-user::safe-open-printing-stream (defun common-lisp-user::safe-open-printing-stream) (#2# . 12808) (common-lisp-user::name common-lisp-user::target common-lisp-user::other common-lisp-user::cmd) common-lisp-user::name common-lisp-user::act-r-output-file common-lisp-user::act-r-output-name equalp #:g5429 #:g5430 #:g5431 #:g5432 #:g5433 #:g5434 #:g5435 #:g5436 #Y(nil nil nil (24 45 42 26 10 0 51 2 35 1 0 29) #1# #2# 12808) translate-logical-pathname :direction :output :if-exists :append :if-does-not-exist :create open #:g5438 #:g5439 #:g5440 #:g5441 "Error encountered when trying to open the file associated with the ~s parameter:~% ~s" "The ~s parameter is being set to t instead." #:g5442 #:g5443 #Y(common-lisp-user::safe-open-printing-stream nil nil (24 45 62 24 45 28 24 45 29 24 45 30 26 13 1 19 1 63 39 10 13 3 13 1 19 1 64 17 65 39 77 10 2 45 66 11 17 45 67 13 1 15 34 9 2 13 0 19 4 35 43 1 43 1 10 1 45 68 11 17 45 69 13 1 15 34 9 2 13 0 19 4 35 43 1 43 1 10 2 45 70 10 4 45 71 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 13 1 19 1 45 38 202 57 72 60 69 75 45 73 57 40 61 1 43 15 41 34 74 3 6 1 12 11 44 3 48 44 13 6 19 1 22 12 19 1 75 12 14 76 14 77 14 78 14 79 14 80 14 81 19 7 82 36 2 44 1 10 1 45 47 77 13 0 72 2 43 1 36 2 62 73 43 1 63 47 1 48 45 49 10 1 39 11 10 1 16 50 12 15 47 19 2 51 39 81 10 4 45 83 75 45 84 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 10 4 45 85 75 45 86 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 15 52 77 15 53 15 87 13 2 13 1 19 5 55 12 19 2 56 15 52 77 15 53 15 88 13 2 19 4 55 12 19 2 56 38 24 10 4 45 89 10 6 45 90 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 10 0 73 43 2 29) #1# #2# 12808) common-lisp-user::printing-module-param (defun common-lisp-user::printing-module-param) (#2# . 14078) (common-lisp-user::module common-lisp-user::param) common-lisp-user::module consp :v common-lisp-user::printing-module-v common-lisp-user::printing-module-c #:g5476 #:g5477 #:g5478 #:g5479 #:g5480 common-lisp-user::it #:g5482 #:g5483 #:g5484 #:g5485 #:g5486 #:g5487 #:g5481 namestring :cmdt #:g5488 #:g5489 #:g5490 #:g5491 #:g5492 #:g5494 #:g5495 #:g5496 #:g5497 #:g5498 #:g5499 #:g5493 :trace-filter #:g5500 #:g5501 (setf common-lisp-user::printing-module-filter) :trace-detail #:g5502 #:g5503 (setf common-lisp-user::printing-module-detail) :model-warnings #:g5504 #:g5505 (setf common-lisp-user::printing-module-model-warnings) :cbct #:g5506 #:g5507 (setf common-lisp-user::printing-module-cbct) common-lisp-user::printing-module-filter common-lisp-user::printing-module-detail common-lisp-user::printing-module-model-warnings common-lisp-user::printing-module-cbct #Y(common-lisp-user::printing-module-param nil nil (24 45 96 24 45 16 26 10 0 16 97 39 700 10 0 4 42 98 292 13 1 19 1 99 12 19 1 63 39 68 13 1 19 1 99 12 13 1 19 1 100 12 14 98 19 3 24 13 1 19 1 99 45 101 75 45 102 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 13 1 19 1 99 45 103 75 45 104 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 13 1 19 1 99 45 105 10 1 5 16 20 40 6 10 1 5 16 21 39 64 10 1 5 12 13 2 19 1 99 12 13 2 19 1 100 12 14 98 19 4 58 45 106 10 0 39 31 13 3 19 1 99 45 107 11 17 45 108 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 10 0 38 3 11 17 43 1 38 54 13 2 19 1 99 45 109 75 45 110 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 13 2 19 1 99 45 111 75 45 112 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 10 1 5 45 113 13 1 15 34 9 0 13 0 19 4 35 43 1 43 1 13 1 19 1 99 12 19 1 63 39 38 13 1 19 1 99 12 19 1 64 16 20 39 14 13 1 19 1 99 12 19 1 64 16 114 38 10 13 1 19 1 99 12 19 1 64 38 10 13 1 19 1 99 12 19 1 45 38 401 42 115 292 13 1 19 1 100 12 19 1 63 39 68 13 1 19 1 100 12 13 1 19 1 99 12 14 115 19 3 24 13 1 19 1 100 45 116 75 45 117 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 13 1 19 1 100 45 118 75 45 119 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 13 1 19 1 100 45 120 10 1 5 16 20 40 6 10 1 5 16 21 39 64 10 1 5 12 13 2 19 1 100 12 13 2 19 1 99 12 14 98 19 4 58 45 106 10 0 39 31 13 3 19 1 100 45 121 11 17 45 122 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 10 0 38 3 11 17 43 1 38 54 13 2 19 1 100 45 123 75 45 124 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 13 2 19 1 100 45 125 75 45 126 13 1 15 34 9 3 13 0 19 4 35 43 1 43 1 10 1 5 45 127 13 1 15 34 9 0 13 0 19 4 35 43 1 43 1 13 1 19 1 100 12 19 1 63 39 38 13 1 19 1 100 12 19 1 64 16 20 39 14 13 1 19 1 100 12 19 1 64 16 114 38 10 13 1 19 1 100 12 19 1 64 38 10 13 1 19 1 100 12 19 1 45 38 107 42 128 24 10 1 45 129 10 1 5 45 130 13 0 13 1 33 131 18 2 43 1 43 1 38 81 42 132 24 10 1 45 133 10 1 5 45 134 13 0 13 1 33 135 18 2 43 1 43 1 38 55 42 136 24 10 1 45 137 10 1 5 45 138 13 0 13 1 33 139 18 2 43 1 43 1 38 29 42 140 24 10 1 45 141 10 1 5 45 142 13 0 13 1 33 143 18 2 43 1 43 1 38 3 75 73 38 169 10 0 42 98 60 13 1 19 1 99 12 19 1 63 39 38 13 1 19 1 99 12 19 1 64 16 20 39 14 13 1 19 1 99 12 19 1 64 16 114 38 10 13 1 19 1 99 12 19 1 64 38 10 13 1 19 1 99 12 19 1 45 38 105 42 115 60 13 1 19 1 100 12 19 1 63 39 38 13 1 19 1 100 12 19 1 64 16 20 39 14 13 1 19 1 100 12 19 1 64 16 114 38 10 13 1 19 1 100 12 19 1 64 38 10 13 1 19 1 100 12 19 1 45 38 43 42 128 8 13 1 19 1 144 38 33 42 132 8 13 1 19 1 145 38 23 42 136 8 13 1 19 1 146 38 13 42 140 8 13 1 19 1 147 38 3 75 73 29) #1# #2# 14078) common-lisp-user::reset-printing-module (defun common-lisp-user::reset-printing-module) (#2# . 18309) (common-lisp-user::module) #:g5528 #:g5529 #:g5530 #:g5531 #:g5532 #:g5533 #:g5534 #:g5535 #:g5536 #:g5537 (setf common-lisp-user::printing-module-one-time-tags) #:g5538 #:g5539 (setf common-lisp-user::printing-module-filter) #:g5540 common-lisp-user::high #:g5541 (setf common-lisp-user::printing-module-detail) #:g5542 #:g5543 (setf common-lisp-user::printing-module-suppress-cmds) #:g5544 #:g5545 (setf common-lisp-user::printing-module-capture-warnings) #:g5546 #:g5547 (setf common-lisp-user::printing-module-captured-warnings) #Y(common-lisp-user::reset-printing-module nil nil (24 45 96 26 13 0 19 1 99 12 19 1 63 39 39 13 0 19 1 99 12 19 1 45 12 19 1 46 13 0 19 1 99 45 153 75 45 154 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 13 0 19 1 99 45 155 11 17 45 156 13 1 15 34 9 0 13 0 19 4 35 43 1 43 1 13 0 19 1 100 12 19 1 63 39 39 13 0 19 1 100 12 19 1 45 12 19 1 46 13 0 19 1 100 45 157 75 45 158 13 1 15 34 9 1 13 0 19 4 35 43 1 43 1 13 0 19 1 100 45 159 11 17 45 160 13 1 15 34 9 0 13 0 19 4 35 43 1 43 1 10 0 45 161 75 45 162 13 0 13 1 33 163 18 2 43 1 43 1 10 0 45 164 75 45 165 13 0 13 1 33 166 18 2 43 1 43 1 10 0 45 167 1 168 45 169 13 0 13 1 33 170 18 2 43 1 43 1 10 0 45 171 75 45 172 13 0 13 1 33 173 18 2 43 1 43 1 10 0 45 174 75 45 175 13 0 13 1 33 176 18 2 43 1 43 1 10 0 45 177 75 45 178 13 0 13 1 33 179 18 2 43 1 43 1 29) #1# #2# 18309) common-lisp-user::delete-printing-module (defun common-lisp-user::delete-printing-module) (#2# . 19312) (common-lisp-user::module) #Y(common-lisp-user::delete-printing-module nil nil (24 45 96 26 13 0 19 1 149 29) #1# #2# 19312) common-lisp-user::trace-detail-value-test (defun common-lisp-user::trace-detail-value-test) (#2# . 19387) (common-lisp-user::x) common-lisp-user::x common-lisp-user::medium common-lisp-user::low #Y(common-lisp-user::trace-detail-value-test nil nil (24 45 190 26 13 0 1 168 17 18 73 40 16 13 0 1 191 17 18 73 40 7 13 0 1 192 17 18 29) #1# #2# 19387) :documentation "Verbose controls model output" :default-value :warning "must be t, nil, a stream, pathname or namestring" :valid-test common-lisp-user::define-parameter "Commands trace controls output of commands" "must be t, nil, a stream, pathname or namestring" "Function to limit output shown in the trace" "must be a function, string naming a command, or nil" common-lisp-user::local-or-remote-function-or-nil "Determines which events show in the trace" "Must be one of high, medium, or low" "Whether to output model warnings" "must be t or nil" common-lisp-user::tornil "Whether or not to show an event in the trace when a buffer copies a chunk" "must be t or nil" :version "2.1" "Coordinates output of the model." :creation :reset :delete :params :required common-lisp-user::define-module-fct common-lisp-user::filter-output-events (defun common-lisp-user::filter-output-events) (#2# . 20998) (common-lisp-user::event) common-lisp-user::event common-lisp-user::current-mp #:g5550 common-lisp-user::act-r-event-model common-lisp-user::act-r-model-name common-lisp-user::mp-models common-lisp-user::valid-model-name #:g5551 common-lisp-user::*current-act-r-model* common-lisp-user::filter-test "~S does not name a model in the current meta-process" "No actions taken in with-model because there is no current meta-process" #Y(common-lisp-user::filter-output-events nil nil (24 45 226 26 19 0 227 45 228 10 0 39 69 13 1 19 1 229 39 12 13 1 19 1 229 12 19 1 230 38 6 19 0 231 4 73 12 19 1 232 45 233 10 0 39 14 10 0 48 234 13 2 19 1 235 44 1 38 19 15 52 77 15 53 15 236 13 0 19 4 55 12 19 2 56 75 73 43 1 38 17 15 52 77 15 53 15 237 19 3 55 12 19 2 56 75 73 43 1 29) #1# #2# 20998) (defun common-lisp-user::filter-test) (#2# . 21233) (common-lisp-user::event) common-lisp-user::get-module-fct common-lisp-user::v common-lisp-user::f common-lisp-user::d common-lisp-user::act-r-event-output common-lisp-user::act-r-event-num common-lisp-user::dispatch-apply #Y(common-lisp-user::filter-test nil nil (24 45 226 26 15 8 77 19 2 242 45 96 10 0 73 39 110 77 77 77 46 243 46 244 46 245 13 3 19 1 145 51 0 13 3 19 1 144 51 1 13 3 19 1 99 51 2 10 0 42 192 13 13 4 19 1 246 12 1 192 17 18 38 36 42 191 25 13 4 19 1 246 12 1 192 17 18 40 11 13 4 19 1 246 12 1 191 17 18 38 9 42 168 5 11 17 38 2 75 73 39 18 10 1 76 73 40 12 13 1 13 4 19 1 247 12 19 2 248 12 13 2 72 2 43 3 43 1 29) #1# #2# 21233) common-lisp-user::event-displayed-p (defun common-lisp-user::event-displayed-p) (#2# . 21935) (common-lisp-user::evt) common-lisp-user::evt common-lisp-user::act-r-event-p common-lisp-user::get-event-by-id #Y(common-lisp-user::event-displayed-p nil nil (24 45 254 26 13 0 19 1 255 39 5 10 0 38 6 13 0 19 1 256 45 226 10 0 73 39 14 13 0 19 1 246 73 39 6 13 0 19 1 222 43 1 29) #1# #2# 21935) "event-displayed-p" "Return whether the specified event will be shown in the trace based on its output value, the current trace detail, and the current trace filter. Params: event-id" common-lisp-user::add-act-r-command common-lisp-user::show-copy-buffer-trace (defun common-lisp-user::show-copy-buffer-trace) (#2# . 22354) #Y(common-lisp-user::show-copy-buffer-trace nil nil (26 15 8 77 19 2 242 45 96 13 0 19 1 147 43 1 29) #1# #2# 22354) common-lisp-user::external-no-output (defun common-lisp-user::external-no-output) (#2# . 22546) (common-lisp-user::command &rest common-lisp-user::params) common-lisp-user::command common-lisp-user::params ("run" "run-full-time" "run-n-events" "run-until-action" "run-until-condition" "run-until-time") :test string= find "Cannot use no-output with a command to run the system." #:g5567 #:g5566 #:g5568 common-lisp-user::printing-module-suppress-cmds #:g5570 #:g5571 (setf common-lisp-user::printing-module-suppress-cmds) common-lisp-user::dispatch-apply-list #:g5572 #:g5573 (setf common-lisp-user::printing-module-suppress-cmds) #Y(common-lisp-user::external-no-output nil nil (24 45 269 27 45 270 13 1 15 271 14 272 15 273 19 4 274 39 19 15 52 77 15 53 15 275 19 3 55 12 19 2 56 75 73 38 81 15 8 19 1 242 47 1 276 45 277 10 1 73 39 64 75 45 278 13 1 19 1 279 51 0 10 1 45 280 11 17 45 281 13 0 13 1 33 282 18 2 43 1 43 1 64 9 13 4 13 3 19 2 283 65 10 1 45 284 10 1 45 285 13 0 13 1 33 286 18 2 43 1 43 1 66 43 1 43 2 29) #1# #2# 22546) "no-output" "Turn off the command output while executing the command provided. Params: command-string {parameter-for-command*}")) #2# 0) #Y(si::bytecodes nil nil (15 12 15 1 15 13 15 14 19 4 4 15 12 14 5 77 15 15 19 4 4 15 12 1 23 12 19 2 11 1 12 73 29) #1# #2# 12187) #Y(si::bytecodes nil nil (15 24 15 1 15 25 15 26 19 4 4 15 24 14 5 77 15 27 19 4 4 15 24 1 57 12 19 2 11 1 24 73 29) #1# #2# 12346) #Y(si::bytecodes nil nil (15 58 15 1 15 59 15 60 19 4 4 15 58 14 5 77 15 61 19 4 4 15 58 1 91 12 19 2 11 1 58 73 29) #1# #2# 12808) #Y(si::bytecodes nil nil (15 92 15 1 15 93 15 94 19 4 4 15 92 14 5 77 15 95 19 4 4 15 92 1 148 12 19 2 11 1 92 73 29) #1# #2# 14078) #Y(si::bytecodes nil nil (15 149 15 1 15 150 15 151 19 4 4 15 149 14 5 77 15 152 19 4 4 15 149 1 180 12 19 2 11 1 149 73 29) #1# #2# 18309) #Y(si::bytecodes nil nil (15 181 15 1 15 182 15 183 19 4 4 15 181 14 5 77 15 184 19 4 4 15 181 1 185 12 19 2 11 1 181 73 29) #1# #2# 19312) #Y(si::bytecodes nil nil (15 186 15 1 15 187 15 188 19 4 4 15 186 14 5 77 15 189 19 4 4 15 186 1 193 12 19 2 11 1 186 73 29) #1# #2# 19387) #Y(si::bytecodes nil nil (15 8 77 14 98 14 194 15 195 14 196 14 17 14 197 15 198 14 199 15 12 19 9 200 12 14 115 14 194 15 201 14 196 14 17 14 197 15 202 14 199 15 12 19 9 200 12 14 128 14 194 15 203 14 196 77 14 197 15 204 14 199 15 205 19 9 200 12 14 132 14 194 15 206 14 196 15 191 14 197 15 207 14 199 15 186 19 9 200 12 14 136 14 194 15 208 14 196 14 17 14 197 15 209 14 199 15 210 19 9 200 12 14 140 14 194 15 211 14 196 77 14 197 15 212 14 199 15 210 19 9 200 6 6 12 14 213 15 214 14 194 15 215 14 216 15 0 14 217 15 149 14 218 15 181 14 219 15 92 14 220 14 17 19 17 221 29) #1# #2# 19483) #Y(si::bytecodes nil nil (15 222 15 1 15 223 15 224 19 4 4 15 222 14 5 77 15 225 19 4 4 15 222 1 238 12 19 2 11 1 222 73 29) #1# #2# 20998) #Y(si::bytecodes nil nil (15 235 15 1 15 239 15 240 19 4 4 15 235 14 5 77 15 241 19 4 4 15 235 1 249 12 19 2 11 1 235 73 29) #1# #2# 21233) #Y(si::bytecodes nil nil (15 250 15 1 15 251 15 252 19 4 4 15 250 14 5 77 15 253 19 4 4 15 250 1 257 12 19 2 11 1 250 73 29) #1# #2# 21935) #Y(si::bytecodes nil nil (15 258 15 250 15 259 19 3 260 29) #1# #2# 22130) #Y(si::bytecodes nil nil (15 261 15 1 15 262 15 263 19 4 4 15 261 14 5 77 77 19 4 4 15 261 1 264 12 19 2 11 1 261 73 29) #1# #2# 22354) #Y(si::bytecodes nil nil (15 265 15 1 15 266 15 267 19 4 4 15 265 14 5 77 15 268 19 4 4 15 265 1 287 12 19 2 11 1 265 73 29) #1# #2# 22546) #Y(si::bytecodes nil nil (15 288 15 265 15 289 14 17 19 4 260 29) #1# #2# 22865))
+                                                                                                                                                                                                                       ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : printing.lisp
+;;; Version     : 2.2
+;;; 
+;;; Description : Module that provides model output control.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : [ ] * Add a warning level parameter and handling.
+;;;             : [ ] * Consider using the ACT-R logical host as the default for
+;;;             :       when a string of name only is used for a trace instead of
+;;;             :       just letting the system defaults kick in.
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.09.17 Dan
+;;;             : Creation
+;;; 2005.01.17 Dan
+;;;             : * Added the :cmdt parameter to handle outputting of commands
+;;;             :   independently of other model output.
+;;; 2005.01.18 Dan
+;;;             : * Moved the printing-module structure to internal-structures.
+;;; 2005.01.27 Dan
+;;;             : * Updated the version to 1.0a3.
+;;;             : * Added the :trace-filter parameter and the function
+;;;             :   production-firing-only as a possible filter.
+;;;             : * Added the function filter-output-events which uses the
+;;;             :   trace-filter to determine whether to output info or not.
+;;; 2005.02.02 Dan
+;;;             : * Added the :trace-detail parameter to control how much
+;;;             :   gets printed in the trace - depends on the new specification
+;;;             :   of the event's output parameter.
+;;; 2005.02.03 Dan
+;;;             : * Moved production-firing-only to the procedural-cmds file.
+;;; 2005.02.21 Dan
+;;;             : * Cleared the to do that was completed and added a new one.
+;;; 2005.02.28 Dan
+;;;             : * Fixed a bug in the reseting when an output stream was a
+;;;             :   file.
+;;; 2005.04.19 Dan
+;;;             : * Added event-displayed-p as a user function for events.
+;;; 2005.05.11 Dan
+;;;             : * Changed the default for trace-detail to medium because
+;;;             :   it's been bulked up and may be more reasonable as the
+;;;             :   general trace.
+;;; 2005.09.08 Dan
+;;;             : * Added the :model-warnings parameter to suppress all "model-
+;;;             :   warning" calls.
+;;; 2006.01.17 Dan
+;;;             : * Updated the version to 1.0 since there haven't been any
+;;;             :   recent problems it's time to drop the "a".
+;;; 2006.01.18 Dan
+;;;             : * Adding a new paramter :show-all-slots to allow one to hide
+;;;             :   "unset" extended slots in chunks if desired (the default
+;;;             :   is to hide them).
+;;; 2006.07.17 Dan
+;;;             : * Added a with-model-fct to filter-output-events so that the
+;;;             :   printing module of the model in which the event was 
+;;;             :   generated is used to make the determination instead of the
+;;;             :   current model's.
+;;; 2006.07.20 Dan
+;;;             : * Realized that the change above isn't quite right because
+;;;             :   break events don't have a model, so in that case it just
+;;;             :   uses the "first" model.
+;;; 2006.10.11 Dan
+;;;             : * Realized while doing some profiling on a different change
+;;;             :   that the backqouted code in filter-output-events was really
+;;;             :   slow (in ACL 20+% of the model's time was spent evaluating 
+;;;             :   that).  I've replaced that with a call to a separate 
+;;;             :   function and things seem to be back to better performance.
+;;; 2006.10.16 Dan
+;;;             : * Bug in the last change doesn't work in all Lisps - fixed
+;;;             :   that now (difference between #' and ' for a function name
+;;;             :   that gets passed to eval).
+;;; 2007.04.13 Dan
+;;;             : * Added the :cbct parameter which determines whether or not
+;;;             :   an extra event shows in the trace indicating when a buffer
+;;;             :   copies a chunk to give the old and new names.
+;;; 2008.10.30 Dan
+;;;             : * Added the show-copy-buffer-trace function to avoid needing
+;;;             :   an sgp in the buffer code.
+;;; 2010.05.03 Dan
+;;;             : * Changed filter-test so that it doesn't display ":output 'high"
+;;;             :   events in the medium trace detail level.
+;;; 2012.09.21 Dan
+;;;             : * Set suppress-cmds back to nil upon a reset because apparently
+;;;             :   even with an unwind-protect it's possible for it to get stuck
+;;;             :   somehow.
+;;; 2013.08.16 Dan
+;;;             : * Fix a problem with CCL and the environment which seems like
+;;;             :   it can only be dealt with here (I don't like implementation
+;;;             :   hacks in the main code).  By default an opened stream is 
+;;;             :   only available to the thread which opens it, but if one sets
+;;;             :   :v or :cmdt to a pathname and then Loads the file through
+;;;             :   the environment in CCL that stream is unavailable to the
+;;;             :   thread which "runs" the model and an error results.  The 
+;;;             :   fix is to specify :sharing :lock in the open command and
+;;;             :   that has to happen here.
+;;; 2014.06.26 Dan
+;;;             : * More error protection around the setting of :v and :cmdt
+;;;             :   when files/streams are used.
+;;; 2014.08.14 Dan
+;;;             : * The :show-all-slots parameter is unnecessary now.
+;;; 2015.06.01 Dan [1.1]
+;;;             : * Adding a one-time-model-warning command (it's in misc-utils
+;;;             :   with the other output commands) which allows one to specify
+;;;             :   a "tag" for the warning and it will only print a warning
+;;;             :   with a given tag (equal test) the first time it occurs after 
+;;;             :   a reset.
+;;; 2016.04.11 Dan [1.2]
+;;;             : * Adding a parameter to have the module save the trace info
+;;;             :   whether or not it's being printed and a command to print
+;;;             :   out a saved trace at any detail level for an optionally
+;;;             :   specified subsegment.  For now this is going to be crude and
+;;;             :   just store a list of the formatted output for each event
+;;;             :   since that's easy but costly in terms of space.  Some sort 
+;;;             :   of caching would probably be better for space (since something
+;;;             :   like conflict-resolution is going to show up a lot) but has
+;;;             :   a bigger time cost since a lookup would have to happen for
+;;;             :   every event.
+;;; 2016.04.12 Dan
+;;;             : * Added a get-saved-trace function to allow access to the data
+;;;             :   without having to print it out or wrap it in a no-output, and
+;;;             :   include the time and output level with that.
+;;; 2016.04.13 Dan
+;;;             : * Fixed a copy-and-paste error in get-saved-trace.
+;;; 2016.04.14 Dan
+;;;             : * Might as well save the event itself and recreate the trace
+;;;             :   after the fact if needed. 
+;;;             : * Don't return the trace items from show-saved-trace since
+;;;             :   get-saved-trace can be used for that -- have each do its
+;;;             :   own thing.
+;;; 2016.04.21 Dan
+;;;             : * Minor improvement to internals of show and get saved-trace.
+;;; 2016.09.28 Dan
+;;;             : * Changed printing-module-event-hook to just be nil or cons since
+;;;             :   there's only one meta-process.
+;;; 2017.02.27 Dan
+;;;             : * Clear the capture warnings flag and any recorded warnings 
+;;;             :   when the module is reset.  [Clears all of them since it's a
+;;;             :   class allocated slot, but since there's only one mp a reset
+;;;             :   affects all models anyway.]
+;;; 2017.06.15 Dan
+;;;             : * Wrapped the lock around the warning capture clearing for
+;;;             :   thread safety.
+;;;             : * Make event-displayed-p, filter-events, and filter-output-events
+;;;             :   thread safe.
+;;; 2017.06.16 Dan
+;;;             : * Use the trace lock for access to the saved trace info.
+;;; 2017.07.13 Dan
+;;;             : * Protect the cbct parameter through show-copy-buffer-trace.
+;;; 2017.09.19 Dan [1.3]
+;;;             : * Remove the :save-trace parameter because that functionality
+;;;             :   is being handled by a history stream now outside of the
+;;;             :   module.
+;;; 2018.02.05 Dan
+;;;             : * Allow the :trace-filter parameter to accept a command name
+;;;             :   string.
+;;;             : * Update event-displayed-p to accept a real event or id, and
+;;;             :   always pass the id to the trace-filter fn.
+;;; 2018.02.07 Dan
+;;;             : * The trace filter needs to get the model name.
+;;; 2018.02.22 Dan
+;;;             : * Add a remote version of event-displayed-p.
+;;; 2018.06.14 Dan
+;;;             : * Updated doc string for event-displayed-p command.
+;;; 2019.01.16 Dan
+;;;             : * Adjust filter-event so it only needs to grab the lock once.
+;;; 2019.06.18 Dan
+;;;             : * Change the ccl hack from :sharing :lock to :sharing :external.
+;;; 2020.01.13 Dan [1.4]
+;;;             : * Removed the #' and lambdas from the module interface. 
+;;; 2020.06.03 Dan
+;;;             : * Have the filter-test return the value of v as well so that
+;;;             :   scheduling can skip the model-output immediately if it's
+;;;             :   off.
+;;; 2020.07.24 Dan
+;;;             : * Fixed the problem when :v and :cmdt were both set to files
+;;;             :   because they used separate streams and thus were both
+;;;             :   writing to different positions in the file.  Now, if they're
+;;;             :   set to a file/pathname it uses one stream for both.
+;;; 2021.10.19 Dan [2.0]
+;;;             : * Set the required flag on the module.
+;;; 2023.10.05 Dan
+;;;             : * When opening the stream for :v or :cmdt use translate-
+;;;             :   logical-pathname after parse-namestring because parse-
+;;;             :   namestring doesn't do that.
+;;; 2024.05.02 Dan [2.1]
+;;;             : * If :v or :cmdt is set with a string or pathname then return
+;;;             :   that string or the namestring as the current value so that
+;;;             :   it can be set and used remotely.
+;;; 2024.05.16 Dan
+;;;             : * Fixed a bug with the param function in how :cmdt was being
+;;;             :   handled (there was a cut-and-paste error that referenced :v
+;;;             :   instead).
+;;; 2025.01.15 Dan [2.2]
+;;;             : * Added a remote no-output command that will take a command-
+;;;             :   name and the parameters to pass to it and call that command
+;;;             :   inside of a no-output.  It doesn't allow that to be used
+;;;             :   for the running commands and will print a warning if tried.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defun create-printing-module (model-name)
+  (declare (ignore model-name))
+  (make-instance 'printing-module))
+
+(defun verify-printing-param (param)
+  (or (null param) (eq param t) (streamp param) (pathnamep param)
+      (and (stringp param) (parse-namestring param))))
+
+(defun safe-close-printing-stream (target other cmd)
+  (if (act-r-output-shared target)
+      (setf (act-r-output-shared other) nil (act-r-output-shared target) nil)
+    (multiple-value-bind (result err)
+        (ignore-errors (close (act-r-output-stream target)))
+      (when (and err (subtypep (type-of err) 'condition))
+        (print-warning "Error encountered when trying to close the file associated with the ~s parameter:~% ~s" cmd err))
+      result)))
+
+(defun safe-open-printing-stream (name target other cmd)
+  (if (and (act-r-output-file other)
+           (equalp name (act-r-output-name other)))
+      ;; if it's the same name as the other one
+      ;; indicate they're shared and return the other's stream
+      (progn
+        (setf (act-r-output-shared target) t)
+        (setf (act-r-output-shared other) t)
+        (setf (act-r-output-name target) name)
+        
+        (act-r-output-stream other))
+      
+    (multiple-value-bind (result err)
+        (ignore-errors (open (translate-logical-pathname 
+                              (parse-namestring name))
+                             :direction :output :if-exists :append 
+                             :if-does-not-exist :create
+                             #+:ccl :sharing #+:ccl :external))
+      (if (and err (subtypep (type-of err) 'condition))
+          (progn
+            (setf (act-r-output-name target) nil)
+            (setf (act-r-output-file target) nil)
+            (print-warning "Error encountered when trying to open the file associated with the ~s parameter:~% ~s" cmd err)
+            (print-warning "The ~s parameter is being set to t instead." cmd))
+        (progn
+          (setf (act-r-output-name target) name)
+          ))
+      result)))
+
+(defun printing-module-param (module param)
+  (bt:with-recursive-lock-held ((printing-module-param-lock module)) 
+    (if (consp param)
+        (case (car param)
+          (:v
+           (when (act-r-output-file (printing-module-v module))
+             (safe-close-printing-stream (printing-module-v module) (printing-module-c module) :v)
+             (setf (act-r-output-file (printing-module-v module)) nil)
+             (setf (act-r-output-name (printing-module-v module)) nil))
+           
+           (setf (act-r-output-stream (printing-module-v module))
+             
+             (cond ((or (pathnamep (cdr param)) (stringp (cdr param)))
+                    (aif (safe-open-printing-stream (cdr param) (printing-module-v module) (printing-module-c module) :v)
+                         (progn
+                           (setf (act-r-output-file (printing-module-v module)) t)
+                           it)
+                         t))
+                   (t 
+                    (setf (act-r-output-file (printing-module-v module)) nil)
+                    (setf (act-r-output-name (printing-module-v module)) nil)
+                    (cdr param))))
+           
+           (if (act-r-output-file (printing-module-v module))
+                (if (pathnamep (act-r-output-name (printing-module-v module)))
+                    (namestring (act-r-output-name (printing-module-v module)))
+                  (act-r-output-name (printing-module-v module)))
+              (act-r-output-stream (printing-module-v module))))
+          (:cmdt
+           (when (act-r-output-file (printing-module-c module))
+             (safe-close-printing-stream (printing-module-c module) (printing-module-v module) :cmdt)
+             (setf (act-r-output-file (printing-module-c module)) nil)
+             (setf (act-r-output-name (printing-module-c module)) nil))
+           
+           (setf (act-r-output-stream (printing-module-c module))
+             
+             (cond ((or (pathnamep (cdr param)) (stringp (cdr param)))
+                    (aif (safe-open-printing-stream (cdr param) (printing-module-c module) (printing-module-v module) :v)
+                         (progn
+                           (setf (act-r-output-file (printing-module-c module)) t)
+                           it)
+                         t))
+                   (t 
+                    (setf (act-r-output-file (printing-module-c module)) nil)
+                    (setf (act-r-output-name (printing-module-c module)) nil)
+                    (cdr param))))
+           (if (act-r-output-file (printing-module-c module))
+                   (if (pathnamep (act-r-output-name (printing-module-c module)))
+                    (namestring (act-r-output-name (printing-module-c module)))
+                  (act-r-output-name (printing-module-c module)))
+                 (act-r-output-stream (printing-module-c module))))
+          (:trace-filter
+           (setf (printing-module-filter module) (cdr param)))
+          (:trace-detail
+           (setf (printing-module-detail module) (cdr param)))
+          (:model-warnings
+           (setf (printing-module-model-warnings module) (cdr param)))
+          (:cbct
+           (setf (printing-module-cbct module) (cdr param)))
+          
+          )
+      
+      (case param
+        (:v (if (act-r-output-file (printing-module-v module))
+                (if (pathnamep (act-r-output-name (printing-module-v module)))
+                    (namestring (act-r-output-name (printing-module-v module)))
+                  (act-r-output-name (printing-module-v module)))
+              (act-r-output-stream (printing-module-v module))))
+        (:cmdt (if (act-r-output-file (printing-module-c module))
+                   (if (pathnamep (act-r-output-name (printing-module-c module)))
+                    (namestring (act-r-output-name (printing-module-c module)))
+                  (act-r-output-name (printing-module-c module)))
+                 (act-r-output-stream (printing-module-c module))))
+        (:trace-filter (printing-module-filter module))
+        (:trace-detail (printing-module-detail module))
+        (:model-warnings (printing-module-model-warnings module))
+        (:cbct (printing-module-cbct module))
+        ))))
+
+(defun reset-printing-module (module)
+  (bt:with-recursive-lock-held ((printing-module-param-lock module))
+    (when (act-r-output-file (printing-module-v module))
+      (close (act-r-output-stream (printing-module-v module)))
+      (setf (act-r-output-file (printing-module-v module)) nil))
+    (setf (act-r-output-stream (printing-module-v module)) t)
+  
+    (when (act-r-output-file (printing-module-c module))
+      (close (act-r-output-stream (printing-module-c module)))
+      (setf (act-r-output-file (printing-module-c module)) nil))
+    (setf (act-r-output-stream (printing-module-c module)) t)
+  
+    (setf (printing-module-one-time-tags module) nil)
+    (setf (printing-module-filter module) nil)
+    (setf (printing-module-detail module) 'high)
+    (setf (printing-module-suppress-cmds module) nil))
+    
+    
+  (bt:with-recursive-lock-held ((printing-module-lock module))
+    (setf (printing-module-capture-warnings module) nil)
+    (setf (printing-module-captured-warnings module) nil)))
+
+
+(defun delete-printing-module (module)
+  (reset-printing-module module))
+
+(defun trace-detail-value-test (x)
+  (or (eq x 'high)
+      (eq x 'medium)
+      (eq x 'low)))
+
+
+(define-module-fct 'printing-module nil 
+  (list 
+   (define-parameter :v :documentation "Verbose controls model output"
+     :default-value t
+     :warning "must be t, nil, a stream, pathname or namestring"
+     :valid-test 'verify-printing-param)
+   (define-parameter :cmdt :documentation "Commands trace controls output of commands"
+     :default-value t
+     :warning "must be t, nil, a stream, pathname or namestring"
+     :valid-test 'verify-printing-param)
+   (define-parameter :trace-filter :documentation "Function to limit output shown in the trace"
+     :default-value nil
+     :warning "must be a function, string naming a command, or nil"
+     :valid-test 'local-or-remote-function-or-nil)
+   (define-parameter :trace-detail :documentation "Determines which events show in the trace"
+     :default-value 'medium
+     :warning "Must be one of high, medium, or low"
+     :valid-test 'trace-detail-value-test)
+   (define-parameter :model-warnings :documentation "Whether to output model warnings"
+     :default-value t
+     :warning "must be t or nil"
+     :valid-test 'tornil)
+   (define-parameter :cbct :documentation "Whether or not to show an event in the trace when a buffer copies a chunk"
+     :default-value nil
+     :warning "must be t or nil"
+     :valid-test 'tornil)
+   )
+  :version "2.1"
+  :documentation "Coordinates output of the model."
+  :creation 'create-printing-module
+  :reset 'reset-printing-module
+  :delete 'delete-printing-module
+  :params 'printing-module-param
+  :required t)
+
+(defun filter-output-events (event)
+  (with-model-eval (if (act-r-event-model event) (act-r-model-name (act-r-event-model event)) (first (mp-models))) ;; just use the first if there isn't one (a break event)
+    (filter-test event)))
+
+(defun filter-test (event)
+  (let ((module (get-module printing-module)))
+    (when module 
+      (let (d f v)
+        (bt:with-recursive-lock-held ((printing-module-param-lock module)) 
+          (setf d (printing-module-detail module))
+          (setf f (printing-module-filter module))
+          (setf v (printing-module-v module)))
+        (values 
+         (and (case d
+                (low (eq (act-r-event-output event) 'low))
+                (medium (or (eq (act-r-event-output event) 'low)
+                            (eq (act-r-event-output event) 'medium)))
+                (high t))
+              (or (null f)
+                  (dispatch-apply f (act-r-event-num event))))
+         v)))))
+  
+
+(defun event-displayed-p (evt)
+  (let ((event (if (act-r-event-p evt) evt (get-event-by-id evt))))
+    (and event
+         (act-r-event-output event)
+         (filter-output-events event))))
+
+(add-act-r-command "event-displayed-p" 'event-displayed-p "Return whether the specified event will be shown in the trace based on its output value, the current trace detail, and the current trace filter. Params: event-id")
+
+
+(defun show-copy-buffer-trace ()
+  (let ((module (get-module printing-module)))
+    (bt:with-recursive-lock-held ((printing-module-param-lock module))
+      (printing-module-cbct module))))
+
+
+(defun external-no-output (command &rest params)
+  (if (find command '("run" "run-full-time" "run-n-events" "run-until-action" "run-until-condition" "run-until-time") :test 'string=)
+      (print-warning "Cannot use no-output with a command to run the system.")
+    (no-output (dispatch-apply-list command params))))
+
+
+(add-act-r-command "no-output" 'external-no-output "Turn off the command output while executing the command provided. Params: command-string {parameter-for-command*}" t)
+
+                   
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (#Y(si::bytecodes nil nil (1 0 16 1 1 0 16 2 76 39 5 8 -1 52 0 15 0 15 3 15 4 15 5 19 4 6 1 0 73 29) #1=#A(t (345) (common-lisp-user::*random-module-counter* si::*make-special boundp ext::location (defvar common-lisp-user::*random-module-counter*) (#2=#P"/opt/actr/actr7.x/framework/random.lisp" . 0) ext::annotate common-lisp-user::*random-lock* (defvar common-lisp-user::*random-lock*) (#2# . 8478) common-lisp-user::mersenne-twister common-lisp-user::mt- ((common-lisp-user::n 624 :type fixnum) (common-lisp-user::m 397 :type fixnum) (common-lisp-user::mti 625 :type fixnum) (common-lisp-user::mt #3=(make-array 624 :element-type '(or bignum integer) :initial-element 0) :type vector) (count 0 :type integer) (common-lisp-user::start #4=(bordeaux-threads::with-lock-held (common-lisp-user::*random-lock*) (incf common-lisp-user::*random-module-counter*)) :type integer) (common-lisp-user::initial-seed 5489 :type integer)) ((common-lisp-user::n 624 fixnum nil 0 nil) (common-lisp-user::m 397 fixnum nil 1 nil) (common-lisp-user::mti 625 fixnum nil 2 nil) (common-lisp-user::mt #3# vector nil 3 nil) (count 0 integer nil 4 nil) (common-lisp-user::start #4# integer nil 5 nil) (common-lisp-user::initial-seed 5489 integer nil 6 nil)) common-lisp-user::copy-mersenne-twister (common-lisp-user::make-mersenne-twister) common-lisp-user::mersenne-twister-p si::define-structure #5=(common-lisp-user::mersenne-twister (:conc-name common-lisp-user::mt-)) (defstruct #5#) (#2# . 8536) common-lisp-user::make-mersenne-twister (defun common-lisp-user::make-mersenne-twister) (#2# . 8536) :lambda-list (&key (#6=#:n 624) (#7=#:m 397) (#8=#:mti 625) (#9=#:mt (make-array 624 :element-type '#10=(or bignum integer) :initial-element 0)) (#11=#:count 0) (#12=#:start (bordeaux-threads::with-lock-held (common-lisp-user::*random-lock*) (incf common-lisp-user::*random-module-counter*))) (#13=#:initial-seed 5489)) (nil :initial-seed :start :count :mt :mti :m :n) #6# #7# #8# :element-type #10# :initial-element make-array #9# #11# #:g5185 + #12# #13# integer typep common-lisp-user::initial-seed si::structure-type-error common-lisp-user::start count vector common-lisp-user::mt fixnum common-lisp-user::mti common-lisp-user::m common-lisp-user::n 0 si::make-structure #Y(common-lisp-user::make-mersenne-twister nil nil (28 26 22 40 3 9 624 46 27 22 40 3 9 397 46 28 22 40 3 9 625 46 29 22 40 15 9 624 14 30 15 31 14 32 9 0 19 5 33 12 46 34 22 40 3 9 0 46 35 22 40 17 8 1 45 36 14 0 13 0 19 2 37 52 0 12 43 1 46 38 22 40 3 9 5489 46 39 13 0 15 40 19 2 41 76 39 12 13 0 15 40 15 10 15 42 19 4 43 13 1 15 40 19 2 41 76 39 12 13 1 15 40 15 10 15 44 19 4 43 13 2 15 40 19 2 41 76 39 12 13 2 15 40 15 10 15 45 19 4 43 13 3 15 46 19 2 41 76 39 12 13 3 15 46 15 10 15 47 19 4 43 13 4 15 48 19 2 41 76 39 12 13 4 15 48 15 10 15 49 19 4 43 13 5 15 48 19 2 41 76 39 12 13 5 15 48 15 10 15 50 19 4 43 13 6 15 48 19 2 41 76 39 12 13 6 15 48 15 10 15 51 19 4 43 15 52 13 6 13 5 13 4 13 3 13 2 13 1 13 0 19 8 53 29) #1# #2# 8536) si::fset find-class common-lisp-user::+matrix_a+ symbol-value 2567483615 si::*make-constant (defconstant common-lisp-user::+matrix_a+) (#2# . 8900) common-lisp-user::+upper_mask+ 2147483648 (defconstant common-lisp-user::+upper_mask+) (#2# . 8979) common-lisp-user::+lower_mask+ 2147483647 (defconstant common-lisp-user::+lower_mask+) (#2# . 9021) common-lisp-user::+byte-32-0+ byte (defconstant common-lisp-user::+byte-32-0+) (#2# . 9063) common-lisp-user::*default-random-state* (defvar common-lisp-user::*default-random-state*) (#2# . 9178) common-lisp-user::init_genrand (defun common-lisp-user::init_genrand) (#2# . 9267) (common-lisp-user::s &optional (common-lisp-user::state common-lisp-user::*default-random-state*)) common-lisp-user::s common-lisp-user::state common-lisp-user::mt-mt ldb si::svset #:g5204 #:g5205 si::structure-set common-lisp-user::mt-mti 1812433253 1- svref ash logxor * #:g5215 #:g5217 #:g5216 common-lisp-user::mt-n = #Y(common-lisp-user::init_genrand nil nil (24 45 82 25 40 3 14 75 46 83 26 13 0 19 1 84 12 9 0 14 71 10 1 17 85 12 19 3 86 10 0 45 87 8 1 45 88 13 1 15 10 9 2 13 0 19 4 89 43 1 43 1 38 111 13 0 19 1 84 12 13 0 19 1 90 12 14 71 15 91 13 0 19 1 84 12 13 0 19 1 90 16 92 17 93 12 13 0 19 1 84 12 13 0 19 1 90 16 92 17 93 12 8 -30 17 94 12 19 2 95 12 19 2 96 12 13 0 19 1 90 12 19 2 37 17 85 12 19 3 86 10 0 45 97 8 1 45 98 13 1 19 1 90 12 13 0 19 2 37 45 99 13 2 15 10 9 2 13 0 19 4 89 43 3 13 0 19 1 90 12 13 0 19 1 100 12 19 2 101 39 -126 75 73 29) #1# #2# 9267) common-lisp-user::init_by_array (defun common-lisp-user::init_by_array) (#2# . 9890) (common-lisp-user::init_key &optional (common-lisp-user::state common-lisp-user::*default-random-state*)) common-lisp-user::init_key 19650218 length common-lisp-user::j common-lisp-user::i common-lisp-user::key_length > common-lisp-user::k 1664525 #:g5273 #:g5275 zerop 1566083941 - #:g5292 #Y(common-lisp-user::init_by_array nil nil (24 45 107 25 40 3 14 75 46 83 26 15 108 13 0 19 2 78 10 1 16 109 12 9 1 9 0 46 110 46 111 46 112 13 3 19 1 100 12 13 0 19 2 113 39 8 13 3 19 1 100 38 3 10 0 45 114 38 179 13 4 19 1 84 12 13 2 14 71 13 4 19 1 84 12 10 2 17 93 12 15 115 13 4 19 1 84 12 10 2 16 92 17 93 12 13 4 19 1 84 12 10 2 16 92 17 93 12 8 -30 17 94 12 19 2 95 12 19 2 96 12 19 2 95 12 13 5 10 3 17 93 12 13 3 19 3 37 17 85 12 19 3 86 8 1 45 116 13 3 13 0 19 2 37 51 3 43 1 8 1 45 117 13 4 13 0 19 2 37 51 4 43 1 13 3 13 1 19 2 101 39 5 8 0 51 3 13 2 13 4 19 1 100 12 19 2 101 39 32 13 4 19 1 84 12 9 0 13 4 19 1 84 12 13 4 19 1 100 16 92 17 93 12 19 3 86 8 1 51 2 10 0 16 92 12 53 0 10 0 16 118 39 -183 43 1 13 3 19 1 100 16 92 45 114 38 144 13 4 19 1 84 12 13 2 14 71 13 4 19 1 84 12 10 2 17 93 12 15 119 13 4 19 1 84 12 10 2 16 92 17 93 12 13 4 19 1 84 12 10 2 16 92 17 93 12 8 -30 17 94 12 19 2 95 12 19 2 96 12 19 2 95 12 13 2 19 2 120 17 85 12 19 3 86 8 1 45 121 13 3 13 0 19 2 37 51 3 43 1 13 2 13 4 19 1 100 12 19 2 101 39 32 13 4 19 1 84 12 9 0 13 4 19 1 84 12 13 4 19 1 100 16 92 17 93 12 19 3 86 8 1 51 2 10 0 16 92 12 53 0 10 0 16 118 39 -148 43 1 13 3 19 1 84 12 9 0 15 64 19 3 86 43 3 29) #1# #2# 9890) common-lisp-user::genrand_int32 (defun common-lisp-user::genrand_int32) (#2# . 11356) (&optional (common-lisp-user::state common-lisp-user::*default-random-state*)) common-lisp-user::y >= common-lisp-user::kk logand 1+ logior common-lisp-user::mt-m #:g5350 #:g5362 #:g5367 #:g5368 #:g5370 #:g5372 #:g5371 #:g5373 #:g5375 common-lisp-user::mt-count #:g5374 2636928640 4022730752 #Y(common-lisp-user::genrand_int32 nil nil (25 40 3 14 75 46 83 26 8 0 45 127 13 1 19 1 90 12 13 1 19 1 100 12 19 2 128 39 450 8 0 45 129 13 2 19 1 90 12 13 2 19 1 100 12 19 2 113 39 8 9 5489 13 2 19 2 78 38 119 13 2 19 1 84 12 10 0 17 93 12 14 63 19 2 130 12 13 2 19 1 84 12 10 0 16 131 17 93 12 14 67 19 2 130 12 19 2 132 51 1 13 2 19 1 84 12 13 0 13 2 19 1 84 12 13 0 13 2 19 1 133 12 19 2 37 17 93 12 13 1 8 -1 17 94 12 13 1 9 1 19 2 130 16 118 39 6 8 0 73 38 4 11 57 73 12 19 3 95 12 19 3 86 8 1 45 134 13 1 13 0 19 2 37 51 1 43 1 13 0 13 2 19 1 100 12 13 2 19 1 133 12 19 2 120 12 19 2 128 39 -140 38 129 13 2 19 1 84 12 10 0 17 93 12 14 63 19 2 130 12 13 2 19 1 84 12 10 0 16 131 17 93 12 14 67 19 2 130 12 19 2 132 51 1 13 2 19 1 84 12 13 0 13 2 19 1 84 12 13 0 13 2 19 1 133 12 13 2 19 1 100 12 19 2 120 12 19 2 37 17 93 12 13 1 8 -1 17 94 12 13 1 9 1 19 2 130 16 118 39 6 8 0 73 38 4 11 57 73 12 19 3 95 12 19 3 86 8 1 45 135 13 1 13 0 19 2 37 51 1 43 1 13 0 13 2 19 1 100 16 92 12 19 2 128 39 -142 13 2 19 1 84 12 13 2 19 1 100 16 92 17 93 12 14 63 19 2 130 12 13 2 19 1 84 12 8 0 17 93 12 14 67 19 2 130 12 19 2 132 51 1 13 2 19 1 84 12 13 2 19 1 100 16 92 12 13 2 19 1 84 12 13 2 19 1 133 16 92 17 93 12 13 1 8 -1 17 94 12 13 1 9 1 19 2 130 16 118 39 6 8 0 73 38 4 11 57 73 12 19 3 95 12 19 3 86 10 2 45 136 8 0 45 137 13 1 15 10 9 2 13 0 19 4 89 43 1 43 1 43 1 13 1 19 1 84 12 13 1 19 1 90 17 93 51 0 10 1 45 138 8 1 45 139 13 1 19 1 90 12 13 0 19 2 37 45 140 13 2 15 10 9 2 13 0 19 4 89 43 3 10 1 45 141 8 1 45 142 13 1 19 1 143 12 13 0 19 2 37 45 144 13 2 15 10 9 4 13 0 19 4 89 43 3 13 0 13 0 8 -11 17 94 12 19 2 95 51 0 13 0 13 0 8 7 17 94 12 15 145 19 2 130 12 19 2 95 51 0 13 0 13 0 8 15 17 94 12 15 146 19 2 130 12 19 2 95 51 0 13 0 13 0 8 -18 17 94 12 19 2 95 51 0 10 0 73 43 1 29) #1# #2# 11356) common-lisp-user::genrand_real2_l (defun common-lisp-user::genrand_real2_l) (#2# . 14346) (&optional (common-lisp-user::state common-lisp-user::*default-random-state*)) 4.294967296l9 / #Y(common-lisp-user::genrand_real2_l nil nil (25 40 3 14 75 46 83 26 13 0 19 1 123 12 15 152 19 2 153 29) #1# #2# 14346) common-lisp-user::genrand_real2 (defun common-lisp-user::genrand_real2) (#2# . 14460) (&optional (common-lisp-user::state common-lisp-user::*default-random-state*)) 4.2949673e9 #Y(common-lisp-user::genrand_real2 nil nil (25 40 3 14 75 46 83 26 13 0 19 1 123 12 15 159 19 2 153 29) #1# #2# 14460) common-lisp-user::act-r-random-module "ACT-R-RANDOM-MODULE-" (common-lisp-user::state common-lisp-user::randomize-time (common-lisp-user::lock #14=(bordeaux-threads::make-lock #15="random-lock"))) ((common-lisp-user::state nil t nil 0 nil) (common-lisp-user::randomize-time nil t nil 1 nil) (common-lisp-user::lock #14# t nil 2 nil)) common-lisp-user::copy-act-r-random-module (common-lisp-user::make-act-r-random-module) common-lisp-user::act-r-random-module-p (defstruct common-lisp-user::act-r-random-module) (#2# . 14570) common-lisp-user::make-act-r-random-module (defun common-lisp-user::make-act-r-random-module) (#2# . 14570) (&key #16=#:state #17=#:randomize-time (#18=#:lock (bordeaux-threads::make-lock #15#))) (nil :lock :randomize-time :state) #16# #17# #18# 0 #Y(common-lisp-user::make-act-r-random-module nil nil (28 174 22 40 2 77 46 175 22 40 2 77 46 176 22 40 2 77 46 177 15 178 13 2 13 1 13 0 19 4 53 29) #1# #2# 14570) common-lisp-user::create-random-module (defun common-lisp-user::create-random-module) (#2# . 15198) (ignore) ignore #:g5382 common-lisp-user::mt-start get-internal-real-time abs #:g5383 common-lisp-user::mt-initial-seed common-lisp-user::init-random-state-from-seed :state #Y(common-lisp-user::create-random-module nil nil (24 45 184 26 19 0 21 45 83 10 0 45 185 13 1 19 1 186 12 19 0 187 12 19 2 37 16 188 45 189 13 1 15 10 9 6 13 0 19 4 89 43 1 43 1 13 0 13 0 19 1 190 12 19 2 191 14 192 13 0 19 2 170 43 1 29) #1# #2# 15198) (defun common-lisp-user::init-random-state-from-seed) (#2# . 16079) (common-lisp-user::state common-lisp-user::seed) common-lisp-user::seed log ceiling <= :initial-contents #Y(common-lisp-user::init-random-state-from-seed nil nil (24 45 83 24 45 197 26 13 0 9 2 19 2 198 12 19 1 199 12 9 32 19 2 200 39 10 13 0 13 1 19 2 78 38 40 9 2 14 201 9 32 8 0 17 72 12 10 0 17 85 12 9 32 8 32 17 72 12 10 0 17 85 6 2 12 19 3 33 12 13 1 19 2 103 29) #1# #2# 16079) common-lisp-user::*default-random-module* (defvar common-lisp-user::*default-random-module*) (#2# . 16403) common-lisp-user::random-module-params (defun common-lisp-user::random-module-params) (#2# . 16464) (common-lisp-user::module common-lisp-user::param) common-lisp-user::module common-lisp-user::param consp :seed symbolp second common-lisp-user::act-r-random-module-state #:g5390 #:g5391 #:g5392 #:g5393 si::%dotimes-var < :randomize-time #:g5394 #:g5395 common-lisp-user::act-r-random-module-randomize-time #Y(common-lisp-user::random-module-params nil nil (24 45 210 24 45 211 26 10 0 16 212 39 168 10 0 4 42 213 129 10 0 5 16 214 76 73 39 118 10 0 5 4 12 10 0 5 16 215 12 13 1 19 1 216 12 46 83 46 45 46 197 13 2 13 0 19 2 191 10 2 45 217 8 0 45 218 13 1 15 10 9 4 13 0 19 4 89 43 1 43 1 10 2 45 219 10 1 45 220 13 1 15 10 9 6 13 0 19 4 89 43 1 43 1 10 1 45 221 8 0 45 111 38 12 13 4 19 1 123 10 0 16 131 51 0 13 0 13 1 19 2 222 40 -19 43 2 13 0 10 1 6 2 73 43 3 38 32 42 223 27 10 1 45 224 10 1 5 45 225 13 1 15 161 9 1 13 0 19 4 89 43 1 43 1 38 3 75 73 38 42 10 0 42 213 25 13 1 19 1 216 12 19 1 190 12 13 1 19 1 216 12 19 1 143 6 2 73 38 13 42 223 8 13 1 19 1 226 38 3 75 73 29) #1# #2# 16464) common-lisp-user::valid-random-module-seed (defun common-lisp-user::valid-random-module-seed) (#2# . 17685) (common-lisp-user::x) common-lisp-user::x common-lisp-user::no-default eq listp integerp minusp #Y(common-lisp-user::valid-random-module-seed nil nil (24 45 232 26 10 0 16 214 39 7 13 0 1 233 17 234 73 40 55 10 0 16 235 73 39 48 10 0 16 109 12 9 2 19 2 101 73 39 35 10 0 4 16 236 73 39 27 10 0 4 16 237 76 73 39 18 10 0 16 215 16 236 73 39 9 10 0 16 215 16 237 76 73 29) #1# #2# 17685) common-lisp-user::valid-randomize-time-value (defun common-lisp-user::valid-randomize-time-value) (#2# . 18070) (common-lisp-user::x) t #Y(common-lisp-user::valid-randomize-time-value nil nil (24 45 232 26 13 0 11 243 17 234 73 40 11 10 0 76 73 40 5 10 0 16 236 29) #1# #2# 18070) common-lisp-user::random-module :documentation "Current seed of the random number generator" :valid-test :default-value :warning "a list of two non-negative integers" common-lisp-user::define-parameter "T, nil, or an integer" "Allows the timing of certain actions to vary" :version "2.0" "Provide a good and consistent source of pseudorandom numbers for all systems" :creation :params :required common-lisp-user::define-module-fct common-lisp-user::act-r-random (defun common-lisp-user::act-r-random) (#2# . 18918) (common-lisp-user::limit) common-lisp-user::limit numberp plusp common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model common-lisp-user::get-module-fct 4294967295 floor common-lisp-user::nums common-lisp-user::accum mod "print-warning" "~@?" "Act-r-random called with an invalid value ~s" format common-lisp-user::evaluate-act-r-command #Y(common-lisp-user::act-r-random nil nil (24 45 266 26 10 0 16 267 39 5 10 0 16 268 39 174 11 269 40 13 19 0 270 45 271 13 0 19 1 272 43 1 39 9 15 245 77 19 2 273 38 3 11 203 45 210 10 1 16 236 39 119 13 1 15 274 19 2 222 39 25 13 1 13 0 19 1 216 12 19 1 148 12 19 2 96 12 19 1 275 12 72 1 38 84 9 0 13 1 9 2 19 2 198 16 131 12 9 32 19 2 153 12 19 1 199 12 46 276 46 277 10 1 45 221 8 0 45 111 38 29 13 2 8 32 17 94 12 13 4 19 1 216 12 19 1 123 12 19 2 37 51 2 10 0 16 131 51 0 13 0 13 1 19 2 222 40 -36 43 2 13 0 10 3 17 278 43 2 38 16 13 1 13 0 19 1 216 12 19 1 155 12 19 2 96 43 1 38 19 15 279 77 15 280 15 281 13 0 19 4 282 12 19 2 283 75 73 29) #1# #2# 18918) "act-r-random" "Return a random number up to limit using the current model's random stream. Params: limit." common-lisp-user::add-act-r-command common-lisp-user::act-r-noise (defun common-lisp-user::act-r-noise) (#2# . 19992) (common-lisp-user::s) 1.e-4 1.0 0.9999 min max common-lisp-user::p "Cannot take log of 0 returning most negative float value" -3.4028235e38 "Act-r-noise called with an invalid s ~S" #Y(common-lisp-user::act-r-noise nil nil (24 45 82 26 10 0 16 267 39 5 10 0 16 268 39 83 15 292 15 293 19 1 262 12 15 294 19 2 295 12 19 2 296 45 297 13 1 15 293 13 0 19 2 120 12 13 0 19 2 153 16 118 39 20 15 279 77 15 280 15 298 19 3 282 12 19 2 283 1 299 73 38 18 15 293 13 0 19 2 120 12 13 0 19 2 153 12 19 1 198 12 19 2 96 43 1 38 19 15 279 77 15 280 15 300 13 0 19 4 282 12 19 2 283 75 73 29) #1# #2# 19992) function "Approximates a sample from a normal distribution with mean zero and
+   the given s-value (/ (sqrt (* 3.0 variance)) 3.1416)." si::set-documentation "act-r-noise" "Return a random sample from a logistic distribution with mean 0 and s value provided using the current model's random stream. Params: s-value." common-lisp-user::randomize-time (defun common-lisp-user::randomize-time) (#2# . 20617) (time) time common-lisp-user::rand-module common-lisp-user::rand common-lisp-user::tscale 2.0 "Invalid value passed to randomize-time: ~S" #Y(common-lisp-user::randomize-time nil nil (24 45 311 26 10 0 16 267 39 88 15 245 77 19 2 273 45 312 10 0 39 69 13 0 19 1 226 45 313 10 0 76 40 5 10 2 16 118 39 6 10 2 73 38 42 10 0 16 267 39 5 10 0 38 3 8 3 45 314 13 3 13 0 19 2 153 12 13 0 9 -1 15 315 19 1 262 12 19 3 37 12 19 2 96 43 1 43 1 38 4 10 1 73 43 1 38 20 15 279 77 15 280 15 316 13 0 19 4 282 12 19 2 283 10 0 73 29) #1# #2# 20617) "randomize-time" "If :randomize-time is enabled return a random result from the uniform distribution from time - time/n to time + time/n where n is the :randomize-time value. Params: time." common-lisp-user::randomize-time-ms (defun common-lisp-user::randomize-time-ms) (#2# . 21908) (time) round step "Invalid value passed to randomize-time-ms: ~S. Value must be an integer." #Y(common-lisp-user::randomize-time-ms nil nil (24 45 311 26 10 0 16 236 39 97 15 245 77 19 2 273 45 312 10 0 39 78 13 0 19 1 226 45 313 10 0 76 40 5 10 2 16 118 39 6 10 2 73 38 51 10 0 16 267 39 5 10 0 38 3 8 3 45 314 13 3 13 0 19 2 324 45 325 13 4 13 0 19 1 120 12 9 1 13 0 13 0 19 3 37 12 19 1 262 12 19 3 37 43 2 43 1 38 4 10 1 73 43 1 38 20 15 279 77 15 280 15 326 13 0 19 4 282 12 19 2 283 10 0 73 29) #1# #2# 21908) "randomize-time-ms" "If :randomize-time is enabled return a random integer result from the uniform distribution from time - time/n to time + time/n where n is the :randomize-time value. Params: time." common-lisp-user::permute-list (defun common-lisp-user::permute-list) (#2# . 22830) (common-lisp-user::lis) common-lisp-user::lis nth common-lisp-user::item :count remove common-lisp-user::temp common-lisp-user::result #Y(common-lisp-user::permute-list nil nil (24 45 334 26 10 0 16 235 39 3 10 0 39 84 10 0 16 109 12 19 1 262 12 10 0 17 335 45 336 13 0 13 1 14 337 9 1 19 4 338 45 339 10 1 6 1 45 340 38 36 10 1 16 109 12 19 1 262 12 10 1 17 335 51 2 13 2 13 1 14 337 9 1 19 4 338 51 1 13 2 10 0 3 51 0 10 1 76 39 -39 10 0 73 43 3 38 3 75 73 29) #1# #2# 22830) "Return a random permutation of the list" "permute-list" "Return a randomly ordered copy of the list provided using the current model's random stream. Params: list.")) #2# 0) #Y(si::bytecodes nil nil (1 7 16 1 1 7 16 2 76 39 4 75 52 7 15 7 15 3 15 8 15 9 19 4 6 1 7 73 29) #1# #2# 8478) #Y(si::bytecodes nil nil (15 10 15 11 77 77 15 12 15 13 15 14 77 77 77 15 15 9 7 77 77 15 16 19 15 17 15 18 15 3 15 19 15 20 19 4 6 15 21 15 3 15 22 15 23 19 4 6 15 21 14 24 77 15 25 19 4 6 15 10 19 1 56 78 52 15 21 1 54 12 19 2 55 1 10 73 29) #1# #2# 8536) #Y(si::bytecodes nil nil (15 57 1 57 16 2 39 7 1 57 16 58 38 3 1 59 17 60 15 57 15 3 15 61 15 62 19 4 6 1 57 73 29) #1# #2# 8900) #Y(si::bytecodes nil nil (15 63 1 63 16 2 39 7 1 63 16 58 38 3 1 64 17 60 15 63 15 3 15 65 15 66 19 4 6 1 63 73 29) #1# #2# 8979) #Y(si::bytecodes nil nil (15 67 1 67 16 2 39 7 1 67 16 58 38 3 1 68 17 60 15 67 15 3 15 69 15 70 19 4 6 1 67 73 29) #1# #2# 9021) #Y(si::bytecodes nil nil (15 71 1 71 16 2 39 7 1 71 16 58 38 7 9 32 8 0 17 72 17 60 15 71 15 3 15 73 15 74 19 4 6 1 71 73 29) #1# #2# 9063) #Y(si::bytecodes nil nil (1 75 16 1 1 75 16 2 76 39 6 19 0 21 52 75 15 75 15 3 15 76 15 77 19 4 6 1 75 73 29) #1# #2# 9178) #Y(si::bytecodes nil nil (15 78 15 3 15 79 15 80 19 4 6 15 78 14 24 77 15 81 19 4 6 15 78 1 102 12 19 2 55 1 78 73 29) #1# #2# 9267) #Y(si::bytecodes nil nil (15 103 15 3 15 104 15 105 19 4 6 15 103 14 24 77 15 106 19 4 6 15 103 1 122 12 19 2 55 1 103 73 29) #1# #2# 9890) #Y(si::bytecodes nil nil (15 123 15 3 15 124 15 125 19 4 6 15 123 14 24 77 15 126 19 4 6 15 123 1 147 12 19 2 55 1 123 73 29) #1# #2# 11356) #Y(si::bytecodes nil nil (15 148 15 3 15 149 15 150 19 4 6 15 148 14 24 77 15 151 19 4 6 15 148 1 154 12 19 2 55 1 148 73 29) #1# #2# 14346) #Y(si::bytecodes nil nil (15 155 15 3 15 156 15 157 19 4 6 15 155 14 24 77 15 158 19 4 6 15 155 1 160 12 19 2 55 1 155 73 29) #1# #2# 14460) #Y(si::bytecodes nil nil (15 161 15 162 77 77 15 163 15 164 15 165 77 77 77 15 166 9 3 77 77 15 167 19 15 17 15 161 15 3 15 168 15 169 19 4 6 15 170 15 3 15 171 15 172 19 4 6 15 170 14 24 77 15 173 19 4 6 15 161 19 1 56 78 178 15 170 1 179 12 19 2 55 1 161 73 29) #1# #2# 14570) #Y(si::bytecodes nil nil (15 180 15 3 15 181 15 182 19 4 6 15 180 14 24 77 15 183 19 4 6 15 180 1 193 12 19 2 55 1 180 73 29) #1# #2# 15198) #Y(si::bytecodes nil nil (15 191 15 3 15 194 15 195 19 4 6 15 191 14 24 77 15 196 19 4 6 15 191 1 202 12 19 2 55 1 191 73 29) #1# #2# 16079) #Y(si::bytecodes nil nil (1 203 16 1 1 203 16 2 76 39 7 77 19 1 180 52 203 15 203 15 3 15 204 15 205 19 4 6 1 203 73 29) #1# #2# 16403) #Y(si::bytecodes nil nil (15 206 15 3 15 207 15 208 19 4 6 15 206 14 24 77 15 209 19 4 6 15 206 1 227 12 19 2 55 1 206 73 29) #1# #2# 16464) #Y(si::bytecodes nil nil (15 228 15 3 15 229 15 230 19 4 6 15 228 14 24 77 15 231 19 4 6 15 228 1 238 12 19 2 55 1 228 73 29) #1# #2# 17685) #Y(si::bytecodes nil nil (15 239 15 3 15 240 15 241 19 4 6 15 239 14 24 77 15 242 19 4 6 15 239 1 244 12 19 2 55 1 239 73 29) #1# #2# 18070) #Y(si::bytecodes nil nil (15 245 77 14 213 14 246 15 247 14 248 15 228 14 249 15 233 14 250 15 251 19 9 252 12 14 223 14 248 15 239 14 249 77 14 250 15 253 14 246 15 254 19 9 252 6 2 12 14 255 15 256 14 246 15 257 14 258 15 180 14 259 15 206 14 260 14 243 19 13 261 29) #1# #2# 18160) #Y(si::bytecodes nil nil (15 262 15 3 15 263 15 264 19 4 6 15 262 14 24 77 15 265 19 4 6 15 262 1 284 12 19 2 55 1 262 73 29) #1# #2# 18918) #Y(si::bytecodes nil nil (15 285 15 262 15 286 77 19 4 287 29) #1# #2# 19845) #Y(si::bytecodes nil nil (15 288 15 3 15 289 15 290 19 4 6 15 288 14 24 77 15 291 19 4 6 15 288 1 301 12 19 2 55 15 288 15 302 15 303 19 3 304 1 288 73 29) #1# #2# 19992) #Y(si::bytecodes nil nil (15 305 15 288 15 306 77 19 4 287 29) #1# #2# 20418) #Y(si::bytecodes nil nil (15 307 15 3 15 308 15 309 19 4 6 15 307 14 24 77 15 310 19 4 6 15 307 1 317 12 19 2 55 1 307 73 29) #1# #2# 20617) #Y(si::bytecodes nil nil (15 318 15 307 15 319 77 19 4 287 29) #1# #2# 21677) #Y(si::bytecodes nil nil (15 320 15 3 15 321 15 322 19 4 6 15 320 14 24 77 15 323 19 4 6 15 320 1 327 12 19 2 55 1 320 73 29) #1# #2# 21908) #Y(si::bytecodes nil nil (15 328 15 320 15 329 77 19 4 287 29) #1# #2# 22585) #Y(si::bytecodes nil nil (15 330 15 3 15 331 15 332 19 4 6 15 330 14 24 77 15 333 19 4 6 15 330 1 341 12 19 2 55 15 330 15 302 15 342 19 3 304 1 330 73 29) #1# #2# 22830) #Y(si::bytecodes nil nil (15 343 15 330 15 344 77 19 4 287 29) #1# #2# 23323))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2004 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : random.lisp
+;;; Version     : 2.0
+;;; 
+;;; Description : Module that contains a pseudo-random number generator.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : Roll rand-time into the scheduling functions
+;;;             : Fill in the API details
+;;; 
+;;; ----- History -----
+;;;
+;;; 2004.09.17 Dan
+;;;             : Creation
+;;; 2005.01.04 Dan
+;;;             : Actually put a version of the Mersenne Twister in here.
+;;; 2005.01.07 Dan
+;;;             : Restored rand-time and :randomize-time so it works the
+;;;             : way it used to in PM (for now).
+;;; 2005.01.13 Dan
+;;;             : * Fixed an issue with how :seed set and reported values.
+;;;             :   If one was set explicitly, it didn't always report that
+;;;             :   same value back, but did properly reset the seed.
+;;;             : * Changed act-r-noise so it doesn't call random when s is
+;;;             :   0.
+;;; 2005.02.10 Dan
+;;;             : * Changed log to log-coerced in act-r-noise.
+;;; 2005.02.11 Dan
+;;;             : * Changed the declare in genrand_int32.
+;;; 2005.10.19 Dan
+;;;             : * Slight change to genrand_int32 to give y an initial value
+;;;             :   since the declare is a problem since y gets an initial
+;;;             :   value of nil and CMUCL doesn't like that at all...
+;;; 2006.01.17 Dan
+;;;             : * Updated the version to 1.0 since there haven't been any
+;;;             :   problems it's time to drop the "a".
+;;; 2006.08.11 Dan
+;;;             : * Adjusted randomize-time function and corresponding parameter
+;;;             :   so that the param forces the value to be an integer thus
+;;;             :   the check isn't needed in the function.  Also doesn't
+;;;             :   bother to do the rounding now since the scheduler does that
+;;;             :   automatically, and simplified the number of math operation
+;;;             :   necessary to get the time.
+;;; 2006.09.11 Dan
+;;;             : * Take the unnecessary zerop test out of act-r-noise because
+;;;             :   the plusp already rejects that case.
+;;; 2009.09.10 Dan
+;;;             : * Moved permute-list here from the act-gui-interface.lisp file.
+;;; 2011.09.02 Dan
+;;;             : * Wrapped an abs around the initial seed setting since some
+;;;             :   Lisps (ACL 6.2 in the standalone in particular) were returning
+;;;             :   a negative from get-internal-real-time for some reason.
+;;; 2012.09.27 Dan
+;;;             : * Added a genrand_real2_L for internal use which specifies
+;;;             :   the float as long for the division to avoid the situation
+;;;             :   where the result is 1.0 due to the floating point size.
+;;;             :   That's only used when the request is for an integer however
+;;;             :   to avoid returning a different float type than asked for.
+;;;             :   Thus, this only avoids (act-r-random INT) = INT errors not
+;;;             :   (act-r-random FLOAT) = FLOAT if the default float size is
+;;;             :   too small to represent 1 - 4294967295/4294967296.0.  Of 
+;;;             :   course if the largest float size is too small to represent
+;;;             :   that then errors are also still possible for integers too.
+;;; 2015.08.13 Dan
+;;;             : * Basically eliminate rand-time and have it just print a warning
+;;;             :   and return the time it was passed for now.
+;;; 2015.08.17 Dan
+;;;             : * Added the randomize-time-ms function for randomizing times
+;;;             :   that are in ms because they need to return integer results.
+;;;             :   It's not quite the same as converting to seconds, randomizing 
+;;;             :   that, and then rounding back to milliseconds because that 
+;;;             :   is inefficient, but it's pretty close (the probability of
+;;;             :   the extreme values in the range are uniform with this whereas
+;;;             :   with the other method they aren't since they would be rounded
+;;;             :   to milliseconds after the fact).
+;;; 2017.01.11 Dan
+;;;             : * Adding dispatcher functions for act-r-random and permute-list.
+;;; 2017.01.18 Dan
+;;;             : * Removed the echo-act-r-output from commands.  The assumption
+;;;             :   now is that echoing is handled by the user.
+;;;             : * Use handle-evaluate-results.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.02.08 Dan
+;;;             : * Reworked the local versions of the remote commands to not
+;;;             :   go out through the dispatcher.
+;;; 2017.06.01 Dan
+;;;             : * Changed how act-r-random checks for a current model and gets
+;;;             :   the module to avoid the warnings when it has to default to 
+;;;             :   the default state.
+;;; 2017.06.28 Dan
+;;;             : * Adding a lock on the module, make the global actually a
+;;;             :   module and not just a mersenne-twister, and then add a
+;;;             :   new global to serve as the default state.
+;;; 2017.12.14 Dan
+;;;             : * Fix a typo in the doc string for permute-list.
+;;; 2018.02.28 Dan
+;;;             : * Add remote commands for act-r-noise, randomize-time, and
+;;;             :   randomize-time-ms.
+;;; 2018.06.15 Dan
+;;;             : * Updated doc strings for consistency.
+;;; 2018.08.27 Dan
+;;;             : * The incf in the constructor really should be protected by
+;;;             :   a lock for safety so adding that.
+;;; 2020.01.10 Dan [1.1]
+;;;             : * Removed the lambdas from the module interface functions
+;;;             :   since that's not allowed in the general system now.
+;;; 2020.08.25 Dan
+;;;             : * Replaced constants that had *...* with +...+ to avoid the
+;;;             :   warnings in SBCL.
+;;;             : * Switch from defconstant to the define-constant macro to 
+;;;             :   avoid issues with SBCL (instead of redefining defconstant
+;;;             :   for SBCL as was done previously).
+;;;             : * Specify an initial value and change the type for the array
+;;;             :   to make SBCL happy...
+;;; 2021.10.19 Dan [2.0]
+;;;             : * Set the :required flag on the module.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; act-r-random
+;;;
+;;; act-r-noise
+;;;
+;;; randomize-time
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; I chose to use the Mersenne Twister generator (as implemented in the C file
+;;; mt19937ar.c) for the pseudorandom number generator.  It is considered to
+;;; be the best one available for Monte Carlo simulation and is currently the
+;;; same one used already in ACL and CMUCL as well as being an option for 
+;;; LispWorks.  So, putting it into the code for ACT-R in many cases doesn't
+;;; even really change how the models will run since the same generator would
+;;; have been used with random anyway.
+;;;
+;;; The big benefit is in being able to record the seed in a consistent cross-
+;;; platform manner that is easy to work with instead of the Lisp specific
+;;; *random-states*.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+;(eval-when (:compile-toplevel :Load-toplevel :execute)
+;  (proclaim '(optimize (speed 3) (space 0) (saftey 0))))
+
+;;; Start off with code for the pseudorandom number generator
+
+(defvar *random-module-counter* -1)
+(defvar *random-lock* (bt:make-lock "random-lock-count"))
+
+(defstruct (mersenne-twister (:conc-name mt-))
+  (n 624 :type fixnum)
+  (m 397 :type fixnum)
+  (mti 625 :type fixnum)
+  (mt (make-array 624 :element-type '(or bignum integer) :initial-element 0) :type vector)
+  (count 0 :type integer)
+  (start (bt:with-lock-held (*random-lock*) (incf *random-module-counter*)) :type integer)
+  (initial-seed 5489 :type integer))
+
+;; Some constants from the algorithm
+
+(define-constant +matrix_a+ #x9908b0df)
+(define-constant +upper_mask+ #x80000000)
+(define-constant +lower_mask+ #x7fffffff)
+
+
+;; Truncating numbers down to 32 bits with ldb so make this a constant
+(define-constant +byte-32-0+ (byte 32 0))
+;(defconstant *b1* (byte 1 31))
+
+(defvar *default-random-state* (make-mersenne-twister))
+
+;;; functions translated from the C code of mt19937ar.c and 
+;;; modified as necessary to take a state parameter.
+
+(defun init_genrand (s &optional (state *default-random-state*))
+  (setf (svref (mt-mt state) 0) (ldb +byte-32-0+ s))
+  
+  (setf (mt-mti state) 1)
+  (do ()
+      ((= (mt-mti state) (mt-n state)))
+    (setf (svref (mt-mt state) (mt-mti state))
+      (ldb +byte-32-0+
+           (+ (* 1812433253
+                 (logxor (svref (mt-mt state) (1- (mt-mti state)))
+                         (ash (svref (mt-mt state) (1- (mt-mti state))) -30)))
+              (mt-mti state)))
+      )
+    (incf (mt-mti state))))
+
+
+(defun init_by_array (init_key &optional (state *default-random-state*))
+  (init_genrand 19650218 state)
+  (let ((key_length (length init_key))
+        (i 1 )
+        (j 0 ))
+    (declare (fixnum i j))
+    (do ((k (if (> (mt-n state) key_length)
+                (mt-n state)
+              key_length)
+            (1- k)))
+        ((zerop k))
+      (setf (svref (mt-mt state) i)
+        (ldb +byte-32-0+
+             (+ (logxor (svref (mt-mt state) i)
+                        (* 1664525
+                           (logxor (svref (mt-mt state) (1- i))
+                                   (ash (svref (mt-mt state) (1- i)) -30))))
+                (svref init_key j) j)))
+      (incf i)
+      (incf j)
+      (when (= j key_length)
+        (setf j 0))
+      (when (= i (mt-n state))
+        (setf (svref (mt-mt state) 0) (svref (mt-mt state) (1- (mt-n state))))
+        (setf i 1)))
+    
+    (do ((k (1- (mt-n state))
+           (1- k)))
+        ((zerop k))
+      (setf (svref (mt-mt state) i)
+        (ldb +byte-32-0+
+             (- (logxor (svref (mt-mt state) i)
+                      (* 1566083941
+                         (logxor (svref (mt-mt state) (1- i))
+                                 (ash (svref (mt-mt state) (1- i)) -30))))
+                i)))
+      (incf i)
+      (when (= i (mt-n state))
+        (setf (svref (mt-mt state) 0)
+          (svref (mt-mt state) (1- (mt-n state))))
+        (setf i 1)))
+    
+    (setf (svref (mt-mt state) 0) #x80000000)))
+
+;; Some different versions of the computation are included here
+;; because I want to test them in different lisps/oss
+
+(defun genrand_int32(&optional (state *default-random-state*))
+  (let ((y 0))
+    (declare (type integer y))
+    
+    (when (>= (mt-mti state) (mt-n state))
+      (let ((kk 0))
+        (when (> (mt-mti state) (mt-n state))
+          (init_genrand 5489 state))
+        (do ()
+            ((>= kk (- (mt-n state) (mt-m state))))
+          (setf y 
+            ;(logior (logand (svref mt kk) +upper_mask+)
+            ;        (ldb (byte 31 0) (svref mt (1+ kk)))) 
+            
+            ;(dpb (ldb *b1* (svref mt kk))
+            ;     *b1* 
+            ;     (ldb (byte 31 0) (svref mt (1+ kk))))
+            
+            (logior (logand (svref (mt-mt state) kk) +upper_mask+)
+                    (logand (svref (mt-mt state) (1+ kk)) +lower_mask+))
+            
+            )
+          (setf (svref (mt-mt state) kk)
+            (logxor (svref (mt-mt state) (+ kk (mt-m state)))
+                    (ash y -1)
+                    (if (zerop (logand y 1))
+                        0
+                      +matrix_a+)))
+          (incf kk))
+        
+        (do ()
+            ((>= kk (1- (mt-n state))))
+          (setf y 
+            ;(logior (logand (svref mt kk) +upper_mask+)
+            ;        (ldb (byte 31 0) (svref mt (1+ kk))))
+            
+            ;(dpb (ldb *b1* (svref mt kk))
+            ;     *b1* 
+            ;     (ldb (byte 31 0) (svref mt (1+ kk))))
+            
+            (logior (logand (svref (mt-mt state) kk) +upper_mask+)
+                    (logand (svref (mt-mt state) (1+ kk)) +lower_mask+))
+            )
+          (setf (svref (mt-mt state) kk)
+            (logxor (svref (mt-mt state) (+ kk (- (mt-m state) (mt-n state))))
+                    (ash y -1)
+                    (if (zerop (logand y 1))
+                        0
+                      +matrix_a+)))
+          (incf kk))
+        
+        (setf y 
+          ;(logior (logand (svref mt (1- *n*)) +upper_mask+)
+          ;          (ldb (byte 31 0) (svref mt 0)))
+          
+          ;(dpb (ldb *b1* (svref mt (1- *n*)))
+          ;       *b1* 
+          ;     (ldb (byte 31 0) (svref mt 0)))
+          
+          (logior (logand (svref (mt-mt state) (1- (mt-n state))) +upper_mask+)
+                    (logand (svref (mt-mt state) 0) +lower_mask+))          
+          )
+        (setf (svref (mt-mt state) (1- (mt-n state)))
+          (logxor (svref (mt-mt state) (1- (mt-m state)))
+                  (ash y -1)
+                  (if (zerop (logand y 1))
+                      0
+                    +matrix_a+)))
+        
+        (setf (mt-mti state) 0)))
+    
+    (setf y (svref (mt-mt state) (mt-mti state)))
+    (incf (mt-mti state))
+    (incf (mt-count state))
+    
+    
+    (setf y (logxor y (ash y -11)))
+    (setf y (logxor y (logand (ash y 7) #x9d2c5680)))
+    (setf y (logxor y (logand (ash y 15) #xefc60000)))
+    (setf y (logxor y (ash y -18)))
+    
+    y))
+
+(defun genrand_real2_L (&optional (state *default-random-state*))
+    (/  (genrand_int32 state) 4294967296.0L0))
+
+(defun genrand_real2 (&optional (state *default-random-state*))
+    (/  (genrand_int32 state) 4294967296.0))
+
+#|
+This function should produce the same numbers as the 2000 
+in the test output file provided with mt19937ar.c -> mt19937ar.out.txt 
+
+(defun test-mt-generator ()
+  (let ((res1 nil)
+        (res2 nil)
+        (init (make-array 4 :initial-contents 
+                          '(#x123 #x234 #x345 #x456))))
+    (init_by_array init)
+    (dotimes (i 1000)
+      (push (genrand_int32) res1))
+    (dotimes (i 1000)
+      (push (genrand_real2) res2))
+    (list (reverse res1) (reverse res2))))
+|#
+
+;; Here's the actual module definition code
+
+(defstruct act-r-random-module 
+  state randomize-time (lock (bt:make-lock "random-lock")))
+
+
+(defun create-random-module (ignore)
+  (declare (ignore ignore))
+  (let ((state (make-mersenne-twister)))
+    
+    ;; Here's where we initialize the thing - not in reset
+    ;; since that defeats the purpose of having a good generator.
+    
+    ;; Use get-internal-real-time to randomly seed things.
+    ;; However, get-internal-real-time may be > 32 bits and we also don't
+    ;; want two modules having the same initial seed because they happened
+    ;; to be created at the "same" time.  So also add a count of modules
+    ;; created so far to the time returned and if that is > 32 bits
+    ;; build an array of numbers to do the initializing.
+    
+    (setf (mt-initial-seed state)
+      (abs (+ (mt-start state)
+              (get-internal-real-time))))
+    
+    (init-random-state-from-seed state (mt-initial-seed state))
+    
+    (make-act-r-random-module :state state)))
+
+
+(defun init-random-state-from-seed (state seed)
+  
+  (if (<= (ceiling (log seed 2)) 32)
+      (init_genrand seed state)
+    (init_by_array (make-array 
+                    2 :initial-contents 
+                    (list (ldb (byte 32 0) seed)
+                          (ldb (byte 32 32) seed)))
+                   state)))
+
+(defvar *default-random-module* (create-random-module nil))
+
+
+
+(defun random-module-params (module param)
+  (bt:with-lock-held ((act-r-random-module-lock module))
+    (cond ((consp param)
+           
+           (case (car param)
+             (:seed (unless (symbolp (cdr param))
+                      ;; ignore the case when it sends the "default"
+                      (let ((seed (first (cdr param)))
+                            (count (second (cdr param)))
+                            (state (act-r-random-module-state module)))
+                        
+                        (init-random-state-from-seed state seed)
+                        (setf (mt-count state) 0)
+                        (setf (mt-initial-seed state) seed)
+                        (dotimes (i count)
+                          (genrand_int32 state))
+                        (list seed count))))
+             
+             (:randomize-time (setf (act-r-random-module-randomize-time module)
+                                (cdr param)))))
+          (t 
+           (case param
+             (:seed (list (mt-initial-seed (act-r-random-module-state module))
+                          (mt-count (act-r-random-module-state module))))
+             (:randomize-time (act-r-random-module-randomize-time module)))))))
+
+
+(defun valid-random-module-seed (x)
+  (or (and (symbolp x) (eq x 'no-default))
+                         (and (listp x)
+                              (= (length x) 2)
+                              (integerp (first x))
+                              (not (minusp (first x)))
+                              (integerp (second x))
+                              (not (minusp (second x))))))
+
+(defun valid-randomize-time-value (x)
+  (or (eq x t)
+      (null x)
+      (integerp x)))
+
+(define-module-fct 'random-module nil 
+  (list 
+   (define-parameter :seed 
+     :documentation "Current seed of the random number generator"
+     :valid-test 'valid-random-module-seed
+     :default-value 'no-default
+     :warning "a list of two non-negative integers"
+     )
+   (define-parameter :randomize-time 
+       :valid-test 'valid-randomize-time-value
+     :default-value nil
+     :warning "T, nil, or an integer"
+     :documentation 
+     "Allows the timing of certain actions to vary")
+   )
+  :version "2.0"
+  :documentation 
+  "Provide a good and consistent source of pseudorandom numbers for all systems"
+  :creation 'create-random-module
+  ; Don't need to do anything special on reset :reset ...
+  :params 'random-module-params
+  :required t)
+
+
+(defun act-r-random (limit)
+  (if (and (numberp limit) (plusp limit))
+      (let ((module (if (current-model-struct)
+                        (get-module random-module)
+                      *default-random-module*)))
+        (bt:with-lock-held ((act-r-random-module-lock module))
+          (cond ((integerp limit)
+                 (if (< limit #xffffffff)
+                     (values (floor (* limit (genrand_real2_L (act-r-random-module-state module)))))
+                   (let ((accum 0)
+                         (nums (ceiling (/ (1+ (log limit 2)) 32))))
+                     (dotimes (i nums)
+                       (setf accum (+ (ash accum 32) (genrand_int32 (act-r-random-module-state module)))))
+                     (mod accum limit))))
+                (t
+                 (* limit (genrand_real2 (act-r-random-module-state module)))))))
+    (print-warning "Act-r-random called with an invalid value ~s" limit)))
+
+(add-act-r-command "act-r-random" 'act-r-random "Return a random number up to limit using the current model's random stream. Params: limit." nil)
+
+
+(defun act-r-noise (s)
+  "Approximates a sample from a normal distribution with mean zero and
+   the given s-value (/ (sqrt (* 3.0 variance)) 3.1416)."
+  ;; Need to test bound because of short-float lack of precision
+  (if (and (numberp s) (plusp s))
+      (let ((p (max 0.0001 (min (act-r-random 1.0) 0.9999))))
+        (* s (log-coerced (/ (- 1.0 p) p))))
+    (print-warning "Act-r-noise called with an invalid s ~S" s)))
+  
+(add-act-r-command "act-r-noise" 'act-r-noise "Return a random sample from a logistic distribution with mean 0 and s value provided using the current model's random stream. Params: s-value." nil)
+
+;;; Do it this way so that later it is easier
+;;; to just disable rand-time and let the scheduler
+;;; use randomize-time so that the modules don't have
+;;; to be immediately cleaned up.
+
+(defun randomize-time (time)
+  (if (numberp time)
+      (let ((rand-module (get-module random-module)))
+        (if rand-module
+            (let ((rand (bt:with-lock-held ((act-r-random-module-lock rand-module)) (act-r-random-module-randomize-time rand-module))))
+              (if (or (not rand) (zerop time))
+                  time
+                (let* ((tscale (if (numberp rand) rand 3)))  ;; default when t is 3
+                  ;; Old way
+                  ;(min (float (* time (/ (1- tscale) tscale))))
+                  ;(max (float (* time (/ (1+ tscale) tscale)))))
+                  ;(+ min (act-r-random (- max min))))
+                  
+                  ;; simplified
+                  (* (/ time tscale) (+ tscale -1 (act-r-random 2.0))))))
+          time))
+    (progn
+      (print-warning "Invalid value passed to randomize-time: ~S" time)
+      time)))
+
+(add-act-r-command "randomize-time" 'randomize-time "If :randomize-time is enabled return a random result from the uniform distribution from time - time/n to time + time/n where n is the :randomize-time value. Params: time." nil)
+
+(defun randomize-time-ms (time)
+  (if (integerp time)
+      (let ((rand-module (get-module random-module)))
+        (if rand-module
+            (let ((rand (bt:with-lock-held ((act-r-random-module-lock rand-module)) (act-r-random-module-randomize-time rand-module))))
+              (if (or (not rand) (zerop time))
+                  time
+                (let* ((tscale (if (numberp rand) rand 3))  ;; default w
+                       (step (round time tscale)))
+                  (+ time (- step) (act-r-random (+ 1 step step))))))
+          time))
+    (progn
+      (print-warning "Invalid value passed to randomize-time-ms: ~S. Value must be an integer." time)
+      time)))
+
+(add-act-r-command "randomize-time-ms" 'randomize-time-ms "If :randomize-time is enabled return a random integer result from the uniform distribution from time - time/n to time + time/n where n is the :randomize-time value. Params: time." nil)
+
+;;; PERMUTE-LIST  [Function]
+;;; Description : This function returns a randomly ordered copy of the passed
+;;;             : in list.
+
+(defun permute-list (lis)
+  "Return a random permutation of the list"
+  (if (and (listp lis) lis)
+      (do* ((item (nth (act-r-random (length lis)) lis) (nth (act-r-random (length temp)) temp))
+        (temp (remove item lis :count 1) (remove item temp :count 1))
+        (result (list item) (cons item result)))
+           ((null temp) result))
+    nil))
+
+(add-act-r-command "permute-list" 'permute-list "Return a randomly ordered copy of the list provided using the current model's random stream. Params: list." nil)
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                               (#Y(si::bytecodes nil nil (1 0 16 1 29) #1=#A(t (795) ((ftype (function nil t) common-lisp-user::print-visicon) proclaim (ftype (function nil t) common-lisp-user::delete-chunks-after-run) (ftype (function nil t) common-lisp-user::update-chunks-at-all) (ftype (function (t) t) common-lisp-user::filter-test) common-lisp-user::*periodic-event-id-counter* si::*make-special boundp ext::location (defvar common-lisp-user::*periodic-event-id-counter*) (#2=#P"/opt/actr/actr7.x/framework/scheduling.lisp" . 33163) ext::annotate common-lisp-user::*periodic-event-lock* (defvar common-lisp-user::*periodic-event-lock*) (#2# . 33203) common-lisp-user::*allow-event-output* t (defvar common-lisp-user::*allow-event-output*) (#2# . 33266) common-lisp-user::skip-unnecessary-events (defun common-lisp-user::skip-unnecessary-events) (#2# . 33299) :lambda-list (common-lisp-user::mp) common-lisp-user::mp common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::meta-p-default-model common-lisp-user::cm common-lisp-user::next-scheduled-event common-lisp-user::next-event common-lisp-user::act-r-event-precondition common-lisp-user::act-r-event-model common-lisp-user::act-r-event-destination common-lisp-user::get-module-fct common-lisp-user::act-r-event-params append common-lisp-user::dispatch-apply-list common-lisp-user::unnecessary common-lisp-user::remove-scheduled-event #Y(common-lisp-user::skip-unnecessary-events nil nil (24 45 24 26 11 25 40 13 19 0 26 45 24 13 0 19 1 27 43 1 45 28 13 1 19 1 29 45 30 10 0 39 84 13 0 19 1 31 39 77 13 0 19 1 32 39 8 13 0 19 1 32 38 3 10 1 48 25 13 0 19 1 33 39 34 13 0 19 1 31 12 13 0 19 1 33 12 19 1 34 6 1 12 13 0 19 1 35 12 19 2 36 12 19 2 37 38 16 13 0 19 1 31 12 13 0 19 1 35 12 19 2 37 76 44 1 45 38 38 104 13 3 13 1 19 2 39 13 3 19 1 29 51 1 10 1 39 84 13 1 19 1 31 39 77 13 1 19 1 32 39 8 13 1 19 1 32 38 3 10 2 48 25 13 1 19 1 33 39 34 13 1 19 1 31 12 13 1 19 1 33 12 19 1 34 6 1 12 13 1 19 1 35 12 19 2 36 12 19 2 37 38 16 13 1 19 1 31 12 13 1 19 1 35 12 19 2 37 76 44 1 51 0 10 0 76 39 -107 75 73 43 3 29) #1# #2# 33299) si::fset "run-start" "Signal that the system is starting to run for monitoring. Params: run-start-time." common-lisp-user::add-act-r-command "run-stop" "Signal that the system has stopped running for monitoring. Params: run-end-time." common-lisp-user::run-sched-queue (defun common-lisp-user::run-sched-queue) (#2# . 35676) (common-lisp-user::mp common-lisp-user::stop-condition &key (common-lisp-user::real-time nil)) common-lisp-user::stop-condition (nil :real-time) common-lisp-user::real-time common-lisp-user::next-time common-lisp-user::evaluate common-lisp-user::event-count common-lisp-user::meta-p-model-order si::%dolist-var common-lisp-user::model-name common-lisp-user::meta-p-models assoc common-lisp-user::run-notify-modules common-lisp-user::module common-lisp-user::run-notify-module "run-start" common-lisp-user::meta-p-time common-lisp-user::dispatch-apply #:g3965 #:g3966 common-lisp-user::meta-process si::structure-set #:g3967 #:g3968 #:g3969 common-lisp-user::meta-p-time-function #:g3970 numberp 1.0 0 common-lisp-user::meta-p-break common-lisp-user::act-r-event-mstime common-lisp-user::set-mp-clock <= common-lisp-user::run-one-event common-lisp-user::result #:g3977 + #:g3978 #:g3979 common-lisp-user::meta-p-slack-function common-lisp-user::dummy-event-function :key common-lisp-user::act-r-event-action :count :test eq common-lisp-user::remove-tagged-events common-lisp-user::meta-p-start-time - "run-stop" common-lisp-user::run-over-notify-modules common-lisp-user::run-over-notify-module common-lisp-user::update-chunks-at-all common-lisp-user::delete-chunks-after-run common-lisp-user::normalize-chunk-names #Y(common-lisp-user::run-sched-queue nil nil (24 45 24 24 45 51 28 52 22 40 2 77 46 53 64 415 9 0 77 77 77 46 54 46 55 46 30 46 56 13 6 19 1 57 45 58 38 59 10 0 4 45 59 13 0 13 8 19 1 60 12 19 2 61 5 48 25 19 0 62 45 58 38 18 10 0 4 45 63 13 0 19 1 64 10 1 5 51 1 43 1 10 0 40 -20 43 1 44 1 10 1 5 51 1 43 1 10 0 40 -61 43 1 15 65 13 6 19 1 66 12 19 2 67 10 6 45 68 75 45 69 13 1 15 70 9 9 13 0 19 4 71 43 1 43 1 10 6 45 72 13 7 19 1 66 45 73 13 1 15 70 9 1 13 0 19 4 71 43 1 43 1 10 4 39 42 10 6 45 74 13 7 19 1 75 12 19 1 67 45 76 13 1 15 70 9 2 13 0 19 4 71 43 1 43 1 10 4 16 77 76 39 5 1 78 51 4 58 60 175 57 79 61 1 1 13 8 19 1 80 40 33 13 8 19 1 19 40 26 13 8 19 1 29 51 3 76 40 16 13 7 13 8 13 3 19 1 81 12 13 2 20 3 23 39 5 75 73 36 1 13 8 13 3 19 1 81 12 13 6 19 3 82 13 3 19 1 81 12 13 8 19 1 66 12 19 2 83 51 4 13 3 19 1 81 51 5 10 4 39 58 13 8 13 3 19 2 84 45 85 10 0 39 18 8 1 45 86 13 4 13 0 19 2 87 51 4 43 1 38 24 10 9 45 88 11 16 45 89 13 1 15 70 9 9 13 0 19 4 71 43 1 43 1 43 1 38 22 10 6 39 18 13 8 19 1 90 12 13 8 19 1 66 12 13 5 19 3 67 35 0 0 62 63 13 6 15 91 14 92 15 93 14 94 77 14 95 15 96 19 8 97 13 6 19 1 66 12 13 6 19 1 98 12 19 2 99 12 13 0 13 6 19 1 80 12 72 3 43 4 65 15 100 13 2 19 1 66 12 19 2 67 13 2 19 1 57 45 58 38 59 10 0 4 45 59 13 0 13 4 19 1 60 12 19 2 61 5 48 25 19 0 101 45 58 38 18 10 0 4 45 63 13 0 19 1 102 10 1 5 51 1 43 1 10 0 40 -20 43 1 44 1 10 1 5 51 1 43 1 10 0 40 -61 43 1 13 2 19 1 57 45 58 38 41 10 0 4 45 59 13 0 13 4 19 1 60 12 19 2 61 5 48 25 19 0 103 39 8 19 0 104 12 19 1 105 44 1 10 1 5 51 1 43 1 10 0 40 -43 43 1 66 29) #1# #2# 35676) function "The internal function that steps through events sending them to be
+    executed until a condtion is met" si::set-documentation (defun common-lisp-user::run-one-event) (#2# . 39513) (common-lisp-user::mp common-lisp-user::next-event) break common-lisp-user::meta-p-pre-events common-lisp-user::hook common-lisp-user::act-r-event-num common-lisp-user::r stringp "break" string-equal #:g3988 #:g3987 #:g3985 #:g3986 common-lisp-user::printing-module #:g3983 #:g3982 #:g3984 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream member "model-output" "~@?" :mp :mstime common-lisp-user::mp-time-ms :params :details "forced by a pre-event hook" common-lisp-user::make-act-r-break-event common-lisp-user::format-event format common-lisp-user::evaluate-act-r-command "~&~@?~%" common-lisp-user::act-r-event-output common-lisp-user::filter-test common-lisp-user::v common-lisp-user::o common-lisp-user::act-r-break-event-p #:g4000 #:g3999 #:g3997 #:g3998 #:g3995 #:g3994 #:g3996 #:g4007 #:g4006 #:g4008 "model-output" "~@?" "~a" cdar #:g4016 #:g4015 #:g4013 #:g4014 #:g4011 #:g4010 #:g4012 #:g4023 #:g4022 #:g4024 "~a" common-lisp-user::meta-p-post-events #Y(common-lisp-user::run-one-event nil nil (24 45 24 24 45 30 26 57 84 60 894 13 1 19 1 32 12 77 46 113 49 25 13 3 19 1 114 45 58 38 51 10 0 4 45 115 13 0 13 4 19 1 116 12 19 2 67 45 117 10 0 39 14 10 0 16 118 39 8 13 0 15 119 19 2 120 39 5 11 16 51 3 43 1 10 1 5 51 1 43 1 10 0 40 -53 43 1 10 0 39 196 77 19 0 26 12 77 46 121 46 122 46 123 13 1 19 1 57 51 2 10 2 45 58 38 159 10 0 4 45 124 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 126 45 127 10 1 39 115 75 45 128 13 1 19 1 129 12 19 1 130 51 0 10 0 39 95 13 0 13 5 19 2 131 76 39 85 13 0 10 5 3 51 5 14 16 10 0 17 96 39 39 15 132 77 15 133 14 134 77 14 135 19 0 136 12 14 137 77 14 138 15 139 19 8 140 12 19 1 141 12 19 3 142 12 19 2 143 38 32 13 0 15 144 14 134 77 14 135 19 0 136 12 14 137 77 14 138 15 139 19 8 140 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -161 43 1 43 3 75 73 36 1 11 15 39 6 13 2 19 1 145 39 500 11 25 39 243 13 2 19 1 146 47 1 147 45 148 10 0 39 225 13 4 19 1 149 39 158 77 19 0 26 12 77 46 150 46 151 46 152 13 1 19 1 57 51 2 10 2 45 58 38 123 10 0 4 45 153 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 154 45 155 10 1 39 79 75 45 156 13 1 19 1 129 12 19 1 130 51 0 10 0 39 59 13 0 13 5 19 2 131 76 39 49 13 0 10 5 3 51 5 14 16 10 0 17 96 39 21 15 132 77 15 133 13 12 19 1 141 12 19 3 142 12 19 2 143 38 14 13 0 15 144 13 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -125 43 1 43 3 38 61 10 1 39 57 15 125 19 1 34 47 1 157 45 158 10 1 39 41 75 45 159 13 1 19 1 129 12 19 1 130 51 0 10 0 39 21 15 160 77 15 161 15 162 13 7 19 1 141 12 19 4 142 12 19 2 143 43 1 43 2 43 2 38 254 19 0 26 12 19 1 60 16 163 48 25 13 2 19 1 146 47 1 147 45 148 10 0 39 225 13 4 19 1 149 39 158 77 19 0 26 12 77 46 164 46 165 46 166 13 1 19 1 57 51 2 10 2 45 58 38 123 10 0 4 45 167 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 168 45 169 10 1 39 79 75 45 170 13 1 19 1 129 12 19 1 130 51 0 10 0 39 59 13 0 13 5 19 2 131 76 39 49 13 0 10 5 3 51 5 14 16 10 0 17 96 39 21 15 132 77 15 133 13 12 19 1 141 12 19 3 142 12 19 2 143 38 14 13 0 15 144 13 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -125 43 1 43 3 38 61 10 1 39 57 15 125 19 1 34 47 1 171 45 172 10 1 39 41 75 45 173 13 1 19 1 129 12 19 1 130 51 0 10 0 39 21 15 160 77 15 161 15 174 13 7 19 1 141 12 19 4 142 12 19 2 143 43 1 43 2 43 2 44 1 13 3 13 2 19 2 39 13 2 19 1 33 39 34 13 2 19 1 93 12 13 2 19 1 33 12 19 1 34 6 1 12 13 2 19 1 35 12 19 2 36 12 19 2 37 38 16 13 2 19 1 93 12 13 2 19 1 35 12 19 2 37 13 3 19 1 175 45 58 38 24 10 0 4 45 115 13 0 13 4 19 1 116 12 19 2 67 10 1 5 51 1 43 1 10 0 40 -26 43 1 11 16 73 43 1 44 1 63 29) #1# #2# 39513) (defun common-lisp-user::set-mp-clock) (#2# . 42496) (common-lisp-user::mp time common-lisp-user::real-time) time common-lisp-user::meta-p-time-mode common-lisp-user::absolute common-lisp-user::meta-p-units-per-second / common-lisp-user::seconds->ms common-lisp-user::meta-p-start-real-time * common-lisp-user::actual-time #:g4030 min #:g4031 #:g4032 #:g4033 #Y(common-lisp-user::set-mp-clock nil nil (24 45 24 24 45 180 24 45 53 26 10 0 39 121 13 2 19 1 181 12 1 182 17 96 39 26 13 2 19 1 75 12 19 1 67 12 13 2 19 1 183 12 19 2 184 12 19 1 185 38 50 13 2 19 1 98 12 13 0 13 2 19 1 75 12 19 1 67 12 13 2 19 1 186 12 19 2 99 12 13 2 19 1 183 12 19 2 184 12 19 2 187 12 19 1 185 12 19 2 87 45 188 10 3 45 189 13 3 13 1 19 2 190 45 191 13 1 15 70 9 0 13 0 19 4 71 43 1 43 1 43 1 38 24 10 2 45 192 10 2 45 193 13 1 15 70 9 0 13 0 19 4 71 43 1 43 1 29) #1# #2# 42496) "Update the time of a meta-process" common-lisp-user::run (defun common-lisp-user::run) (#2# . 43487) (common-lisp-user::run-time &optional (common-lisp-user::real-time nil)) common-lisp-user::run-time > "print-warning" "~@?" "run-time must be a number greater than zero." common-lisp-user::safe-seconds->ms common-lisp-user::ms-time count #Y(common-lisp-user::test nil nil (24 45 24 24 45 54 24 45 207 26 13 1 13 2 19 1 98 12 19 2 99 12 13 3 19 2 201 29) #1# #2# 43487) :real-time common-lisp-user::events common-lisp-user::mp-time < common-lisp-user::meta-p-events #:g4079 #:g4078 #:g4076 #:g4077 #:g4074 #:g4073 #:g4075 :module "------" :model "Stopped because no events left to process" :output common-lisp-user::make-act-r-event common-lisp-user::msend-time #Y(common-lisp-user::test nil nil (24 45 24 24 45 54 24 45 207 26 13 1 13 3 19 2 201 29) #1# #2# 43487) common-lisp-user::current-model :maintenance :priority :min "A dummy event to guarantee a run until time" :time-in-ms common-lisp-user::schedule-event #:g4085 common-lisp-user::mp-models common-lisp-user::valid-model-name #:g4086 "A dummy event to guarantee a run until time" "~S does not name a model in the current meta-process" "No actions taken in with-model because there is no current meta-process" #:g4094 #:g4093 #:g4091 #:g4092 #:g4089 #:g4088 #:g4090 "------" "Stopped because time limit reached" #:g4106 #:g4105 #:g4103 #:g4104 #:g4101 #:g4100 #:g4102 "------" "Stopped because time limit reached" common-lisp-user::ms->seconds #Y(common-lisp-user::run nil nil (24 45 200 25 40 2 77 46 53 26 10 1 16 77 39 8 13 1 9 0 19 2 201 76 39 19 15 202 77 15 203 15 204 19 3 142 12 19 2 143 75 73 38 880 13 1 15 196 19 2 205 45 206 30 1 208 19 0 26 12 32 0 12 14 209 13 2 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 823 19 0 26 45 24 13 0 19 1 66 45 211 13 2 13 6 19 2 212 39 593 13 1 19 1 213 76 39 208 77 19 0 26 12 77 46 214 46 215 46 216 13 1 19 1 57 51 2 10 2 45 58 38 173 10 0 4 45 217 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 218 45 219 10 1 39 129 75 45 220 13 1 19 1 129 12 19 1 130 51 0 10 0 39 109 13 0 13 5 19 2 131 76 39 99 13 0 10 5 3 51 5 14 16 10 0 17 96 39 46 15 132 77 15 133 14 135 13 8 14 221 15 222 14 223 15 99 14 138 15 224 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 39 13 0 15 144 14 135 13 8 14 221 15 222 14 223 15 99 14 138 15 224 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -175 43 1 43 3 38 376 13 6 13 2 19 2 99 12 13 0 19 2 87 45 227 30 1 228 19 0 229 39 29 13 1 15 91 14 230 14 16 14 231 14 232 14 138 15 233 14 234 14 16 14 225 77 19 12 235 38 94 19 0 26 45 236 10 0 39 69 19 0 237 4 12 19 1 238 45 239 10 0 39 35 10 0 48 25 13 3 15 91 14 230 14 16 14 231 14 232 14 138 15 240 14 234 14 16 14 225 77 19 12 235 44 1 38 17 15 202 77 15 203 15 241 13 0 19 4 142 12 19 2 143 43 1 38 15 15 202 77 15 203 15 242 19 3 142 12 19 2 143 43 1 19 0 26 12 32 0 12 14 209 13 9 19 4 47 43 1 43 1 10 6 51 2 77 19 0 26 12 77 46 243 46 244 46 245 13 1 19 1 57 51 2 10 2 45 58 38 177 10 0 4 45 246 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 247 45 248 10 1 39 133 75 45 249 13 1 19 1 129 12 19 1 130 51 0 10 0 39 113 13 0 13 5 19 2 131 76 39 103 13 0 10 5 3 51 5 14 16 10 0 17 96 39 48 15 132 77 15 133 14 135 19 0 136 12 14 221 15 250 14 223 15 99 14 138 15 251 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 41 13 0 15 144 14 135 19 0 136 12 14 221 15 250 14 223 15 99 14 138 15 251 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -179 43 1 43 3 38 206 77 19 0 26 12 77 46 252 46 253 46 254 13 1 19 1 57 51 2 10 2 45 58 38 173 10 0 4 45 255 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 256 45 257 10 1 39 129 75 45 258 13 1 19 1 129 12 19 1 130 51 0 10 0 39 109 13 0 13 5 19 2 131 76 39 99 13 0 10 5 3 51 5 14 16 10 0 17 96 39 46 15 132 77 15 133 14 135 13 8 14 221 15 259 14 223 15 99 14 138 15 260 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 39 13 0 15 144 14 135 13 8 14 221 15 259 14 223 15 99 14 138 15 260 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -175 43 1 43 3 43 1 43 1 13 0 19 1 261 12 13 1 13 2 72 3 43 3 43 1 43 1 29) #1# #2# 43487) "run" "Run the ACT-R scheduler for up to a specified amount of time. Params: time {real-time}." "Only one run allowed at a time" common-lisp-user::run-until-condition (defun common-lisp-user::run-until-condition) (#2# . 48100) (condition &optional (common-lisp-user::real-time nil)) condition common-lisp-user::local-or-remote-function-p "condition must be a function or valid dispatch command string." common-lisp-user::success "Run terminated because of Error:< ~s > evaluating condition." #Y(nil nil nil (24 45 24 24 45 54 24 45 207 26 13 4 13 1 19 2 143 47 1 85 45 273 10 0 39 6 10 1 73 38 20 15 202 77 15 203 15 274 13 1 19 4 142 12 19 2 143 11 16 73 43 2 29) #1# #2# 48100) #Y(nil nil nil (24 45 24 24 45 54 24 45 207 26 13 4 13 1 20 1 23 29) #1# #2# 48100) #:g4142 #:g4141 #:g4139 #:g4140 #:g4137 #:g4136 #:g4138 "------" "Stopped because no events to process" #:g4154 #:g4153 #:g4151 #:g4152 #:g4149 #:g4148 #:g4150 "------" "Stopped because condition is true" #Y(common-lisp-user::run-until-condition nil nil (24 45 270 25 40 2 77 46 53 26 13 1 19 1 271 76 39 19 15 202 77 15 203 15 272 19 3 142 12 19 2 143 75 73 38 488 19 0 26 12 10 1 16 118 39 6 34 275 73 38 4 34 276 73 12 14 209 13 0 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 435 19 0 26 45 24 13 0 19 1 66 45 211 13 1 19 1 213 76 39 208 77 19 0 26 12 77 46 277 46 278 46 279 13 1 19 1 57 51 2 10 2 45 58 38 173 10 0 4 45 280 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 281 45 282 10 1 39 129 75 45 283 13 1 19 1 129 12 19 1 130 51 0 10 0 39 109 13 0 13 5 19 2 131 76 39 99 13 0 10 5 3 51 5 14 16 10 0 17 96 39 46 15 132 77 15 133 14 135 13 8 14 221 15 284 14 223 15 99 14 138 15 285 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 39 13 0 15 144 14 135 13 8 14 221 15 284 14 223 15 99 14 138 15 285 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -175 43 1 43 3 38 206 77 19 0 26 12 77 46 286 46 287 46 288 13 1 19 1 57 51 2 10 2 45 58 38 173 10 0 4 45 289 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 290 45 291 10 1 39 129 75 45 292 13 1 19 1 129 12 19 1 130 51 0 10 0 39 109 13 0 13 5 19 2 131 76 39 99 13 0 10 5 3 51 5 14 16 10 0 17 96 39 46 15 132 77 15 133 14 135 13 8 14 221 15 293 14 223 15 99 14 138 15 294 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 39 13 0 15 144 14 135 13 8 14 221 15 293 14 223 15 99 14 138 15 294 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -175 43 1 43 3 43 2 13 0 19 1 261 12 13 1 13 2 72 3 43 3 29) #1# #2# 48100) "run-until-condition" "Run the ACT-R scheduler until the provided function returns a non-nil value. Params: fct-or-cmd-string {real-time?}." "Only one run allowed at a time" common-lisp-user::run-until-action (defun common-lisp-user::run-until-action) (#2# . 50709) (common-lisp-user::action &optional (common-lisp-user::real-time nil)) common-lisp-user::action symbolp "run-until-action must be given a name(symbol) or a string, but given ~s which is a ~s." type-of symbol-name common-lisp-user::name common-lisp-user::stop common-lisp-user::e common-lisp-user::a #Y(common-lisp-user::test-symbol nil nil (24 45 24 24 45 54 24 45 207 26 13 2 19 1 29 45 310 13 0 19 1 93 45 311 13 5 10 5 76 39 32 10 0 16 304 39 11 13 8 10 0 17 96 51 5 38 16 10 0 16 118 39 10 13 6 13 0 19 2 120 51 5 22 73 43 2 29) #1# #2# 50709) string= #Y(common-lisp-user::test-string nil nil (24 45 24 24 45 54 24 45 207 26 13 2 19 1 29 45 310 13 0 19 1 93 45 311 13 5 10 5 76 39 36 10 0 16 304 39 15 13 8 10 0 16 307 12 19 2 120 51 5 38 16 10 0 16 118 39 10 13 8 13 0 19 2 313 51 5 22 73 43 2 29) #1# #2# 50709) #:g4206 #:g4205 #:g4203 #:g4204 #:g4201 #:g4200 #:g4202 "------" "Stopped because ~a action occurred" #:g4218 #:g4217 #:g4215 #:g4216 #:g4213 #:g4212 #:g4214 "------" "Stopped because no events left to process" #Y(common-lisp-user::run-until-action nil nil (24 45 303 25 40 2 77 46 53 26 10 1 16 304 40 5 10 1 16 118 76 39 26 15 202 77 15 203 15 305 13 1 10 1 16 306 12 19 5 142 12 19 2 143 75 73 38 517 77 10 1 16 304 73 39 5 10 1 16 307 12 46 308 46 309 30 2 312 314 19 0 26 12 10 5 16 304 39 6 32 1 73 38 4 32 0 73 12 14 209 13 4 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 439 10 5 39 226 77 19 0 26 12 77 46 315 46 316 46 317 13 1 19 1 57 51 2 10 2 45 58 38 191 10 0 4 45 318 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 319 45 320 10 1 39 147 75 45 321 13 1 19 1 129 12 19 1 130 51 0 10 0 39 127 13 0 13 5 19 2 131 76 39 117 13 0 10 5 3 51 5 14 16 10 0 17 96 39 55 15 132 77 15 133 14 135 19 0 136 12 14 221 15 322 14 223 15 99 14 138 77 15 323 13 16 19 3 142 12 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 48 13 0 15 144 14 135 19 0 136 12 14 221 15 322 14 223 15 99 14 138 77 15 323 13 16 19 3 142 12 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -193 43 1 43 3 38 210 77 19 0 26 12 77 46 324 46 325 46 326 13 1 19 1 57 51 2 10 2 45 58 38 177 10 0 4 45 327 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 328 45 329 10 1 39 133 75 45 330 13 1 19 1 129 12 19 1 130 51 0 10 0 39 113 13 0 13 5 19 2 131 76 39 103 13 0 10 5 3 51 5 14 16 10 0 17 96 39 48 15 132 77 15 133 14 135 19 0 136 12 14 221 15 331 14 223 15 99 14 138 15 332 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 41 13 0 15 144 14 135 19 0 136 12 14 221 15 331 14 223 15 99 14 138 15 332 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -179 43 1 43 3 13 0 19 1 261 12 13 1 13 2 72 3 43 3 43 2 43 2 29) #1# #2# 50709) common-lisp-user::run-until-action-external (defun common-lisp-user::run-until-action-external) (#2# . 53662) (common-lisp-user::action &optional (common-lisp-user::real-time nil)) common-lisp-user::decode-string #Y(common-lisp-user::run-until-action-external nil nil (24 45 303 25 40 2 77 46 53 26 13 1 19 1 338 12 13 0 19 2 299 29) #1# #2# 53662) "run-until-action" "Run the ACT-R scheduler stopping after an event with the given action occurs. Params: 'action' {real-time}." "Only one run allowed at a time" common-lisp-user::run-full-time (defun common-lisp-user::run-full-time) (#2# . 53996) (common-lisp-user::run-time &optional (common-lisp-user::real-time nil)) "run-time must be a number greater than zero." #Y(common-lisp-user::test nil nil (24 45 24 24 45 54 24 45 207 26 13 1 13 3 19 2 201 29) #1# #2# 53996) "A dummy event to guarantee a run until time" #:g4238 #:g4239 "A dummy event to guarantee a run until time" #:g4246 #:g4245 #:g4243 #:g4244 #:g4241 #:g4240 #:g4242 "------" "Stopped because time limit reached" #Y(common-lisp-user::run-full-time nil nil (24 45 200 25 40 2 77 46 53 26 10 1 16 77 39 8 13 1 9 0 19 2 201 76 39 19 15 202 77 15 203 15 347 19 3 142 12 19 2 143 75 73 38 410 19 0 26 45 24 13 2 15 343 19 2 205 12 13 0 19 1 66 12 19 2 87 45 227 30 1 348 19 0 229 39 29 13 1 15 91 14 230 14 16 14 231 14 232 14 138 15 349 14 234 14 16 14 225 77 19 12 235 38 94 19 0 26 45 350 10 0 39 69 19 0 237 4 12 19 1 238 45 351 10 0 39 35 10 0 48 25 13 3 15 91 14 230 14 16 14 231 14 232 14 138 15 352 14 234 14 16 14 225 77 19 12 235 44 1 38 17 15 202 77 15 203 15 241 13 0 19 4 142 12 19 2 143 43 1 38 15 15 202 77 15 203 15 242 19 3 142 12 19 2 143 43 1 13 2 32 0 12 14 209 13 3 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 214 77 19 0 26 12 77 46 353 46 354 46 355 13 1 19 1 57 51 2 10 2 45 58 38 181 10 0 4 45 356 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 357 45 358 10 1 39 137 75 45 359 13 1 19 1 129 12 19 1 130 51 0 10 0 39 117 13 0 13 5 19 2 131 76 39 107 13 0 10 5 3 51 5 14 16 10 0 17 96 39 50 15 132 77 15 133 14 135 13 13 19 1 66 12 14 221 15 360 14 223 15 99 14 138 15 361 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 43 13 0 15 144 14 135 13 13 19 1 66 12 14 221 15 360 14 223 15 99 14 138 15 361 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -183 43 1 43 3 13 0 19 1 261 12 13 1 13 2 72 3 43 3 43 1 43 2 29) #1# #2# 53996) "run-full-time" "Run the ACT-R scheduler for the specified amount of time. Params: time {real-time}." "Only one run allowed at a time" (defun common-lisp-user::dummy-event-function) (#2# . 56184) #Y(common-lisp-user::dummy-event-function nil nil (26 75 73 29) #1# #2# 56184) common-lisp-user::run-until-time (defun common-lisp-user::run-until-time) (#2# . 56219) (common-lisp-user::end-time &optional (common-lisp-user::real-time nil)) common-lisp-user::end-time "end-time must be a number greater than zero." common-lisp-user::ms-end-time #:g4284 #:g4283 #:g4281 #:g4282 #:g4279 #:g4278 #:g4280 "------" "Stopped because end time already passed" #Y(common-lisp-user::test nil nil (24 45 24 24 45 54 24 45 207 26 13 1 13 4 19 2 201 29) #1# #2# 56219) "A dummy event to guarantee a run until time" #:g4290 #:g4291 "A dummy event to guarantee a run until time" #:g4298 #:g4297 #:g4295 #:g4296 #:g4293 #:g4292 #:g4294 "------" "Stopped because time limit reached" #Y(common-lisp-user::run-until-time nil nil (24 45 373 25 40 2 77 46 53 26 10 1 16 77 39 8 13 1 9 0 19 2 201 76 39 19 15 202 77 15 203 15 374 19 3 142 12 19 2 143 75 73 38 637 19 0 26 12 13 1 15 369 19 2 205 12 46 375 46 24 13 1 13 0 19 1 66 12 19 2 83 39 223 77 19 0 26 12 77 46 376 46 377 46 378 13 1 19 1 57 51 2 10 2 45 58 38 181 10 0 4 45 379 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 380 45 381 10 1 39 137 75 45 382 13 1 19 1 129 12 19 1 130 51 0 10 0 39 117 13 0 13 5 19 2 131 76 39 107 13 0 10 5 3 51 5 14 16 10 0 17 96 39 50 15 132 77 15 133 14 135 13 8 19 1 66 12 14 221 15 383 14 223 15 99 14 138 15 384 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 43 13 0 15 144 14 135 13 8 19 1 66 12 14 221 15 383 14 223 15 99 14 138 15 384 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -183 43 1 43 3 9 0 9 0 77 72 3 38 384 30 1 385 19 0 229 39 29 13 2 15 91 14 230 14 16 14 231 14 232 14 138 15 386 14 234 14 16 14 225 77 19 12 235 38 94 19 0 26 45 387 10 0 39 69 19 0 237 4 12 19 1 238 45 388 10 0 39 35 10 0 48 25 13 4 15 91 14 230 14 16 14 231 14 232 14 138 15 389 14 234 14 16 14 225 77 19 12 235 44 1 38 17 15 202 77 15 203 15 241 13 0 19 4 142 12 19 2 143 43 1 38 15 15 202 77 15 203 15 242 19 3 142 12 19 2 143 43 1 13 1 32 0 12 14 209 13 3 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 214 77 19 0 26 12 77 46 390 46 391 46 392 13 1 19 1 57 51 2 10 2 45 58 38 181 10 0 4 45 393 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 394 45 395 10 1 39 137 75 45 396 13 1 19 1 129 12 19 1 130 51 0 10 0 39 117 13 0 13 5 19 2 131 76 39 107 13 0 10 5 3 51 5 14 16 10 0 17 96 39 50 15 132 77 15 133 14 135 13 12 19 1 66 12 14 221 15 397 14 223 15 99 14 138 15 398 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 43 13 0 15 144 14 135 13 12 19 1 66 12 14 221 15 397 14 223 15 99 14 138 15 398 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -183 43 1 43 3 13 0 19 1 261 12 13 1 13 2 72 3 43 3 43 1 43 2 29) #1# #2# 56219) "run-until-time" "Run the ACT-R scheduler up to the indicated time. Params: end-time {real-time}." "Only one run allowed at a time" common-lisp-user::run-n-events (defun common-lisp-user::run-n-events) (#2# . 59046) (common-lisp-user::event-count &optional (common-lisp-user::real-time nil)) "event-count must be a number greater than zero." = #Y(common-lisp-user::test nil nil (24 45 24 24 45 54 24 45 207 26 13 0 13 4 19 2 408 29) #1# #2# 59046) #:g4334 #:g4333 #:g4331 #:g4332 #:g4329 #:g4328 #:g4330 "------" "Stopped because no events to process" #:g4346 #:g4345 #:g4343 #:g4344 #:g4341 #:g4340 #:g4342 "------" "Stopped because event limit reached" #Y(common-lisp-user::run-n-events nil nil (24 45 56 25 40 2 77 46 53 26 10 1 16 77 39 8 13 1 9 0 19 2 201 76 39 19 15 202 77 15 203 15 407 19 3 142 12 19 2 143 75 73 38 491 30 1 409 19 0 26 45 24 19 0 26 12 32 1 12 14 209 13 2 19 4 47 47 2 113 47 1 210 45 180 10 2 76 39 438 13 1 13 6 19 2 212 39 216 77 19 0 26 12 77 46 410 46 411 46 412 13 1 19 1 57 51 2 10 2 45 58 38 181 10 0 4 45 413 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 414 45 415 10 1 39 137 75 45 416 13 1 19 1 129 12 19 1 130 51 0 10 0 39 117 13 0 13 5 19 2 131 76 39 107 13 0 10 5 3 51 5 14 16 10 0 17 96 39 50 15 132 77 15 133 14 135 13 11 19 1 66 12 14 221 15 417 14 223 15 99 14 138 15 418 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 43 13 0 15 144 14 135 13 11 19 1 66 12 14 221 15 417 14 223 15 99 14 138 15 418 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -183 43 1 43 3 38 214 77 19 0 26 12 77 46 419 46 420 46 421 13 1 19 1 57 51 2 10 2 45 58 38 181 10 0 4 45 422 13 0 13 3 19 1 60 12 19 2 61 5 48 25 15 125 19 1 34 47 1 423 45 424 10 1 39 137 75 45 425 13 1 19 1 129 12 19 1 130 51 0 10 0 39 117 13 0 13 5 19 2 131 76 39 107 13 0 10 5 3 51 5 14 16 10 0 17 96 39 50 15 132 77 15 133 14 135 13 11 19 1 66 12 14 221 15 426 14 223 15 99 14 138 15 427 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 12 19 2 143 38 43 13 0 15 144 14 135 13 11 19 1 66 12 14 221 15 426 14 223 15 99 14 138 15 427 14 225 14 16 14 134 77 19 12 226 12 19 1 141 12 19 3 142 43 1 43 2 44 1 10 1 5 51 1 43 1 10 0 40 -183 43 1 43 3 13 0 19 1 261 12 13 1 13 2 72 3 43 3 43 1 43 1 29) #1# #2# 59046) "run-n-events" "Run the indicated number of events from the ACT-R scheduler. Params: event-count {real-time}." "Only one run allowed at a time" common-lisp-user::run-step (defun common-lisp-user::run-step) (#2# . 60964) "No more events to process" "Next Event: ~A~%" common-lisp-user::next "[A]bort (or [q]uit)~%" "[D]elete~%" "[S]how event queue~%" "[W]aiting events~%" "[B]uffer contents~%" "[V]isicon~%" "[R]eport buffer status~%" "[E]xecute~%" read common-lisp-user::response common-lisp-user::q common-lisp-user::s common-lisp-user::mp-show-queue common-lisp-user::w common-lisp-user::mp-show-waiting common-lisp-user::b common-lisp-user::show-buffer-chunks common-lisp-user::print-visicon common-lisp-user::buffer-status-fct common-lisp-user::d #:g4374 #:g4375 #Y(common-lisp-user::test nil nil (24 45 24 24 45 54 24 45 207 26 58 60 218 57 79 61 1 1 13 4 19 1 213 76 39 13 14 16 

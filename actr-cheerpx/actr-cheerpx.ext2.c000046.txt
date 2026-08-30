@@ -1,0 +1,1737 @@
+sed in other productions."
+                                        slot buffer)))))
+             
+           (procedural-mod-style-usage-table procedural)))
+
+(defun finalize-procedural-reset (procedural)
+  
+  (setf (procedural-delay-extra-production-setup procedural) nil)
+  
+  (bt:with-lock-held ((procedural-param-lock procedural))
+    
+    (let ((p-list (productions-list procedural)))
+      
+      
+      (when (procedural-style-warnings procedural)
+      
+        (setf (procedural-style-check procedural) t)
+        
+        ;; cheat and look through the queue for chunks being set in buffers (catches goal-focus and
+        ;; possibly other initial buffer setting actions)
+        
+        (dolist (event (scheduled-events))
+          (when (and (eq (evt-model event) (current-model))
+                     (or (eq (evt-action event) 'set-buffer-chunk)
+                         (eq (evt-action event) #'set-buffer-chunk)))
+            (let* ((params (evt-params event))
+                   (value (second params)))
+              (cond ((symbolp value)
+                     (setf (gethash (first params) (procedural-init-chunk-slots procedural)) 
+                       (remove-duplicates (append (gethash (first params) (procedural-init-chunk-slots procedural)) (chunk-filled-slots-list-fct value)))))
+                    ((listp value)
+                     (let ((spec (define-chunk-spec-fct value)))
+                       (setf (gethash (first params) (procedural-init-chunk-slots procedural)) 
+                           (remove-duplicates (append (gethash (first params) (procedural-init-chunk-slots procedural)) 
+                                                      (slot-mask->names (chunk-spec-filled-slots spec)))))))
+                    (t
+                     (let ((spec (or (and (act-r-chunk-spec-p value) value)
+                                     (id-to-chunk-spec value))))
+                       (when spec
+                         (setf (gethash (first params) (procedural-init-chunk-slots procedural)) 
+                           (remove-duplicates (append (gethash (first params) (procedural-init-chunk-slots procedural)) 
+                                                      (slot-mask->names (chunk-spec-filled-slots spec))))))))))))
+        
+        ;; also look at the buffers themselves to see if there are any chunks there
+        (dolist (buffer (model-buffers))
+          (awhen (buffer-read buffer)
+                 (setf (gethash buffer (procedural-init-chunk-slots procedural)) 
+                   (remove-duplicates (append (gethash buffer (procedural-init-chunk-slots procedural)) (chunk-filled-slots-list-fct it))))))
+        
+        (dolist (x p-list)
+          (check-production-for-style procedural x))
+        
+        (check-between-production-style procedural))
+      
+      
+      (if (procedural-use-tree procedural)
+          
+          (progn
+            (when (or (procedural-crt procedural)
+                      ; allow for now (procedural-ppm procedural)
+                      )
+              (model-warning "Conflict resolution cannot use the decision tree when :crt is enabled."))
+            
+            (cond ((null (procedural-last-conflict-tree procedural))
+                   (build-conflict-tree procedural)
+                   (setf (procedural-last-conflict-tree procedural) (copy-conflict-tree (procedural-conflict-tree procedural) nil)))
+                  ((equal (mapcar 'production-name p-list) (conflict-node-valid (procedural-conflict-tree procedural)))
+                   ;; assume everything still valid
+                   )
+                  ((equal (mapcar 'production-name p-list) (conflict-node-valid (procedural-last-conflict-tree procedural)))
+                   ;; assume saved tree is valid
+                   (setf (procedural-conflict-tree procedural) (copy-conflict-tree (procedural-last-conflict-tree procedural) nil)))
+                  (t ;; same as the first case
+                   (build-conflict-tree procedural)
+                   (setf (procedural-last-conflict-tree procedural) (copy-conflict-tree (procedural-conflict-tree procedural) nil))))
+            
+            ;; when tree is on the buffer mapping isn't needed
+            
+            (bt:with-lock-held ((procedural-cr-lock procedural))
+              (setf (procedural-used-buffer-map procedural) nil)
+              (setf (procedural-master-buffer-map procedural) nil)
+              (setf (procedural-buffer-use-array procedural) nil)
+              (setf (procedural-saved-buffer-use-array procedural) nil)
+              (setf (procedural-saved-map-productions-list procedural) nil)
+              (setf (procedural-used-buffer-mask procedural) 0)))
+        
+        (bt:with-lock-held ((procedural-cr-lock procedural))
+          (cond ((and (procedural-buffer-use-array procedural)
+                      (every (lambda (x y) 
+                               (eq (production-name x) y))
+                             p-list
+                             (procedural-saved-map-productions-list procedural)))
+                 
+                 ;; assume everything still valid so set it to the list of productions from before
+                 (bt:with-lock-held ((procedural-p-table-lock procedural))
+                   
+                   (dotimes (i (procedural-buffer-array-size procedural))
+                     (setf (aref (procedural-buffer-use-array procedural) i)
+                       (mapcar (lambda (x)
+                                 (gethash x (procedural-p-table procedural)))
+                         (aref (procedural-saved-buffer-use-array procedural) i))))))
+                
+                (t
+                 (setf (procedural-saved-map-productions-list procedural)
+                   (mapcar 'production-name p-list))
+                 
+                 (cond ((null p-list) ;; no productiosn so clear any info
+                        
+                        (setf (procedural-used-buffer-map procedural) nil)
+                        (setf (procedural-master-buffer-map procedural) nil)
+                        (setf (procedural-buffer-use-array procedural) nil)
+                        (setf (procedural-saved-buffer-use-array procedural) nil)
+                        (setf (procedural-saved-map-productions-list procedural) nil)
+                        (setf (procedural-used-buffer-mask procedural) 0))
+                       
+                       (t
+                        ;; create the used states mapping
+                        
+                        (setf (procedural-used-buffer-map procedural) nil)
+                        (setf (procedural-used-buffer-mask procedural) 0)
+                        
+                        (dolist (x p-list)
+                          (setf (procedural-used-buffer-mask procedural) 
+                            (logior (procedural-used-buffer-mask procedural) (production-buffer-full x) (production-buffer-empty x))))
+                          
+                          (if (zerop (procedural-used-buffer-mask procedural))
+                              ;; nothing to use so just remove info and call it done
+                              (progn 
+                                (setf (procedural-master-buffer-map procedural) nil)
+                                (setf (procedural-buffer-use-array procedural) nil)
+                                (setf (procedural-saved-buffer-use-array procedural) nil)
+                                (setf (procedural-saved-map-productions-list procedural) nil))
+                          
+                            (let ((size 1))
+                              
+                              (dotimes (i (1+ (floor (log (procedural-used-buffer-mask procedural) 2))))
+                                (when (logbitp i (procedural-used-buffer-mask procedural))
+                                  (push (cons i size) (procedural-used-buffer-map procedural))
+                                  (setf size (ash size 1))))
+                              
+                              ;; create the array mapping state to productions
+                              (setf (procedural-buffer-array-size procedural) size)
+                              
+                              (setf (procedural-buffer-use-array procedural) (make-array size :initial-element nil))
+                              (setf (procedural-saved-buffer-use-array procedural) (make-array size :initial-element nil))
+                             
+                              (dolist (p p-list)
+                                (let ((full (map-state-to-used-states procedural (production-buffer-full p)))
+                                      (empty (map-state-to-used-states procedural (production-buffer-empty p))))
+                                 (dotimes (i size)
+                                   (when (zerop (logior (logandc1 i full) (logand i empty)))
+                                     (push-last p (aref (procedural-buffer-use-array procedural) i))
+                                     (push-last (production-name p) (aref (procedural-saved-buffer-use-array procedural) i))))))
+                              (setf (procedural-master-buffer-map procedural) 
+                                (make-array (expt 2 (procedural-buffer-lookup-size procedural)) :initial-element nil))))))))))
+      
+      
+      (dolist (p p-list)
+        (dolist (x (procedural-add-production-hook procedural))
+          (if (stringp x)
+              (dispatch-apply x (production-name p))
+            (funcall x p)))))))
+  
+
+;; The conditions in a production are all converted into a conflict resolution condition
+;; structure which specifies a single test/action to perform and includes indices for
+;; the buffer and slot needed so the values can be pulled out of a cache instead of
+;; having to get them from the buffer or chunk for each test.
+;;
+;; Then the process of conflict resolution is just a matter of iterating through
+;; those tests and actions until either they're all true or one fails.
+
+
+(defstruct cr-condition
+  type buffer bi slot si value test result)
+
+(defun cr-buffer-read (procedural buffer index)
+  (let ((val (aref (procedural-buffer-lookup procedural) index)))
+    (if (eq val :untested)
+        (let* ((chunk (buffer-read buffer))
+               (slots (when chunk (chunk-slots-vector chunk))))
+          (setf (aref (procedural-buffer-lookup procedural) index) (cons chunk slots))
+          chunk)
+      (car val))))
+
+(defun cr-buffer-type-read (procedural buffer index)
+  (let ((val (aref (procedural-buffer-lookup procedural) index)))
+    (if (eq val :untested)
+        (let* ((chunk (buffer-read buffer))
+               (slots (when chunk (chunk-slots-vector chunk))))
+          (setf (aref (procedural-buffer-lookup procedural) index) (cons chunk slots))
+          slots)
+      (cdr val))))
+
+(defun cr-buffer-slot-read (procedural buffer bi si slot)
+  (let ((val (aref (procedural-slot-lookup procedural) bi si)))
+    (if (eq val :untested)
+        (progn
+          (push (cons bi si) (procedural-slot-used procedural))
+          (setf (aref (procedural-slot-lookup procedural) bi si) (fast-chunk-slot-value-fct (cr-buffer-read procedural buffer bi) slot)))
+      val)))
+
+
+(defun slot-value-from-index (chunk index)
+  (if (chunk-p-fct chunk)
+      (let ((slot-name (slot-index->name index)))
+        (if slot-name
+            (values (fast-chunk-slot-value-fct chunk slot-name) t)
+          (values nil t)))
+    (values nil nil)))
+
+;;; Function to test if two conditions are equivalent 
+;;; only valid for constant tests i.e. those that could
+;;; be in a conflict-resolution tree.
+;;;
+;;; Changed the value tests to eql instead of eq because
+;;; the value could be a number.
+
+(defun cr-condition-equal (a b)
+  (and (eq (cr-condition-type a) (cr-condition-type b))
+       (eq (cr-condition-buffer a) (cr-condition-buffer b))
+       (case (cr-condition-type a)
+         (isa (equalp (cr-condition-value a) (cr-condition-value b)))
+         (slot (= (cr-condition-si a) (cr-condition-si b)))
+         (query (and (eq (cr-condition-slot a) (cr-condition-slot b))
+                     (eql (cr-condition-value a) (cr-condition-value b))))
+         (test-slot (and (eq (cr-condition-test a) (cr-condition-test b))
+                         (= (cr-condition-si a) (cr-condition-si b))
+                         (eql (cr-condition-value a) (cr-condition-value b))))
+         (t nil))))
+
+
+(defun map-state-to-used-states (procedural state)
+  (let ((result 0))
+    (dolist (x (procedural-used-buffer-map procedural) result)
+      (when (logbitp (car x) state)
+        (setf result (logior result (cdr x)))))))
+
+
+(defun test-constant-condition (procedural test &optional production)
+  (declare (ignore production))
+  (case (cr-condition-type test)
+    (isa 
+     (let ((slots (cr-buffer-type-read procedural (cr-condition-buffer test) (cr-condition-bi test))))
+       (and slots
+            (slots-vector-match-signature slots (car (cr-condition-value test)) (cdr (cr-condition-value test))))))
+    (slot 
+     (let ((real (cr-buffer-slot-read procedural (cr-condition-buffer test) (cr-condition-bi test) (cr-condition-si test) (cr-condition-slot test))))
+       (if (chunk-slot-equal (cr-condition-value test) real)
+             t
+         (when (procedural-ppm procedural)
+           ;;; try a partial match and save the result if it's valid
+           (let ((sim (similarity-fct (cr-condition-value test) real)))
+             (when (and (numberp sim) (> sim (procedural-md procedural)))
+               (push (list (cr-condition-buffer test) (cr-condition-slot test) (cr-condition-value test) real sim)
+                     (production-partial-matched-slots (procedural-current-p procedural)))))))))
+    (query 
+     (eq (cr-condition-result test) (query-buffer (cr-condition-buffer test) (cr-condition-test test))))
+    (test-slot 
+     (let ((real (cr-buffer-slot-read procedural (cr-condition-buffer test) (cr-condition-bi test) (cr-condition-si test) (cr-condition-slot test))))
+       (eq (cr-condition-result test) 
+           (funcall (cr-condition-test test) real (cr-condition-value test)))))))
+
+
+(defun test-search-constants (procedural test production)
+  
+  ;; don't use the cache table for slot values since they'd need to be continuously cleared.
+  ;; Instead just use the accessors for the chunk from the table.
+  
+  (case (cr-condition-type test)
+    (isa 
+     (let ((slots (cr-buffer-type-read procedural (cr-condition-buffer test) (cr-condition-bi test))))
+       (and slots
+            (slots-vector-match-signature slots (car (cr-condition-value test)) (cdr (cr-condition-value test))))))
+    (slot                               ;; can't use cr-buffer-slot-read because the slots cache isn't updated for search buffers
+     (multiple-value-bind (real exists) (slot-value-from-index (cr-buffer-read procedural (cr-condition-buffer test) (cr-condition-bi test)) (cr-condition-si test))
+       (when exists
+         (if (chunk-slot-equal (cr-condition-value test) real)
+             t
+           (when (procedural-ppm procedural)
+             ;;; try a partial match and save the result if it's valid
+             (let ((sim (similarity-fct (cr-condition-value test) real)))
+               (when (and (numberp sim) (> sim (procedural-md procedural)))
+                 (push (list (cr-condition-buffer test) (cr-condition-slot test) (cr-condition-value test) real sim)
+                       (production-partial-matched-slots (procedural-current-p procedural))))))))))
+    (test-slot                          ;; can't use cr-buffer-slot-read because the slots cache isn't updated for search buffers
+     (multiple-value-bind (real exists) (slot-value-from-index (cr-buffer-read procedural (cr-condition-buffer test) (cr-condition-bi test)) (cr-condition-si test))
+       (when exists 
+         (if (eq (cr-condition-result test) (funcall (cr-condition-test test) real (replace-variables (cr-condition-value test) (production-bindings production))))
+             t
+           (when (and (procedural-ppm procedural) (eq (cr-condition-test test) 'safe-chunk-slot-equal) (cr-condition-result test))
+             ;;; try a partial match and save the result if it's valid
+             (let* ((desired (replace-variables (cr-condition-value test) (production-bindings production)))
+                    (sim (similarity-fct desired real)))
+               (when (and (numberp sim) (> sim (procedural-md procedural)))
+                 (push (list (cr-condition-buffer test) (cr-condition-slot test) desired real sim)
+                       (production-partial-matched-slots (procedural-current-p procedural))))))))))
+    (test-var-slot
+     (let* ((slot-name (replace-variables (cr-condition-slot test) (production-bindings production)))
+            
+            ;; just use the chunk-slot-value result so that nil is the value for a missing/bad slot
+            (real (fast-chunk-slot-value-fct (cr-buffer-read procedural (cr-condition-buffer test) (cr-condition-bi test)) slot-name)))
+       (if (eq (cr-condition-result test) (funcall (cr-condition-test test) real (replace-variables (cr-condition-value test) (production-bindings production))))
+           t
+         (when (and (procedural-ppm procedural) (eq (cr-condition-test test) 'safe-chunk-slot-equal) (cr-condition-result test))
+           ;;; try a partial match and save the result if it's valid
+           (let* ((desired (replace-variables (cr-condition-value test) (production-bindings production)))
+                  (sim (similarity-fct desired real)))
+             (when (and (numberp sim) (> sim (procedural-md procedural)))
+               (push (list (cr-condition-buffer test) (replace-variables (cr-condition-slot test) (production-bindings production)) desired real sim)
+                     (production-partial-matched-slots (procedural-current-p procedural)))))))))))
+  
+
+(defun test-and-perform-bindings (procedural bind production)
+  (case (cr-condition-type bind)
+    (bind-slot
+     (bind-variable (cr-condition-value bind) (cr-buffer-slot-read procedural (cr-condition-buffer bind) (cr-condition-bi bind) (cr-condition-si bind) (cr-condition-slot bind)) production))
+    (bind-buffer
+     (bind-variable (cr-condition-value bind) (cr-buffer-read procedural (cr-condition-buffer bind) (cr-condition-bi bind)) production))
+    (bind-var-slot
+     (let* ((slot (replace-variables (cr-condition-slot bind) (production-bindings production)))
+            (index (valid-slot-index slot)))
+       (when (numberp index)
+         (let ((real (cr-buffer-slot-read procedural (cr-condition-buffer bind) (cr-condition-bi bind) index slot)))
+           (and real
+                (bind-variable (cr-condition-value bind) real production))))))
+    (bind
+     (let ((result (dispatch-eval-names (replace-variables-for-eval (cr-condition-result bind) (production-bindings production)))))
+       (if result
+           (bind-variable (cr-condition-value bind) result production)
+         nil)))
+    (mv-bind
+     (let ((all-vars (cr-condition-value bind))
+           (results (multiple-value-list (dispatch-eval-names (replace-variables-for-eval (cr-condition-result bind) (production-bindings production))))))
+       (cond ((not (= (length results) (length all-vars)))
+              nil)
+             ((member nil results)
+              nil)
+             (t
+              (do ((vars all-vars (cdr vars))
+                   (vals results (cdr vals)))
+                  ((null vars) t)
+                (bind-variable (car vars) (car vals) production))))))))
+
+
+(defun test-and-perform-bindings-search (procedural bind production)
+  (case (cr-condition-type bind)
+    (bind-slot    ;; Can't use the cached lookup for a search buffer since it may not be the "Right" chunk
+                  ;; since the cache isn't overwritten for each new chunk
+     (multiple-value-bind (real exists) (slot-value-from-index (cr-buffer-read procedural (cr-condition-buffer bind) (cr-condition-bi bind)) (cr-condition-si bind))
+       (when exists 
+         (bind-variable (cr-condition-value bind) real production))))
+    (bind-buffer
+     (bind-variable (cr-condition-value bind) (cr-buffer-read procedural (cr-condition-buffer bind) (cr-condition-bi bind)) production))
+    (bind-var-slot
+     (let* ((slot (replace-variables (cr-condition-slot bind) (production-bindings production)))
+            (index (valid-slot-index slot)))
+       (when (numberp index)
+         ;; Can't use the cached lookup for a search buffer since it may not be the "Right" chunk
+         ;; since the cache isn't overwritten for each new chunk
+         (multiple-value-bind (real exists) (slot-value-from-index (cr-buffer-read procedural (cr-condition-buffer bind) (cr-condition-bi bind)) index)
+           (when exists 
+             (bind-variable (cr-condition-value bind) real production))))))
+    (bind
+     (let ((result (dispatch-eval-names (replace-variables-for-eval (cr-condition-result bind) (production-bindings production)))))
+       (if result
+           (bind-variable (cr-condition-value bind) result production)
+         nil)))
+    (mv-bind
+     (let ((all-vars (cr-condition-value bind))
+           (results (multiple-value-list (dispatch-eval-names (replace-variables-for-eval (cr-condition-result bind) (production-bindings production))))))
+       (cond ((not (= (length results) (length all-vars)))
+              nil)
+             ((member nil results)
+              nil)
+             (t
+              (do ((vars all-vars (cdr vars))
+                   (vals results (cdr vals)))
+                  ((null vars) t)
+                (bind-variable (car vars) (car vals) production))))))))
+
+(defun test-other-condition (procedural test production)
+  (case (cr-condition-type test)
+    (query 
+     (eq (cr-condition-result test) (query-buffer (cr-condition-buffer test) (list (cr-condition-slot test) (replace-variables (cr-condition-value test) (production-bindings production))))))
+    (test-slot 
+     (let ((real (cr-buffer-slot-read procedural (cr-condition-buffer test) (cr-condition-bi test) (cr-condition-si test) (cr-condition-slot test))))
+       (if (eq (cr-condition-result test) (funcall (cr-condition-test test) real (replace-variables (cr-condition-value test) (production-bindings production))))
+           t
+         (when (and (procedural-ppm procedural) (eq (cr-condition-test test) 'safe-chunk-slot-equal) (cr-condition-result test))
+           ;;; try a partial match and save the result if it's valid
+           (let* ((desired (replace-variables (cr-condition-value test) (production-bindings production)))
+                  (sim (similarity-fct desired real)))
+             (when (and (numberp sim) (> sim (procedural-md procedural)))
+               (push (list (cr-condition-buffer test) (cr-condition-slot test) desired real sim)
+                     (production-partial-matched-slots (procedural-current-p procedural)))))))))
+    (eval
+     (dispatch-eval (replace-variables-for-eval (cr-condition-value test) (production-bindings production))))
+    (test-var-slot
+     (let* ((slot (replace-variables (cr-condition-slot test) (production-bindings production)))
+            (index (valid-slot-index slot))
+            (real (and index (cr-buffer-slot-read procedural (cr-condition-buffer test) (cr-condition-bi test) index slot))))
+       
+       ;; just use the value of real to perform the test
+       
+       (if (eq (cr-condition-result test) (funcall (cr-condition-test test) real (replace-variables (cr-condition-value test) (production-bindings production))))
+           t
+         (when (and (procedural-ppm procedural) (eq (cr-condition-test test) 'safe-chunk-slot-equal) (cr-condition-result test))
+           ;;; try a partial match and save the result if it's valid
+           (let* ((desired (replace-variables (cr-condition-value test) (production-bindings production)))
+                  (sim (similarity-fct desired real)))
+             (when (and (numberp sim) (> sim (procedural-md procedural)))
+               (push (list (cr-condition-buffer test) (replace-variables (cr-condition-slot test) (production-bindings production)) desired real sim)
+                     (production-partial-matched-slots (procedural-current-p procedural)))))))))))
+
+
+(defun test-search-buffers (procedural test production)
+  (let* ((buffer (cr-condition-buffer test))
+         (chunk-list (multiple-value-bind (val exists)
+                         (gethash buffer (procedural-search-buffer-table procedural)) 
+                       (if exists
+                           val
+                         (multiple-value-bind (e new-val)
+                             (m-buffer-search buffer)
+                           (setf (gethash buffer (procedural-search-buffer-table procedural)) 
+                             (if e 
+                                 (let ((valid (get-m-buffer-chunks buffer)))
+                                   (remove-if-not (lambda (x) (member x valid)) new-val))
+                               (get-m-buffer-chunks buffer))))))))
+    (dolist (c chunk-list)
+      
+      
+      ;; Don't actually put a chunk into the buffer
+      ;; instead just set the table entry for it to 
+      ;; avoid "garbage" chunks in the case of a copy buffer.
+      ;; This works because the test-search-constants function
+      ;; only reads the chunk name from the table and gets the
+      ;; slot values directly from the chunk.
+      
+     
+      (setf (aref (procedural-buffer-lookup procedural) (cr-condition-bi test)) (cons c (chunk-slots-vector c)))
+      
+      
+      (let ((crt (procedural-crt procedural)))
+        (setf (procedural-crt procedural) nil)
+        (let ((result (conflict-tests procedural (cr-condition-value test) production 'test-search-constants)))
+          (setf (procedural-crt procedural) crt)
+          (when result
+            (push (cons buffer c) (procedural-temp-search procedural))
+            (return-from test-search-buffers t)))))
+    nil))
+                          
+
+(defun failure-reason-string (condition production)
+  
+  (bt:with-recursive-lock-held ((production-lock production))
+    (if (production-disabled production)
+        "The production is disabled."
+      (if (consp condition)
+          (case (car condition)
+            (:buffer-state
+             (let ((missing (logandc1 (cdr condition) (production-buffer-full production))))
+               (if (zerop missing)
+                   (let* ((buffer (car (rassoc (logand (cdr condition) (production-buffer-empty production)) 
+                                               (reverse (production-buffer-list production))
+                                               :test (lambda (a b) (not (zerop (logand a b)))))))
+                          (queries (remove-if-not (lambda (x)
+                                                    (and (eq (cr-condition-buffer x) buffer)
+                                                         (eq (cr-condition-slot x) 'buffer)
+                                                         (eq (cr-condition-type x) 'query)))
+                                                  (production-constants production)))
+                          (which (find-if-not (lambda (x)
+                                                (eq (cr-condition-result x) (query-buffer buffer (list 'buffer (cr-condition-value x)))))
+                                              queries)))
+                     (format nil "The BUFFER ~s query of the ~s buffer failed." 
+                       (if which (cr-condition-value which) 'empty) ;; just guess empty if didn't find one for some reason
+                       buffer))
+                 (format nil "The ~s buffer is empty." 
+                   (car (rassoc missing (reverse (production-buffer-list production))
+                                :test (lambda (a b) (not (zerop (logand a b)))))))))))
+        
+        (case (cr-condition-type condition)
+        (isa (aif (buffer-read (cr-condition-buffer condition))
+                  (let ((slots (chunk-slots-vector it)))
+                    (multiple-value-bind (match extra unfilled filled)
+                        (compare-slots-vector-to-signature slots (car (cr-condition-value condition)) (cdr (cr-condition-value condition)))
+                      (cond (match
+                             (format nil "This should not happen -- the isa test failed but reports as a match now."))
+                            (unfilled 
+                             (format nil "The chunk in the ~S buffer does not have slot~p ~{~s~^, ~}." 
+                               (cr-condition-buffer condition) (length unfilled) unfilled))
+                            (filled
+                             (format nil "The chunk in the ~S buffer has the slot~p ~{~s~^, ~}." 
+                               (cr-condition-buffer condition) (length filled) filled))
+                            (t
+                             (format nil "This should not happen -- the isa test failed but there are neither unfilled or filled slots but extra is ~s" extra)))))
+                  (format nil "The ~s buffer is empty." (cr-condition-buffer condition))))
+        (search (format nil "The searched multi-buffer ~s did not have a matching chunk." (cr-condition-buffer condition)))
+        (slot (format nil "The ~s slot of the chunk in the ~s buffer does not have the value ~s." 
+                (cr-condition-slot condition) (cr-condition-buffer condition) (cr-condition-value condition)))
+        (query (format nil "The ~s ~s query of the ~s buffer failed." 
+                 (cr-condition-slot condition) (cr-condition-value condition) (cr-condition-buffer condition)))
+        (test-slot 
+         (format nil "The value in the ~s slot of the chunk in the ~s buffer does not satisfy the constraints." 
+           (cr-condition-slot condition) (cr-condition-buffer condition)))
+        (eval (format nil "The evaluation of the expression ~s returned nil." (cr-condition-value condition)))
+        (test-var-slot (let ((slot-name (replace-variables (cr-condition-slot condition) (production-bindings production))))
+                         (format nil "The value in the ~s slot (the value of the ~s variable) of the chunk of the ~s buffer does not satisfy the constraints."
+                           slot-name (cr-condition-slot condition) (cr-condition-buffer condition))))
+        (bind (format nil "The evaluation of the expression ~s returned nil." (cr-condition-result condition)))
+        (mv-bind (format nil "The evaluation of the expression ~s either returned a nil value or too few values to bind to all of the variables." (cr-condition-result condition)))
+        
+        (bind-buffer (format nil "The ~s buffer is empty." (cr-condition-buffer condition))) ;; This shouldn't happen anymore since the isa will fail first
+        (bind-slot (format nil "This should not happen -- a bind-slot has failed.  Please report this to Dan."))
+        (bind-var-slot (let ((index (valid-slot-index (replace-variables (cr-condition-slot condition) (production-bindings production)))))
+                         (if (numberp index)
+                             (format nil "The chunk in the ~s buffer does not have a slot named ~s (the value of the ~s variable)." 
+                               (cr-condition-buffer condition) (replace-variables (cr-condition-slot condition) (production-bindings production)) (cr-condition-slot condition))
+                           (format nil "The value of the ~s variable does not name a valid slot in the chunk in the ~s buffer." (cr-condition-slot condition) (cr-condition-buffer condition))))))))))
+
+
+(defun bind-variable (var value production)
+  (aif (assoc var (production-bindings production))
+       (setf (cdr it) value)
+       (progn
+         (push (cons var value) (production-bindings production))
+         value)))
+
+(defun rhs-bind-variable (var value production)
+  (when (null value)
+    (print-warning "Attempt to bind variable ~s to nil on RHS of production ~s.  Value t used instead." var (production-name production))
+    (setf value t))
+  (aif (assoc var (production-bindings production))
+       (setf (cdr it) value)
+       (progn
+         (push (cons var value) (production-bindings production))
+         value)))
+
+(defun conflict-tests (procedural test-list production tester &key (report t))
+  (if (null test-list) 
+      t
+    (let ((outcome (do* ((tests test-list (cdr tests))
+                         (result (funcall tester procedural (car tests) production)
+                                 (funcall tester procedural (car tests) production)))
+                        
+                        ((or (null result) (null (cdr tests))) (cons result (car tests))))))
+      
+      (if (null (car outcome))
+          (progn
+            (setf (production-failure-condition production) (cdr outcome))
+            (when (and (procedural-crt procedural) report); report failures..
+              (model-output "Fails because: ")
+              (model-output (failure-reason-string (cdr outcome) production)))
+            nil)
+        t))))
+
+(defun test-buffer-states (procedural production buffer-state &key (report t))
+  (if (zerop (logior (logandc1 buffer-state (production-buffer-full production)) (logand buffer-state (production-buffer-empty production))))
+      t
+    (progn
+      (setf (production-failure-condition production) 
+        (cons :buffer-state buffer-state)
+        
+        )
+      
+      (when (and (procedural-crt procedural) report); report failures..
+        (model-output "Fails because: ")
+        (model-output (failure-reason-string (cons :buffer-state buffer-state) production)))
+      nil)))
+
+(defun conflict-resolution (procedural)
+  (let (crt  er conflict-set-hook cst v dat use-tree)
+  (bt:with-lock-held ((procedural-cr-lock procedural))
+    (setf (procedural-delayed-resolution procedural) nil)
+  
+        
+    
+    (bt:with-lock-held ((procedural-param-lock procedural))
+      (setf crt (procedural-crt procedural)
+       ; ppm (procedural-ppm procedural)
+        er (procedural-er procedural)
+        conflict-set-hook (procedural-conflict-set-hook procedural)
+        cst (procedural-cst procedural)
+        v (procedural-v procedural)
+        dat (procedural-dat procedural)
+        use-tree (procedural-use-tree procedural)))
+    
+  (let* ((conflict-set nil)
+         (hook-set nil)
+         (best nil)
+         (best-ut (minimum-utility))
+         (mu best-ut)
+         (offsets-table nil)
+         (saved-search-chunks nil)
+         (search-matches-table nil)
+         (buffer-state (let ((m (current-model-struct)))
+                         (bt:with-lock-held ((act-r-model-buffers-lock m))
+                           (act-r-model-buffer-state m))))
+         
+         (test-set (cond (crt
+                          (productions-list procedural))
+                         ((procedural-buffer-use-array procedural)
+                          (aif (aref (procedural-master-buffer-map procedural) buffer-state)
+                               (aref (procedural-buffer-use-array procedural) it)
+                               (let ((mapped-state (map-state-to-used-states procedural buffer-state)))
+                                 (setf (aref (procedural-master-buffer-map procedural) buffer-state) mapped-state)
+                                 (aref (procedural-buffer-use-array procedural) mapped-state)))
+                          )
+                         ;(ppm
+                         ; (productions-list procedural))
+                         (use-tree
+                          (if (null (procedural-buffer-lookup procedural))
+                              (setf (procedural-buffer-lookup procedural) (make-array (list (procedural-buffer-lookup-size procedural)) :initial-element :untested))
+                            (fill (procedural-buffer-lookup procedural) :untested :start 0 :end (procedural-buffer-lookup-size procedural)))
+                          
+                          (if (or (null (procedural-slot-lookup procedural))
+                                  (not (= (largest-chunk-type-size) (procedural-largest-chunk-type procedural))))
+                              (progn
+                                (setf (procedural-largest-chunk-type procedural) (largest-chunk-type-size))
+                                (setf (procedural-slot-lookup procedural) (make-array (list (procedural-buffer-lookup-size procedural) (largest-chunk-type-size)) :initial-element :untested)))
+                            (dolist (x (procedural-slot-used procedural) (setf (procedural-slot-used procedural) nil))
+                              (setf (aref (procedural-slot-lookup procedural) (car x) (cdr x)) :untested)))
+                          
+                          (mapcar (lambda (x) (get-production-internal x procedural)) (get-valid-productions procedural)))
+                         (t
+                          (productions-list procedural)))))
+        
+    
+    (setf (procedural-last-cr-time procedural) (mp-time-ms))
+    
+    (when test-set
+          
+                     
+      (unless use-tree
+        (if (null (procedural-buffer-lookup procedural))
+        (setf (procedural-buffer-lookup procedural) (make-array (list (procedural-buffer-lookup-size procedural)) :initial-element :untested))
+          (fill (procedural-buffer-lookup procedural) :untested :start 0 :end (procedural-buffer-lookup-size procedural)))
+        
+        (if (or (null (procedural-slot-lookup procedural))
+                (not (= (largest-chunk-type-size) (procedural-largest-chunk-type procedural))))
+            (progn
+              (setf (procedural-largest-chunk-type procedural) (largest-chunk-type-size))
+              (setf (procedural-slot-lookup procedural) (make-array (list (procedural-buffer-lookup-size procedural) (largest-chunk-type-size)) :initial-element :untested)))
+          (dolist (x (procedural-slot-used procedural) (setf (procedural-slot-used procedural) nil))
+            (setf (aref (procedural-slot-lookup procedural) (car x) (cdr x)) :untested))))
+      
+    
+    (dolist (b (procedural-used-search-buffers procedural))
+      (aif (buffer-read b)
+           (push (cons b it) saved-search-chunks)
+           (push (cons b :clear) saved-search-chunks)))
+    
+    (clrhash (procedural-search-buffer-table procedural))
+      )
+      
+    (dolist (production test-set)
+      (bt:with-recursive-lock-held ((production-lock production))
+                                   
+        (setf (production-bindings production) nil)
+        (setf (production-failure-condition production) nil)
+        
+        (setf (procedural-current-p procedural) production)
+        (setf (production-partial-matched-slots production) nil)
+        
+        
+        (setf (procedural-temp-search procedural) nil)
+        
+        (unless (production-disabled production)
+          (when crt
+            (model-output "Trying production: ~s" (production-name production)))
+          
+          (when (and 
+                 (or (procedural-buffer-use-array procedural) (test-buffer-states procedural production buffer-state))
+                 (conflict-tests procedural (production-constants production) production 'test-constant-condition)
+                 (conflict-tests procedural (production-binds production) production 'test-and-perform-bindings)
+                 (conflict-tests procedural (production-others production) production 'test-other-condition)
+                 (conflict-tests procedural (production-searches production) production 'test-search-buffers)
+                 (conflict-tests procedural (production-search-binds production) production 'test-and-perform-bindings-search)
+                 (conflict-tests procedural (production-search-others production) production 'test-other-condition))
+            
+            (dolist (s (procedural-temp-search procedural))
+              (aif (assoc s search-matches-table)
+                   (pushnew (cdr s) (cdr it))
+                   (push (list (car s) (cdr s)) search-matches-table)))
+            
+            (push-last production conflict-set)))))
+    
+    
+    ;; get and save any potential chunk offsets 
+         
+      (dolist (x search-matches-table)
+        (let ((buffer (car x))
+              (chunks (cdr x)))
+          (multiple-value-bind (exists offsets)
+              (m-buffer-offset buffer chunks)
+            (when (and exists offsets (every 'numberp offsets))
+              (push (cons buffer (mapcar 'cons chunks offsets))
+                    offsets-table)))))
+         
+    
+    (dolist (production conflict-set)
+      (bt:with-recursive-lock-held ((production-lock production))
+        (let ((u (compute-utility (production-name production) t)))
+          
+          (when (procedural-crt procedural)
+            (model-output "Production ~s matches" (production-name production)))
+          
+          
+          (dolist (s (production-searches production))
+            (let* ((buf (cr-condition-buffer s))
+                   (buf-var (cr-condition-test s))
+                   (bound-chunk (cdr (assoc buf-var (production-bindings production))))
+                   (offset (cdr (assoc bound-chunk (cdr (assoc buf offsets-table))))))
+              
+              (when (numberp offset)
+                (incf u offset))))
+          
+          
+          (setf (production-conflict-val production) u)
+          
+          (when (and crt mu (< u mu))
+            (model-output "Fails because:~%Utility ~s is below the threshold ~s" u mu))
+          
+          (cond ((or (null best-ut) (> u best-ut))
+                 (setf best-ut u)
+                 (setf best (list production)))
+                ((= u best-ut)
+                 (if er
+                     (push-last production best)
+                   (setf best (list production))))))))
+         
+    
+    (when (and (listp best) best er)
+      (setf best (permute-list best)))
+    
+    (when conflict-set-hook
+      (let ((val nil)
+            (old-val nil)
+            
+            (cs-names (mapcar 'production-name
+                        (sort (copy-list conflict-set)
+                              (lambda (x y) 
+                                (sort-productions x y best))))))
+        
+        (dolist (hook conflict-set-hook)
+          (when val
+            (setf old-val val))
+          (setf val (decode-string (dispatch-apply hook cs-names)))
+          (unless (or (null val) (stringp val) (member val cs-names))
+            (print-warning "Only productions in the conflict set, a string, or nil are valid return values of a conflict-set-hook function.")
+            (setf val nil))
+          (when (and val old-val)
+            (print-warning "Multiple functions on the conflict-set-hook returned a value")))
+        (setf hook-set (or val old-val))))
+    
+    (when (and cst v)
+      (dolist (x conflict-set)
+        (bt:with-recursive-lock-held ((production-lock x))
+          (print-instantiation x)
+          (let ((utilities (spp-fct (list (production-name x) :utility :u))))
+            (unless (= (production-conflict-val x) 
+                     ;; to avoid an SBCL warning cast this as a real number
+                       (the real (caar utilities)))
+              (command-output "{buffer search adjusted u value is ~,3f}" (production-conflict-val x)))))))
+    
+    ;; restore the chunks to the search buffers then any "new" search results will overwrite
+    ;; those in the conflict-code
+    
+    (dolist (b (procedural-used-search-buffers procedural))
+      (let ((val (assoc b saved-search-chunks)))
+        (when val
+          (if (eq (cdr val) :clear)
+              (erase-buffer b)
+            (overwrite-buffer-chunk b (cdr val))))))
+    
+    (cond ((null hook-set) ;; default mechanims are used
+           (let ((best-production (car best))) ; not (car conflict-set) because that's only sorted for the hook
+             (if best-production 
+                 (progn
+                   (schedule-event-now 'production-selected 
+                                       :module 'procedural
+                                       :destination 'procedural
+                                       :priority :max
+                                       :params (list best-production)
+                                       :details (concatenate 'string (symbol-name 'production-selected) " " (symbol-name (production-name best-production))))
+                   
+                   (awhen (production-conflict-code best-production)
+                          (dolist (code it)
+                            (funcall code)))
+                   
+                   (when (production-break best-production)
+                     (schedule-event-now 'print-instantiation
+                                         :module 'procedural
+                                         :output nil
+                                         :priority :max
+                                         :params (list best-production))
+                     
+                     (schedule-break-relative 0 :priority :max 
+                                              :time-in-ms t
+                                              :details (concatenate 'string (symbol-name 'production) " " (symbol-name (production-name best-production))))))
+               
+               (setf (procedural-delayed-resolution procedural) 
+                 (schedule-event-after-change 'conflict-resolution
+                                              :module 'procedural
+                                              :destination 'procedural
+                                              :output 'medium
+                                              :dynamic t)))))
+          
+          ((symbolp hook-set) ;; an over-ride production specified
+           
+           (let ((hooked-production (get-production-internal hook-set procedural)))
+             (bt:with-recursive-lock-held ((production-lock hooked-production))
+               (schedule-event-now 'production-selected :module 'procedural
+                                   :destination 'procedural :priority :max
+                                   :params (list hooked-production)
+                                   :details (concatenate 'string (symbol-name 'production-selected) " " (symbol-name hook-set)))
+               
+               (awhen (production-conflict-code hooked-production)
+                      (dolist (code it)
+                        (funcall code)))
+               
+               (when (production-break hooked-production)
+                 
+                 (schedule-event-now 'print-instantiation
+                                     :module 'procedural
+                                     :output nil
+                                     :priority :max
+                                     :params (list hooked-production))
+                 
+                 (schedule-break-relative 0 :priority :max 
+                                          :time-in-ms t
+                                          :details (concatenate 'string (symbol-name 'production) " " (symbol-name hook-set)))))))
+          
+          ((stringp hook-set) ;; an abort selection reason provided
+           (model-warning "conflict-set-hook function canceled selection because : ~a" hook-set)
+           (schedule-event-relative dat 'conflict-resolution
+                                    :time-in-ms t
+                                    :module 'procedural
+                                    :destination 'procedural
+                                    :output 'medium))
+          (t ;; shouldn't happen but this is a saftey case
+           (print-warning "Illegal conflict resolution situation occured. Contact Dan to let him know.")))))))
+
+
+
+(defun ppm-offset (production) ;; it's the name called through the utility-offsets
+  (let ((procedural (get-module procedural))
+        (p (get-production production)))
+    (bt:with-lock-held ((procedural-param-lock procedural))
+      (when (and procedural p (numberp (procedural-ppm procedural)))
+        (bt:with-recursive-lock-held ((production-lock p))
+          (when (production-partial-matched-slots p)
+            (let ((override (awhen (procedural-ppm-hook procedural)
+                                   (dispatch-apply it production (production-partial-matched-slots p)))))
+              (if (numberp override)
+                  override
+                (* (procedural-ppm procedural) (reduce '+ (production-partial-matched-slots p) :key 'fifth))))))))))
+
+
+(defun un-delay-conflict-resolution ()
+  (let ((p (get-module procedural)))
+    (when p
+      (bt:with-lock-held ((procedural-cr-lock p))
+        (when (procedural-delayed-resolution p)
+          (unless (procedural-suppress-undelay p)
+            (let ((deleted (delete-event (procedural-delayed-resolution p))))
+              (setf (procedural-delayed-resolution p) nil)
+              (when deleted
+                (schedule-event-now 'conflict-resolution
+                                    :module 'procedural :destination 'procedural :output 'medium)))))))
+    nil))
+
+
+(defun suppress-undelay-cr ()
+  (let ((p (get-module procedural)))
+    (when p
+      (bt:with-lock-held ((procedural-cr-lock p))
+        (setf (procedural-suppress-undelay p) t)))))
+
+(defun unsuppress-undelay-cr ()
+  (let ((p (get-module procedural)))
+    (when p
+      (bt:with-lock-held ((procedural-cr-lock p))
+        (setf (procedural-suppress-undelay p) nil)))))
+
+   
+
+(add-act-r-command "un-delay-conflict-resolution" 'un-delay-conflict-resolution "Have the procedural module force a conflict-resolution event to occur if it is waiting for a change. No params." t)
+
+(defmacro pprint-instantiation (production-name)
+  `(pprint-instantiation-fct ',production-name))
+
+(defun pprint-instantiation-fct (production-name)
+  (let ((p (get-production production-name)))
+    (if p
+        (print-instantiation p)
+      (model-warning "No production named ~a." p))))
+                                 
+                                 
+(defun print-instantiation (production)
+  (bt:with-recursive-lock-held ((production-lock production))
+    (print-production-text production t)))
+
+
+(defun print-production (production &optional model-output)
+  (bt:with-recursive-lock-held ((production-lock production))
+    (when (production-disabled production)
+      (if model-output
+          (model-output ";;; Production ~s is DISABLED" (production-name production))
+        (command-output ";;; Production ~s is DISABLED" (production-name production))))
+    (print-production-text production nil model-output)))
+
+
+(defun print-production-text (p instantiate &optional model-output)
+  
+  (let* ((s (make-string-output-stream))
+         (bindings (if instantiate (production-bindings p) nil)))
+    
+    (format s "(P ~a~%" (production-name p))
+    (awhen (production-documentation p)
+      (format s "  ~S~%" it))
+
+    (dolist (x (production-lhs p))
+      (write-string (production-statement-text x bindings (when instantiate (production-partial-matched-slots p))) s))
+    
+    (format s " ==>~%")
+    
+    (dolist (x (production-rhs p))
+      (write-string (production-statement-text x bindings nil) s))
+    
+    (format s ")")
+    
+    (if model-output
+        (model-output "~a" (get-output-stream-string s))
+      (command-output "~a" (get-output-stream-string s)))))
+    
+
+(defun printed-production-text (p-name &optional instantiate)
+  
+  (let ((p (get-production p-name)))
+    (if p
+        (bt:with-recursive-lock-held ((production-lock p))
+          (let* ((s (make-string-output-stream))
+                 (bindings (if instantiate (production-bindings p) nil)))
+            
+            (format s "(P ~a~%" (production-name p))
+            (awhen (production-documentation p)
+                   (format s "  ~S~%" it))
+            
+            (dolist (x (production-lhs p))
+              (write-string (production-statement-text x bindings (when instantiate (production-partial-matched-slots p))) s))
+            
+            (format s " ==>~%")
+            
+            (dolist (x (production-rhs p))
+              (write-string (production-statement-text x bindings nil) s))
+            
+            (format s ")~%")
+            
+            (get-output-stream-string s)))
+      "")))
+
+(defun printed-production-side (p-name lhs &optional instantiate)
+  
+  (let ((p (get-production p-name)))
+    (if p
+        (bt:with-recursive-lock-held ((production-lock p))
+          (let* ((s (make-string-output-stream))
+                 (bindings (if instantiate (production-bindings p) nil)))
+            
+            
+            (if lhs
+                (dolist (x (production-lhs p))
+                  (write-string (production-statement-text x bindings (when instantiate (production-partial-matched-slots p))) s))
+                        
+              (dolist (x (production-rhs p))
+                (write-string (production-statement-text x bindings nil) s)))
+                        
+            (get-output-stream-string s)))
+      "")))
+
+(defun production-statement-text (statement bindings partials)
+  (let ((s (make-string-output-stream))
+        (op (production-statement-op statement))
+        (target (production-statement-target statement))
+        (spec (production-statement-spec statement))
+        (definition (production-statement-definition statement)))
+    
+    (case op
+      (#\-
+       (format s "   -~a>~%" target))
+      (#\?
+       (format s "   ?~a>~%" target)
+       (dolist (slot (act-r-chunk-spec-slots (instantiate-query-spec spec bindings)))
+         (if (eq '= (act-r-slot-spec-modifier slot))
+             (format s "       ~s ~s~%" (act-r-slot-spec-name slot) (act-r-slot-spec-value slot))
+           (format s "    ~2a ~s ~s~%" (act-r-slot-spec-modifier slot) (act-r-slot-spec-name slot) (act-r-slot-spec-value slot)))))
+      ((#\= #\*)
+       (if spec
+           (progn
+             (format s "   ~c~a>~%" op target)
+             (dolist (slot (replace-variables (chunk-spec-slot-spec spec) bindings)) 
+               (let* ((name (spec-slot-name slot))
+                      (val (spec-slot-value slot))
+                      (partial (find (list target name val) partials :test 'equal :key (lambda (x) (subseq x 0 3)))))
+               
+               (if partial
+                   (if (eq '= (spec-slot-op slot))
+                       (format s "       ~s [~s, ~s, ~f]~%" name val (fourth partial) (fifth partial))
+                     (format s "    ~2a ~s [~s, ~s, ~f]~%" (spec-slot-op slot) name val (fourth partial) (fifth partial)))                 
+                 
+                 (if (eq '= (spec-slot-op slot))
+                     (format s "       ~s ~s~%" name val)
+                   (format s "    ~2a ~s ~s~%" (spec-slot-op slot) name val))))))
+         ;; there's only one thing in the definition but leave it flexible...
+         (format s "   ~c~a> ~{~s~^ ~}~%" op target (replace-variables definition bindings))))
+      (#\@
+       (cond ((null definition)
+              (format s "   @~a>~%" target))
+             ((= (length definition) 1)
+              (format s "   @~a> ~s~%" target (first (replace-variables definition bindings))))
+             (t
+              (format s "   @~a>~%" target)
+              (dolist (slot (replace-variables (chunk-spec-slot-spec spec) bindings)) 
+                (format s "       ~s ~s~%" (spec-slot-name slot) (spec-slot-value slot))))))
+      (#\!
+       (format s "   !~a! ~{~s~^ ~}~%" target (replace-variables definition bindings)))
+      (#\+
+       (if (= (length definition) 1)
+           (format s "   +~a> ~s~%" target (first (replace-variables definition bindings)))
+         (progn
+           (format s "   +~a>~%" target)
+           (dolist (slot (replace-variables (chunk-spec-slot-spec spec) bindings)) 
+               (if (eq '= (spec-slot-op slot))
+                   (format s "       ~s ~s~%" (spec-slot-name slot) (spec-slot-value slot))
+                 (format s "    ~2a ~s ~s~%" (spec-slot-op slot) (spec-slot-name slot) (spec-slot-value slot))))))))
+    
+    (get-output-stream-string s)))
+           
+
+(defun sort-productions (p1 p2 best)
+  (bt:with-recursive-lock-held ((production-lock p1))
+    (bt:with-recursive-lock-held ((production-lock p2))
+      (let ((p1-u (production-conflict-val p1))
+            (p2-u (production-conflict-val p2)))
+        (cond ((= p1-u p2-u)
+               (< (or (position p1 best) (1+ (length best)))
+                  (or (position p2 best) (1+ (length best)))))
+              (t (> p1-u p2-u)))))))
+    
+    
+(defun production-selected (procedural production)
+  (bt:with-recursive-lock-held ((production-lock production))
+    (when (procedural-lhst procedural)
+      (when (procedural-v procedural)
+        (dolist (x (production-selection-code production))
+          (case (car x)
+            (query-buffer 
+             (schedule-query-buffer (second x) (instantiate-query-spec (third x) (production-bindings production)) 0 :time-in-ms t :module 'procedural))
+            (buffer-read 
+             (schedule-buffer-read (second x) 0 :time-in-ms t :module 'procedural))
+            (buffer-search
+             (schedule-event-now 'buffer-search :module 'procedural :params (cdr x)))))))
+    
+    (bt:with-lock-held ((procedural-state-lock procedural))
+      (setf (procedural-busy procedural) t)
+      (schedule-module-request 'production (procedural-req-spec procedural) 0 :time-in-ms t :module 'procedural :output nil :details (symbol-name (production-name production)) :priority :max))
+    
+    (note-production-selection (production-name production))
+    
+    (schedule-event-relative 
+     (if (procedural-random-times procedural)
+         (randomize-time-ms (productions-action-time (production-name production)))
+       (productions-action-time (production-name production)))
+     'production-fired :time-in-ms t :module 'procedural :destination 'procedural :params (list production)
+     :details (concatenate 'string (symbol-name 'production-fired) " " (symbol-name (production-name production)))
+     :output 'low)))
+
+
+(defun buffer-search (buffer-name)
+  "dummy function to show in the trace"
+  (declare (ignore buffer-name)))
+      
+(defun production-fired (procedural production)
+  
+  (bt:with-recursive-lock-held ((production-lock production))                  
+    (dolist (x (production-actions production))
+      (funcall x))
+    
+    (learn-parameters (production-name production))
+    
+    (bt:with-lock-held ((procedural-cr-lock procedural))
+      (schedule-event-now 'conflict-resolution :module 'procedural :priority :min :destination 'procedural :output 'medium))
+    
+    (dolist (hook (procedural-cycle-hook procedural))
+      (dispatch-apply hook (production-name production)))
+  
+    ;; Call this explicitly now...
+    (compile-productions production)
+    
+    (bt:with-lock-held ((procedural-state-lock procedural))
+      (setf (procedural-busy procedural) nil))))
+
+
+(defun procedural-query (instance buffer-name slot value)
+  (declare (ignore slot)) ; the only slot is state
+  (bt:with-lock-held ((procedural-state-lock instance))
+    (case value
+      (busy (procedural-busy instance))
+      (free (not (procedural-busy instance)))
+      (error nil)
+      (t 
+       (print-warning "Unknown state query ~S to ~S buffer" value buffer-name)))))
+
+(defun procedural-request (instance buffer-name chunk-spec)
+  (declare (ignore instance buffer-name chunk-spec)))
+
+(defun procedural-run-check (instance)
+  (declare (ignorable instance))
+  ;; if there aren't any procedural events put a new
+  ;; conflict-resolution out there...
+    (unless (mp-modules-events 'procedural)
+      (bt:with-lock-held ((procedural-cr-lock instance))
+        (schedule-event-after-change 'conflict-resolution :module 'procedural :destination 'procedural :output 'medium :dynamic t))))
+
+(defun create-procedural-module (x)
+  (declare (ignore x)) 
+  (make-procedural))
+
+(defun do-not-harvest-value-test (x)
+  (or (stringp x) (symbolp x) 
+      (and (listp x) (= (length x) 2) (eq (car x) :remove)
+           (or (stringp (second x)) (symbolp (second x))))))
+
+  
+(define-module-fct 'procedural '(production)
+  (list (define-parameter :er :owner nil)
+        
+        (define-parameter :v :owner nil)    
+        (define-parameter :md :owner nil)
+        (define-parameter :ppm :valid-test 'numornil :default-value nil
+          :warning "a number or nil" :documentation "Procedural partial matching")
+        
+        (define-parameter :dat :valid-test 'numberp :default-value .05
+          :warning "a number" :documentation "Default Action Time")
+        
+        (define-parameter :crt :valid-test 'tornil :default-value nil
+          :warning "T or nil" :documentation "Conflict Resolution Trace")
+        (define-parameter :cst :valid-test 'tornil :default-value nil
+          :warning "T or nil" :documentation "Conflict Set Trace")
+        
+        (define-parameter :lhst :valid-test 'tornil :default-value t
+          :warning "T or nil" 
+          :documentation "Left Hand Side Trace")
+        (define-parameter :rhst :valid-test 'tornil :default-value t
+          :warning "T or nil" 
+          :documentation "Right Hand Side Trace")
+        
+        (define-parameter :ppm-hook :valid-test 'local-or-remote-function-or-nil :default-value nil
+          :warning "a function, command name string, or nil" :documentation "Procedural partial matching utility adjustment hook")
+        
+        (define-parameter :cycle-hook :valid-test 'local-or-remote-function-or-remove 
+          :default-value nil :warning "a function, string naming a command, nil, or (:remove <item>)" :documentation "Cycle hook")
+            
+        (define-parameter :vpft :valid-test 'tornil :default-value nil
+          :warning "T or nil" :documentation "Variable Production Firing Time")
+
+        (define-parameter :conflict-set-hook :valid-test 'local-or-remote-function-or-remove  
+          :default-value nil :warning "a function, string naming a command, nil, or (:remove <item>)" :documentation "Conflict set hook")
+        
+        (define-parameter :add-production-hook :valid-test 'local-or-remote-function-or-remove  
+          :default-value nil :warning "a function, string naming a command, nil, or (:remove <item>)" :documentation "Add production hook")
+        
+        ;;; There is another list parameter but not a hook
+        ;;; it's the list of buffers not to use for strict harvesting
+        
+        (define-parameter :do-not-harvest :valid-test 'do-not-harvest-value-test :default-value nil 
+          :warning "a string or symbol or a list starting with :remove" :documentation "Buffers that are not strict harvested")
+        
+        (define-parameter :do-not-query :valid-test 'do-not-harvest-value-test :default-value nil 
+          :warning "a string or symbol or a list starting with :remove" 
+          :documentation "Buffers that are not automatically queried for state free")
+        
+        (define-parameter :use-tree :valid-test 'tornil :default-value nil
+          :warning "T or nil" :documentation "Use a decision tree in production matching")
+        (define-parameter :style-warnings :valid-test 'tornil :default-value t
+          :warning "T or nil" :documentation "Show model warnings for production issues that don't prevent production definition"))
+  
+  :version "8.3" 
+  :documentation 
+  "The procedural module handles production definition and execution"
+  
+  :creation 'create-procedural-module
+  :query 'procedural-query
+  :request 'procedural-request
+  :reset '(reset-procedural-module nil finalize-procedural-reset)
+  :params 'procedural-params
+  :run-start 'procedural-run-check)
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               (#Y(si::bytecodes nil nil (15 0 14 1 14 2 33 3 12 19 4 4 76 73 39 346 15 0 11 5 3 52 5 75 76 39 18 15 6 15 7 15 0 19 1 8 12 15 9 19 4 10 38 2 75 45 11 11 12 39 12 13 0 19 1 13 12 19 1 14 38 298 57 15 60 93 75 45 16 57 17 61 1 68 15 18 34 20 3 6 1 12 11 21 3 48 21 15 22 19 1 13 12 14 23 14 24 19 3 25 45 26 64 18 13 0 19 1 27 69 10 0 39 6 13 0 19 1 28 70 65 10 0 39 10 13 0 14 29 14 30 19 3 28 66 43 1 36 2 44 1 10 1 45 31 77 13 0 72 2 43 1 36 2 62 43 1 63 45 32 15 0 13 0 14 2 15 3 19 4 33 5 45 34 13 0 11 35 17 36 76 45 37 13 3 19 1 13 12 13 0 19 2 14 45 38 10 0 39 155 10 2 39 32 15 0 13 3 14 2 15 3 19 4 33 45 39 11 35 45 40 13 1 10 0 17 41 10 0 43 1 43 1 38 12 15 0 11 35 3 12 10 3 3 51 3 57 42 60 105 75 45 43 57 17 61 1 80 15 18 34 44 3 6 1 12 11 21 3 48 21 15 45 19 1 13 12 14 23 14 46 14 47 14 48 14 49 14 50 19 7 25 45 26 64 22 13 7 14 51 13 0 19 3 52 69 10 0 39 6 13 0 19 1 28 70 65 10 0 39 10 13 0 14 29 14 30 19 3 28 66 43 1 36 2 44 1 10 1 45 31 77 13 0 72 2 43 1 36 2 62 43 1 63 10 0 73 43 4 43 1 29) #1=#A(t (449) ("GENERAL-PM" *modules* :test string= member common-lisp-user::*act-r-modules* string "ACT-R-support:" string-downcase ".lisp" concatenate common-lisp-user::pn common-lisp-user::*skip-recompiling* translate-logical-pathname common-lisp-user::compile-and-load #:g14260 #:g14261 0 error si::temp #Y(nil nil nil (24 45 19 26 10 0 51 2 35 1 0 29) #1# #2=#P"/opt/actr/actr7.x/core-modules/speech.lisp" 0) si::*handler-clusters* "ACT-R-support:require-mode.lisp" :direction :input open common-lisp-user::f read close :abort t condition common-lisp-user::previous assoc common-lisp-user::previous-mode common-lisp-user::*current-load-mode* eq common-lisp-user::need-to-compile common-lisp-user::result #:g14263 #:g14264 rplacd #:g14266 #:g14267 #Y(nil nil nil (24 45 19 26 10 0 51 2 35 1 0 29) #1# #2# 0) "ACT-R-support:require-mode.lisp" :output :if-does-not-exist :create :if-exists :supersede :stream write common-lisp-user::speech-module ext::location (defclass common-lisp-user::speech-module) (#2# . 10584) ext::annotate (common-lisp-user::pm-module) (:initform 150 :writers ((setf common-lisp-user::s-rate)) :readers (common-lisp-user::s-rate) :name common-lisp-user::syllable-rate) (:initform 300 :writers ((setf common-lisp-user::subvocalize-delay)) :readers (common-lisp-user::subvocalize-delay) :name common-lisp-user::subvocalize-delay) (:initform 3 :writers ((setf common-lisp-user::char-per-syllable)) :readers (common-lisp-user::char-per-syllable) :name common-lisp-user::char-per-syllable) :initfunction equalp make-hash-table #Y(nil nil nil (26 14 2 15 63 19 2 64 29) #1# #2# 10584) (:initform (make-hash-table :test 'equalp) :initargs (:art-time-ht) :writers ((setf common-lisp-user::art-time-ht)) :readers (common-lisp-user::art-time-ht) :name common-lisp-user::art-time-ht) (:initform nil :writers ((setf common-lisp-user::device)) :readers (common-lisp-user::device) :name common-lisp-user::device) (:initform nil :writers ((setf common-lisp-user::notify-subvocalize)) :readers (common-lisp-user::notify-subvocalize) :name common-lisp-user::notify-subvocalize) (:initform t :writers ((setf common-lisp-user::hear-self)) :readers (common-lisp-user::hear-self) :name common-lisp-user::hear-self) :direct-default-initargs :version-string "7.2" constantly :name :speech clos::load-defclass common-lisp-user::register-art-time (defmethod common-lisp-user::register-art-time (common-lisp-user::spch-mod common-lisp-user::speech-module) (common-lisp-user::text string) (time number) common-lisp-user::time-in-ms) (#2# . 11144) (common-lisp-user::speech-module string number t) (common-lisp-user::spch-mod common-lisp-user::text time common-lisp-user::time-in-ms) common-lisp-user::spch-mod common-lisp-user::text time common-lisp-user::time-in-ms common-lisp-user::art-time-ht common-lisp-user::register-articulation-time common-lisp-user::safe-seconds->ms si::hash-set #Y(common-lisp-user::register-art-time nil nil (24 45 82 24 45 83 24 45 84 24 45 85 26 13 2 13 3 19 1 86 12 10 0 39 6 10 1 73 38 8 13 1 15 87 19 2 88 12 19 3 89 29) #1# #2# 11144) clos::install-method common-lisp-user::get-art-time (defmethod common-lisp-user::get-art-time (common-lisp-user::spch-mod common-lisp-user::speech-module) (common-lisp-user::text string) &optional common-lisp-user::time-in-ms) (#2# . 11522) (common-lisp-user::speech-module string) (common-lisp-user::spch-mod common-lisp-user::text &optional common-lisp-user::time-in-ms) gethash common-lisp-user::it common-lisp-user::s-rate length common-lisp-user::char-per-syllable / * max round common-lisp-user::ms->seconds #Y(common-lisp-user::get-art-time nil nil (24 45 82 24 45 83 25 40 2 77 46 85 26 13 1 13 2 19 1 86 12 19 2 97 45 98 10 0 39 5 10 0 38 39 13 3 19 1 99 12 13 3 19 1 99 12 10 2 16 100 12 13 3 19 1 101 12 19 2 102 12 19 2 103 12 19 2 104 12 19 1 105 43 1 45 84 10 1 39 6 10 0 73 38 6 13 0 19 1 106 43 1 29) #1# #2# 11522) common-lisp-user::install-speech-device (defun common-lisp-user::install-speech-device) (#2# . 11857) :lambda-list (common-lisp-user::device-list) common-lisp-user::device-list common-lisp-user::get-module-fct common-lisp-user::speech #:g14287 #:g14288 (setf common-lisp-user::device) (common-lisp-user::check-subvocalize) common-lisp-user::notify-device common-lisp-user::val #:g14289 #:g14290 (setf common-lisp-user::notify-subvocalize) #:g14291 #:g14292 (setf common-lisp-user::notify-subvocalize) #Y(common-lisp-user::install-speech-device nil nil (24 45 113 26 15 75 77 19 2 114 45 115 10 0 39 77 10 0 45 116 10 2 45 117 13 0 13 1 33 118 18 2 43 1 43 1 13 1 15 119 19 2 120 45 121 10 0 39 23 10 1 45 122 11 30 45 123 13 0 13 1 33 124 18 2 43 1 43 1 38 20 10 1 45 125 75 45 126 13 0 13 1 33 127 18 2 43 1 43 1 43 1 11 30 73 43 1 29) #1# #2# 11857) si::fset common-lisp-user::remove-speech-device (defun common-lisp-user::remove-speech-device) (#2# . 12350) (common-lisp-user::device-list) #:g14297 #:g14298 (setf common-lisp-user::device) #:g14299 #:g14300 (setf common-lisp-user::notify-subvocalize) #Y(common-lisp-user::remove-speech-device nil nil (24 45 113 26 15 75 77 19 2 114 45 115 10 0 39 39 10 0 45 134 75 45 135 13 0 13 1 33 136 18 2 43 1 43 1 10 0 45 137 75 45 138 13 0 13 1 33 139 18 2 43 1 43 1 11 30 73 43 1 29) #1# #2# 12350) "install-speech-device" "Internal command for speech module to handle a new device. Do not call directly." common-lisp-user::add-act-r-command "remove-speech-device" "Internal command for speech module to handle a device being removed. Do not call directly." "speech" "install-speech-device" "remove-speech-device" common-lisp-user::define-interface common-lisp-user::default-speech-action (defun common-lisp-user::default-speech-action) (#2# . 13020) #Y(common-lisp-user::default-speech-action nil nil (26 75 73 29) #1# #2# 13020) common-lisp-user::notify-speech-device (defun common-lisp-user::notify-speech-device) (#2# . 13055) (common-lisp-user::device common-lisp-user::action common-lisp-user::text common-lisp-user::state) common-lisp-user::device common-lisp-user::action common-lisp-user::state common-lisp-user::start :module common-lisp-user::medium :details "~a ~a" format common-lisp-user::schedule-event-now #Y(common-lisp-user::notify-speech-device nil nil (24 45 158 24 45 159 24 45 83 24 45 160 26 10 3 39 17 13 3 13 0 13 2 10 1 6 3 12 19 2 120 38 36 13 0 1 161 17 36 73 39 27 15 150 14 162 14 75 14 46 15 163 14 164 77 15 165 13 2 13 1 19 4 166 12 19 7 167 29) #1# #2# 13055) common-lisp-user::speak (defclass common-lisp-user::speak) (#2# . 13333) (common-lisp-user::movement-style) ((:initform nil :initargs (:text) :writers ((setf common-lisp-user::text)) :readers (common-lisp-user::text) :name common-lisp-user::text)) :style-name :speak :feature-slots '#3=(common-lisp-user::text) #3# (defmethod common-lisp-user::speak #4=(common-lisp-user::module common-lisp-user::pm-module) &key common-lisp-user::text . #5=(common-lisp-user::request-spec)) (#2# . 13333) (common-lisp-user::pm-module) (common-lisp-user::module &key common-lisp-user::text common-lisp-user::request-spec) common-lisp-user::module (t :request-spec :text) common-lisp-user::request-spec common-lisp-user::check-jam common-lisp-user::check-specs :request-spec :text make-instance common-lisp-user::prepare-movement #Y(common-lisp-user::speak nil nil (24 45 183 28 184 22 40 2 77 46 83 22 40 2 77 46 185 13 2 19 1 186 40 8 15 169 13 1 19 2 187 76 73 39 20 13 2 15 169 14 188 13 0 14 189 13 1 19 5 190 12 19 2 191 29) #1# #2# 13333) common-lisp-user::num-to-prepare (defmethod common-lisp-user::num-to-prepare (common-lisp-user::mvmt common-lisp-user::speak)) (#2# . 13469) (common-lisp-user::speak) (common-lisp-user::mvmt) common-lisp-user::mvmt #Y(common-lisp-user::num-to-prepare nil nil (24 45 198 26 8 3 73 29) #1# #2# 13469) common-lisp-user::compute-exec-time (defmethod common-lisp-user::compute-exec-time (common-lisp-user::spch-mod common-lisp-user::speech-module) (common-lisp-user::mvmt common-lisp-user::speak)) (#2# . 13516) (common-lisp-user::speech-module common-lisp-user::speak) (common-lisp-user::spch-mod common-lisp-user::mvmt) common-lisp-user::init-time #Y(common-lisp-user::compute-exec-time nil nil (24 45 82 24 45 198 26 13 1 19 1 205 29) #1# #2# 13516) common-lisp-user::compute-finish-time (defmethod common-lisp-user::compute-finish-time (common-lisp-user::spch-mod common-lisp-user::speech-module) (common-lisp-user::mvmt common-lisp-user::speak)) (#2# . 13668) (common-lisp-user::speech-module common-lisp-user::speak) (common-lisp-user::spch-mod common-lisp-user::mvmt) common-lisp-user::exec-time + #Y(common-lisp-user::compute-finish-time nil nil (24 45 82 24 45 198 26 13 0 19 1 212 12 13 1 13 0 19 1 83 12 19 2 92 12 19 2 213 29) #1# #2# 13668) common-lisp-user::feat-differences (defmethod common-lisp-user::feat-differences (common-lisp-user::s1 common-lisp-user::speak) (common-lisp-user::s2 common-lisp-user::speak)) (#2# . 13867) (common-lisp-user::speak common-lisp-user::speak) (common-lisp-user::s1 common-lisp-user::s2) common-lisp-user::s1 common-lisp-user::s2 string-equal #Y(common-lisp-user::feat-differences nil nil (24 45 220 24 45 221 26 13 1 19 1 83 12 13 0 19 1 83 12 19 2 222 39 6 8 0 73 38 4 8 2 73 29) #1# #2# 13867) common-lisp-user::queue-output-events (defmethod common-lisp-user::queue-output-events (common-lisp-user::spch-mod common-lisp-user::speech-module) (common-lisp-user::mvmt common-lisp-user::speak)) (#2# . 13976) (common-lisp-user::speech-module common-lisp-user::speak) (common-lisp-user::spch-mod common-lisp-user::mvmt) common-lisp-user::hear-self common-lisp-user::word-sound-evt :onset common-lisp-user::mp-time-ms common-lisp-user::seconds->ms :string :location common-lisp-user::self common-lisp-user::new-sound-event :time-in-ms :params common-lisp-user::schedule-event-relative common-lisp-user::finish-time common-lisp-user::end #Y(common-lisp-user::queue-output-events nil nil (24 45 82 24 45 198 26 13 1 19 1 229 45 229 13 0 11 30 17 36 40 7 13 0 1 169 17 36 39 42 15 230 14 231 19 0 232 12 13 1 19 1 212 12 19 1 233 12 19 2 213 12 14 234 13 1 19 1 83 12 14 235 15 236 19 7 190 12 19 1 237 43 1 13 0 19 1 212 12 19 1 233 12 15 154 14 46 77 14 238 14 30 14 239 13 1 19 1 158 12 15 169 13 0 19 1 83 12 1 161 6 4 12 14 162 14 75 19 10 240 13 0 19 1 241 12 19 1 233 12 15 154 14 46 77 14 238 14 30 14 239 13 1 19 1 158 12 15 169 13 0 19 1 83 12 1 242 6 4 12 14 162 14 75 19 10 240 29) #1# #2# 13976) common-lisp-user::subvocalize (defclass common-lisp-user::subvocalize) (#2# . 14759) (common-lisp-user::speak) ((:initform nil :initargs (:text) :writers ((setf common-lisp-user::text)) :readers (common-lisp-user::text) :name common-lisp-user::text)) :subvocalize '#6=(common-lisp-user::text) #6# (defmethod common-lisp-user::subvocalize #4# &key common-lisp-user::text . #5#) (#2# . 14759) (common-lisp-user::pm-module) (common-lisp-user::module &key common-lisp-user::text common-lisp-user::request-spec) (t :request-spec :text) #Y(common-lisp-user::subvocalize nil nil (24 45 183 28 256 22 40 2 77 46 83 22 40 2 77 46 185 13 2 19 1 186 40 8 15 244 13 1 19 2 187 76 73 39 20 13 2 15 244 14 188 13 0 14 189 13 1 19 5 190 12 19 2 191 29) #1# #2# 14759) (defmethod common-lisp-user::queue-output-events (common-lisp-user::spch-mod common-lisp-user::speech-module) (common-lisp-user::mvmt common-lisp-user::subvocalize)) (#2# . 14828) (common-lisp-user::speech-module common-lisp-user::subvocalize) (common-lisp-user::spch-mod common-lisp-user::mvmt) common-lisp-user::sound-event :duration :content :delay common-lisp-user::subvocalize-delay :recode common-lisp-user::internal :kind common-lisp-user::word common-lisp-user::notify-subvocalize #Y(common-lisp-user::queue-output-events nil nil (24 45 82 24 45 198 26 13 1 19 1 229 45 229 13 0 11 30 17 36 40 7 13 0 1 244 17 36 39 74 15 262 14 231 19 0 232 12 13 1 19 1 212 12 19 1 233 12 19 2 213 12 14 263 13 2 13 1 19 1 83 12 14 30 19 3 92 12 14 264 13 1 19 1 83 12 14 265 13 2 19 1 266 12 14 267 9 0 14 235 15 268 14 269 15 270 19 15 190 12 19 1 237 43 1 13 1 19 1 271 73 39 95 13 0 19 1 212 12 19 1 233 12 15 154 14 46 77 14 238 14 30 14 239 13 1 19 1 158 12 15 244 13 0 19 1 83 12 1 161 6 4 12 14 162 14 75 19 10 240 13 0 19 1 241 12 19 1 233 12 15 154 14 46 77 14 238 14 30 14 239 13 1 19 1 158 12 15 244 13 0 19 1 83 12 1 242 6 4 12 14 162 14 75 19 10 240 29) #1# #2# 14828) common-lisp-user::query-speech-module (defun common-lisp-user::query-speech-module) (#2# . 15835) (common-lisp-user::speech common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value) common-lisp-user::buffer common-lisp-user::slot common-lisp-user::value common-lisp-user::generic-state-query #Y(common-lisp-user::query-speech-module nil nil (24 45 115 24 45 277 24 45 278 24 45 279 26 13 1 1 160 17 36 39 7 13 0 1 18 17 36 39 5 75 73 38 12 13 3 13 2 13 1 13 0 19 4 280 29) #1# #2# 15835) common-lisp-user::pm-module-last-cmd-name (defmethod common-lisp-user::pm-module-last-cmd-name (common-lisp-user::speech common-lisp-user::speech-module) common-lisp-user::buffer-name common-lisp-user::chunk-spec) (#2# . 16163) (common-lisp-user::speech-module t t) (common-lisp-user::speech common-lisp-user::buffer-name common-lisp-user::chunk-spec) common-lisp-user::buffer-name common-lisp-user::chunk-spec common-lisp-user::chunk-spec-slot-spec common-lisp-user::main-spec = common-lisp-user::spec-slot-name #Y(common-lisp-user::pm-module-last-cmd-name nil nil (24 45 115 24 45 287 24 45 288 26 13 0 19 1 289 45 290 10 0 16 100 12 9 1 19 2 291 73 39 35 15 169 10 0 4 12 19 1 292 17 36 40 12 15 244 10 0 4 12 19 1 292 17 36 73 39 8 10 0 4 12 19 1 292 43 1 29) #1# #2# 16163) common-lisp-user::pm-module-request (defmethod common-lisp-user::pm-module-request (common-lisp-user::speech common-lisp-user::speech-module) common-lisp-user::buffer-name common-lisp-user::chunk-spec) (#2# . 16554) (common-lisp-user::speech-module t t) (common-lisp-user::speech common-lisp-user::buffer-name common-lisp-user::chunk-spec) common-lisp-user::test-for-clear-request common-lisp-user::clear :destination common-lisp-user::low common-lisp-user::cmd common-lisp-user::spec-slot-value common-lisp-user::verify-single-explicit-value stringp "~a ~a ~a" common-lisp-user::printing-module #:g14314 #:g14313 #:g14315 common-lisp-user::printing-module-v common-lisp-user::act-r-output-stream common-lisp-user::printing-module-model-warnings "model-warning" "~@?" "String slot in a ~s request must be a string." common-lisp-user::evaluate-act-r-command "print-warning" "~@?" "Invalid command ~a sent to the vocal buffer" "Invalid command to speech module specifies the cmd slot multiple times." common-lisp-user::subv-spec common-lisp-user::speak-spec "~a ~a ~a" "~a ~a ~a" "Invalid command to speech module does not specify a valid action." #Y(common-lisp-user::pm-module-request nil nil (24 45 115 24 45 287 24 45 288 26 13 0 19 1 299 39 20 15 300 14 162 14 75 14 301 14 75 14 46 15 302 19 7 167 38 422 13 0 15 303 19 2 289 16 100 12 9 1 19 2 291 39 176 13 0 15 303 19 2 289 4 12 19 1 304 45 303 10 0 41 169 4 42 244 132 13 1 15 6 14 75 13 0 19 4 305 45 6 10 0 16 306 39 48 13 1 14 301 14 75 14 239 14 189 13 0 14 188 10 2 6 4 12 14 162 14 75 14 46 15 302 14 164 77 15 307 13 1 14 189 13 0 19 5 166 12 19 11 167 38 62 15 308 19 1 114 47 1 309 45 310 10 1 39 44 75 45 311 13 1 19 1 312 12 19 1 313 39 6 13 1 19 1 314 51 0 10 0 39 17 15 315 77 15 316 15 317 13 4 19 4 166 12 19 2 318 43 1 75 73 43 2 43 1 38 19 15 319 77 15 320 15 321 13 0 19 4 166 12 19 2 318 75 73 43 1 38 230 13 0 15 303 19 2 289 39 19 15 319 77 15 320 15 322 19 3 166 12 19 2 318 75 73 38 203 13 0 15 169 19 2 289 12 13 0 15 244 19 2 289 12 46 323 46 324 10 0 16 100 12 9 1 19 2 291 39 10 10 0 4 12 19 1 304 16 306 39 60 15 169 14 301 14 75 14 239 14 189 10 0 4 12 19 1 304 12 14 188 10 2 6 4 12 14 162 14 75 14 46 15 302 14 164 77 15 325 15 169 14 189 10 0 4 12 19 1 304 12 19 5 166 12 19 11 167 38 99 10 1 16 100 12 9 1 19 2 291 39 10 10 1 4 12 19 1 304 16 306 39 60 15 244 14 301 14 75 14 239 14 189 10 1 4 12 19 1 304 12 14 188 10 2 6 4 12 14 162 14 75 14 46 15 302 14 164 77 15 326 15 244 14 189 10 0 4 12 19 1 304 12 19 5 166 12 19 11 167 38 17 15 319 77 15 320 15 327 19 3 166 12 19 2 318 75 73 43 2 29) #1# #2# 16554) common-lisp-user::reset-speech-module (defun common-lisp-user::reset-speech-module) (#2# . 19085) (common-lisp-user::instance) common-lisp-user::instance common-lisp-user::reset-pm-module #Y(common-lisp-user::reset-speech-module nil nil (24 45 333 26 13 0 19 1 334 29) #1# #2# 19085) common-lisp-user::params-speech-module (defun common-lisp-user::params-speech-module) (#2# . 19169) (common-lisp-user::speech common-lisp-user::param) common-lisp-user::param consp :syllable-rate #:g14325 common-lisp-user::sgp #:g14326 (setf common-lisp-user::s-rate) :char-per-syllable #:g14327 #:g14328 (setf common-lisp-user::char-per-syllable) :subvocalize-detect-delay #:g14329 #:g14330 (setf common-lisp-user::subvocalize-delay) :hear-self #:g14331 #:g14332 (setf common-lisp-user::hear-self) #Y(common-lisp-user::params-speech-module nil nil (24 45 115 24 45 340 26 10 0 16 341 39 132 10 0 4 42 342 34 10 1 45 343 10 1 5 12 15 344 19 2 88 45 345 13 0 13 1 33 346 18 2 43 1 43 1 10 0 5 73 38 91 42 347 24 10 1 45 348 10 1 5 45 349 13 0 13 1 33 350 18 2 43 1 43 1 38 65 42 351 34 10 1 45 352 10 1 5 12 15 344 19 2 88 45 353 13 0 13 1 33 354 18 2 43 1 43 1 10 0 5 73 38 29 42 355 24 10 1 45 356 10 1 5 45 357 13 0 13 1 33 358 18 2 43 1 43 1 38 3 75 73 38 53 10 0 42 342 12 13 1 19 1 99 12 19 1 106 38 37 42 347 8 13 1 19 1 101 38 27 42 351 12 13 1 19 1 266 12 19 1 106 38 13 42 355 8 13 1 19 1 229 38 3 75 73 29) #1# #2# 19169) common-lisp-user::vocal-buffer-status (defun common-lisp-user::vocal-buffer-status) (#2# . 20025) common-lisp-user::print-module-status #Y(common-lisp-user::vocal-buffer-status nil nil (26 15 75 77 19 2 114 12 19 1 363 29) #1# #2# 20025) common-lisp-user::create-speech-module (defun common-lisp-user::create-speech-module) (#2# . 20102) (common-lisp-user::x) common-lisp-user::x (common-lisp-user::speech-command (common-lisp-user::cmd "speech command")) common-lisp-user::chunk-type-fct ((common-lisp-user::speak (:include common-lisp-user::speech-command)) (common-lisp-user::cmd common-lisp-user::speak) string common-lisp-user::speak) ((common-lisp-user::subvocalize (:include common-lisp-user::speech-command)) (common-lisp-user::cmd common-lisp-user::subvocalize) string common-lisp-user::subvocalize) (common-lisp-user::speak common-lisp-user::subvocalize) si::%dolist-var common-lisp-user::c common-lisp-user::chunk-p-fct common-lisp-user::isa common-lisp-user::define-chunks-fct (common-lisp-user::self common-lisp-user::internal) common-lisp-user::name #Y(common-lisp-user::create-speech-module nil nil (24 45 369 26 15 370 19 1 371 15 372 19 1 371 15 373 19 1 371 1 374 45 375 38 35 10 0 4 45 376 13 0 19 1 377 76 39 15 13 0 15 378 10 0 6 3 6 1 12 19 1 379 10 1 5 51 1 43 1 10 0 40 -37 43 1 1 380 45 375 38 35 10 0 4 45 376 13 0 19 1 377 76 39 15 13 0 15 381 10 0 6 3 6 1 12 19 1 379 10 1 5 51 1 43 1 10 0 40 -37 43 1 15 53 19 1 190 29) #1# #2# 20102) common-lisp-user::test-hear-self (defun common-lisp-user::test-hear-self) (#2# . 20630) (common-lisp-user::val) common-lisp-user::tornil #Y(common-lisp-user::test-hear-self nil nil (24 45 121 26 13 0 19 1 387 73 40 16 13 0 1 169 17 36 73 40 7 13 0 1 244 17 36 29) #1# #2# 20630) common-lisp-user::vocal :queries (common-lisp-user::modality common-lisp-user::preparation common-lisp-user::execution common-lisp-user::processor common-lisp-user::last-command) :status-fn common-lisp-user::define-buffer-fct :valid-test common-lisp-user::nonneg :default-value 0.15 :warning "a non-negative number" :documentation "Seconds per syllable." common-lisp-user::define-parameter 0.3 "a non-negative number" "Sound detect time for a subvocalized word." common-lisp-user::posnum "a positive number" "Characters per syllable." "t, nil, speak, or subvocalize" "Send speech module output to the audio module." :version common-lisp-user::version-string "A module to provide a model with the ability to speak" :creation :reset :query :request common-lisp-user::define-module-fct (defun common-lisp-user::register-articulation-time) (#2# . 21956) (string time &optional common-lisp-user::time-in-ms) common-lisp-user::*current-act-r-model* common-lisp-user::current-mp common-lisp-user::mp common-lisp-user::meta-p-default-model numberp minusp "Articulation time must be a non-negative number." "Must specify a string for which the articulation time is to be set." "No Speech module found.  Cannot set articulation time." "No current model.  Cannot set articulation time." #Y(common-lisp-user::register-articulation-time nil nil (24 45 6 24 45 84 25 40 2 77 46 85 26 11 422 40 13 19 0 423 45 424 13 0 19 1 425 43 1 39 102 15 75 77 19 2 114 45 98 10 0 39 70 10 2 16 426 76 40 5 10 2 16 427 39 19 15 319 77 15 320 15 428 19 3 166 12 19 2 318 75 73 38 37 10 3 16 306 76 39 19 15 319 77 15 320 15 429 19 3 166 12 19 2 318 75 73 38 12 13 0 13 3 13 2 13 1 19 4 77 38 17 15 319 77 15 320 15 430 19 3 166 12 19 2 318 75 73 43 1 38 17 15 319 77 15 320 15 431 19 3 166 12 19 2 318 75 73 29) #1# #2# 21956) function "Register the articulation time of a string." si::set-documentation common-lisp-user::get-articulation-time (defun common-lisp-user::get-articulation-time) (#2# . 22824) (string &optional common-lisp-user::time-in-ms) "Must specify a string for which to get the articulation time." "No Speech module found.  Cannot get articulation time." "No current model.  Cannot get articulation time." #Y(common-lisp-user::get-articulation-time nil nil (24 45 6 25 40 2 77 46 85 26 11 422 40 13 19 0 423 45 424 13 0 19 1 425 43 1 39 69 15 75 77 19 2 114 45 98 10 0 39 37 10 2 16 306 76 39 19 15 319 77 15 320 15 440 19 3 166 12 19 2 318 75 73 38 10 13 0 13 2 13 1 19 3 92 38 17 15 319 77 15 320 15 441 19 3 166 12 19 2 318 75 73 43 1 38 17 15 319 77 15 320 15 442 19 3 166 12 19 2 318 75 73 29) #1# #2# 22824) "Return the articulation time of a string." "register-articulation-time" "Set the time required to speak a string of text in seconds or milliseconds. Params: string time {milliseconds?}." "get-articulation-time" "Get the time required to speak a string of text in seconds or milliseconds. Params: string {milliseconds?}.")) #2# 0) #Y(si::bytecodes nil nil (15 53 15 54 15 55 15 56 19 4 57 15 53 15 58 15 59 15 60 15 61 14 62 1 65 12 1 66 7 3 12 15 67 15 68 1 69 6 7 12 14 70 15 71 15 72 1 72 16 73 6 3 12 15 74 15 75 11 75 16 73 6 3 6 2 6 2 12 19 4 76 29) #1# #2# 10584) #Y(si::bytecodes nil nil (15 77 15 54 15 78 15 79 19 4 57 15 77 77 15 80 15 81 1 90 12 19 5 91 29) #1# #2# 11144) #Y(si::bytecodes nil nil (15 92 15 54 15 93 15 94 19 4 57 15 92 77 15 95 15 96 1 107 12 19 5 91 29) #1# #2# 11522) #Y(si::bytecodes nil nil (15 108 15 54 15 109 15 110 19 4 57 15 108 14 111 77 15 112 19 4 57 15 108 1 128 12 19 2 129 1 108 73 29) #1# #2# 11857) #Y(si::bytecodes nil nil (15 130 15 54 15 131 15 132 19 4 57 15 130 14 111 77 15 133 19 4 57 15 130 1 140 12 19 2 129 1 130 73 29) #1# #2# 12350) #Y(si::bytecodes nil nil (15 141 15 108 15 142 19 3 143 29) #1# #2# 12631) #Y(si::bytecodes nil nil (15 144 15 130 15 145 19 3 143 29) #1# #2# 12782) #Y(si::bytecodes nil nil (15 146 15 147 15 148 14 30 19 4 149 29) #1# #2# 12941) #Y(si::bytecodes nil nil (15 150 15 54 15 151 15 152 19 4 57 15 150 14 111 77 77 19 4 57 15 150 1 153 12 19 2 129 1 150 73 29) #1# #2# 13020) #Y(si::bytecodes nil nil (15 154 15 54 15 155 15 156 19 4 57 15 154 14 111 77 15 157 19 4 57 15 154 1 168 12 19 2 129 1 154 73 29) #1# #2# 13055) #Y(si::bytecodes nil nil (15 169 15 54 15 170 15 171 19 4 57 15 169 15 172 15 173 14 70 15 174 15 175 11 175 16 73 6 3 12 15 176 15 177 1 178 16 73 6 3 6 2 6 2 12 19 4 76 15 169 15 54 15 179 15 180 19 4 57 15 169 77 15 181 15 182 1 192 12 19 5 91 29) #1# #2# 13333) #Y(si::bytecodes nil nil (15 193 15 54 15 194 15 195 19 4 57 15 193 77 15 196 15 197 1 199 12 19 5 91 29) #1# #2# 13469) #Y(si::bytecodes nil nil (15 200 15 54 15 201 15 202 19 4 57 15 200 77 15 203 15 204 1 206 12 19 5 91 29) #1# #2# 13516) #Y(si::bytecodes nil nil (15 207 15 54 15 208 15 209 19 4 57 15 207 77 15 210 15 211 1 214 12 19 5 91 29) #1# #2# 13668) #Y(si::bytecodes nil nil (15 215 15 54 15 216 15 217 19 4 57 15 215 77 15 218 15 219 1 223 12 19 5 91 29) #1# #2# 13867) #Y(si::bytecodes nil nil (15 224 15 54 15 225 15 226 19 4 57 15 224 77 15 227 15 228 1 243 12 19 5 91 29) #1# #2# 13976) #Y(si::bytecodes nil nil (15 244 15 54 15 245 15 246 19 4 57 15 244 15 247 15 248 14 70 15 174 15 249 11 249 16 73 6 3 12 15 176 15 250 1 251 16 73 6 3 6 2 6 2 12 19 4 76 15 244 15 54 15 252 15 253 19 4 57 15 244 77 15 254 15 255 1 257 12 19 5 91 29) #1# #2# 14759) #Y(si::bytecodes nil nil (15 224 15 54 15 258 15 259 19 4 57 15 224 77 15 260 15 261 1 272 12 19 5 91 29) #1# #2# 14828) #Y(si::bytecodes nil nil (15 273 15 54 15 274 15 275 19 4 57 15 273 14 111 77 15 276 19 4 57 15 273 1 281 12 19 2 129 1 273 73 29) #1# #2# 15835) #Y(si::bytecodes nil nil (15 282 15 54 15 283 15 284 19 4 57 15 282 77 15 285 15 286 1 293 12 19 5 91 29) #1# #2# 16163) #Y(si::bytecodes nil nil (15 294 15 54 15 295 15 296 19 4 57 15 294 77 15 297 15 298 1 328 12 19 5 91 29) #1# #2# 16554) #Y(si::bytecodes nil nil (15 329 15 54 15 330 15 331 19 4 57 15 329 14 111 77 15 332 19 4 57 15 329 1 335 12 19 2 129 1 329 73 29) #1# #2# 19085) #Y(si::bytecodes nil nil (15 336 15 54 15 337 15 338 19 4 57 15 336 14 111 77 15 339 19 4 57 15 336 1 359 12 19 2 129 1 336 73 29) #1# #2# 19169) #Y(si::bytecodes nil nil (15 360 15 54 15 361 15 362 19 4 57 15 360 14 111 77 77 19 4 57 15 360 1 364 12 19 2 129 1 360 73 29) #1# #2# 20025) #Y(si::bytecodes nil nil (15 365 15 54 15 366 15 367 19 4 57 15 365 14 111 77 15 368 19 4 57 15 365 1 382 12 19 2 129 1 365 73 29) #1# #2# 20102) #Y(si::bytecodes nil nil (15 383 15 54 15 384 15 385 19 4 57 15 383 14 111 77 15 386 19 4 57 15 383 1 388 12 19 2 129 1 383 73 29) #1# #2# 20630) #Y(si::bytecodes nil nil (14 75 15 389 14 390 15 391 14 392 15 360 19 5 393 6 1 12 14 342 14 394 15 395 14 396 15 397 14 398 15 399 14 400 15 401 19 9 402 12 14 351 14 394 15 395 14 396 15 403 14 398 15 404 14 400 15 405 19 9 402 12 14 347 14 394 15 406 14 396 9 3 14 398 15 407 14 400 15 408 19 9 402 12 14 355 14 394 15 383 14 396 14 30 14 398 15 409 14 400 15 410 19 9 402 6 4 12 14 411 15 53 19 1 190 12 19 1 412 12 14 400 15 413 14 414 15 365 14 415 15 329 14 416 15 273 14 417 15 294 14 239 15 336 19 17 418 29) #1# #2# 20731) #Y(si::bytecodes nil nil (15 87 15 54 15 419 15 420 19 4 57 15 87 14 111 77 15 421 19 4 57 15 87 1 432 12 19 2 129 15 87 15 433 15 434 19 3 435 1 87 73 29) #1# #2# 21956) #Y(si::bytecodes nil nil (15 436 15 54 15 437 15 438 19 4 57 15 436 14 111 77 15 439 19 4 57 15 436 1 443 12 19 2 129 15 436 15 433 15 444 19 3 435 1 436 73 29) #1# #2# 22824) #Y(si::bytecodes nil nil (15 445 15 87 15 446 19 3 143 29) #1# #2# 23487) #Y(si::bytecodes nil nil (15 447 15 436 15 448 19 3 143 29) #1# #2# 23680))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Mike Byrne & Dan Bothell
+;;; Address     : Rice University, MS-25
+;;;             : Psychology Department
+;;;             : Houston,TX 77251-1892
+;;;             : byrne@acm.org
+;;; 
+;;; Copyright   : (c)1998-2005 Mike Byrne/Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LICENSE.txt
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : speech.lisp
+;;; Version     : 7.1
+;;; 
+;;; Description : Source code for the ACT-R/PM Speech Module.  This Module
+;;;             : is pretty brain-damaged but should get the job done
+;;;             : for short, simple strings.
+;;; 
+;;; Bugs        : 
+;;; 
+;;; Todo        : [ ] Should a jam signal an error state?
+;;; 
+;;; ----- History -----
+;;; 2004.12.24 Dan [First pass at moving to ACT-R 6]
+;;;             : Changed name to speech and reset version to 1.0a1
+;;;             :
+;;;             : Moved *char-per-syllable into the module and made it a
+;;;             :   real parameter :char-per-syllable.
+;;;             : 
+;;;             : Removed the state chunk from the initialize-instance method.
+;;;             : 
+;;;             : Added the :from :speech to the queue-command to the device
+;;;             : 
+;;;             : Not flagging any errors at this point.
+;;;             :
+;;;             : Not placing a response chunk into the buffer at this point.
+;;;             :
+;;;             : Changed art-rate-ht in register-art-time to art-time-ht
+;;; 2005.01.08 Dan
+;;;             : Removed the NEW-WORD-SOUND method since there's now
+;;;             : an audio module.
+;;; 2005.01.11 mdb
+;;;             : * Added parameter doc strings.
+;;;             : * Added toplevel commands.
+;;;             : * Went to more generic methods on buffer interactions.
+;;; 2005.01.12 Dan
+;;;             : * Moved the device interface parameters to the device module.
+;;; 2005.02.03 Dan
+;;;             : * Added ":output 'medium"  or ":output 'low" to some of the 
+;;;             :   events scheduled to play friendly with the new detail level.
+;;; 2005.04.23 Dan
+;;;             : * Added the status printing function to the buffer definition.
+;;;             : * Noticed that the last-command query is unhandled...
+;;; 2005.06.15 Dan
+;;;             : * Added a check and warning that the string parameter to speak
+;;;             :   and subvocalize is actually a real string because it seems
+;;;             :   to throw a hard error when passed a chunk-name...
+;;;             : * Updated version to 2.2a2.
+;;; 2006.09.08 Dan
+;;;             : * Changed a parameter test from posnum to nonneg.
+;;; 2007.01.10 Dan
+;;;             : * Changed the version to 2.2.
+;;;             : * Cleaned out most of the old (commented out) code.
+;;;             : * Added a new parameter :subvocalize-detect-delay
+;;;             :   which is the time required for a subvocalized speech act
+;;;             :   to be detecteable by the audio module.  The reason for it
+;;;             :   is because the default of .3 (the digit-detect-delay) seems
+;;;             :   way off - the model can't keep up with hearing it's
+;;;             :   own internal speech with that delay for short utterances
+;;;             :   because it can generate them faster than it can hear them...
+;;;             :   So, by making it a parameter people can adjust that as needed.
+;;;             : * Changed the subvocalize action to create the internal sound
+;;;             :   using new-other-sound so that the delay can be set.
+;;;             : * Also changed the recode time on that to 0ms - because
+;;;             :   it seems odd for a model to not immediately be able to understand 
+;;;             :   what it's saying in it's own head.
+;;;             : * Changed the get-articulation-time method to get-art-time
+;;;             :   and made get-articulation-time a function which doesn't
+;;;             :   require passing the module as a parameter.
+;;;             : * Made the set/get articulation check to make sure there is
+;;;             :   a current mp/model/module.
+;;;             : * Removed the speech-utils from being loaded for now - does
+;;;             :   that even still work or get used by anyone?
+;;; 2007.03.15 Dan
+;;;             : * Changed the speak action so that a model's own voice
+;;;             :   is tagged with a location of self for the audio system
+;;;             :   so a model can differentiate its own speech from another
+;;;             :   model's!
+;;; 2008.07.22 Dan
+;;;             : * Why did this require central-parameters?  Taking that out.
+;;; 2011.04.28 Dan
+;;;             : * Changed a declare ignore to ignorable to supprress an ACL warning.
+;;; 2011.05.17 Dan
+;;;             : * Replaced queue-command calls with schedule-event-relative.
+;;; 2011.05.18 Dan
+;;;             : * Replaced calls to new-word-sound and new-other-sound with
+;;;             :   the lower level sound creation code which has been changed
+;;;             :   over to using ms internally to avoid having to do math on
+;;;             :   times in seconds.
+;;; 2014.02.12 Dan
+;;;             : * The request chunk-types are no longer subtypes of speech-command
+;;;             :   since that wasn't actually used for anything.
+;;; 2014.05.16 Dan [3.0]
+;;;             : * Start the conversion to type-less chunks.
+;;;             : * In addition to isa speak string <text> one can now just do
+;;;             :   speak <text> as the request.
+;;; 2014.05.30 Dan
+;;;             : * Use the test-for-clear-request function in pm-module-request.
+;;; 2014.10.31 Dan
+;;;             : * Changed the speak and subvocalize chunks to be of the
+;;;             :   corresponding type.
+;;; 2015.06.04 Dan [3.1]
+;;;             : * Convert to using ms for internal math and convert user
+;;;             :   times in seconds to ms with safe-seconds->ms.
+;;;             : * Added an optional parameter to get-articulation-time so 
+;;;             :   that it can be returned in ms if needed.
+;;;             : * Add :time-in-ms t to all scheduled events and explicitly
+;;;             :   convert the exec-time to ms.
+;;; 2015.07.28 Dan
+;;;             : * Changed the logical to ACT-R-support in the require-compiled.
+;;; 2015.09.22 Dan [4.0]
+;;;             : * Track and complete requests to the vocal buffer. Should mostly
+;;;             :   just work since this is built upon movement-styles and that's 
+;;;             :   been generally updated.
+;;; 2017.01.26 Dan [5.0]
+;;;             : * Instead of sending output-speech to the device interface it
+;;;             :   now just calls that function directly with a model name and
+;;;             :   the text spoken.  That goes out through the dispatcher to
+;;;             :   provide something that can be monitored.
+;;; 2017.01.27 Dan
+;;;             : * Fixed a cut-and-paste bug because it was trying to add 
+;;;             :   output-key as a command instead of output-speech.
+;;; 2017.01.30 Dan
+;;;             : * Add-act-r-command call parameters reordered.
+;;; 2017.02.08 Dan
+;;;             : * Changed the parameter names for output-speech.
+;;; 2017.02.27 Dan
+;;;             : * Schedule "output-speech" directly and don't bother with the
+;;;             :   stub function.
+;;; 2017.08.03 Dan [5.1]
+;;;             : * Adding a lock to the module which will be used to protect
+;;;             :   all of the slots.
+;;;             : * Removed pm-register-articulation-time.
+;;; 2017.08.23 Dan
+;;;             : * Don't need the dummy function for output-speech now.
+;;; 2018.03.05 Dan [6.0]
+;;;             : * For consistency actually providing an interface and having
+;;;             :   a microphone device that gets signaled if installed.
+;;;             : * Don't acquire the lock in get-art-time -- assume it is held.
+;;;             : * Update calls to get-art-time to hold the lock.
+;;;             : * Signal-device was renamed to notify-device.
+;;;             : * Use notify-device to ask if subvocalize need to be sent.
+;;; 2018.03.12 Dan
+;;;             : * Update to the new interface and device approach which uses
+;;;             :   the whole device list everywhere.
+;;; 2018.06.01 Dan
+;;;             : * Use the param-lock from pm-module instead of the speech-lock
+;;;             :   which can be eliminated.
+;;; 2018.06.04 Dan [6.1]
+;;;             : * Changed the feature test to use string-equal and the table
+;;;             :   for storing articulation times to be equalp so that the 
+;;;             :   strings are case insensitive.
+;;;             : * Added remote get/set-articulation-time commands.
+;;; 2018.07.26 Dan [6.2]
+;;;             : * No longer handle tracked requests.
+;;; 2020.01.10 Dan [6.3]
+;;;             : * Removed the #' and lambdas from the module interface 
+;;;             :   functions since that's not allowed in the general system
+;;;             :   now.
+;;; 2020.06.01 Dan [7.0]
+;;;             : * Moved the chunk-type and chunk definitions to the creation 
+;;;             :   function instead of the reset function.
+;;; 2020.08.26 Dan
+;;;             : * Removed the path for require-compiled since it's not needed
+;;;             :   and results in warnings in SBCL.
+;;; 2021.03.18 Dan [7.1]
+;;;             : * The minimum articulation time is now the syllable-rate
+;;;             :   not a fraction of that for shorter strings.  For longer
+;;;             :   strings it is still computed at the sub-syllable level i.e.
+;;;             :   syllable-rate * (length/char-per-syllable).
+;;; 2025.02.28 Dan
+;;;             : * register-articulation-time now has an optional parameter
+;;;             :   which if t means the time specified is in ms instead of
+;;;             :   seconds.
+;;; 2026.03.03 Dan [7.2]
+;;;             : * Added the :hear-self parameter which can be used to avoid
+;;;             :   sending sounds to audio when not needed for efficiency.
+;;;             :   Possible values are t (default) send both speak and 
+;;;             :   subvocalize, speak only send speak, subvocalize only send
+;;;             :   subvocalize, nil send neither.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+(require-compiled "GENERAL-PM")
+
+(defclass speech-module (pm-module)
+  ((syllable-rate :accessor s-rate :initform 150)
+   (subvocalize-delay :accessor subvocalize-delay :initform 300)
+   (char-per-syllable :accessor char-per-syllable :initform 3)
+   (art-time-ht :accessor art-time-ht :initarg :art-time-ht 
+                :initform (make-hash-table :test 'equalp))
+   (device :accessor device :initform nil)
+   (notify-subvocalize :accessor notify-subvocalize :initform nil)
+   (hear-self :accessor hear-self :initform t))
+  (:default-initargs
+    :version-string "7.2"
+    :name :SPEECH))
+
+
+(defmethod register-art-time ((spch-mod speech-module) (text string) (time number) time-in-ms)
+  (bt:with-recursive-lock-held ((param-lock spch-mod))
+    (setf (gethash text (art-time-ht spch-mod)) (if time-in-ms
+                                                    time
+                                                  (safe-seconds->ms time 'register-articulation-time)))))
+
+
+(defmethod get-art-time ((spch-mod speech-module) (text string) &optional time-in-ms)
+  (let ((time
+         (aif (gethash text (art-time-ht spch-mod))
+              it
+              (round (max (s-rate spch-mod) (* (s-rate spch-mod) (/ (length text) (char-per-syllable spch-mod))))))))
+    (if time-in-ms time (ms->seconds time))))
+
+
+;;;; Create an interface and send the actions as signals to 
+;;;; an installed device.
+
+
+(defun install-speech-device (device-list)
+  (let ((speech (get-module :speech)))
+    (when speech
+      (bt:with-recursive-lock-held ((param-lock speech))
+        (setf (device speech) device-list)
+        (let ((val (notify-device device-list '(check-subvocalize))))
+          (if val 
+              (setf (notify-subvocalize speech) t)
+            (setf (notify-subvocalize speech) nil)))))
+    t))
+
+(defun remove-speech-device (device-list)
+  (declare (ignore device-list))
+  (let ((speech (get-module :speech)))
+    (when speech
+      (bt:with-recursive-lock-held ((param-lock speech))
+        (setf (device speech) nil)
+        (setf (notify-subvocalize speech) nil)))
+    t))
+
+(add-act-r-command "install-speech-device" 'install-speech-device "Internal command for speech module to handle a new device. Do not call directly.")
+
+(add-act-r-command "remove-speech-device" 'remove-speech-device "Internal command for speech module to handle a device being removed. Do not call directly.")
+
+
+(define-interface "speech" "install-speech-device" "remove-speech-device" t)
+
+
+(defun default-speech-action ())
+
+(defun notify-speech-device (device action text state)
+  (if device
+      (notify-device device (list state action text))
+    (when (eq state 'start)
+      (schedule-event-now 'default-speech-action :module :speech :output 'medium :details (format nil "~a ~a" action text)))))
+
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; SPEAK movement style
+
+
+(defStyle speak () text)
+
+(defmethod num-to-prepare ((mvmt speak))
+  3)
+
+(defmethod compute-exec-time ((spch-mod speech-module) (mvmt speak))
+  (bt:with-recursive-lock-held ((param-lock spch-mod))
+    (init-time spch-mod)))
+
+(defmethod compute-finish-time ((spch-mod speech-module) (mvmt speak))
+  (+ (exec-time mvmt) 
+     (bt:with-recursive-lock-held ((param-lock spch-mod))
+       (get-art-time spch-mod (text mvmt)))))
+
+
+(defmethod feat-differences ((s1 speak) (s2 speak))
+  (if (string-equal (text s1) (text s2))
+    0
+    2))
+
+
+(defmethod queue-output-events ((spch-mod speech-module) (mvmt speak))
+  (bt:with-recursive-lock-held ((param-lock spch-mod))
+    (let ((hear-self (hear-self spch-mod)))
+      (when (or (eq hear-self t) (eq hear-self 'speak))
+        (new-sound-event (make-instance 'word-sound-evt :onset (+ (mp-time-ms) (seconds->ms (exec-time mvmt))) 
+                            :string (text mvmt) :location 'self))))
+    
+    (schedule-event-relative (seconds->ms (exec-time mvmt)) 'notify-speech-device :output nil :time-in-ms t :params (list (device spch-mod) 'speak (text mvmt) 'start) :module :speech)
+    (schedule-event-relative (seconds->ms (finish-time mvmt)) 'notify-speech-device :output nil :time-in-ms t :params (list (device spch-mod) 'speak (text mvmt) 'end) :module :speech)))
+
+
+;;;; SUBVOCALIZE movement style
+
+(defStyle subvocalize speak text)
+
+(defmethod queue-output-events ((spch-mod speech-module) (mvmt subvocalize))
+  (bt:with-recursive-lock-held ((param-lock spch-mod))
+    (let ((hear-self (hear-self spch-mod)))
+      (when (or (eq hear-self t) (eq hear-self 'subvocalize))
+        (new-sound-event (make-instance 'sound-event :onset (+ (mp-time-ms) (seconds->ms (exec-time mvmt)))
+                           :duration (get-art-time spch-mod (text mvmt) t) :content (text mvmt) 
+                           :delay (subvocalize-delay spch-mod) :recode 0 :location 'internal
+                           :kind 'word))))
+    (when (notify-subvocalize spch-mod)
+      (schedule-event-relative (seconds->ms (exec-time mvmt)) 'notify-speech-device :output nil :time-in-ms t :params (list (device spch-mod) 'subvocalize (text mvmt) 'start) :module :speech)
+      (schedule-event-relative (seconds->ms (finish-time mvmt)) 'notify-speech-device :output nil :time-in-ms t :params (list (device spch-mod) 'subvocalize (text mvmt) 'end) :module :speech))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dan 
+;;; everything below here is additional stuff for the ACT-R 6 interface
+
+
+(defun query-speech-module (speech buffer slot value)
+  (if (and (eq slot 'state) (eq value 'error))
+    nil
+    (generic-state-query speech buffer slot value)))
+
+
+(defmethod pm-module-last-cmd-name ((speech speech-module) buffer-name chunk-spec)
+  (declare (ignorable speech buffer-name))
+  (let ((main-spec (chunk-spec-slot-spec chunk-spec)))
+    (and (= (length main-spec) 1)
+         (or (eq 'speak (spec-slot-name (first main-spec)))
+             (eq 'subvocalize (spec-slot-name (first main-spec))))
+         (spec-slot-name (first main-spec)))))
+    
+  
+(defmethod pm-module-request ((speech speech-module) buffer-name chunk-spec)
+  (declare (ignorable speech buffer-name))
+  (cond ((test-for-clear-request chunk-spec)
+         (schedule-event-now 'clear :module :speech :destination :speech :output 'low))
+        
+        ((= (length (chunk-spec-slot-spec chunk-spec 'cmd)) 1)
+         (let ((cmd (spec-slot-value (first (chunk-spec-slot-spec chunk-spec 'cmd)))))
+           (case cmd
+             ((speak subvocalize)
+              (let ((string (verify-single-explicit-value chunk-spec 'string :speech cmd)))
+                (if (stringp string)
+                    (schedule-event-now cmd :destination :speech :params (list :text string :request-spec chunk-spec) 
+                                        :module :speech :output 'low
+                                        :details (format nil "~a ~a ~a" cmd :text string))
+                  (model-warning "String slot in a ~s request must be a string." cmd))))
+             (t
+              (print-warning "Invalid command ~a sent to the vocal buffer" cmd)))))
+        ((chunk-spec-slot-spec chunk-spec 'cmd)
+         (print-warning "Invalid command to speech module specifies the cmd slot multiple times."))
+        ;; allow a request of just speak <text> or subvocalize <text>
+        (t
+         (let ((speak-spec (chunk-spec-slot-spec chunk-spec 'speak))
+               (subv-spec (chunk-spec-slot-spec chunk-spec 'subvocalize)))
+           (if (and (= (length speak-spec) 1)
+                    (stringp (spec-slot-value (first speak-spec))))
+               (schedule-event-now 'speak :destination :speech 
+                                   :params (list :text (spec-slot-value (first speak-spec)) :request-spec chunk-spec) 
+                                   :module :speech :output 'low
+                                   :details (format nil "~a ~a ~a" 'speak :text (spec-slot-value (first speak-spec))))
+             (if (and (= (length subv-spec) 1)
+                      (stringp (spec-slot-value (first subv-spec))))
+                 (schedule-event-now 'subvocalize :destination :speech 
+                                     :params (list :text (spec-slot-value (first subv-spec)) :request-spec chunk-spec) 
+                                     :module :speech :output 'low
+                                     :details (format nil "~a ~a ~a" 'subvocalize :text (spec-slot-value (first speak-spec))))
+               (print-warning "Invalid command to speech module does not specify a valid action.")))))))
+
+    
+
+(defun reset-speech-module (instance)
+  (reset-pm-module instance)
+    
+  
+)
+
+(defun params-speech-module (speech param)
+  (bt:with-recursive-lock-held ((param-lock speech))
+    (if (consp param)
+        (case (car param)
+          (:syllable-rate
+           (setf (s-rate speech) (safe-seconds->ms (cdr param) 'sgp))
+           (cdr param))
+          (:char-per-syllable
+           (setf (char-per-syllable speech) (cdr param)))
+          (:subvocalize-detect-delay
+           (setf (subvocalize-delay speech) (safe-seconds->ms (cdr param) 'sgp))
+           (cdr param))
+          (:hear-self
+           (setf (hear-self speech) (cdr param))))
+      (case param
+        (:syllable-rate
+         (ms->seconds (s-rate speech)))
+        (:char-per-syllable
+         (char-per-syllable speech))
+        (:subvocalize-detect-delay
+         (ms->seconds (subvocalize-delay speech)))
+        (:hear-self
+           (hear-self speech))))))
+
+(defun vocal-buffer-status ()
+  (print-module-status (get-module :speech)))
+
+(defun create-speech-module (x) 
+  (declare (ignore x))
+  (chunk-type speech-command (cmd "speech command"))
+  (chunk-type (speak (:include speech-command)) (cmd speak) string speak)
+  (chunk-type (subvocalize (:include speech-command)) (cmd subvocalize) string subvocalize)
+  
+  (dolist (c '(speak subvocalize))
+    (unless (chunk-p-fct c)
+      (define-chunks-fct `((,c isa ,c)))))
+  
+  (dolist (c '(self internal))
+    (unless (chunk-p-fct c)
+      (define-chunks-fct `((,c name ,c)))))
+  
+  (make-instance 'speech-module))
+
+(defun test-hear-self (val)
+  (or (tornil val) 
+      (eq val 'speak)
+      (eq val 'subvocalize)))
+
+(define-module-fct :speech 
+    (list (define-buffer-fct 'vocal :queries '(modality preparation execution processor last-command)
+            :status-fn 'vocal-buffer-status))
+  (list 
+    (define-parameter :syllable-rate
+     :valid-test 'nonneg 
+     :default-value 0.15
+     :warning "a non-negative number"
+     :documentation "Seconds per syllable.")
+   (define-parameter :subvocalize-detect-delay
+     :valid-test 'nonneg 
+     :default-value 0.3
+     :warning "a non-negative number"
+     :documentation "Sound detect time for a subvocalized word.")
+   (define-parameter :char-per-syllable
+     :valid-test 'posnum 
+     :default-value 3
+     :warning "a positive number"
+     :documentation "Characters per syllable.")
+   (define-parameter :hear-self
+     :valid-test 'test-hear-self 
+     :default-value t
+     :warning "t, nil, speak, or subvocalize"
+     :documentation "Send speech module output to the audio module."))
+  :version (version-string (make-instance 'speech-module))
+  :documentation "A module to provide a model with the ability to speak"
+  :creation 'create-speech-module
+  :reset 'reset-speech-module
+  :query 'query-speech-module
+  :request 'pm-module-request
+  :params 'params-speech-module
+  )
+
+;;;; ---------------------------------------------------------------------- ;;;;
+;;;; Misc toplevel stuff
+
+(defun register-articulation-time (string time &optional time-in-ms)
+  "Register the articulation time of a string."
+  (verify-current-mp
+   "No current meta-process.  Cannot set articulation time."
+   (verify-current-model 
+    "No current model.  Cannot set articulation time."
+    (aif (get-module :speech)
+         (cond ((or (not (numberp time)) (minusp time))
+                (print-warning "Articulation time must be a non-negative number."))
+               ((not (stringp string))
+                (print-warning "Must specify a string for which the articulation time is to be set."))
+               (t
+                (register-art-time it string time time-in-ms)))
+         (print-warning "No Speech module found.  Cannot set articulation time.")))))
+    
+(defun get-articulation-time (string &optional time-in-ms)
+  "Return the articulation time of a string."
+  (verify-current-mp
+   "No current meta-process.  Cannot get articulation time."
+   (verify-current-model 
+    "No current model.  Cannot get articulation time."
+    (aif (get-module :speech)
+         (cond ((not (stringp string))
+                (print-warning "Must specify a string for which to get the articulation time."))
+               (t
+                (bt:with-recursive-lock-held ((param-lock it))
+                  (get-art-time it string time-in-ms))))
+         (print-warning "No Speech module found.  Cannot get articulation time.")))))
+
+(add-act-r-command "register-articulation-time" 'register-articulation-time "Set the time required to speak a string of text in seconds or milliseconds. Params: string time {milliseconds?}.")
+(add-act-r-command "get-articulation-time" 'get-articulation-time "Get the time required to speak a string of text in seconds or milliseconds. Params: string {milliseconds?}.")
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+             (#Y(si::bytecodes nil nil (15 0 14 1 14 2 33 3 12 19 4 4 76 73 39 346 15 0 11 5 3 52 5 75 76 39 18 15 6 15 7 15 0 19 1 8 12 15 9 19 4 10 38 2 75 45 11 11 12 39 12 13 0 19 1 13 12 19 1 14 38 298 57 15 60 93 75 45 16 57 17 61 1 68 15 18 34 20 3 6 1 12 11 21 3 48 21 15 22 19 1 13 12 14 23 14 24 19 3 25 45 26 64 18 13 0 19 1 27 69 10 0 39 6 13 0 19 1 28 70 65 10 0 39 10 13 0 14 29 14 30 19 3 28 66 43 1 36 2 44 1 10 1 45 31 77 13 0 72 2 43 1 36 2 62 43 1 63 45 32 15 0 13 0 14 2 15 3 19 4 33 5 45 34 13 0 11 35 17 36 76 45 37 13 3 19 1 13 12 13 0 19 2 14 45 38 10 0 39 155 10 2 39 32 15 0 13 3 14 2 15 3 19 4 33 45 39 11 35 45 40 13 1 10 0 17 41 10 0 43 1 43 1 38 12 15 0 11 35 3 12 10 3 3 51 3 57 42 60 105 75 45 43 57 17 61 1 80 15 18 34 44 3 6 1 12 11 21 3 48 21 15 45 19 1 13 12 14 23 14 46 14 47 14 48 14 49 14 50 19 7 25 45 26 64 22 13 7 14 51 13 0 19 3 52 69 10 0 39 6 13 0 19 1 28 70 65 10 0 39 10 13 0 14 29 14 30 19 3 28 66 43 1 36 2 44 1 10 1 45 31 77 13 0 72 2 43 1 36 2 62 43 1 63 10 0 73 43 4 43 1 29) #1=#A(t (2428) ("GENERAL-PM" *modules* :test string= member common-lisp-user::*act-r-modules* string "ACT-R-support:" string-downcase ".lisp" concatenate common-lisp-user::pn common-lisp-user::*skip-recompiling* translate-logical-pathname common-lisp-user::compile-and-load #:g10475 #:g10476 0 error si::temp #Y(nil nil nil (24 45 19 26 10 0 51 2 35 1 0 29) #1# #2=#P"/opt/actr/actr7.x/core-modules/vision.lisp" 0) si::*handler-clusters* "ACT-R-support:require-mode.lisp" :direction :input open common-lisp-user::f read close :abort t condition common-lisp-user::previous assoc common-lisp-user::previous-mode common-lisp-user::*current-load-mode* eq common-lisp-user::need-to-compile common-lisp-user::result #:g10478 #:g10479 rplacd #:g10481 #:g10482 #Y(nil nil nil (24 45 19 26 10 0 51 2 35 1 0 29) #1# #2# 0) "ACT-R-support:require-mode.lisp" :output :if-does-not-exist :create :if-exists :supersede :stream write common-lisp-user::vision-module ext::location (defclass common-lisp-user::vision-module) (#2# . 79658) ext::annotate (common-lisp-user::attn-module) (:initform nil :initargs (:visicon) :writers ((setf common-lisp-user::visicon)) :readers (common-lisp-user::visicon) :name common-lisp-user::visicon) :initfunction #Y(nil nil nil (26 75 73 29) #1# #2# 79658) (:initform (bordeaux-threads::make-recursive-lock "visicon-lock") :writers ((setf common-lisp-user::visicon-lock)) :readers (common-lisp-user::visicon-lock) :name common-lisp-user::visicon-lock) (:initform 0 :writers ((setf common-lisp-user::proc-display-locks)) :readers (common-lisp-user::proc-display-locks) :name common-lisp-user::proc-display-locks) (:initform nil :initargs (:visicon-updates) :writers ((setf common-lisp-user::visicon-updates)) :readers (common-lisp-user::visicon-updates) :name common-lisp-user::visicon-updates) (:initform nil :writers ((setf common-lisp-user::scheduled-proc-display)) :readers (common-lisp-user::scheduled-proc-display) :name common-lisp-user::scheduled-proc-display) (:initform nil :writers ((setf common-lisp-user::blocked-proc-display)) :readers (common-lisp-user::blocked-proc-display) :name common-lisp-user::blocked-proc-display) (:initform t :initargs (:optimize-p) :writers ((setf common-lisp-user::optimize-p)) :readers (common-lisp-user::optimize-p) :name common-lisp-user::optimize-visual) (:initform 85 :initargs (:move-attn-latency) :writers ((setf common-lisp-user::move-attn-latency)) :readers (common-lisp-user::move-attn-latency) :name common-lisp-user::move-attention-latency) (:initform nil :initargs (:tracked-obj) :writers ((setf common-lisp-user::tracked-obj)) :readers (common-lisp-user::tracked-obj) :name common-lisp-user::tracked-object) (:initform nil :initargs (:tracked-obj-lastloc) :writers ((setf common-lisp-user::tracked-obj-lastloc)) :readers (common-lisp-user::tracked-obj-lastloc) :name common-lisp-user::tracked-object-last-location) (:initform nil :initargs (:last-scale) :writers ((setf common-lisp-user::last-scale)) :readers (common-lisp-user::last-scale) :name common-lisp-user::last-scale) (:initform nil :initargs (:moving-attention) :writers ((setf common-lisp-user::moving-attention)) :readers (common-lisp-user::moving-attention) :name common-lisp-user::moving-attention) (:initform 0 :initargs (:move-allowance) :writers ((setf common-lisp-user::move-allowance)) :readers (common-lisp-user::move-allowance) :name common-lisp-user::move-allowance) make-hash-table #Y(nil nil nil (26 19 0 74 29) #1# #2# 79658) (:initform (make-hash-table) :initargs (:synthd-objs) :writers ((setf common-lisp-user::synthd-objs)) :readers (common-lisp-user::synthd-objs) :name common-lisp-user::synthd-objs) #Y(nil nil nil (26 19 0 74 29) #1# #2# 79658) (:initform (make-hash-table) :initargs (:found-locs) :writers ((setf common-lisp-user::found-locs)) :readers (common-lisp-user::found-locs) :name common-lisp-user::found-locs) common-lisp-user::all-feature-sets #Y(nil nil nil (26 19 0 79 29) #1# #2# 79658) (:initform (common-lisp-user::all-feature-sets) :initargs (:feature-sets) :writers ((setf common-lisp-user::feature-sets)) :readers (common-lisp-user::feature-sets) :name common-lisp-user::feature-sets) (:initform nil :initargs (:active-cfs) :writers ((setf common-lisp-user::active-cfs)) :readers (common-lisp-user::active-cfs) :name common-lisp-user::active-cfs) (:initform 4 :initargs (:num-finst) :writers ((setf common-lisp-user::num-finst)) :readers (common-lisp-user::num-finst) :name common-lisp-user::num-finst) (:initform nil :initargs (:finst-lst) :writers ((setf common-lisp-user::finst-lst)) :readers (common-lisp-user::finst-lst) :name common-lisp-user::finst-lst) (:initform 3.0 :initargs (:finst-span) :writers ((setf common-lisp-user::finst-span)) :readers (common-lisp-user::finst-span) :name common-lisp-user::finst-span) (:initform 0.5 :initargs (:new-span) :writers ((setf common-lisp-user::new-span)) :readers (common-lisp-user::new-span) :name common-lisp-user::new-span) (:initform nil :initargs (:default-spec) :writers ((setf common-lisp-user::default-spec)) :readers (common-lisp-user::default-spec) :name common-lisp-user::default-spec) (:initform nil :writers ((setf common-lisp-user::visual-lock)) :readers (common-lisp-user::visual-lock) :name common-lisp-user::visual-lock) (:initform nil :writers ((setf common-lisp-user::auto-attend)) :readers (common-lisp-user::auto-attend) :name common-lisp-user::auto-attend) (:initform t :writers ((setf common-lisp-user::purge-visicon)) :readers (common-lisp-user::purge-visicon) :name common-lisp-user::purge-visicon) (:initform nil :writers ((setf common-lisp-user::scene-change)) :readers (common-lisp-user::scene-change) :name common-lisp-user::scene-change) (:initform 0.25 :writers ((setf common-lisp-user::change-threshold)) :readers (common-lisp-user::change-threshold) :name common-lisp-user::change-threshold) (:initform nil :writers ((setf common-lisp-user::view-dist)) :readers (common-lisp-user::view-dist) :name common-lisp-user::view-dist) (:initform nil :writers ((setf common-lisp-user::ppi)) :readers (common-lisp-user::ppi) :name common-lisp-user::ppi) (:initform nil :writers ((setf common-lisp-user::viewing-distance)) :readers (common-lisp-user::viewing-distance) :name common-lisp-user::viewing-distance) (:initform nil :writers ((setf common-lisp-user::current-cursor)) :readers (common-lisp-user::current-cursor) :name common-lisp-user::current-cursor) (:initform nil :writers ((setf common-lisp-user::other-word-chars)) :readers (common-lisp-user::other-word-chars) :name common-lisp-user::other-word-chars) vector #Y(nil nil nil (26 9 0 9 0 19 2 98 29) #1# #2# 79658) (:initform (vector 0 0) :writers ((setf common-lisp-user::center-point)) :readers (common-lisp-user::center-point) :name common-lisp-user::center-point) (:initform '(common-lisp-user::screen-x common-lisp-user::screen-y common-lisp-user::distance) :writers ((setf common-lisp-user::vis-loc-slots)) :readers (common-lisp-user::vis-loc-slots) :name common-lisp-user::vis-loc-slots) (:initform nil :writers ((setf common-lisp-user::tracking-clear)) :readers (common-lisp-user::tracking-clear) :name common-lisp-user::tracking-clear) (:initform nil :writers ((setf common-lisp-user::clof)) :readers (common-lisp-user::clof) :name common-lisp-user::clof) (:initform nil :writers ((setf common-lisp-user::feature-to-object)) :readers (common-lisp-user::feature-to-object) :name common-lisp-user::feature-to-object) (:initform nil :writers ((setf common-lisp-user::show-focus-p)) :readers (common-lisp-user::show-focus-p) :name common-lisp-user::show-focus-p) (:initform nil :writers ((setf common-lisp-user::visicon-updated)) :readers (common-lisp-user::visicon-updated) :name common-lisp-user::visicon-updated) (:initform nil :writers ((setf common-lisp-user::encoding-hook)) :readers (common-lisp-user::encoding-hook) :name common-lisp-user::encoding-hook) (:initform nil :writers ((setf common-lisp-user::last-attention-params)) :readers (common-lisp-user::last-attention-params) :name common-lisp-user::last-attention-params) (:initform nil :writers ((setf common-lisp-user::default-width)) :readers (common-lisp-user::default-width) :name common-lisp-user::default-width) (:initform nil :writers ((setf common-lisp-user::force-commands)) :readers (common-lisp-user::force-commands) :name common-lisp-user::force-commands) #Y(nil nil nil (26 75 73 29) #1# #2# 79658) (:initform (bordeaux-threads::make-recursive-lock "visual-markers") :writers ((setf common-lisp-user::marker-lock)) :readers (common-lisp-user::marker-lock) :name common-lisp-user::marker-lock) #Y(nil nil nil (26 75 73 29) #1# #2# 79658) (:initform (bordeaux-threads::make-lock "visual-text-parse") :writers ((setf common-lisp-user::text-parse-lock)) :readers (common-lisp-user::text-parse-lock) :name common-lisp-user::text-parse-lock) #Y(nil nil nil (26 75 73 29) #1# #2# 79658) (:initform (bordeaux-threads::make-lock "visual-vis-loc") :writers ((setf common-lisp-user::vis-loc-lock)) :readers (common-lisp-user::vis-loc-lock) :name common-lisp-user::vis-loc-lock) #Y(nil nil nil (26 75 73 29) #1# #2# 79658) (:initform (bordeaux-threads::make-recursive-lock "visual-proc-display") :writers ((setf common-lisp-user::proc-display-lock)) :readers (common-lisp-user::proc-display-lock) :name common-lisp-user::proc-display-lock) :direct-default-initargs :name :vision constantly :version-string "11.1" clos::load-defclass common-lisp-user::visual-location-slots (defun common-lisp-user::visual-location-slots) (#2# . 83579) :lambda-list (common-lisp-user::chunk common-lisp-user::vis-m) common-lisp-user::chunk common-lisp-user::vis-m common-lisp-user::chunk-vis-loc-slots common-lisp-user::vis-loc-slots #Y(common-lisp-user::visual-location-slots nil nil (24 45 131 24 45 132 26 13 1 19 1 133 73 40 6 13 0 19 1 134 29) #1# #2# 83579) si::fset common-lisp-user::greater-tstamp (defun common-lisp-user::greater-tstamp) (#2# . 83725) (common-lisp-user::c1 common-lisp-user::c2) common-lisp-user::c1 common-lisp-user::c2 common-lisp-user::chunk-visual-tstamp common-lisp-user::b common-lisp-user::a numberp > #Y(common-lisp-user::greater-tstamp nil nil (24 45 141 24 45 142 26 13 1 19 1 143 12 13 0 19 1 143 12 46 144 46 145 10 0 16 146 39 5 10 1 16 146 39 20 13 0 13 1 19 2 147 39 6 10 0 73 38 4 10 1 73 38 26 10 0 16 146 39 6 10 0 73 38 15 10 1 16 146 39 6 10 1 73 38 4 10 0 73 43 2 29) #1# #2# 83725) common-lisp-user::greater-tstamp-value (defun common-lisp-user::greater-tstamp-value) (#2# . 83966) (common-lisp-user::c1 common-lisp-user::c2) common-lisp-user::chunk-visual-obj-spec #Y(common-lisp-user::greater-tstamp-value nil nil (24 45 141 24 45 142 26 13 1 19 1 143 12 13 0 19 1 143 12 46 144 46 145 10 0 16 146 39 5 10 1 16 146 39 24 13 0 13 1 19 2 147 39 8 13 3 19 1 153 38 6 13 2 19 1 153 38 32 10 0 16 146 39 8 13 3 19 1 153 38 19 10 1 16 146 39 8 13 2 19 1 153 38 6 13 3 19 1 153 43 2 29) #1# #2# 83966) common-lisp-user::suppress-extension-warnings common-lisp-user::*suppress-extend-item-warning* common-lisp-user::chunk-synth-feat fboundp "print-warning" "~@?" "Function ~s already exists and is being redefined." format common-lisp-user::evaluate-act-r-command common-lisp-user::chunk-synth-feat-setf "Function ~s already exists and is being redefined." common-lisp-

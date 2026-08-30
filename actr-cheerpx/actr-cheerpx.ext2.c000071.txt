@@ -1,0 +1,2216 @@
+integer  */
+};
+
+struct ecl_complex {
+        _ECL_HDR;
+        cl_object real;         /*  real part, must be a number  */
+        cl_object imag;         /*  imaginary part, must be a number  */
+};
+
+#ifdef ECL_COMPLEX_FLOAT
+struct ecl_csfloat {
+        _ECL_HDR;
+        float _Complex value;
+};
+#define ecl_csfloat(o) ((o)->csfloat.value)
+
+struct ecl_cdfloat {
+        _ECL_HDR;
+        double _Complex value;
+};
+#define ecl_cdfloat(o) ((o)->cdfloat.value)
+
+struct ecl_clfloat {
+        _ECL_HDR;
+        long double _Complex value;
+};
+#define ecl_clfloat(o) ((o)->clfloat.value)
+#endif
+
+enum ecl_stype {                /*  symbol type  */
+        ecl_stp_ordinary = 0,
+        ecl_stp_constant = 1,
+        ecl_stp_special = 2,
+        ecl_stp_macro = 4,
+        ecl_stp_special_form = 8
+};
+
+#define ECL_NIL                 ((cl_object)t_list)
+#define ECL_NIL_SYMBOL          ((cl_object)cl_symbols)
+#define ECL_T                   ((cl_object)(cl_symbols+1))
+#define ECL_UNBOUND             ((cl_object)(cl_symbols+2))
+#define ECL_PROTECT_TAG         ((cl_object)(cl_symbols+3))
+#define ECL_DUMMY_TAG           ((cl_object)(cl_symbols+4))
+#define ECL_RESTART_CLUSTERS    ((cl_object)(cl_symbols+5))
+#define ECL_HANDLER_CLUSTERS    ((cl_object)(cl_symbols+6))
+#define ECL_INTERRUPTS_ENABLED  ((cl_object)(cl_symbols+7))
+#define ECL_NO_TL_BINDING       ((cl_object)(1 << ECL_TAG_BITS))
+
+struct ecl_symbol {
+        _ECL_HDR2(stype, dynamic);/*  symbol type, special-variable-p */
+        cl_object value;        /*  global value of the symbol  */
+                                /*  Coincides with cons.car  */
+        cl_object gfdef;        /*  global function definition  */
+                                /*  For a macro,  */
+                                /*  its expansion function  */
+                                /*  is to be stored.  */
+                                /*  Coincides with cons.cdr  */
+        cl_object plist;        /*  property list  */
+                                /*  This field coincides with cons.car  */
+        cl_object name;         /*  print name  */
+        cl_object cname;        /*  associated C name (or NIL)  */
+        cl_object hpack;        /*  home package  */
+                                /*  ECL_NIL for uninterned symbols  */
+#ifdef ECL_THREADS
+        cl_index binding;       /*  index into the bindings array  */
+#endif
+};
+#define ECL_SYM_FUN(sym)        ((sym)->symbol.gfdef)
+
+struct ecl_package {
+        _ECL_HDR1(locked);
+        cl_object name;            /*  package name, a string  */
+        cl_object nicknames;       /*  nicknames, list of strings  */
+        cl_object local_nicknames; /*  local nicknames, assoc list */
+        cl_object nicknamedby;  /*  nicknamed-by-list of packages */
+        cl_object shadowings;   /*  shadowing symbol list  */
+        cl_object uses;         /*  use-list of packages  */
+        cl_object usedby;       /*  used-by-list of packages  */
+        cl_object internal;     /*  hashtable for internal symbols  */
+        cl_object external;     /*  hashtable for external symbols  */
+};
+
+/*
+        The values returned by intern and find_symbol.
+        File_symbol may return 0.
+*/
+enum {
+        ECL_INTERNAL = 1,
+        ECL_EXTERNAL,
+        ECL_INHERITED
+};
+
+/*
+ * CONSES
+ *
+ * We implement two variants. The "small cons" type carries the type
+ * information in the least significant bits of the pointer. We have
+ * to do some pointer arithmetics to find out the CAR / CDR of the
+ * cons but the overall result is faster and memory efficient, only
+ * using two words per cons.
+ *
+ * The other scheme stores conses as three-words objects, the first
+ * word carrying the type information. This is kept for backward
+ * compatibility and also because the oldest garbage collector does
+ * not yet support the smaller datatype.
+ *
+ * To make code portable and independent of the representation, only
+ * access the objects using the common macros below (that is all
+ * except ECL_CONS_PTR or ECL_PTR_CONS).
+ */
+
+#ifdef ECL_SMALL_CONS
+#define ECL_LISTP(x)    (ECL_IMMEDIATE(x) == t_list)
+#define ECL_CONSP(x)    (LISTP(x) && !Null(x))
+#define ECL_ATOM(x)     (Null(x) || !LISTP(x))
+#define ECL_SYMBOLP(x)  (Null(x) || ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_symbol)))
+
+#define ECL_PTR_CONS(x) (cl_object)((char*)(x) + t_list)
+#define ECL_CONS_PTR(x) ((struct ecl_cons *)((char *)(x) - t_list))
+#define ECL_CONS_CAR(x) (*(cl_object*)((char *)(x) - t_list))
+#define ECL_CONS_CDR(x) (*(cl_object*)((char *)(x) + sizeof(cl_object) - t_list))
+#define ECL_RPLACA(x,v) (ECL_CONS_CAR(x)=(v))
+#define ECL_RPLACD(x,v) (ECL_CONS_CDR(x)=(v))
+
+struct ecl_cons {
+        cl_object car;          /*  car  */
+        cl_object cdr;          /*  cdr  */
+};
+#else
+#define ECL_LISTP(x)    (ECL_IMMEDIATE(x)? Null(x) : ((x)->d.t == t_list))
+#define ECL_CONSP(x)    ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_list))
+#define ECL_ATOM(x)     (ECL_IMMEDIATE(x) || ((x)->d.t != t_list))
+#define ECL_SYMBOLP(x)  (Null(x) || ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_symbol)))
+
+#define ECL_CONS_CAR(x) ((x)->cons.car)
+#define ECL_CONS_CDR(x) ((x)->cons.cdr)
+#define ECL_RPLACA(x,v) (ECL_CONS_CAR(x)=(v))
+#define ECL_RPLACD(x,v) (ECL_CONS_CDR(x)=(v))
+
+struct ecl_cons {
+        _ECL_HDR;
+        cl_object car;          /*  car  */
+        cl_object cdr;          /*  cdr  */
+};
+#endif
+
+enum ecl_httest {               /*  hash table key test function  */
+        ecl_htt_eq,             /*  eq  */
+        ecl_htt_eql,            /*  eql  */
+        ecl_htt_equal,          /*  equal  */
+        ecl_htt_equalp,         /*  equalp  */
+        ecl_htt_pack,           /*  symbol hash  */
+        ecl_htt_generic         /*  generic user-supplied test  */
+};
+
+enum ecl_htweak {
+        ecl_htt_not_weak = 0,
+        ecl_htt_weak_key,
+        ecl_htt_weak_value,
+        ecl_htt_weak_key_and_value,
+        ecl_htt_weak_key_or_value
+};
+
+struct ecl_hashtable_entry {    /*  hash table entry  */
+        cl_object key;          /*  key  */
+        cl_object value;        /*  value  */
+};
+
+struct ecl_hashtable {          /*  hash table header  */
+        _ECL_HDR2(test,weak);
+        struct ecl_hashtable_entry *data; /*  pointer to the hash table  */
+        cl_object sync_lock;              /*  synchronization lock  */
+        cl_object generic_test;           /*  generic test function */
+        cl_object generic_hash;           /*  generic hashing function */
+        cl_index entries;       /*  number of entries  */
+        cl_index size;          /*  hash table size  */
+        cl_index limit;         /*  hash table threshold (integer value)  */
+        cl_object rehash_size;  /*  rehash size  */
+        cl_object threshold;    /*  rehash threshold  */
+        double factor;          /*  cached value of threshold  */
+        cl_object (*get)(cl_object, cl_object, cl_object);
+        cl_object (*set)(cl_object, cl_object, cl_object);
+        bool (*rem)(cl_object, cl_object);
+        /* Unsafe variants are used to store the real accessors when
+           the synchronized variant is bound to get/set/rem. */
+        cl_object (*get_unsafe)(cl_object, cl_object, cl_object);
+        cl_object (*set_unsafe)(cl_object, cl_object, cl_object);
+        bool (*rem_unsafe)(cl_object, cl_object);
+};
+
+typedef enum {                  /*  array element type  */
+        ecl_aet_object,         /*  t                */
+        ecl_aet_sf,             /*  single-float     */
+        ecl_aet_df,             /*  double-float     */
+        ecl_aet_lf,             /*  long-float       */
+#ifdef ECL_COMPLEX_FLOAT
+        ecl_aet_csf,            /*  complex-single-float */
+        ecl_aet_cdf,            /*  complex-double-float */
+        ecl_aet_clf,            /*  complex-long-float */
+#endif
+        ecl_aet_bit,            /*  bit              */
+        ecl_aet_fix,            /*  cl_fixnum        */
+        ecl_aet_index,          /*  cl_index         */
+        /* Below here, list types accepted by streams (i.e. OPEN) */
+        ecl_aet_b8,             /*  byte8            */
+        ecl_aet_i8,             /*  integer8         */
+#ifdef ecl_uint16_t
+        ecl_aet_b16,
+        ecl_aet_i16,
+#endif
+#ifdef ecl_uint32_t
+        ecl_aet_b32,
+        ecl_aet_i32,
+#endif
+#ifdef ecl_uint64_t
+        ecl_aet_b64,
+        ecl_aet_i64,
+#endif
+#ifdef ECL_UNICODE
+        ecl_aet_ch,                     /*  character        */
+#endif
+        ecl_aet_bc,                     /*  base-char        */
+        ecl_aet_last_type = ecl_aet_bc
+} cl_elttype;
+
+union ecl_array_data {
+        cl_object     *t;
+        ecl_base_char *bc;
+#ifdef ECL_UNICODE
+        ecl_character *c;
+#endif
+        uint8_t       *b8;
+        int8_t        *i8;
+#ifdef ecl_uint16_t
+        ecl_uint16_t  *b16;
+        ecl_int16_t   *i16;
+#endif
+#ifdef ecl_uint32_t
+        ecl_uint32_t  *b32;
+        ecl_int32_t   *i32;
+#endif
+#ifdef ecl_uint64_t
+        ecl_uint64_t  *b64;
+        ecl_int64_t   *i64;
+#endif
+        float         *sf;
+        double        *df;
+        long double   *lf;
+#ifdef ECL_COMPLEX_FLOAT
+        float _Complex *csf;
+        double _Complex *cdf;
+        long double _Complex *clf;
+#endif
+        cl_fixnum     *fix;
+        cl_index      *index;
+        byte          *bit;
+};
+
+#define ECL_FLAG_HAS_FILL_POINTER 1
+#define ECL_FLAG_ADJUSTABLE       2
+#define ECL_ADJUSTABLE_ARRAY_P(x) ((x)->array.flags & ECL_FLAG_ADJUSTABLE)
+#define ECL_ARRAY_HAS_FILL_POINTER_P(x) ((x)->array.flags & ECL_FLAG_HAS_FILL_POINTER)
+
+struct ecl_array {              /*  array header  */
+                                /*  adjustable flag  */
+                                /*  has-fill-pointer flag  */
+        _ECL_HDR2(elttype,flags); /*  array element type, has fill ptr, adjustable-p */
+        cl_object displaced;    /*  displaced  */
+        cl_index dim;           /*  dimension  */
+        cl_index *dims;         /*  table of dimensions  */
+        union ecl_array_data self;      /*  pointer to the array  */
+        byte    offset;         /*  bitvector offset  */
+        byte    rank;           /*  rank of array = # of dimensions  */
+};
+
+struct ecl_vector {             /*  vector header  */
+                                /*  adjustable flag  */
+                                /*  has-fill-pointer flag  */
+        _ECL_HDR2(elttype,flags);        /*  array element type, has fill ptr, adjustable-p */
+        cl_object displaced;    /*  displaced  */
+        cl_index dim;           /*  dimension  */
+        cl_index fillp;         /*  fill pointer  */
+                                /*  For simple vectors, fillp is equal to dim. */
+        union ecl_array_data self; /*  pointer to the vector  */
+        byte    offset;
+};
+
+struct ecl_base_string {        /*  string header  */
+                                /*  adjustable flag  */
+                                /*  has-fill-pointer flag  */
+        _ECL_HDR2(elttype,flags);       /*  array element type, has fill ptr, adjustable-p */
+        cl_object displaced;    /*  displaced  */
+        cl_index dim;           /*  dimension  */
+                                /*  string length  */
+        cl_index fillp;         /*  fill pointer  */
+                                /*  For simple strings,  */
+                                /*  st_fillp is equal to st_dim-1.  */
+        ecl_base_char *self;    /*  pointer to the string  */
+};
+
+#ifdef ECL_UNICODE
+struct ecl_string {             /*  string header  */
+                                /*  adjustable flag  */
+                                /*  has-fill-pointer flag  */
+        _ECL_HDR2(elttype,flags);       /*  array element type, has fill ptr, adjustable-p */
+        cl_object displaced;    /*  displaced  */
+        cl_index dim;           /*  dimension, string length  */
+        cl_index fillp;         /*  fill pointer  */
+                                /*  For simple strings, fillp is equal to dim-1. */
+        ecl_character *self;    /*  pointer to the string  */
+};
+#endif
+
+#define T_STRUCTURE     t_instance
+#define ECL_STRUCT_TYPE(x)      ECL_CLASS_OF(x)
+#define ECL_STRUCT_SLOTS(x)     (x)->instance.slots
+#define ECL_STRUCT_LENGTH(x)    (x)->instance.length
+#define ECL_STRUCT_SLOT(x,i)    (x)->instance.slots[i]
+#define ECL_STRUCT_NAME(x)      ECL_CLASS_NAME(ECL_CLASS_OF(x))
+
+enum ecl_smmode {               /*  stream mode  */
+        ecl_smm_input,          /*  input  */
+        ecl_smm_input_file,     /*  input  */
+        ecl_smm_output,         /*  output  */
+        ecl_smm_output_file,    /*  output  */
+        ecl_smm_io,             /*  input-output  */
+        ecl_smm_io_file,        /*  input-output  */
+        ecl_smm_synonym,        /*  synonym  */
+        ecl_smm_broadcast,      /*  broadcast  */
+        ecl_smm_concatenated,   /*  concatenated  */
+        ecl_smm_two_way,        /*  two way  */
+        ecl_smm_echo,           /*  echo  */
+        ecl_smm_string_input,   /*  string input  */
+        ecl_smm_string_output,  /*  string output  */
+        ecl_smm_probe,          /*  probe (only used in open_stream())  */
+#if defined(ECL_WSOCK)
+        ecl_smm_input_wsock,    /*  input socket (Win32) */
+        ecl_smm_output_wsock,   /*  output socket (Win32) */
+        ecl_smm_io_wsock,       /*  input/output socket (Win32) */
+#endif
+#if defined(ECL_MS_WINDOWS_HOST)
+        ecl_smm_io_wcon,        /*  windows console (Win32) */
+#endif
+        ecl_smm_sequence_input, /*  sequence input  */
+        ecl_smm_sequence_output /*  sequence output  */
+};
+
+struct ecl_file_ops {
+        cl_index (*write_byte8)(cl_object strm, unsigned char *c, cl_index n);
+        cl_index (*read_byte8)(cl_object strm, unsigned char *c, cl_index n);
+
+        void (*write_byte)(cl_object c, cl_object strm);
+        cl_object (*read_byte)(cl_object strm);
+
+        int (*read_char)(cl_object strm);
+        int (*write_char)(cl_object strm, int c);
+        void (*unread_char)(cl_object strm, int c);
+        int (*peek_char)(cl_object strm);
+
+        cl_index (*read_vector)(cl_object strm, cl_object data, cl_index start, cl_index end);
+        cl_index (*write_vector)(cl_object strm, cl_object data, cl_index start, cl_index end);
+
+        int (*listen)(cl_object strm);
+        void (*clear_input)(cl_object strm);
+        void (*clear_output)(cl_object strm);
+        void (*finish_output)(cl_object strm);
+        void (*force_output)(cl_object strm);
+
+        int (*input_p)(cl_object strm);
+        int (*output_p)(cl_object strm);
+        int (*interactive_p)(cl_object strm);
+        cl_object (*element_type)(cl_object strm);
+
+        cl_object (*length)(cl_object strm);
+        cl_object (*get_position)(cl_object strm);
+        cl_object (*set_position)(cl_object strm, cl_object pos);
+        int (*column)(cl_object strm);
+
+        cl_object (*close)(cl_object strm);
+};
+
+enum {
+        ECL_STREAM_BINARY = 0,
+        ECL_STREAM_FORMAT = 0xF,
+#ifndef ECL_UNICODE
+        ECL_STREAM_DEFAULT_FORMAT = 1,
+#else
+        ECL_STREAM_DEFAULT_FORMAT = 2,
+        ECL_STREAM_ISO_8859_1 = 1,
+        ECL_STREAM_LATIN_1 = 1,
+        ECL_STREAM_UTF_8 = 2,
+        ECL_STREAM_UCS_2 = 3,
+        ECL_STREAM_UCS_2LE = 5 + 128,
+        ECL_STREAM_UCS_2BE = 5,
+        ECL_STREAM_UCS_4 = 6,
+        ECL_STREAM_UCS_4LE = 7 + 128,
+        ECL_STREAM_UCS_4BE = 7,
+        ECL_STREAM_USER_FORMAT = 8,
+        ECL_STREAM_US_ASCII = 10,
+#endif
+        ECL_STREAM_CR = 16,
+        ECL_STREAM_LF = 32,
+        ECL_STREAM_SIGNED_BYTES = 64,
+        ECL_STREAM_LITTLE_ENDIAN = 128,
+        ECL_STREAM_C_STREAM = 256,
+        ECL_STREAM_MIGHT_SEEK = 512,
+        ECL_STREAM_CLOSE_COMPONENTS = 1024
+};
+
+/* buffer points to an array of bytes ending at buffer_end. Decode one
+   character from this array and advance buffer by the number of bytes
+   consumed. If not enough bytes are available, return EOF and don't
+   advance buffer. */
+typedef ecl_character (*cl_eformat_decoder)(cl_object stream, unsigned char **buffer, unsigned char *buffer_end);
+/* Encode the character c and store the result in buffer. Return the
+   number of bytes used */
+typedef int (*cl_eformat_encoder)(cl_object stream, unsigned char *buffer, ecl_character c);
+
+#define ECL_ANSI_STREAM_P(o) \
+        (ECL_IMMEDIATE(o) == 0 && ((o)->d.t == t_stream))
+#define ECL_ANSI_STREAM_TYPE_P(o,m) \
+        (ECL_IMMEDIATE(o) == 0 && ((o)->d.t == t_stream) && ((o)->stream.mode == (m)))
+
+struct ecl_stream {
+        _ECL_HDR2(mode,closed); /*  stream mode of enum smmode  */
+                                /*  closed stream?  */
+        struct ecl_file_ops *ops; /*  dispatch table  */
+        union {
+                FILE *stream;           /* ANSI C streams */
+                cl_fixnum descriptor;   /* POSIX files */
+        } file;
+        cl_object object0;      /*  some object  */
+        cl_object object1;      /*  some object */
+        cl_object byte_stack;   /*  buffer for unread bytes  */
+        cl_index column;        /*  file column  */
+        cl_fixnum last_char;    /*  last character read  */
+        cl_fixnum last_code[2]; /*  actual composition of last character  */
+        cl_fixnum int0;         /*  some int  */
+        cl_fixnum int1;         /*  some int  */
+        cl_index byte_size;     /*  size of byte in binary streams  */
+        cl_fixnum last_op;      /*  0: unknown, 1: reading, -1: writing */
+        char *buffer;           /*  buffer for FILE  */
+        cl_object format;       /*  external format  */
+        cl_eformat_encoder encoder;
+        cl_eformat_decoder decoder;
+        cl_object format_table;
+        int flags;              /*  character table, flags, etc  */
+        ecl_character eof_char;
+};
+
+struct ecl_random {
+        _ECL_HDR;
+        cl_object value;        /*  random state value  */
+};
+
+enum ecl_chattrib {             /*  character attribute  */
+        cat_whitespace,         /*  whitespace  */
+        cat_terminating,        /*  terminating macro  */
+        cat_non_terminating,    /*  non-terminating macro  */
+        cat_single_escape,      /*  single-escape  */
+        cat_multiple_escape,    /*  multiple-escape  */
+        cat_constituent         /*  constituent  */
+};
+
+struct ecl_readtable_entry {            /*  read table entry  */
+        enum ecl_chattrib syntax_type;  /*  character attribute  */
+        cl_object dispatch;             /*  a macro, a hash or NIL  */
+};
+
+enum ecl_readtable_case {
+        ecl_case_upcase,
+        ecl_case_downcase,
+        ecl_case_invert,
+        ecl_case_preserve
+};
+
+struct ecl_readtable {          /*  read table  */
+        _ECL_HDR1(locked);
+        enum ecl_readtable_case read_case; /*  readtable-case  */
+        struct ecl_readtable_entry *table; /*  read table itself  */
+#ifdef ECL_UNICODE
+        cl_object hash;         /* hash for values outside base-char range */
+#endif
+};
+
+struct ecl_pathname {
+        _ECL_HDR1(logical);     /*  logical pathname?  */
+        cl_object host;         /*  host  */
+        cl_object device;       /*  device  */
+        cl_object directory;    /*  directory  */
+        cl_object name;         /*  name  */
+        cl_object type;         /*  type  */
+        cl_object version;      /*  version  */
+};
+
+struct ecl_codeblock {
+        _ECL_HDR2(self_destruct,locked);        /*  delete DLL after gc */
+                                        /*  do not garbage collect this library */
+        void    *handle;                /*  handle returned by dlopen  */
+        void    *entry;                 /*  entry point  */
+        cl_object *data;                /*  data vector  */
+        int     data_size;
+        cl_object *temp_data;           /*  data vector for toplevel forms */
+        int     temp_data_size;
+        const cl_object *data_text;     /*  strings with objects to be defined  */
+        cl_object next;                 /*  next codeblock within same library */
+        cl_object name;
+        cl_object links;                /*  list of symbols with linking calls  */
+        cl_index cfuns_size;            /*  number of functions defined  */
+        const struct ecl_cfunfixed *cfuns;
+        cl_object source;               /*  common debug information for this block  */
+        cl_object refs;                 /*  reference counter for the library  */
+        cl_object error;                /*  error message when loading */
+};
+
+struct ecl_bytecodes {
+        _ECL_HDR;
+        cl_object name;         /*  function name  */
+        cl_object definition;   /*  function definition in list form  */
+        cl_objectfn entry;      /*  entry address (must match the position of
+                                 *  the equivalent field in cfun) */
+        cl_index code_size;     /*  number of bytecodes  */
+        char *code;             /*  the intermediate language  */
+        cl_object data;         /*  non-inmediate constants used in the code  */
+        cl_object file;         /*  file where it was defined...  */
+        cl_object file_position;/*  and where it was created  */
+};
+
+struct ecl_bclosure {
+        _ECL_HDR;
+        cl_object code;
+        cl_object lex;
+        cl_objectfn entry;      /*  entry address  */
+};
+
+struct ecl_cfun {               /*  compiled function header  */
+        _ECL_HDR1(narg);        /*  number of fixed arguments */
+        cl_object name;         /*  compiled function name  */
+        cl_object block;        /*  descriptor of C code block for GC  */
+        cl_objectfn entry;      /*  entry address  */
+#ifdef ECL_C_COMPATIBLE_VARIADIC_DISPATCH
+        /* Some architectures (i.e. ARM64 on iOS/Mac OS X) use a different
+         * calling convention for the fixed and variadic arguments of
+         * a variadic function. The only portable way to allow for
+         * function redefinitions during runtime in these
+         * architectures is to set entry to a dispatch function
+         * calling entry_variadic with the correct calling conventions
+         * (see cfun.d). -- mg 2019-12-02 */
+        cl_objectfn entry_variadic;
+#endif
+        cl_object file;         /*  file where it was defined...  */
+        cl_object file_position;/*  and where it was created  */
+};
+
+struct ecl_cfunfixed {          /*  compiled function header  */
+        _ECL_HDR1(narg);        /*  number of arguments */
+        cl_object name;         /*  compiled function name  */
+        cl_object block;        /*  descriptor of C code block for GC  */
+        cl_objectfn entry;      /*  entry address (must match the position of
+                                 *  the equivalent field in cfun) */
+        cl_objectfn_fixed entry_fixed;  /*  entry address  */
+        cl_object file;         /*  file where it was defined...  */
+        cl_object file_position;/*  and where it was created  */
+};
+
+struct ecl_cclosure {           /*  compiled closure header  */
+        _ECL_HDR1(narg);        /*  number of fixed arguments */
+        cl_object env;          /*  environment  */
+        cl_object block;        /*  descriptor of C code block for GC  */
+        cl_objectfn entry;      /*  entry address (must match the position of
+                                 *  the equivalent field in cfun) */
+#ifdef ECL_C_COMPATIBLE_VARIADIC_DISPATCH
+        cl_objectfn entry_variadic; /* see struct ecl_cfun above */
+#endif
+        cl_object file;         /*  file where it was defined...  */
+        cl_object file_position;/*  and where it was created  */
+};
+
+#define ECL_FFICALL_LIMIT 256
+
+enum ecl_ffi_tag {
+        ECL_FFI_CHAR = 0,
+        ECL_FFI_UNSIGNED_CHAR,
+        ECL_FFI_BYTE,
+        ECL_FFI_UNSIGNED_BYTE,
+        ECL_FFI_SHORT,
+        ECL_FFI_UNSIGNED_SHORT,
+        ECL_FFI_INT,
+        ECL_FFI_UNSIGNED_INT,
+        ECL_FFI_LONG,
+        ECL_FFI_UNSIGNED_LONG,
+#ifdef ecl_uint8_t
+        ECL_FFI_INT8_T,
+        ECL_FFI_UINT8_T,
+#endif
+#ifdef ecl_uint16_t
+        ECL_FFI_INT16_T,
+        ECL_FFI_UINT16_T,
+#endif
+#ifdef ecl_uint32_t
+        ECL_FFI_INT32_T,
+        ECL_FFI_UINT32_T,
+#endif
+#ifdef ecl_uint64_t
+        ECL_FFI_INT64_T,
+        ECL_FFI_UINT64_T,
+#endif
+#ifdef ecl_long_long_t
+        ECL_FFI_LONG_LONG,
+        ECL_FFI_UNSIGNED_LONG_LONG,
+#endif
+        ECL_FFI_POINTER_VOID,
+        ECL_FFI_CSTRING,
+        ECL_FFI_OBJECT,
+        ECL_FFI_FLOAT,
+        ECL_FFI_DOUBLE,
+        ECL_FFI_LONG_DOUBLE,
+#ifdef ECL_COMPLEX_FLOAT
+        ECL_FFI_CSFLOAT,
+        ECL_FFI_CDFLOAT,
+        ECL_FFI_CLFLOAT,
+#endif
+        ECL_FFI_VOID
+};
+
+union ecl_ffi_values {
+        char c;
+        unsigned char uc;
+        int8_t b;
+        uint8_t ub;
+        int i;
+        unsigned int ui;
+        short s;
+        unsigned short us;
+        long l;
+        unsigned long ul;
+#ifdef ecl_uint8_t
+        ecl_int8_t i8;
+        ecl_uint8_t u8;
+#endif
+#ifdef ecl_uint16_t
+        ecl_int16_t i16;
+        ecl_uint16_t u16;
+#endif
+#ifdef ecl_uint32_t
+        ecl_int32_t i32;
+        ecl_uint32_t u32;
+#endif
+#ifdef ecl_uint64_t
+        ecl_int64_t i64;
+        ecl_uint64_t u64;
+#endif
+#ifdef ecl_long_long_t
+        ecl_long_long_t ll;
+        ecl_ulong_long_t ull;
+        unsigned long l2[2];
+#endif
+        void *pv;
+        char *pc;
+        cl_object o;
+        float f;
+        double d;
+        long double lf;
+#ifdef ECL_COMPLEX_FLOAT
+        float _Complex csf;
+        double _Complex cdf;
+        long double _Complex clf;
+#endif
+};
+
+struct ecl_foreign {            /*  user defined datatype  */
+        _ECL_HDR;
+        cl_object tag;          /*  a tag identifying the type  */
+        cl_index size;          /*  the amount of memory allocated  */
+        char *data;             /*  the data itself  */
+};
+
+struct ecl_stack_frame {
+        _ECL_HDR;
+        cl_object *stack;       /*  Is this relative to the lisp stack?  */
+        cl_object *base;        /*  Start of frame  */
+        cl_index size;          /*  Number of arguments  */
+        struct cl_env_struct *env;
+};
+
+struct ecl_weak_pointer {       /*  weak pointer to value  */
+        _ECL_HDR;
+        cl_object value;
+};
+
+/*
+        dummy type
+*/
+struct ecl_dummy {
+        _ECL_HDR;
+};
+
+#ifdef ECL_THREADS
+enum {
+        ECL_PROCESS_INACTIVE = 0,
+        ECL_PROCESS_BOOTING,
+        ECL_PROCESS_ACTIVE,
+        ECL_PROCESS_EXITING
+};
+struct ecl_process {
+        _ECL_HDR;
+        cl_object name;
+        cl_object function;
+        cl_object args;
+        struct cl_env_struct *env;
+        cl_object interrupt;
+        cl_object initial_bindings;
+        cl_object parent;
+        cl_object exit_barrier;
+        cl_object exit_values;
+        cl_object woken_up;
+        cl_object queue_record;
+        cl_object start_stop_spinlock;
+        cl_index phase;
+#ifdef ECL_WINDOWS_THREADS
+        HANDLE thread;
+#else
+        pthread_t thread;
+#endif
+        int trap_fpe_bits;
+};
+
+enum {
+        ECL_WAKEUP_ONE = 0,
+        ECL_WAKEUP_ALL = 1,
+        ECL_WAKEUP_RESET_FLAG = 2,
+        ECL_WAKEUP_KILL = 4,
+        ECL_WAKEUP_DELETE = 8
+};
+
+struct ecl_queue {
+        _ECL_HDR;
+        cl_object list;
+        cl_object spinlock;
+};
+
+struct ecl_semaphore {
+        _ECL_HDR;
+        cl_object queue_list;
+        cl_object queue_spinlock;
+        cl_object name;
+        cl_fixnum counter;
+};
+
+struct ecl_barrier {
+        _ECL_HDR;
+        cl_object queue_list;
+        cl_object queue_spinlock;
+        cl_object name;
+        cl_fixnum count;
+        cl_fixnum arrivers_count;
+};
+
+struct ecl_lock {
+        _ECL_HDR1(recursive);
+        cl_object queue_list;
+        cl_object queue_spinlock;
+        cl_object owner;       /* thread holding the lock or NIL */
+        cl_object name;
+        cl_fixnum counter;
+};
+
+struct ecl_mailbox {
+        _ECL_HDR;
+        cl_object name;
+        cl_object data;
+        cl_object reader_semaphore;
+        cl_object writer_semaphore;
+        cl_index read_pointer;
+        cl_index write_pointer;
+        cl_index mask;
+};
+
+struct ecl_rwlock {
+        _ECL_HDR;
+        cl_object name;
+#ifdef ECL_RWLOCK
+        pthread_rwlock_t mutex;
+#else
+        cl_object mutex;
+#endif
+};
+
+struct ecl_condition_variable {
+        _ECL_HDR;
+        cl_object queue_list;
+        cl_object queue_spinlock;
+        cl_object lock;
+};
+#endif /* ECL_THREADS */
+
+#define ECL_CLASS_OF(x)         (x)->instance.clas
+#define ECL_SPEC_FLAG(x)        (x)->instance.slots[0]
+#define ECL_SPEC_OBJECT(x)      (x)->instance.slots[3]
+#define ECL_CLASS_NAME(x)       (x)->instance.slots[3+0]
+#define ECL_CLASS_SUPERIORS(x)  (x)->instance.slots[3+1]
+#define ECL_CLASS_INFERIORS(x)  (x)->instance.slots[3+2]
+#define ECL_CLASS_SLOTS(x)      (x)->instance.slots[3+3]
+#define ECL_CLASS_CPL(x)        (x)->instance.slots[3+4]
+#define ECL_INSTANCEP(x)        ((ECL_IMMEDIATE(x)==0) && ((x)->d.t==t_instance))
+#define ECL_NOT_FUNCALLABLE     0
+#define ECL_STANDARD_DISPATCH   1
+#define ECL_RESTRICTED_DISPATCH 2
+#define ECL_READER_DISPATCH     3
+#define ECL_WRITER_DISPATCH     4
+#define ECL_USER_DISPATCH       5
+
+struct ecl_instance {            /* -- instance header -- */
+        _ECL_HDR1(isgf);         /*  gf type              */
+        cl_index length;         /*  instance length      */
+        cl_object clas;          /*  instance class       */
+        cl_objectfn entry;       /*  entry address        */
+        cl_object slotds;        /*  slot definitions     */
+        cl_object *slots;        /*  instance slots       */
+        cl_index stamp;          /*  instance stamp       */
+        cl_index class_stamp;    /*  class stamp          */
+};
+
+#ifdef ECL_SSE2
+union ecl_sse_data {
+        /* This member must be first in order for
+           ecl_def_ct_sse_pack to work properly. */
+        uint8_t       b8[16];
+        int8_t        i8[16];
+
+        __m128        vf;
+        __m128i       vi;
+        __m128d       vd;
+
+#ifdef ecl_uint16_t
+        ecl_uint16_t  b16[8];
+        ecl_int16_t   i16[8];
+#endif
+#ifdef ecl_uint32_t
+        ecl_uint32_t  b32[4];
+        ecl_int32_t   i32[4];
+#endif
+#ifdef ecl_uint64_t
+        ecl_uint64_t  b64[2];
+        ecl_int64_t   i64[2];
+#endif
+
+        float         sf[4];
+        double        df[2];
+};
+
+struct ecl_sse_pack {
+        _ECL_HDR1(elttype);
+        union ecl_sse_data data;
+};
+#endif
+
+/*
+        Definition of lispunion.
+*/
+union cl_lispunion {
+#ifndef ECL_SMALL_CONS
+        struct ecl_cons         cons;           /*  unoptimized cons  */
+#endif
+        struct ecl_bignum       big;            /*  bignum  */
+        struct ecl_ratio        ratio;          /*  ratio  */
+        struct ecl_singlefloat  SF;             /*  single floating-point number  */
+        struct ecl_doublefloat  DF;             /*  double floating-point number  */
+        struct ecl_long_float   longfloat;      /*  long-float */
+        struct ecl_complex      gencomplex;     /*  generic complex number  */
+#ifdef ECL_COMPLEX_FLOAT
+        struct ecl_csfloat      csfloat;        /*  complex single float */
+        struct ecl_cdfloat      cdfloat;        /*  complex double float */
+        struct ecl_clfloat      clfloat;        /*  complex long float */
+#endif
+        struct ecl_symbol       symbol;         /*  symbol  */
+        struct ecl_package      pack;           /*  package  */
+        struct ecl_hashtable    hash;           /*  hash table  */
+        struct ecl_array        array;          /*  array  */
+        struct ecl_vector       vector;         /*  vector  */
+        struct ecl_base_string  base_string;    /*  base-string  */
+#ifdef ECL_UNICODE
+        struct ecl_string       string;         /*  string  */
+#endif
+        struct ecl_stream       stream;         /*  stream  */
+        struct ecl_random       random;         /*  random-states  */
+        struct ecl_readtable    readtable;      /*  read table  */
+        struct ecl_pathname     pathname;       /*  path name  */
+        struct ecl_bytecodes    bytecodes;      /*  bytecompiled function / code */
+        struct ecl_bclosure     bclosure;       /*  bytecompiled closure */
+        struct ecl_cfun         cfun;           /*  compiled function  */
+        struct ecl_cfunfixed    cfunfixed;      /*  compiled function  */
+        struct ecl_cclosure     cclosure;       /*  compiled closure  */
+        struct ecl_dummy        d;              /*  dummy  */
+        struct ecl_instance     instance;       /*  clos instance */
+#ifdef ECL_THREADS
+        struct ecl_process      process;        /*  process  */
+        struct ecl_queue        queue;          /*  lock  */
+        struct ecl_lock         lock;           /*  lock  */
+        struct ecl_rwlock       rwlock;         /*  read/write lock  */
+        struct ecl_condition_variable condition_variable; /*  condition-variable */
+        struct ecl_semaphore    semaphore;      /*  semaphore  */
+        struct ecl_barrier      barrier;        /*  barrier  */
+        struct ecl_mailbox      mailbox;        /*  mailbox  */
+#endif
+        struct ecl_codeblock    cblock;         /*  codeblock  */
+        struct ecl_foreign      foreign;        /*  user defined data type */
+        struct ecl_stack_frame  frame;          /*  stack frame  */
+        struct ecl_weak_pointer weak;           /*  weak pointers  */
+#ifdef ECL_SSE2
+        struct ecl_sse_pack     sse;
+#endif
+};
+
+/*
+        Type_of.
+*/
+#if defined(__cplusplus) || (defined(__GNUC__) && !defined(__STRICT_ANSI__))
+static inline cl_type ecl_t_of(cl_object o) {
+        int i = ECL_IMMEDIATE(o);
+        return (i? (cl_type)i : (cl_type)(o->d.t));
+}
+#else
+#define ecl_t_of(o) \
+        ((cl_type)(ECL_IMMEDIATE(o) ? ECL_IMMEDIATE(o) : ((o)->d.t)))
+#endif
+
+/*
+        This is used to retrieve optional arguments
+*/
+typedef struct {
+        va_list args;
+        cl_object *sp;
+        int narg;
+} ecl_va_list[1];
+
+#ifdef __cplusplus
+}
+#endif
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    page.h  -- Page macros.
+*/
+/*
+    Copyright (c) 1990, Giuseppe Attardi.
+
+    ECoLisp is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*****************************
+ * BOEHM's GARBAGE COLLECTOR *
+ *****************************/
+
+#ifdef GBC_BOEHM
+#ifdef ECL_THREADS
+#define GC_THREADS
+#endif
+
+extern struct typemanager {
+        const char *tm_name;
+        cl_index tm_size;
+} tm_table[(int)t_end];
+
+#define tm_of(t)        (&tm_table[(int)(t)])
+#endif
+
+
+/****************************************
+ * ECOLISP's ORIGINAL GARBAGE COLLECTOR *
+ ****************************************/
+
+#if !defined(GBC_BOEHM)
+/* THREADS: If you make it bigger, the bug is less frequent */
+#ifdef SYSV
+#define HOLEPAGE        32
+#else
+#define HOLEPAGE        128
+#endif
+#define INIT_HOLEPAGE   150
+#define CBMINSIZE       64      /*  contiguous block minimal size  */
+
+typedef char *cl_ptr;
+#define ptr2int(p)      ((cl_ptr)(p) - (cl_ptr)0)
+#define int2ptr(n)      ((cl_ptr)0 + (n))
+#define page(p)         (((cl_ptr)(p) - heap_start)/LISP_PAGESIZE)
+#define pagetochar(x)   (heap_start + (x) * LISP_PAGESIZE)
+#define round_to_page(x) (((x) + LISP_PAGESIZE - 1) / LISP_PAGESIZE)
+#define round_up(n)     (((n) + 03) & ~03)
+#define available_pages() ((cl_index)(real_maxpage-page(heap_end)-new_holepage-real_maxpage/32))
+
+extern cl_index real_maxpage;
+extern cl_index new_holepage;
+
+/*
+        The struct of free lists.
+*/
+struct freelist {
+        HEADER;
+        cl_object       f_link;
+};
+
+/*
+        Type map.
+
+        enum type type_map[MAXPAGE];
+*/
+extern char type_map[MAXPAGE];
+
+/*
+        Storage manager for each type.
+*/
+struct typemanager {
+        cl_type         tm_type;        /*  type  */
+        cl_index        tm_size;        /*  element size in bytes  */
+        cl_index        tm_nppage;      /*  number per page  */
+        cl_object       tm_free;        /*  free list  */
+                                        /*  Note that it is of type object.  */
+        cl_index        tm_nfree;       /*  number of free elements  */
+        cl_index        tm_nused;       /*  number of elements used  */
+        cl_index        tm_npage;       /*  number of pages  */
+        cl_index        tm_maxpage;     /*  maximum number of pages  */
+        char            *tm_name;       /*  type name  */
+        cl_index        tm_gccount;     /*  GC count  */
+};
+
+/*
+        The table of type managers.
+*/
+extern struct typemanager tm_table[(int)t_end];
+
+#define tm_of(t)        (&(tm_table[(int)tm_table[(int)(t)].tm_type]))
+
+/*
+        Contiguous block header.
+*/
+struct contblock {                      /*  contiguous block header  */
+        cl_index cb_size;               /*  size in bytes  */
+        struct contblock *cb_link;      /*  contiguous block link  */
+};
+
+/*
+        The pointer to the contiguous blocks.
+*/
+extern struct contblock *cb_pointer;    /*  contblock pointer  */
+
+/*
+        Variables for memory management.
+*/
+extern cl_index ncb;            /*  number of contblocks  */
+extern cl_index ncbpage;        /*  number of contblock pages  */
+extern cl_index maxcbpage;      /*  maximum number of contblock pages  */
+extern cl_index cbgccount;      /*  contblock gc count  */
+extern cl_index holepage;       /*  hole pages  */
+
+extern char *heap_start;        /*  heap start  */
+extern char *heap_end;          /*  heap end  */
+extern char *data_end;          /*  core end  */
+
+#endif /* !GBC_BOEHM */
+
+/*******************************
+ * SYMBOLS & KEYWORDS DATABASE *
+ *******************************/
+
+#ifdef __cplusplus
+}
+#endif
+                                                                                                                                 /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    internal.h -- safe stack resizing
+*/
+/*
+    Copyright (c) 2001, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifndef ECL_STACK_RESIZE_H
+#define ECL_STACK_RESIZE_H
+
+/* We can't block interrupts with ecl_disable_interrupts() and write
+ * in the thread local environment if we use fast interrupt dispatch
+ * via mprotect(), so we have to use sigprocmask instead. No
+ * performance problems, since this is only used for stack
+ * resizing. */
+#if defined(ECL_THREADS) && defined(ECL_USE_MPROTECT)
+# ifdef HAVE_SIGPROCMASK
+#  include <signal.h>
+#  define ECL_STACK_RESIZE_DISABLE_INTERRUPTS(the_env) \
+        sigset_t __sigset_new, __sigset_previous;      \
+        sigfillset(&__sigset_new);                     \
+        sigdelset(&__sigset_new, SIGSEGV);             \
+        sigdelset(&__sigset_new, SIGBUS);              \
+        pthread_sigmask(SIG_BLOCK, &__sigset_new, &__sigset_previous)
+#  define ECL_STACK_RESIZE_ENABLE_INTERRUPTS(the_env) \
+        pthread_sigmask(SIG_SETMASK, &__sigset_previous, NULL)
+# else
+#  error "Can't protect stack resizing from interrupts without sigprocmask. Either build ECL without mprotect() or live with possible race conditions."
+# endif  /* HAVE_SIGPROCMASK */
+#else
+# define ECL_STACK_RESIZE_DISABLE_INTERRUPTS(the_env) ecl_disable_interrupts_env(the_env);
+# define ECL_STACK_RESIZE_ENABLE_INTERRUPTS(the_env) ecl_enable_interrupts_env(env);
+# endif  /* ECL_THREADS && ECL_USE_MPROTECT */
+
+#endif  /* ECL_STACK_RESIZE_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    stacks.h -- Bind/Jump/Frame stacks.
+*/
+/*
+    Copyright (c) 1984, Taiichi Yuasa and Masami Hagiya.
+    Copyright (c) 1990, Giuseppe Attardi.
+    Copyright (c) 2000, Juan Jose Garcia-Ripoll
+
+    ECoLisp is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifndef ECL_STACKS_H
+#define ECL_STACKS_H
+
+#include <ecl/ecl_atomics.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/***********
+ * C STACK
+ ***********/
+
+#ifdef ECL_DOWN_STACK
+#define ecl_cs_check(env,var) \
+        if (ecl_unlikely((char*)(&var) <= (env)->cs_limit)) ecl_cs_overflow()
+#else
+#define ecl_cs_check(env,var) \
+        if (ecl_unlikely((char*)(&var) >= (env)->cs_limit)) ecl_cs_overflow()
+#endif
+
+/*********************************************************
+ * INTERRUPT SAFE STACK MANIPULATIONS
+ *
+ * The requirement for interruptible threads puts major
+ * restrictions on the implementation of stack push/pop and unwind
+ * routines. There are two principle requirements to be fulfilled:
+ * The code which is executed during the interrupt must not
+ * overwrite stack values (1) and it must be able to safely call stack
+ * unwind functions (2).
+ * The first requirement can be met in two distinct ways:
+ * - Ordering the manipulations of the stack pointer and of the
+ *   stack itself in the right manner. This means, when pushing in
+ *   the stack first increase the stack pointer and then write the
+ *   value and the other way round for popping from the stack. This
+ *   method has the drawback that it requires insertions of
+ *   memory barriers on modern processors, possibly impacting
+ *   performance.
+ * - Avoid overwriting stack values in the interrupt signal
+ *   handler. This can be achieved by either increasing the stack
+ *   pointer temporarily during the execution of the interrupt code
+ *   or by saving/restoring the topmost stack value. However due to
+ *   the second requirement, this simple method is sufficient only
+ *   for the arguments stack.
+ * The second requirement requires the stack to be in a consistent
+ * state during the interrupt. The easiest solution would be to
+ * disable interrupts during stack manipulations. Because of the
+ * mprotect()-mechanism for fast interrupt dispatch, which does not
+ * allow writes in the thread-local environment while interrupts
+ * are disabled, this is unfortunately not possible. The solution
+ * adopted for this case (bindings and frame stack) is to push a
+ * dummy tag/symbol in the stack before any other manipulations are
+ * done. This dummy tag/symbol will then be ignored while
+ * unwinding.
+ */
+
+/**************
+ * BIND STACK
+ **************/
+
+typedef struct ecl_bds_frame {
+        cl_object symbol;       /*  symbol  */
+        cl_object value;        /*  previous value of the symbol  */
+} *ecl_bds_ptr;
+
+#define ecl_bds_check(env) \
+        (ecl_unlikely(env->bds_top >= env->bds_limit)? (ecl_bds_overflow(),1) : 0)
+
+#define ECL_MISSING_SPECIAL_BINDING (~((cl_index)0))
+
+extern ECL_API ecl_bds_ptr ecl_bds_overflow(void);
+extern ECL_API void ecl_bds_bind(cl_env_ptr env, cl_object symbol, cl_object v);
+extern ECL_API void ecl_bds_push(cl_env_ptr env, cl_object symbol);
+extern ECL_API void ecl_bds_unwind1(cl_env_ptr env);
+extern ECL_API void ecl_bds_unwind_n(cl_env_ptr env, int n);
+#ifdef ECL_THREADS
+extern ECL_API cl_object ecl_bds_read(cl_env_ptr env, cl_object s);
+extern ECL_API cl_object *ecl_bds_ref(cl_env_ptr env, cl_object s);
+extern ECL_API cl_object ecl_bds_set(cl_env_ptr env, cl_object s, cl_object v);
+# define ECL_SYM_VAL(env,s) (ecl_bds_read(env,s))
+# define ECL_SET(s,v) ((s)->symbol.value=(v))
+# define ECL_SETQ(env,s,v) (*ecl_bds_ref(env,s)=(v))
+#else
+# define ECL_SYM_VAL(env,s) ((s)->symbol.value)
+# define ECL_SET(s,v) ((s)->symbol.value=(v))
+# define ECL_SETQ(env,s,v) ((s)->symbol.value=(v))
+#endif
+
+#ifdef __GNUC__
+static inline void ecl_bds_bind_inl(cl_env_ptr env, cl_object s, cl_object v)
+{
+        ecl_bds_ptr slot;
+# ifdef ECL_THREADS
+        cl_object *location;
+        const cl_index index = s->symbol.binding;
+        if (index >= env->thread_local_bindings_size) {
+                ecl_bds_bind(env,s,v);
+        } else {
+                location = env->thread_local_bindings + index;
+                slot = env->bds_top+1;
+                if (slot >= env->bds_limit) slot = ecl_bds_overflow();
+                /* First, we push a dummy symbol in the stack to
+                 * prevent segfaults when we are interrupted with a
+                 * call to ecl_bds_unwind. */
+                slot->symbol = ECL_DUMMY_TAG;
+                AO_nop_full();
+                ++env->bds_top;
+                /* Then we disable interrupts to ensure that
+                 * ecl_bds_unwind doesn't overwrite the symbol with
+                 * some random value. */
+                ecl_disable_interrupts_env(env);
+                slot->symbol = s;
+                slot->value = *location;
+                *location = v;
+                ecl_enable_interrupts_env(env);
+        }
+# else
+        slot = ++env->bds_top;
+        if (slot >= env->bds_limit) slot = ecl_bds_overflow();
+        ecl_disable_interrupts_env(env);
+        slot->symbol = s;
+        slot->value = s->symbol.value;
+        s->symbol.value = v;
+        ecl_enable_interrupts_env(env);
+# endif /* !ECL_THREADS */
+}
+
+static inline void ecl_bds_push_inl(cl_env_ptr env, cl_object s)
+{
+        ecl_bds_ptr slot;
+# ifdef ECL_THREADS
+        cl_object *location;
+        const cl_index index = s->symbol.binding;
+        if (index >= env->thread_local_bindings_size) {
+                ecl_bds_push(env, s);
+        } else {
+                location = env->thread_local_bindings + index;
+                slot = env->bds_top+1;
+                if (slot >= env->bds_limit) slot = ecl_bds_overflow();
+                slot->symbol = ECL_DUMMY_TAG;
+                AO_nop_full();
+                ++env->bds_top;
+                ecl_disable_interrupts_env(env);
+                slot->symbol = s;
+                slot->value = *location;
+                if (*location == ECL_NO_TL_BINDING) *location = s->symbol.value;
+                ecl_enable_interrupts_env(env);
+        }
+# else
+        slot = ++env->bds_top;
+        if (slot >= env->bds_limit) slot = ecl_bds_overflow();
+        ecl_disable_interrupts_env(env);
+        slot->symbol = s;
+        slot->value = s->symbol.value;
+        ecl_enable_interrupts_env(env);
+# endif /* !ECL_THREADS */
+}
+
+static inline void ecl_bds_unwind1_inl(cl_env_ptr env)
+{
+        cl_object s = env->bds_top->symbol;
+# ifdef ECL_THREADS
+        cl_object *location = env->thread_local_bindings + s->symbol.binding;
+        *location = env->bds_top->value;
+# else
+        s->symbol.value = env->bds_top->value;
+# endif
+        --env->bds_top;
+}
+
+# ifdef ECL_THREADS
+static inline cl_object ecl_bds_read_inl(cl_env_ptr env, cl_object s)
+{
+        cl_index index = s->symbol.binding;
+        if (index < env->thread_local_bindings_size) {
+                cl_object x = env->thread_local_bindings[index];
+                if (x != ECL_NO_TL_BINDING) return x;
+        }
+        return s->symbol.value;
+}
+static inline cl_object *ecl_bds_ref_inl(cl_env_ptr env, cl_object s)
+{
+        cl_index index = s->symbol.binding;
+        if (index < env->thread_local_bindings_size) {
+                cl_object *location = env->thread_local_bindings + index;
+                if (*location != ECL_NO_TL_BINDING) return location;
+        }
+        return &s->symbol.value;
+}
+#  define ecl_bds_set(env,s,v) (*ecl_bds_ref_inl(env,s)=(v))
+#  define ecl_bds_read ecl_bds_read_inl
+# endif
+# define ecl_bds_bind ecl_bds_bind_inl
+# define ecl_bds_push ecl_bds_push_inl
+# define ecl_bds_unwind1 ecl_bds_unwind1_inl
+#else /* !__GNUC__ */
+# ifndef ECL_THREADS
+#  define ecl_bds_bind(env,sym,val) do {          \
+        const cl_env_ptr env_copy = (env);        \
+        const cl_object s = (sym);                \
+        const cl_object v = (val);                \
+        ecl_bds_check(env_copy);                  \
+        ecl_bds_ptr slot = ++(env_copy->bds_top); \
+        ecl_disable_interrupts_env(env_copy);     \
+        slot->symbol = s;                         \
+        slot->value = s->symbol.value;            \
+        s->symbol.value = v;                      \
+        ecl_enable_interrupts_env(env_copy); } while (0)
+#  define ecl_bds_push(env,sym) do {    \
+        const cl_env_ptr env_copy = (env);        \
+        const cl_object s = (sym);                \
+        const cl_object v = s->symbol.value;      \
+        ecl_bds_check(env_copy);                  \
+        ecl_bds_ptr slot = ++(env_copy->bds_top); \
+        ecl_disable_interrupts_env(env_copy);     \
+        slot->symbol = s;                         \
+        slot->value = s->symbol.value;            \
+        ecl_enable_interrupts_env(env_copy); } while (0);
+#  define ecl_bds_unwind1(env)  do {    \
+        const cl_env_ptr env_copy = (env);              \
+        const cl_object s = env_copy->bds_top->symbol;  \
+        s->symbol.value = env_copy->bds_top->value;     \
+        --(env_copy->bds_top); } while (0)
+# endif /* !ECL_THREADS */
+#endif /* !__GNUC__ */
+
+/****************************
+ * INVOCATION HISTORY STACK
+ ****************************/
+
+typedef struct ecl_ihs_frame {
+        struct ecl_ihs_frame *next;
+        cl_object function;
+        cl_object lex_env;
+        cl_index index;
+        cl_index bds;
+} *ecl_ihs_ptr;
+
+#define ecl_ihs_push(env,rec,fun,lisp_env) do { \
+        const cl_env_ptr __the_env = (env);     \
+        ecl_ihs_ptr const r = (ecl_ihs_ptr const)(rec); \
+        r->next=__the_env->ihs_top;             \
+        r->function=(fun);                      \
+        r->lex_env=(lisp_env);                  \
+        r->index=__the_env->ihs_top->index+1;   \
+        r->bds=__the_env->bds_top - __the_env->bds_org; \
+        __the_env->ihs_top = r;                 \
+} while(0)
+
+#define ecl_ihs_pop(env) do {                           \
+        const cl_env_ptr __the_env = (env);             \
+        ecl_ihs_ptr r = __the_env->ihs_top;     \
+        if (r) __the_env->ihs_top = r->next;            \
+} while(0)
+
+/***************
+ * FRAME STACK
+ ***************/
+/* Frames signal points in the code to which we can at any time jump.
+ * Frames are established, for instance, by CATCH, BLOCK, TAGBODY,
+ * LAMBDA, UNWIND-PROTECT, etc.
+ *
+ * Frames are established by ecl_frs_push(). For each call to ecl_frs_push()
+ * there must be a corresponding ecl_frs_pop(). More precisely, since our
+ * frame mechanism relies on the C stack and on the setjmp/longjmp
+ * functions, any function that creates a frame must also destroy it
+ * with ecl_frs_pop() before returning.
+ *
+ * Frames are identified by a value frs_val. This can be either a
+ * unique identifier, created for each CATCH, BLOCK, etc, or a common
+ * one ECL_PROTECT_TAG, used by UNWIND-PROTECT forms. The first type
+ * of frames can be target of a search ecl_frs_sch() and thus one can jump
+ * to them. The second type of frames are like barriers designed to
+ * intercept the jumps to the outer frames and are called
+ * automatically by the function unwind() whenever it jumps to a frame
+ * which is beyond one of these barriers.
+ */
+
+typedef struct ecl_frame {
+        jmp_buf         frs_jmpbuf;
+        cl_object       frs_val;
+        cl_index        frs_bds_top_index;
+        ecl_ihs_ptr     frs_ihs;
+        cl_index        frs_sp;
+} *ecl_frame_ptr;
+
+extern ECL_API ecl_frame_ptr _ecl_frs_push(register cl_env_ptr);
+#define ecl_frs_push(env,val) \
+        ecl_frame_ptr __frame = _ecl_frs_push(env); \
+        ecl_disable_interrupts_env(env); \
+        __frame->frs_val = val; \
+        int __ecl_frs_push_result = ecl_setjmp(__frame->frs_jmpbuf); \
+        ecl_enable_interrupts_env(env)
+
+#define ecl_frs_pop(env) ((env)->frs_top--)
+
+/*******************
+ * ARGUMENTS STACK
+ *******************
+ * Here we define how we handle the incoming arguments for a
+ * function. Our calling conventions specify that at most
+ * ECL_C_ARGUMENTS_LIMIT ar pushed onto the C stack. If the function
+ * receives more than this number of arguments it will keep a copy of
+ * _all_ those arguments _plus_ the remaining ones in the lisp
+ * stack. The caller is responsible for storing and removing such
+ * values.
+ *
+ * Given this structure, we need our own object for handling variable
+ * argument list, ecl_va_list. This object joins the C data type for
+ * handling vararg lists and a pointer to the lisp stack, in case the
+ * arguments were passed there.
+ *
+ * Note that keeping a direct reference to the lisp stack effectively
+ * locks it in memory, preventing the block from being garbage
+ * collected if the stack grows -- at least until all references are
+ * eliminated --. This is something we have to live with and which
+ * is somehow unavoidable, given that function arguments have to be
+ * stored somewhere.
+ */
+
+#define ecl_va_start(a,p,n,k) { \
+        a[0].narg = (n)-(k); \
+        va_start(a[0].args,p); \
+        a[0].sp = ((n) <= ECL_C_ARGUMENTS_LIMIT)? 0 : _ecl_va_sp(k); }
+#define ecl_va_arg(a) \
+        (a[0].narg--,(a[0].sp? *(a[0].sp++) : va_arg(a[0].args,cl_object)))
+#define ecl_va_copy(dest,orig) { \
+        dest[0].narg = orig[0].narg; \
+        dest[0].sp = orig[0].sp; \
+        va_copy(dest[0].args,orig[0].args); \
+}
+#define ecl_va_end(a) \
+        va_end(a[0].args)
+
+/***********************
+ * RETURN VALUES STACK
+ ***********************/
+
+#define ecl_nth_value(env,n) ((env)->values[n])
+#define ecl_nvalues(env) ((env)->nvalues)
+#define ecl_return0(env) \
+        do { (env)->nvalues = 0; return ECL_NIL; } while (0)
+#define ecl_return1(env,x) \
+        do { (env)->nvalues = 1; return (x); } while (0)
+#define ecl_return2(env,x,y)                                            \
+        do {                                                            \
+                cl_env_ptr __ecl_env = (env);                           \
+                cl_object __aux1 = (x), __aux2=(y);                     \
+                __ecl_env->values[1] = __aux2;                          \
+                __ecl_env->nvalues = 2; return __aux1;                  \
+        } while (0)
+#define ecl_return3(env,x,y,z)                                          \
+        do {                                                            \
+                cl_env_ptr __ecl_env = (env);                           \
+                cl_object __aux1=(x), __aux2=(y), __aux3=(z);           \
+                __ecl_env->values[1] = __aux2;                          \
+                __ecl_env->values[2] = __aux3;                          \
+                __ecl_env->nvalues = 3; return __aux1;                  \
+        } while (0)
+
+/*************
+ * LISP STACK
+ *************/
+
+#define ECL_STACK_INDEX(env) ((env)->stack_top - (env)->stack)
+
+#define ECL_STACK_PUSH(the_env,o) do {                                  \
+                const cl_env_ptr __env = (the_env);                     \
+                cl_object *__new_top = __env->stack_top;                \
+                if (ecl_unlikely(__new_top >= __env->stack_limit)) {    \
+                        __new_top = ecl_stack_grow(__env);              \
+                }                                                       \
+                __env->stack_top = __new_top+1;                         \
+                *__new_top = (o); } while (0)
+
+#define ECL_STACK_POP_UNSAFE(env) *(--((env)->stack_top))
+
+#define ECL_STACK_REF(env,n) ((env)->stack_top[n])
+
+#define ECL_STACK_SET_INDEX(the_env,ndx) do {                   \
+                const cl_env_ptr __env = (the_env);             \
+                cl_object *__new_top = __env->stack + (ndx);    \
+                if (ecl_unlikely(__new_top > __env->stack_top)) \
+                        FEstack_advance();                      \
+                __env->stack_top = __new_top; } while (0)
+
+#define ECL_STACK_POP_N(the_env,n) do {                         \
+                const cl_env_ptr __env = (the_env);             \
+                cl_object *__new_top = __env->stack_top - (n);  \
+                if (ecl_unlikely(__new_top < __env->stack))     \
+                        FEstack_underflow();                    \
+                __env->stack_top = __new_top; } while (0)
+
+#define ECL_STACK_POP_N_UNSAFE(the_env,n) ((the_env)->stack_top -= (n))
+
+#define ECL_STACK_PUSH_N(the_env,n) do {                                \
+                const cl_env_ptr __env = (the_env) ;                    \
+                cl_index __aux = (n);                                   \
+                cl_object *__new_top = __env->stack_top;                \
+                while (ecl_unlikely((__env->stack_limit - __new_top) <= __aux)) { \
+                        __new_top = ecl_stack_grow(__env);              \
+                }                                                       \
+                __env->stack_top = __new_top + __aux; } while (0)
+
+#define ECL_STACK_FRAME_COPY(dest,orig) do {                            \
+                cl_object __dest = (dest);                              \
+                cl_object __orig = (orig);                              \
+                cl_index __size = __orig->frame.size;                   \
+                ecl_stack_frame_open(__orig->frame.env, __dest, __size); \
+                memcpy(__dest->frame.base, __orig->frame.base, __size * sizeof(cl_object)); \
+        } while (0);
+
+#define ECL_STACK_FRAME_SET(f,ndx,o) do { (f)->frame.base[(ndx)] = (o); } while(0)
+#define ECL_STACK_FRAME_REF(f,ndx) ((f)->frame.base[(ndx)])
+
+/*********************************
+ * HIGH LEVEL CONTROL STRUCTURES *
+ *********************************/
+
+#define ECL_UNWIND_PROTECT_BEGIN(the_env) do {     \
+        bool __unwinding; ecl_frame_ptr __next_fr; \
+        const cl_env_ptr __the_env = (the_env);    \
+        cl_index __nr; \
+        ecl_frs_push(__the_env,ECL_PROTECT_TAG);   \
+        if (__ecl_frs_push_result) {      \
+                __unwinding=1; __next_fr=__the_env->nlj_fr; \
+        } else {
+
+#define ECL_UNWIND_PROTECT_EXIT \
+        __unwinding=0; } \
+        ecl_frs_pop(__the_env); \
+        __nr = ecl_stack_push_values(__the_env);
+
+#define ECL_UNWIND_PROTECT_END \
+        ecl_stack_pop_values(__the_env,__nr);   \
+        if (__unwinding) ecl_unwind(__the_env,__next_fr); } while(0)
+
+/* unwind-protect variant which disables interrupts during cleanup */
+#define ECL_UNWIND_PROTECT_THREAD_SAFE_EXIT \
+        __unwinding=0; } \
+        ecl_bds_bind(__the_env,ECL_INTERRUPTS_ENABLED,ECL_NIL); \
+        ecl_frs_pop(__the_env); \
+        __nr = ecl_stack_push_values(__the_env);
+
+#define ECL_UNWIND_PROTECT_THREAD_SAFE_END      \
+        ecl_stack_pop_values(__the_env,__nr);   \
+        ecl_bds_unwind1(__the_env); \
+        ecl_check_pending_interrupts(__the_env); \
+        if (__unwinding) ecl_unwind(__the_env,__next_fr); } while(0)
+
+#define ECL_NEW_FRAME_ID(env) ecl_make_fixnum(env->frame_id++)
+
+#define ECL_BLOCK_BEGIN(the_env,id) do {                        \
+        const cl_object __id = ECL_NEW_FRAME_ID(the_env);       \
+        const cl_env_ptr __the_env = (the_env);                 \
+        ecl_frs_push(__the_env,__id);                           \
+        if (__ecl_frs_push_result == 0)
+
+#define ECL_BLOCK_END \
+        ecl_frs_pop(__the_env); } while(0)
+
+#define ECL_CATCH_BEGIN(the_env,tag) do {       \
+        const cl_env_ptr __the_env = (the_env); \
+        ecl_frs_push(__the_env,tag);            \
+        if (__ecl_frs_push_result == 0) {
+
+#define ECL_CATCH_END } \
+        ecl_frs_pop(__the_env); } while (0)
+
+#define ECL_RESTART_CASE_BEGIN(the_env, names) do {                     \
+        const cl_env_ptr __the_env = (the_env);                         \
+        const cl_object __ecl_tag = ecl_list1(names);                   \
+        ecl_bds_bind(__the_env, ECL_RESTART_CLUSTERS,                   \
+                     si_bind_simple_restarts(__ecl_tag, names));        \
+        ecl_frs_push(__the_env,__ecl_tag);                              \
+        if (__ecl_frs_push_result == 0) {
+
+#define ECL_RESTART_CASE(code, args)                                    \
+        } else if (__the_env->values[0] == ecl_make_fixnum(code)) {     \
+        const cl_object args = __the_env->values[1];
+
+#define ECL_RESTART_CASE_END }                  \
+                ecl_frs_pop(__the_env);         \
+                ecl_bds_unwind1(__the_env);     \
+                } while (0)
+
+#define ECL_HANDLER_CASE_BEGIN(the_env, names) do {                     \
+        const cl_env_ptr __the_env = (the_env);                         \
+        const cl_object __ecl_tag = ecl_list1(names);                   \
+        ecl_bds_bind(__the_env, ECL_HANDLER_CLUSTERS,                   \
+                     si_bind_simple_handlers(__ecl_tag, names));        \
+        ecl_frs_push(__the_env,__ecl_tag);                              \
+        if (__ecl_frs_push_result == 0) {
+
+#define ECL_HANDLER_CASE(code, args)                                    \
+        } else if (__the_env->values[0] == ecl_make_fixnum(code)) {     \
+        const cl_object args = __the_env->values[1];
+
+#define ECL_HANDLER_CASE_END }                  \
+                ecl_frs_pop(__the_env);         \
+                ecl_bds_unwind1(__the_env);     \
+                } while (0)
+
+#if defined(_MSC_VER)
+# define ECL_CATCH_ALL_BEGIN(the_env) do {                      \
+        const cl_env_ptr __the_env = (the_env);                 \
+        _try {                                                  \
+        const cl_env_ptr __the_env = (the_env);                 \
+        ecl_frs_push(__the_env,ECL_PROTECT_TAG);                \
+        if (__ecl_frs_push_result == 0) {
+# define ECL_CATCH_ALL_IF_CAUGHT } else {
+# define ECL_CATCH_ALL_END }}                                           \
+        _except(_ecl_w32_exception_filter(GetExceptionInformation())) \
+        { (void)0; }                                                    \
+        ecl_frs_pop(__the_env); } while(0)
+#else
+# define ECL_CATCH_ALL_BEGIN(the_env) do {       \
+        const cl_env_ptr __the_env = (the_env);  \
+        ecl_frs_push(__the_env,ECL_PROTECT_TAG); \
+        if (__ecl_frs_push_result == 0) {
+# define ECL_CATCH_ALL_IF_CAUGHT } else {
+# define ECL_CATCH_ALL_END } \
+        ecl_frs_pop(__the_env); } while(0)
+#endif
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* ECL_STACKS_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Õ   .   ¨   ..  Œ   
+ecl-21.2.1  ï   	libecl.so   ñ   libecl.so.21ó   libecl.so.21.2  ò  îlibecl.so.21.2.1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Œ   .   Õ   ..  œ   COPYING –   LICENSE —   TAGS“   asdf.fas”   build-stamp ‘   cmp.asd ’   cmp.fas ÷   deflate.asd ◊   deflate.fas ÿ   dpp Ÿ   ecl-cdb.asd ⁄   ecl-cdb.fas €   ecl-curl.asd‹   ecl-curl.fas›   ecl-help.asdﬁ   ecl-help.fasﬂ   ecl-quicklisp.asd   ‡   ecl-quicklisp.fas   ·   ecl_min ‚   	encodings   }   help.doc~   	libasdf.a      libcmp.aÄ   libdeflate.aÅ   libecl-cdb.aÇ   libecl-curl.a   É   libecl-help.a   Ñ   libecl-quicklisp.a  Ö   libpackage-locks.a  Ü   libql-minitar.a á   libsb-bsd-sockets.a à   libserve-event.aâ   libsockets.aä   package-locks.asd   ã   package-locks.fas   å   prebuilt-asdf.asd   ç   ql-minitar.asd  é   ql-minitar.fas  è   sb-bsd-sockets.asd  ê   sb-bsd-sockets.fas  ë   serve-event.asd í   serve-event.fas ì   sockets.asd î  Lsockets.fas                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         		  GNU LIBRARY GENERAL PUBLIC LICENSE
+		       Version 2, June 1991
+
+ Copyright (C) 1991 Free Software Foundation, Inc.
+                    675 Mass Ave, Cambridge, MA 02139, USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+[This is the first released version of the library GPL.  It is
+ numbered 2 because it goes with version 2 of the ordinary GPL.]
+
+			    Preamble
+
+  The licenses for most software are designed to take away your
+freedom to share and change it.  By contrast, the GNU General Public
+Licenses are intended to guarantee your freedom to share and change
+free software--to make sure the software is free for all its users.
+
+  This license, the Library General Public License, applies to some
+specially designated Free Software Foundation software, and to any
+other libraries whose authors decide to use it.  You can use it for
+your libraries, too.
+
+  When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+this service if you wish), that you receive source code or can get it
+if you want it, that you can change the software or use pieces of it
+in new free programs; and that you know you can do these things.
+
+  To protect your rights, we need to make restrictions that forbid
+anyone to deny you these rights or to ask you to surrender the rights.
+These restrictions translate to certain responsibilities for you if
+you distribute copies of the library, or if you modify it.
+
+  For example, if you distribute copies of the library, whether gratis
+or for a fee, you must give the recipients all the rights that we gave
+you.  You must make sure that they, too, receive or can get the source
+code.  If you link a program with the library, you must provide
+complete object files to the recipients so that they can relink them
+with the library, after making changes to the library and recompiling
+it.  And you must show them these terms so they know their rights.
+
+  Our method of protecting your rights has two steps: (1) copyright
+the library, and (2) offer you this license which gives you legal
+permission to copy, distribute and/or modify the library.
+
+  Also, for each distributor's protection, we want to make certain
+that everyone understands that there is no warranty for this free
+library.  If the library is modified by someone else and passed on, we
+want its recipients to know that what they have is not the original
+version, so that any problems introduced by others will not reflect on
+the original authors' reputations.
+
+  Finally, any free program is threatened constantly by software
+patents.  We wish to avoid the danger that companies distributing free
+software will individually obtain patent licenses, thus in effect
+transforming the program into proprietary software.  To prevent this,
+we have made it clear that any patent must be licensed for everyone's
+free use or not licensed at all.
+
+  Most GNU software, including some libraries, is covered by the ordinary
+GNU General Public License, which was designed for utility programs.  This
+license, the GNU Library General Public License, applies to certain
+designated libraries.  This license is quite different from the ordinary
+one; be sure to read it in full, and don't assume that anything in it is
+the same as in the ordinary license.
+
+  The reason we have a separate public license for some libraries is that
+they blur the distinction we usually make between modifying or adding to a
+program and simply using it.  Linking a program with a library, without
+changing the library, is in some sense simply using the library, and is
+analogous to running a utility program or application program.  However, in
+a textual and legal sense, the linked executable is a combined work, a
+derivative of the original library, and the ordinary General Public License
+treats it as such.
+
+  Because of this blurred distinction, using the ordinary General
+Public License for libraries did not effectively promote software
+sharing, because most developers did not use the libraries.  We
+concluded that weaker conditions might promote sharing better.
+
+  However, unrestricted linking of non-free programs would deprive the
+users of those programs of all benefit from the free status of the
+libraries themselves.  This Library General Public License is intended to
+permit developers of non-free programs to use free libraries, while
+preserving your freedom as a user of such programs to change the free
+libraries that are incorporated in them.  (We have not seen how to achieve
+this as regards changes in header files, but we have achieved it as regards
+changes in the actual functions of the Library.)  The hope is that this
+will lead to faster development of free libraries.
+
+  The precise terms and conditions for copying, distribution and
+modification follow.  Pay close attention to the difference between a
+"work based on the library" and a "work that uses the library".  The
+former contains code derived from the library, while the latter only
+works together with the library.
+
+  Note that it is possible for a library to be covered by the ordinary
+General Public License rather than by this special one.
+
+		  GNU LIBRARY GENERAL PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. This License Agreement applies to any software library which
+contains a notice placed by the copyright holder or other authorized
+party saying it may be distributed under the terms of this Library
+General Public License (also called "this License").  Each licensee is
+addressed as "you".
+
+  A "library" means a collection of software functions and/or data
+prepared so as to be conveniently linked with application programs
+(which use some of those functions and data) to form executables.
+
+  The "Library", below, refers to any such software library or work
+which has been distributed under these terms.  A "work based on the
+Library" means either the Library or any derivative work under
+copyright law: that is to say, a work containing the Library or a
+portion of it, either verbatim or with modifications and/or translated
+straightforwardly into another language.  (Hereinafter, translation is
+included without limitation in the term "modification".)
+
+  "Source code" for a work means the preferred form of the work for
+making modifications to it.  For a library, complete source code means
+all the source code for all modules it contains, plus any associated
+interface definition files, plus the scripts used to control compilation
+and installation of the library.
+
+  Activities other than copying, distribution and modification are not
+covered by this License; they are outside its scope.  The act of
+running a program using the Library is not restricted, and output from
+such a program is covered only if its contents constitute a work based
+on the Library (independent of the use of the Library in a tool for
+writing it).  Whether that is true depends on what the Library does
+and what the program that uses the Library does.
+  
+  1. You may copy and distribute verbatim copies of the Library's
+complete source code as you receive it, in any medium, provided that
+you conspicuously and appropriately publish on each copy an
+appropriate copyright notice and disclaimer of warranty; keep intact
+all the notices that refer to this License and to the absence of any
+warranty; and distribute a copy of this License along with the
+Library.
+
+  You may charge a fee for the physical act of transferring a copy,
+and you may at your option offer warranty protection in exchange for a
+fee.
+
+  2. You may modify your copy or copies of the Library or any portion
+of it, thus forming a work based on the Library, and copy and
+distribute such modifications or work under the terms of Section 1
+above, provided that you also meet all of these conditions:
+
+    a) The modified work must itself be a software library.
+
+    b) You must cause the files modified to carry prominent notices
+    stating that you changed the files and the date of any change.
+
+    c) You must cause the whole of the work to be licensed at no
+    charge to all third parties under the terms of this License.
+
+    d) If a facility in the modified Library refers to a function or a
+    table of data to be supplied by an application program that uses
+    the facility, other than as an argument passed when the facility
+    is invoked, then you must make a good faith effort to ensure that,
+    in the event an application does not supply such function or
+    table, the facility still operates, and performs whatever part of
+    its purpose remains meaningful.
+
+    (For example, a function in a library to compute square roots has
+    a purpose that is entirely well-defined independent of the
+    application.  Therefore, Subsection 2d requires that any
+    application-supplied function or table used by this function must
+    be optional: if the application does not supply it, the square
+    root function must still compute square roots.)
+
+These requirements apply to the modified work as a whole.  If
+identifiable sections of that work are not derived from the Library,
+and can be reasonably considered independent and separate works in
+themselves, then this License, and its terms, do not apply to those
+sections when you distribute them as separate works.  But when you
+distribute the same sections as part of a whole which is a work based
+on the Library, the distribution of the whole must be on the terms of
+this License, whose permissions for other licensees extend to the
+entire whole, and thus to each and every part regardless of who wrote
+it.
+
+Thus, it is not the intent of this section to claim rights or contest
+your rights to work written entirely by you; rather, the intent is to
+exercise the right to control the distribution of derivative or
+collective works based on the Library.
+
+In addition, mere aggregation of another work not based on the Library
+with the Library (or with a work based on the Library) on a volume of
+a storage or distribution medium does not bring the other work under
+the scope of this License.
+
+  3. You may opt to apply the terms of the ordinary GNU General Public
+License instead of this License to a given copy of the Library.  To do
+this, you must alter all the notices that refer to this License, so
+that they refer to the ordinary GNU General Public License, version 2,
+instead of to this License.  (If a newer version than version 2 of the
+ordinary GNU General Public License has appeared, then you can specify
+that version instead if you wish.)  Do not make any other change in
+these notices.
+
+  Once this change is made in a given copy, it is irreversible for
+that copy, so the ordinary GNU General Public License applies to all
+subsequent copies and derivative works made from that copy.
+
+  This option is useful when you wish to copy part of the code of
+the Library into a program that is not a library.
+
+  4. You may copy and distribute the Library (or a portion or
+derivative of it, under Section 2) in object code or executable form
+under the terms of Sections 1 and 2 above provided that you accompany
+it with the complete corresponding machine-readable source code, which
+must be distributed under the terms of Sections 1 and 2 above on a
+medium customarily used for software interchange.
+
+  If distribution of object code is made by offering access to copy
+from a designated place, then offering equivalent access to copy the
+source code from the same place satisfies the requirement to
+distribute the source code, even though third parties are not
+compelled to copy the source along with the object code.
+
+  5. A program that contains no derivative of any portion of the
+Library, but is designed to work with the Library by being compiled or
+linked with it, is called a "work that uses the Library".  Such a
+work, in isolation, is not a derivative work of the Library, and
+therefore falls outside the scope of this License.
+
+  However, linking a "work that uses the Library" with the Library
+creates an executable that is a derivative of the Library (because it
+contains portions of the Library), rather than a "work that uses the
+library".  The executable is therefore covered by this License.
+Section 6 states terms for distribution of such executables.
+
+  When a "work that uses the Library" uses material from a header file
+that is part of the Library, the object code for the work may be a
+derivative work of the Library even though the source code is not.
+Whether this is true is especially significant if the work can be
+linked without the Library, or if the work is itself a library.  The
+threshold for this to be true is not precisely defined by law.
+
+  If such an object file uses only numerical parameters, data
+structure layouts and accessors, and small macros and small inline
+functions (ten lines or less in length), then the use of the object
+file is unrestricted, regardless of whether it is legally a derivative
+work.  (Executables containing this object code plus portions of the
+Library will still fall under Section 6.)
+
+  Otherwise, if the work is a derivative of the Library, you may
+distribute the object code for the work under the terms of Section 6.
+Any executables containing that work also fall under Section 6,
+whether or not they are linked directly with the Library itself.
+
+  6. As an exception to the Sections above, you may also compile or
+link a "work that uses the Library" with the Library to produce a
+work containing portions of the Library, and distribute that work
+under terms of your choice, provided that the terms permit
+modification of the work for the customer's own use and reverse
+engineering for debugging such modifications.
+
+  You must give prominent notice with each copy of the work that the
+Library is used in it and that the Library and its use are covered by
+this License.  You must supply a copy of this License.  If the work
+during execution displays copyright notices, you must include the
+copyright notice for the Library among them, as well as a reference
+directing the user to the copy of this License.  Also, you must do one
+of these things:
+
+    a) Accompany the work with the complete corresponding
+    machine-readable source code for the Library including whatever
+    changes were used in the work (which must be distributed under
+    Sections 1 and 2 above); and, if the work is an executable linked
+    with the Library, with the complete machine-readable "work that
+    uses the Library", as object code and/or source code, so that the
+    user can modify the Library and then relink to produce a modified
+    executable containing the modified Library.  (It is understood
+    that the user who changes the contents of definitions files in the
+    Library will not necessarily be able to recompile the application
+    to use the modified definitions.)
+
+    b) Accompany the work with a written offer, valid for at
+    least three years, to give the same user the materials
+    specified in Subsection 6a, above, for a charge no more
+    than the cost of performing this distribution.
+
+    c) If distribution of the work is made by offering access to copy
+    from a designated place, offer equivalent access to copy the above
+    specified materials from the same place.
+
+    d) Verify that the user has already received a copy of these
+    materials or that you have already sent this user a copy.
+
+  For an executable, the required form of the "work that uses the
+Library" must include any data and utility programs needed for
+reproducing the executable from it.  However, as a special exception,
+the source code distributed need not include anything that is normally
+distributed (in either source or binary form) with the major
+components (compiler, kernel, and so on) of the operating system on
+which the executable runs, unless that component itself accompanies
+the executable.
+
+  It may happen that this requirement contradicts the license
+restrictions of other proprietary libraries that do not normally
+accompany the operating system.  Such a contradiction means you cannot
+use both them and the Library together in an executable that you
+distribute.
+
+  7. You may place library facilities that are a work based on the
+Library side-by-side in a single library together with other library
+facilities not covered by this License, and distribute such a combined
+library, provided that the separate distribution of the work based on
+the Library and of the other library facilities is otherwise
+permitted, and provided that you do these two things:
+
+    a) Accompany the combined library with a copy of the same work
+    based on the Library, uncombined with any other library
+    facilities.  This must be distributed under the terms of the
+    Sections above.
+
+    b) Give prominent notice with the combined library of the fact
+    that part of it is a work based on the Library, and explaining
+    where to find the accompanying uncombined form of the same work.
+
+  8. You may not copy, modify, sublicense, link with, or distribute
+the Library except as expressly provided under this License.  Any
+attempt otherwise to copy, modify, sublicense, link with, or
+distribute the Library is void, and will automatically terminate your
+rights under this License.  However, parties who have received copies,
+or rights, from you under this License will not have their licenses
+terminated so long as such parties remain in full compliance.
+
+  9. You are not required to accept this License, since you have not
+signed it.  However, nothing else grants you permission to modify or
+distribute the Library or its derivative works.  These actions are
+prohibited by law if you do not accept this License.  Therefore, by
+modifying or distributing the Library (or any work based on the
+Library), you indicate your acceptance of this License to do so, and
+all its terms and conditions for copying, distributing or modifying
+the Library or works based on it.
+
+  10. Each time you redistribute the Library (or any work based on the
+Library), the recipient automatically receives a license from the
+original licensor to copy, distribute, link with or modify the Library
+subject to these terms and conditions.  You may not impose any further
+restrictions on the recipients' exercise of the rights granted herein.
+You are not responsible for enforcing compliance by third parties to
+this License.
+
+  11. If, as a consequence of a court judgment or allegation of patent
+infringement or for any other reason (not limited to patent issues),
+conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot
+distribute so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you
+may not distribute the Library at all.  For example, if a patent
+license would not permit royalty-free redistribution of the Library by
+all those who receive copies directly or indirectly through you, then
+the only way you could satisfy both it and this License would be to
+refrain entirely from distribution of the Library.
+
+If any portion of this section is held invalid or unenforceable under any
+particular circumstance, the balance of the section is intended to apply,
+and the section as a whole is intended to apply in other circumstances.
+
+It is not the purpose of this section to induce you to infringe any
+patents or other property right claims or to contest validity of any
+such claims; this section has the sole purpose of protecting the
+integrity of the free software distribution system which is
+implemented by public license practices.  Many people have made
+generous contributions to the wide range of software distributed
+through that system in reliance on consistent application of that
+system; it is up to the author/donor to decide if he or she is willing
+to distribute software through any other system and a licensee cannot
+impose that choice.
+
+This section is intended to make thoroughly clear what is believed to
+be a consequence of the rest of this License.
+
+  12. If the distribution and/or use of the Library is restricted in
+certain countries either by patents or by copyrighted interfaces, the
+original copyright holder who places the Library under this License may add
+an explicit geographical distribution limitation excluding those countries,
+so that distribution is permitted only in or among countries not thus
+excluded.  In such case, this License incorporates the limitation as if
+written in the body of this License.
+
+  13. The Free Software Foundation may publish revised and/or new
+versions of the Library General Public License from time to time.
+Such new versions will be similar in spirit to the present version,
+but may differ in detail to address new problems or concerns.
+
+Each version is given a distinguishing version number.  If the Library
+specifies a version number of this License which applies to it and
+"any later version", you have the option of following the terms and
+conditions either of that version or of any later version published by
+the Free Software Foundation.  If the Library does not specify a
+license version number, you may choose any version ever published by
+the Free Software Foundation.
+
+  14. If you wish to incorporate parts of the Library into other free
+programs whose distribution conditions are incompatible with these,
+write to the author to ask for permission.  For software which is
+copyrighted by the Free Software Foundation, write to the Free
+Software Foundation; we sometimes make exceptions for this.  Our
+decision will be guided by the two goals of preserving the free status
+of all derivatives of our free software and of promoting the sharing
+and reuse of software generally.
+
+			    NO WARRANTY
+
+  15. BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
+WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
+EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR
+OTHER PARTIES PROVIDE THE LIBRARY "AS IS" WITHOUT WARRANTY OF ANY
+KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE
+LIBRARY IS WITH YOU.  SHOULD THE LIBRARY PROVE DEFECTIVE, YOU ASSUME
+THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+  16. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY
+AND/OR REDISTRIBUTE THE LIBRARY AS PERMITTED ABOVE, BE LIABLE TO YOU
+FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+LIBRARY (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE LIBRARY TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGES.
+
+		     END OF TERMS AND CONDITIONS
+
+     Appendix: How to Apply These Terms to Your New Libraries
+
+  If you develop a new library, and you want it to be of the greatest
+possible use to the public, we recommend making it free software that
+everyone can redistribute and change.  You can do so by permitting
+redistribution under these terms (or, alternatively, under the terms of the
+ordinary General Public License).
+
+  To apply these terms, attach the following notices to the library.  It is
+safest to attach them to the start of each source file to most effectively
+convey the exclusion of warranty; and each file should have at least the
+"copyright" line and a pointer to where the full notice is found.
+
+    <one line to give the library's name and a brief idea of what it does.>
+    Copyright (C) <year>  <name of author>
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+Also add information on how to contact you by electronic and paper mail.
+
+You should also get your employer (if you work as a programmer) or your
+school, if any, to sign a "copyright disclaimer" for the library, if
+necessary.  Here is a sample; alter the names:
+
+  Yoyodyne, Inc., hereby disclaims all copyright interest in the
+  library `Frob' (a library for tweaking knobs) written by James Random Hacker.
+
+  <signature of Ty Coon>, 1 April 1990
+  Ty Coon, President of Vice
+
+That's all there is to it!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ---- BEGINNING OF COPYRIGHT FOR THE ECL CORE ENVIRONMENT ------------
+
+  Copyright (c) 2019 Daniel Kochma≈Ñski and Marius Gerbershagen
+  Copyright (c) 2015-2018, Daniel Kochma≈Ñski
+  Copyright (c) 2000-2013, Juan Jose Garcia Ripoll
+  Copyright (c) 1990, 1991, 1993 Giuseppe Attardi
+  Copyright (c) 1984 Taiichi Yuasa and Masami Hagiya
+	      All Rights Reserved
+
+  ECL is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Library General Public License as published
+  by the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version; see file 'Copying'.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Library General Public License for more details.
+
+  You should have received a copy of the GNU Library General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+  PLEASE NOTE THAT:
+
+  This license covers all of the ECL program except for the files
+	src/lsp/loop.lsp	; Symbolic's LOOP macro
+	src/lsp/pprint.lsp	; CMUCL's pretty printer
+	src/lsp/format.lsp	; CMUCL's format
+  and the directories
+	contrib/		; User contributed extensions
+        examples/               ; Examples for the ECL usage
+  Look the precise copyright of these extensions in the corresponding
+  files.
+
+  Examples are licensed under: (SPDX-License-Identifier) BSD-2-Clause
+
+  Report bugs, comments, suggestions to the ecl mailing list:
+  ecl-devel@common-lisp.net.
+
+---- END OF COPYRIGHT FOR THE ECL CORE ENVIRONMENT ------------------
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ELF                  4   DÎ!     4   	 ( % $                ‘C  ‘C            P   P   P  ¸5 ¸5           ê  ê  ê Hù Hù          ∏: ∏: ∏: †I  ∞I           ‘~ ‘~ ‘~                T  T  T  $   $         PÂtdÃà
+ Ãà
+ Ãà
+ \!  \!        QÂtd                          RÂtd∏: ∏: ∏: HE  HE                 GNU ¯4ü7∞ìv6√≠*ˆ‘åú
+èä˛            *        ª„í|0ﬂ’l-™∞%                n             ì             Ö                                       “             J
+             ä             ö             W             º             #             
+             Î             ﬁ                           ¶             ˛                          A
+             Ò              .
+             ]                          ¨                             á             £             ˛             “             ®             2             %             ˇ             Ò             r             ﬂ
+             £             ¡
+             ˆ             §             G             ^             ˛             l             =             —             W             Û                          ’             ∏             Õ                          h             9             »             «             g             4             N             Ø             à             ¿             ∞                          „	             S             ∏             å              /             :             1             V             Ö             }                          À             ä             â             O                          h             ê             Ü             !                          ø                          Ñ             x             ;             Y             —             ›                          u             _             ù             g             )	             ‡             Ö             í             ”                          Õ             \             Ø             v             ¶             F           "   `             €             ¨             ¸             ∆             ﬂ             ó             	             Ï             Ê             a                          ⁄             ø             I             t             k             2             ®	             Ø             V             í             Û             ≠              6             B                          Î             6             ı	             ì             ·             D	             
+             ˘             –             Ì             µ	             î             o	                            N             ˝                          ¡             \             w             ,                          Ò             ≤             π             †             »             %             M             ∑             ï             —
+             ·             –             ·             b	             £             +             K             I             Ä             {             H             Ñ                          m                           ∞
+             5             È             í                          u             ∫                          T             h             Ç             Ù             !             _                          ˛             D             €              Ò             Y
+             d             ’             J             Í             Ê             º             =             3	             |             ^                          G             $             Ÿ	             )             ≠             ú             †             Ë             •             ≥             ﬂ             &             î
+             Ω              ,             ?             	             Ç             r             ƒ             +             ∞                          *             6             ˛                           Õ              ˚              ú              õ             ˝             Û             c              §                          ⁄             m
+             ö             …             )             ,               »	             [             å	             J             4             ∞             B                          o                          •              	             î             Ø             Q             C             É
+             y             £             {             >             ñ             V             e             ô  hÑ       v   @ üh   U   êb  h      __gmon_start__ _ITM_deregisterTMCloneTable _ITM_registerTMCloneTable __cxa_finalize init_fas_CODE ecl_make_codeblock _eclLoWkIob7_b2gi0N81 ecl_init_module cl_env_p cl_set ecl_symbol_value ecl_cs_overflow ecl_make_cfun ecl_function_dispatch cl_format cl_symbols cl_make_pathname ecl_list1 ecl_endp ecl_cdr FEtype_error_cons FEtype_error_list ecl_cons ecl_fdefinition si_hash_set cl_apply cl_make_hash_table cl_listX cl_list ecl_car ecl_memql cl_map ecl_equal cl_eval ecl_length cl_slot_value ecl_assoc cl_acons FEwrong_num_arguments_anonym cl_parse_key _ecl_va_sp cl_adjoin cl_error cl_remove si_of_class_p cl_getf cl_type_of ecl_assql cl_copy_list ecl_last cl_reverse cl_union ecl_cadr cl_pathname_name cl_remove_if_not ecl_make_cclosure_va cl_cerror _ecl_frs_push _setjmp cl_close ecl_stack_push_values ecl_stack_pop_values ecl_stack_frame_open ecl_stack_frame_push_values ecl_stack_frame_pop_values ecl_stack_frame_close FEstack_advance ecl_unwind cl_open cl_every cl_string_downcase si_assert_failure si_etypecase_error cl_constantly cl_grab_rest_args cl_user_homedir_pathname cl_remove_duplicates cl_typep cl_find_package ecl_apply_from_stack_frame ecl_eql ecl_plus ecl_gethash_safe ecl_member cl_remove_if cl_remhash si_print_unreadable_object_function cl_go cl_gethash ecl_append cl_slot_boundp cl_return_from ecl_princ cl_fresh_line ecl_terpri cl_values_list ecl_caddr cl_pathname_directory ecl_make_integer cl_subseq si_do_check_type cl_packagep cl_package_name cl_string ecl_cddr si_ecase_error cl_read cl_some cl_pathnamep cl_ensure_directories_exist cl_pathname_type ecl_equalp cl_class_of cl_subtypep cl_complement cl_keywordp cl_symbol_function cl_realp si_logical_pathname_p ecl_char ecl_one_plus cl_read_from_string cl_position ecl_minus cl_nreverse cl_namestring cl_hash_table_p cl_pathname_match_p cl_pathname ecl_float_nan_p ecl_number_compare cl_stable_sort si_hash_table_iterator cl_clrhash cl_functionp cl_find_if cl_gensym ecl_butlast ecl_number_equalp cl_write_string si_put_f cl_string_trim cl_intern cl_find_symbol ecl_boundp cl_find_class cl_parse_namestring cl_make_string_input_stream cl_streamp cl_truename ecl_numberp ecl_princ_char cl_alphanumericp ecl_aref_unsafe FEwrong_index FEwrong_type_argument FEtype_error_vector si_argv si_argc si_ihs_top si_ihs_fun si_ihs_env si_quit cl_synonym_stream_symbol ecl_plusp cl_random cl_finish_output cl_read_preserving_whitespace cl_read_line cl_make_string_output_stream cl_get_output_stream_string si_copy_file si_make_pure_array cl_read_sequence ecl_zerop cl_write_sequence cl_fill_pointer si_make_string_output_stream_from_string cl_wild_pathname_p si_rmdir cl_rename_file cl_pathname_version cl_translate_pathname cl_substitute_if cl_lisp_implementation_type cl_software_type cl_machine_type cl_substitute cl_pathname_host cl_pathname_device cl_translate_logical_pathname cl_file_position cl_logbitp cl_read_byte ecl_times cl_ash cl_code_char cl_write_char si_chdir cl_machine_instance cl_lisp_implementation_version si_lisp_implementation_vcs_id si_getenv ecl_bds_overflow ecl_internal_error ecl_expt cl_muffle_warning cl_digit_char_p ecl_elt ecl_progv ecl_bds_unwind cl_subst cl_reduce cl_string_upcase cl_stringE ecl_one_minus cl_position_if cl_make_string cl_replace si_char_set cl_array_element_type si_base_char_p ecl_symbol_name cl_package_used_by_list cl_unuse_package cl_symbol_package cl_vector cl_simple_string_p cl_simple_vector_p cl_unintern cl_package_nicknames ecl_get cl_copy_symbol cl_make_symbol ecl_aref1 si_putprop cl_package_shadowing_symbols cl_shadow cl_shadowing_import cl_import cl_export cl_fmakunbound si_getcwd ecl_nthcdr ecl_minusp cl_list_all_packages cl_position_if_not ecl_char_code cl_write cl_require si_system cl_sort cl_rename_package cl_delete_file cl_file_write_date cl_make_broadcast_stream ecl_bds_unwind_n cl_probe_file cl_delete_package cl_load cl_software_version cl_file_namestring cl_pprint cl_enough_namestring cl_package_use_list cl_make_package cl_set_difference cl_unexport cl_use_package ecl_make_constant_base_string ecl_setf_definition si_select_package ecl_cmp_defun si_Xmake_special ecl_cmp_defmacro si_Xmake_constant si_do_deftype clos_load_defclass si_do_defsetf ecl_make_cfun_va cl_provide libecl.so.21.2 libc.so.6 _end GLIBC_2.1.3 GLIBC_2.0 /opt/ecl/lib/                                                                                                                                                                                                                                                                                                   è         si	   û     ii   ™      ∏:    º:    ¿:    »:    ‡:    Ë:    :    ¯:     ;    ;    ;    ;     ;    (;    0;    8;    @;    X;    l;    à;    §;    ¿;    ‹;    ¯;    <    0<    L<    h<    Ñ<    †<    º<    ÿ<    Ù<    =    ,=    H=    d=    Ä=    ú=    ∏=    ‘=    =    >    (>    D>    `>    |>    ò>    ¥>    –>    Ï>    ?    $?    @?    \?    x?    î?    ∞?    Ã?    Ë?    @     @    <@    X@    t@    ê@    ¨@    »@    ‰@     A    A    8A    TA    pA    åA    ®A    ƒA    ‡A    ¸A    B    4B    PB    lB    àB    §B    ¿B    ‹B    ¯B    C    0C    LC    hC    ÑC    †C    ºC    ÿC    ÙC    D    ,D    HD    dD    ÄD    úD    ∏D    ‘D    D    E    (E    DE    `E    |E    òE    ¥E    –E    ÏE    F    $F    @F    \F    xF    îF    ∞F    ÃF    ËF    G     G    <G    XG    tG    êG    ¨G    »G    ‰G     H    H    8H    TH    pH    åH    ®H    ƒH    ‡H    ¸H    I    4I    PI    lI    àI    §I    ¿I    ‹I    ¯I    J    0J    LJ    hJ    ÑJ    †J    ºJ    ÿJ    ÙJ    K    ,K    HK    dK    ÄK    úK    ∏K    ‘K    K    L    (L    DL    `L    |L    òL    ¥L    –L    ÏL    M    $M    @M    \M    xM    îM    ∞M    ÃM    ËM    N     N    <N    XN    tN    êN    ¨N    »N    ‰N     O    O    8O    TO    pO    åO    ®O    ƒO    ‡O    ¸O    P    4P    PP    lP    àP    §P    ¿P    ‹P    ¯P    Q    0Q    LQ    hQ    ÑQ    †Q    ºQ    ÿQ    ÙQ    R    ,R    HR    dR    ÄR    úR    ∏R    ‘R    R    S    (S    DS    `S    |S    òS    ¥S    –S    ÏS    T    $T    @T    \T    xT    îT    ∞T    ÃT    ËT    U     U    <U    XU    tU    êU    ¨U    »U    ‰U     V    V    8V    TV    pV    åV    ®V    ƒV    ‡V    ¸V    W    4W    PW    lW    àW    §W    ¿W    ‹W    ¯W    X    0X    LX    hX    ÑX    †X    ºX    ÿX    ÙX    Y    ,Y    HY    dY    ÄY    úY    ∏Y    ‘Y    Y    Z    (Z    DZ    `Z    |Z    òZ    ¥Z    –Z    ÏZ    [    $[    @[    \[    x[    î[    ∞[    Ã[    Ë[    \     \    <\    X\    t\    ê\    ¨\    »\    ‰\     ]    ]    8]    T]    p]    å]    ®]    ƒ]    ‡]    ¸]    ^    4^    P^    l^    à^    §^    ¿^    ‹^    ¯^    _    0_    L_    h_    Ñ_    †_    º_    ÿ_    Ù_    `    ,`    H`    d`    Ä`    ú`    ∏`    ‘`    `    a    (a    Da    `a    |a    òa    ¥a    –a    Ïa    b    $b    @b    \b    xb    îb    ∞b    Ãb    Ëb    c     c    <c    Xc    tc    êc    ¨c    »c    ‰c     d    d    8d    Td    pd    åd    ®d    ƒd    ‡d    ¸d    e    4e    Pe    le    àe    §e    ¿e    ‹e    ¯e    f    0f    Lf    hf    Ñf    †f    ºf    ÿf    Ùf    g    ,g    Hg    dg    Äg    úg    ∏g    ‘g    g    h    (h    Dh    `h    |h    òh    ¥h    –h    Ïh    i    $i    @i    \i    xi    îi    ∞i    Ãi    Ëi    j     j    <j    Xj    tj    êj    ¨j    »j    ‰j     k    k    8k    Tk    pk    åk    ®k    ƒk    ‡k    ¸k    l    4l    Pl    ll    àl    §l    ¿l    ‹l    ¯l    m    0m    Lm    hm    Ñm    †m    ºm    ÿm    Ùm    n    ,n    Hn    dn    Än    ún    ∏n    ‘n    n    o    (o    Do    `o    |o    òo    ¥o    –o    Ïo    p    $p    @p    \p    xp    îp    ∞p    Ãp    Ëp    q     q    <q    Xq    tq    êq    ¨q    »q    ‰q     r    r    8r    Tr    pr    år    ®r    ƒr    ‡r    ¸r    s    4s    Ps    ls    às    §s    ¿s    ‹s    ¯s    t    0t    Lt    ht    Ñt    †t    ºt    ÿt    Ùt    u    ,u    Hu    du    Äu    úu    ∏u    ‘u    u    v    (v    Dv    `v    |v    òv    ¥v    –v    Ïv    w    $w    @w    \w    xw    îw    ∞w    Ãw    Ëw    x     x    <x    Xx    tx    êx    ¨x    »x    ‰x     y    y    8y    Ty    py    åy    ®y    ƒy    ‡y    ¸y    z    4z    Pz    lz    àz    §z    ¿z    ‹z    ¯z    {    0{    L{    h{    Ñ{    †{    º{    ÿ{    Ù{    |    (|    <|    P|    d|    x|    å|    †|    ¥|    »|    ‹|    |    }    }    ,}    @}    T}    h}    |}    ê}    §}    ∏}    Ã}    ‡}    Ù}    ~    ~    0~    D~    X~    l~    Ä~    î~    ®~    º~    –~    TÑ    ƒ   » p  Ã ô  –  ‘ ˆ  ÿ ˜  ‹   Ä   Ä   Ä   Ä   Ä   Ä   Ä   Ä    Ä 	  $Ä 
+  (Ä   ,Ä   0Ä   4Ä   8Ä   <Ä   @Ä   DÄ   HÄ   LÄ   PÄ   TÄ   XÄ   \Ä   `Ä   dÄ   hÄ   lÄ   pÄ   tÄ   xÄ    |Ä !  ÄÄ "  ÑÄ #  àÄ $  åÄ %  êÄ &  îÄ '  òÄ (  úÄ )  †Ä *  §Ä +  ®Ä ,  ¨Ä -  ∞Ä .  ¥Ä /  ∏Ä 0  ºÄ 1  ¿Ä 2  ƒÄ 3  »Ä 4  ÃÄ 5  –Ä 6  ‘Ä 7  ÿÄ 8  ‹Ä 9  ‡Ä :  ‰Ä ;  ËÄ <  ÏÄ =  Ä >  ÙÄ ?  ¯Ä @  ¸Ä A   Å B  Å C  Å D  Å E  Å F  Å G  Å H  Å I   Å J  $Å K  (Å L  ,Å M  0Å N  4Å O  8Å P  <Å Q  @Å R  DÅ S  HÅ T  LÅ U  PÅ V  TÅ W  XÅ X  \Å Y  `Å Z  dÅ [  hÅ \  lÅ ]  pÅ ^  tÅ _  xÅ `  |Å a  ÄÅ b  ÑÅ c  àÅ d  åÅ e  êÅ f  îÅ g  òÅ h  úÅ i  †Å j  §Å k  ®Å l  ¨Å m  ∞Å n  ¥Å o  ∏Å q  ºÅ r  ¿Å s  ƒÅ t  »Å u  ÃÅ v  –Å w  ‘Å x  ÿÅ y  ‹Å z  ‡Å {  ‰Å |  ËÅ }  ÏÅ ~  Å   ÙÅ Ä  ¯Å Å  ¸Å Ç   Ç É  Ç Ñ  Ç Ö  Ç Ü  Ç á  Ç à  Ç â  Ç ä   Ç ã  $Ç å  (Ç ç  ,Ç é  0Ç è  4Ç ê  8Ç ë  <Ç í  @Ç ì  DÇ î  HÇ ï  LÇ ñ  PÇ ó  TÇ ò  XÇ ö  \Ç õ  `Ç ú  dÇ ù  hÇ û  lÇ ü  pÇ †  tÇ °  xÇ ¢  |Ç £  ÄÇ §  ÑÇ •  àÇ ¶  åÇ ß  êÇ ®  îÇ ©  òÇ ™  úÇ ´  †Ç ¨  §Ç ≠  ®Ç Æ  ¨Ç Ø  ∞Ç ∞  ¥Ç ±  ∏Ç ≤  ºÇ ≥  ¿Ç ¥  ƒÇ µ  »Ç ∂  ÃÇ ∑  –Ç ∏  ‘Ç π  ÿÇ ∫  ‹Ç ª  ‡Ç º  ‰Ç Ω  ËÇ æ  ÏÇ ø  Ç ¿  ÙÇ ¡  ¯Ç ¬  ¸Ç √   É ƒ  É ≈  É ∆  É «  É »  É …  É    É À   É Ã  $É Õ  (É Œ  ,É œ  0É –  4É —  8É “  <É ”  @É ‘  DÉ ’  HÉ ÷  LÉ ◊  PÉ ÿ  TÉ Ÿ  XÉ ⁄  \É €  `É ‹  dÉ ›  hÉ ﬁ  lÉ ﬂ  pÉ ‡  tÉ ·  xÉ ‚  |É „  ÄÉ ‰  ÑÉ Â  àÉ Ê  åÉ Á  êÉ Ë  îÉ È  òÉ Í  úÉ Î  †É Ï  §É Ì  ®É Ó  ¨É Ô  ∞É   ¥É Ò  ∏É Ú  ºÉ Û  ¿É Ù  ƒÉ ı  »É ¯  ÃÉ ˘  –É ˙  ‘É ˚  ÿÉ ¸  ‹É ˝  ‡É ˛  ‰É ˇ  ËÉ   ÏÉ  É  ÙÉ  ¯É  ¸É   Ñ  Ñ  Ñ 	 Ñ 
+ Ñ  Ñ  Ñ  Ñ   Ñ  $Ñ  (Ñ  ,Ñ  0Ñ  4Ñ  8Ñ  <Ñ  @Ñ  DÑ  HÑ  LÑ  PÑ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

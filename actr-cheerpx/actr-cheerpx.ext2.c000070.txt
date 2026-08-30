@@ -1,0 +1,2389 @@
+l ecl_member_char(ecl_character c, cl_object char_bag);
+extern ECL_API bool ecl_fits_in_base_string(cl_object s);
+extern ECL_API ecl_character ecl_char(cl_object s, cl_index i);
+extern ECL_API ecl_character ecl_char_set(cl_object s, cl_index i, ecl_character c);
+
+/* structure.c */
+
+extern ECL_API cl_object si_structure_subtype_p(cl_object x, cl_object y);
+extern ECL_API cl_object cl_copy_structure(cl_object s);
+extern ECL_API cl_object si_structure_name(cl_object s);
+extern ECL_API cl_object si_structure_ref(cl_object x, cl_object type, cl_object index);
+extern ECL_API cl_object si_structure_set(cl_object x, cl_object type, cl_object index, cl_object val);
+extern ECL_API cl_object si_structurep(cl_object s);
+extern ECL_API cl_object si_make_structure _ECL_ARGS((cl_narg narg, cl_object type, ...));
+
+extern ECL_API cl_object ecl_structure_ref(cl_object x, cl_object name, cl_fixnum n);
+extern ECL_API cl_object ecl_structure_set(cl_object x, cl_object name, cl_fixnum n, cl_object v);
+
+#ifdef ECL_THREADS
+extern ECL_API cl_object mp_compare_and_swap_structure(cl_object x, cl_object type, cl_object index, cl_object old_val, cl_object new_val);
+#endif
+
+/* symbol.c */
+
+extern ECL_API cl_object cl_make_symbol(cl_object str);
+extern ECL_API cl_object cl_remprop(cl_object sym, cl_object prop);
+extern ECL_API cl_object cl_symbol_plist(cl_object sym);
+extern ECL_API cl_object cl_get_properties(cl_object place, cl_object indicator_list);
+extern ECL_API cl_object cl_symbol_name(cl_object sym);
+extern ECL_API cl_object cl_symbol_package(cl_object sym);
+extern ECL_API cl_object cl_keywordp(cl_object sym);
+extern ECL_API cl_object si_put_f(cl_object plist, cl_object value, cl_object indicator);
+extern ECL_API cl_object si_rem_f(cl_object plist, cl_object indicator);
+extern ECL_API cl_object si_set_symbol_plist(cl_object sym, cl_object plist);
+extern ECL_API cl_object si_putprop(cl_object sym, cl_object value, cl_object indicator);
+extern ECL_API cl_object si_Xmake_special(cl_object sym);
+extern ECL_API cl_object si_Xmake_constant(cl_object sym, cl_object val);
+extern ECL_API cl_object cl_get _ECL_ARGS((cl_narg narg, cl_object sym, cl_object indicator, ...));
+extern ECL_API cl_object cl_getf _ECL_ARGS((cl_narg narg, cl_object place, cl_object indicator, ...));
+extern ECL_API cl_object cl_copy_symbol _ECL_ARGS((cl_narg narg, cl_object sym, ...));
+extern ECL_API cl_object cl_gensym _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_gentemp _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_put_properties _ECL_ARGS((cl_narg narg, cl_object sym, ...));
+
+extern ECL_API void ecl_defvar(cl_object s, cl_object v);
+extern ECL_API void ecl_defparameter(cl_object s, cl_object v);
+extern ECL_API cl_object ecl_make_symbol(const char *s, const char*p);
+extern ECL_API cl_object ecl_make_keyword(const char *s);
+extern ECL_API cl_object ecl_symbol_value(cl_object s);
+extern ECL_API cl_object ecl_setq(cl_env_ptr env, cl_object var, cl_object value);
+extern ECL_API cl_object ecl_symbol_name(cl_object s);
+extern ECL_API cl_object ecl_symbol_package(cl_object s);
+extern ECL_API int ecl_symbol_type(cl_object s);
+extern ECL_API void ecl_symbol_type_set(cl_object s, int t);
+extern ECL_API cl_object ecl_getf(cl_object place, cl_object indicator, cl_object deflt);
+extern ECL_API cl_object ecl_get(cl_object s, cl_object p, cl_object d);
+extern ECL_API bool ecl_keywordp(cl_object s);
+
+#ifdef ECL_THREADS
+extern ECL_API cl_object mp_compare_and_swap_symbol_plist(cl_object x, cl_object old_val, cl_object new_val);
+#endif
+
+/* tcp.c */
+
+#ifdef ECL_TCP
+extern ECL_API cl_object si_open_client_stream(cl_object host, cl_object port);
+extern ECL_API cl_object si_open_server_stream(cl_object port);
+extern ECL_API cl_object si_open_unix_socket_stream(cl_object path);
+extern ECL_API cl_object si_lookup_host_entry(cl_object host_or_address);
+extern ECL_API void ecl_tcp_close_all(void);
+#endif
+
+
+/* threads.c */
+
+#ifdef ECL_THREADS
+extern ECL_API cl_object mp_own_process(void) __attribute__((const));
+extern ECL_API cl_object mp_all_processes(void);
+extern ECL_API cl_object mp_exit_process(void) ecl_attr_noreturn;
+extern ECL_API cl_object mp_interrupt_process(cl_object process, cl_object function);
+extern ECL_API cl_object mp_make_process _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object mp_process_active_p(cl_object process);
+extern ECL_API cl_object mp_process_enable(cl_object process);
+extern ECL_API cl_object mp_process_yield(void);
+extern ECL_API cl_object mp_process_join(cl_object process);
+extern ECL_API cl_object mp_process_kill(cl_object process);
+extern ECL_API cl_object mp_process_suspend(cl_object process);
+extern ECL_API cl_object mp_process_resume(cl_object process);
+extern ECL_API cl_object mp_process_name(cl_object process);
+extern ECL_API cl_object mp_process_preset _ECL_ARGS((cl_narg narg, cl_object process, cl_object function, ...));
+extern ECL_API cl_object mp_process_run_function _ECL_ARGS((cl_narg narg, cl_object name, cl_object function, ...));
+extern ECL_API cl_object mp_process_run_function_wait _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object mp_process_whostate(cl_object process);
+extern ECL_API cl_object mp_make_condition_variable(void);
+extern ECL_API cl_object mp_condition_variable_wait(cl_object cv, cl_object lock);
+extern ECL_API cl_object mp_condition_variable_timedwait(cl_object cv, cl_object lock, cl_object seconds);
+extern ECL_API cl_object mp_condition_variable_signal(cl_object cv);
+extern ECL_API cl_object mp_condition_variable_broadcast(cl_object cv);
+extern ECL_API cl_object mp_current_process(void);
+extern ECL_API cl_object mp_block_signals(void);
+extern ECL_API cl_object mp_restore_signals(cl_object sigmask);
+
+extern ECL_API bool ecl_import_current_thread(cl_object process_name, cl_object process_binding);
+extern ECL_API void ecl_release_current_thread(void);
+
+/* threads/semaphore.d */
+
+extern ECL_API cl_object mp_make_semaphore _ECL_ARGS((cl_narg, ...));
+extern ECL_API cl_object mp_semaphore_count(cl_object);
+extern ECL_API cl_object mp_semaphore_name(cl_object);
+extern ECL_API cl_object mp_semaphore_wait_count(cl_object);
+extern ECL_API cl_object mp_wait_on_semaphore(cl_object);
+extern ECL_API cl_object mp_try_get_semaphore(cl_object);
+extern ECL_API cl_object mp_signal_semaphore _ECL_ARGS((cl_narg, cl_object, ...));
+extern ECL_API cl_object ecl_make_semaphore(cl_object name, cl_fixnum count);
+
+/* threads/barrier.d */
+
+extern ECL_API cl_object ecl_make_barrier(cl_object name, cl_index count);
+extern ECL_API cl_object mp_make_barrier _ECL_ARGS((cl_narg, cl_object, ...));
+extern ECL_API cl_object mp_barrier_count(cl_object);
+extern ECL_API cl_object mp_barrier_name(cl_object);
+extern ECL_API cl_object mp_barrier_arrivers_count(cl_object);
+extern ECL_API cl_object mp_barrier_wait (cl_object);
+extern ECL_API cl_object mp_barrier_unblock _ECL_ARGS((cl_narg, cl_object, ...));
+
+/* threads/mailbox.d */
+
+extern ECL_API cl_object mp_make_mailbox _ECL_ARGS((cl_narg, ...));
+extern ECL_API cl_object mp_mailbox_name(cl_object mailbox);
+extern ECL_API cl_object mp_mailbox_count(cl_object mailbox);
+extern ECL_API cl_object mp_mailbox_empty_p(cl_object);
+extern ECL_API cl_object mp_mailbox_read(cl_object mailbox);
+extern ECL_API cl_object mp_mailbox_try_read(cl_object mailbox);
+extern ECL_API cl_object mp_mailbox_send(cl_object mailbox, cl_object msg);
+extern ECL_API cl_object mp_mailbox_try_send(cl_object mailbox, cl_object msg);
+
+/* threads/atomic.c */
+
+extern ECL_API cl_object ecl_atomic_get(cl_object *slot);
+extern ECL_API void ecl_atomic_push(cl_object *slot, cl_object o);
+extern ECL_API cl_object ecl_atomic_pop(cl_object *slot);
+extern ECL_API cl_index ecl_atomic_index_incf(cl_index *slot);
+
+/* threads/mutex.c */
+
+extern ECL_API cl_object mp_make_lock _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object mp_recursive_lock_p(cl_object lock);
+extern ECL_API cl_object mp_holding_lock_p(cl_object lock);
+extern ECL_API cl_object mp_lock_name(cl_object lock);
+extern ECL_API cl_object mp_lock_owner(cl_object lock);
+extern ECL_API cl_object mp_lock_count(cl_object lock);
+extern ECL_API cl_object mp_get_lock _ECL_ARGS((cl_narg narg, cl_object lock, ...));
+extern ECL_API cl_object mp_get_lock_wait(cl_object lock);
+extern ECL_API cl_object mp_get_lock_nowait(cl_object lock);
+extern ECL_API cl_object mp_giveup_lock(cl_object lock);
+
+extern ECL_API cl_object ecl_make_lock(cl_object lock, bool recursive);
+
+/* threads/rwlock.d */
+
+extern ECL_API cl_object mp_make_rwlock _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object mp_rwlock_name(cl_object lock);
+extern ECL_API cl_object mp_get_rwlock_read _ECL_ARGS((cl_narg narg, cl_object lock, ...));
+extern ECL_API cl_object mp_get_rwlock_write _ECL_ARGS((cl_narg narg, cl_object lock, ...));
+extern ECL_API cl_object mp_giveup_rwlock_read(cl_object lock);
+extern ECL_API cl_object mp_giveup_rwlock_write(cl_object lock);
+extern ECL_API cl_object ecl_make_rwlock(cl_object lock);
+
+#endif /* ECL_THREADS */
+
+/* time.c */
+
+extern ECL_API cl_object cl_sleep(cl_object z);
+extern ECL_API cl_object cl_get_internal_run_time(void);
+extern ECL_API cl_object cl_get_internal_real_time(void);
+extern ECL_API cl_object cl_get_universal_time(void);
+
+
+/* typespec.c */
+
+extern ECL_API void assert_type_integer(cl_object p);
+extern ECL_API void assert_type_non_negative_integer(cl_object p);
+extern ECL_API void assert_type_proper_list(cl_object p);
+extern ECL_API cl_object cl_type_of(cl_object x);
+
+extern ECL_API void FEtype_error_fixnum(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_size(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_cons(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_list(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_proper_list(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_sequence(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_vector(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEcircular_list(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_index(cl_object seq, cl_fixnum ndx) ecl_attr_noreturn;
+extern ECL_API void FEtype_error_array(cl_object x) ecl_attr_noreturn;
+extern ECL_API void FEdivision_by_zero(cl_object x, cl_object y) ecl_attr_noreturn;
+extern ECL_API cl_object ecl_type_error(cl_object function, const char *place, cl_object o, cl_object type);
+extern ECL_API cl_object ecl_check_cl_type(cl_object fun, cl_object p, cl_type t);
+extern ECL_API cl_object ecl_make_integer_type(cl_object min, cl_object max);
+
+/* unixfsys.c */
+
+extern ECL_API cl_object cl_truename(cl_object file);
+extern ECL_API cl_object cl_rename_file _ECL_ARGS((cl_narg narg, cl_object old_obj, cl_object new_obj, ...));
+extern ECL_API cl_object cl_delete_file(cl_object file);
+extern ECL_API cl_object cl_probe_file(cl_object file);
+extern ECL_API cl_object cl_file_write_date(cl_object file);
+extern ECL_API cl_object cl_file_author(cl_object file);
+extern ECL_API cl_object si_file_kind(cl_object pathname, cl_object follow_links);
+extern ECL_API cl_object si_getcwd _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_getpid(void);
+extern ECL_API cl_object si_getuid(void);
+extern ECL_API cl_object si_chdir _ECL_ARGS((cl_narg narg, cl_object directory, ...));
+extern ECL_API cl_object si_chmod(cl_object filename, cl_object mode);
+extern ECL_API cl_object si_mkdir(cl_object directory, cl_object mode);
+extern ECL_API cl_object cl_directory _ECL_ARGS((cl_narg narg, cl_object directory, ...));
+extern ECL_API cl_object cl_user_homedir_pathname _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_mkstemp(cl_object templ);
+extern ECL_API cl_object si_rmdir(cl_object directory);
+
+extern ECL_API cl_object ecl_cstring_to_pathname(char *s);
+extern ECL_API int ecl_backup_open(const char *filename, int option, int mode);
+extern ECL_API cl_object ecl_file_len(int f);
+extern ECL_API cl_object ecl_homedir_pathname(cl_object user);
+extern ECL_API cl_object si_get_library_pathname(void);
+extern ECL_API cl_object si_copy_file(cl_object orig, cl_object end);
+
+
+/* unixint.c */
+
+#ifdef ECL_USE_MPROTECT
+#define ecl_disable_interrupts_env(env) ((env)->disable_interrupts=1)
+#define ecl_enable_interrupts_env(env) ((env)->disable_interrupts=0)
+#else
+#define ecl_disable_interrupts_env(env) ((env)->disable_interrupts=1)
+#define ecl_enable_interrupts_env(env) (((env)->disable_interrupts^=1) && (ecl_check_pending_interrupts(env),0))
+#endif
+#define ecl_clear_interrupts_env(env) ((env)->interrupt_struct->pending_interrupt=ECL_NIL)
+#define ecl_clear_interrupts() ecl_clear_interrupts(&cl_env)
+#define ecl_disable_interrupts() ecl_disable_interrupts_env(&cl_env)
+#define ecl_enable_interrupts() ecl_enable_interrupts_env(&cl_env)
+#define ECL_PSEUDO_ATOMIC_ENV(env,stmt) (ecl_disable_interrupts_env(env),(stmt),ecl_enable_interrupts_env(env))
+#define ECL_PSEUDO_ATOMIC(stmt) (ecl_disable_interrupts(),(stmt),ecl_enable_interrupts())
+extern ECL_API cl_object si_handle_signal(cl_object signal);
+extern ECL_API cl_object si_get_signal_handler(cl_object signal);
+extern ECL_API cl_object si_set_signal_handler(cl_object signal, cl_object handler);
+extern ECL_API cl_object si_catch_signal(cl_narg narg, cl_object signal, cl_object state, ...);
+extern ECL_API cl_object si_check_pending_interrupts(void);
+extern ECL_API cl_object si_disable_interrupts(void);
+extern ECL_API cl_object si_enable_interrupts(void);
+extern ECL_API cl_object si_trap_fpe(cl_object condition, cl_object flag);
+#if defined(ECL_MS_WINDOWS_HOST)
+extern ECL_API LONG WINAPI _ecl_w32_exception_filter(struct _EXCEPTION_POINTERS*);
+#endif
+extern ECL_API void ecl_check_pending_interrupts(cl_env_ptr env);
+
+/* unixsys.c */
+
+extern ECL_API cl_object si_system(cl_object cmd);
+extern ECL_API cl_object si_make_pipe();
+extern ECL_API cl_object si_run_program _ECL_ARGS((cl_narg narg, cl_object command, cl_object args, ...));
+extern ECL_API cl_object si_close_windows_handle(cl_object h);
+extern ECL_API cl_object si_terminate_process _ECL_ARGS((cl_narg narg, cl_object process, ...));
+extern ECL_API cl_object si_waitpid(cl_object pid, cl_object wait);
+extern ECL_API cl_object si_killpid(cl_object pid, cl_object signal);
+
+extern ECL_API cl_object si_run_program_inner
+(cl_object command, cl_object argv, cl_object environment, cl_object wait);
+
+extern ECL_API cl_object si_spawn_subprocess
+(cl_object command, cl_object argv, cl_object environment,
+ cl_object input, cl_object output, cl_object error);
+
+
+/* unicode -- no particular file, but we group these changes here */
+
+#ifdef ECL_UNICODE
+extern ECL_API cl_object si_base_char_p(cl_object x);
+extern ECL_API cl_object si_base_string_p(cl_object x);
+extern ECL_API cl_object si_coerce_to_base_string(cl_object x);
+extern ECL_API cl_object si_coerce_to_extended_string(cl_object x);
+#define ecl_alloc_simple_extended_string(l) ecl_alloc_simple_vector((l),ecl_aet_ch)
+extern ECL_API cl_object ecl_alloc_adjustable_extended_string(cl_index l);
+extern ECL_API cl_object _ecl_ucd_code_to_name(ecl_character c);
+extern ECL_API cl_object _ecl_ucd_name_to_code(cl_object name);
+#else
+#define si_base_char_p cl_characterp
+#define si_base_string_p cl_stringp
+#define si_coerce_to_base_string cl_string
+#define si_coerce_to_extended_string cl_string
+#endif
+
+/* vector_push.d  */
+
+extern ECL_API ecl_character ecl_string_push_extend(cl_object s, ecl_character c);
+extern ECL_API cl_object cl_vector_push _ECL_ARGS((cl_object V1, cl_object V2));
+extern ECL_API cl_object cl_vector_push_extend _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+
+
+/**********************************************************************
+ * FUNCTIONS GENERATED BY THE LISP COMPILER
+ */
+
+/* arraylib.lsp */
+extern ECL_API cl_object cl_make_array _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object si_fill_array_with_seq _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_vector _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_array_dimensions(cl_object V1);
+extern ECL_API cl_object cl_array_in_bounds_p _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_array_row_major_index _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_bit _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_sbit _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_bit_and _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_ior _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_xor _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_eqv _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_nand _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_nor _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_andc1 _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_andc2 _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_orc1 _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_orc2 _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_bit_not _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_vector_pop(cl_object V1);
+extern ECL_API cl_object cl_adjust_array _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+
+/* config.lsp */
+
+extern ECL_API cl_object cl_short_site_name();
+extern ECL_API cl_object cl_long_site_name();
+extern ECL_API cl_object cl_lisp_implementation_type();
+extern ECL_API cl_object cl_lisp_implementation_version();
+extern ECL_API cl_object si_lisp_implementation_vcs_id();
+extern ECL_API cl_object cl_machine_type();
+extern ECL_API cl_object cl_machine_instance();
+extern ECL_API cl_object cl_machine_version();
+extern ECL_API cl_object cl_software_type();
+extern ECL_API cl_object cl_software_version();
+
+/* describe.lsp */
+
+extern ECL_API cl_object cl_inspect(cl_object o);
+extern ECL_API cl_object cl_describe _ECL_ARGS((cl_narg narg, cl_object o, ...));
+
+/* iolib.lsp */
+
+extern ECL_API cl_object cl_read_from_string _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_write_to_string _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_prin1_to_string(cl_object V1);
+extern ECL_API cl_object cl_princ_to_string(cl_object V1);
+extern ECL_API cl_object cl_y_or_n_p _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_yes_or_no_p _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_string_to_object _ECL_ARGS((cl_narg narg, cl_object str, ...));
+extern ECL_API cl_object cl_dribble _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_load_encoding(cl_object name);
+extern ECL_API cl_object si_make_encoding(cl_object mapping);
+
+/* listlib.lsp */
+
+extern ECL_API cl_object cl_union _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_nunion _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_intersection _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_nintersection _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_set_difference _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_nset_difference _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_set_exclusive_or _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_nset_exclusive_or _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_subsetp _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_rassoc_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_rassoc_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_assoc_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_assoc_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_member_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_member_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_subst_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_subst_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_nsubst_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_nsubst_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+
+/* mislib.lsp */
+
+extern ECL_API cl_object cl_logical_pathname_translations(cl_object V1);
+extern ECL_API cl_object cl_load_logical_pathname_translations(cl_object V1);
+extern ECL_API cl_object cl_decode_universal_time _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_encode_universal_time _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, cl_object V4, cl_object V5, cl_object V6, ...));
+extern ECL_API cl_object cl_get_decoded_time();
+extern ECL_API cl_object cl_ensure_directories_exist _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object si_simple_program_error _ECL_ARGS((cl_narg narg, cl_object format, ...)) ecl_attr_noreturn;
+extern ECL_API cl_object si_signal_simple_error _ECL_ARGS((cl_narg narg, cl_object condition, cl_object continuable, cl_object format, cl_object args, ...));
+extern ECL_API cl_object si_make_stream_from_fd _ECL_ARGS((cl_narg narg, cl_object fd, cl_object direction, ...));
+
+/* module.lsp */
+
+extern ECL_API cl_object cl_provide(cl_object V1);
+extern ECL_API cl_object cl_require _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+
+/* numlib.lsp */
+
+extern ECL_API cl_object cl_isqrt(cl_object V1);
+extern ECL_API cl_object cl_phase(cl_object V1);
+extern ECL_API cl_object cl_signum(cl_object V1);
+extern ECL_API cl_object cl_cis(cl_object V1);
+extern ECL_API cl_object cl_asin(cl_object V1);
+extern ECL_API cl_object cl_acos(cl_object V1);
+extern ECL_API cl_object cl_asinh(cl_object V1);
+extern ECL_API cl_object cl_acosh(cl_object V1);
+extern ECL_API cl_object cl_atanh(cl_object V1);
+extern ECL_API cl_object cl_ffloor _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_fceiling _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_ftruncate _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_fround _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_logtest(cl_object V1, cl_object V2);
+extern ECL_API cl_object cl_byte(cl_object V1, cl_object V2);
+extern ECL_API cl_object cl_byte_size(cl_object V1);
+extern ECL_API cl_object cl_byte_position(cl_object V1);
+extern ECL_API cl_object cl_ldb(cl_object V1, cl_object V2);
+extern ECL_API cl_object cl_ldb_test(cl_object V1, cl_object V2);
+extern ECL_API cl_object cl_mask_field(cl_object V1, cl_object V2);
+extern ECL_API cl_object cl_dpb(cl_object V1, cl_object V2, cl_object V3);
+extern ECL_API cl_object cl_deposit_field(cl_object V1, cl_object V2, cl_object V3);
+
+/* packlib.lsp */
+
+extern ECL_API cl_object cl_find_all_symbols(cl_object V1);
+extern ECL_API cl_object cl_apropos _ECL_ARGS((cl_narg arg, cl_object V1, ...));
+extern ECL_API cl_object cl_apropos_list _ECL_ARGS((cl_narg arg, cl_object V1, ...));
+
+/* predlib.lsp */
+
+extern ECL_API cl_object si_subclassp _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object si_of_class_p _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object si_do_deftype _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_upgraded_array_element_type _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_upgraded_complex_part_type _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_typep _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_coerce(cl_object V1, cl_object V2);
+extern ECL_API cl_object cl_subtypep _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object si_short_float_p(cl_object t);
+extern ECL_API cl_object si_single_float_p(cl_object t);
+extern ECL_API cl_object si_double_float_p(cl_object t);
+extern ECL_API cl_object si_long_float_p(cl_object t);
+extern ECL_API cl_object si_ratiop(cl_object t);
+
+/* setf.lsp */
+
+extern ECL_API cl_object si_do_defsetf _ECL_ARGS ((cl_narg narg, cl_object name, cl_object function, ...));
+extern ECL_API cl_object si_do_define_setf_method(cl_object name, cl_object function);
+
+/* seq.lsp */
+
+extern ECL_API cl_object cl_make_sequence _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_concatenate _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_map _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_some _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_every _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_notany _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_notevery _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_map_into _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object si_sequence_count(cl_object count);
+
+/* seqlib.lsp */
+
+extern ECL_API cl_object cl_reduce _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_fill _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_replace _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_remove _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_remove_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_remove_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_delete _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_delete_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_delete_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_count _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_count_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_count_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_substitute _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_substitute_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_substitute_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_nsubstitute _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_nsubstitute_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_nsubstitute_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_find _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_find_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_find_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_position _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_position_if _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_position_if_not _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_remove_duplicates _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_delete_duplicates _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_mismatch _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_search _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_sort _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_stable_sort _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_merge _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, cl_object V4, ...));
+extern ECL_API cl_object cl_constantly(cl_object V1);
+extern ECL_API cl_object cl_complement(cl_object V1);
+
+/* trace.lsp */
+
+extern ECL_API cl_object si_traced_old_definition(cl_object V1);
+
+/* pprint.lsp */
+
+extern ECL_API cl_object cl_pprint_newline _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_pprint_indent _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_pprint_tab _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, ...));
+extern ECL_API cl_object cl_pprint_fill _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_pprint_linear _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_pprint_tabular _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+extern ECL_API cl_object cl_copy_pprint_dispatch _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_pprint_dispatch _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_set_pprint_dispatch _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, ...));
+
+
+/* combin.lsp */
+extern ECL_API cl_object cl_method_combination_error _ECL_ARGS((cl_narg narg, cl_object format, ...));
+extern ECL_API cl_object cl_invalid_method_error _ECL_ARGS((cl_narg narg, cl_object method, cl_object format, ...));
+extern ECL_API cl_object clos_std_compute_applicable_methods(cl_object gf, cl_object arglist);
+extern ECL_API cl_object clos_std_compute_effective_method(cl_object gf, cl_object combination, cl_object methods_list);
+extern ECL_API cl_object clos_compute_effective_method_function(cl_object gf, cl_object combination, cl_object methods_list);
+
+/* boot.lsp */
+extern ECL_API cl_object cl_slot_boundp(cl_object object, cl_object slot);
+extern ECL_API cl_object cl_slot_makunbound(cl_object object, cl_object slot);
+extern ECL_API cl_object cl_slot_exists_p(cl_object object, cl_object slot);
+
+/* defclass.lsp */
+extern ECL_API cl_object clos_load_defclass(cl_object name, cl_object superclasses, cl_object slots, cl_object options);
+
+/* defclass.lsp */
+extern ECL_API cl_object clos_ensure_class _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+
+#if 0
+/* kernel.lsp */
+extern ECL_API cl_object clos_class_id _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_class_direct_superclasses _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_class_direct_subclasses _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_class_slots _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_class_precedence_list _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_class_direct_slots _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_slot_index_table _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_class_shared_slots _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_generic_function_method_combination _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_generic_function_lambda_list _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_generic_function_argument_precedence_order _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_generic_function_method_class _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_generic_function_methods _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_method_generic_function _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_method_lambda_list _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_method_specializers _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object cl_method_qualifiers _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_method_function _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_method_plist _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+extern ECL_API cl_object clos_install_method _ECL_ARGS((cl_narg narg, cl_object V1, cl_object V2, cl_object V3, cl_object V4, cl_object V5, ...));
+
+#endif
+
+/* std-slot-value */
+extern ECL_API cl_object cl_slot_value(cl_object object, cl_object slot);
+extern ECL_API cl_object clos_slot_value_set(cl_object value, cl_object instance, cl_object name);
+extern ECL_API cl_object clos_standard_instance_access(cl_object object, cl_object location);
+#define clos_funcallable_standard_instance_access clos_standard_instance_access
+extern ECL_API cl_object clos_standard_instance_set(cl_object object, cl_object location, cl_object value);
+#define clos_funcallable_standard_instance_set clos_standard_instance_access
+
+/* method.lsp */
+extern ECL_API cl_object clos_extract_lambda_list(cl_object object);
+extern ECL_API cl_object clos_extract_specializer_names(cl_object object);
+
+/* conditions.lsp */
+extern ECL_API cl_object cl_abort _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_continue _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_compute_restarts _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_find_restart _ECL_ARGS((cl_narg narg, cl_object name, ...));
+extern ECL_API cl_object cl_invoke_restart _ECL_ARGS((cl_narg narg, cl_object restart, ...));
+extern ECL_API cl_object cl_invoke_restart_interactively(cl_object restart);
+extern ECL_API cl_object cl_make_condition _ECL_ARGS((cl_narg narg, cl_object type, ...));
+extern ECL_API cl_object cl_muffle_warning _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_store_value _ECL_ARGS((cl_narg narg, cl_object value, ...));
+extern ECL_API cl_object cl_use_value _ECL_ARGS((cl_narg narg, cl_object value, ...));
+extern ECL_API cl_object si_bind_simple_restarts(cl_object tag, cl_object names);
+extern ECL_API cl_object si_bind_simple_handlers(cl_object tag, cl_object names);
+extern ECL_API cl_object si_assert_failure _ECL_ARGS((cl_narg narg, cl_object V1, ...));
+
+/* assert.lsp */
+extern ECL_API cl_object si_wrong_type_argument _ECL_ARGS((cl_narg narg, cl_object value, cl_object type, ...));
+extern ECL_API cl_object si_ccase_error(cl_object keyform, cl_object key, cl_object values);
+extern ECL_API cl_object si_ecase_error(cl_object value, cl_object values) ecl_attr_noreturn;
+extern ECL_API cl_object si_etypecase_error(cl_object value, cl_object type) ecl_attr_noreturn;
+extern ECL_API cl_object si_ctypecase_error(cl_object keyplace, cl_object value, cl_object type);
+extern ECL_API cl_object si_do_check_type(cl_object value, cl_object type, cl_object type_string, cl_object place);
+
+/*
+ * CDR-5
+ */
+extern ECL_API cl_object si_negative_fixnum_p(cl_object);
+extern ECL_API cl_object si_non_negative_fixnum_p(cl_object);
+extern ECL_API cl_object si_non_positive_fixnum_p(cl_object);
+extern ECL_API cl_object si_positive_fixnum_p(cl_object);
+extern ECL_API cl_object si_array_index_p(cl_object);
+
+extern ECL_API cl_object si_negative_integer_p(cl_object);
+extern ECL_API cl_object si_non_negative_integer_p(cl_object);
+extern ECL_API cl_object si_non_positive_integer_p(cl_object);
+extern ECL_API cl_object si_positive_integer_p(cl_object);
+
+extern ECL_API cl_object si_negative_rational_p(cl_object);
+extern ECL_API cl_object si_non_negative_rational_p(cl_object);
+extern ECL_API cl_object si_non_positive_rational_p(cl_object);
+extern ECL_API cl_object si_positive_rational_p(cl_object);
+
+extern ECL_API cl_object si_negative_ratio_p(cl_object);
+extern ECL_API cl_object si_non_negative_ratio_p(cl_object);
+extern ECL_API cl_object si_non_positive_ratio_p(cl_object);
+extern ECL_API cl_object si_positive_ratio_p(cl_object);
+
+extern ECL_API cl_object si_negative_real_p(cl_object);
+extern ECL_API cl_object si_non_negative_real_p(cl_object);
+extern ECL_API cl_object si_non_positive_real_p(cl_object);
+extern ECL_API cl_object si_positive_real_p(cl_object);
+
+extern ECL_API cl_object si_negative_float_p(cl_object);
+extern ECL_API cl_object si_non_negative_float_p(cl_object);
+extern ECL_API cl_object si_non_positive_float_p(cl_object);
+extern ECL_API cl_object si_positive_float_p(cl_object);
+
+extern ECL_API cl_object si_negative_short_float_p(cl_object);
+extern ECL_API cl_object si_non_negative_short_float_p(cl_object);
+extern ECL_API cl_object si_non_positive_short_float_p(cl_object);
+extern ECL_API cl_object si_positive_short_float_p(cl_object);
+
+extern ECL_API cl_object si_negative_single_float_p(cl_object);
+extern ECL_API cl_object si_non_negative_single_float_p(cl_object);
+extern ECL_API cl_object si_non_positive_single_float_p(cl_object);
+extern ECL_API cl_object si_positive_single_float_p(cl_object);
+
+extern ECL_API cl_object si_negative_double_float_p(cl_object);
+extern ECL_API cl_object si_non_negative_double_float_p(cl_object);
+extern ECL_API cl_object si_non_positive_double_float_p(cl_object);
+extern ECL_API cl_object si_positive_double_float_p(cl_object);
+
+extern ECL_API cl_object si_negative_long_float_p(cl_object);
+extern ECL_API cl_object si_non_negative_long_float_p(cl_object);
+extern ECL_API cl_object si_non_positive_long_float_p(cl_object);
+extern ECL_API cl_object si_positive_long_float_p(cl_object);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* !ECL_EXTERNAL_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ¿   .   ±   ..  À  èprivate                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         À   .   ¿  ô..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Á   .   ±   ..  Â   math_dispatch.h Ã   math_dispatch2.hÄ   math_fenv.h Å  ¤math_fenv_msvc.h                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    math_dispatch.h -- fast dispatch for math functions
+*/
+/*
+    Copyright (c) 2010, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifndef ECL_MATH_DISPATCH_H
+#define ECL_MATH_DISPATCH_H
+
+#include <ecl/internal.h> /* for unlikely_if */
+#include <ecl/impl/math_fenv.h>
+
+typedef cl_object (*math_one_arg_fn)(cl_object);
+
+#ifdef ECL_COMPLEX_FLOAT
+#define MATH_CFLOAT(c1,c2,c3) c1, c2, c3
+#else
+#define MATH_CFLOAT(c1,c2,c3)
+#endif
+
+#define MATH_DEF_DISPATCH1_NE(name,id,type,fix,big,ratio,               \
+                              single_float,double_float,long_float,     \
+                              complex,csfloat,cdfloat,clfloat)          \
+    static cl_object name##failed(cl_object x) {                        \
+        FEwrong_type_only_arg(id, x, type);                             \
+    }                                                                   \
+    static const math_one_arg_fn name##dispatch[t_last_number+1]= {     \
+        name##failed,                 /* t_start */                     \
+        name##failed,                 /* t_list */                      \
+        name##failed,                 /* t_character */                 \
+        fix, big, ratio,              /* t_fixnum, t_bignum, t_ratio */ \
+        single_float,                 /* t_singlefloat */               \
+        double_float,                 /* t_doublefloat */               \
+        long_float,                   /* t_longfloat */                 \
+        complex,                      /* t_complex */                   \
+        MATH_CFLOAT(csfloat,cdfloat,clfloat) /* t_c?float */ };         \
+    cl_object ecl_##name(cl_object arg)                                 \
+    {                                                                   \
+        int t = ECL_IMMEDIATE(arg);                                     \
+        if (t == 0) {                                                   \
+            t = arg->d.t;                                               \
+            unlikely_if (t > t_last_number) return name##failed(arg);   \
+        }                                                               \
+        return name##dispatch[t](arg);                                  \
+    }
+#define MATH_DEF_DISPATCH1(name,id,type,fix,big,ratio,                  \
+                           single_float,double_float,long_float,        \
+                           complex,csfloat,cdfloat,clfloat)             \
+        MATH_DEF_DISPATCH1_NE(name##_ne,id,type,fix,big,ratio,          \
+                              single_float,double_float,long_float,     \
+                              complex,csfloat,cdfloat,clfloat)          \
+    cl_object ecl_##name(cl_object arg)                                 \
+    {                                                                   \
+        cl_object out;                                                  \
+        ECL_MATHERR_CLEAR;                                              \
+        out = ecl_##name##_ne(arg);                                     \
+        ECL_MATHERR_TEST;                                               \
+        return out;                                                     \
+    }
+
+typedef int (*math_one_arg_bool_fn)(cl_object);
+#define MATH_DEF_DISPATCH1_BOOL(name,id,type,fix,big,ratio,             \
+                                single_float,double_float,long_float,   \
+                                complex,csfloat,cdfloat,clfloat)        \
+    static int name##failed(cl_object x) {                              \
+        FEwrong_type_only_arg(id, x, type);                             \
+    }                                                                   \
+    static const math_one_arg_bool_fn name##dispatch[t_last_number+1]= {\
+        name##failed,                 /* t_start */                     \
+        name##failed,                 /* t_list */                      \
+        name##failed,                 /* t_character */                 \
+        fix, big, ratio,              /* t_fixnum, t_bignum, t_ratio */ \
+        single_float,                 /* t_singlefloat */               \
+        double_float,                 /* t_doublefloat */               \
+        long_float,                   /* t_longfloat */                 \
+        complex,                      /* t_complex */                   \
+        MATH_CFLOAT(csfloat,cdfloat,clfloat) /* t_c?float */ };         \
+    int ecl_##name(cl_object arg)                                       \
+    {                                                                   \
+        int t = ECL_IMMEDIATE(arg);                                     \
+        if (t == 0) {                                                   \
+            t = arg->d.t;                                               \
+            unlikely_if (t > t_last_number) return name##failed(arg);   \
+        }                                                               \
+        return name##dispatch[t](arg);                                  \
+    }
+#endif /* ECL_MATH_DISPATCH_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    math_dispatch.h -- fast dispatch for math functions
+*/
+/*
+    Copyright (c) 2010, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifndef ECL_MATH_DISPATCH2_H
+#define ECL_MATH_DISPATCH2_H
+
+#include <ecl/internal.h> /* for unlikely_if */
+
+#define MATH_DISPATCH2_LABEL(t1,t2) case ((t1)*(t_last_number+1)+(t2)):
+#define MATH_DISPATCH2_BEGIN(x,y) {                                     \
+    int tx = ecl_t_of(x), ty = ecl_t_of(y);                               \
+    unlikely_if (ty > t_last_number) { goto DISPATCH2_ERROR; } \
+    switch (tx * (t_last_number+1) + ty)
+#define MATH_DISPATCH2_END } (void)0
+
+#define CASE_CLFLOAT_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_fixnum)
+#define CASE_CLFLOAT_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_bignum)
+#define CASE_CLFLOAT_RATIO \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_ratio)
+#define CASE_CLFLOAT_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_singlefloat)
+#define CASE_CLFLOAT_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_doublefloat)
+#define CASE_CLFLOAT_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_longfloat)
+#define CASE_CLFLOAT_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_complex)
+#define CASE_CLFLOAT_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_csfloat)
+#define CASE_CLFLOAT_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_cdfloat)
+#define CASE_CLFLOAT_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_clfloat,t_clfloat)
+
+#define CASE_CDFLOAT_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_fixnum)
+#define CASE_CDFLOAT_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_bignum)
+#define CASE_CDFLOAT_RATIO \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_ratio)
+#define CASE_CDFLOAT_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_singlefloat)
+#define CASE_CDFLOAT_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_doublefloat)
+#define CASE_CDFLOAT_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_longfloat)
+#define CASE_CDFLOAT_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_complex)
+#define CASE_CDFLOAT_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_csfloat)
+#define CASE_CDFLOAT_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_cdfloat)
+#define CASE_CDFLOAT_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_cdfloat,t_clfloat)
+
+#define CASE_CSFLOAT_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_fixnum)
+#define CASE_CSFLOAT_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_bignum)
+#define CASE_CSFLOAT_RATIO \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_ratio)
+#define CASE_CSFLOAT_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_singlefloat)
+#define CASE_CSFLOAT_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_doublefloat)
+#define CASE_CSFLOAT_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_longfloat)
+#define CASE_CSFLOAT_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_complex)
+#define CASE_CSFLOAT_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_csfloat)
+#define CASE_CSFLOAT_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_cdfloat)
+#define CASE_CSFLOAT_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_csfloat,t_clfloat)
+
+#define CASE_COMPLEX_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_complex,t_fixnum)
+#define CASE_COMPLEX_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_complex,t_bignum)
+#define CASE_COMPLEX_RATIO \
+    MATH_DISPATCH2_LABEL(t_complex,t_ratio)
+#define CASE_COMPLEX_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_complex,t_singlefloat)
+#define CASE_COMPLEX_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_complex,t_doublefloat)
+#define CASE_COMPLEX_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_complex,t_longfloat)
+#define CASE_COMPLEX_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_complex,t_complex)
+#define CASE_COMPLEX_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_complex,t_csfloat)
+#define CASE_COMPLEX_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_complex,t_cdfloat)
+#define CASE_COMPLEX_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_complex,t_clfloat)
+
+#define CASE_LONG_FLOAT_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_fixnum)
+#define CASE_LONG_FLOAT_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_bignum)
+#define CASE_LONG_FLOAT_RATIO \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_ratio)
+#define CASE_LONG_FLOAT_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_singlefloat)
+#define CASE_LONG_FLOAT_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_doublefloat)
+#define CASE_LONG_FLOAT_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_longfloat)
+#define CASE_LONG_FLOAT_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_complex)
+#define CASE_LONG_FLOAT_CSFLOAT                    \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_csfloat)
+#define CASE_LONG_FLOAT_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_cdfloat)
+#define CASE_LONG_FLOAT_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_longfloat,t_clfloat)
+
+#define CASE_DOUBLE_FLOAT_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_fixnum)
+#define CASE_DOUBLE_FLOAT_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_bignum)
+#define CASE_DOUBLE_FLOAT_RATIO \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_ratio)
+#define CASE_DOUBLE_FLOAT_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_singlefloat)
+#define CASE_DOUBLE_FLOAT_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_doublefloat)
+#define CASE_DOUBLE_FLOAT_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_longfloat)
+#define CASE_DOUBLE_FLOAT_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_complex)
+#define CASE_DOUBLE_FLOAT_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_csfloat)
+#define CASE_DOUBLE_FLOAT_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_cdfloat)
+#define CASE_DOUBLE_FLOAT_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_doublefloat,t_clfloat)
+
+#define CASE_SINGLE_FLOAT_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_fixnum)
+#define CASE_SINGLE_FLOAT_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_bignum)
+#define CASE_SINGLE_FLOAT_RATIO \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_ratio)
+#define CASE_SINGLE_FLOAT_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_singlefloat)
+#define CASE_SINGLE_FLOAT_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_doublefloat)
+#define CASE_SINGLE_FLOAT_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_longfloat)
+#define CASE_SINGLE_FLOAT_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_complex)
+#define CASE_SINGLE_FLOAT_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_csfloat)
+#define CASE_SINGLE_FLOAT_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_cdfloat)
+#define CASE_SINGLE_FLOAT_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_singlefloat,t_clfloat)
+
+#define CASE_RATIO_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_ratio,t_fixnum)
+#define CASE_RATIO_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_ratio,t_bignum)
+#define CASE_RATIO_RATIO \
+    MATH_DISPATCH2_LABEL(t_ratio,t_ratio)
+#define CASE_RATIO_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_ratio,t_singlefloat)
+#define CASE_RATIO_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_ratio,t_doublefloat)
+#define CASE_RATIO_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_ratio,t_longfloat)
+#define CASE_RATIO_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_ratio,t_complex)
+#define CASE_RATIO_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_ratio,t_csfloat)
+#define CASE_RATIO_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_ratio,t_cdfloat)
+#define CASE_RATIO_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_ratio,t_clfloat)
+
+#define CASE_BIGNUM_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_bignum,t_fixnum)
+#define CASE_BIGNUM_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_bignum,t_bignum)
+#define CASE_BIGNUM_RATIO \
+    MATH_DISPATCH2_LABEL(t_bignum,t_ratio)
+#define CASE_BIGNUM_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_bignum,t_singlefloat)
+#define CASE_BIGNUM_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_bignum,t_doublefloat)
+#define CASE_BIGNUM_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_bignum,t_longfloat)
+#define CASE_BIGNUM_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_bignum,t_complex)
+#define CASE_BIGNUM_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_bignum,t_csfloat)
+#define CASE_BIGNUM_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_bignum,t_cdfloat)
+#define CASE_BIGNUM_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_bignum,t_clfloat)
+
+#define CASE_FIXNUM_FIXNUM \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_fixnum)
+#define CASE_FIXNUM_BIGNUM \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_bignum)
+#define CASE_FIXNUM_RATIO \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_ratio)
+#define CASE_FIXNUM_SINGLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_singlefloat)
+#define CASE_FIXNUM_DOUBLE_FLOAT \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_doublefloat)
+#define CASE_FIXNUM_LONG_FLOAT \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_longfloat)
+#define CASE_FIXNUM_COMPLEX \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_complex)
+#define CASE_FIXNUM_CSFLOAT \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_csfloat)
+#define CASE_FIXNUM_CDFLOAT \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_cdfloat)
+#define CASE_FIXNUM_CLFLOAT \
+    MATH_DISPATCH2_LABEL(t_fixnum,t_clfloat)
+
+#define CASE_UNKNOWN(routine,x,y,type)                  \
+    default: DISPATCH2_ERROR:                           \
+    if (!ecl_numberp(x))                                \
+        FEwrong_type_nth_arg(routine, 1, x, type);      \
+    else                                                \
+        FEwrong_type_nth_arg(routine, 2, y, type)
+
+#endif /* ECL_MATH_DISPATCH2_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    math_fenv.h -- inlined versions of fenv.h
+*/
+/*
+    Copyright (c) 2010, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../../Copyright' for full details.
+*/
+
+#ifndef ECL_MATH_FENV_H
+#define ECL_MATH_FENV_H
+
+/*
+ * ECL admits two ways to process floating point errors
+ *   - Based on hardware exceptions
+ *   - Based on explicit checks
+ *
+ * In the hardware exception model we simply expect the floating point
+ * unit to complain about a computation. In order for this to happen
+ * we may need two things:
+ *
+ *   - Activate explicitely signaling of exceptions
+ *   - Insert explicit checks for exceptions
+ *
+ * The first task is achieved using feenableexcept() or an equivalent
+ * function. The second task is only needed on some platforms where
+ * exceptions are activated by one floating point computation but are
+ * only signaled with the _next_ floating point instruction (Read x86
+ * processors)
+ *
+ * The second model is more portable and safer and it is based on
+ * using the C99 routines in fenv.h or equivalent functions. In this
+ * model hardware exceptions are never triggered and instead we
+ * surround the computation with explicit checks for problems.
+ */
+
+#if defined(HAVE_FEENABLEEXCEPT) && !defined(_GNU_SOURCE)
+# define _GNU_SOURCE
+#endif
+#ifdef HAVE_FENV_H
+# include <fenv.h>
+#endif
+#if defined(ECL_MS_WINDOWS_HOST)
+# include <ecl/impl/math_fenv_msvc.h>
+#endif
+
+#ifdef HAVE_FENV_H
+# define ECL_WITHOUT_FPE_BEGIN do { fenv_t env; feholdexcept(&env);
+# define ECL_WITHOUT_FPE_END        fesetenv(&env); } while (0)
+#else
+# define FE_INVALID 1
+# define FE_DIVBYZERO 2
+# define FE_INEXACT 0
+# define FE_OVERFLOW 3
+# define FE_UNDERFLOW 0
+# define ECL_WITHOUT_FPE_BEGIN
+# define ECL_WITHOUT_FPE_END
+# define feclearexcept(x)
+#endif /* !HAVE_FENV_H */
+
+#ifndef FE_ALL_EXCEPT
+# define FE_ALL_EXCEPT FE_DIVBYZERO | FE_OVERFLOW | FE_UNDERFLOW | FE_INVALID
+#endif
+
+#if defined(HAVE_FENV_H) && !defined(ECL_AVOID_FPE_H)
+# if defined(HAVE_FEENABLEEXCEPT)
+#  define ECL_WITH_LISP_FPE_BEGIN do {                       \
+        fenv_t __fenv;                                       \
+        fegetenv(&__fenv);                                   \
+        feclearexcept(FE_ALL_EXCEPT);                        \
+        if (ecl_get_option(ECL_OPT_BOOTED) > 0) {            \
+                int bits = ecl_process_env()->trap_fpe_bits; \
+                fedisableexcept(FE_ALL_EXCEPT & ~bits);      \
+                feenableexcept(FE_ALL_EXCEPT & bits);        \
+        }
+# else
+#  define ECL_WITH_LISP_FPE_BEGIN do {                   \
+        fenv_t __fenv;                                   \
+        fegetenv(&__fenv);                               \
+        feclearexcept(FE_ALL_EXCEPT);
+# endif
+# define ECL_WITH_LISP_FPE_END \
+        fesetenv(&__fenv); } while (0)
+#else
+# define ECL_WITH_LISP_FPE_BEGIN do {
+# define ECL_WITH_LISP_FPE_END } while (0)
+#endif
+
+#if defined(HAVE_FENV_H) && defined(ECL_IEEE_FP) && !defined(HAVE_FEENABLEEXCEPT) && !defined(ECL_AVOID_FPE_H)
+# define ECL_USED_EXCEPTIONS (FE_DIVBYZERO|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW)
+# define ECL_MATHERR_CLEAR feclearexcept(FE_ALL_EXCEPT)
+# define ECL_MATHERR_TEST do {                                         \
+        int bits = fetestexcept(ECL_USED_EXCEPTIONS);                  \
+        unlikely_if (bits) {                                           \
+                bits &= ecl_process_env()->trap_fpe_bits;              \
+                if (bits) ecl_deliver_fpe(bits);                       \
+        }                                                              \
+        } while(0)
+#else
+# define ECL_MATHERR_CLEAR
+# define ECL_MATHERR_TEST
+#endif
+
+extern void ecl_deliver_fpe(int flags);
+
+#endif /* !ECL_MATH_FENV_H */
+ /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    math_msvc_fenv.h -- fake fenv.h using Microsoft Visual C++
+*/
+/*
+    Copyright (c) 2010, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../../Copyright' for full details.
+*/
+
+#ifndef ECL_MATH_FENV_MSVC_H
+#define ECL_MATH_FENV_MSVC_H
+
+#ifndef HAVE_FEENABLEEXCEPT
+# define HAVE_FEENABLEEXCEPT
+#endif
+#ifndef HAVE_FENV_H
+# define HAVE_FENV_H
+#endif
+
+#include <float.h>
+
+#if defined(_MSC_VER)
+# define FE_DIVBYZERO _EM_ZERODIVIDE
+# define FE_OVERFLOW  _EM_OVERFLOW
+# define FE_UNDERFLOW _EM_UNDERFLOW
+# define FE_INVALID   _EM_INVALID
+# define FE_INEXACT   _EM_INEXACT
+typedef int fenv_t;
+#else
+# ifdef _MCW_EM
+#  define MCW_EM _MCW_EM
+# else
+#  define MCW_EM 0x0008001F
+# endif
+# define fenv_t int
+#endif
+
+#define feenableexcept(bits) do { \
+    int cw = _controlfp(0,0); cw &= ~(bits); _controlfp(cw,MCW_EM); } while(0)
+#define fedisableexcept(bits) do { \
+    int cw = _controlfp(0,0); cw |= (bits); _controlfp(cw,MCW_EM); } while(0)
+#define feholdexcept(bits) do { \
+    *(bits) = _controlfp(0,0); _controlfp(0xffffffff, MCW_EM); } while(0)
+#define fegetenv(bits) do { *(bits) = _controlfp(0,0); } while (0)
+#define fesetenv(bits) do { _controlfp(*(bits), MCW_EM); } while (0)
+#define feupdateenv(bits) fesetenv(bits)
+#define feclearexcept(bits) _clearfp()
+#define fetestexcept(bits) (_clearfp() & (bits))
+
+#endif /* !ECL_MATH_FENV_MSVC_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    internal.h -- Structures and functions that are not meant for the end user
+*/
+/*
+    Copyright (c) 2001, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifndef ECL_INTERNAL_H
+#define ECL_INTERNAL_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* -------------------------------------------------------------------- *
+ *      FUNCTIONS, VARIABLES AND TYPES NOT FOR GENERAL USE              *
+ * -------------------------------------------------------------------- */
+
+#define unlikely_if(x) if (ecl_unlikely(x))
+
+/* booting */
+extern void init_all_symbols(void);
+extern void init_alloc(void);
+extern void init_backq(void);
+extern void init_big();
+extern void init_clos(void);
+extern void init_error(void);
+extern void init_eval(void);
+extern void init_file(void);
+#ifndef GBC_BOEHM
+extern void init_GC(void);
+#endif
+extern void init_macros(void);
+extern void init_read(void);
+extern void init_stacks(cl_env_ptr);
+extern void init_unixint(int pass);
+extern void init_unixtime(void);
+extern void init_compiler(void);
+#ifdef ECL_THREADS
+extern void init_threads(cl_env_ptr);
+#endif
+extern void ecl_init_env(cl_env_ptr);
+extern void init_lib_LSP(cl_object);
+
+extern cl_env_ptr _ecl_alloc_env(cl_env_ptr parent);
+extern void _ecl_dealloc_env(cl_env_ptr);
+
+/* alloc.d/alloc_2.d */
+
+#ifdef GBC_BOEHM
+#define ECL_COMPACT_OBJECT_EXTRA(x) ((void*)((x)->array.displaced))
+#endif
+extern void _ecl_set_max_heap_size(size_t new_size);
+extern cl_object ecl_alloc_bytecodes(cl_index data_size, cl_index code_size);
+extern cl_index ecl_object_byte_size(cl_type t);
+extern cl_index ecl_next_stamp();
+
+/* array.d */
+
+#ifdef ECL_DEFINE_AET_SIZE
+#undef ECL_DEFINE_AET_SIZE
+static const cl_index ecl_aet_size[] = {
+  sizeof(cl_object),          /* ecl_aet_object */
+  sizeof(float),              /* ecl_aet_sf */
+  sizeof(double),             /* ecl_aet_df */
+  sizeof(long double),        /* ecl_aet_lf */
+#ifdef ECL_COMPLEX_FLOAT
+  sizeof(_Complex float),        /* ecl_aet_csf */
+  sizeof(_Complex double),       /* ecl_aet_cdf */
+  sizeof(_Complex long double),  /* ecl_aet_clf */
+#endif
+  0,                          /* ecl_aet_bit: cannot be handled with this code */
+  sizeof(cl_fixnum),          /* ecl_aet_fix */
+  sizeof(cl_index),           /* ecl_aet_index */
+  sizeof(uint8_t),            /* ecl_aet_b8 */
+  sizeof(int8_t),             /* ecl_aet_i8 */
+#ifdef ecl_uint16_t
+  sizeof(ecl_uint16_t),
+  sizeof(ecl_int16_t),
+#endif
+#ifdef ecl_uint32_t
+  sizeof(ecl_uint32_t),
+  sizeof(ecl_int32_t),
+#endif
+#ifdef ecl_uint64_t
+  sizeof(ecl_uint64_t),
+  sizeof(ecl_int64_t),
+#endif
+#ifdef ECL_UNICODE
+  sizeof(ecl_character),      /* ecl_aet_ch */
+#endif
+  sizeof(unsigned char)       /* ecl_aet_bc */
+};
+#endif /* ECL_DEFINE_AET_SIZE */
+
+extern void ecl_displace(cl_object from, cl_object to, cl_object offset);
+
+/* compiler.d */
+
+struct cl_compiler_env {
+        cl_object variables;            /* Variables, tags, functions, etc: the env. */
+        cl_object macros;               /* Macros and function bindings */
+        cl_fixnum lexical_level;        /* =0 if toplevel form */
+        cl_object constants;            /* Constants for this form */
+        cl_object load_time_forms;      /* Constants that have to be rebuilt */
+        cl_object ltf_being_created;    /* Load time objects being compiled */
+        cl_object ltf_defer_init_until; /* Defer evaluation of current
+                                         * load time init form until
+                                         * this object has been created */
+        cl_object ltf_locations;        /* Locations of constants externalized
+                                         * with make-load-form */
+        cl_object lex_env;              /* Lexical env. for eval-when */
+        cl_object code_walker;          /* Value of SI:*CODE-WALKER* */
+        cl_index env_depth;
+        cl_index env_size;
+        int mode;
+        bool stepping;
+};
+
+typedef struct cl_compiler_env *cl_compiler_env_ptr;
+
+/* character.d */
+
+#ifdef ECL_UNICODE
+#define ECL_UCS_NONCHARACTER(c) \
+        (((c) >= 0xFDD0 && (c) <= 0xFDEF) || \
+         (((c) & 0xFFFF) >= 0xFFFE && (((c) & 0xFFFF) <= 0xFFFF)))
+#define ECL_UCS_PRIVATE(c) \
+        (((c) >= 0xE000 && (c) <= 0xF8FF) || \
+         ((c) >= 0xF0000 && (c) <= 0xFFFD) || \
+         ((c) >= 0x100000 && (c) <= 0x10FFFD))
+#define ECL_UCS_HIGH_SURROGATE(c) ((c) >= 0xD800 && (c) <= 0xDBFF)
+#define ECL_UCS_LOW_SURROGATE(c) ((c) >= 0xDC00 && (c) <= 0xDFFF)
+#endif
+
+/* error.d */
+
+extern void _ecl_unexpected_return() ecl_attr_noreturn;
+extern cl_object _ecl_strerror(int code);
+extern ECL_API cl_object si_serror _ECL_ARGS
+((cl_narg narg, cl_object cformat, cl_object eformat, ...));
+
+
+/* eval.d */
+
+#define _ecl_funcall5(fun, a, b, c, d) \
+        ecl_function_dispatch(ecl_process_env(), (fun))(4, (a),(b),(c),(d))
+#define _ecl_funcall4(fun, a, b, c) \
+        ecl_function_dispatch(ecl_process_env(), (fun))(3, (a),(b),(c))
+#define _ecl_funcall3(fun, a, b) \
+        ecl_function_dispatch(ecl_process_env(), (fun))(2, (a),(b))
+#define _ecl_funcall2(fun, a) \
+        ecl_function_dispatch(ecl_process_env(), (fun))(1, (a))
+#define _ecl_funcall1(fun) \
+        ecl_function_dispatch(ecl_process_env(), (fun))(0)
+
+extern cl_object si_constantp_inner _ECL_ARGS((cl_narg narg, cl_object form, ...));
+extern cl_object si_constant_form_value _ECL_ARGS((cl_narg narg, cl_object form, ...));
+
+/* interpreter.d */
+
+#define ECL_BUILD_STACK_FRAME(env,name,frame)   \
+        struct ecl_stack_frame frame;\
+        cl_object name = ecl_stack_frame_open(env, (cl_object)&frame, 0);
+
+#define ECL_STACK_FRAME_FROM_VA_LIST(e,f,va) do {                       \
+                const cl_object __frame = (f);                          \
+                cl_index i, __nargs = va[0].narg;                       \
+                ecl_stack_frame_open((e), __frame, __nargs);            \
+                for (i = 0; i < __nargs; i++) {                         \
+                        __frame->frame.base[i] = ecl_va_arg(va);         \
+                }                                                       \
+        } while (0)
+
+#define ECL_STACK_FRAME_VARARGS_BEGIN(narg,lastarg,frame)               \
+        struct ecl_stack_frame __ecl_frame;                             \
+        const cl_object frame = (cl_object)&__ecl_frame;                \
+        const cl_env_ptr env = ecl_process_env();                       \
+        frame->frame.t = t_frame;                                       \
+        frame->frame.env = env;                                         \
+        frame->frame.size = narg;                                       \
+        if (narg <= ECL_C_ARGUMENTS_LIMIT) {                            \
+                cl_object *p = frame->frame.base = env->values;         \
+                va_list args;                                           \
+                va_start(args, lastarg);                                \
+                while (narg--) {                                        \
+                        *p = va_arg(args, cl_object);                   \
+                        ++p;                                            \
+                }                                                       \
+                va_end(args);                                           \
+                frame->frame.stack = (cl_object*)0x1;                   \
+        } else {                                                        \
+                frame->frame.base = env->stack_top - narg;              \
+                frame->frame.stack = 0;                                 \
+        }
+#define ECL_STACK_FRAME_VARARGS_END(frame)      \
+        /* No stack consumed, no need to close frame */
+
+extern cl_object _ecl_bytecodes_dispatch_vararg(cl_narg narg, ...);
+extern cl_object _ecl_bclosure_dispatch_vararg(cl_narg narg, ...);
+extern cl_object ecl_close_around(cl_object fun, cl_object env);
+
+/* ffi/backtrace.d */
+
+extern void _ecl_dump_c_backtrace();
+
+/* ffi.d */
+
+extern enum ecl_ffi_tag ecl_foreign_type_code(cl_object type);
+
+/* file.d */
+
+/*
+ * POSIX specifies that the "b" flag is ignored. This is good, because
+ * under MSDOS and Apple's OS we need to open text files in binary mode,
+ * so that we get both the carriage return and the linefeed characters.
+ * Otherwise, it would be complicated to implement file-position and
+ * seek operations.
+ */
+#define OPEN_R  "rb"
+#define OPEN_W  "wb"
+#define OPEN_RW "r+b"
+#define OPEN_A  "ab"
+#define OPEN_RA "a+b"
+
+/* Windows does not have this flag (POSIX thing) */
+#ifndef O_NONBLOCK
+#define O_NONBLOCK 0
+#endif
+
+#define ECL_FILE_STREAM_P(strm) \
+        (ECL_ANSI_STREAM_P(strm) && (strm)->stream.mode < ecl_smm_synonym)
+#define STRING_OUTPUT_STRING(strm) (strm)->stream.object0
+#define STRING_INPUT_STRING(strm) (strm)->stream.object0
+#define STRING_INPUT_POSITION(strm) (strm)->stream.int0
+#define STRING_INPUT_LIMIT(strm) (strm)->stream.int1
+#define TWO_WAY_STREAM_INPUT(strm) (strm)->stream.object0
+#define TWO_WAY_STREAM_OUTPUT(strm) (strm)->stream.object1
+#define SYNONYM_STREAM_SYMBOL(strm) (strm)->stream.object0
+#define SYNONYM_STREAM_STREAM(strm) ecl_symbol_value((strm)->stream.object0)
+#define BROADCAST_STREAM_LIST(strm) (strm)->stream.object0
+#define ECHO_STREAM_INPUT(strm) (strm)->stream.object0
+#define ECHO_STREAM_OUTPUT(strm) (strm)->stream.object1
+#define CONCATENATED_STREAM_LIST(strm) (strm)->stream.object0
+#define IO_STREAM_FILE(strm) ((strm)->stream.file.stream)
+#define IO_STREAM_ELT_TYPE(strm) (strm)->stream.object0
+#define IO_STREAM_FILENAME(strm) (strm)->stream.object1
+#define IO_FILE_DESCRIPTOR(strm) (strm)->stream.file.descriptor
+#define IO_FILE_ELT_TYPE(strm) (strm)->stream.object0
+#define IO_FILE_FILENAME(strm) (strm)->stream.object1
+#define SEQ_OUTPUT_VECTOR(strm) (strm)->stream.object1
+#define SEQ_OUTPUT_POSITION(strm) (strm)->stream.int0
+#define SEQ_INPUT_VECTOR(strm) (strm)->stream.object1
+#define SEQ_INPUT_POSITION(strm) (strm)->stream.int0
+#define SEQ_INPUT_LIMIT(strm) (strm)->stream.int1
+
+#ifndef HAVE_FSEEKO
+#define ecl_off_t int
+#define ecl_fseeko fseek
+#define ecl_ftello ftell
+#else
+#define ecl_off_t off_t
+#define ecl_fseeko fseeko
+#define ecl_ftello ftello
+#endif
+
+extern cl_object ecl_off_t_to_integer(ecl_off_t offset);
+extern ecl_off_t ecl_integer_to_off_t(cl_object offset);
+
+/* format.d */
+
+#ifndef ECL_CMU_FORMAT
+extern cl_object si_formatter_aux _ECL_ARGS((cl_narg narg, cl_object strm, cl_object string, ...));
+#endif
+
+/* hash.d */
+extern cl_object ecl_extend_hashtable(cl_object hashtable);
+#ifdef ECL_EXTERNALIZABLE
+extern void ecl_reconstruct_serialized_hashtable(cl_object h);
+#endif
+
+/* gfun.d, kernel.lsp */
+
+#define GFUN_NAME(x) ((x)->instance.slots[0])
+#define GFUN_SPEC(x) ((x)->instance.slots[1])
+#define GFUN_COMB(x) ((x)->instance.slots[2])
+
+extern cl_object FEnot_funcallable_vararg(cl_narg narg, ...);
+extern cl_object ecl_slot_reader_dispatch(cl_narg narg, ... /* cl_object instance */);
+extern cl_object ecl_slot_writer_dispatch(cl_narg narg, ... /* cl_object value, cl_object instance */);
+
+/* load.d */
+
+extern cl_object _ecl_library_init_prefix(void);
+extern cl_object _ecl_library_default_entry(void);
+
+/* number.d */
+
+extern cl_object _ecl_double_to_integer(double d);
+extern cl_object _ecl_float_to_integer(float d);
+extern cl_object _ecl_long_double_to_integer(long double d);
+
+/* main.d */
+
+extern cl_fixnum ecl_option_values[ECL_OPT_LIMIT+1];
+
+extern void ecl_init_bignum_registers(cl_env_ptr env);
+extern void ecl_clear_bignum_registers(cl_env_ptr env);
+
+/* print.d */
+
+extern cl_object _ecl_stream_or_default_output(cl_object stream);
+extern void _ecl_write_addr(void *x, cl_object stream);
+extern void _ecl_write_array(cl_object o, cl_object stream);
+extern void _ecl_write_vector(cl_object o, cl_object stream);
+extern void _ecl_write_bitvector(cl_object o, cl_object stream);
+extern void _ecl_write_string(cl_object o, cl_object stream);
+extern void _ecl_write_base_string(cl_object o, cl_object stream);
+extern void _ecl_write_list(cl_object o, cl_object stream);
+extern void _ecl_write_bclosure(cl_object o, cl_object stream);
+extern void _ecl_write_bytecodes(cl_object o, cl_object stream);
+extern void _ecl_write_symbol(cl_object o, cl_object stream);
+extern void _ecl_write_fixnum(cl_fixnum o, cl_object stream);
+extern void _ecl_write_sse(cl_object o, cl_object stream);
+extern void _ecl_write_unreadable(cl_object x, const char *prefix, cl_object name, cl_object stream);
+extern bool _ecl_will_print_as_hash(cl_object o);
+extern cl_object _ecl_ensure_buffer(cl_object buffer, cl_fixnum length);
+extern void _ecl_string_push_c_string(cl_object s, const char *c);
+
+#define ECL_PPRINT_QUEUE_SIZE                   128
+#define ECL_PPRINT_INDENTATION_STACK_SIZE       256
+
+extern void cl_write_object(cl_object x, cl_object stream);
+
+/* global locks */
+
+#ifdef ECL_THREADS
+# define ECL_WITH_GLOBAL_LOCK_BEGIN(the_env)                    \
+        ECL_WITH_LOCK_BEGIN(the_env, cl_core.global_lock)
+# define ECL_WITH_GLOBAL_LOCK_END               \
+        ECL_WITH_LOCK_END
+# define ECL_WITH_LOCK_BEGIN(the_env,lock) {             \
+        const cl_env_ptr __ecl_the_env = the_env;        \
+        const cl_object __ecl_the_lock = lock;           \
+        ecl_disable_interrupts_env(__ecl_the_env);       \
+        mp_get_lock_wait(__ecl_the_lock);                \
+        ECL_UNWIND_PROTECT_BEGIN(__ecl_the_env);         \
+        ecl_enable_interrupts_env(__ecl_the_env);
+# define ECL_WITH_LOCK_END                               \
+        ECL_UNWIND_PROTECT_THREAD_SAFE_EXIT {            \
+                mp_giveup_lock(__ecl_the_lock);          \
+        } ECL_UNWIND_PROTECT_THREAD_SAFE_END; }
+# define ECL_WITH_SPINLOCK_BEGIN(the_env,lock) {         \
+        const cl_env_ptr __ecl_the_env = (the_env);      \
+        cl_object *__ecl_the_lock = (lock);              \
+        ECL_UNWIND_PROTECT_BEGIN(__ecl_the_env);         \
+        ecl_get_spinlock(__ecl_the_env, __ecl_the_lock);
+# define ECL_WITH_SPINLOCK_END                           \
+        ECL_UNWIND_PROTECT_THREAD_SAFE_EXIT {            \
+                ecl_giveup_spinlock(__ecl_the_lock);     \
+        } ECL_UNWIND_PROTECT_THREAD_SAFE_END; }
+#else
+# define ECL_WITH_GLOBAL_LOCK_BEGIN(the_env)
+# define ECL_WITH_GLOBAL_LOCK_END
+# define ECL_WITH_LOCK_BEGIN(the_env,lock)
+# define ECL_WITH_LOCK_END
+# define ECL_WITH_SPINLOCK_BEGIN(the_env,lock)
+# define ECL_WITH_SPINLOCK_END
+#endif /* ECL_THREADS */
+
+#ifdef ECL_RWLOCK
+# define ECL_WITH_GLOBAL_ENV_RDLOCK_BEGIN(the_env) {            \
+        const cl_env_ptr __ecl_pack_env = the_env;              \
+        ecl_bds_bind(__ecl_pack_env, ECL_INTERRUPTS_ENABLED, ECL_NIL);  \
+        mp_get_rwlock_read_wait(cl_core.global_env_lock);
+# define ECL_WITH_GLOBAL_ENV_RDLOCK_END                   \
+        mp_giveup_rwlock_read(cl_core.global_env_lock);   \
+        ecl_bds_unwind1(__ecl_pack_env);                  \
+        ecl_check_pending_interrupts(__ecl_pack_env); }
+# define ECL_WITH_GLOBAL_ENV_WRLOCK_BEGIN(the_env) {            \
+        const cl_env_ptr __ecl_pack_env = the_env;              \
+        ecl_bds_bind(__ecl_pack_env, ECL_INTERRUPTS_ENABLED, ECL_NIL);  \
+        mp_get_rwlock_write_wait(cl_core.global_env_lock);
+# define ECL_WITH_GLOBAL_ENV_WRLOCK_END                    \
+        mp_giveup_rwlock_write(cl_core.global_env_lock);   \
+        ecl_bds_unwind1(__ecl_pack_env);                   \
+        ecl_check_pending_interrupts(__ecl_pack_env); }
+#else
+# define ECL_WITH_GLOBAL_ENV_RDLOCK_BEGIN(the_env)
+# define ECL_WITH_GLOBAL_ENV_RDLOCK_END
+# define ECL_WITH_GLOBAL_ENV_WRLOCK_BEGIN(the_env)
+# define ECL_WITH_GLOBAL_ENV_WRLOCK_END
+#endif /* ECL_RWLOCK */
+
+#include <ecl/ecl_atomics.h>
+
+/* read.d */
+#ifdef ECL_UNICODE
+#define RTABSIZE        256             /*  read table size  */
+#else
+#define RTABSIZE        ECL_CHAR_CODE_LIMIT     /*  read table size  */
+#endif
+extern cl_object si_make_backq_vector(cl_object dim, cl_object data, cl_object stream);
+
+/* package.d */
+
+extern cl_object _ecl_package_to_be_created(const cl_env_ptr env, cl_object name);
+
+/* pathname.d */
+
+extern bool ecl_wild_string_p(cl_object item);
+
+/* sequence.d */
+typedef struct { cl_index start, end, length; } cl_index_pair;
+extern ECL_API cl_index_pair ecl_sequence_start_end(cl_object fun, cl_object s, cl_object start, cl_object end);
+
+#ifdef ECL_EXTERNALIZABLE
+/* serialize.d */
+
+extern cl_object ecl_deserialize(uint8_t *data);
+#endif
+
+/* string.d */
+#define ecl_vector_start_end ecl_sequence_start_end
+
+/* stacks.d */
+#define CL_NEWENV_BEGIN {\
+        const cl_env_ptr the_env = ecl_process_env(); \
+        cl_index __i = ecl_stack_push_values(the_env); \
+
+#define CL_NEWENV_END \
+        ecl_stack_pop_values(the_env,__i); }
+
+extern void ecl_cs_set_org(cl_env_ptr env);
+
+#ifndef RLIM_SAVED_MAX
+# define RLIM_SAVED_MAX RLIM_INFINITY
+#endif
+
+#ifndef RLIM_SAVED_CUR
+# define RLIM_SAVED_CUR RLIM_INFINITY
+#endif
+
+/* threads.d */
+
+#ifdef ECL_THREADS
+extern ECL_API cl_object mp_suspend_loop();
+extern ECL_API cl_object mp_break_suspend_loop();
+#endif
+
+/* time.d */
+
+struct ecl_timeval {
+        cl_index tv_usec;
+        cl_index tv_sec;
+};
+
+extern void ecl_get_internal_real_time(struct ecl_timeval *time);
+extern void ecl_get_internal_run_time(struct ecl_timeval *time);
+extern void ecl_musleep(double time, bool alertable);
+
+#define UTC_time_to_universal_time(x) ecl_plus(ecl_make_integer(x),cl_core.Jan1st1970UT)
+extern cl_fixnum ecl_runtime(void);
+
+/* threads/mutex.d */
+
+#ifdef ECL_THREADS
+typedef cl_object (*mp_wait_test)(cl_env_ptr, cl_object);
+
+extern void ecl_process_yield(void);
+extern void print_lock(char *s, cl_object lock, ...);
+#define print_lock(...) ((void)0)
+extern void ecl_get_spinlock(cl_env_ptr env, cl_object *lock);
+extern void ecl_giveup_spinlock(cl_object *lock);
+extern cl_object ecl_wait_on(cl_env_ptr env, mp_wait_test test, cl_object object);
+extern void ecl_wakeup_waiters(cl_env_ptr the_env, cl_object o, int flags);
+extern void ecl_wakeup_process(cl_object process);
+extern cl_object ecl_waiter_pop(cl_env_ptr the_env, cl_object q);
+#endif
+
+/* threads/rwlock.d */
+
+#ifdef ECL_THREADS
+extern cl_object mp_get_rwlock_read_wait(cl_object lock);
+extern cl_object mp_get_rwlock_write_wait(cl_object lock);
+#endif
+
+/* unixint.d */
+
+#define ECL_PI_D 3.14159265358979323846264338327950288
+#define ECL_PI_L 3.14159265358979323846264338327950288l
+#define ECL_PI2_D 1.57079632679489661923132169163975144
+#define ECL_PI2_L 1.57079632679489661923132169163975144l
+
+extern void ecl_interrupt_process(cl_object process, cl_object function);
+
+/* disabling interrupts on the lisp side */
+
+#define ECL_WITHOUT_INTERRUPTS_BEGIN(the_env) do {                \
+        cl_env_ptr __the_env = (the_env);                         \
+        ecl_bds_bind(__the_env, ECL_INTERRUPTS_ENABLED, ECL_NIL);
+
+#define ECL_WITHOUT_INTERRUPTS_END                 \
+        ecl_bds_unwind1(__the_env);                \
+        ecl_check_pending_interrupts(__the_env); } while(0)
+
+/* unixsys.d */
+
+/* Some old BSD systems don't have WCONTINUED / WIFCONTINUED */
+
+#ifndef ECL_MS_WINDOWS_HOST
+# ifndef WCONTINUED
+#  define WCONTINUED 0
+# endif
+
+# ifndef WIFCONTINUED
+#  define WIFCONTINUED(x) 0
+# endif
+#endif /* ECL_MS_WINDOWS_HOST */
+
+/*
+ * Fake several ISO C99 mathematical functions if not available
+ */
+#include <math.h>
+
+#ifndef HAVE_EXPF
+# ifdef expf
+#  undef expf
+# endif
+# define expf(x) exp((float)x)
+#endif
+#ifndef HAVE_POWF
+# ifdef powf
+#  undef powf
+# endif
+# define powf(x,y) pow((float)x,(float)y)
+#endif
+#ifndef HAVE_LOGF
+# ifdef logf
+#  undef logf
+# endif
+# define logf(x) log((float)x)
+#endif
+#ifndef HAVE_SQRTF
+# ifdef sqrtf
+#  undef sqrtf
+# endif
+# define sqrtf(x) sqrt((float)x)
+#endif
+#ifndef HAVE_SINF
+# ifdef sinf
+#  undef sinf
+# endif
+# define sinf(x) sin((float)x)
+#endif
+#ifndef HAVE_COSF
+# ifdef cosf
+#  undef cosf
+# endif
+# define cosf(x) cos((float)x)
+#endif
+#ifndef HAVE_TANF
+# ifdef tanf
+#  undef tanf
+# endif
+# define tanf(x) tan((float)x)
+#endif
+#ifndef HAVE_SINHF
+# ifdef sinhf
+#  undef sinhf
+# endif
+# define sinhf(x) sinh((float)x)
+#endif
+#ifndef HAVE_COSHF
+# ifdef coshf
+#  undef coshf
+# endif
+# define coshf(x) cosh((float)x)
+#endif
+#ifndef HAVE_TANHF
+# ifdef tanhf
+#  undef tanhf
+# endif
+# define tanhf(x) tanh((float)x)
+#endif
+
+#ifndef HAVE_CEILF
+# define ceilf(x) ceil((float)x)
+#endif
+#ifndef HAVE_FLOORF
+# define floorf(x) floor((float)x)
+#endif
+#ifndef HAVE_FABSF
+# define fabsf(x) fabs((float)x)
+#endif
+#ifndef HAVE_FREXPF
+# define frexpf(x,y) frexp((float)x,y)
+#endif
+#ifndef HAVE_LDEXPF
+# define ldexpf(x,y) ldexp((float)x,y)
+#endif
+
+#ifndef HAVE_LOG1PF
+# ifdef log1pf
+#  undef log1pf
+# endif
+# define log1pf(x) logf(x+1.0f)
+#endif
+#ifndef HAVE_LOG1P
+# ifdef log1p
+#  undef log1p
+# endif
+# define log1p(x) log(x+1.0)
+#endif
+#ifndef HAVE_LOG1PL
+# ifdef log1pl
+#  undef log1pl
+# endif
+# define log1pl(x) logl(x+1.0l)
+#endif
+
+/*
+ * Fake INFINITY and NAN defined in ISO C99 (portably)
+ */
+
+#ifndef INFINITY
+# if _MSC_VER == 1600
+static union {
+    uint8_t bytes [ sizeof ( float ) ];
+    float inf;
+} __ecl_inf = {
+    { 0, 0, 0xf0, 0x7f }
+};
+#  define INFINITY (__ecl_inf.inf)
+# else
+#  define INFINITY (1.0/0.0)
+# endif  /* _MSC_VER == 1600 */
+#endif /* INFINITY */
+
+#ifndef NAN
+# if _MSC_VER == 1600
+static union {
+    uint8_t bytes [ sizeof ( float ) ];
+    float nan;
+} __ecl_nan = {
+    { 0, 0, 0xc0, 0x7f }
+};
+#  define NAN (__ecl_nan.nan)
+# else
+#  define NAN (0.0/0.0)
+# endif  /* _MSC_VER == 1600 */
+#endif /* ~NAN */
+
+#ifdef ECL_COMPLEX_FLOAT
+#include <complex.h>
+#ifndef CMPLXF
+# define CMPLXF(x, y) ((float complex)((float)(x) + I * (float)(y)))
+#endif
+#ifndef CMPLX
+# define CMPLX(x, y) ((double complex)((double)(x) + I * (double)(y)))
+#endif
+#ifndef CMPLXL
+# define CMPLXL(x, y) ((long double complex)((long double)(x) + I * (long double)(y)))
+#endif
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* ECL_INTERNAL_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    legacy.h -- Legacy macros, functions and names.
+*/
+/*
+    Copyright (c) 2011, Juan Jose Garcia-Ripoll
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#if !defined(ECL_LEGACY_H) && !defined(ECL_NO_LEGACY)
+#define ECL_LEGACY_H
+
+/*
+ * LEGACY
+ */
+#define CHARACTERP(o)           ECL_CHARACTERP(o)
+#define BASE_CHAR_P(o)          ECL_BASE_CHAR_P(o)
+#define BASE_CHAR_CODE_P(o)     ECL_BASE_CHAR_CODE_P(o)
+#define CODE_CHAR(o)            ECL_CODE_CHAR(o)
+#define CHAR_CODE(o)            ECL_CHAR_CODE(o)
+#define REAL_TYPE(t)            ECL_REAL_TYPE_P(t)
+#define IMMEDIATE(o)            ECL_IMMEDIATE(o)
+#define IMMEDIATE_TAG           ECL_IMMEDIATE_TAG
+
+#define FIXNUM_TAG              t_fixnum
+#define MAKE_FIXNUM(n)          ecl_make_fixnum(n)
+#define FIXNUM_MINUSP(n)        ecl_fixnum_minusp(n)
+#define FIXNUM_PLUSP(n)         ecl_fixnum_plusp(n)
+#define fix(o)                  ecl_fixnum(o)
+#define FIXNUMP(o)              ECL_FIXNUMP(o)
+
+#define sf(obje)        (obje)->SF.SFVAL
+#define df(obje)        (obje)->DF.DFVAL
+#define make_shortfloat(x) ecl_make_shortfloat(x);
+
+#define big_dim         big_num->_mp_alloc
+#define big_size        big_num->_mp_size
+#define big_limbs       big_num->_mp_d
+
+#define si_bc_file(o) si_compiled_function_file(o)
+#define ARRAYP ECL_ARRAYP
+#define VECTORP ECL_VECTORP
+#define ARRAY_TYPE(t) (t >= t_array && t <= t_bitvector)
+#define c_string_to_object ecl_read_from_cstring
+
+#define big_register0_get _ecl_big_register0
+#define big_register1_get _ecl_big_register1
+#define big_register2_get _ecl_big_register2
+#define big_register_free _ecl_big_register_free
+#define big_register_copy _ecl_big_register_copy
+#define big_register_normalize _ecl_big_register_normalize
+/* #define big_copy _ecl_big_copy  Has disappeared */
+/* #define big_to_double Has disappeared */
+
+#define cl_alloc_simple_base_string ecl_alloc_simple_base_string
+#define cl_alloc_adjustable_base_string ecl_alloc_adjustable_base_string
+#define cl_alloc_simple_extended_string ecl_alloc_simple_extended_string
+
+#define ecl_search_hash _ecl_gethash
+
+#define read_VV ecl_init_module
+
+#define FEprogram_error_noreturn FEprogram_error
+
+#endif /* !ECL_LEGACY_H && !ECL_NO_LEGACY */
+
+#define make_simple_base_string(s) ecl_make_simple_base_string((s),-1)
+#define make_constant_base_string(s) ecl_make_constant_base_string((char *)(s),-1)
+#define make_base_string_copy(s) ecl_make_simple_base_string((s),-1)
+
+#define stp_ordinary ecl_stp_ordinary
+#define stp_constant ecl_stp_constant
+#define stp_special ecl_stp_special
+#define stp_macro ecl_stp_macro
+#define stp_special_form ecl_stp_special_form
+
+#define aet_object ecl_aet_object
+#define aet_sf ecl_aet_sf
+#define aet_df ecl_aet_df
+#define aet_bit ecl_aet_bit
+#define aet_fix ecl_aet_fix
+#define aet_index ecl_aet_index
+#define aet_b8 ecl_aet_b8
+#define aet_i8 ecl_aet_i8
+#define aet_b16 ecl_aet_b16
+#define aet_i16 ecl_aet_i16
+#define aet_b32 ecl_aet_b32
+#define aet_i32 ecl_aet_i32
+#define aet_b64 ecl_aet_b64
+#define aet_i64 ecl_aet_i64
+#define aet_ch ecl_aet_ch
+#define aet_bc ecl_aet_bc
+
+#define htt_eq ecl_htt_eq
+#define htt_eql ecl_htt_eql
+#define htt_equal ecl_htt_equal
+#define htt_equalp ecl_htt_equalp
+#define htt_not_weak ecl_htt_not_weak
+#define htt_weak_key ecl_htt_weak_key
+#define htt_weak_value ecl_htt_weak_value
+#define htt_weak_key_and_value ecl_htt_weak_key_and_value
+
+#define ecl_make_singlefloat ecl_make_single_float
+#define ecl_make_doublefloat ecl_make_double_float
+#define ecl_make_longfloat ecl_make_long_float
+
+#define number_to_float(x) ((float)ecl_to_double(x))
+
+#define ecl_make_unsigned_long_Long(o) ecl_make_ulong_long(o)
+#define ecl_to_unsigned_long_long(o) ecl_to_ulong_long(o)
+
+#define ADIMLIM ECL_ARRAY_DIMENSION_LIMIT
+#define ATOTLIM ECL_ARRAY_TOTAL_LIMIT
+#define ARANKLIM ECL_ARRAY_RANK_LIMIT
+
+#define CALL_ARGUMENTS_LIMIT ECL_CALL_ARGUMENTS_LIMIT
+#define LAMBDA_PARAMETERS_LIMIT ECL_LAMBDA_PARAMETERS_LIMIT
+#define C_ARGUMENTS_LIMIT ECL_C_ARGUMENTS_LIMIT
+
+#define cl_va_start ecl_va_start
+#define cl_va_list ecl_va_list
+#define cl_va_arg ecl_va_arg
+#define cl_va_end ecl_va_end
+
+#define CHAR_CODE_LIMIT ECL_CHAR_CODE_LIMIT
+
+#define NVALUES         cl_env.nvalues
+#define VALUES(n)       cl_env.values[n]
+#define return0()       return ((NVALUES = 0),ECL_NIL)
+#define return1(x)      return ((VALUES(0)=(x)),(NVALUES=1),VALUES(0))
+#define returnn(x)      return x
+
+#define CL_UNWIND_PROTECT_BEGIN ECL_UNWIND_PROTECT_BEGIN
+#define CL_UNWIND_PROTECT_END ECL_UNWIND_PROTECT_END
+#define CL_UNWIND_PROTECT_EXIT ECL_UNWIND_PROTECT_EXIT
+#define CL_BLOCK_END ECL_BLOCK_END
+#define CL_BLOCK_BEGIN ECL_BLOCK_BEGIN
+#define CL_CATCH_BEGIN ECL_CATCH_BEGIN
+#define CL_CATCH_END ECL_CATCH_END
+#define CL_CATCH_ALL_BEGIN ECL_CATCH_ALL_BEGIN
+#define CL_CATCH_ALL_IF_CAUGHT ECL_CATCH_ALL_IF_CAUGHT
+#define CL_CATCH_ALL_END ECL_CATCH_ALL_END
+
+#define bds_bd ecl_bds_frame
+typedef struct ecl_bds_frame *bds_ptr;
+typedef struct ecl_ihs_frame *ihs_ptr;
+
+#define LISTP(x)        ECL_LISTP(x)
+#define CONSP(x)        ECL_CONSP(x)
+#define ATOM(x)         ECL_ATOM(x)
+#define SYMBOLP(x)      ECL_SYMBOLP(x)
+
+enum {  /*  stream mode  */
+        smm_input,              /*  input  */
+        smm_input_file,         /*  input  */
+        smm_output,             /*  output  */
+        smm_output_file,        /*  output  */
+        smm_io,                 /*  input-output  */
+        smm_io_file,            /*  input-output  */
+        smm_synonym,            /*  synonym  */
+        smm_broadcast,          /*  broadcast  */
+        smm_concatenated,       /*  concatenated  */
+        smm_two_way,            /*  two way  */
+        smm_echo,               /*  echo  */
+        smm_string_input,       /*  string input  */
+        smm_string_output,      /*  string output  */
+        smm_probe,              /*  probe (only used in open_stream())  */
+#if defined(WSOCK)
+        smm_input_wsock,        /*  input socket (Win32) */
+        smm_output_wsock,       /*  output socket (Win32) */
+        smm_io_wsock,           /*  input/output socket (Win32) */
+#endif
+#if defined(MS_WINDOWS_HOST)
+        smm_io_wcon,            /*  windows console (Win32) */
+#endif
+        smm_sequence_input,     /*  sequence input  */
+        smm_sequence_output     /*  sequence output  */
+};
+
+#define Cnil ECL_NIL
+#define Ct ECL_T
+
+#define SYM_FUN(x) ECL_SYM_FUN(x)
+
+#define CLASS_OF(x) ECL_CLASS_OF(x)
+#define CLASS_NAME(x) ECL_CLASS_NAME(x)
+#define CLASS_SUPERIORS(x) ECL_CLASS_SUPERIORS(x)
+#define CLASS_INFERIORS(x) ECL_CLASS_INFERIORS(x)
+#define CLASS_SLOTS(x) ECL_CLASS_SLOTS(x)
+#define CLASS_CPL(x) ECL_CLASS_CPL(x)
+
+#define STYPE(x) ECL_STRUCT_TYPE(x)
+#define SLOTS(x) ECL_STRUCT_SLOTS(x)
+#define SLOT(x,i) ECL_STRUCT_SLOT(x,i)
+#define SLENGTH(x) ECL_STRUCT_LENGTH(x)
+#define SNAME(x) ECL_STRUCT_NAME(x)
+
+#define type_of(x) ecl_t_of(x)
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    number.h  -- GMP interface.
+*/
+/*
+    Copyright (c) 1995, Giuseppe Attardi.
+
+    ECoLisp is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifndef ECL_NUMBER_H
+#define ECL_NUMBER_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define ECL_BIG_REGISTER_SIZE   32
+
+#define ECL_WITH_TEMP_BIGNUM(name,n)                                    \
+        mp_limb_t name##data[n];                                        \
+        volatile struct ecl_bignum name##aux;                           \
+        const cl_object name = (name##aux.big_num->_mp_alloc = n,       \
+                                name##aux.big_num->_mp_size = 0,        \
+                                name##aux.big_num->_mp_d = name##data,  \
+                                (cl_object)(&name##aux))
+
+extern ECL_API cl_object _ecl_big_set_fixnum(cl_object x, cl_fixnum f);
+extern ECL_API cl_object _ecl_big_set_index(cl_object x, cl_index f);
+extern ECL_API cl_fixnum _ecl_big_get_fixnum(cl_object x);
+extern ECL_API cl_index _ecl_big_get_index(cl_object x);
+extern ECL_API long double _ecl_big_to_long_double(cl_object x);
+typedef void (*_ecl_big_binary_op)(cl_object out, cl_object o1, cl_object o2);
+extern ECL_API _ecl_big_binary_op _ecl_big_boole_operator(int op);
+
+#if ECL_LONG_BITS >= ECL_FIXNUM_BITS
+#define _ecl_big_set_fixnum(x, f) mpz_set_si((x)->big.big_num,(f))
+#define _ecl_big_set_index(x, f) mpz_set_ui((x)->big.big_num,(f))
+#endif
+#define _ecl_big_init2(x,size)  mpz_init2((x)->big.big_num,(size)*GMP_LIMB_BITS)
+#define _ecl_big_realloc2(x,size)       mpz_realloc2((x)->big.big_num,(size)*GMP_LIMB_BITS)
+#define _ecl_big_clear(x)       mpz_clear((x)->big.big_num)
+#define _ecl_big_set(x,y)       mpz_set((x)->big.big_num,(y)->big.big_num)
+#define _ecl_big_odd_p(x)       ((mpz_get_ui(x->big.big_num) & 1) != 0)
+#define _ecl_big_even_p(x)      ((mpz_get_ui(x->big.big_num) & 1) == 0)
+#define _ecl_big_zerop(x)       (ECL_BIGNUM_SIZE(x) == 0)
+#define _ecl_big_sign(x)        ECL_BIGNUM_SIZE(x)
+#define _ecl_big_compare(x, y)  mpz_cmp(x->big.big_num, y->big.big_num)
+#define _ecl_big_complement(z, x) mpz_neg((z)->big.big_num,(x)->big.big_num)
+#define _ecl_big_add(z, x, y)   mpz_add((z)->big.big_num,(x)->big.big_num,(y)->big.big_num)
+#define _ecl_big_sub(z, x, y)   mpz_sub((z)->big.big_num,(x)->big.big_num,(y)->big.big_num)
+#define _ecl_big_mul(z, x, y)   mpz_mul((z)->big.big_num,(x)->big.big_num,(y)->big.big_num)
+#define _ecl_big_add_ui(z, x, i)        mpz_add_ui(z->big.big_num, x->big.big_num, i)
+#define _ecl_big_sub_ui(z, x, i)        mpz_sub_ui(z->big.big_num, x->big.big_num, i)
+#define _ecl_big_mul_ui(z, x, y)        mpz_mul_ui((z)->big.big_num,(x)->big.big_num,(y))
+#define _ecl_big_div_ui(z, x, y)        mpz_div_ui((z)->big.big_num,(x)->big.big_num,(y))
+#define _ecl_big_mul_si(z, x, y)        mpz_mul_si((z)->big.big_num,(x)->big.big_num,(y))
+#define _ecl_big_set_ui(x, i)   mpz_set_ui(x->big.big_num, (unsigned long int)i)
+#define _ecl_big_set_si(x, i)   mpz_set_si(x->big.big_num, (long int)i)
+#define _ecl_big_to_double(x)   mpz_get_d(x->big.big_num)
+#define _ecl_big_to_long(x)             mpz_get_si(x->big.big_num)
+#define _ecl_big_to_ulong(x)            mpz_get_ui(x->big.big_num)
+#define _ecl_big_cmp_si(x,y)            mpz_cmp_si((x)->big.big_num,(y))
+#define _ecl_big_tdiv_q(q, x, y)        mpz_tdiv_q((q)->big.big_num,(x)->big.big_num,(y)->big.big_num)
+#define _ecl_big_tdiv_q_ui(q, x, y)     mpz_tdiv_q_ui((q)->big.big_num, (x)->big.big_num, (y))
+#define _ecl_big_set_d(x, d)            mpz_set_d((x)->big.big_num, (d))
+
+
+#if ECL_CAN_INLINE
+static ECL_INLINE cl_fixnum
+ecl_to_fix(cl_object f)
+{
+        if (ecl_unlikely(!ECL_FIXNUMP(f)))
+                FEtype_error_fixnum(f);
+        return ecl_fixnum(f);
+}
+
+static ECL_INLINE cl_index
+ecl_to_size(cl_object f)
+{
+        cl_fixnum aux = 0;
+        if (ecl_unlikely(!ECL_FIXNUMP(f) || ((aux = ecl_fixnum(f)) < 0)))
+                FEtype_error_size(f);
+        return aux;
+}
+#else
+extern ECL_API cl_fixnum ecl_fixnum_value(cl_object f);
+extern ECL_API cl_index ecl_to_size(cl_object f);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* ECL_NUMBER_H */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /* -*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*- */
+/* vim: set filetype=c tabstop=8 shiftwidth=4 expandtab: */
+
+/*
+    object.h  -- Data structure definitions.
+*/
+/*
+    Copyright (c) 1984, Taiichi Yuasa and Masami Hagiya.
+    Copyright (c) 1990, Giuseppe Attardi.
+    Copyright (c) 2001, Juan Jose Garcia Ripoll.
+
+    ECL is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    See file '../Copyright' for full details.
+*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
+        Integer and boolean types (see config.h)
+*/
+
+#define TRUE            1       /*  boolean true value  */
+#define FALSE           0       /*  boolean false value  */
+
+#if !defined(__cplusplus) && !defined(bool)
+typedef int bool;
+#endif
+typedef unsigned char byte;
+
+/*
+        Implementation types.
+        Verify that it matches printer/write_ugly.d
+*/
+typedef enum {
+        t_start = 0,
+        t_list = 1,
+        /* The most specific numeric types come first. Assumed by
+           some routines, like cl_expt. See ANSI 12.1.1.2. */
+        t_character = 2,        /* immediate character */
+        t_fixnum = 3,           /* immediate fixnum */
+        t_bignum = 4,
+        t_ratio,
+        /* t_shortfloat, */
+        t_singlefloat,
+        t_doublefloat,
+        t_longfloat,
+        t_complex,
+#ifdef ECL_COMPLEX_FLOAT
+        t_csfloat,
+        t_cdfloat,
+        t_clfloat,
+        t_last_number = t_clfloat,
+#else
+        t_last_number = t_complex,
+#endif
+        t_symbol,
+        t_package,
+        t_hashtable,
+        t_array,
+        t_vector,
+#ifdef ECL_UNICODE
+        t_string,
+#endif
+        t_base_string,
+        t_bitvector,
+        t_stream,
+        t_random,
+        t_readtable,
+        t_pathname,
+        t_bytecodes,
+        t_bclosure,
+        t_cfun,
+        t_cfunfixed,
+        t_cclosure,
+        t_instance,
+        t_structure = t_instance,
+#ifdef ECL_THREADS
+        t_process,
+        t_lock,
+        t_rwlock,
+        t_condition_variable,
+        t_semaphore,
+        t_barrier,
+        t_mailbox,
+#endif
+        t_codeblock,
+        t_foreign,
+        t_frame,
+        t_weak_pointer,
+#ifdef ECL_SSE2
+        t_sse_pack,
+#endif
+        t_end,
+        t_other,
+        t_contiguous,           /*  contiguous block  */
+        FREE = 127              /*  free object  */
+} cl_type;
+
+
+/*
+        Definition of the type of LISP objects.
+*/
+typedef union cl_lispunion *cl_object;
+typedef cl_object cl_return;
+typedef cl_fixnum cl_narg;
+typedef cl_object (*cl_objectfn)(cl_narg narg, ...);
+typedef cl_object (*cl_objectfn_fixed)();
+
+/*
+        OBJect NULL value.
+        It should not coincide with any legal object value.
+*/
+#define OBJNULL         ((cl_object)NULL)
+
+/*
+        Definition of each implementation type.
+*/
+
+#define ECL_TAG_BITS            2
+#define ECL_IMMEDIATE(o)        ((cl_fixnum)(o) & 3)
+#define ECL_IMMEDIATE_TAG       3
+
+#define ecl_to_bool(x) ((x)!=ECL_NIL)
+#define ecl_make_bool(x) ((x)? ECL_T : ECL_NIL)
+
+/* Immediate fixnums:           */
+#define ECL_FIXNUM_TAG          t_fixnum
+#define ECL_FIXNUMP(o)          (ECL_IMMEDIATE(o) == t_fixnum)
+#define ecl_make_fixnum(n)      ((cl_object)(((cl_fixnum)(n) << 2) | t_fixnum))
+#define ecl_fixnum_lower(a,b)   ((cl_fixnum)(a) < (cl_fixnum)(b))
+#define ecl_fixnum_greater(a,b) ((cl_fixnum)(a) > (cl_fixnum)(b))
+#define ecl_fixnum_leq(a,b)     ((cl_fixnum)(a) <= (cl_fixnum)(b))
+#define ecl_fixnum_geq(a,b)     ((cl_fixnum)(a) >= (cl_fixnum)(b))
+#define ecl_fixnum_plusp(a)     ((cl_fixnum)(a) > (cl_fixnum)ecl_make_fixnum(0))
+#define ecl_fixnum_minusp(a)    ((cl_fixnum)(a) < (cl_fixnum)(0))
+#define ecl_fixnum(a)           (((cl_fixnum)(a)) >> 2)
+
+/* Immediate characters:        */
+#define ECL_CHARACTER_TAG       t_character
+#define ECL_CHARACTERP(o)       (ECL_IMMEDIATE(o) == t_character)
+#ifdef ECL_UNICODE
+#define ECL_BASE_CHAR_P(obje)   ((((cl_fixnum)(obje)) & 0xFFFFFC03) == ECL_CHARACTER_TAG)
+#define ECL_BASE_CHAR_CODE_P(x) ((x & ~((cl_fixnum)0xFF)) == 0)
+#define ECL_CODE_CHAR(c)        ((cl_object)(((cl_fixnum)(c << 2)|ECL_CHARACTER_TAG)))
+#define ECL_CHAR_CODE(obje)     (((cl_fixnum)(obje)) >> 2)
+#else
+#define ECL_BASE_CHAR_P(o)      ECL_CHARACTERP(o)
+#define ECL_CODE_CHAR(c)        ((cl_object)(((cl_fixnum)((c & 0xff) << 2)|ECL_CHARACTER_TAG)))
+#define ECL_CHAR_CODE(obje)     ((((cl_fixnum)(obje)) >> 2) & 0xff)
+#endif
+#define ECL_CHAR_CODE_RETURN    13
+#define ECL_CHAR_CODE_NEWLINE   10
+#define ECL_CHAR_CODE_LINEFEED  10
+
+#define ECL_NUMBER_TYPE_P(t)    (t >= t_fixnum && t <= t_last_number)
+#define ECL_REAL_TYPE_P(t)      (t >= t_fixnum && t < t_complex)
+#define ECL_ARRAYP(x)           ((ECL_IMMEDIATE(x) == 0) && (x)->d.t >= t_array && (x)->d.t <= t_bitvector)
+#define ECL_VECTORP(x)          ((ECL_IMMEDIATE(x) == 0) && (x)->d.t >= t_vector && (x)->d.t <= t_bitvector)
+#define ECL_BIT_VECTOR_P(x)     ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_bitvector))
+#ifdef ECL_UNICODE
+#define ECL_STRINGP(x)          ((ECL_IMMEDIATE(x) == 0) && \
+                                 ((x)->d.t == t_base_string || (x)->d.t == t_string))
+#define ECL_EXTENDED_STRING_P(x) ((ECL_IMMEDIATE(x) == 0) && (x)->d.t == t_string)
+#else
+#define ECL_STRINGP(x)          ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_base_string))
+#define ECL_EXTENDED_STRING_P(x) 0
+#endif
+#define ECL_BASE_STRING_P(x)    ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_base_string))
+#define ECL_HASH_TABLE_P(x)     ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_hashtable))
+#define ECL_BIGNUMP(x)          ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_bignum))
+#ifdef ECL_COMPLEX_FLOAT
+#define ECL_COMPLEXP(x)         ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t >= t_complex) && ((x)->d.t <= t_clfloat))
+#define ECL_COMPLEX_SINGLE_FLOAT_P(x) ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_csfloat))
+#define ECL_COMPLEX_DOUBLE_FLOAT_P(x) ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_cdfloat))
+#define ECL_COMPLEX_LONG_FLOAT_P(x) ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_clfloat))
+#else
+#define ECL_COMPLEXP(x)         ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_complex))
+#endif
+#define ECL_RANDOM_STATE_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_random))
+#define ECL_SINGLE_FLOAT_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_singlefloat))
+#define ECL_DOUBLE_FLOAT_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_doublefloat))
+#define ECL_LONG_FLOAT_P(x)     ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_longfloat))
+#define ECL_PACKAGEP(x)         ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_package))
+#define ECL_PATHNAMEP(x)        ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_pathname))
+#define ECL_READTABLEP(x)       ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_readtable))
+#define ECL_FOREIGN_DATA_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_foreign))
+#ifdef ECL_SSE2
+#define ECL_SSE_PACK_P(x)       ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_sse_pack))
+#endif
+
+#define _ECL_HDR                        int8_t t, m, padding1, padding2
+#define _ECL_HDR1(field)                int8_t t, m, field, padding
+#define _ECL_HDR2(field1,field2)        int8_t t, m, field1, field2
+
+struct ecl_singlefloat {
+        _ECL_HDR;
+        float SFVAL;    /*  singlefloat value  */
+};
+#define ecl_single_float(o) ((o)->SF.SFVAL)
+
+struct ecl_doublefloat {
+        _ECL_HDR;
+        double DFVAL;   /*  doublefloat value  */
+};
+#define ecl_double_float(o) ((o)->DF.DFVAL)
+
+struct ecl_long_float {
+        _ECL_HDR;
+        long double value;
+};
+#define ecl_long_float(o) ((o)->longfloat.value)
+
+struct ecl_bignum {
+        _ECL_HDR;
+        mpz_t big_num;
+};
+
+#define ECL_BIGNUM_DIM(x)       ((x)->big.big_num->_mp_alloc) /* number of allocated limbs */
+#define ECL_BIGNUM_SIZE(x)      ((x)->big.big_num->_mp_size)  /* number of limbs in use times sign of the bignum */
+#define ECL_BIGNUM_LIMBS(x)     ((x)->big.big_num->_mp_d)     /* pointer to array of allocated limbs */
+
+struct ecl_ratio {
+        _ECL_HDR;
+        cl_object den;          /*  denominator, must be an integer  */
+        cl_object num;          /*  numerator, must be an 

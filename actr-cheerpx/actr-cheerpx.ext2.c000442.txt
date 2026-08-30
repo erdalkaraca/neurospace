@@ -1,0 +1,1284 @@
+re/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Groep "${name}" (${id}) verplaatsen naar een regel boven de "+"-regel voor NIS-compatibiliteit
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja mover o grupo ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Mover grupo "${name}" (${id}) para anterior à entrada "+" de compatibilidade NIS
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer mover o grupo ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Mover o grupo "${name}" (${id}) para antes da entrada compat "+" do NIS
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Переместить группу ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Перемещение группы «${name}» (${id}) перед записью NIS compat "+"
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-add
+Type: boolean
+Default: true
+Description: Do you want to add the user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Add user "${name}" (${id})
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at tilføje brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Tilføj brugeren »${name}« (${id})
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie den Benutzer ${name} hinzufügen?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ Benutzer »${name}« hinzufügen
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea añadir el usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Añadir el usuario «${name}» (${id})
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il ajouter l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Ajout de l'utilisateur « ${name} » (${id})
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Aggiungere l'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Aggiungere l'utente «${name}» (${id})
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} を追加しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」(${id}) を追加します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de gebruiker ${name} toevoegen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Toevoegen van gebruiker "${name}" (${id})
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja adicionar o utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Adicionar utilizador "${name}" (${id})
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer adicionar o usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Adicionar o usuário "${name}" (${id})
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Добавить пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Добавить пользователя «${name}» (${id})
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/group-add
+Type: boolean
+Default: true
+Description: Do you want to add the group ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Add group "${name}" (${id})
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at tilføje gruppen ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Tilføj gruppe »${name}« (${id})
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie die Gruppe ${name} hinzufügen?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ Gruppe »${name}« hinzufügen
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea añadir el grupo ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Añadir el grupo «${name}» (${id})
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il ajouter le groupe ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Ajout du groupe « ${name} » (${id})
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Aggiungere il gruppo ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Aggiungere il gruppo «${name}» (${id})
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: グループ ${name} を追加しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ グループ「${name}」(${id}) を追加します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de groep ${name} toevoegen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Toevoegen van groep "${name}" (${id})
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja adicionar o grupo ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Adicionar grupo "${name}" (${id})
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer adicionar o grupo ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Adicionar o grupo "${name}" (${id})
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Добавить группу ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Добавить группу «${name}» (${id})
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-remove
+Type: boolean
+Default: true
+Description: Do you want to remove the user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Remove user "${name}" (${id})
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at fjerne brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Fjern brugeren »${name}« (${id})
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie den Benutzer ${name} entfernen?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ Benutzer »${name}« entfernen
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea eliminar el usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Eliminar el usuario «${name}» (${id})
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il supprimer l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Suppression de l'utilisateur « ${name} » (${id})
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Rimuovere l'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Rimuovere l'utente «${name}» (${id})
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} を削除しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」(${id}) を削除します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de gebruiker ${name} verwijderen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Verwijderen van gebruiker "${name}" (${id})
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja remover o utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Remover o utilizador "${name}" (${id})
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer remover o usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Remover o usuário "${name}" (${id})
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Удалить пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Удалить пользователя «${name}» (${id})
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/group-remove
+Type: boolean
+Default: true
+Description: Do you want to remove the group ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Remove group "${name}" (${id})
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at fjerne gruppen ${name}?
+ update-passwd hI�  J�  K�  L�  M�  N�  O�  P�  Q�  R�  S�  T�  U�  V�  W�  X�  Y�                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ar fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Fjern gruppen »${name}« (${id})
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie die Gruppe ${name} entfernen?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ Gruppe »${name}« entfernen
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea eliminar el grupo ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Eliminar el grupo «${name}» (${id})
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il supprimer le groupe ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Suppression du groupe « ${name} » (${id})
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Rimuovere il gruppo ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Rimuovere il gruppo «${name}» (${id})
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: グループ ${name} を削除しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ グループ「${name}」(${id}) を削除します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de groep ${name} verwijderen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Verwijderen van groep "${name}" (${id})
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja remover o grupo ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Remover o grupo "${name}" (${id})
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer remover o grupo ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Remover o grupo "${name}" (${id})
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Удалить группу ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Удалить группу «${name}» (${id})
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-change-uid
+Type: boolean
+Default: true
+Description: Do you want to change the UID of user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Change the UID of user "${name}" from ${old_uid} to ${new_uid}
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at ændre UID'en for brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Ændr UID'en for brugeren »${name}« fra ${old_uid} til ${new_uid}
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie die UID des Benutzers ${name} ändern?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ UID des Benutzers »${name}« von ${old_uid} in ${new_uid} ändern
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea cambiar el UID del usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Cambiar el UID del usuario ${name} de ${old_uid} a ${new_uid}
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il modifier l'UID de l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Modification de l'UID (identifiant numérique) de l'utilisateur « ${name} » de ${old_uid} à ${new_uid}
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Cambiare l'UID dell'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Cambiare l'UID dell'utente «${name}» da ${old_uid} a ${new_uid}
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} のユーザIDを変更しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」のユーザIDを ${old_uid} から ${new_uid} に変更します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de UID van gebruiker ${name} wijzigen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Veranderen van de UID van gebruiker "${name}" van ${old_uid} naar ${new_uid}
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja alterar o UID do utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Alterar o UID do utilizador "${name}" de ${old_uid} para ${new_uid}
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer alterar o UID do usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Alterar o UID do usuário "${name}" de ${old_uid} para ${new_uid}
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Изменить UID пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Изменить UID пользователя «${name}» с ${old_uid} на ${new_uid}
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-change-gid
+Type: boolean
+Default: true
+Description: Do you want to change the GID of user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Change the GID of user "${name}" from ${old_gid} (${old_group}) to
+ ${new_gid} (${new_group})
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at ændre GID'en for brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Ændr GID'en for brugeren »${name}« fra ${old_gid} (${old_group}) til ${new_gid} (${new_group})
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie die GID des Benutzers ${name} ändern?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ GID des Benutzers »${name}« von ${old_gid} (${old_group}) in ${new_gid} (${new_group}) ändern
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea cambiar el GID del usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Cambiar el GID del usuario «${name}» de ${old_gid} (${old_group}) a ${new_gid} (${new_group})
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il modifier le GID de l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Modification de l'identifiant numérique de groupe (GID) de l'utilisateur « ${name} » de ${old_gid} (${old_group}) à ${new_gid} (${new_group})
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Cambiare il GID dell'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Cambiare il GID dell'utente «${name}» da ${old_gid} (${old_group}) a ${new_gid} (${new_group})
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} のグループIDを変更しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」のグループIDを ${old_gid} (${old_group}) から ${new_gid} (${new_group}) に変更します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de GID van gebruiker ${name} wijzigen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Veranderen van de GID van gebruiker "${name}" van ${old_gid} (${old_group}) naar ${new_gid} (${new_group})
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja alterar o GID do utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Alterar o GID do utilizador "${name}" de ${old_gid} (${old_group}) para ${new_gid} (${new_group})
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer alterar o GID do usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Alterar o GID do usuário "${name}" de ${old_gid} (${old_group}) para ${new_gid} (${new_group})
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Изменить GID пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Изменить GID пользователя «${name}» с ${old_gid} (${old_group}) на ${new_gid} (${new_group})
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-change-gecos
+Type: boolean
+Default: true
+Description: Do you want to change the GECOS of user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Change the GECOS of user "${name}" from "${old_gecos}" to "${new_gecos}"
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at ændre GECOS-en for brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Ændr GECOS'en for brugeren »${name}« fra »${old_gecos}« til »${new_gecos}«
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Wollen Sie das GECOS des Benutzers ${name} ändern?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ GECOS des Benutzers »${name}« von »${old_gecos}« in »${new_gecos}« ändern
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea cambiar el campo GECOS del usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Cambiar el campo GECOS del usuario «${name}» de «${old_gecos}» a «${new_gecos}»
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il modifier le champ GECOS de l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Modification du champ descriptif (GECOS) de l'utilisateur « ${name} » de « ${old_gecos} » à « ${new_gecos} »
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Cambiare il GECOS dell'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Cambiare il GECOS dell'utente «${name}» da "${old_gecos}" a "${new_gecos}"
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} の GECOS を変更しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」の GECOS を「${old_gecos}」から「${new_gecos}」に変更します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de GECOS-inhoud van gebruiker ${name} wijzigen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Wijzigen van de GECOS-inhoud van gebruiker "${name}" van "${old_gecos}" naar "${new_gecos}"
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja alterar o GECOS do utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Alterar o GECOS do utilizador "${name}" de "${old_gecos}" para "${new_gecos}"
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer alterar o GECOS do usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Alterar o GECOS do usuário "${name}" de "${old_gecos}" para "${new_gecos}"
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Изменить GECOS у пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Изменить GECOS у пользователя «${name}» с «${old_gecos}» на «${new_gecos}»
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-change-home
+Type: boolean
+Default: true
+Description: Do you want to change the home directory of user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Change the home directory of user "${name}" from ${old_home} to
+ ${new_home}
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at ændre hjemmemappen for brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Ændr hjemmemappen for brugeren »${name}« fra ${old_home} til ${new_home}
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie das Home-Verzeichnis des Benutzers ${name} ändern?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ Home-Verzeichnis des Benutzers »${name}« von ${old_home} in ${new_home} ändern
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea cambia el directorio personal del usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Cambiar el directorio personal del usuario «${name}» de ${old_home} a ${new_home}
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il modifier le répertoire personnel de l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Modification du répertoire personnel de l'utilisateur « ${name} » de ${old_home} à ${new_home}
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Cambiare la directory home dell'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Cambiare la directory home dell'utente «${name}» da ${old_home} a ${new_home}
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} のホームディレクトリを変更しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」のホームディレクトリを ${old_home} から ${new_home} に変更します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de thuismap van gebruiker ${name} wijzigen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Veranderen van de thuismap van gebruiker "${name}" van ${old_home} naar ${new_home}
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja alterar o directório home do utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Alterar o directório home do utilizador "${name}" de ${old_home} para ${new_home}
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer alterar o diretório home do usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Alterar o diretório home do usuário "${name}" de ${old_home} para ${new_home}
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Изменить домашний каталог пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Изменить домашний каталог пользователя «${name}» с ${old_home} на ${new_home}
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/user-change-shell
+Type: boolean
+Default: true
+Description: Do you want to change the shell of user ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Change the shell of user "${name}" from ${old_shell} to ${new_shell}
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at ændre skallen for brugeren ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Ændr skallen for brugeren »${name}« fra ${old_shell} til ${new_shell}
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Wollen Sie die Shell des Benutzers ${name} ändern?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ Shell des Benutzers »${name}« von ${old_shell} in ${new_shell} ändern
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea cambiar el intérprete de órdenes del usuario ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ Cambiar el intérprete de órdenes del usuario «${name}» de ${old_shell} a ${new_shell}
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il modifier le shell de l'utilisateur ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Modification du shell de l'utilisateur « ${name} » de ${old_shell} à ${new_shell}
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Cambiare la shell dell'utente ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Cambiare la shell dell'utente «${name}» da ${old_shell} a ${new_shell}
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: ユーザ ${name} のシェルを変更しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ ユーザ「${name}」のシェルを ${old_shell} から ${new_shell} に変更します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de shell van gebruiker ${name} veranderen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Wijzigen van de shell van gebruiker "${name}" van ${old_shell} naar ${new_shell}
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja alterar a shell do utilizador ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Alterar a shell do utilizador "${name}" de ${old_shell} para ${new_shell}
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer alterar a shell do usuário ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Alterar a shell do usuário "${name}" de ${old_shell} para ${new_shell}
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Изменить оболочку пользователя ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Изменить оболочку пользователя «${name}» с ${old_shell} на ${new_shell}
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+
+Template: base-passwd/group-change-gid
+Type: boolean
+Default: true
+Description: Do you want to change the GID of group ${name}?
+ update-passwd has found a difference between your system accounts and the
+ current Debian defaults.  It is advisable to allow update-passwd to
+ change your system; without those changes some packages might not work
+ correctly.  For more documentation on the Debian account policies, please
+ see /usr/share/doc/base-passwd/README.
+ .
+ The proposed change is:
+ .
+ Change the GID of group "${name}" from ${old_gid} to ${new_gid}
+ .
+ If you allow this change, a backup of modified files will be made with
+ the extension .org, which you can use if necessary to restore the
+ current settings.  If you do not make this change now, you can make it
+ later with the update-passwd utility.
+Description-da.UTF-8: Ønsker du at ændre GID'en for gruppen ${name}?
+ update-passwd har fundet en forskel mellem dine systemkonti og de nuværende Debianstandarder. Det tilrådes at give update-passwd tilladelse til at ændre dit system; uden disse ændringer vil nogle pakker ikke fungere korrekt. For yderligere dokumentation om Debians politikker for konti, så se venligst /usr/share/doc/base/base-passwd/README.
+ .
+ Den foreslåede ændring er:
+ .
+ Ændr GID'en for gruppen »${name}« fra ${old_gid} til ${new_gid}
+ .
+ Hvis du tillader denne ændring, vil en sikkerhedskopi af de ændrede filer blive udført med udvidelsen .org, som du kan bruge, hvis du skal gendanne de nuværende indstillinger. Hvis du ikke udfører denne ændring nu, så kan du udføre den senere med redskabet update-passwd.
+Description-de.UTF-8: Möchten Sie die GID der Gruppe ${name} ändern?
+ Update-passwd hat einen Unterschied zwischen Ihren Systemkonten und den aktuellen Debian-Vorgaben gefunden. Es ist ratsam, Update-passwd das Ändern Ihres Systems zu gestatten. Ohne diese Änderungen funktionieren einige Pakete möglicherweise nicht korrekt. Die Richtlinien für Debian-Konten sind unter /usr/share/doc/base-passwd/README dokumentiert.
+ .
+ Die geplante Änderung ist:
+ .
+ GID der Gruppe »${name}« von ${old_gid} in ${new_gid} ändern
+ .
+ Falls Sie diese Änderung gestatten, wird eine Sicherheitskopie der geänderten Dateien mit der Erweiterung .org erstellt, die Sie falls nötig zum Wiederherstellen der aktuellen Einstellungen benutzen können. Wenn Sie diese Änderung nun nicht vornehmen, können Sie dies später mit dem Hilfswerkzeug Update-passwd erledigen.
+Description-es.UTF-8: ¿Desea cambiar el GID del grupo ${name}?
+ update-passwd ha encontrado una diferencia entre las cuentas de su sistema y las predeterminadas de Debian. Es recomendable permitir que update-passwd realice cambios en su sistema; sin esos cambios, algunos paquetes podrían funcionar mal. Consulte «/usr/share/doc/base-passwd/README» para más información sobre las directrices de cuentas en Debian.
+ .
+ El cambio propuesto es:
+ .
+ cambiar el GID del grupo «${name}» de ${old_gid} a ${new_gid}
+ .
+ Si permite este cambio, se creará una copia de seguridad de los archivos que se van a modificar con la extensión «.org», que podrá utilizar si fuera necesario restaurar la configuración inicial. Si no realiza este cambio ahora, podrá hacerlo más adelante con la utilidad update-passwd.
+Description-fr.UTF-8: Faut-il modifier le GID du groupe ${name} ?
+ L'utilitaire « update-passwd » a détecté une différence entre les comptes système et les comptes Debian définis par défaut. Il est recommandé de permettre à « update-passwd » de modifier le système ; sans ces changements, certains paquets risquent de ne pas fonctionner correctement. Davantage d'informations concernant la politique des comptes Debian se trouvent dans le fichier « /usr/share/doc/base-passwd/README ».
+ .
+ La modification proposée est :
+ .
+ Modification de l'identifiant numérique de groupe (GID) du groupe « ${name} » de ${old_gid} à ${new_gid}
+ .
+ En acceptant cette modification, une sauvegarde des fichiers modifiés sera créée avec l'extension .org, qui pourra être utilisée plus tard pour restaurer les réglages actuels. Si la modification n'est pas effectuée maintenant, elle pourra l'être ultérieurement en utilisant « update-passwd ».
+Description-it.UTF-8: Cambiare il GID del gruppo ${name}?
+ update-passwd ha trovato una differenza tra gli account del sistema e i valori predefiniti attuali di Debian. È consigliabile permettere ad update-passwd di cambiare il sistema; senza tali cambiamenti alcuni pacchetti potrebbero non funzionare correttamente. Per maggiore documentazione sulle politiche Debian per gli account, vedere /usr/share/doc/base-passwd/README.
+ .
+ La modifica proposta è:
+ .
+ Cambiare il GID del gruppo «${name}» da ${old_gid} a ${new_gid}
+ .
+ Se si permette questa modifica, verrà creato un backup dei file modificati con l'estensione .org che può essere usato, se necessario, per ripristinare le impostazioni attuali. Se non si effettua questa modifica ora, è possibile farlo in un secondo momento con l'utilità update-passwd.
+Description-ja.UTF-8: グループ ${name} のグループIDを変更しますか?
+ update-passwd はこのシステムのアカウントが現在の Debian のデフォルトとは異なっていることを検出しました。update-passwd にシステムの変更を許可することをお勧めします。変更しない場合は正常に動作しないパッケージがあるかもしれません。Debian アカウントポリシーのさらなる文書については /usr/share/doc/base-passwd/README を見てください。
+ .
+ 提案する変更点:
+ .
+ グループ「${name}」のグループIDを ${old_gid} から ${new_gid} に変更します
+ .
+ この変更を許可すると変更されるファイルのバックアップが拡張子 .org を付けて作成され、現在の設定を復旧させる必要ができた場合に利用できます。ここで変更しない場合は update-passwd ユーティリティにより後でバックアップを作成できます。
+Description-nl.UTF-8: Wilt u de GID van groep ${name} veranderen?
+ update-passwd stelde een verschil vast tussen uw systeemaccounts en de huidige standaarden in Debian. Het wordt aanbevolen om update-passwd toe te laten uw systeem aan te passen. Zonder die aanpassingen kunnen sommige pakketten niet correct werken. Voor achtergrondinformatie over het beleid van Debian in verband met accounts, kunt u /usr/share/doc/base-passwd/README raadplegen.
+ .
+ De voorgestelde aanpassing is:
+ .
+ Veranderen van de GID van groep "${name}" van ${old_gid} naar ${new_gid}
+ .
+ Indien u instemt met deze wijziging, wordt een reservekopie gemaakt van de te wijzigen bestanden met de extensie .org. Indien nodig kunt u die later gebruiken om terug te keren naar de huidige instellingen. Voert u deze wijziging nu niet door, dan kunt u ze later maken met behulp van het hulpprogramma update-passwd.
+Description-pt.UTF-8: Deseja alterar o GID do grupo ${name}?
+ O update-passwd encontrou uma diferença entre as contas do seu sistema e as predefinições actuais de Debian. É aconselhável permitir ao update-passwd que altere o seu sistema; sem essas alterações alguns pacotes podem não funcionar correctamente. Para mais documentação sobre as politicas de contas Debian, por favor veja /usr/share/doc/base-passwd/README.
+ .
+ A alteração proposta é:
+ .
+ Alterar o GID do grupo "${name}" de ${old_gid} para ${new_gid}
+ .
+ Se permitir esta alteração, será feita uma cópia de salvaguarda com extensão .org dos ficheiros modificados, a qual pode usar se necessário para restaurar as definições actuais. Se não fizer esta alteração agora, pode fazê-la mais tarde com o utilitário update-passwd.
+Description-pt_BR.UTF-8: Você quer alterar o GID do grupo ${name}?
+ O update-passwd encontrou uma diferença entre as suas contas do sistema e o padrão Debian atual. É recomendado permitir ao update-passwd alterar seu sistema; sem estas mudanças, alguns pacotes podem não funcionar corretamente. Para obter mais informações sobre a política de contas do Debian, por favor, veja a documentação em /usr/share/doc/base-passwd/README.
+ .
+ A mudança proposta é:
+ .
+ Alterar o GID do grupo "${name}" de ${old_gid} para ${new_gid}
+ .
+ Se você permitir esta alteração, um backup dos arquivos modificados será feito com a extensão .org, que você poderá usar, se necessário, para restaurar as configurações atuais. Se você não fizer esta alteração agora, você poderá fazê-la mais tarde com o utilitário update-passwd.
+Description-ru.UTF-8: Изменить GID группы ${name}?
+ Программа update-passwd обнаружила различия между вашими системными учётными записями и текущими настройками Debian по умолчанию. Советуем разрешить update-passwd изменить вашу систему; без этих изменений некоторые пакеты могут работать неправильно. Документация по политике учётных записей в Debian приведена в /usr/share/doc/base-passwd/README.
+ .
+ Предлагаемое изменение:
+ .
+ Изменить GID группы «${name}» с ${old_gid} на ${new_gid}
+ .
+ Если разрешить выполнение этого изменения, будет сделана резервная копия изменённых файлов с расширением .org, которые вы можете использовать для восстановления текущих настроек. Если не сделать это изменение сейчас, то можно вернуться к нему позднее, воспользовавшись утилитой update-passwd.
+                                                                                                                                                                                                                                                                                                                                                                            /etc/bash.bashrc
+/etc/skel/.bash_logout
+/etc/skel/.bashrc
+/etc/skel/.profile
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   /.
+/bin
+/bin/bash
+/etc
+/etc/bash.bashrc
+/etc/skel
+/etc/skel/.bash_logout
+/etc/skel/.bashrc
+/etc/skel/.profile
+/usr
+/usr/bin
+/usr/bin/bashbug
+/usr/bin/clear_console
+/usr/share
+/usr/share/debianutils
+/usr/share/debianutils/shells.d
+/usr/share/debianutils/shells.d/bash
+/usr/share/doc
+/usr/share/doc/bash
+/usr/share/doc/bash/CHANGES.gz
+/usr/share/doc/bash/COMPAT.gz
+/usr/share/doc/bash/INTRO.gz
+/usr/share/doc/bash/NEWS.gz
+/usr/share/doc/bash/POSIX.gz
+/usr/share/doc/bash/RBASH
+/usr/share/doc/bash/README.Debian.gz
+/usr/share/doc/bash/README.abs-guide
+/usr/share/doc/bash/README.commands.gz
+/usr/share/doc/bash/README.gz
+/usr/share/doc/bash/changelog.Debian.gz
+/usr/share/doc/bash/changelog.Debian.i386.gz
+/usr/share/doc/bash/changelog.gz
+/usr/share/doc/bash/copyright
+/usr/share/doc/bash/inputrc.arrows
+/usr/share/info
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/bash
+/usr/share/locale
+/usr/share/locale/af
+/usr/share/locale/af/LC_MESSAGES
+/usr/share/locale/af/LC_MESSAGES/bash.mo
+/usr/share/locale/bg
+/usr/share/locale/bg/LC_MESSAGES
+/usr/share/locale/bg/LC_MESSAGES/bash.mo
+/usr/share/locale/ca
+/usr/share/locale/ca/LC_MESSAGES
+/usr/share/locale/ca/LC_MESSAGES/bash.mo
+/usr/share/locale/cs
+/usr/share/locale/cs/LC_MESSAGES
+/usr/share/locale/cs/LC_MESSAGES/bash.mo
+/usr/share/locale/da
+/usr/share/locale/da/LC_MESSAGES
+/usr/share/locale/da/LC_MESSAGES/bash.mo
+/usr/share/locale/de
+/usr/share/locale/de/LC_MESSAGES
+/usr/share/locale/de/LC_MESSAGES/bash.mo
+/usr/share/locale/el
+/usr/share/locale/el/LC_MESSAGES
+/usr/share/locale/el/LC_MESSAGES/bash.mo
+/usr/share/locale/en@boldquot
+/usr/share/locale/en@boldquot/LC_MESSAGES
+/usr/share/locale/en@boldquot/LC_MESSAGES/bash.mo
+/usr/share/locale/en@quot
+/usr/share/locale/en@quot/LC_MESSAGES
+/usr/share/locale/en@quot/LC_MESSAGES/bash.mo
+/usr/share/locale/eo
+/usr/share/locale/eo/LC_MESSAGES
+/usr/share/locale/eo/LC_MESSAGES/bash.mo
+/usr/share/locale/es
+/usr/share/locale/es/LC_MESSAGES
+/usr/share/locale/es/LC_MESSAGES/bash.mo
+/usr/share/locale/et
+/usr/share/locale/et/LC_MESSAGES
+/usr/share/locale/et/LC_MESSAGES/bash.mo
+/usr/share/locale/fi
+/usr/share/locale/fi/LC_MESSAGES
+/usr/share/locale/fi/LC_MESSAGES/bash.mo
+/usr/share/locale/fr
+/usr/share/locale/fr/LC_MESSAGES
+/usr/share/locale/fr/LC_MESSAGES/bash.mo
+/usr/share/locale/ga
+/usr/share/locale/ga/LC_MESSAGES
+/usr/share/locale/ga/LC_MESSAGES/bash.mo
+/usr/share/locale/gl
+/usr/share/locale/gl/LC_MESSAGES
+/usr/share/locale/gl/LC_MESSAGES/bash.mo
+/usr/share/locale/hr
+/usr/share/locale/hr/LC_MESSAGES
+/usr/share/locale/hr/LC_MESSAGES/bash.mo
+/usr/share/locale/hu
+/usr/share/locale/hu/LC_MESSAGES
+/usr/share/locale/hu/LC_MESSAGES/bash.mo
+/usr/share/locale/id
+/usr/share/locale/id/LC_MESSAGES
+/usr/share/locale/id/LC_MESSAGES/bash.mo
+/usr/share/locale/it
+/usr/share/locale/it/LC_MESSAGES
+/usr/share/locale/it/LC_MESSAGES/bash.mo
+/usr/share/locale/ja
+/usr/share/locale/ja/LC_MESSAGES
+/usr/share/locale/ja/LC_MESSAGES/bash.mo
+/usr/share/locale/ko
+/usr/share/locale/ko/LC_MESSAGES
+/usr/share/locale/ko/LC_MESSAGES/bash.mo
+/usr/share/locale/lt
+/usr/share/locale/lt/LC_MESSAGES
+/usr/share/locale/lt/LC_MESSAGES/bash.mo
+/usr/share/locale/nb
+/usr/share/locale/nb/LC_MESSAGES
+/usr/share/locale/nb/LC_MESSAGES/bash.mo
+/usr/share/locale/nl
+/usr/share/locale/nl/LC_MESSAGES
+/usr/share/locale/nl/LC_MESSAGES/bash.mo
+/usr/share/locale/pl
+/usr/share/locale/pl/LC_MESSAGES
+/usr/share/locale/pl/LC_MESSAGES/bash.mo
+/usr/share/locale/pt
+/usr/share/locale/pt/LC_MESSAGES
+/usr/share/locale/pt/LC_MESSAGES/bash.mo
+/usr/share/locale/pt_BR
+/usr/share/locale/pt_BR/LC_MESSAGES
+/usr/share/locale/pt_BR/LC_MESSAGES/bash.mo
+/usr/share/locale/ro
+/usr/share/locale/ro/LC_MESSAGES
+/usr/share/locale/ro/LC_MESSAGES/bash.mo
+/usr/share/locale/ru
+/usr/share/locale/ru/LC_MESSAGES
+/usr/share/locale/ru/LC_MESSAGES/bash.mo
+/usr/share/locale/sk
+/usr/share/locale/sk/LC_MESSAGES
+/usr/share/locale/sk/LC_MESSAGES/bash.mo
+/usr/share/locale/sl
+/usr/share/locale/sl/LC_MESSAGES
+/usr/share/locale/sl/LC_MESSAGES/bash.mo
+/usr/share/locale/sr
+/usr/share/locale/sr/LC_MESSAGES
+/usr/share/locale/sr/LC_MESSAGES/bash.mo
+/usr/share/locale/sv
+/usr/share/locale/sv/LC_MESSAGES
+/usr/share/locale/sv/LC_MESSAGES/bash.mo
+/usr/share/locale/tr
+/usr/share/locale/tr/LC_MESSAGES
+/usr/share/locale/tr/LC_MESSAGES/bash.mo
+/usr/share/locale/uk
+/usr/share/locale/uk/LC_MESSAGES
+/usr/share/locale/uk/LC_MESSAGES/bash.mo
+/usr/share/locale/vi
+/usr/share/locale/vi/LC_MESSAGES
+/usr/share/locale/vi/LC_MESSAGES/bash.mo
+/usr/share/locale/zh_CN
+/usr/share/locale/zh_CN/LC_MESSAGES
+/usr/share/locale/zh_CN/LC_MESSAGES/bash.mo
+/usr/share/locale/zh_TW
+/usr/share/locale/zh_TW/LC_MESSAGES
+/usr/share/locale/zh_TW/LC_MESSAGES/bash.mo
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/bash.1.gz
+/usr/share/man/man1/bashbug.1.gz
+/usr/share/man/man1/clear_console.1.gz
+/usr/share/man/man1/rbash.1.gz
+/usr/share/man/man7
+/usr/share/man/man7/bash-builtins.7.gz
+/usr/share/menu
+/usr/share/menu/bash
+/bin/rbash
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0046b6e624c3114854d29eda3ee668b1  bin/bash
+60b643f2264e3cf0f12745d3822c1f8f  usr/bin/bashbug
+3be6a3c90b19d3b7806d87e3a4b718f4  usr/bin/clear_console
+b0840061f097580c502a10137ba09af6  usr/share/debianutils/shells.d/bash
+1a40818cede744b44e13d7792f5efddc  usr/share/doc/bash/CHANGES.gz
+e33c919ed8b88f5895591eb2aed571af  usr/share/doc/bash/COMPAT.gz
+ab78b78be766692463cb112b88d5a74f  usr/share/doc/bash/INTRO.gz
+da7755d44d7ebecdc872cf866dbd45e8  usr/share/doc/bash/NEWS.gz
+03ee8a82c581d332f2b7b95a2cf47f8d  usr/share/doc/bash/POSIX.gz
+c2737a3f295b4b1ddc40605d2053531a  usr/share/doc/bash/RBASH
+6bd7de8b98911613a536e83867e9b490  usr/share/doc/bash/README.Debian.gz
+5dac7b9b6332d9845e315cf8fd50ea89  usr/share/doc/bash/README.abs-guide
+007dea9b8141f038c602b23f78509e34  usr/share/doc/bash/README.commands.gz
+9b463610f80c54e22bb845da563040d6  usr/share/doc/bash/README.gz
+b4b49cbcd859181d46d5cb3482fb30d0  usr/share/doc/bash/changelog.Debian.gz
+f4f71a83dd245ba9e65d698f2561bf8a  usr/share/doc/bash/changelog.Debian.i386.gz
+1a40818cede744b44e13d7792f5efddc  usr/share/doc/bash/changelog.gz
+a7b4d52dcef4931d6a74b71e0f25f568  usr/share/doc/bash/copyright
+244319c9dd88c980910aacd76477b8d9  usr/share/doc/bash/inputrc.arrows
+4574de6676d74019761f409168aa8e01  usr/share/lintian/overrides/bash
+14e5205be2b2d1eb1968586d4b75d077  usr/share/locale/af/LC_MESSAGES/bash.mo
+82a256a86bf6147e3d9476dd6f7299c5  usr/share/locale/bg/LC_MESSAGES/bash.mo
+d5caf404d4b3a021fbe1e806fb938009  usr/share/locale/ca/LC_MESSAGES/bash.mo
+4556d07b09119c1e89401d9c01743217  usr/share/locale/cs/LC_MESSAGES/bash.mo
+b93872e8f5201a066824c4c5e39dedfa  usr/share/locale/da/LC_MESSAGES/bash.mo
+6bcc2be9b328515f7b376179318d8f25  usr/share/locale/de/LC_MESSAGES/bash.mo
+f389597ba7d75694f0bc81fb791114d0  usr/share/locale/el/LC_MESSAGES/bash.mo
+508deef9ba7eb5c0b61679317cf1eecf  usr/share/locale/en@boldquot/LC_MESSAGES/bash.mo
+4f8c638bdfc06fc480548d3eede4942f  usr/share/locale/en@quot/LC_MESSAGES/bash.mo
+2b56e42fba13253589f7809b0cebd514  usr/share/locale/eo/LC_MESSAGES/bash.mo
+8cf382f2fed81fd8bd0f667204959135  usr/share/locale/es/LC_MESSAGES/bash.mo
+7cdf7caabf5345c9b133f46872f7c29a  usr/share/locale/et/LC_MESSAGES/bash.mo
+a1a21485577467eca86299f5e0619f81  usr/share/locale/fi/LC_MESSAGES/bash.mo
+701bf22a4a76c47802aac5bf6c527b36  usr/share/locale/fr/LC_MESSAGES/bash.mo
+c52b02f9c5d02984d2e186524d831782  usr/share/locale/ga/LC_MESSAGES/bash.mo
+73d17cff68a8f62dd3a0bc3b07c72409  usr/share/locale/gl/LC_MESSAGES/bash.mo
+bf5f00f9e8a41b624f5a84948a06d64b  usr/share/locale/hr/LC_MESSAGES/bash.mo
+2e47f4c88b46199f021cb48ad4570eff  usr/share/locale/hu/LC_MESSAGES/bash.mo
+5cc80ecceddf147b1676694c99710924  usr/share/locale/id/LC_MESSAGES/bash.mo
+73fdc8904ce98781df62e9c6e6295cb7  usr/share/locale/it/LC_MESSAGES/bash.mo
+655b2d8d99b76da7c94ed73db9017a18  usr/share/locale/ja/LC_MESSAGES/bash.mo
+1c0c6e26b6adba363b97b2443268e089  usr/share/locale/ko/LC_MESSAGES/bash.mo
+e5f07e896bc124ba94c3730eac3a7536  usr/share/locale/lt/LC_MESSAGES/bash.mo
+5c7e8aecb6a6aa3e0cd34855a0705f09  usr/share/locale/nb/LC_MESSAGES/bash.mo
+b0a77a29d85b73ad2bc0eae82c630031  usr/share/locale/nl/LC_MESSAGES/bash.mo
+6ccf055bc6c6f4dc70f852a06a24dd42  usr/share/locale/pl/LC_MESSAGES/bash.mo
+963cd7eb19f730a13e40c7c2159f4e65  usr/share/locale/pt/LC_MESSAGES/bash.mo
+a1b95e939344eadf3a6f4f18403fff4e  usr/share/locale/pt_BR/LC_MESSAGES/bash.mo
+ad9e7ad08715689f9731f6560aedd4b2  usr/share/locale/ro/LC_MESSAGES/bash.mo
+fa9097ab0c1c8df3277cbaaeaac751da  usr/share/locale/ru/LC_MESSAGES/bash.mo
+e6ea24cd22daeaa063843644816a521f  usr/share/locale/sk/LC_MESSAGES/bash.mo
+b7706f516896f9031e4c3506f02efe6b  usr/share/locale/sl/LC_MESSAGES/bash.mo
+0131f811ce6e7aa863982dfe86e45ab9  usr/share/locale/sr/LC_MESSAGES/bash.mo
+d430b4115f3236c27f45002fcc4690db  usr/share/locale/sv/LC_MESSAGES/bash.mo
+9223bbbb129b5177d6f0c592f2fe1ab1  usr/share/locale/tr/LC_MESSAGES/bash.mo
+b03552d75b71bfa335d50941abe47de2  usr/share/locale/uk/LC_MESSAGES/bash.mo
+8530dca72945ebd2104d39604c653fb0  usr/share/locale/vi/LC_MESSAGES/bash.mo
+ee5d5df74815115ea9f0efa5cb4c581f  usr/share/locale/zh_CN/LC_MESSAGES/bash.mo
+793629fa0cc724b8b5e7e43d4f4e79aa  usr/share/locale/zh_TW/LC_MESSAGES/bash.mo
+cc43cc10ce99183a178715ed7e806b27  usr/share/man/man1/bash.1.gz
+ab8320c478c9d17caaa4d86e113cf0a2  usr/share/man/man1/bashbug.1.gz
+0c912132bdbce02861669392deb3f84c  usr/share/man/man1/clear_console.1.gz
+d3953212dcd88f5ee9f4441ab3b7fa49  usr/share/man/man1/rbash.1.gz
+b2fb88f251700c29d638d9202e89a693  usr/share/man/man7/bash-builtins.7.gz
+0c05a14279f95fdb4618a4ccaa469681  usr/share/menu/bash
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            #! /bin/bash
+
+set -e
+
+# This should never happen.
+if [ ! -e /bin/sh ]; then
+    ln -s bash /bin/sh
+fi
+
+update-alternatives --install \
+    /usr/share/man/man7/builtins.7.gz \
+    builtins.7.gz \
+    /usr/share/man/man7/bash-builtins.7.gz \
+    10 \
+  || true
+
+# Automatically added by dh_installmenu/13.11.4
+if [ "$1" = "configure" ] && [ -x "`command -v update-menus`" ] && [ -x "$DPKG_ROOT`command -v update-menus`" ]; then
+	update-menus
+fi
+# End automatically added section
+
+
+exit 0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
