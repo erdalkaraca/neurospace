@@ -26,7 +26,7 @@ Built on the [Eclipse Docks](https://github.com/eclipse-docks/core) framework, N
 ## Roadmap
 
 - **Nengo editor**: Edit `.nengo.py` models with in-browser Python, run simulations, and inspect live visualizations (value plots, raster plots, network graph).
-- **ACT-R models**: Edit and run ACT-R cognitive models with integrated visualization and workspace tooling.
+- **ACT-R models**: Edit official ACT-R tutorial models (run integration planned).
 - **ancpBIDS tooling**: Integrate [ancpBIDS](https://github.com/ANCPLabOldenburg/ancp-bids) for querying, validating, and writing BIDS datasets from the workspace.
 
 ## Setup
@@ -44,6 +44,7 @@ Open http://localhost:5173, connect a workspace, and open a supported file (e.g.
 - `packages/extension-neuro-viewer` – Neuroimaging viewer (NIfTI, DICOM, NRRD, MGH/MGZ, MIF)
 - `packages/extension-snirf-viewer` – SNIRF/fNIRS viewer
 - `packages/extension-nengo-gui` – Nengo model editor and visualizations
+- `packages/extension-actr` – ACT-R tutorial models and editor
 - `packages/extension-openneuro` – OpenNeuro browse and download
 - `packages/extension-bids-editor` – BIDS `dataset_description.json` editor
 - `packages/extension-bids-validator` – BIDS validation with DataView results

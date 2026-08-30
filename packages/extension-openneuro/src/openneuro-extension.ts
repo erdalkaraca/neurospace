@@ -1,4 +1,5 @@
 import './openneuro-workspace-contribution.js';
+import './openneuro-attribution.js';
 import {
   registerAll,
   contributionRegistry,

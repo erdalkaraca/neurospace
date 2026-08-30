@@ -10,6 +10,8 @@ import {
 import { EditorInput, editorRegistry, File } from '@eclipse-docks/core';
 import { Niivue } from '@niivue/niivue';
 
+import './neuro-viewer-attribution';
+
 interface NeuroViewerPreferences {
   orientationTextVisible: boolean;
   cornerOrientationText: boolean;

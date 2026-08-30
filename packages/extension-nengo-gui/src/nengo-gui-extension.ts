@@ -2,6 +2,7 @@ import { EditorInput, File as DocksFile, editorRegistry } from '@eclipse-docks/c
 import { html } from '@eclipse-docks/core/externals/lit';
 
 import { NENGO_EDITOR_ID } from './k-nengo-editor';
+import './nengo-attribution';
 import './nengo-catalog';
 import './nengo-viz-contributions';
 import './nengo-model-graph-panel';

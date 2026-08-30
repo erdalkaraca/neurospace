@@ -3,6 +3,7 @@ import {
   TOOLBAR_MAIN,
   type HTMLContribution,
 } from '@eclipse-docks/core';
+import { fetchReleases } from '@eclipse-docks/extension-github-service';
 
 const appRoot = document.getElementById('app-root') ?? document.body;
 appLoaderService.registerApp(
@@ -26,6 +27,7 @@ appLoaderService.registerApp(
       },
       favicon: '/logo.svg',
     },
+    releaseHistory: fetchReleases,
     contributions: {
       ui: [
         {
@@ -39,6 +41,7 @@ appLoaderService.registerApp(
     },
     extensions: [
       '@eclipse-docks/extension-utils',
+      '@eclipse-docks/extension-github-service',
       '@eclipse-docks/extension-pwa',
       '@eclipse-docks/extension-command-palette',
       '@eclipse-docks/extension-memory-usage',
@@ -48,7 +51,6 @@ appLoaderService.registerApp(
       '@eclipse-docks/extension-md-editor',
       '@eclipse-docks/extension-media-viewer',
       '@eclipse-docks/extension-notebook',
-      '@eclipse-docks/extension-ai-system',
       '@eclipse-docks/extension-dataviewer',
       '@eclipse-docks/extension-catalog',
       '@kispace-io/extension-neuro-viewer',
@@ -58,6 +60,7 @@ appLoaderService.registerApp(
       '@kispace-io/extension-bids-validator',
       '@kispace-io/extension-ancpbids',
       '@kispace-io/extension-nengo-gui',
+      '@kispace-io/extension-actr',
     ],
   },
   { autoStart: true, hostConfig: true, container: appRoot },

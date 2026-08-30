@@ -7,6 +7,10 @@ import mkcert from 'vite-plugin-mkcert';
 import { appSplashPlugin } from '@eclipse-docks/core/vite-plugin-app-splash';
 import { resolveDepVersionsPlugin } from '@eclipse-docks/core/vite-plugin-resolve-deps';
 import { localAliasesPlugin } from '@eclipse-docks/core/vite-plugin-local-aliases';
+import {
+  actrCheerpXImagePlugin,
+  defaultActrCheerpXDistDir,
+} from '../extension-actr/src/vite-plugin-actr-cheerpx';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const basePath = process.env.VITE_BASE_PATH || '/';
@@ -41,6 +45,7 @@ export default defineConfig({
     }),
     mkcert(),
     crossOriginIsolation(),
+    actrCheerpXImagePlugin(defaultActrCheerpXDistDir(__dirname)),
     createDocksPwaPlugin({
       basePath,
       appName: 'neuro!space',

@@ -10,6 +10,7 @@ import {
 import { EditorInput, editorRegistry, File } from '@eclipse-docks/core';
 import { loadSnirf } from './snirf-loader.js';
 import type { SnirfData, SnirfDataBlock } from './types.js';
+import './snirf-viewer-attribution';
 import './snirf-time-series.js';
 import './snirf-probe-layout.js';
 

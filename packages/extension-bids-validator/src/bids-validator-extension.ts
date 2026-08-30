@@ -3,6 +3,7 @@ import type { CommandContribution } from '@eclipse-docks/core';
 import { BIDS_EDITOR_VALIDATE_TARGET } from '@kispace-io/extension-bids-editor';
 
 import { bidsValidationService } from './bids-validation-service';
+import './bids-validator-attribution';
 
 const isDatasetDescription = (file: DocksFile): boolean =>
   file.getName() === 'dataset_description.json';
