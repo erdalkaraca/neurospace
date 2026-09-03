@@ -9,3 +9,4 @@ dist
 coverage
 *.tsbuildinfo
 .mypy_cache
+internal

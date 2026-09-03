@@ -5,6 +5,10 @@ import {
 } from '@eclipse-docks/core';
 import { fetchReleases } from '@eclipse-docks/extension-github-service';
 
+function assetUrl(path: string): string {
+  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+}
+
 const appRoot = document.getElementById('app-root') ?? document.body;
 appLoaderService.registerApp(
   {
@@ -25,7 +29,7 @@ appLoaderService.registerApp(
         owner: 'erdalkaraca',
         repo: 'neurospace',
       },
-      favicon: '/logo.svg',
+      favicon: assetUrl('logo.svg'),
     },
     releaseHistory: fetchReleases,
     contributions: {
@@ -35,7 +39,7 @@ appLoaderService.registerApp(
           target: TOOLBAR_MAIN,
           slot: 'start',
           label: 'Brand',
-          component: `<span style="margin-right: 1rem; display: inline-flex; align-items: center;"><img src="/neurospace.svg" alt="neuro!space" style="height: 24px; display: block;" /></span>`,
+          component: `<span style="margin-right: 1rem; display: inline-flex; align-items: center;"><img src="${assetUrl('neurospace.svg')}" alt="neuro!space" style="height: 24px; display: block;" /></span>`,
         } as HTMLContribution,
       ],
     },
