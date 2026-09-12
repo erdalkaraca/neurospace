@@ -1,1 +1,0 @@
-var e=`monaco.grammars`;export{e as t};
