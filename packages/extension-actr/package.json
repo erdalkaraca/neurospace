@@ -12,7 +12,8 @@
   "dependencies": {
     "@eclipse-docks/core": "*",
     "@eclipse-docks/extension-catalog": "*",
-    "@eclipse-docks/extension-monaco-editor": "*"
+    "@eclipse-docks/extension-monaco-editor": "*",
+    "@eclipse-docks/extension-terminal": "*"
   },
   "devDependencies": {
     "typescript": "^6.0.0",

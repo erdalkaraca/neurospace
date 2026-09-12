@@ -36,7 +36,10 @@ export default defineConfig({
     },
   },
   plugins: [
-    appSplashPlugin({ logo: { src: '/logo.svg' } }),
+    appSplashPlugin({
+      logo: { src: '/logo-animated.svg', width: 192, height: 192, alt: 'neuro!space' },
+      description: 'Scientific Platform for Hybrid Cognitive Architectures',
+    }),
     resolveDepVersionsPlugin(),
     localAliasesPlugin({
       packagesRoot: path.resolve(__dirname, '..'),

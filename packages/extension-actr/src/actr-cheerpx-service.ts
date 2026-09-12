@@ -1,5 +1,6 @@
 import { createLogger } from '@eclipse-docks/core';
 
+import { createMailboxLogFilter } from './actr-console-filter';
 import { actrCheerpXImageBase } from './actr-cheerpx-image-paths';
 import { createMailboxClient, type ActrRpcResponse, type MailboxClient } from './mailbox-client';
 
@@ -7,31 +8,33 @@ const log = createLogger('ACT-R');
 
 const CX_URL = 'https://cxrtnc.leaningtech.com/1.1.5/cx.esm.js';
 const DEFAULT_IMAGE_BASE = actrCheerpXImageBase(import.meta.env.BASE_URL);
-const ROOT_IDB = 'actr-cheerpx-editor-v6';
-const IPC_OUT_IDB = 'actr-cheerpx-editor-ipc-out-v6';
+const ROOT_IDB = 'actr-cheerpx-editor-v7';
+const IPC_OUT_IDB = 'actr-cheerpx-editor-ipc-out-v7';
 /** CheerpX dir mounts need an existing parent; use top-level paths (not /ipc/in). */
 const IPC_IN_MOUNT = '/ipc-in';
 const IPC_OUT_MOUNT = '/ipc-out';
-const GUEST_MODEL_PATH = '/tmp/actr-run/model.lisp';
-/** Keep DataDevice payloads small — large writeFile hits CheerpX "Unable to add file". */
-const WRITE_CHUNK_CHARS = 400;
+const MAX_PROCESSES = 4;
+const CONSOLE_POLL_MS = 200;
 
-const RUN_OPTS = {
-  env: [
-    'HOME=/home/user',
-    'USER=user',
-    'SHELL=/bin/bash',
-    'LANG=C.UTF-8',
-    'LC_ALL=C',
-    'PATH=/opt/ecl/bin:/usr/local/bin:/usr/bin:/bin',
-    'LD_LIBRARY_PATH=/opt/ecl/lib',
-  ],
+const BASE_ENV = [
+  'HOME=/home/user',
+  'USER=user',
+  'SHELL=/bin/bash',
+  'LANG=C.UTF-8',
+  'LC_ALL=C',
+  'PATH=/opt/ecl/bin:/usr/local/bin:/usr/bin:/bin',
+  'LD_LIBRARY_PATH=/opt/ecl/lib',
+];
+
+const RUN_OPTS_BASE = {
   cwd: '/home/user',
   uid: 1000,
   gid: 1000,
 };
 
 const MAILBOX_SCRIPT = '/opt/actr-mailbox/actr-mailbox.sh';
+
+export type ActrProcessId = string;
 
 export type ActrProgressReporter = (message: string) => void;
 
@@ -45,6 +48,17 @@ export type ActrRunResult = {
   load: ActrRpcResponse;
   run: ActrRpcResponse;
   console: string;
+};
+
+export type ActrProcess = {
+  readonly id: ActrProcessId;
+  readonly name: string;
+  readonly version: string;
+  onConsole(cb: (chunk: string) => void): () => void;
+  onBatchEnd(cb: () => void): () => void;
+  loadAndRun(source: string, opts?: ActrRunOptions): Promise<ActrRunResult>;
+  evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse>;
+  dispose(): Promise<void>;
 };
 
 type CheerpXModule = {
@@ -69,7 +83,7 @@ type CheerpXLinux = {
     cols: number,
     rows: number,
   ): (keyCode: number) => void;
-  run(path: string, args: string[], opts: typeof RUN_OPTS): Promise<unknown>;
+  run(path: string, args: string[], opts: Record<string, unknown>): Promise<unknown>;
 };
 
 function imageBaseUrl(): string {
@@ -143,41 +157,269 @@ function assertOk(label: string, response: ActrRpcResponse): void {
   }
 }
 
-async function writeGuestFile(
-  mailbox: MailboxClient,
-  guestPath: string,
+/**
+ * Stage model source as one DataDevice file under /ipc-in.
+ * Unique names avoid CheerpX DataDevice overwrite failures ("Unable to add file").
+ * (Chunked write-* RPC was only needed when embedding source inside small RPC JSON bodies.)
+ */
+async function stageModelOnIpcIn(
+  ipcIn: MailboxInOutDevice,
+  slot: string,
   text: string,
-  onProgress?: ActrProgressReporter,
-) {
-  assertOk('write-begin', await mailbox.call('write-begin', [guestPath]));
-  const total = Math.max(1, Math.ceil(text.length / WRITE_CHUNK_CHARS));
-  for (let i = 0, n = 0; i < text.length; i += WRITE_CHUNK_CHARS, n += 1) {
-    const chunk = text.slice(i, i + WRITE_CHUNK_CHARS);
-    progress(onProgress, `Staging model… chunk ${n + 1}/${total}`);
-    assertOk('write-chunk', await mailbox.call('write-chunk', [chunk]));
+): Promise<string> {
+  const token = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+  const name = `${slot}model${token}.lisp`;
+  await ipcIn.writeFile(`/${name}`, text);
+  return `${IPC_IN_MOUNT}/${name}`;
+}
+
+function nextProcessId(counter: number): ActrProcessId {
+  return `p${counter}`;
+}
+
+class ActrProcessImpl implements ActrProcess {
+  readonly id: ActrProcessId;
+  readonly name: string;
+  version = '';
+  private readonly mailbox: MailboxClient;
+  private readonly ipcIn: MailboxInOutDevice;
+  private readonly service: ActrCheerpXService;
+  private readonly listeners = new Set<(chunk: string) => void>();
+  private readonly batchEndListeners = new Set<() => void>();
+  private readonly filterMailboxLogs = createMailboxLogFilter();
+  private consoleOffset = 0;
+  private pollTimer?: ReturnType<typeof setInterval>;
+  private operation: Promise<unknown> = Promise.resolve();
+  private disposed = false;
+  private mailboxExit: Error | null = null;
+
+  constructor(
+    id: ActrProcessId,
+    name: string,
+    mailbox: MailboxClient,
+    ipcIn: MailboxInOutDevice,
+    service: ActrCheerpXService,
+  ) {
+    this.id = id;
+    this.name = name;
+    this.mailbox = mailbox;
+    this.ipcIn = ipcIn;
+    this.service = service;
   }
-  assertOk('write-end', await mailbox.call('write-end', []));
+
+  markMailboxExit(error: Error): void {
+    this.mailboxExit = error;
+  }
+
+  onConsole(cb: (chunk: string) => void): () => void {
+    this.listeners.add(cb);
+    return () => this.listeners.delete(cb);
+  }
+
+  onBatchEnd(cb: () => void): () => void {
+    this.batchEndListeners.add(cb);
+    return () => this.batchEndListeners.delete(cb);
+  }
+
+  emitConsole(chunk: string): void {
+    const filtered = this.filterMailboxLogs(chunk);
+    if (!filtered) return;
+    for (const cb of this.listeners) cb(filtered);
+  }
+
+  private signalBatchEnd(): void {
+    for (const cb of this.batchEndListeners) cb();
+  }
+
+  startConsolePoll(): void {
+    if (this.pollTimer) return;
+    this.pollTimer = setInterval(() => {
+      void this.pollConsole();
+    }, CONSOLE_POLL_MS);
+  }
+
+  private async pollConsole(): Promise<void> {
+    if (this.disposed) return;
+    try {
+      const text = await this.mailbox.readConsoleText();
+      if (text.length > this.consoleOffset) {
+        const chunk = text.slice(this.consoleOffset);
+        this.consoleOffset = text.length;
+        this.emitConsole(chunk);
+      }
+    } catch {
+      // ignore transient read errors while guest writes
+    }
+  }
+
+  private enqueue<T>(fn: () => Promise<T>): Promise<T> {
+    const next = this.operation.then(fn, fn);
+    this.operation = next.then(
+      () => undefined,
+      () => undefined,
+    );
+    return next;
+  }
+
+  private ensureAlive(): void {
+    if (this.disposed) throw new Error(`ACT-R process ${this.id} is disposed`);
+    if (this.mailboxExit) throw this.mailboxExit;
+  }
+
+  async loadAndRun(source: string, options: ActrRunOptions = {}): Promise<ActrRunResult> {
+    const seconds = options.seconds ?? 10;
+    const onProgress = options.onProgress;
+
+    return this.enqueue(async () => {
+      this.ensureAlive();
+      const globalBefore = this.service.globalConsoleLength();
+      this.service.beginConsoleCapture(this);
+      try {
+        await this.pollConsole();
+        const consoleBefore = this.consoleOffset;
+
+        progress(onProgress, `Staging model (${source.length} chars)…`);
+        const guestPath = await stageModelOnIpcIn(this.ipcIn, this.mailbox.slot, source);
+
+        progress(onProgress, 'Resetting ACT-R…');
+        const reset = await this.mailbox.evaluate('reset', false);
+        if (reset.error) {
+          log.warn(formatRpc('reset', reset));
+        }
+
+        progress(onProgress, 'Loading model…');
+        const load = await this.mailbox.call('load-model', [guestPath]);
+        assertOk('load-model', load);
+        log.info(formatRpc('load-model', load));
+
+        progress(onProgress, `Running for ${seconds}s…`);
+        const run = await this.mailbox.evaluate('run', false, seconds);
+        assertOk('run', run);
+        log.info(formatRpc('run', run));
+
+        await this.pollConsole();
+        const fromFile = (await this.mailbox.readConsoleText()).slice(consoleBefore);
+        const fromGlobal = this.service.globalConsoleText().slice(globalBefore);
+        const consoleText = fromFile.length >= fromGlobal.length ? fromFile : fromGlobal;
+        // IDB console mirror can lag; ensure listeners see the run output.
+        if (fromGlobal.length > fromFile.length) {
+          this.emitConsole(fromGlobal.slice(fromFile.length));
+        }
+
+        const versionResp = await this.mailbox.evaluate('act-r-version', false);
+        const version =
+          Array.isArray(versionResp.result) && versionResp.result[0] != null
+            ? String(versionResp.result[0])
+            : '';
+
+        progress(onProgress, 'Done');
+        return { version, load, run, console: consoleText };
+      } finally {
+        this.service.endConsoleCapture(this);
+        this.signalBatchEnd();
+      }
+    });
+  }
+
+  async evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse> {
+    return this.enqueue(async () => {
+      this.ensureAlive();
+      this.service.beginConsoleCapture(this);
+      try {
+        const response = await this.mailbox.evaluate(command, false, ...args);
+        await this.pollConsole();
+        return response;
+      } finally {
+        this.service.endConsoleCapture(this);
+        this.signalBatchEnd();
+      }
+    });
+  }
+
+  async dispose(): Promise<void> {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.service.endConsoleCapture(this);
+    if (this.pollTimer) {
+      clearInterval(this.pollTimer);
+      this.pollTimer = undefined;
+    }
+    try {
+      await this.mailbox.call('quit', []);
+    } catch {
+      // process may already be gone
+    }
+    this.service.forgetProcess(this.id);
+  }
 }
 
 export class ActrCheerpXService {
-  private ready?: Promise<{ mailbox: MailboxClient; version: string }>;
-  private mailbox?: MailboxClient;
-  /** Full CheerpX stdout/stderr — DOM setConsole truncates; setCustomConsole does not. */
-  private consoleLog = '';
-  private readonly consoleDecoder = new TextDecoder('utf-8');
-  private operation: Promise<unknown> = Promise.resolve();
+  private vmReady?: Promise<void>;
+  private cx?: CheerpXLinux;
+  private ipcIn?: MailboxInOutDevice;
+  private ipcOut?: MailboxInOutDevice;
+  private readonly processes = new Map<ActrProcessId, ActrProcessImpl>();
+  private processCounter = 0;
+  private globalConsole = '';
+  private consoleCapture: ActrProcessImpl | null = null;
 
-  public reset(): void {
-    this.ready = undefined;
-    this.mailbox = undefined;
-    this.consoleLog = '';
+  public listProcesses(): ActrProcess[] {
+    return [...this.processes.values()];
   }
 
-  private getConsoleText(): string {
-    return this.consoleLog;
+  public getProcess(id: ActrProcessId): ActrProcess | undefined {
+    return this.processes.get(id);
   }
 
-  private async bootstrap(onProgress?: ActrProgressReporter) {
+  forgetProcess(id: ActrProcessId): void {
+    this.processes.delete(id);
+  }
+
+  globalConsoleLength(): number {
+    return this.globalConsole.length;
+  }
+
+  globalConsoleText(): string {
+    return this.globalConsole;
+  }
+
+  beginConsoleCapture(proc: ActrProcessImpl): void {
+    this.consoleCapture = proc;
+  }
+
+  endConsoleCapture(proc: ActrProcessImpl): void {
+    if (this.consoleCapture === proc) this.consoleCapture = null;
+  }
+
+  public async ensureVm(onProgress?: ActrProgressReporter): Promise<void> {
+    if (this.cx) {
+      progress(onProgress, 'ACT-R VM ready');
+      return;
+    }
+    if (!this.vmReady) {
+      this.vmReady = this.bootstrapVm(onProgress).catch((error) => {
+        log.error(error instanceof Error ? error.message : String(error));
+        this.resetVm();
+        throw error;
+      });
+    }
+    await this.vmReady;
+  }
+
+  private resetVm(): void {
+    this.vmReady = undefined;
+    this.cx = undefined;
+    this.ipcIn = undefined;
+    this.ipcOut = undefined;
+    this.globalConsole = '';
+    this.consoleCapture = null;
+    for (const proc of this.processes.values()) {
+      void proc.dispose();
+    }
+    this.processes.clear();
+  }
+
+  private async bootstrapVm(onProgress?: ActrProgressReporter): Promise<void> {
     progress(onProgress, 'Loading CheerpX…');
     const CheerpX = (await import(
       /* @vite-ignore */
@@ -203,109 +445,88 @@ export class ActrCheerpXService {
       ],
     });
 
-    this.consoleLog = '';
+    this.globalConsole = '';
+    const decoder = new TextDecoder('utf-8');
     cx.setCustomConsole(
       (buf) => {
-        this.consoleLog += this.consoleDecoder.decode(buf);
+        const text = decoder.decode(buf);
+        this.globalConsole += text;
+        this.consoleCapture?.emitConsole(text);
       },
       80,
       24,
     );
 
-    progress(onProgress, 'Starting ACT-R mailbox…');
-    let mailboxExit: Error | null = null;
-    const mailboxRun = cx.run(MAILBOX_SCRIPT, [], RUN_OPTS);
-    mailboxRun.catch((error) => {
-      mailboxExit = error instanceof Error ? error : new Error(String(error));
-      log.error(`mailbox exited: ${mailboxExit.message}`);
-    });
+    this.cx = cx;
+    this.ipcIn = ipcIn;
+    this.ipcOut = ipcOut;
+    log.info('ACT-R CheerpX VM ready');
+  }
 
+  public async createProcess(opts?: {
+    name?: string;
+    onProgress?: ActrProgressReporter;
+  }): Promise<ActrProcess> {
+    if (this.processes.size >= MAX_PROCESSES) {
+      throw new Error(
+        `ACT-R process limit reached (${MAX_PROCESSES}). Close a console before starting another.`,
+      );
+    }
+
+    const onProgress = opts?.onProgress;
+    await this.ensureVm(onProgress);
+
+    const cx = this.cx;
+    const ipcIn = this.ipcIn;
+    const ipcOut = this.ipcOut;
+    if (!cx || !ipcIn || !ipcOut) {
+      throw new Error('ACT-R VM is not available');
+    }
+
+    this.processCounter += 1;
+    const id = nextProcessId(this.processCounter);
+    const name = opts?.name?.trim() || `ACT-R ${id}`;
+
+    progress(onProgress, `Starting ACT-R process ${id}…`);
     const mailbox = createMailboxClient({
       inDevice: ipcIn,
       outDevice: ipcOut,
+      slot: id,
       timeoutMs: 180_000,
+    });
+
+    const proc = new ActrProcessImpl(id, name, mailbox, ipcIn, this);
+    this.processes.set(id, proc);
+
+    const runOpts = {
+      ...RUN_OPTS_BASE,
+      env: [...BASE_ENV, `ACTR_SLOT=${id}`],
+    };
+
+    const mailboxRun = cx.run(MAILBOX_SCRIPT, [], runOpts);
+    mailboxRun.catch((error) => {
+      const err = error instanceof Error ? error : new Error(String(error));
+      log.error(`mailbox[${id}] exited: ${err.message}`);
+      proc.markMailboxExit(err);
     });
 
     const version = await mailbox.waitUntilReady({
       timeoutMs: 600_000,
       pollMs: 250,
-      onProgress: (msg) => progress(onProgress, `ACT-R: ${msg}`),
+      onProgress: (msg) => progress(onProgress, `ACT-R[${id}]: ${msg}`),
       onPoll: () => {
-        if (mailboxExit) throw mailboxExit;
-        const elf = this.consoleLog.match(/ELF execution failed[^\n]*/);
-        if (elf) {
-          throw new Error(elf[0]);
+        if (this.globalConsole.match(/ELF execution failed[^\n]*/)) {
+          const elf = this.globalConsole.match(/ELF execution failed[^\n]*/);
+          if (elf) throw new Error(elf[0]);
         }
       },
     });
 
-    log.info(`mailbox ready (${version})`);
-    this.mailbox = mailbox;
-    return { mailbox, version };
-  }
-
-  public ensureReady(onProgress?: ActrProgressReporter) {
-    if (this.mailbox) {
-      progress(onProgress, 'ACT-R runtime ready');
-      return Promise.resolve({ mailbox: this.mailbox, version: '' });
-    }
-    if (!this.ready) {
-      this.ready = this.bootstrap(onProgress).catch((error) => {
-        log.error(error instanceof Error ? error.message : String(error));
-        this.reset();
-        throw error;
-      });
-    }
-    return this.ready;
-  }
-
-  private enqueue<T>(fn: () => Promise<T>): Promise<T> {
-    const next = this.operation.then(fn, fn);
-    this.operation = next.then(
-      () => undefined,
-      () => undefined,
-    );
-    return next;
-  }
-
-  public runLisp(source: string, options: ActrRunOptions = {}): Promise<ActrRunResult> {
-    const seconds = options.seconds ?? 10;
-    const onProgress = options.onProgress;
-
-    return this.enqueue(async () => {
-      const { mailbox } = await this.ensureReady(onProgress);
-
-      const consoleBefore = this.getConsoleText().length;
-
-      progress(onProgress, `Staging model (${source.length} chars)…`);
-      await writeGuestFile(mailbox, GUEST_MODEL_PATH, source, onProgress);
-
-      progress(onProgress, 'Resetting ACT-R…');
-      const reset = await mailbox.evaluate('reset', false);
-      if (reset.error) {
-        log.warn(formatRpc('reset', reset));
-      }
-
-      progress(onProgress, 'Loading model…');
-      const load = await mailbox.call('load-model', [GUEST_MODEL_PATH]);
-      assertOk('load-model', load);
-      log.info(formatRpc('load-model', load));
-
-      progress(onProgress, `Running for ${seconds}s…`);
-      const run = await mailbox.evaluate('run', false, seconds);
-      assertOk('run', run);
-      log.info(formatRpc('run', run));
-
-      const consoleText = this.getConsoleText().slice(consoleBefore);
-      const versionResp = await mailbox.evaluate('act-r-version', false);
-      const version =
-        Array.isArray(versionResp.result) && versionResp.result[0] != null
-          ? String(versionResp.result[0])
-          : '';
-
-      progress(onProgress, 'Done');
-      return { version, load, run, console: consoleText };
-    });
+    log.info(`mailbox[${id}] ready (${version})`);
+    proc.version = version || 'ready';
+    proc.startConsolePoll();
+    proc.emitConsole(`ACT-R process ${id} ready (${version})\r\n`);
+    return proc;
   }
 }
 

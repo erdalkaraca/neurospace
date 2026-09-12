@@ -4,6 +4,9 @@
 ;;;   /ipc-in  — DataDevice  (JS writes req.json + req.ready; Lisp reads)
 ;;;   /ipc-out — IDBDevice   (Lisp writes progress/ready/res.*; JS reads)
 ;;;
+;;; Multiple processes share the mounts; set ACTR_SLOT (default "main") so all
+;;; ipc filenames are prefixed: /ipc-out/{slot}.ready, /ipc-in/{slot}.r1.json, …
+;;;
 ;;; Request body matches ACT-R remote JSON-RPC 1.0 (no EOT framing):
 ;;;   {"method":"evaluate","params":["act-r-version",false],"id":1}
 ;;;
@@ -13,18 +16,49 @@
 ;;; Note: single-threaded ACT-R replaces cl-json with identity macros, so this
 ;;; file ships a tiny JSON codec used only for the mailbox.
 
+(defparameter *actr-slot*
+  (let ((s (ignore-errors (ext:getenv "ACTR_SLOT"))))
+    (if (and s (stringp s) (plusp (length s))) s "main")))
+
+(defun slot-out (name)
+  (concatenate 'string "/ipc-out/" *actr-slot* "." name))
+
+(defun slot-in (name)
+  (concatenate 'string "/ipc-in/" *actr-slot* "." name))
+
+(defparameter *console-stream* nil)
+
+(defun init-console-mirror ()
+  (ensure-directories-exist #P"/ipc-out/")
+  (handler-case
+      (progn
+        (setf *console-stream*
+              (open (slot-out "console")
+                    :direction :output
+                    :if-exists :supersede
+                    :if-does-not-exist :create))
+        (setf *standard-output*
+              (make-broadcast-stream *standard-output* *console-stream*))
+        (setf *error-output* *standard-output*)
+        (finish-output *console-stream*))
+    (error (e)
+      (format t "console mirror unavailable: ~a~%" e)
+      (finish-output))))
+
 (defun mailbox-progress (msg)
   (ensure-directories-exist #P"/ipc-out/")
   (ignore-errors
-    (with-open-file (out "/ipc-out/progress"
+    (with-open-file (out (slot-out "progress")
                          :direction :output
                          :if-exists :supersede
                          :if-does-not-exist :create)
       (write-string msg out)
       (finish-output out)))
-  (format t "~%[mailbox] ~a~%" msg)
-  (finish-output))
+  (format t "~%[mailbox ~a] ~a~%" *actr-slot* msg)
+  (finish-output)
+  (ignore-errors (finish-output *console-stream*)))
 
+(init-console-mirror)
 (mailbox-progress "ecl-bytecodes")
 (ext:install-bytecodes-compiler)
 
@@ -38,10 +72,15 @@
 
 (in-package :actr-mailbox)
 
-(defparameter *in-dir* "/ipc-in/")
-(defparameter *out-dir* "/ipc-out/")
 (defparameter *poll-seconds* 0.05)
 (defparameter *next-req-id* 1)
+(defparameter *slot* cl-user::*actr-slot*)
+
+(defun out-path (name)
+  (cl-user::slot-out name))
+
+(defun in-path (name)
+  (cl-user::slot-in name))
 
 ;;;; Minimal JSON (mailbox protocol only)
 
@@ -231,9 +270,6 @@
 
 ;;;; Filesystem helpers
 
-(defun path (dir name)
-  (concatenate 'string dir name))
-
 (defun trim (s)
   (string-trim '(#\Space #\Tab #\Newline #\Return) s))
 
@@ -287,48 +323,23 @@
                     (error (e)
                       (return-from handle-evaluate
                         (rpc-error id (condition-string e))))))))
+    (ignore-errors (finish-output cl-user::*console-stream*))
     (if (first result)
         (rpc-ok id (rest result))
         (rpc-error id (or (second result) "evaluate failed")))))
 
-;;;; Guest file staging (avoid large DataDevice.writeFile — CheerpX rejects those)
-
-(defparameter *write-path* nil)
-(defparameter *write-parts* nil)
-
-(defun handle-write-begin (params id)
-  (let ((pathname (first params)))
-    (unless (stringp pathname)
-      (return-from handle-write-begin
-        (rpc-error id "write-begin requires pathname string")))
-    (ensure-directories-exist pathname)
-    (ignore-errors (delete-file pathname))
-    (setf *write-path* pathname
-          *write-parts* nil)
-    (rpc-ok id (list pathname))))
-
-(defun handle-write-chunk (params id)
-  (unless *write-path*
-    (return-from handle-write-chunk
-      (rpc-error id "write-chunk without write-begin")))
-  (let ((chunk (first params)))
-    (unless (stringp chunk)
-      (return-from handle-write-chunk
-        (rpc-error id "write-chunk requires string")))
-    (push chunk *write-parts*)
-    (rpc-ok id (list (length chunk)))))
-
-(defun handle-write-end (params id)
+(defun handle-quit (params id)
   (declare (ignore params))
-  (unless *write-path*
-    (return-from handle-write-end
-      (rpc-error id "write-end without write-begin")))
-  (let ((pathname *write-path*)
-        (text (apply #'concatenate 'string (nreverse *write-parts*))))
-    (setf *write-path* nil
-          *write-parts* nil)
-    (write-text pathname text)
-    (rpc-ok id (list pathname (length text)))))
+  (let ((response (rpc-ok id (list t))))
+    (write-response response)
+    (ignore-errors (finish-output cl-user::*console-stream*))
+    (ignore-errors (close cl-user::*console-stream*))
+    (ignore-errors (si:exit 0))
+    (ignore-errors (ext:quit 0))
+    response))
+
+;;;; Guest file staging via write-* RPC is unused; JS stages models with
+;;;; DataDevice.writeFile onto /ipc-in and load-model reads that path.
 
 ;;; Load model with *package* bound to CL-USER (mailbox package would break define-model).
 (defun handle-load-model (params id)
@@ -344,6 +355,7 @@
     (handler-case
         (let ((*package* (find-package :cl-user)))
           (cl-user::internal-load-act-r-model pathname nil)
+          (ignore-errors (finish-output cl-user::*console-stream*))
           (rpc-ok id (list pathname t)))
       (error (e)
         (rpc-error id (condition-string e))))))
@@ -357,33 +369,29 @@
        (rpc-error id "missing method"))
       ((string-equal method "evaluate")
        (handle-evaluate params id))
-      ((string-equal method "write-begin")
-       (handle-write-begin params id))
-      ((string-equal method "write-chunk")
-       (handle-write-chunk params id))
-      ((string-equal method "write-end")
-       (handle-write-end params id))
       ((string-equal method "load-model")
        (handle-load-model params id))
+      ((string-equal method "quit")
+       (handle-quit params id))
       (t
        (rpc-error id
                   (format nil "unsupported method ~s"
                           method))))))
 
 (defun clear-response ()
-  (ignore-errors (delete-file (path *out-dir* "res.ready")))
-  (ignore-errors (delete-file (path *out-dir* "res.json"))))
+  (ignore-errors (delete-file (out-path "res.ready")))
+  (ignore-errors (delete-file (out-path "res.json"))))
 
 (defun write-response (object)
   (clear-response)
-  (write-text (path *out-dir* "res.json") (json-encode object))
-  (write-text (path *out-dir* "res.ready")
+  (write-text (out-path "res.json") (json-encode object))
+  (write-text (out-path "res.ready")
               (princ-to-string (or (assoc-val :id object) ""))))
 
 (defun process-once ()
   (let* ((token (princ-to-string *next-req-id*))
-         (ready-path (path *in-dir* (concatenate 'string "r" token ".ready")))
-         (json-path (path *in-dir* (concatenate 'string "r" token ".json"))))
+         (ready-path (in-path (concatenate 'string "r" token ".ready")))
+         (json-path (in-path (concatenate 'string "r" token ".json"))))
     (unless (probe-file ready-path)
       (return-from process-once nil))
     (let* ((body (read-text json-path))
@@ -394,24 +402,27 @@
                                     (format nil "invalid JSON: ~a" e)))
                         (incf *next-req-id*)
                         (return-from process-once t)))))
-      (format t "~%mailbox: ~a id=~a~%"
+      (format t "~%mailbox[~a]: ~a id=~a~%"
+              *slot*
               (assoc-val :method message)
               (assoc-val :id message))
       (finish-output)
+      (ignore-errors (finish-output cl-user::*console-stream*))
       (write-response (handle-request message))
       (incf *next-req-id*)
       t)))
 
 (defun announce-ready ()
-  (write-text (path *out-dir* "progress") "ready")
-  (write-text (path *out-dir* "ready")
+  (write-text (out-path "progress") "ready")
+  (write-text (out-path "ready")
               (cl-user::act-r-version-string))
-  (format t "~%ACT-R mailbox ready on /ipc-in / /ipc-out (evaluate only)~%")
+  (format t "~%ACT-R mailbox[~a] ready (evaluate + quit)~%" *slot*)
   (format t "ACT-R ~a~%" (cl-user::act-r-version-string))
-  (finish-output))
+  (finish-output)
+  (ignore-errors (finish-output cl-user::*console-stream*)))
 
 (defun serve (&key (announce t))
-  (ensure-directories-exist *out-dir*)
+  (ensure-directories-exist #P"/ipc-out/")
   (clear-response)
   (when announce
     (announce-ready))

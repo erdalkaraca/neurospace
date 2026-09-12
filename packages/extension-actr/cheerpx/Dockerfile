@@ -94,8 +94,10 @@ RUN mkdir -p /opt/actr-mailbox \
     'set -e' \
     'export PATH="/opt/ecl/bin:$PATH"' \
     'export LD_LIBRARY_PATH="/opt/ecl/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"' \
-    'printf "%s" "shell-start" > /ipc-out/progress' \
-    'echo "mailbox: starting Lisp-only ACT-R evaluate loop"' \
+    'SLOT="${ACTR_SLOT:-main}"' \
+    'export ACTR_SLOT="$SLOT"' \
+    'printf "%s" "shell-start" > "/ipc-out/${SLOT}.progress"' \
+    'echo "mailbox[$SLOT]: starting Lisp-only ACT-R evaluate loop"' \
     'exec /opt/ecl/bin/ecl -norc -load /opt/actr-mailbox/actr-mailbox.lisp' \
     > /opt/actr-mailbox/actr-mailbox.sh \
   && chmod +x /opt/actr-mailbox/actr-mailbox.sh \

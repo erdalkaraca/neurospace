@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">neuro!space</title>
+  <desc id="desc">Animated spike flowing into summation</desc>
+
+  <g fill="none" stroke="#2299dd" stroke-width="3.25"
+     stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="opacity"
+             values="1;1;0;0"
+             keyTimes="0;0.82;0.92;1"
+             dur="3.2s"
+             repeatCount="indefinite"/>
+
+    <!-- spike draws first -->
+    <path pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"
+          d="M4 36 H14 L20 12 L26 48 L30 36 H34">
+      <animate attributeName="stroke-dashoffset"
+               values="100;0;0"
+               keyTimes="0;0.32;1"
+               dur="3.2s"
+               repeatCount="indefinite"
+               calcMode="spline"
+               keySplines="0.4 0 0.15 1; 0 0 1 1"/>
+    </path>
+
+    <!-- ? appears from the handoff: top ? diagonal ? bottom -->
+    <path pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"
+          d="M34 16 H54">
+      <animate attributeName="stroke-dashoffset"
+               values="100;100;0;0"
+               keyTimes="0;0.26;0.44;1"
+               dur="3.2s"
+               repeatCount="indefinite"
+               calcMode="spline"
+               keySplines="0 0 1 1; 0.4 0 0.15 1; 0 0 1 1"/>
+    </path>
+    <path pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"
+          d="M34 16 L46 36 L34 56">
+      <animate attributeName="stroke-dashoffset"
+               values="100;100;0;0"
+               keyTimes="0;0.34;0.54;1"
+               dur="3.2s"
+               repeatCount="indefinite"
+               calcMode="spline"
+               keySplines="0 0 1 1; 0.4 0 0.15 1; 0 0 1 1"/>
+    </path>
+    <path pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"
+          d="M34 56 H54">
+      <animate attributeName="stroke-dashoffset"
+               values="100;100;0;0"
+               keyTimes="0;0.44;0.6;1"
+               dur="3.2s"
+               repeatCount="indefinite"
+               calcMode="spline"
+               keySplines="0 0 1 1; 0.4 0 0.15 1; 0 0 1 1"/>
+    </path>
+  </g>
+</svg>

@@ -9,4 +9,5 @@ extensionRegistry.registerExtension({
   description: t.EXT_ACTR_DESC,
   loader: () => import('./actr-extension'),
   icon: 'brain',
+  dependencies: ['@eclipse-docks/extension-terminal'],
 });

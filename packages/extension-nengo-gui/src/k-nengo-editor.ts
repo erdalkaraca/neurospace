@@ -9,6 +9,8 @@ import {
   ref,
 } from '@eclipse-docks/core/externals/lit';
 import { PyEnv } from '@eclipse-docks/extension-python-runtime/api';
+import '@eclipse-docks/extension-monaco-editor/widget';
+import type { DocksMonacoWidget } from '@eclipse-docks/extension-monaco-editor/widget';
 import { ENV_NO_THREADS, FCNTL_STUB, INSTALL_NENGO } from './nengo-python-init';
 import nameFinderScript from './py-scripts/name_finder.py?raw';
 import initSimScript from './py-scripts/init-sim.py?raw';
@@ -88,7 +90,7 @@ export class KNengoEditor extends DocksPart {
 
   private pyenv?: PyEnv;
   private extractDebounce = 0;
-  private widgetRef = createRef<any>();
+  private widgetRef = createRef<DocksMonacoWidget>();
 
   private static readonly CHUNK_DURATION_S = 0.05;
 

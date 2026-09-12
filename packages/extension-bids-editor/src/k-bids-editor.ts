@@ -1,5 +1,7 @@
 import { DocksPart, EditorInput, File as DocksFile } from '@eclipse-docks/core';
 import { customElement, property, state, html, css, createRef, ref } from '@eclipse-docks/core/externals/lit';
+import '@eclipse-docks/extension-monaco-editor/widget';
+import type { DocksMonacoWidget } from '@eclipse-docks/extension-monaco-editor/widget';
 
 import { BIDS_EDITOR_VALIDATE_TARGET } from './contributions';
 
@@ -20,7 +22,7 @@ export class KBidsEditor extends DocksPart {
   @state()
   private uri?: string;
 
-  private widgetRef = createRef<any>();
+  private widgetRef = createRef<DocksMonacoWidget>();
 
   public isEditor = true;
 

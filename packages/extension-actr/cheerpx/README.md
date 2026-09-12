@@ -22,13 +22,13 @@ The image allocates **192 MB** by default (`IMAGE_SIZE` in `build-ext2.sh`); act
 
 ## Editor Run (Neurospace app)
 
-1. Build the image (`npm run cheerpx:build-image`).
+1. Build the image (`npm run cheerpx:build-image`) — required after mailbox/slot changes.
 2. Start the app (`packages/app`) — Vite serves `/actr-cheerpx/*` via `actrCheerpXImagePlugin` and copies chunks into `dist/` on production build.
-3. Open a `.lisp` ACT-R model and click **Run**.
+3. Open a `.lisp` ACT-R model and click **Start console** or **Run**.
 
-The app starts the mailbox via `/opt/actr-mailbox/actr-mailbox.sh` (writes `shell-start` progress, then execs ECL).
+Each editor gets a dedicated ACT-R Terminal console (hidden profile `terminal.actr`) backed by its own ECL mailbox process (`ACTR_SLOT`). Processes share one CheerpX VM; IPC files are slot-prefixed on `/ipc-in` and `/ipc-out`. Closing the console disposes that process; the editor can start a fresh one.
 
-First boot loads CheerpX + ACT-R (can take minutes). Later runs reuse the warm mailbox.
+First console boot loads CheerpX + ACT-R (can take minutes). Later consoles reuse the warm VM but still pay per-process ACT-R load.
 
 The image base URL follows Vite `base` (e.g. `/neurospace/actr-cheerpx/actr-cheerpx.ext2` on GitHub Pages). Override if needed (no `.meta` suffix):
 
@@ -40,13 +40,16 @@ window.__ACTR_CHEERPX_IMAGE__ = '/neurospace/actr-cheerpx/actr-cheerpx.ext2';
 
 | Mount | Device | Direction |
 |-------|--------|-----------|
-| `/ipc-in` | `DataDevice` | JS → Lisp (`req.json` + `req.ready`, model files) |
-| `/ipc-out` | `IDBDevice` | Lisp → JS (`res.json` + `res.ready`, `progress`, `ready`) |
+| `/ipc-in` | `DataDevice` | JS → Lisp (`{slot}.r{id}.json` + `{slot}.r{id}.ready`; model source as one `{slot}model{token}.lisp`) |
+| `/ipc-out` | `IDBDevice` | Lisp → JS (`{slot}.res.*`, `{slot}.progress`, `{slot}.ready`, `{slot}.console`) |
 
-Same ACT-R remote `evaluate` body as TCP JSON-RPC 1.0, without EOT framing.
+Set `ACTR_SLOT` in the guest env (default `main`) so multiple mailbox processes can share the mounts.
+
+Same ACT-R remote `evaluate` body as TCP JSON-RPC 1.0, without EOT framing. Console commands from the Terminal go through `evaluate` (e.g. `run 10`, `reset`).
 
 - Client: `src/mailbox-client.ts`
-- Runtime: `src/actr-cheerpx-service.ts`
+- Runtime: `src/actr-cheerpx-service.ts` (VM + process manager)
+- Terminal: `src/actr-terminal-backend.ts`
 
 ## Notes
 

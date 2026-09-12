@@ -3,23 +3,32 @@ import {
   EditorInput,
   File as DocksFile,
   activeEditorSignal,
+  toastError,
 } from '@eclipse-docks/core';
-import { customElement, property, state, html, css, createRef, ref } from '@eclipse-docks/core/externals/lit';
+import {
+  customElement,
+  property,
+  state,
+  html,
+  css,
+  createRef,
+  ref,
+  styleMap,
+} from '@eclipse-docks/core/externals/lit';
+import { terminalService, type Terminal } from '@eclipse-docks/extension-terminal/api';
+import '@eclipse-docks/extension-monaco-editor/widget';
+import type { DocksMonacoWidget } from '@eclipse-docks/extension-monaco-editor/widget';
 
-import { actrCheerpXService } from './actr-cheerpx-service';
-import { formatActrTextTrace } from './actr-trace-format';
+import {
+  ACTR_BIND_ENV,
+  attachActrTerminal,
+  detachActrTerminal,
+  waitActrBind,
+} from './actr-console-registry';
+import type { ActrProcess } from './actr-cheerpx-service';
+import { ACTR_TERMINAL_PROFILE_ID } from './actr-terminal-backend';
 
 export const ACTR_EDITOR_ID = 'actr-editor';
-
-/** Fired on `NsActrEditor` when state relevant to companion panels changes. */
-export const ACTR_COMPANION_UPDATE = 'actr-companion-update';
-
-export type ActrTraceSnapshot = {
-  status: string;
-  textTrace: string;
-  running: boolean;
-  canRun: boolean;
-};
 
 @customElement('ns-actr-editor')
 export class NsActrEditor extends DocksPart {
@@ -42,32 +51,42 @@ export class NsActrEditor extends DocksPart {
   private running = false;
 
   @state()
-  private runStatus = '';
+  private actrConnecting = false;
 
   @state()
-  private textTrace = '';
+  private actrConnected = false;
 
-  private widgetRef = createRef<any>();
+  @state()
+  private actrVersion = '';
+
+  @state()
+  private boundTerminalId: string | null = null;
+
+  private boundProcess: ActrProcess | null = null;
+  private widgetRef = createRef<DocksMonacoWidget>();
+  private unsubTerminalClosed?: () => void;
 
   public isEditor = true;
 
   protected override scrollMode = 'native' as const;
 
-  protected override updated(changedProperties: Map<string, unknown>): void {
-    super.updated?.(changedProperties);
-    const companionKeys = new Set(['runStatus', 'textTrace', 'running', 'loading']);
-    if ([...changedProperties.keys()].some((k) => companionKeys.has(k))) {
-      this.dispatchEvent(new CustomEvent(ACTR_COMPANION_UPDATE));
-    }
+  protected override doBeforeUI(): void {
+    this.watch(activeEditorSignal, () => {
+      if (activeEditorSignal.get() === this) {
+        void this.revealBoundConsole();
+      }
+    });
+    this.unsubTerminalClosed = terminalService.onDidCloseTerminal((terminal) => {
+      if (terminal.id === this.boundTerminalId) {
+        this.clearBinding();
+      }
+    });
   }
 
-  public getCompanionTraceSnapshot(): ActrTraceSnapshot {
-    return {
-      status: this.runStatus,
-      textTrace: this.textTrace,
-      running: this.running,
-      canRun: this.canRun,
-    };
+  override disconnectedCallback(): void {
+    this.unsubTerminalClosed?.();
+    this.unsubTerminalClosed = undefined;
+    super.disconnectedCallback();
   }
 
   protected async doInitUI() {
@@ -75,8 +94,6 @@ export class NsActrEditor extends DocksPart {
     this.error = undefined;
     this.initialContent = undefined;
     this.uri = undefined;
-    this.runStatus = '';
-    this.textTrace = '';
 
     try {
       const data = this.input?.data;
@@ -108,59 +125,161 @@ export class NsActrEditor extends DocksPart {
     return this.uri?.toLowerCase().endsWith('.lisp') ? 'actr-lisp' : 'plaintext';
   }
 
-  private get canRun(): boolean {
-    return this.language === 'actr-lisp' && !this.running && !this.loading;
+  private get modelLabel(): string {
+    const path = this.uri ?? 'model.lisp';
+    const parts = path.split('/');
+    return parts[parts.length - 1] || 'ACT-R';
   }
 
+  private get canRun(): boolean {
+    return this.language === 'actr-lisp' && !this.running && !this.loading && !this.actrConnecting;
+  }
+
+  private clearBinding(): void {
+    if (this.boundTerminalId) {
+      detachActrTerminal(this.boundTerminalId);
+    }
+    this.boundTerminalId = null;
+    this.boundProcess = null;
+    this.actrConnected = false;
+    this.actrVersion = '';
+    this.actrConnecting = false;
+    this.requestUpdate();
+  }
+
+  private disposeBoundConsole(): void {
+    const terminalId = this.boundTerminalId;
+    if (!terminalId) return;
+    const terminal = terminalService.getTerminals().find((t) => t.id === terminalId);
+    this.clearBinding();
+    void terminal?.dispose();
+  }
+
+  private async revealBoundConsole(): Promise<void> {
+    if (!this.boundTerminalId) return;
+    const terminal = terminalService.getTerminals().find((t) => t.id === this.boundTerminalId);
+    terminal?.show(true);
+  }
+
+  private async ensureConsole(): Promise<{ terminal: Terminal; process: ActrProcess }> {
+    if (this.boundTerminalId && this.boundProcess && this.actrConnected) {
+      const existing = terminalService.getTerminals().find((t) => t.id === this.boundTerminalId);
+      if (existing) {
+        existing.show(true);
+        return { terminal: existing, process: this.boundProcess };
+      }
+      this.clearBinding();
+    }
+
+    const bindId = crypto.randomUUID();
+    const terminal = await terminalService.createTerminal({
+      profileId: ACTR_TERMINAL_PROFILE_ID,
+      name: this.modelLabel,
+      env: { [ACTR_BIND_ENV]: bindId },
+    });
+    if (!terminal) {
+      throw new Error('Failed to create ACT-R terminal');
+    }
+
+    // Show the console immediately; ACT-R continues booting inside the backend.
+    this.boundTerminalId = terminal.id;
+    terminal.show(true);
+
+    const process = await waitActrBind(bindId);
+    attachActrTerminal(terminal.id, process);
+    this.boundProcess = process;
+    this.actrConnected = true;
+    this.actrVersion = process.version || 'ready';
+    terminal.show(true);
+    return { terminal, process };
+  }
+
+  private onConnect = async () => {
+    if (this.actrConnecting || this.actrConnected || this.language !== 'actr-lisp') return;
+    this.actrConnecting = true;
+    try {
+      await this.ensureConsole();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      toastError(message);
+      this.disposeBoundConsole();
+    } finally {
+      this.actrConnecting = false;
+    }
+  };
+
   private onRun = async () => {
-    if (!this.canRun) return;
+    if (!this.canRun || !this.actrConnected || !this.boundProcess) return;
 
     const source = this.widgetRef.value?.getContent?.() ?? this.initialContent ?? '';
     if (!source.trim()) {
-      this.runStatus = 'Nothing to run';
-      this.textTrace = '';
+      toastError('Nothing to run');
       return;
     }
 
     this.running = true;
-    this.runStatus = 'Starting…';
-    this.textTrace = '';
 
     try {
-      const result = await actrCheerpXService.runLisp(source, {
+      const { terminal, process } = await this.ensureConsole();
+      terminal.clear?.();
+
+      const result = await process.loadAndRun(source, {
         seconds: 10,
-        onProgress: (message) => {
-          this.runStatus = message;
-        },
       });
 
-      const meta = [
-        result.version ? `ACT-R ${result.version}` : null,
-        `load → ${JSON.stringify(result.load.result)}`,
-        `run  → ${JSON.stringify(result.run.result)}`,
-      ].filter(Boolean);
+      if (result.version) {
+        this.actrVersion = result.version;
+      }
 
-      this.textTrace = formatActrTextTrace(result.console);
-      this.runStatus = meta.join(' · ') || 'Done';
+      terminal.show(true);
     } catch (err) {
-      this.runStatus = 'Failed';
-      this.textTrace = err instanceof Error ? err.message : String(err);
+      const message = err instanceof Error ? err.message : String(err);
+      toastError(message);
     } finally {
       this.running = false;
     }
   };
 
   protected override renderToolbar() {
-    const title = this.language === 'actr-lisp'
-      ? 'Load model into in-browser ACT-R and run for 10s'
-      : 'Run is only available for .lisp ACT-R models';
+    if (this.language !== 'actr-lisp') {
+      return html`
+        <span class="toolbar-note">Run is only available for .lisp ACT-R models</span>
+      `;
+    }
+
+    const connectionTitle = this.actrConnecting
+      ? 'Connecting to ACT-R…'
+      : this.actrConnected
+        ? 'ACT-R Connected'
+        : 'ACT-R Disconnected — Click to connect';
+    const connectionText = this.actrConnecting
+      ? 'Connecting...'
+      : this.actrConnected && this.actrVersion
+        ? `ACT-R ${this.actrVersion}`
+        : 'Not connected';
+    const iconColor = this.actrConnected
+      ? 'var(--wa-color-green-40)'
+      : this.actrConnecting
+        ? 'var(--wa-color-warning-500)'
+        : 'var(--wa-color-red-40)';
 
     return html`
       <wa-button
         appearance="plain"
         size="s"
-        ?disabled=${!this.canRun}
-        title=${title}
+        style=${styleMap({ display: 'flex', alignItems: 'center', gap: '0.5rem' })}
+        ?disabled=${this.actrConnecting}
+        title=${connectionTitle}
+        @click=${this.onConnect}
+      >
+        <wa-icon name="circle" label="ACT-R status" style=${styleMap({ color: iconColor })}></wa-icon>
+        ${connectionText}
+      </wa-button>
+      <wa-button
+        appearance="plain"
+        size="s"
+        ?disabled=${!this.actrConnected || !this.canRun}
+        title="Load model into the attached ACT-R console and run for 10s"
         @click=${this.onRun}
       >
         <wa-icon name="play" slot="prefix"></wa-icon>
@@ -170,6 +289,7 @@ export class NsActrEditor extends DocksPart {
   }
 
   protected override doClose(): void {
+    this.disposeBoundConsole();
     this.widgetRef.value?.dispose?.();
   }
 
@@ -246,6 +366,16 @@ export class NsActrEditor extends DocksPart {
 
     .state-error {
       color: var(--wa-color-danger-fill-loud);
+    }
+
+    .toolbar-note {
+      margin-left: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--wa-color-text-quiet, #aaa);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 28rem;
     }
   `;
 }

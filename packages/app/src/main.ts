@@ -39,7 +39,10 @@ appLoaderService.registerApp(
           target: TOOLBAR_MAIN,
           slot: 'start',
           label: 'Brand',
-          component: `<span style="margin-right: 1rem; display: inline-flex; align-items: center;"><img src="${assetUrl('neurospace.svg')}" alt="neuro!space" style="height: 24px; display: block;" /></span>`,
+          component: `<span style="margin-right: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; color: #2299dd; font-size: 1.05rem; letter-spacing: -0.02em; line-height: 1;">
+            <img src="${assetUrl('logo.svg')}" alt="" style="height: 22px; width: 22px; display: block;" />
+            <span aria-label="neuro!space"><b style="font-weight: 700;">neuro!</b><i style="font-weight: 500; font-style: italic;">space</i></span>
+          </span>`,
         } as HTMLContribution,
       ],
     },
