@@ -15,7 +15,7 @@
     "postinstall": "node scripts/patch-docks-command-log.mjs"
   },
   "devDependencies": {
-    "@eclipse-docks/cli": "^0.7.132"
+    "@eclipse-docks/cli": "^0.7.x"
   },
   "license": "MIT"
 }

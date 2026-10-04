@@ -10,9 +10,10 @@
     }
   },
   "dependencies": {
+    "@bids/validator": "npm:@jsr/bids__validator@^2.4.1",
     "@eclipse-docks/core": "*",
-    "@kispace-io/extension-bids-editor": "*",
-    "@bids/validator": "npm:@jsr/bids__validator@^2.4.1"
+    "@jsr/bids__validator": "^3.0.2",
+    "@kispace-io/extension-bids-editor": "*"
   },
   "devDependencies": {
     "typescript": "^6.0.0",
@@ -26,4 +27,3 @@
     "build": "vite build"
   }
 }
-
