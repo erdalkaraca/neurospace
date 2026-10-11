@@ -10,5 +10,5 @@
     "useDefineForClassFields": false
   },
   "include": ["src"],
-  "exclude": ["src/vite-plugin-actr-cheerpx.ts"]
+  "exclude": ["src/vite-plugin-actr-cheerpx.ts", "src/**/*.test.ts"]
 }

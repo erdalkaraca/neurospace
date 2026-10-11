@@ -27,6 +27,13 @@ import {
 } from './actr-console-registry';
 import type { ActrProcess } from './actr-cheerpx-service';
 import { ACTR_TERMINAL_PROFILE_ID } from './actr-terminal-backend';
+import { reduceDebugView, type DebugView } from './actr-debug-model';
+import {
+  applyProductionHighlight,
+  clearActrDebugSession,
+  clearProductionHighlight,
+  setActrDebugSession,
+} from './actr-debug-monaco';
 
 export const ACTR_EDITOR_ID = 'actr-editor';
 
@@ -51,6 +58,15 @@ export class NsActrEditor extends DocksPart {
   private running = false;
 
   @state()
+  private stepping = false;
+
+  @state()
+  private debugging = false;
+
+  @state()
+  private debugDone = false;
+
+  @state()
   private actrConnecting = false;
 
   @state()
@@ -65,6 +81,7 @@ export class NsActrEditor extends DocksPart {
   private boundProcess: ActrProcess | null = null;
   private widgetRef = createRef<DocksMonacoWidget>();
   private unsubTerminalClosed?: () => void;
+  private debugView: DebugView | null = null;
 
   public isEditor = true;
 
@@ -111,6 +128,7 @@ export class NsActrEditor extends DocksPart {
 
   private onContentChange = () => {
     this.markDirty(true);
+    if (this.debugging) this.showDebugView();
   };
 
   public override save() {
@@ -132,7 +150,25 @@ export class NsActrEditor extends DocksPart {
   }
 
   private get canRun(): boolean {
-    return this.language === 'actr-lisp' && !this.running && !this.loading && !this.actrConnecting;
+    return (
+      this.language === 'actr-lisp' &&
+      !this.running &&
+      !this.stepping &&
+      !this.debugging &&
+      !this.loading &&
+      !this.actrConnecting
+    );
+  }
+
+  private get canStep(): boolean {
+    return (
+      this.language === 'actr-lisp' &&
+      !this.running &&
+      !this.stepping &&
+      !this.debugDone &&
+      !this.loading &&
+      !this.actrConnecting
+    );
   }
 
   private clearBinding(): void {
@@ -144,6 +180,7 @@ export class NsActrEditor extends DocksPart {
     this.actrConnected = false;
     this.actrVersion = '';
     this.actrConnecting = false;
+    this.endDebugSession();
     this.requestUpdate();
   }
 
@@ -240,6 +277,63 @@ export class NsActrEditor extends DocksPart {
     }
   };
 
+  private onStep = async () => {
+    if (!this.canStep || !this.actrConnected || !this.boundProcess) return;
+    const source = this.editorSource();
+    if (!source.trim()) {
+      toastError('Nothing to step');
+      return;
+    }
+
+    this.stepping = true;
+    try {
+      const { terminal, process } = await this.ensureConsole();
+      if (!this.debugging) {
+        terminal.clear?.();
+        await process.loadModel(source);
+        this.debugging = true;
+        this.debugView = null;
+      }
+      const snapshot = await process.debugStep();
+      this.debugDone = snapshot.done;
+      this.debugView = reduceDebugView(this.debugView, snapshot, this.editorSource());
+      this.showDebugView();
+      terminal.show(true);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      toastError(message);
+      this.endDebugSession();
+    } finally {
+      this.stepping = false;
+    }
+  };
+
+  private onStop = () => {
+    this.endDebugSession();
+  };
+
+  private editorSource(): string {
+    return this.widgetRef.value?.getContent?.() ?? this.initialContent ?? '';
+  }
+
+  private showDebugView(): void {
+    const editor = this.widgetRef.value?.getEditor();
+    const uri = this.widgetRef.value?.getModel()?.uri.toString();
+    if (!editor || !uri || !this.debugView) return;
+    setActrDebugSession(uri, this.debugView);
+    applyProductionHighlight(editor, this.debugView.production);
+  }
+
+  private endDebugSession(): void {
+    const editor = this.widgetRef.value?.getEditor();
+    const uri = this.widgetRef.value?.getModel()?.uri.toString();
+    if (uri) clearActrDebugSession(uri);
+    if (editor) clearProductionHighlight(editor);
+    this.debugView = null;
+    this.debugging = false;
+    this.debugDone = false;
+  }
+
   protected override renderToolbar() {
     if (this.language !== 'actr-lisp') {
       return html`
@@ -285,10 +379,35 @@ export class NsActrEditor extends DocksPart {
         <wa-icon name="play" slot="prefix"></wa-icon>
         ${this.running ? 'Running…' : 'Run'}
       </wa-button>
+      <wa-button
+        appearance="plain"
+        size="s"
+        ?disabled=${!this.actrConnected || !this.canStep}
+        title=${this.debugDone
+          ? 'The model has finished. Stop to load it again.'
+          : this.debugging
+            ? 'Run the next scheduled event'
+            : 'Load the model and run one scheduled event'}
+        @click=${this.onStep}
+      >
+        <wa-icon name="forward-step" slot="prefix"></wa-icon>
+        ${this.stepping ? 'Stepping…' : 'Step'}
+      </wa-button>
+      <wa-button
+        appearance="plain"
+        size="s"
+        ?disabled=${!this.debugging || this.stepping || this.running}
+        title="Leave the step session and clear the highlight"
+        @click=${this.onStop}
+      >
+        <wa-icon name="stop" slot="prefix"></wa-icon>
+        Stop
+      </wa-button>
     `;
   }
 
   protected override doClose(): void {
+    this.endDebugSession();
     this.disposeBoundConsole();
     this.widgetRef.value?.dispose?.();
   }

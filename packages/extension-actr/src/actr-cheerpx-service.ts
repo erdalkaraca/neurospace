@@ -3,13 +3,14 @@ import { createLogger } from '@eclipse-docks/core';
 import { createMailboxLogFilter } from './actr-console-filter';
 import { actrCheerpXImageBase } from './actr-cheerpx-image-paths';
 import { createMailboxClient, type ActrRpcResponse, type MailboxClient } from './mailbox-client';
+import { parseDebugSnapshot, type StepSnapshot } from './actr-debug-model';
 
 const log = createLogger('ACT-R');
 
 const CX_URL = 'https://cxrtnc.leaningtech.com/1.1.5/cx.esm.js';
 const DEFAULT_IMAGE_BASE = actrCheerpXImageBase(import.meta.env.BASE_URL);
-const ROOT_IDB = 'actr-cheerpx-editor-v7';
-const IPC_OUT_IDB = 'actr-cheerpx-editor-ipc-out-v7';
+const ROOT_IDB = 'actr-cheerpx-editor-v8';
+const IPC_OUT_IDB = 'actr-cheerpx-editor-ipc-out-v8';
 /** CheerpX dir mounts need an existing parent; use top-level paths (not /ipc/in). */
 const IPC_IN_MOUNT = '/ipc-in';
 const IPC_OUT_MOUNT = '/ipc-out';
@@ -57,6 +58,8 @@ export type ActrProcess = {
   onConsole(cb: (chunk: string) => void): () => void;
   onBatchEnd(cb: () => void): () => void;
   loadAndRun(source: string, opts?: ActrRunOptions): Promise<ActrRunResult>;
+  loadModel(source: string): Promise<void>;
+  debugStep(): Promise<StepSnapshot>;
   evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse>;
   dispose(): Promise<void>;
 };
@@ -279,18 +282,7 @@ class ActrProcessImpl implements ActrProcess {
         const consoleBefore = this.consoleOffset;
 
         progress(onProgress, `Staging model (${source.length} chars)…`);
-        const guestPath = await stageModelOnIpcIn(this.ipcIn, this.mailbox.slot, source);
-
-        progress(onProgress, 'Resetting ACT-R…');
-        const reset = await this.mailbox.evaluate('reset', false);
-        if (reset.error) {
-          log.warn(formatRpc('reset', reset));
-        }
-
-        progress(onProgress, 'Loading model…');
-        const load = await this.mailbox.call('load-model', [guestPath]);
-        assertOk('load-model', load);
-        log.info(formatRpc('load-model', load));
+        const load = await this.resetAndLoad(source);
 
         progress(onProgress, `Running for ${seconds}s…`);
         const run = await this.mailbox.evaluate('run', false, seconds);
@@ -319,6 +311,49 @@ class ActrProcessImpl implements ActrProcess {
         this.signalBatchEnd();
       }
     });
+  }
+
+  async loadModel(source: string): Promise<void> {
+    return this.enqueue(async () => {
+      this.ensureAlive();
+      this.service.beginConsoleCapture(this);
+      try {
+        await this.pollConsole();
+        await this.resetAndLoad(source);
+        await this.pollConsole();
+      } finally {
+        this.service.endConsoleCapture(this);
+        this.signalBatchEnd();
+      }
+    });
+  }
+
+  async debugStep(): Promise<StepSnapshot> {
+    return this.enqueue(async () => {
+      this.ensureAlive();
+      this.service.beginConsoleCapture(this);
+      try {
+        const response = await this.mailbox.call('debug-step');
+        assertOk('debug-step', response);
+        await this.pollConsole();
+        return parseDebugSnapshot(response.result?.[0]);
+      } finally {
+        this.service.endConsoleCapture(this);
+        this.signalBatchEnd();
+      }
+    });
+  }
+
+  private async resetAndLoad(source: string): Promise<ActrRpcResponse> {
+    const guestPath = await stageModelOnIpcIn(this.ipcIn, this.mailbox.slot, source);
+    const reset = await this.mailbox.evaluate('reset', false);
+    if (reset.error) {
+      log.warn(formatRpc('reset', reset));
+    }
+    const load = await this.mailbox.call('load-model', [guestPath]);
+    assertOk('load-model', load);
+    log.info(formatRpc('load-model', load));
+    return load;
   }
 
   async evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse> {
