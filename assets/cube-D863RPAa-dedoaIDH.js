@@ -1,0 +1,1 @@
+import{f as e}from"./pglite-opfs-worker-BR5YL-9f-QlxqpHzu.js";e();var t={name:`cube`,setup:async(e,t)=>({bundlePath:new URL(new URL(`/neurospace/assets/cube.tar-BO33aRI2-BO33aRI2.gz`,``+import.meta.url).href,``+import.meta.url)})};export{t as cube};

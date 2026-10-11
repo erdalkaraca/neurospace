@@ -1,4 +1,133 @@
-toriteiten vertrouwen?
+ikat akan dipasang ke dalam /etc/ssl/certs. Mereka akan dikompilasi menjadi satu berkas /etc/ssl/certs/ca-certificates.crt.
+Extended_description-it.utf-8: Questo pacchetto installa i certificati di note CA (Autorità di Certificazione) in /usr/share/ca-certificates.\n\nSelezionare le autorità di certificazione fidate così da installare i relativi certificati in /etc/ssl/certs. Questi vengono compilati in un unico file /etc/ssl/certs/ca-certificates.crt.
+Extended_description-ja.utf-8: このパッケージは、共通の CA (証明機関) 証明書を /usr/share/ca-certificates にインストールします。\n\n/etc/ssl/certs にインストールされる、信用する証明機関の証明書を選択してください。これらは、単一のファイル /etc/ssl/certs/ca-certificates.crt にコンパイルされます。
+Extended_description-nl.utf-8: Gangbare CA (certificaatautoriteit) certificaten worden door dit pakket geïnstalleerd in '/usr/share/ca-certificates'.\n\nSelecteer de certificaatautoriteiten die u vertrouwt. Hun certificaten zullen worden opgenomen in '/etc/ssl/certs' en worden gebundeld in het bestand '/etc/ssl/certs/ca-certificates.crt'.
+Extended_description-pl.utf-8: Pakiet instaluje wspólne certyfikaty urzędów certyfikacji (ang. Certificate Authority) w /usr/share/ca-certificates.\n\nProszę wybrać zaufane urzędy certyfikacji, których certyfikaty są instalowane w /etc/ssl/certs. Zostaną one skompilowane do jednego pliku /etc/ssl/certs/ca-certificates.crt.
+Extended_description-pt.utf-8: Este pacote instala certificados CA (Certificate Authority) comuns em /usr/share/ca-certificates.\n\nPor favor escolha as autoridades de certificados em que confia para que os seus certificados sejam instalados em /etc/ssl/certs. Serão compilados num único ficheiro /etc/ssl/cets/ca-certificates.crt.
+Extended_description-pt_br.utf-8: Este pacote instala certificados de CAs (Autoridades Certificadoras) comuns em /usr/share/ca-certificates.\n\nPor favor, selecione as autoridades certificadoras que você confia, de modo que seus certificados sejam instalados em /etc/ssl/certs. Eles serão compilados em um único arquivo /etc/ssl/certs/ca-certificates.crt.
+Extended_description-ro.utf-8: Acest pachet instalează certificate comune CA (Autoritatea de Certificare) în „/usr/share/ca-certificates”.\n\nSelectați autoritățile de certificare în care aveți încredere, astfel încât certificatele lor să fie instalate în „/etc/ssl/certs”. Acestea vor fi compilate într-un singur fișier „/etc/ssl/certs/ca-certificates.crt”.
+Extended_description-ru.utf-8: Этот пакет устанавливает сертификаты удостоверяющих центров (CA) в каталог /usr/share/ca-certificates.\n\nВыберите удостоверяющие центры, которым вы доверяете; их сертификаты будут установлены в каталог /etc/ssl/certs (скомпонованы в файл /etc/ssl/certs/ca-certificates.crt).
+Extended_description-sk.utf-8: Tento balík inštaluje bežné certifikáty certifikačných autorít (CA) do /usr/share/ca-certificates.\n\nProsím, vyberte certifikačné autority, ktorým dôverujete a ktorých certifikáty budú inštalované do /etc/ssl/certs. Tieto budú zlúčené do jedného súboru /etc/ssl/certs/ca-certificates.crt.
+Extended_description-sv.utf-8: Detta paket installerar gemensamma CA-certifikat (Certificate Authority) i /usr/share/ca-certificates.\n\nVälj de certifikatutfärdare som du litar på så att deras certifikat installeras i /etc/ssl/certs. De kommer att kompileras till en enda fil, /etc/ssl/certs/ca-certificates.crt.
+Extended_description-tr.utf-8: Bu paket /usr/share/ca-certificates dizinine yaygın SY (Sertifika Yetkilisi) sertifikalarını kurar.\n\nLütfen güvendiğiniz sertifika yetkililerini seçiniz. Güvendiğiniz yetkililerin sertifikaları /etc/ssl/certs dizinine kurulacak ve aynı zamanda /etc/ssl/certs/ca-certificates.crt dosyasında toplanacaktır.
+Extended_description-vi.utf-8: Gói này sẽ tạo các chứng nhận CA (nhà cầm quyền chứng nhận) vào «  /usr/share/ca-certificates ».\n\nHãy chọn những nhà cầm quyền chứng nhận bạn tin cậy để cài đặt các chứng nhận của chúng vào « /etc/ssl/certs ». Chúng sẽ được biên dịch vào một tập tin « /etc/ssl/certs/ca-certificates.crt » riêng lẻ.
+Type: multiselect
+Owners: ca-certificates/enable_crts
+
+Name: ca-certificates/new_crts
+Choices: ${new_crts}
+Description: New certificates to activate:
+Description-ca.utf-8: Certificats nous a activar:
+Description-cs.utf-8: Nové certifikáty, které se mají aktivovat:
+Description-da.utf-8: Nye certifikater at aktivere:
+Description-de.utf-8: Zu aktivierende neue Zertifikate:
+Description-es.utf-8: Nuevos certificados a activar:
+Description-eu.utf-8: Gaitzeko ziurtagiri berriak:
+Description-fi.utf-8: Uudet aktivoitavat varmenteet:
+Description-fr.utf-8: Nouveaux certificats à accepter :
+Description-gl.utf-8: Novos certificados a activar:
+Description-id.utf-8: Sertifikat baru untuk diaktifkan:
+Description-it.utf-8: Nuovi certificati da attivare:
+Description-ja.utf-8: 活性化する新しい証明書:
+Description-nl.utf-8: Te activeren nieuwe certificaten:
+Description-pl.utf-8: Nowe certyfikaty do aktywowania:
+Description-pt.utf-8: Novos certificados para activar:
+Description-pt_br.utf-8: Novos certificados a serem ativados:
+Description-ro.utf-8: Noi certificate de activat:
+Description-ru.utf-8: Новые сертификаты для активации:
+Description-sk.utf-8: Nové certifikáty, ktoré majú byť aktivované:
+Description-sv.utf-8: Nya certfikat att aktivera:
+Description-tr.utf-8: Etkinleştirilecek yeni sertifikalar:
+Description-vi.utf-8: Các chứng nhận mới cần kích hoạt:
+Extended_description: During upgrades, new certificates will be added. Please choose those you trust.
+Extended_description-ca.utf-8: Durant l'actualització s'afegiran certificats nous. Seleccioneu aquells en què confieu.
+Extended_description-cs.utf-8: Během aktualizace budou přidány nové certifikáty. Vyberte prosím ty, kterým důvěřujete.
+Extended_description-da.utf-8: Under opgraderinger vil nye certifikater blive tilføjet. Vælg venligt dem du stoler på.
+Extended_description-de.utf-8: Während Upgrades werden neue Zertifikate hinzugefügt. Bitte wählen Sie diejenigen aus, denen Sie vertrauen.
+Extended_description-es.utf-8: Se añadirán estos certificados durante la actualización. Escoja de la lista aquellos en los que confía.
+Extended_description-eu.utf-8: Bertsio berritzeetan, ziurtagiri berriak gehituko dira, Mesedez hautatu zeinetaz fidatzen zaren.
+Extended_description-fi.utf-8: Päivitysten yhteydessä lisätään uusia varmenteita. Valitse ne, joihin luotat.
+Extended_description-fr.utf-8: Lors de cette mise à jour, de nouveaux certificats ont été ajoutés. Veuillez choisir si vous les acceptez.
+Extended_description-gl.utf-8: Durante as anovacións engadiranse novos certificados. Indique os certificados nos que confía.
+Extended_description-id.utf-8: Selama pembaharuan, sertifikat baru akan ditambahkan. Silakan memilih yang anda percaya.
+Extended_description-it.utf-8: Con l'aggiornamento, vengono aggiunti dei nuovi certificati. Selezionare quelli fidati.
+Extended_description-ja.utf-8: この更新では、新しい証明書が追加されています。これらの証明書を信用するかどうか選んでください。
+Extended_description-nl.utf-8: Bij deze opwaardering worden nieuwe certificaten toegevoegd. Selecteer de certificaten die u vertrouwt.
+Extended_description-pl.utf-8: Podczas aktualizacji dodano nowe certyfikaty. Proszę wybrać te, którym się ufa.
+Extended_description-pt.utf-8: Durante a actualização, serão adicionados novos certificados. Por favor escolha os que confia.
+Extended_description-pt_br.utf-8: Durante as atualizações, novos certificados serão adicionados. Por favor, selecione aqueles nos quais você confia.
+Extended_description-ro.utf-8: În timpul acestei actualizări, au fost adăugate noi certificate. Alegeți din listă pe cele în care aveți încredere.
+Extended_description-ru.utf-8: Во время обновления будут добавлены новые сертификаты. Выберите те, которым вы доверяете.
+Extended_description-sk.utf-8: Počas aktualizácie boli pridané nové certifikáty. Prosím, vyberte tie, ktorým dôverujete.
+Extended_description-sv.utf-8: Under uppgraderingar kommer nya certifikat att läggas till. Välj de som du litar på.
+Extended_description-tr.utf-8: Yükseltmeler sırasında yeni sertifikalar eklenecektir. Lütfen güvendiklerinizi seçiniz.
+Extended_description-vi.utf-8: Trong khi nâng cấp, chứng nhận mới sẽ được thêm. Hãy chọn những chứng nhận bạn tin vậy.
+Type: multiselect
+Owners: ca-certificates/new_crts
+
+Name: ca-certificates/title
+Description: ca-certificates configuration
+Description-ca.utf-8: Configuració de ca-certificates
+Description-cs.utf-8: Nastavení ca-certificates
+Description-da.utf-8: konfiguration af ca-certificates
+Description-de.utf-8: ca-certificates-Konfiguration
+Description-es.utf-8: Configuración de ca-certificates
+Description-fr.utf-8: Configuration de ca-certificates
+Description-gl.utf-8: Configuración dos certificados das entidades de acreditación (EA)
+Description-id.utf-8: pengaturan ca-certificates
+Description-it.utf-8: Configurazione di ca-certificates
+Description-ja.utf-8: ca-certificates の設定
+Description-nl.utf-8: ca-certificates configuratie
+Description-pl.utf-8: Konfiguracja ca-certificates
+Description-pt.utf-8: configuração de ca-certificates
+Description-pt_br.utf-8: Configuração do ca-certificates
+Description-ro.utf-8: Configurarea certificatelor autorităților de certificare (ca-certificates)
+Description-ru.utf-8: Настройка ca-certificates
+Description-sk.utf-8: Nastavenie ca-certificates
+Description-sv.utf-8: Inställningar för ca-certificates
+Description-tr.utf-8: ca-certificates yapılandırması
+Type: title
+Owners: ca-certificates/title
+
+Name: ca-certificates/trust_new_crts
+Choices: yes, no, ask
+Choices-ca.utf-8: sí, no, demana
+Choices-cs.utf-8: ano, ne, zeptat se
+Choices-da.utf-8: ja, nej, spørg
+Choices-de.utf-8: Ja, Nein, Fragen
+Choices-es.utf-8: sí, no, preguntar
+Choices-eu.utf-8: bai, ez, galdetu
+Choices-fi.utf-8: kyllä, ei, kysy
+Choices-fr.utf-8: Oui, Non, Demander
+Choices-gl.utf-8: si, non, preguntar
+Choices-id.utf-8: ya, tidak, tanyakan
+Choices-it.utf-8: sì, no, chiedi
+Choices-ja.utf-8: はい, いいえ, 質問する
+Choices-nl.utf-8: ja, nee, selectie
+Choices-pl.utf-8: tak, nie, pytaj
+Choices-pt.utf-8: sim, não, perguntar
+Choices-pt_br.utf-8: sim, não, perguntar
+Choices-ro.utf-8: da, nu, întreabă
+Choices-ru.utf-8: да, нет, спрашивать
+Choices-sk.utf-8: áno, nie, pýtať sa
+Choices-sv.utf-8: ja, nej, fråga
+Choices-tr.utf-8: evet, hayır, sor
+Choices-vi.utf-8: có, không, hỏi
+Default: yes
+Description: Trust new certificates from certificate authorities?
+Description-ca.utf-8: Voleu confiar en els nous certificats de les autoritats certificadores?
+Description-cs.utf-8: Důvěřovat novým certifikátům certifikačních autorit?
+Description-da.utf-8: Stol på nye certifikater fra certifikatautoriteter?
+Description-de.utf-8: Neuen Zertifikaten von Zertifizierungsstellen vertrauen?
+Description-es.utf-8: ¿Desea confiar en los nuevos certificados de las autoridades de certificación?
+Description-eu.utf-8: Ziurtagiri autoritateen ziurtagiri berrietaz fidatu?
+Description-fi.utf-8: Luotetaanko varmentajien uusiin varmenteisiin?
+Description-fr.utf-8: Faut-il accepter les nouveaux certificats de tiers de confiance ?
+Description-gl.utf-8: Confiar nos novos certificados das entidades de acreditación?
+Description-id.utf-8: Mempercayai sertifikat baru dari otoritas sertifikat?
+Description-it.utf-8: Fiducia ai certificati delle nuove autorità di certificazione?
+Description-ja.utf-8: 証明機関からの新しい証明書を信用しますか?
+Description-nl.utf-8: Nieuwe certificaten van certificaatautoriteiten vertrouwen?
 Description-pl.utf-8: Ufać nowym certyfikatom urzędów certyfikacji?
 Description-pt.utf-8: Confiar nos novos certificados das autoridades de certificados?
 Description-pt_br.utf-8: Confiar em novos certificados de autoridades certificadoras?
@@ -679,19 +808,4 @@ Extended_description-eo.utf-8: Debconf prioritatigas farotajn demandojn. Elektu 
 Extended_description-es.utf-8: Debconf prioriza las preguntas que le presenta. Escoja la prioridad más baja de las preguntas que desea ver:\n  - «crítica» es para asuntos vitales, que pueden romper el sistema.\n    Escójala si es novato o tiene prisa.\n  - «alta» es para preguntas muy importantes\n  - «media» es para asuntos normales\n  - «baja» es para quienes quieran tener el máximo control del sistema\n\n\nObserve que independientemente del nivel que elija, puede ver todas las preguntas de un paquete usando dpkg-reconfigure.
 Extended_description-et.utf-8: Debconfi küsimused on prioritiseeritud. Vali küsimuste madalaim prioriteet, millele veel vastata soovid:\n - 'kriitiline' tülitab sind ainult süsteemi rikkuda võivate küsimustega.\n   Vali, kui oled algaja või kui sul on kiire.\n - 'kõrge' prioriteet on küllalt tähtsatel küsimustel\n - 'keskmine' on tavalised küsimused\n - 'madal' on erilistele pedantidele, kes tahavad kõike ise juhtida\n\n\nVõid arvestada, et sõltumata siinkohal valitud tasemest võid dpkg-reconfigure abil pakki ümber seadistades vastata kõigile küsimustele.
 Extended_description-eu.utf-8: Debconf-ek egingo dizkizun galderak lehentasun mailetan sailkatzen ditu. Aukeratu ikusi nahi dituzun galderen lehentasun baxuena:\n  - 'kritikoa'-k sistema hondatu dezaketen galderak egingo ditu .\n    Erabiltzaile berria edo presa baduzu hau aukeratu.\n  - 'handia'-k galdera garrantzitsuak egingo ditu.\n  - 'ertaina'-k galdera arruntak egingo ditu.\n  - 'txikia' dena ikusi nahi baduzu\n\n\nKontutan izan hemen zein aukera egiten duzun axola gabe galdera guztiak ikusi ahal izango dituzula paketea dpkg-reconfigure erabiliaz konfiguratzen baduzu.
-Extended_description-fa.utf-8: Debconf سؤالهایی را که از شما می پرسد اولویت بندی می کند. پایین ترین اولویت هایی را که می خواهیید ببینید انتخاب کنید:\n  - 'بحرانی' تنها در صورتی که احتمال شکست در سیستم باشد به شما نمایش داده می شود.\n    در صورتی که تازه کار هستید و یا عجله دارید آن را انتخاب کنید.\n  - 'بالا' برای سؤالات نسبتاً مهم است.\n  - 'متوسط' سؤالات معمولی\n  - 'پایین' برای کنترل زیاد برای کسی که می خواهد همه چیز را ببیند\n\n\nتوجه داشته باشید، که هیچ اهمیتی ندارد که چه گزینه ای را انتخاب می کنید، شما می توانید در صورتی که یک بسته را با دستور dpkg-reconfigure مجدداً پیکربندی کردید، تمام سؤال ها را دوباره ببینید.
-Extended_description-fi.utf-8: Debconf priorisoi esittämänsä kysymykset. Valitse alin prioriteetti, jonka kysymykset haluat nähdä:\n  - "kriittinen" kysyy vain jos järjestelmä voi hajota.\n    Valitse tämä jos olet uusi tai sinulla on kiire.\n  - "tärkeä" on kohtuullisen tärkeille kysymyksille\n  - "tavallinen" on normaaleille kysymyksille\n  - "vähäpätöinen" on säätöfriikeille, jotka haluavat nähdä kaiken\n\n\nHuomaa, että riippumatta tässä valitsemastasi tasosta näet kaikki kysymykset uudelleensäätämällä paketin "dpkg-reconfigure"-ohjelmalla.
-Extended_description-fr.utf-8: Debconf gère les priorités des questions qu'il vous pose. Choisissez la priorité la plus basse des questions que vous souhaitez voir :\n  - « critique » n'affiche que les questions pouvant casser le système.\n    Choisissez-la si vous êtes peu expérimenté ou pressé ;\n  - « élevée » affiche les questions plutôt importantes ;\n  - « intermédiaire » affiche les questions normales ;\n  - « basse » est destinée à ceux qui veulent tout contrôler.\n\n\nQuel que soit le niveau de votre choix, vous pourrez revoir toutes les questions si vous reconfigurez le paquet avec « dpkg-reconfigure ».
-Extended_description-ga.utf-8: Cuireann Debconf tosaíocht ar gach ceist a chuireann sé ort. Roghnaigh an tosaíocht is ísle do na ceisteanna ba mhaith leat feiceáil:\n  - 'criticiúil': cuireann sé ceist ort más féidir an córas a bhriseadh.\n    Roghnaigh é más deargnúíosach thú, nó má tá deifir ort.\n  - 'ard': ceisteanna tábhachtacha\n  - 'gnách': gnáthcheisteanna\n  - 'íseal': d'úsáideoirí aisteacha atá ag iarraidh chuile rud a fheiceáil\n\n\nIs cuma cén leibhéal a roghnaíonn tú anseo, beidh tú in ann gach ceist a fheiceáil má dhéanann tú cumraíocht nua ar phacáiste le dpkg-reconfigure.
-Extended_description-gl.utf-8: Debconf asígnalle prioridades ás preguntas que lle fai. Escolla a prioridade mínima das preguntas que quere ver:\n  - "crítica" só lle pregunta se o sistema pode romper.\n    Escóllaa se non ten experiencia o se ten présa.\n  - "alta" é para preguntas máis ben importantes\n  - "media" é para preguntas normais\n  - "baixa" é para fanáticos do control que o queren ver todo\n\n\nTeña en conta que, sen importar o nivel que escolla aquí, ha poder ver tódalas preguntas se reconfigura un paquete con dpkg-reconfigure.
-Extended_description-gu.utf-8: ડેબકોન્ફ તમને પૂછવામાં આવતા પ્રશ્નની પ્રાથમિકતા આપશે. તમારે જોઈતા પ્રશ્નની નીચામાં નીચી પ્રાથમિકતા પસંદ કરો:\n  - 'અત્યંત જરુરી' ત્યારે જ પૂછશે જ્યારે તમારી સિસ્ટમમાં ભંગાણ થઈ શકે છે.\n    આ પસંદ કરો જો તમે નવા હોવ, અથવા જલ્દીમાં હોવ.\n  - 'ઉચ્ચ' એ મહત્વનાં પ્રશ્નો માટે છે.\n  - 'મધ્યમ' એ સામાન્ય પ્રશ્નો માટે છે\n  - 'નીચું' એ નિયંત્રણ પસંદ કરતાં લોકો માટે છે જે બધું જોવા માંગે છે\n\n\nઅહીં કોઈ પણ સ્તર પસંદ કર્યા છતાં, પેકેજને dpkg-reconfigure સાથે ફરી રુપરેખાંકિત કરતા તમે દરેક પ્રશ્ન જોઈ શકશો.
-Extended_description-he.utf-8: Debconf מתעדף את השאלות שהוא שואל, בחר את הרמה הכי נמוכה של שאלות שברצונך לראות:\n  - 'קריטית' דיווח רק אם המערכת עלולה להשבר.\n    בחר באפשרות זאת אם אתה משתמש חדש, או שאתה ממהר מאוד.\n  - 'גבוהה' בשביל שאלות דיי חשובות.\n  - 'בינונית' בשביל שאלות נורמליות.\n  - 'נמוכה' בשביל חולי שליטה שרוצים לראות הכל.\n\n\nשיב לב, לא משנה איזה רמה תבחר כאן, תוכל לראות את כל השאלות אם תגדיר מחדש את החבילה עם dpkg-reconfigure.
-Extended_description-hi.utf-8: आपको पूछे जाने प्रश्नों को डीबीकॉन्फ प्राथमिकता में रखता है. निम्नतम प्राथमिकता वाला प्रश्न जो आप देखना चाहते हैं उसे चुनें:\n  - 'नाजुक' तभी पूछेगा जब तंत्र खराब होने को होगा.\n   इसे तभी चुनें यदि आप नौसिखिए हैं, या जल्दी में हैं.\n  - 'उच्च' महत्वपूर्ण प्रश्नों के लिए है\n  - 'मध्यम' सामान्य प्रश्नों के लिए है\n  - 'निम्न' उन मनमौजियों के लिए है जो हर चीज देखना चाहते हैं\n\n\nयदि आप किसी पैकेज को डीपीकेजी-रीकॉन्फ़िगर से फिर से कॉन्फ़िगर करते हैं तो टीप लें कि इससे कोई फ़र्क़ नहीं पड़ता कि आप कौन सा स्तर यहाँ चुनते हैं, आपको हमेशा ही प्रत्येक प्रश्न दिखाई देगा.
-Extended_description-hr.utf-8: Debconf slaže pitanja koja vas pita po prioritetu odn. razini važnosti. Odaberite najnižu razinu važnosti pitanja koja želite vidjeti:\n - 'kritična' znači da će neodgovaranje na to pitanje može pokvariti sustav.\n    Odaberite ovu razinu ako ste početnik, ili ako vam se žuri.\n - 'visoka' je za prilično bitna pitanja\n - 'srednja' je za uobičajena pitanja\n - 'niska' je za one opsjednute kontrolom, koji žele vidjeti sve\n\n\nImajte na umu da neovisno o tome koji nivo ovdje odaberete, moći ćete vidjeti svako pitanje ako pokrenete ponovo podešavanje nekog paketa koristeći 'dpkg-reconfigure'.
-Extended_description-hu.utf-8: A Debconf eltérően fontos kérdéseket kezel. Melyik legyen a legalacsonyabb szintű kérdés?\n - A 'kritikus' csak a rendszerveszélyek esetén kérdez.\n    Csak kezdők vagy sietők válasszák.\n  - A 'magas' a fontos kérdésektől kérdez.\n  - A 'közepes' a hétköznapiaktól.\n  - Az 'alacsony' a részletguruk kedvence.\n\n\nFüggetlenül az itt beállított szinttől minden kérdés megjelenik a csomagok dpkg-reconfigure eszközzel való újrakonfigurálásakor.
-Extended_description-id.utf-8: Debconf memprioritaskan pertanyaan yang ditanyakan pada anda. Pilih prioritas pertanyaan terendah yang ingin anda lihat:\n  - 'kritis' hanya akan menampilkan prompt bila sistem akan rusak.\n    Pilih ini bila anda pengguna baru, atau sedang terburu-buru.\n  - 'tinggi' untuk pertanyaan yang cukup penting.\n  - 'sedang' untuk pertanyaan-pertanyaan normal\n  - 'rendah' untuk melihat segalanya\n\n\nPerhatikan bahwa apapun tingkatan yang anda pilih saat ini, anda akan dapat melihat semua pertanyaan bila anda mengkonfigurasi ulang sebuah paket dengan dpkg-reconfigure.
-Extended_description-is.utf-8: Debconf forgangsraðar spurningunum sem þú verður beðin(n) um að svara. Veldu þann lægsta forgang spurninga sem þú vilt sjá:\n  - 'mikilvægt' spyr þig einungis ef að kerfið gæti orðið óstarfhæft.\n    Veldu þetta ef þú ert byrjandi eða að flýta þér.\n  - 'mikill' er fyrir frekar mikilvægar spurningar\n  - 'miðlungs' er fyrir venjulegar spurningar\n  - 'lítill' er fyrir fullkomnunarsinna sem vilja stilla allt sjálfir\n\n\nAthugaðu að það er sama hvaða stig þú velur hérna, ef þú endurstillir pakka með dpkg-reconfigure þá muntu geta séð allar viðkomandi spurningar aftur.
-Extended_description-it.utf-8: Debconf assegna priorità alle domande da porre. Scegliere la più bassa priorità della domanda che verrà visualizzata:\n  - "critica" chiede solo se il sistema potrebbe danneggiarsi.\n     Scegliere questo se non si è molto esperti o di fretta.\n  - "alta" visualizza solo le domande abbastanza importanti.\n  - "media" visualizza solo le domande normali.\n  - "bassa" è per i fanatici del controllo che vogliono vedere tutto.\n\n\nNotare che qualunque livello si selezioni, sarà possibile visualizzare tutte le domande se il pacchetto viene riconfigurato dpkg-reconfigure.
-Extended_description-ja.utf-8: あなたが答えたい質問のうち、最低の優先度のものを選択してください。\n - 「重要」は、ユーザが介在しないとシステムを破壊しかねないような項目用です。\n   あなたが初心者か、あるいは急いでいるのであればこれを選んでください。\n - 「高」は、適切なデフォルトの回答がないような項目用です。\n - 「中」は、適切なデフォルトの回答があるような普通の項目用です。\n - 「低」は、ほとんどの場合にデフォルトの回答でかまわないような、ささいな項目用です。\n\n\n注意: ここで何を選択しても、以前に行った質問は dpkg-reconfigure プログラムを使用して表示できます。
-Extended_description-kk.utf-8: Debconf сізге қойылатын сұрақтарды маңызы бойынша келесідей бөледі. Көргіңіз келетін ең төмен дәрежені таңдаңыз:\n  - 'катаң' тек жүйеңізге зақым келтіру қауіпі болса ғана сұрайды.\n    Бастауыш болсаңыз не асықсаңыз, осыны таңдаңыз.\n  - 'жоғары' тек маңызды сұрақтар үшін\n  - 'орташа' қалыпты сұрақтар үшін\n  - 'төмен' егжей-тегжейін көргісі келетіндер үшін\n\n\nОсында не таңдасаңыз да, егер дестені dpkg-reconfigure көмегімен қайта баптасаңыз, ол десте үшін барлық сұрақтарды көре алатыныңызды есте сақтаңыз.
-Extended_description-km.utf-8: Debconf ធ្វើអទិភាព​​សំណួរ​ដែល​​វា​សួរ​អ្នក ។ ជ្រើស​យក​អាទិភាព​ទាប​បំផុតនៃ​សំណួរ​ដែល​អ្នក​ចង់​មើល​ ៖\n  - 'សំខាន់បំផុត' បានតែ​រំលឹក​អ្នកប៉ុណ្ណោះ ប្រសិនបើ​ប្រព័ន្ធ​ខូច​ ។\n    ជ្រើសយក​វា ប្រសិន​បើ​អ្នក​ជា​ newbie, ឬ មាន​ការប្រញាប់ ។\n  - 'ខ្ពស់' គឺសម្រា�
+Extended_description-fa.utf-8: Debconf سؤالهایی را ک

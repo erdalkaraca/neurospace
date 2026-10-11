@@ -1,4 +1,209 @@
-ommando-regel (Readline), Gnome, Kde, Teksteditor, Niet-interactief
+d_description-sq.utf-8: ${MESSAGE}
+Extended_description-sr.utf-8: ${MESSAGE}
+Extended_description-sr@latin.utf-8: ${MESSAGE}
+Extended_description-sv.utf-8: ${MESSAGE}
+Extended_description-ta.utf-8: ${MESSAGE}
+Extended_description-te.utf-8: ${MESSAGE}
+Extended_description-th.utf-8: ${MESSAGE}
+Extended_description-tr.utf-8: ${MESSAGE}
+Extended_description-ug.utf-8: ${MESSAGE}
+Extended_description-vi.utf-8: ${MESSAGE}
+Extended_description-zh_cn.utf-8: ${MESSAGE}
+Extended_description-zh_tw.utf-8: ${MESSAGE}
+Type: text
+Owners: debconf-apt-progress/media-change
+
+Name: debconf-apt-progress/preparing
+Description: Please wait...
+Description-ar.utf-8: الرجاء الانتظار...
+Description-ast.utf-8: Por favor, espera...
+Description-be.utf-8: Калі ласка, чакайце...
+Description-bg.utf-8: Моля, изчакайте...
+Description-bn.utf-8: অনুগ্রহ করে অপেক্ষা করুন...
+Description-bs.utf-8: Molim čekajte...
+Description-ca.utf-8: Si us plau, espereu...
+Description-cs.utf-8: Čekejte prosím...
+Description-cy.utf-8: Arhoswch os gwelwch yn dda...
+Description-da.utf-8: Vent venligst...
+Description-de.utf-8: Bitte warten ...
+Description-dz.utf-8: བསྒུག་གནང་...
+Description-el.utf-8: Παρακαλώ περιμένετε...
+Description-eo.utf-8: Bonvolu atendi...
+Description-es.utf-8: Por favor, espere...
+Description-et.utf-8: Palun oota...
+Description-eu.utf-8: Itxoin mesedez...
+Description-fa.utf-8: لطفاً صبر کنید ...
+Description-fi.utf-8: Odota...
+Description-fr.utf-8: Veuillez patienter...
+Description-ga.utf-8: Fan go fóill...
+Description-gl.utf-8: Agarde...
+Description-gu.utf-8: મહેરબાની કરી રાહ જુઓ...
+Description-he.utf-8: המתן בבקשה...
+Description-hi.utf-8: कृपया इंतजार करें...
+Description-hr.utf-8: Molim pričekajte...
+Description-hu.utf-8: Türelem...
+Description-id.utf-8: Mohon menunggu...
+Description-is.utf-8: Bíddu aðeins...
+Description-it.utf-8: Attendere...
+Description-ja.utf-8: しばらくお待ちください...
+Description-kk.utf-8: Күте тұрыңыз...
+Description-km.utf-8: សូម​រង់ចាំ...
+Description-ko.utf-8: 잠시 기다리십시오...
+Description-lt.utf-8: Palaukite...
+Description-lv.utf-8: Lūdzu, uzgaidiet...
+Description-mg.utf-8: Miandrasa kely azafady ...
+Description-mk.utf-8: Те молам почекај...
+Description-ml.utf-8: ദയവായി കാത്തിരിക്കൂ...
+Description-mr.utf-8: कृपया वाट पहा
+Description-nb.utf-8: Vent litt ...
+Description-ne.utf-8: कृपया पर्खनुहोस्...
+Description-nl.utf-8: Even geduld alstublieft ...
+Description-no.utf-8: Vent litt ...
+Description-pa.utf-8: ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕੋ...
+Description-pl.utf-8: Proszę czekać...
+Description-pt.utf-8: Por favor aguarde...
+Description-pt_br.utf-8: Por favor, aguarde...
+Description-ro.utf-8: Vă rugăm, așteptați...
+Description-ru.utf-8: Подождите…
+Description-si.utf-8: කරුණාකර රැඳෙන්න...
+Description-sk.utf-8: Počkajte, prosím...
+Description-sl.utf-8: Prosim počakajte ...
+Description-sq.utf-8: Ju lutem prit...
+Description-sr.utf-8: Сачекајте...
+Description-sr@latin.utf-8: Sačekajte...
+Description-sv.utf-8: Var god vänta...
+Description-ta.utf-8: தயவு செய்து பொறுத்திருக்கவும் ...
+Description-te.utf-8: దయచేసి వేచివుండండి...
+Description-th.utf-8: กรุณารอสักครู่...
+Description-tl.utf-8: Maghintay po lamang...
+Description-tr.utf-8: Lütfen bekleyin...
+Description-ug.utf-8: سەل كۈتۈڭ…
+Description-uk.utf-8: Зачекайте, будь ласка...
+Description-vi.utf-8: Hãy chờ...
+Description-wo.utf-8: Muñal tuut...
+Description-zh_cn.utf-8: 请稍候...
+Description-zh_tw.utf-8: 請稍候...
+Type: text
+Owners: debconf-apt-progress/preparing
+
+Name: debconf-apt-progress/title
+Description: Installing packages
+Description-ar.utf-8: تثبيت الحزم
+Description-ast.utf-8: Instalando paquetes
+Description-be.utf-8: Усталяванне пакетаў
+Description-bg.utf-8: Инсталиране на пакети
+Description-bn.utf-8: প্যাকেজ ইন্সটল করা হচ্ছে
+Description-bs.utf-8: Instaliram pakete
+Description-ca.utf-8: S'estan instal·lant els paquets
+Description-cs.utf-8: Instalují se balíky
+Description-cy.utf-8: Yn gosod pecynnau
+Description-da.utf-8: Installerer pakker
+Description-de.utf-8: Installiere Pakete
+Description-dz.utf-8: ཐུམ་སྒྲིལ་ཚུ་གཞི་བཙུགས་འབད་དོ།
+Description-el.utf-8: Εγκατάσταση πακέτων
+Description-eo.utf-8: Instalado de pakoj
+Description-es.utf-8: Instalando paquetes
+Description-et.utf-8: Pakkide paigaldamine
+Description-eu.utf-8: Paketeak instalatzen
+Description-fa.utf-8: نصب بسته ها
+Description-fi.utf-8: Asennetaan paketteja
+Description-fr.utf-8: Installation des paquets
+Description-ga.utf-8: Pacáistí á suiteáil
+Description-gl.utf-8: A instalar os paquetes
+Description-gu.utf-8: પેકેજો સ્થાપન કરે છે
+Description-he.utf-8: מתקין חבילות
+Description-hi.utf-8: पैकेजों की संस्थापना की जा रही है
+Description-hr.utf-8: Instaliranje paketa
+Description-hu.utf-8: Csomagok telepítése
+Description-id.utf-8: Memasang paket-paket
+Description-is.utf-8: Set upp pakka
+Description-it.utf-8: Installazione dei pacchetti in corso
+Description-ja.utf-8: パッケージをインストールしています
+Description-kk.utf-8: Дестелерді орнату
+Description-km.utf-8: កំពុង​ដំឡើង​កញ្ចប់​
+Description-ko.utf-8: 패키지를 설치하는 중입니다
+Description-lt.utf-8: Diegiami paketai
+Description-lv.utf-8: Instalē pakas
+Description-mg.utf-8: Mametraka fonosana
+Description-mk.utf-8: Инсталирање пакети
+Description-ml.utf-8: പാക്കേജുകള്‍ ഇന്സ്റ്റാള്‍ ചെയ്തുകൊണ്ടിരിക്കുന്നു
+Description-mr.utf-8: पॅकेजची स्थापना चालू आहे
+Description-nb.utf-8: Installerer pakker
+Description-ne.utf-8: प्याकेजहरू स्थापना गरिदैछ
+Description-nl.utf-8: Paketten worden geïnstalleerd
+Description-no.utf-8: Installerer pakker
+Description-pa.utf-8: ਪੈਕੇਜ ਇੰਸਟਾਲ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ
+Description-pl.utf-8: Instalowanie pakietów
+Description-pt.utf-8: A instalar pacotes
+Description-pt_br.utf-8: Instalando pacotes
+Description-ro.utf-8: Se instalează pachete
+Description-ru.utf-8: Устанавливаются пакеты
+Description-si.utf-8: පැකේජ ස්ථාපනය කරමින්
+Description-sk.utf-8: Inštalujú sa balíky
+Description-sl.utf-8: Nameščam pakete
+Description-sq.utf-8: Duke instaluar paketat
+Description-sr.utf-8: Инсталирање пакета
+Description-sr@latin.utf-8: Instaliranje paketa
+Description-sv.utf-8: Installerar paket
+Description-ta.utf-8: நிறுவும் தொகுப்புகள்
+Description-te.utf-8: ప్యాకేజీలను స్థాపిస్తున్నాం
+Description-th.utf-8: กำลังติดตั้งแพกเกจ
+Description-tl.utf-8: Nagluluklok ng mga pakete
+Description-tr.utf-8: Paketler kuruluyor
+Description-ug.utf-8: بوغچىلارنى ئورنىتىۋاتىدۇ
+Description-uk.utf-8: Встановлення пакунків
+Description-vi.utf-8: Đang cài đặt gói
+Description-wo.utf-8: Mi ngi istale paket yi
+Description-zh_cn.utf-8: 正在安装软件包
+Description-zh_tw.utf-8: 安裝套件
+Type: text
+Owners: debconf-apt-progress/title
+
+Name: debconf/frontend
+Choices: Dialog, Readline, Gnome, Kde, Editor, Noninteractive
+Choices-ar.utf-8: Dialog, Readline, Gnome, Kde, محرّر, لاتفاعلي
+Choices-ast.utf-8: Diálogos, Consola, Gnome, Kde, Editor, Non interautiva
+Choices-be.utf-8: Дыялог, Чытанне радкоў, Gnome, Kde, Рэдактар, Неінтэрактыўна
+Choices-bg.utf-8: Диалози, Readline, Gnome, Kde, Редактор, Без намеса
+Choices-bn.utf-8: ডায়ালগ, রিডলাইন, Gnome, Kde, সম্পাদক, ক্রিয়া-প্রতিক্রিয়াহীন
+Choices-bs.utf-8: Dijaloški, Readline, Gnome, Kde, Uređivač, Neinteraktivni
+Choices-ca.utf-8: Dialog, Readline, Gnome, Kde, Editor, No interactiva
+Choices-cs.utf-8: Dialog, Readline, Gnome, Kde, Editor, Neinteraktivní
+Choices-cy.utf-8: Dialog, Readline, Gnome, Kde, Golygydd, An-rhyngweithiol
+Choices-da.utf-8: Dialogboks, Overskrift, Gnome, Kde, Editor, Ikke-interaktiv
+Choices-de.utf-8: Dialog, Readline, Gnome, Kde, Editor, Nicht-interaktiv
+Choices-dz.utf-8: ཌའི་ལོག, ལྷག་ཐིག, Gnome, Kde, ཞུན་དགཔ།, ཕན་ཚུན་འབྲེལ་ལྡན་མ་ཡིན་པ།
+Choices-el.utf-8: Dialog, Readline, Gnome, Kde, Editor, Μη-διαδραστικά
+Choices-eo.utf-8: Dialog, Readline, Gnome, Kde, Redaktilo, Neinteraga
+Choices-es.utf-8: Diálogos, Consola, Gnome, Kde, Editor, No interactiva
+Choices-et.utf-8: Dialoogiaknad, Reapõhine, Gnome, Kde, Redaktor, Mitte-interaktiivne
+Choices-eu.utf-8: Elkarrizketa, Irakurketa lerroa, Gnome, Kde, Editorea, Ez interaktiboa
+Choices-fa.utf-8: Dialog, Readline, Gnome, Kde, ویرایشگر, غیر محاوره ای
+Choices-fi.utf-8: Valintaikkuna, Readline, Gnome, Kde, Teksturi, ei vuorovaikutteinen
+Choices-fr.utf-8: Dialogue, Readline, Gnome, Kde, Éditeur, Non interactive
+Choices-ga.utf-8: Dialóg, Gnáth-théacs, Gnome, Kde, Eagarthóir, Neamh-idirghníomhach
+Choices-gl.utf-8: Dialog, Readline, Gnome, Kde, Editor, Non interactiva
+Choices-gu.utf-8: સંવાદ, રીડલાઈન, Gnome, Kde, સંપાદક, અસક્રિય
+Choices-he.utf-8: דיאלוג, שורת פקודה, Gnome, Kde, עורך טקסט, לא אינטראקטיבי
+Choices-hi.utf-8: डायलॉग, रीडलाइन, Gnome, Kde, एडिटर, नॉनइन्टरैक्टिव
+Choices-hr.utf-8: Dialog, Readline, Gnome, Kde, Editor, Neinteraktivno
+Choices-hu.utf-8: Párbeszédes, Egysoros, Gnome, Kde, Szerkesztő, Néma
+Choices-id.utf-8: Dialog, Bacabaris (Readline), Gnome, Kde, Penyunting, Tak-Interaktif
+Choices-is.utf-8: Samskiptagluggi, Leslína, Gnome, Kde, Ritill, Ógagnvirkt
+Choices-it.utf-8: Dialog, Readline, Gnome, Kde, Editor, Non-interattiva
+Choices-ja.utf-8: ダイアログ, Readline, Gnome, Kde, エディタ, 非対話的
+Choices-kk.utf-8: Сұхбат, Жолды оқу, Gnome, Kde, Түзетуші, Интерактивті емес
+Choices-km.utf-8: ប្រអប់, បន្ទាត់អាន, Gnome, Kde, កម្មវិធី​និពន្ធ, គ្មាន​អន្តរកម្ម
+Choices-ko.utf-8: 다이얼로그 방식, 리드라인 방식, Gnome, Kde, 편집기 방식, 물어보지 않음 방식
+Choices-lt.utf-8: Dialogai, Tekstinė eilutė, Gnome, Kde, Tekstų redaktorius, Neinteraktyvi
+Choices-lv.utf-8: Dialoglodziņš, Readline, Gnome, Kde, Teksta redaktora, Neinteraktīvā
+Choices-mg.utf-8: Dialog, Readline, Gnome, Kde, Editor, Noninteractive
+Choices-mk.utf-8: Дијалог, Readline, Gnome, Kde, Уредувач, Неинтерактивно
+Choices-ml.utf-8: ഡയലോഗ്, റീഡ്ലൈന്‍, Gnome, Kde, എഡിറ്റര്‍, ഇന്ററാക്റ്റീവല്ലാതെ
+Choices-mr.utf-8: संवाद, वाचण्याची ओळ, Gnome, Kde, मजकूर लेखक, सुसंवादप्रक्रियाहीन
+Choices-nb.utf-8: Dialog, Readline, Gnome, Kde, Redigering, Ikke-interaktiv
+Choices-ne.utf-8: संवाद, रिडलाइन, Gnome, Kde, सम्पादक, अन्तरक्रियात्मकता विहिन
+Choices-nl.utf-8: Tekst-Dialoog (dialog), commando-regel (Readline), Gnome, Kde, Teksteditor, Niet-interactief
 Choices-no.utf-8: Dialog, Readline, Gnome, Kde, Redigering, Ikke-interaktiv
 Choices-pa.utf-8: ਵਾਰਤਾਲਾਪ, ਲਾਇਨ ਪੜ੍ਹੋ, Gnome, Kde, ਸੰਪਾਦਕ, ਕਮਾਂਡ ਰਾਹੀਂ
 Choices-pl.utf-8: Dialog, Readline, Gnome, Kde, Edytor, Nieinteraktywny
@@ -359,19 +564,4 @@ Extended_description-pt.utf-8: O debconf atribui prioridades às questões que l
 Extended_description-pt_br.utf-8: O debconf dá prioridade para as perguntas que faz. Escolha a menor prioridade das questões que você deseja ver:\n  - 'crítica' somente pergunta algo caso o sistema possa sofrer danos.\n    Escolha essa opção caso você seja iniciante ou esteja com pressa.\n  - 'alta' é para perguntas importantes\n  - 'média' é para perguntas normais\n  - 'baixa' é para malucos por controle que desejam ver tudo\n\n\nNote que, independentemente do que você escolher aqui, você poderá ver todas as perguntas caso você reconfigure um pacote com o comando dpkg-reconfigure.
 Extended_description-ro.utf-8: Debconf prioritizează întrebările pe care vi le adresează. Alegeți cea mai  mică prioritate a întrebărilor pe care doriți să le vedeți:\n  - 'critic' apare doar când sistemul se poate să se strice.\n     Alegeți-o dacă sunteți începător, sau vă grăbiți.\n  - 'ridicat' este pentru întrebări destul de importante\n  - 'mediu' este pentru întrebări normale\n  - 'scăzut' este pentru obsedații de control care vor să vadă tot\n\n\nA se nota că indiferent ce nivel alegeți aici, veți putea să vedeți fiecare întrebare dacă reconfigurați un pachet cu dpkg-reconfigure.
 Extended_description-ru.utf-8: Debconf различает степень важности задаваемых вам вопросов. Выберите наименьший уровень вопросов, которые хотите видеть:\n  - «критический» — Выдает только вопросы, критичные для работы системы.\n     Выберите этот уровень, если вы новичок или если торопитесь.\n  - «высокий»     — Выдает наиболее важные вопросы.\n  - «средний»     — Только обычные вопросы.\n  - «низкий»      — Для тех, кто хочет видеть все вопросы.\n\n\nЗаметим, что независимо от выбранной сейчас степени важности, вы всегда сможете увидеть все вопросы при перенастройке пакета с помощью программы dpkg-reconfigure.
-Extended_description-si.utf-8: Debconf ඔබෙන් අසන ගැටළු ප්‍රමුඛතාවන්ට අනුව පෙළ ගසයි. ඔබට දැකීමට ඇවැසි අඩුම ප්‍රමුඛතාව තෝරන්න:\n  - 'දරුණු' පද්ධතිය බිඳවැටේනම් පමණක් ඔබෙන් අසයි.\n    ඔබ නවකයෙක් හෝ හදිසි නම් එය තෝරන්න.\n  - 'ඉහළ' වඩා වැදගත් ගැටළු වලටයි\n  - 'මධ්‍යම' සාමාන්‍ය ගැටළු සඳහා\n  - 'අඩු' සියල්ල දැකීමට කැමැත්තන්ටයි\n\n\nඔබ මෙහි කුමක් සඳහන් කලද, ඔබ පැකේජය  dpkg-reconfigure මගින් නැවත සැකසුව හොත් ඔබ සියළු ගැටළු නැවත දකින බව දැනගන්න.
-Extended_description-sk.utf-8: Otázky kladené programom debconf majú rôznu prioritu. Môžete si zvoliť najnižšiu prioritu otázok, ktoré chcete vidieť:\n  - „kritická“ sa pýta iba vtedy, ak by sa mohol systém narušiť.\n               Voľba je vhodná pre začiatočníkov alebo ak nemáte čas.\n  - „vysoká“   zahŕňa dôležité otázky\n  - „stredná“  slúži pre normálne otázky\n  - „nízka“    je pre nadšencov, ktorí chcú vidieť všetko\n\n\nVšimnite si, že pri opätovnom nastavovaní balíka programom dpkg-reconfigure uvidíte všetky otázky bez ohľadu na to, akú prioritu si tu zvolíte.
-Extended_description-sl.utf-8: Debconf ločuje postavljena vprašanja glede na pomembnost. Izberite najnižjo stopnjo pomembnosti vprašanj, ki jih želite videti:\n  - 'kritična' za tista vprašanja, ki se nanašajo na stvari, ki lahko pokvarijo vaš sistem.\n    Izberite če ste začetnik ali pa se vam mudi.\n  - 'visoka' je za zelo pomembna vprašanja\n  - 'srednja' je za navadna vprašanja\n  - 'nizka' je za uporabnike, ki želijo videti vse\n\n\nNe glede na to kateri nivo izberete boste lahko videli vsa vprašanja, če ponovno nastavite paket z dpkg-reconfigure.
-Extended_description-sq.utf-8: Debconf u vë prioritet pyetjeve që ai ju bën juve. Zgjidh prioritetin më të ulët të pyetjes që ju doni të shihni:\n  - 'kritike' ju lajmeron vetëm nësë sistemi bie.\n    Pick it if you are a newbie, or in a hurry.\n  - 'i lartë' është për pyetje të rëndësishme\n  - 'medium' është për pyetje normale\n  - 'ulët' është për fanatikët e kontrollit që duan të shohin gjithcka\n\n\nVini re se pavarësisht se cilin nivel ju zgjidhni, ju do të jeni në gjendje të shihni çdo pyetje në qoftë se ju konfiguroni një pakete me rekonfigurim-dpkg.
-Extended_description-sr.utf-8: Debconf разврстава питања по приоритету. Изаберите најнижи приоритет питања који желите да видите:\n  - 'критично' пита само ако систем може да се сруши.\n    Изаберите ако сте почетник или у журби.\n  - 'високо' пита битна питања\n  - 'средње' пита нормална питања\n  - 'ниско' пита најбаналнија питања и објашњава све.\n\n\nБило шта да изаберете, моћиће те да видите свако питање ако реконфигуришете пакет помоћу dpkg-reconfigure.
-Extended_description-sr@latin.utf-8: Debconf razvrstava pitanja po prioritetu. Izaberite najniži prioritet pitanja koji želite da vidite:\n  - 'kritično' pita samo ako sistem može da se sruši.\n    Izaberite ako ste početnik ili u žurbi.\n  - 'visoko' pita bitna pitanja\n  - 'srednje' pita normalna pitanja\n  - 'nisko' pita najbanalnija pitanja i objašnjava sve.\n\n\nBilo šta da izaberete, moćiće te da vidite svako pitanje ako rekonfigurišete paket pomoću dpkg-reconfigure.
-Extended_description-sv.utf-8: Debconf prioriterar frågor den ställer till dig. Välj den lägsta prioritetsnivån för frågor du vill se:\n  - "kritisk" frågar dig endast om systemet kan skadas.\n    Välj den om du är nybörjare eller har bråttom..\n  - "hög" är för ganska viktiga frågor\n  - "medel" är för normala frågor\n  - "låg" är för kontrolltokar som vill se allt som händer\n\n\nNotera att oavsett vilken nivå du väljer här är det möjligt att se varje fråga om du konfigurerar om ett paket med dpkg-reconfigure.
-Extended_description-ta.utf-8: டெப்கான்ஃப்  அது உங்களை கேட்கும் கேள்விகளை முன்னுரிமை படுத்துகிறது.  நீங்கள் பார்க்க விரும்பும் கேள்விகளின் மிகக்குறைந்த முன்னுரிமையை தேர்ந்தெடுங்கள்:\n  - 'மிக முக்கியமான' என்பது அது இல்லாமல் கணினி இயங்கா கேள்விகள்.\n    நீங்கள் மிகப்புதியவராக இருந்தாலோ அல்லது மிக அவசரத்தில் இருந்தாலோ இதை தேர்ந்தெடுக்கவும்.\n  - 'உயர்' மிக முக்கியமான கேள்விகளுக்கு\n  - 'நடுத்தரம்' வழக்கமான கேள்விகளுக்கு\n  - 'குறைவு' எல்லாவற்றையும் பார்க்க விரும்பும் நபருக்கு.\n\n\nஒரு விஷயம் இங்கு நினைவு கொள்ளலாம். நீங்கள் எந்த மட்டத்தை இப்போது தேர்ந்தெடுத்தாலும் ஒரு பொதியை மறு வடிவமைப்பு செய்ய dpkg-reconfigure  கட்டளை கொடுத்தல் எல்லா கேள்விகளையும் காணலாம்.
-Extended_description-te.utf-8: డెబ్కాన్ఫ్  మిమ్ములను  ప్రాధాన్యత ప్రకారము  ప్రశ్నలను అడుగుతుంది. మీరు చూడాలనుకునే కనిష్ఠ స్థాయిని ఎంచుకో  :\n  - 'కీలకం'  మీ వ్యవస్థ చెడిపోయే అవకాశముండే ప్రశ్నలుమాత్రము.\n    మీరు కొత్త  వాడుకరి లేక తొందరలో వుంటే  ఎంచుకో .\n  - 'ఉన్నతం' ముఖ్యమైన ప్రశ్నలు\n  - 'మధ్యమం'  సాధారణ  ప్రశ్నలు\n  - 'అధమం'  ప్రతీది పరీక్షగా చూద్దామనేవారికి\n\n\nమీరు ఏ స్థాయి ఎంచుకున్నా, మీరు dpkg-reconfigure  వాడితే, ప్రతి ప్రశ్న చూడవచ్చని గమనించండి
-Extended_description-th.utf-8: debconf จะจัดระดับความสำคัญของคำถามที่จะถามคุณ กรุณาเลือกระดับความสำคัญของคำถามที่ต่ำที่สุดที่คุณต้องการเห็น:\n  - 'วิกฤติ' จะถามคุณเฉพาะคำถามที่คำตอบมีโอกาสทำให้ระบบพังได้\n    คุณอาจเลือกตัวเลือกนี้ถ้าคุณเป็นมือใหม่ หรือกำลังรีบ\n  - 'สูง' สำหรับคำถามที่สำคัญพอสมควร\n  - 'กลาง' สำหรับคำถามปกติ\n  - 'ต่ำ' สำหรับผู้อยากรู้อยากเห็นที่อยากปรับละเอียดทุกตัวเลือก\n\n\nสังเกตว่า ไม่ว่าคุณจะเลือกระดับคำถามใดตรงนี้ คุณจะยังเห็นคำถามทุกข้อถ้าคุณตั้งค่าแพกเกจใหม่ด้วย dpkg-reconfigure
-Extended_description-tl.utf-8: Binibigyan ng debconf ng iba't ibang antas ang mga tanong. Piliin ang pinakamababang antas ng tanong na nais niyong makita:\n  - 'kritikal' ay tinatanong kung maaaring makapinsala sa sistema.\n    Piliin ito kung kayo'y baguhan, o nagmamadali.\n  - 'mataas' ay para sa mga importanteng mga tanong\n  - 'kainaman' ay para mga pangkaraniwang mga tanong\n  - 'mababa' ay para sa control freak na gustong makita ang lahat\n\n\nUnawain na kahit anong antas ang piliin ninyo dito, maaari niyong makita ang bawat tanong kung inyong isasaayos muli ang isang pakete gamit ang dpkg-reconfigure.
-Extended_description-tr.utf-8: Debconf görüntülediği sorulara öncelikler verir. Görmek istediğiniz sorular için en düşük önceliği seçin:\n  - 'kritik': sadece sistemi bozabilecek durumlarda soru sorar.\n     Yeni başlayan ya da aceleci birisiyseniz bunu seçin.\n  - 'yüksek': önemi daha yüksek sorular\n  - 'orta': normal düzeyde sorular\n  - 'düşük': bütün seçenekleri görmek isteyen denetim düşkünleri için\n\n\nUnutmayın ki paketlerin dpkg-reconfigure komutu ile tekrar yapılandırılması sırasında burada seçtiğiniz öncelik seviyesi ne olursa olsun bütün soruları görebileceksiniz.
-Extended_description-ug.utf-8: Debconf ئوتتۇرىغا قويۇلىدىغان مەسىلىلەرنى كۆپ دەرىجىگە ئايرىيدۇ. سىز كۆرمەكچى بولغان ئەڭ تۆۋەن دەرىجىلىك مەسىلىنى تاللاڭ: - ھالقىلىق		پەقەت سىستېما بۇزۇلۇشىنى كەلتۈرۈپ چىقىرىدىغان مەسىلىلەرنىلا ئەسكەرتىدۇ سىز يېڭىياچى ياكى بەك ئالدىراش بولسىڭىز، بۇ تۈرنى تاللاشنى ئويلاشسىڭىز بولىدۇ. - يۇقىرى		ناھايىتى مۇھىم بولغان مەسىلىلەرگە قارىتىلىدۇ - ئوتتۇرا		ئادەتتىكى مەسىلىلەرگە قارىتىلىدۇ - تۆۋەن		ھەممىنى كۆرۈپ تۇرۇشنى خالايدىغان تىزگىنلىگۈچىلەرگە ماس كېلىدۇ\n\nدىققەت: سىز بۇ يەردە قايسى دەرىجىنى تاللىشىڭىزدىن قەتئىينەزەر، سىز dpkg-reconfigure ئىشلىتىپ بوغچىلارنى قايتا تەڭشىگەندە ھەممە مەسىلىلەرنى كۆرەلەيسىز.
-Extended_description-uk.utf-8: Debconf розрізняє пріоритети для питань, що задає. Виберіть найменший пріоритет питань, які ви хочете бачити:\n  - "критичний" видавати запитання критичні для роботи системи.\n    Виберіть цей пункт, якщо ви не знайомі з системою, або не можете чекати.\n  - "високий" - для важливих питань\n  - "середній" - для нормальних питань\n  - "низький" - для тих, хто хоче бачити всі питання\n\n\nЗауважте, що незалежно від вибраного зараз рівня пріоритету, ви завжди зможете побачити всі питання, за допомогою програми dpkg-reconfigure.
-Extended_description-vi.utf-8: Trình debconf định quyền ưu tiên cho mỗi câu hỏi cấu hình. Bạn có muốn xem câu hỏi có ưu tiên nào?\n • tới hạn	nhắc bạn chỉ khi hệ thống sắp bị hỏng\n					Hãy chọn điều này nếu bạn là người dùng mới, hoặc nếu bạn vội\n • cao			cho câu hỏi hơi quan trọng\n • vừa			cho câu hỏi bình thường\n • thấp			cho người dùng muốn xem hết.\n\n\nGhi chú rằng bất chấp cấp được chọn ở đây, bạn vẫn có khả năng xem mọi câu hỏi bằng cách cấu hình lại gói nào bằng lệnh « dpkg-reconfigure ten_gói ».
-Extended_description-wo.utf-8: Debconf dafay jox laaj yimu lay laaj ay piritorite. Tannal piriyorite bi gëna suufe bi ngay bëgg diko gis:\n  -'bu garaaw' dula laa
+Extended_description-si.utf-8: Debconf ඔබෙන් අසන ගැටළු ප්‍රමුඛතාවන්ට අනුව පෙළ ගසයි. ඔබට දැකීමට ඇවැසි අඩුම ප්‍රමුඛතාව තෝරන්න:\n  - 'දරුණු' පද්ධතිය බිඳවැටේනම් පමණක් ඔබෙන් අසයි.\n    ඔබ නවකයෙක් හෝ හදිසි නම් එය තෝරන්න.\n  - 'ඉහළ' වඩා වැදගත් ගැටළු වලටයි\n  - 'ම�

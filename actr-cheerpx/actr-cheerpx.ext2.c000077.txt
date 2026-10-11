@@ -1,4 +1,18 @@
-and its dependencies." (asdf/bundle::monolithic-bundle-op asdf/bundle::lib-op asdf/action::non-propagating-operation) ((:allocation :class :initform :object :name asdf/bundle::gather-type)) "Compile the system and produce a linkable static library (.a/.lib)
+ame asdf/bundle::extra-object-files) (:writers ((setf asdf/bundle::extra-build-args)) :readers (asdf/bundle::extra-build-args) :initform nil :initargs (:extra-build-args) :name asdf/bundle::extra-build-args)) (asdf/bundle::x) (asdf/bundle::bundle-op) "Abstract operation for linking files together" ((:readers (asdf/bundle::gather-op) :allocation :class :initform nil :name asdf/bundle::gather-op) (:readers (asdf/bundle::gather-type) :allocation :class :initform :no-output-file :name asdf/bundle::gather-type)) "Abstract operation for gathering many input files from a system" ((notinline asdf/bundle::operation-monolithic-p)) (asdf/bundle::gather-op asdf/system::system) (asdf/bundle::o asdf/bundle::s) ((:allocation :class :initform :object :name asdf/bundle::gather-type) (:allocation :class :initform :fasl :name asdf/bundle::bundle-type)) "Base class for compiling into a bundle" (asdf/action::sideway-operation) ((:allocation :class :initform 'asdf/bundle::load-bundle-op :name asdf/action::sideway-operation)) "Operation class for loading the bundles of a system's dependencies" (asdf/bundle::link-op asdf/bundle::gather-op asdf/action::non-propagating-operation) ((:allocation :class :initform :object :name asdf/bundle::gather-type) (:allocation :class :initform :lib :name asdf/bundle::bundle-type)) "Compile the system and produce a linkable static library (.a/.lib)
+for all the linkable object files associated with the system. Compare with DLL-OP.
+
+On most implementations, these object files only include extensions to the runtime
+written in C or another language with a compiler producing linkable object files.
+On CLASP, ECL, MKCL, these object files _also_ include the contents of Lisp files
+themselves. In any case, this operation will produce what you need to further build
+a static runtime for your system, or a dynamic library to load in an existing runtime." (asdf/bundle::basic-compile-bundle-op asdf/action::selfward-operation asdf/bundle::gather-op asdf/bundle::link-op) ((:allocation :class :initform '(asdf/bundle::prepare-bundle-op) :name asdf/action::selfward-operation)) "This operator is an alternative to COMPILE-OP. Build a system
+and all of its dependencies, but build only a single (\"monolithic\") FASL, instead
+of one per source file, which may be more resource efficient.  That monolithic
+FASL should be loaded with LOAD-BUNDLE-OP, rather than LOAD-OP." (asdf/lisp-action::basic-load-op asdf/action::selfward-operation) ((:allocation :class :initform '(asdf/bundle::prepare-bundle-op asdf/bundle::compile-bundle-op) :name asdf/action::selfward-operation)) "This operator is an alternative to LOAD-OP. Build a system
+and all of its dependencies, using COMPILE-BUNDLE-OP. The difference with
+respect to LOAD-OP is that it builds only a single FASL, which may be
+faster and more resource efficient." ((:allocation :class :initform :object :name asdf/bundle::gather-type) (:allocation :class :initform :dll :name asdf/bundle::bundle-type)) "Compile the system and produce a dynamic loadable library (.so/.dll)
+for all the linkable object files associated with the system. Compare with LIB-OP." (asdf/lisp-action::basic-compile-op asdf/action::selfward-operation) ((:allocation :class :initform '(asdf/bundle::compile-bundle-op asdf/bundle::lib-op) :name asdf/action::selfward-operation)) "produce an asd file for delivering the system as a single fasl" (asdf/bundle::monolithic-bundle-op asdf/bundle::deliver-asd-op) ((:allocation :class :initform '(asdf/bundle::monolithic-compile-bundle-op asdf/bundle::monolithic-lib-op) :name asdf/action::selfward-operation)) "produce fasl and asd files for combined system and dependencies." (asdf/bundle::monolithic-bundle-op asdf/bundle::basic-compile-bundle-op asdf/bundle::link-op asdf/bundle::gather-op asdf/action::non-propagating-operation) "Create a single fasl for the system and its dependencies." (asdf/bundle::monolithic-bundle-op asdf/bundle::load-bundle-op) ((:allocation :class :initform 'asdf/bundle::monolithic-compile-bundle-op :name asdf/action::selfward-operation)) "Load a single fasl for the system and its dependencies." (asdf/bundle::monolithic-bundle-op asdf/bundle::lib-op asdf/action::non-propagating-operation) ((:allocation :class :initform :object :name asdf/bundle::gather-type)) "Compile the system and produce a linkable static library (.a/.lib)
 for all the linkable object files associated with the system or its dependencies. See LIB-OP." (asdf/bundle::monolithic-bundle-op asdf/bundle::dll-op asdf/action::non-propagating-operation) "Compile the system and produce a dynamic loadable library (.so/.dll)
 for all the linkable object files associated with the system or its dependencies. See LIB-OP" (asdf/bundle::monolithic-bundle-op asdf/action::selfward-operation asdf/bundle::link-op asdf/bundle::gather-op) ((:initform :image :name asdf/bundle::bundle-type) (:allocation :class :initform 'asdf/bundle::lib-op :name asdf/bundle::gather-op) (:allocation :class :initform :static-library :name asdf/bundle::gather-type) (:allocation :class :initform 'nil :name asdf/action::selfward-operation)) "create an image file from the system and its dependencies" (asdf/bundle::image-op) ((:initform :program :name asdf/bundle::bundle-type)) "create an executable file from the system and its dependencies" ((notinline asdf/bundle::bundle-pathname-type)) ((notinline asdf/bundle::bundle-output-files)) (asdf/bundle::bundle-op asdf/system::system) (asdf/bundle::o asdf/bundle::c) ((:initform "fasb" :name type)) "Class for a file that is already compiled,
 e.g. as part of the implementation, of an outer build system that calls into ASDF,
@@ -519,33 +533,4 @@ processed in order by OPERATE." (asdf/operation::operation asdf/component::compo
 \A`LE
 \A`JJTDXF\B`HPM\B`HP   P   l… ÷ÿ§    A‡A†AƒN l,D0H O
 AÃAÆAÇE`
-,D0H$A(H,B0I ˆ   À… t÷ÿJ   A…A‡A†AƒN@eLBPH@ALAPdLAHDLAPH@HDAHALBPL@bLKPL@QLAPSAÃAÆAÇAÅA@ƒ…†‡C
-LDPI|   L† 8÷ÿ*   A…A‡A†AƒN@eLBPH@DLKPH@TLAPf@KDDHALBPH@L
-LAPFGLAPSAÃAÆAÇAÅA@ƒ…†‡Ì   Ì† è÷ÿ;   A…A‡A†AƒN0~8F<A@H0g
-AÃAÆAÇAÅFC8F<A@H0M8F<A@H0R8F<A@H0
-AÃAÆAÇAÅFY8F<A@H0Y8F<A@H0Q8F<A@H0t8F<A@H0g4A8F<A@H0V4A8L<A@ ¬  œ‡ X	÷ÿ˜   A…A‡A†AƒNPIXB\B`EdLhBlEpZPX\A`P\CXP\A`HPT\A`RPNXF\A`F\AXA\B`EPIXF\A`F\AXA\B`C\CXL\A`F\IXD\F`BdFhAlBpEPJ
-FÃAÆAÇAÅFC\A`HPTXF\A`F\AXB\B`EPL\B`HPNXJ\A`HPT\A`RPNXF\A`F\AXA\B`EPRXF\A`MdLhAlBpGXD\A`F\AXA\B`EPPXF\A`F\AXB\B`EPQXF\A`F\AXB\B`EPiXF\A`HPT\A`RPNXF\A`F\AXA\B`EPRXF\A`SdJhAlBpGXD\A`H\L`F\IXA\F`EdFhAlBpEPT
-XF\A`HPQXF\A`HPQXF\A`HPQXF\A`HPOTAXF\A`HPITAXL\A`JIXF\A`F\AXB\B`EPNXA\F`HPN\F`F\AXA\A`F\AXA\L`HPNXF\A`IdNhFlBpEPLTAXF\A`OdFhDlBpEP 0  LŠ H÷ÿ   A‡A†AƒN e(F,A0H M(F,A0F,G(F,B0I O
-AÃAÆAÇGI(F,A0H Q(F,A0F,G(F,B0E C
-AÃAÆAÇHI(F,A0F,A(L,B0C,C(L,A0N$F(A,B0E C
-AÃAÆAÇFI(F,A0H Q(F,A0L,A(F,B0I R(F,A0F,G(F,B0E,G(F,A0N$F(A,B0E X$A(L,A0   0  €‹ 4÷ÿ@   A…A‡A†AƒNP¤XG\C`HPTTFXA\A`H\GXF\A`F\M`AdMhAlGpGtAxD|B€IXC\A`HTBXD\B`EPC
-AÃAÆAÇAÅFCXG\C`HPSTBXE\A`H\AXG\A`HTBXD\B`\dFhElApRXF\A`LTCXG\G`GdEhDlBpE\A`WPF
-AÃAÆAÇAÅH­
-XF\C`HPSTAXF\C`E  p   ´Œ @÷ÿ²    A…A‡A†AƒN0a8G<A@H0N
-CÃAÆAÇAÅIC
-8G<A@H0G8G<A@H0E4A8L<A@K   ô   ( Œ÷ÿ2   A…A‡A†AƒN@]HFLAPFLAHDLBPO@U
-AÃAÆAÇAÅEIHNLAPH@cHJLAPH@QHFLAPFLAHDLBPO@PLAPL@UHALAPL@LLAP\@LLAPH@WLAPH@F
-LAPEC
-LAPEFLAPFLAHELAPFLAHALDPL@LDAHFLAP  d    Ž Ô÷ÿ‡    A…A‡A†AƒN0g8F<A@F<A8A<B@E0G4B8A<B@H0Q
-CÃAÆAÇAÅF   |   ˆŽ ü÷ÿú    A…A‡A†AƒNPATBXD\A`f\AXD\A`YPLTBXD\B`HPVTAXJ\B`HAÃAÆAÇAÅFPƒ…†‡   ´    |÷ÿ*   A…A‡A†AƒN@aHFLAPFLAHDLBPCLZPGTIXE\B`N@TDMHELBPFLLPETDXD\B`H@ODEHALBPFDAHALBPHDAHLLBPHAÃAÆAÇAÅB@ƒ…†‡   Ä   À ô÷ÿR   A…A‡A†AƒN0~<A@N0R8F<A@LDGHALBPM0B4F8B<A@H<G8F<A@GDAHALBPM8F<A@F<A8A<B@E<G8F<A@F<A8A<B@EAÃAÆAÇAÅE0ƒ…†‡W4H8F<A@H0 8  ˆ Œ÷ÿ¼   A…A‡A†AƒN@eHFLAPN@GHFLAPH@i
-FÃAÆAÇAÅDY
-AÃAÆAÇAÅKiHFLAPHDBHALBPE@LLAPN@YLAPHLGHFLAPFLAHALBPE@HLAPFLCHLLAPFLAHALBPI@LLAPHLGHFLAPFLAHALBPI@]HFLAPHDBHALBPE@LLAPHLGHFLAPFLAHALBPE@LAPH@ILAPP@ „   Ä‘ ÷ÿá    A…A‡A†AƒN0[<A@H4K8A<B@H0V
-AÃAÆAÇAÅJS<A@H0H<A@F<A8A<B@H0T<A@H0P4A8F<A@  X   L’ x÷ÿ§    A‡A†AƒN c,A0L O
-AÃAÆAÇEZ
-AÃAÆDÇHI(F,A0H t   ¨’ Ì÷ÿd   A…A‡A†CƒN0c<A@N0O
-CÃAÆAÇAÅEa8F<A@N0G8F<A@N0G8F<A@N0G8F<A@H0 t    “ Ä÷ÿ*   A…A‡A†AƒN@dDFHBLAPH@THDLAPH@pLAPM@LLAPHDAHALBPH@l
-CÃAÆAÇAÅG <  ˜“ |÷ÿÃ   A…A‡A†AƒNPEXB\B`EdLhBlEpPPN\D`HP_\D`HPYXF\A`F\IXH\F`AdFhAlBpEAÃAÆAÇAÅHPƒ…†‡c\B`HPwTFXD\B`HPR\F`HPaXF\D`NPKXF\D`NP_XF\D`HPl
-TFXD\B`HPR\F`KL\D`HPL\D`J\GXF\A`HXP\F`HdFhDlBpI\D`J\GXF\A`HXI\F`AdFhElBpMXF\A`HTDXA\B`GPSXF\A`LdFhDlBpMPV\D`J\GXF\A`HXI\F`AdFhElBpMPR
-TFXD\B`HPN\F`EITFXD\B`HPNXF\A`Q\GXF\A`SdLhAlBpGPF
-TLXD\B`HPLTAXF\A`M\AXA\B`JA
-TLXD\B`HPLTAXF\EGTAXF\D`   à   
+,D0H$A(H,B0I ˆ   À… t÷ÿJ   A…A‡A

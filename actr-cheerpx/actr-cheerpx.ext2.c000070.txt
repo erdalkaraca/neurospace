@@ -1,4 +1,73 @@
-l ecl_member_char(ecl_character c, cl_object char_bag);
+n ECL_API cl_object ecl_make_double_sse_pack(__m128d value);
+extern ECL_API __m128d ecl_unbox_double_sse_pack(cl_object value);
+#define ecl_unbox_double_sse_pack_unsafe(x) ((x)->sse.data.vd)
+
+#endif
+
+/* stacks.c */
+
+extern ECL_API cl_object si_ihs_top(void);
+extern ECL_API cl_object si_ihs_fun(cl_object arg);
+extern ECL_API cl_object si_ihs_env(cl_object arg);
+extern ECL_API cl_object si_ihs_bds(cl_object arg);
+extern ECL_API cl_object si_ihs_next(cl_object arg);
+extern ECL_API cl_object si_ihs_prev(cl_object arg);
+extern ECL_API cl_object si_frs_top(void);
+extern ECL_API cl_object si_frs_bds(cl_object arg);
+extern ECL_API cl_object si_frs_tag(cl_object arg);
+extern ECL_API cl_object si_frs_ihs(cl_object arg);
+extern ECL_API cl_object si_bds_top(void);
+extern ECL_API cl_object si_bds_var(cl_object arg);
+extern ECL_API cl_object si_bds_val(cl_object arg);
+extern ECL_API cl_object si_sch_frs_base(cl_object fr, cl_object ihs);
+extern ECL_API cl_object si_reset_stack_limits(void);
+extern ECL_API cl_object si_reset_margin(cl_object type);
+extern ECL_API cl_object si_set_limit(cl_object type, cl_object size);
+extern ECL_API cl_object si_get_limit(cl_object type);
+
+extern ECL_API cl_index ecl_progv(cl_env_ptr env, cl_object vars, cl_object values);
+extern ECL_API void ecl_bds_unwind(cl_env_ptr env, cl_index new_bds_top_index);
+extern ECL_API void ecl_unwind(cl_env_ptr env, struct ecl_frame *fr) ecl_attr_noreturn;
+extern ECL_API struct ecl_frame *frs_sch(cl_object frame_id);
+
+/* string.c */
+
+extern ECL_API cl_object cl_char(cl_object s, cl_object i);
+#define cl_schar(x,y) cl_char(x,y)
+extern ECL_API cl_object si_char_set(cl_object str, cl_object index, cl_object c);
+extern ECL_API cl_object cl_string_trim(cl_object char_bag, cl_object strng);
+extern ECL_API cl_object cl_string_left_trim(cl_object char_bag, cl_object strng);
+extern ECL_API cl_object cl_string_right_trim(cl_object char_bag, cl_object strng);
+extern ECL_API cl_object cl_string(cl_object x);
+extern ECL_API cl_object cl_make_string _ECL_ARGS((cl_narg narg, cl_object size, ...));
+extern ECL_API cl_object cl_stringE _ECL_ARGS((cl_narg narg, cl_object string1, cl_object string2, ...));
+extern ECL_API cl_object cl_string_equal _ECL_ARGS((cl_narg narg, cl_object string1, cl_object string2, ...));
+extern ECL_API cl_object cl_stringL _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_stringG _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_stringLE _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_stringGE _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_stringNE _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_lessp _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_greaterp _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_not_greaterp _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_not_lessp _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_not_equal _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_upcase _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_downcase _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_string_capitalize _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_nstring_upcase _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_nstring_downcase _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object cl_nstring_capitalize _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_base_string_concatenate _ECL_ARGS((cl_narg narg, ...));
+extern ECL_API cl_object si_copy_to_simple_base_string(cl_object s);
+
+#define ecl_alloc_simple_base_string(l) ecl_alloc_simple_vector((l),ecl_aet_bc)
+extern ECL_API cl_object ecl_alloc_adjustable_base_string(cl_index l);
+extern ECL_API cl_object ecl_make_constant_base_string(const char *s, cl_fixnum i);
+extern ECL_API cl_object ecl_make_simple_base_string(const char *s, cl_fixnum i);
+extern ECL_API cl_object ecl_cstring_to_base_string_or_nil(const char *s);
+extern ECL_API bool ecl_string_eq(cl_object x, cl_object y);
+extern ECL_API bool ecl_member_char(ecl_character c, cl_object char_bag);
 extern ECL_API bool ecl_fits_in_base_string(cl_object s);
 extern ECL_API ecl_character ecl_char(cl_object s, cl_index i);
 extern ECL_API ecl_character ecl_char_set(cl_object s, cl_index i, ecl_character c);
@@ -2304,86 +2373,4 @@ typedef cl_object (*cl_objectfn_fixed)();
 #define ECL_CHARACTERP(o)       (ECL_IMMEDIATE(o) == t_character)
 #ifdef ECL_UNICODE
 #define ECL_BASE_CHAR_P(obje)   ((((cl_fixnum)(obje)) & 0xFFFFFC03) == ECL_CHARACTER_TAG)
-#define ECL_BASE_CHAR_CODE_P(x) ((x & ~((cl_fixnum)0xFF)) == 0)
-#define ECL_CODE_CHAR(c)        ((cl_object)(((cl_fixnum)(c << 2)|ECL_CHARACTER_TAG)))
-#define ECL_CHAR_CODE(obje)     (((cl_fixnum)(obje)) >> 2)
-#else
-#define ECL_BASE_CHAR_P(o)      ECL_CHARACTERP(o)
-#define ECL_CODE_CHAR(c)        ((cl_object)(((cl_fixnum)((c & 0xff) << 2)|ECL_CHARACTER_TAG)))
-#define ECL_CHAR_CODE(obje)     ((((cl_fixnum)(obje)) >> 2) & 0xff)
-#endif
-#define ECL_CHAR_CODE_RETURN    13
-#define ECL_CHAR_CODE_NEWLINE   10
-#define ECL_CHAR_CODE_LINEFEED  10
-
-#define ECL_NUMBER_TYPE_P(t)    (t >= t_fixnum && t <= t_last_number)
-#define ECL_REAL_TYPE_P(t)      (t >= t_fixnum && t < t_complex)
-#define ECL_ARRAYP(x)           ((ECL_IMMEDIATE(x) == 0) && (x)->d.t >= t_array && (x)->d.t <= t_bitvector)
-#define ECL_VECTORP(x)          ((ECL_IMMEDIATE(x) == 0) && (x)->d.t >= t_vector && (x)->d.t <= t_bitvector)
-#define ECL_BIT_VECTOR_P(x)     ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_bitvector))
-#ifdef ECL_UNICODE
-#define ECL_STRINGP(x)          ((ECL_IMMEDIATE(x) == 0) && \
-                                 ((x)->d.t == t_base_string || (x)->d.t == t_string))
-#define ECL_EXTENDED_STRING_P(x) ((ECL_IMMEDIATE(x) == 0) && (x)->d.t == t_string)
-#else
-#define ECL_STRINGP(x)          ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_base_string))
-#define ECL_EXTENDED_STRING_P(x) 0
-#endif
-#define ECL_BASE_STRING_P(x)    ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_base_string))
-#define ECL_HASH_TABLE_P(x)     ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_hashtable))
-#define ECL_BIGNUMP(x)          ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_bignum))
-#ifdef ECL_COMPLEX_FLOAT
-#define ECL_COMPLEXP(x)         ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t >= t_complex) && ((x)->d.t <= t_clfloat))
-#define ECL_COMPLEX_SINGLE_FLOAT_P(x) ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_csfloat))
-#define ECL_COMPLEX_DOUBLE_FLOAT_P(x) ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_cdfloat))
-#define ECL_COMPLEX_LONG_FLOAT_P(x) ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_clfloat))
-#else
-#define ECL_COMPLEXP(x)         ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_complex))
-#endif
-#define ECL_RANDOM_STATE_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_random))
-#define ECL_SINGLE_FLOAT_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_singlefloat))
-#define ECL_DOUBLE_FLOAT_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_doublefloat))
-#define ECL_LONG_FLOAT_P(x)     ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_longfloat))
-#define ECL_PACKAGEP(x)         ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_package))
-#define ECL_PATHNAMEP(x)        ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_pathname))
-#define ECL_READTABLEP(x)       ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_readtable))
-#define ECL_FOREIGN_DATA_P(x)   ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_foreign))
-#ifdef ECL_SSE2
-#define ECL_SSE_PACK_P(x)       ((ECL_IMMEDIATE(x) == 0) && ((x)->d.t == t_sse_pack))
-#endif
-
-#define _ECL_HDR                        int8_t t, m, padding1, padding2
-#define _ECL_HDR1(field)                int8_t t, m, field, padding
-#define _ECL_HDR2(field1,field2)        int8_t t, m, field1, field2
-
-struct ecl_singlefloat {
-        _ECL_HDR;
-        float SFVAL;    /*  singlefloat value  */
-};
-#define ecl_single_float(o) ((o)->SF.SFVAL)
-
-struct ecl_doublefloat {
-        _ECL_HDR;
-        double DFVAL;   /*  doublefloat value  */
-};
-#define ecl_double_float(o) ((o)->DF.DFVAL)
-
-struct ecl_long_float {
-        _ECL_HDR;
-        long double value;
-};
-#define ecl_long_float(o) ((o)->longfloat.value)
-
-struct ecl_bignum {
-        _ECL_HDR;
-        mpz_t big_num;
-};
-
-#define ECL_BIGNUM_DIM(x)       ((x)->big.big_num->_mp_alloc) /* number of allocated limbs */
-#define ECL_BIGNUM_SIZE(x)      ((x)->big.big_num->_mp_size)  /* number of limbs in use times sign of the bignum */
-#define ECL_BIGNUM_LIMBS(x)     ((x)->big.big_num->_mp_d)     /* pointer to array of allocated limbs */
-
-struct ecl_ratio {
-        _ECL_HDR;
-        cl_object den;          /*  denominator, must be an integer  */
-        cl_object num;          /*  numerator, must be an 
+#

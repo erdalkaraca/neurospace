@@ -1,0 +1,1 @@
+import{f as e}from"./pglite-opfs-worker-BR5YL-9f-QlxqpHzu.js";e();var t={name:`pg_trgm`,setup:async(e,t)=>({bundlePath:new URL(new URL(`/neurospace/assets/pg_trgm.tar-CowYIgmw-CowYIgmw.gz`,``+import.meta.url).href,``+import.meta.url)})};export{t as pg_trgm};

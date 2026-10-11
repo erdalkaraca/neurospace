@@ -1,4 +1,1121 @@
-B
+B2
+1D67		03B3
+1D68		03C1
+1D69		03C6
+1D6A		03C7
+1D78		043D
+1D9B		0252
+1D9C		0063
+1D9D		0255
+1D9E		00F0
+1D9F		025C
+1DA0		0066
+1DA1		025F
+1DA2		0261
+1DA3		0265
+1DA4		0268
+1DA5		0269
+1DA6		026A
+1DA7		1D7B
+1DA8		029D
+1DA9		026D
+1DAA		1D85
+1DAB		029F
+1DAC		0271
+1DAD		0270
+1DAE		0272
+1DAF		0273
+1DB0		0274
+1DB1		0275
+1DB2		0278
+1DB3		0282
+1DB4		0283
+1DB5		01AB
+1DB6		0289
+1DB7		028A
+1DB8		1D1C
+1DB9		028B
+1DBA		028C
+1DBB		007A
+1DBC		0290
+1DBD		0291
+1DBE		0292
+1DBF		03B8
+1E00		1E01
+1E02		1E03
+1E04		1E05
+1E06		1E07
+1E08		1E09
+1E0A		1E0B
+1E0C		1E0D
+1E0E		1E0F
+1E10		1E11
+1E12		1E13
+1E14		1E15
+1E16		1E17
+1E18		1E19
+1E1A		1E1B
+1E1C		1E1D
+1E1E		1E1F
+1E20		1E21
+1E22		1E23
+1E24		1E25
+1E26		1E27
+1E28		1E29
+1E2A		1E2B
+1E2C		1E2D
+1E2E		1E2F
+1E30		1E31
+1E32		1E33
+1E34		1E35
+1E36		1E37
+1E38		1E39
+1E3A		1E3B
+1E3C		1E3D
+1E3E		1E3F
+1E40		1E41
+1E42		1E43
+1E44		1E45
+1E46		1E47
+1E48		1E49
+1E4A		1E4B
+1E4C		1E4D
+1E4E		1E4F
+1E50		1E51
+1E52		1E53
+1E54		1E55
+1E56		1E57
+1E58		1E59
+1E5A		1E5B
+1E5C		1E5D
+1E5E		1E5F
+1E60		1E61
+1E62		1E63
+1E64		1E65
+1E66		1E67
+1E68		1E69
+1E6A		1E6B
+1E6C		1E6D
+1E6E		1E6F
+1E70		1E71
+1E72		1E73
+1E74		1E75
+1E76		1E77
+1E78		1E79
+1E7A		1E7B
+1E7C		1E7D
+1E7E		1E7F
+1E80		1E81
+1E82		1E83
+1E84		1E85
+1E86		1E87
+1E88		1E89
+1E8A		1E8B
+1E8C		1E8D
+1E8E		1E8F
+1E90		1E91
+1E92		1E93
+1E94		1E95
+1E9B		1E61
+1EA0		1EA1
+1EA2		1EA3
+1EA4		1EA5
+1EA6		1EA7
+1EA8		1EA9
+1EAA		1EAB
+1EAC		1EAD
+1EAE		1EAF
+1EB0		1EB1
+1EB2		1EB3
+1EB4		1EB5
+1EB6		1EB7
+1EB8		1EB9
+1EBA		1EBB
+1EBC		1EBD
+1EBE		1EBF
+1EC0		1EC1
+1EC2		1EC3
+1EC4		1EC5
+1EC6		1EC7
+1EC8		1EC9
+1ECA		1ECB
+1ECC		1ECD
+1ECE		1ECF
+1ED0		1ED1
+1ED2		1ED3
+1ED4		1ED5
+1ED6		1ED7
+1ED8		1ED9
+1EDA		1EDB
+1EDC		1EDD
+1EDE		1EDF
+1EE0		1EE1
+1EE2		1EE3
+1EE4		1EE5
+1EE6		1EE7
+1EE8		1EE9
+1EEA		1EEB
+1EEC		1EED
+1EEE		1EEF
+1EF0		1EF1
+1EF2		1EF3
+1EF4		1EF5
+1EF6		1EF7
+1EF8		1EF9
+1EFA		1EFB
+1EFC		1EFD
+1EFE		1EFF
+1F08		1F00
+1F09		1F01
+1F0A		1F02
+1F0B		1F03
+1F0C		1F04
+1F0D		1F05
+1F0E		1F06
+1F0F		1F07
+1F18		1F10
+1F19		1F11
+1F1A		1F12
+1F1B		1F13
+1F1C		1F14
+1F1D		1F15
+1F28		1F20
+1F29		1F21
+1F2A		1F22
+1F2B		1F23
+1F2C		1F24
+1F2D		1F25
+1F2E		1F26
+1F2F		1F27
+1F38		1F30
+1F39		1F31
+1F3A		1F32
+1F3B		1F33
+1F3C		1F34
+1F3D		1F35
+1F3E		1F36
+1F3F		1F37
+1F48		1F40
+1F49		1F41
+1F4A		1F42
+1F4B		1F43
+1F4C		1F44
+1F4D		1F45
+1F59		1F51
+1F5B		1F53
+1F5D		1F55
+1F5F		1F57
+1F68		1F60
+1F69		1F61
+1F6A		1F62
+1F6B		1F63
+1F6C		1F64
+1F6D		1F65
+1F6E		1F66
+1F6F		1F67
+1F71		03AC
+1F73		03AD
+1F75		03AE
+1F77		03AF
+1F79		03CC
+1F7B		03CD
+1F7D		03CE
+1FB8		1FB0
+1FB9		1FB1
+1FBA		1F70
+1FBB		03AC
+1FBE		03B9
+1FC8		1F72
+1FC9		03AD
+1FCA		1F74
+1FCB		03AE
+1FD3		0390
+1FD8		1FD0
+1FD9		1FD1
+1FDA		1F76
+1FDB		03AF
+1FE3		03B0
+1FE8		1FE0
+1FE9		1FE1
+1FEA		1F7A
+1FEB		03CD
+1FEC		1FE5
+1FEF		0060
+1FF8		1F78
+1FF9		03CC
+1FFA		1F7C
+1FFB		03CE
+2000		0020
+2001		0020
+2002		0020
+2003		0020
+2004		0020
+2005		0020
+2006		0020
+2007		0020
+2008		0020
+2009		0020
+200A		0020
+2011		2010
+2024		002E
+202F		0020
+205F		0020
+2070		0030
+2071		0069
+2074		0034
+2075		0035
+2076		0036
+2077		0037
+2078		0038
+2079		0039
+207A		002B
+207B		2212
+207C		003D
+207D		0028
+207E		0029
+207F		006E
+2080		0030
+2081		0031
+2082		0032
+2083		0033
+2084		0034
+2085		0035
+2086		0036
+2087		0037
+2088		0038
+2089		0039
+208A		002B
+208B		2212
+208C		003D
+208D		0028
+208E		0029
+2090		0061
+2091		0065
+2092		006F
+2093		0078
+2094		0259
+2095		0068
+2096		006B
+2097		006C
+2098		006D
+2099		006E
+209A		0070
+209B		0073
+209C		0074
+2102		0063
+2107		025B
+210A		0067
+210B		0068
+210C		0068
+210D		0068
+210E		0068
+210F		0127
+2110		0069
+2111		0069
+2112		006C
+2113		006C
+2115		006E
+2119		0070
+211A		0071
+211B		0072
+211C		0072
+211D		0072
+2124		007A
+2126		03C9
+2128		007A
+212A		006B
+212B		00E5
+212C		0062
+212D		0063
+212F		0065
+2130		0065
+2131		0066
+2132		214E
+2133		006D
+2134		006F
+2135		05D0
+2136		05D1
+2137		05D2
+2138		05D3
+2139		0069
+213C		03C0
+213D		03B3
+213E		03B3
+213F		03C0
+2140		2211
+2145		0064
+2146		0064
+2147		0065
+2148		0069
+2149		006A
+2160		0069
+2164		0076
+2169		0078
+216C		006C
+216D		0063
+216E		0064
+216F		006D
+2170		0069
+2174		0076
+2179		0078
+217C		006C
+217D		0063
+217E		0064
+217F		006D
+2183		2184
+2329		3008
+232A		3009
+2460		0031
+2461		0032
+2462		0033
+2463		0034
+2464		0035
+2465		0036
+2466		0037
+2467		0038
+2468		0039
+24B6		0061
+24B7		0062
+24B8		0063
+24B9		0064
+24BA		0065
+24BB		0066
+24BC		0067
+24BD		0068
+24BE		0069
+24BF		006A
+24C0		006B
+24C1		006C
+24C2		006D
+24C3		006E
+24C4		006F
+24C5		0070
+24C6		0071
+24C7		0072
+24C8		0073
+24C9		0074
+24CA		0075
+24CB		0076
+24CC		0077
+24CD		0078
+24CE		0079
+24CF		007A
+24D0		0061
+24D1		0062
+24D2		0063
+24D3		0064
+24D4		0065
+24D5		0066
+24D6		0067
+24D7		0068
+24D8		0069
+24D9		006A
+24DA		006B
+24DB		006C
+24DC		006D
+24DD		006E
+24DE		006F
+24DF		0070
+24E0		0071
+24E1		0072
+24E2		0073
+24E3		0074
+24E4		0075
+24E5		0076
+24E6		0077
+24E7		0078
+24E8		0079
+24E9		007A
+24EA		0030
+2C00		2C30
+2C01		2C31
+2C02		2C32
+2C03		2C33
+2C04		2C34
+2C05		2C35
+2C06		2C36
+2C07		2C37
+2C08		2C38
+2C09		2C39
+2C0A		2C3A
+2C0B		2C3B
+2C0C		2C3C
+2C0D		2C3D
+2C0E		2C3E
+2C0F		2C3F
+2C10		2C40
+2C11		2C41
+2C12		2C42
+2C13		2C43
+2C14		2C44
+2C15		2C45
+2C16		2C46
+2C17		2C47
+2C18		2C48
+2C19		2C49
+2C1A		2C4A
+2C1B		2C4B
+2C1C		2C4C
+2C1D		2C4D
+2C1E		2C4E
+2C1F		2C4F
+2C20		2C50
+2C21		2C51
+2C22		2C52
+2C23		2C53
+2C24		2C54
+2C25		2C55
+2C26		2C56
+2C27		2C57
+2C28		2C58
+2C29		2C59
+2C2A		2C5A
+2C2B		2C5B
+2C2C		2C5C
+2C2D		2C5D
+2C2E		2C5E
+2C2F		2C5F
+2C60		2C61
+2C62		026B
+2C63		1D7D
+2C64		027D
+2C67		2C68
+2C69		2C6A
+2C6B		2C6C
+2C6D		0251
+2C6E		0271
+2C6F		0250
+2C70		0252
+2C72		2C73
+2C75		2C76
+2C7C		006A
+2C7D		0076
+2C7E		023F
+2C7F		0240
+2C80		2C81
+2C82		2C83
+2C84		2C85
+2C86		2C87
+2C88		2C89
+2C8A		2C8B
+2C8C		2C8D
+2C8E		2C8F
+2C90		2C91
+2C92		2C93
+2C94		2C95
+2C96		2C97
+2C98		2C99
+2C9A		2C9B
+2C9C		2C9D
+2C9E		2C9F
+2CA0		2CA1
+2CA2		2CA3
+2CA4		2CA5
+2CA6		2CA7
+2CA8		2CA9
+2CAA		2CAB
+2CAC		2CAD
+2CAE		2CAF
+2CB0		2CB1
+2CB2		2CB3
+2CB4		2CB5
+2CB6		2CB7
+2CB8		2CB9
+2CBA		2CBB
+2CBC		2CBD
+2CBE		2CBF
+2CC0		2CC1
+2CC2		2CC3
+2CC4		2CC5
+2CC6		2CC7
+2CC8		2CC9
+2CCA		2CCB
+2CCC		2CCD
+2CCE		2CCF
+2CD0		2CD1
+2CD2		2CD3
+2CD4		2CD5
+2CD6		2CD7
+2CD8		2CD9
+2CDA		2CDB
+2CDC		2CDD
+2CDE		2CDF
+2CE0		2CE1
+2CE2		2CE3
+2CEB		2CEC
+2CED		2CEE
+2CF2		2CF3
+2D6F		2D61
+2E9F		6BCD
+2EF3		9F9F
+2F00		4E00
+2F01		4E28
+2F02		4E36
+2F03		4E3F
+2F04		4E59
+2F05		4E85
+2F06		4E8C
+2F07		4EA0
+2F08		4EBA
+2F09		513F
+2F0A		5165
+2F0B		516B
+2F0C		5182
+2F0D		5196
+2F0E		51AB
+2F0F		51E0
+2F10		51F5
+2F11		5200
+2F12		529B
+2F13		52F9
+2F14		5315
+2F15		531A
+2F16		5338
+2F17		5341
+2F18		535C
+2F19		5369
+2F1A		5382
+2F1B		53B6
+2F1C		53C8
+2F1D		53E3
+2F1E		56D7
+2F1F		571F
+2F20		58EB
+2F21		5902
+2F22		590A
+2F23		5915
+2F24		5927
+2F25		5973
+2F26		5B50
+2F27		5B80
+2F28		5BF8
+2F29		5C0F
+2F2A		5C22
+2F2B		5C38
+2F2C		5C6E
+2F2D		5C71
+2F2E		5DDB
+2F2F		5DE5
+2F30		5DF1
+2F31		5DFE
+2F32		5E72
+2F33		5E7A
+2F34		5E7F
+2F35		5EF4
+2F36		5EFE
+2F37		5F0B
+2F38		5F13
+2F39		5F50
+2F3A		5F61
+2F3B		5F73
+2F3C		5FC3
+2F3D		6208
+2F3E		6236
+2F3F		624B
+2F40		652F
+2F41		6534
+2F42		6587
+2F43		6597
+2F44		65A4
+2F45		65B9
+2F46		65E0
+2F47		65E5
+2F48		66F0
+2F49		6708
+2F4A		6728
+2F4B		6B20
+2F4C		6B62
+2F4D		6B79
+2F4E		6BB3
+2F4F		6BCB
+2F50		6BD4
+2F51		6BDB
+2F52		6C0F
+2F53		6C14
+2F54		6C34
+2F55		706B
+2F56		722A
+2F57		7236
+2F58		723B
+2F59		723F
+2F5A		7247
+2F5B		7259
+2F5C		725B
+2F5D		72AC
+2F5E		7384
+2F5F		7389
+2F60		74DC
+2F61		74E6
+2F62		7518
+2F63		751F
+2F64		7528
+2F65		7530
+2F66		758B
+2F67		7592
+2F68		7676
+2F69		767D
+2F6A		76AE
+2F6B		76BF
+2F6C		76EE
+2F6D		77DB
+2F6E		77E2
+2F6F		77F3
+2F70		793A
+2F71		79B8
+2F72		79BE
+2F73		7A74
+2F74		7ACB
+2F75		7AF9
+2F76		7C73
+2F77		7CF8
+2F78		7F36
+2F79		7F51
+2F7A		7F8A
+2F7B		7FBD
+2F7C		8001
+2F7D		800C
+2F7E		8012
+2F7F		8033
+2F80		807F
+2F81		8089
+2F82		81E3
+2F83		81EA
+2F84		81F3
+2F85		81FC
+2F86		820C
+2F87		821B
+2F88		821F
+2F89		826E
+2F8A		8272
+2F8B		8278
+2F8C		864D
+2F8D		866B
+2F8E		8840
+2F8F		884C
+2F90		8863
+2F91		897E
+2F92		898B
+2F93		89D2
+2F94		8A00
+2F95		8C37
+2F96		8C46
+2F97		8C55
+2F98		8C78
+2F99		8C9D
+2F9A		8D64
+2F9B		8D70
+2F9C		8DB3
+2F9D		8EAB
+2F9E		8ECA
+2F9F		8F9B
+2FA0		8FB0
+2FA1		8FB5
+2FA2		9091
+2FA3		9149
+2FA4		91C6
+2FA5		91CC
+2FA6		91D1
+2FA7		9577
+2FA8		9580
+2FA9		961C
+2FAA		96B6
+2FAB		96B9
+2FAC		96E8
+2FAD		9751
+2FAE		975E
+2FAF		9762
+2FB0		9769
+2FB1		97CB
+2FB2		97ED
+2FB3		97F3
+2FB4		9801
+2FB5		98A8
+2FB6		98DB
+2FB7		98DF
+2FB8		9996
+2FB9		9999
+2FBA		99AC
+2FBB		9AA8
+2FBC		9AD8
+2FBD		9ADF
+2FBE		9B25
+2FBF		9B2F
+2FC0		9B32
+2FC1		9B3C
+2FC2		9B5A
+2FC3		9CE5
+2FC4		9E75
+2FC5		9E7F
+2FC6		9EA5
+2FC7		9EBB
+2FC8		9EC3
+2FC9		9ECD
+2FCA		9ED1
+2FCB		9EF9
+2FCC		9EFD
+2FCD		9F0E
+2FCE		9F13
+2FCF		9F20
+2FD0		9F3B
+2FD1		9F4A
+2FD2		9F52
+2FD3		9F8D
+2FD4		9F9C
+2FD5		9FA0
+3000		0020
+3036		3012
+3038		5341
+3039		5344
+303A		5345
+3131		1100
+3132		1101
+3133		11AA
+3134		1102
+3135		11AC
+3136		11AD
+3137		1103
+3138		1104
+3139		1105
+313A		11B0
+313B		11B1
+313C		11B2
+313D		11B3
+313E		11B4
+313F		11B5
+3140		111A
+3141		1106
+3142		1107
+3143		1108
+3144		1121
+3145		1109
+3146		110A
+3147		110B
+3148		110C
+3149		110D
+314A		110E
+314B		110F
+314C		1110
+314D		1111
+314E		1112
+314F		1161
+3150		1162
+3151		1163
+3152		1164
+3153		1165
+3154		1166
+3155		1167
+3156		1168
+3157		1169
+3158		116A
+3159		116B
+315A		116C
+315B		116D
+315C		116E
+315D		116F
+315E		1170
+315F		1171
+3160		1172
+3161		1173
+3162		1174
+3163		1175
+3165		1114
+3166		1115
+3167		11C7
+3168		11C8
+3169		11CC
+316A		11CE
+316B		11D3
+316C		11D7
+316D		11D9
+316E		111C
+316F		11DD
+3170		11DF
+3171		111D
+3172		111E
+3173		1120
+3174		1122
+3175		1123
+3176		1127
+3177		1129
+3178		112B
+3179		112C
+317A		112D
+317B		112E
+317C		112F
+317D		1132
+317E		1136
+317F		1140
+3180		1147
+3181		114C
+3182		11F1
+3183		11F2
+3184		1157
+3185		1158
+3186		1159
+3187		1184
+3188		1185
+3189		1188
+318A		1191
+318B		1192
+318C		1194
+318D		119E
+318E		11A1
+3192		4E00
+3193		4E8C
+3194		4E09
+3195		56DB
+3196		4E0A
+3197		4E2D
+3198		4E0B
+3199		7532
+319A		4E59
+319B		4E19
+319C		4E01
+319D		5929
+319E		5730
+319F		4EBA
+3244		554F
+3245		5E7C
+3246		6587
+3247		7B8F
+3260		1100
+3261		1102
+3262		1103
+3263		1105
+3264		1106
+3265		1107
+3266		1109
+3267		110B
+3268		110C
+3269		110E
+326A		110F
+326B		1110
+326C		1111
+326D		1112
+326E		AC00
+326F		B098
+3270		B2E4
+3271		B77C
+3272		B9C8
+3273		BC14
+3274		C0AC
+3275		C544
+3276		C790
+3277		CC28
+3278		CE74
+3279		D0C0
+327A		D30C
+327B		D558
+327E		C6B0
+3280		4E00
+3281		4E8C
+3282		4E09
+3283		56DB
+3284		4E94
+3285		516D
+3286		4E03
+3287		516B
+3288		4E5D
+3289		5341
+328A		6708
+328B		706B
+328C		6C34
+328D		6728
+328E		91D1
+328F		571F
+3290		65E5
+3291		682A
+3292		6709
+3293		793E
+3294		540D
+3295		7279
+3296		8CA1
+3297		795D
+3298		52B4
+3299		79D8
+329A		7537
+329B		5973
+329C		9069
+329D		512A
+329E		5370
+329F		6CE8
+32A0		9805
+32A1		4F11
+32A2		5199
+32A3		6B63
+32A4		4E0A
+32A5		4E2D
+32A6		4E0B
+32A7		5DE6
+32A8		53F3
+32A9		533B
+32AA		5B97
+32AB		5B66
+32AC		76E3
+32AD		4F01
+32AE		8CC7
+32AF		5354
+32B0		591C
+32D0		30A2
+32D1		30A4
+32D2		30A6
+32D3		30A8
+32D4		30AA
+32D5		30AB
+32D6		30AD
+32D7		30AF
+32D8		30B1
+32D9		30B3
+32DA		30B5
+32DB		30B7
+32DC		30B9
+32DD		30BB
+32DE		30BD
+32DF		30BF
+32E0		30C1
+32E1		30C4
+32E2		30C6
+32E3		30C8
+32E4		30CA
+32E5		30CB
+32E6		30CC
+32E7		30CD
+32E8		30CE
+32E9		30CF
+32EA		30D2
+32EB		30D5
+32EC		30D8
+32ED		30DB
+32EE		30DE
+32EF		30DF
+32F0		30E0
+32F1		30E1
+32F2		30E2
+32F3		30E4
+32F4		30E6
+32F5		30E8
+32F6		30E9
+32F7		30EA
+32F8		30EB
+32F9		30EC
+32FA		30ED
+32FB		30EF
+32FC		30F0
+32FD		30F1
+32FE		30F2
+A640		A641
+A642		A643
+A644		A645
+A646		A647
+A648		A649
+A64A		A64B
+A64C		A64D
+A64E		A64F
+A650		A651
+A652		A653
+A654		A655
+A656		A657
+A658		A659
+A65A		A65B
+A65C		A65D
+A65E		A65F
+A660		A661
+A662		A663
+A664		A665
+A666		A667
+A668		A669
+A66A		A66B
+A66C		A66D
+A680		A681
+A682		A683
+A684		A685
+A686		A687
+A688		A689
+A68A		A68B
+A68C		A68D
+A68E		A68F
+A690		A691
+A692		A693
+A694		A695
+A696		A697
+A698		A699
+A69A		A69B
+A69C		044A
+A69D		044C
+A722		A723
+A724		A725
+A726		A727
+A728		A729
+A72A		A72B
+A72C		A72D
+A72E		A72F
+A732		A733
+A734		A735
+A736		A737
+A738		A739
+A73A		A73B
+A73C		A73D
+A73E		A73F
+A740		A741
+A742		A743
+A744		A745
+A746		A747
+A748		A749
+A74A		A74B
+A74C		A74D
+A74E		A74F
+A750		A751
+A752		A753
+A754		A755
+A756		A757
+A758		A759
+A75A		A75B
+A75C		A75D
+A75E		A75F
+A760		A761
+A762		A763
+A764		A765
+A766		A767
+A768		A769
+A76A		A76B
+A76C		A76D
+A76E		A76F
+A770		A76F
+A779		A77A
+A77B		A77C
+A77D		1D79
+A77E		A77F
+A780		A781
+A782		A783
+A784		A785
+A786		A787
+A78B		A78C
+A78D		0265
+A790		A791
+A792		A793
+A796		A797
+A798		A799
+A79A		A79B
+A79C		A79D
+A79E		A79F
+A7A0		A7A1
+A7A2		A7A3
+A7A4		A7A5
+A7A6		A7A7
+A7A8		A7A9
+A7AA		0266
+A7AB		025C
+A7AC		0261
+A7AD		026C
+A7AE		026A
+A7B0		029E
+A7B1		0287
+A7B2		029D
+A7B3		AB53
+A7B4		A7B5
+A7B6		A7B7
+A7B8		A7B9
+A7BA		A7BB
 A7BC		A7BD
 A7BE		A7BF
 A7C0		A7C1
@@ -5412,7 +6529,7 @@ F85		TIBETAN CHUCHENYIGE
 3179		HANGUL LETTER SSANG BIEUB SUN GYEONG EUM
 317A		HANGUL LETTER SIOS GIYEOG
 317B		HANGUL LETTER SIOS NIEUN
-317C		Hm  m  m  m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ANGUL LETTER SIOS DIGEUD
+317C		Hm  m  m   m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ANGUL LETTER SIOS DIGEUD
 317D		HANGUL LETTER SIOS BIEUB
 317E		HANGUL LETTER SIOS JIEUJ
 317F		HANGUL LETTER BAN CHI EUM
@@ -5852,334 +6969,3 @@ FEF1		GLYPH FOR ISOLATE ARABIC YA
 FEF2		GLYPH FOR FINAL ARABIC YA
 FEF3		GLYPH FOR INITIAL ARABIC YA
 FEF4		GLYPH FOR MEDIAL ARABIC YA
-FEF5		GLYPH FOR ISOLATE ARABIC MADDAH ON LIGATURE LAM ALEF
-FEF6		GLYPH FOR FINAL ARABIC MADDAH ON LIGATURE LAM ALEF
-FEF7		GLYPH FOR ISOLATE ARABIC HAMZAH ON LIGATURE LAM ALEF
-FEF8		GLYPH FOR FINAL ARABIC HAMZAH ON LIGATURE LAM ALEF
-FEF9		GLYPH FOR ISOLATE ARABIC HAMZAH UNDER LIGATURE LAM ALEF
-FEFA		GLYPH FOR FINAL ARABIC HAMZAH UNDER LIGATURE LAM ALEF
-FEFB		GLYPH FOR ISOLATE ARABIC LIGATURE LAM ALEF
-FEFC		GLYPH FOR FINAL ARABIC LIGATURE LAM ALEF
-FEFF		BYTE ORDER MARK
-FF08		FULLWIDTH OPENING PARENTHESIS
-FF09		FULLWIDTH CLOSING PARENTHESIS
-FF0E		FULLWIDTH PERIOD
-FF0F		FULLWIDTH SLASH
-FF3B		FULLWIDTH OPENING SQUARE BRACKET
-FF3C		FULLWIDTH BACKSLASH
-FF3D		FULLWIDTH CLOSING SQUARE BRACKET
-FF3E		FULLWIDTH SPACING CIRCUMFLEX
-FF3F		FULLWIDTH SPACING UNDERSCORE
-FF40		FULLWIDTH SPACING GRAVE
-FF5B		FULLWIDTH OPENING CURLY BRACKET
-FF5C		FULLWIDTH VERTICAL BAR
-FF5D		FULLWIDTH CLOSING CURLY BRACKET
-FF5E		FULLWIDTH SPACING TILDE
-FF61		HALFWIDTH IDEOGRAPHIC PERIOD
-FF62		HALFWIDTH OPENING CORNER BRACKET
-FF63		HALFWIDTH CLOSING CORNER BRACKET
-FFA0		HALFWIDTH HANGUL CAE OM
-FFA1		HALFWIDTH HANGUL LETTER GIYEOG
-FFA2		HALFWIDTH HANGUL LETTER SSANG GIYEOG
-FFA3		HALFWIDTH HANGUL LETTER GIYEOG SIOS
-FFA5		HALFWIDTH HANGUL LETTER NIEUN JIEUJ
-FFA6		HALFWIDTH HANGUL LETTER NIEUN HIEUH
-FFA7		HALFWIDTH HANGUL LETTER DIGEUD
-FFA8		HALFWIDTH HANGUL LETTER SSANG DIGEUD
-FFA9		HALFWIDTH HANGUL LETTER LIEUL
-FFAA		HALFWIDTH HANGUL LETTER LIEUL GIYEOG
-FFAB		HALFWIDTH HANGUL LETTER LIEUL MIEUM
-FFAC		HALFWIDTH HANGUL LETTER LIEUL BIEUB
-FFAD		HALFWIDTH HANGUL LETTER LIEUL SIOS
-FFAE		HALFWIDTH HANGUL LETTER LIEUL TIEUT
-FFAF		HALFWIDTH HANGUL LETTER LIEUL PIEUP
-FFB0		HALFWIDTH HANGUL LETTER LIEUL HIEUH
-FFB2		HALFWIDTH HANGUL LETTER BIEUB
-FFB3		HALFWIDTH HANGUL LETTER SSANG BIEUB
-FFB4		HALFWIDTH HANGUL LETTER BIEUB SIOS
-FFB6		HALFWIDTH HANGUL LETTER SSANG SIOS
-FFB8		HALFWIDTH HANGUL LETTER JIEUJ
-FFB9		HALFWIDTH HANGUL LETTER SSANG JIEUJ
-FFBA		HALFWIDTH HANGUL LETTER CIEUC
-FFBB		HALFWIDTH HANGUL LETTER KIYEOK
-FFBC		HALFWIDTH HANGUL LETTER TIEUT
-FFBD		HALFWIDTH HANGUL LETTER PIEUP
-FFE3		FULLWIDTH SPACING MACRON
-FFE4		FULLWIDTH BROKEN VERTICAL BAR
-END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   # !!!!!!!   DO NOT EDIT THIS FILE   !!!!!!!
-# This file is machine-generated by lib/unicore/mktables from the Unicode
-# database, Version 14.0.0.  Any changes made here will be lost!
-
-# !!!!!!!   INTERNAL PERL USE ONLY   !!!!!!!
-# This file is for internal use by core Perl only.  The format and even the
-# name or existence of this file are subject to change without notice.  Don't
-# use it directly.  Use Unicode::UCD to access the Unicode character data
-# base.
-
-
-
-# The name this table is to be known by, with the format of the mappings in
-# the main body of the table, and what all code points missing from this file
-# map to.
-$Unicode::UCD::SwashInfo{'ToNameAlias'}{'format'} = 's'; # string
-$Unicode::UCD::SwashInfo{'ToNameAlias'}{'missing'} = ''; # code point maps to the empty string
-
-return <<'END';
-0		NULL: control
-0		NUL: abbreviation
-1		START OF HEADING: control
-1		SOH: abbreviation
-2		START OF TEXT: control
-2		STX: abbreviation
-3		END OF TEXT: control
-3		ETX: abbreviation
-4		END OF TRANSMISSION: control
-4		EOT: abbreviation
-5		ENQUIRY: control
-5		ENQ: abbreviation
-6		ACKNOWLEDGE: control
-6		ACK: abbreviation
-7		ALERT: control
-7		BEL: abbreviation
-8		BACKSPACE: control
-8		BS: abbreviation
-9		CHARACTER TABULATION: control
-9		HORIZONTAL TABULATION: control
-9		HT: abbreviation
-9		TAB: abbreviation
-A		LINE FEED: control
-A		NEW LINE: control
-A		END OF LINE: control
-A		LF: abbreviation
-A		NL: abbreviation
-A		EOL: abbreviation
-B		LINE TABULATION: control
-B		VERTICAL TABULATION: control
-B		VT: abbreviation
-C		FORM FEED: control
-C		FF: abbreviation
-D		CARRIAGE RETURN: control
-D		CR: abbreviation
-E		SHIFT OUT: control
-E		LOCKING-SHIFT ONE: control
-E		SO: abbreviation
-F		SHIFT IN: control
-F		LOCKING-SHIFT ZERO: control
-F		SI: abbreviation
-10		DATA LINK ESCAPE: control
-10		DLE: abbreviation
-11		DEVICE CONTROL ONE: control
-11		DC1: abbreviation
-12		DEVICE CONTROL TWO: control
-12		DC2: abbreviation
-13		DEVICE CONTROL THREE: control
-13		DC3: abbreviation
-14		DEVICE CONTROL FOUR: control
-14		DC4: abbreviation
-15		NEGATIVE ACKNOWLEDGE: control
-15		NAK: abbreviation
-16		SYNCHRONOUS IDLE: control
-16		SYN: abbreviation
-17		END OF TRANSMISSION BLOCK: control
-17		ETB: abbreviation
-18		CANCEL: control
-18		CAN: abbreviation
-19		END OF MEDIUM: control
-19		EOM: abbreviation
-1A		SUBSTITUTE: control
-1A		SUB: abbreviation
-1B		ESCAPE: control
-1B		ESC: abbreviation
-1C		INFORMATION SEPARATOR FOUR: control
-1C		FILE SEPARATOR: control
-1C		FS: abbreviation
-1D		INFORMATION SEPARATOR THREE: control
-1D		GROUP SEPARATOR: control
-1D		GS: abbreviation
-1E		INFORMATION SEPARATOR TWO: control
-1E		RECORD SEPARATOR: control
-1E		RS: abbreviation
-1F		INFORMATION SEPARATOR ONE: control
-1F		UNIT SEPARATOR: control
-1F		US: abbreviation
-20		SP: abbreviation
-7F		DELETE: control
-7F		DEL: abbreviation
-80		PADDING CHARACTER: figment
-80		PAD: abbreviation
-81		HIGH OCTET PRESET: figment
-81		HOP: abbreviation
-82		BREAK PERMITTED HERE: control
-82		BPH: abbreviation
-83		NO BREAK HERE: control
-83		NBH: abbreviation
-84		INDEX: control
-84		IND: abbreviation
-85		NEXT LINE: control
-85		NEL: abbreviation
-86		START OF SELECTED AREA: control
-86		SSA: abbreviation
-87		END OF SELECTED AREA: control
-87		ESA: abbreviation
-88		CHARACTER TABULATION SET: control
-88		HORIZONTAL TABULATION SET: control
-88		HTS: abbreviation
-89		CHARACTER TABULATION WITH JUSTIFICATION: control
-89		HORIZONTAL TABULATION WITH JUSTIFICATION: control
-89		HTJ: abbreviation
-8A		LINE TABULATION SET: control
-8A		VERTICAL TABULATION SET: control
-8A		VTS: abbreviation
-8B		PARTIAL LINE FORWARD: control
-8B		PARTIAL LINE DOWN: control
-8B		PLD: abbreviation
-8C		PARTIAL LINE BACKWARD: control
-8C		PARTIAL LINE UP: control
-8C		PLU: abbreviation
-8D		REVERSE LINE FEED: control
-8D		REVERSE INDEX: control
-8D		RI: abbreviation
-8E		SINGLE SHIFT TWO: control
-8E		SINGLE-SHIFT-2: control
-8E		SS2: abbreviation
-8F		SINGLE SHIFT THREE: control
-8F		SINGLE-SHIFT-3: control
-8F		SS3: abbreviation
-90		DEVICE CONTROL STRING: control
-90		DCS: abbreviation
-91		PRIVATE USE ONE: control
-91		PRIVATE USE-1: control
-91		PU1: abbreviation
-92		PRIVATE USE TWO: control
-92		PRIVATE USE-2: control
-92		PU2: abbreviation
-93		SET TRANSMIT STATE: control
-93		STS: abbreviation
-94		CANCEL CHARACTER: control
-94		CCH: abbreviation
-95		MESSAGE WAITING: control
-95		MW: abbreviation
-96		START OF GUARDED AREA: control
-96		START OF PROTECTED AREA: control
-96		SPA: abbreviation
-97		END OF GUARDED AREA: control
-97		END OF PROTECTED AREA: control
-97		EPA: abbreviation
-98		START OF STRING: control
-98		SOS: abbreviation
-99		SINGLE GRAPHIC CHARACTER INTRODUCER: figment
-99		SGC: abbreviation
-9A		SINGLE CHARACTER INTRODUCER: control
-9A		SCI: abbreviation
-9B		CONTROL SEQUENCE INTRODUCER: control
-9B		CSI: abbreviation
-9C		STRING TERMINATOR: control
-9C		ST: abbreviation
-9D		OPERATING SYSTEM COMMAND: control
-9D		OSC: abbreviation
-9E		PRIVACY MESSAGE: control
-9E		PM: abbreviation
-9F		APPLICATION PROGRAM COMMAND: control
-9F		APC: abbreviation
-A0		NBSP: abbreviation
-AD		SHY: abbreviation
-1A2		LATIN CAPITAL LETTER GHA: correction
-1A3		LATIN SMALL LETTER GHA: correction
-34F		CGJ: abbreviation
-61C		ALM: abbreviation
-709		SYRIAC SUBLINEAR COLON SKEWED LEFT: correction
-CDE		KANNADA LETTER LLLA: correction
-E9D		LAO LETTER FO FON: correction
-E9F		LAO LETTER FO FAY: correction
-EA3		LAO LETTER RO: correction
-EA5		LAO LETTER LO: correction
-FD0		TIBETAN MARK BKA- SHOG GI MGO RGYAN: correction
-11EC		HANGUL JONGSEONG YESIEUNG-KIYEOK: correction
-11ED		HANGUL JONGSEONG YESIEUNG-SSANGKIYEOK: correction
-11EE		HANGUL JONGSEONG SSANGYESIEUNG: correction
-11EF		HANGUL JONGSEONG YESIEUNG-KHIEUKH: correction
-180B		FVS1: abbreviation
-180C		FVS2: abbreviation
-180D		FVS3: abbreviation
-180E		MVS: abbreviation
-180F		FVS4: abbreviation
-200B		ZWSP: abbreviation
-200C		ZWNJ: abbreviation
-200D		ZWJ: abbreviation
-200E		LRM: abbreviation
-200F		RLM: abbreviation
-202A		LRE: abbreviation
-202B		RLE: abbreviation
-202C		PDF: abbreviation
-202D		LRO: abbreviation
-202E		RLO: abbreviation
-202F		NNBSP: abbreviation
-205F		MMSP: abbreviation
-2060		WJ: abbreviation
-2066		LRI: abbreviation
-2067		RLI: abbreviation
-2068		FSI: abbreviation
-2069		PDI: abbreviation
-2118		WEIERSTRASS ELLIPTIC FUNCTION: correction
-2448		MICR ON US SYMBOL: correction
-2449		MICR DASH SYMBOL: correction
-2B7A		LEFTWARDS TRIANGLE-HEADED ARROW WITH DOUBLE VERTICAL STROKE: correction
-2B7C		RIGHTWARDS TRIANGLE-HEADED ARROW WITH DOUBLE VERTICAL STROKE: correction
-A015		YI SYLLABLE ITERATION MARK: correction
-AA6E		MYANMAR LETTER KHAMTI LLA: correction
-FE00		VS1: abbreviation
-FE01		VS2: abbreviation
-FE02		VS3: abbreviation
-FE03		VS4: abbreviation
-FE04		VS5: abbreviation
-FE05		VS6: abbreviation
-FE06		VS7: abbreviation
-FE07		VS8: abbreviation
-FE08		VS9: abbreviation
-FE09		VS10: abbreviation
-FE0A		VS11: abbreviation
-FE0B		VS12: abbreviation
-FE0C		VS13: abbreviation
-FE0D		VS14: abbreviation
-FE0E		VS15: abbreviation
-FE0F		VS16: abbreviation
-FE18		PRESENTATION FORM FOR VERTICAL RIGHT WHITE LENTICULAR BRACKET: correction
-FEFF		BYTE ORDER MARK: alternate
-FEFF		BOM: abbreviation
-FEFF		ZWNBSP: abbreviation
-122D4		CUNEIFORM SIGN NU11 TENU: correction
-122D5		CUNEIFORM SIGN NU11 OVER NU11 BUR OVER BUR: correction
-16E56		MEDEFAIDRIN CAPITAL LETTER H: correction
-16E57		MEDEFAIDRIN CAPITAL LETTER NG: correction
-16E76		MEDEFAIDRIN SMALL LETTER H: correction
-16E77		MEDEFAIDRIN SMALL LETTER NG: correction
-1B001		HENTAIGANA LETTER E-1: correction
-1D0C5		BYZANTINE MUSICAL SYMBOL FTHORA SKLIRON CHROMA VASIS: correction
-E0100		VS17: abbreviation
-E0101		VS18: abbreviation
-E0102		VS19: abbreviation
-E0103		VS20: abbreviation
-E0104		VS21: abbreviation
-E0105		VS22: abbreviation
-E0106		VS23: abbreviation
-E0107		VS24: abbreviation
-E0108		VS25: abbreviation
-E0109		VS26: abbreviation
-E010A		VS27: abbreviation
-E010B		VS28: abbreviation
-E010C		VS29: abbreviation
-E010D		VS30: abbreviation
-E010E		VS31: abbreviation
-E010F		VS32: abbreviation
-E0110		VS33: abbreviation
-E0111		VS34: abbreviation
-E0112		VS35: abbreviation
-E0113		VS36: abbreviation
-E0114		VS37: abbreviation
-E0115		VS38: abbreviation
-E0116		VS39: abbreviation
-E0117		VS40: abbreviation
-E0118		VS41: abbreviation
-E0119		VS42: abbreviation
-E011A		VS43: abbreviation
