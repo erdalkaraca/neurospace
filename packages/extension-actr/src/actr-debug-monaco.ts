@@ -1,7 +1,8 @@
 import type { editor as MonacoEditor } from 'monaco-editor';
 
 import {
-  findProductionRange,
+  findProductionHighlightRange,
+  highlightSideForView,
   hoverText,
   type DebugView,
 } from './actr-debug-model';
@@ -49,7 +50,7 @@ export function clearActrDebugSession(uri: string): void {
   sessions.delete(uri);
 }
 
-export function applyProductionHighlight(editor: CodeEditor, production: string | null): void {
+export function applyProductionHighlight(editor: CodeEditor, view: DebugView | null): void {
   const editorRoot = editor.getDomNode()?.getRootNode();
   ensureStyle(editorRoot instanceof ShadowRoot ? editorRoot : document.head, HIGHLIGHT_CLASS, HIGHLIGHT_CSS);
   ensureHover(editor);
@@ -57,7 +58,12 @@ export function applyProductionHighlight(editor: CodeEditor, production: string 
 
   const collection = decorationsFor(editor);
   const model = editor.getModel();
-  const found = model && production ? findProductionRange(model.getValue(), production) : null;
+  const production = view?.production ?? null;
+  const side = view ? highlightSideForView(view) : null;
+  const found =
+    model && production && side
+      ? findProductionHighlightRange(model.getValue(), production, side)
+      : null;
   if (!model || !found) {
     collection.set([]);
     return;

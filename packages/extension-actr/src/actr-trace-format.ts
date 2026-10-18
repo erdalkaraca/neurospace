@@ -12,3 +12,20 @@ export function formatActrTextTrace(raw: string): string {
     .replace(/^\n+/, '')
     .trimEnd();
 }
+
+/**
+ * PRODUCTION-SELECTED / BUFFER-READ-ACTION only appear at :trace-detail high.
+ * Append or rewrite an sgp form so step sessions always get those events in the
+ * text trace (mailbox JSON evaluate cannot pass Lisp keywords reliably).
+ */
+export function withDebugTraceDetail(source: string): string {
+  const trimmed = source.trimEnd();
+  if (/\(\s*sgp\b[^)]*:trace-detail\s+high\b/i.test(trimmed)) return `${trimmed}\n`;
+  if (/\(\s*sgp\b[^)]*:trace-detail\b/i.test(trimmed)) {
+    return `${trimmed.replace(
+      /(\(\s*sgp\b[^)]*:trace-detail\s+)([^\s)]+)/i,
+      '$1high',
+    )}\n`;
+  }
+  return `${trimmed}\n\n(sgp :trace-detail high)\n`;
+}

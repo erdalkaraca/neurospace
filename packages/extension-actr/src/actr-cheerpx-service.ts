@@ -4,10 +4,12 @@ import { createMailboxLogFilter } from './actr-console-filter';
 import { actrCheerpXImageBase } from './actr-cheerpx-image-paths';
 import { createMailboxClient, type ActrRpcResponse, type MailboxClient } from './mailbox-client';
 import {
+  findLastHaltDetailsInConsole,
   parseDebugSnapshot,
   shouldHaltOnSnapshot,
   type StepSnapshot,
 } from './actr-debug-model';
+import { withDebugTraceDetail } from './actr-trace-format';
 
 /** Cap when skipping events so a stuck model cannot spin forever. */
 const MAX_EVENTS_UNTIL_HALT = 2_000;
@@ -331,7 +333,8 @@ class ActrProcessImpl implements ActrProcess {
       this.ensureAlive();
       try {
         await this.pollConsole();
-        await this.resetAndLoad(source);
+        // Medium/low detail hides PRODUCTION-SELECTED as silent events.
+        await this.resetAndLoad(withDebugTraceDetail(source));
         await this.pollConsole();
       } finally {
         this.signalBatchEnd();
@@ -348,10 +351,24 @@ class ActrProcessImpl implements ActrProcess {
         let snapshot: StepSnapshot | null = null;
         const limit = skipOthers ? MAX_EVENTS_UNTIL_HALT : 1;
         for (let i = 0; i < limit; i++) {
+          const consoleBefore = this.consoleOffset;
           const response = await this.mailbox.call('debug-step');
           assertOk('debug-step', response);
           await this.pollConsole();
           snapshot = parseDebugSnapshot(response.result?.[0]);
+          // Mailbox last-trace parsing can lag the console file; prefer a matching
+          // halt event from the chunk written by this step when the snapshot misses it.
+          if (skipOthers && !shouldHaltOnSnapshot(snapshot, haltOn)) {
+            const chunk = (await this.mailbox.readConsoleText()).slice(consoleBefore);
+            const details = findLastHaltDetailsInConsole(chunk, haltOn);
+            if (details) {
+              snapshot = {
+                ...snapshot,
+                details,
+                module: snapshot.module ?? 'procedural',
+              };
+            }
+          }
           if (snapshot.done || shouldHaltOnSnapshot(snapshot, haltOn)) {
             return snapshot;
           }

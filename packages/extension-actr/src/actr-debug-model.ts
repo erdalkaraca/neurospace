@@ -12,8 +12,12 @@ export type StepSnapshot = {
   buffers: StepBuffers;
 };
 
+export type HighlightSide = 'lhs' | 'rhs';
+
 export type DebugView = {
   production: string | null;
+  /** Which side of the production to highlight; null when nothing is selected. */
+  highlightSide: HighlightSide | null;
   /** True after PRODUCTION-FIRED, until the next conflict resolution. */
   fired: boolean;
   /**
@@ -63,6 +67,7 @@ type Token = {
 
 const EMPTY_VIEW: DebugView = {
   production: null,
+  highlightSide: null,
   fired: false,
   rhsApplied: false,
   bindings: {},
@@ -111,7 +116,7 @@ export const DEBUG_HALT_EVENTS = [
   {
     id: 'PRODUCTION-SELECTED',
     label: 'Production selected',
-    description: 'A matching production was chosen to fire',
+    description: 'A matching production was chosen to fire (needs high trace detail)',
   },
   {
     id: 'PRODUCTION-FIRED',
@@ -122,6 +127,11 @@ export const DEBUG_HALT_EVENTS = [
     id: 'CONFLICT-RESOLUTION',
     label: 'Conflict resolution',
     description: 'Productions are matched against the buffers',
+  },
+  {
+    id: 'BUFFER-READ-ACTION',
+    label: 'Buffer read',
+    description: 'A buffer is read while matching or firing a production',
   },
   {
     id: 'SET-BUFFER-CHUNK',
@@ -167,6 +177,38 @@ export function shouldHaltOnSnapshot(
   return head != null && haltOn.has(head);
 }
 
+/**
+ * Parse ACT-R text-trace lines from a console chunk and return the last event
+ * whose detail head is in `haltOn`. Used when the mailbox snapshot lags the file.
+ */
+export function findLastHaltDetailsInConsole(
+  consoleChunk: string,
+  haltOn: ReadonlySet<string>,
+): string | null {
+  if (!consoleChunk || haltOn.size === 0) return null;
+  let found: string | null = null;
+  for (const line of consoleChunk.split(/\r?\n/)) {
+    const details = parseTraceLineDetails(line);
+    if (!details) continue;
+    const head = details.split(/\s+/)[0]?.toUpperCase();
+    if (head && haltOn.has(head)) found = details;
+  }
+  return found;
+}
+
+/** Extract the details column from a text-trace line, or null if not an event. */
+export function parseTraceLineDetails(line: string): string | null {
+  const trimmed = line.trim();
+  if (!trimmed || !/^-?\d+(?:\.\d+)?/.test(trimmed)) return null;
+  if (/Stopped because/i.test(trimmed)) return null;
+  const match = trimmed.match(/^-?\d+(?:\.\d+)?\s+(\S+)\s+(.*)$/);
+  if (!match) return null;
+  const module = match[1] ?? '';
+  if (/^-+$/.test(module)) return null;
+  const details = (match[2] ?? '').trim();
+  return details || null;
+}
+
 export function reduceDebugView(
   prev: DebugView | null,
   snap: StepSnapshot,
@@ -190,6 +232,7 @@ export function reduceDebugView(
   if (head === 'PRODUCTION-SELECTED' && name) {
     return {
       production: name,
+      highlightSide: 'lhs',
       fired: false,
       rhsApplied: false,
       bindings: bindProduction(source, name, snap.buffers),
@@ -201,6 +244,7 @@ export function reduceDebugView(
     const production = name || prev?.production || null;
     return {
       production,
+      highlightSide: production ? 'rhs' : null,
       fired: true,
       rhsApplied: false,
       bindings:
@@ -225,7 +269,41 @@ export function reduceDebugView(
 }
 
 export function findProductionRange(source: string, name: string): SourceRange | null {
-  return parseProduction(source, name);
+  const production = parseProduction(source, name);
+  return production ? { start: production.start, end: production.end } : null;
+}
+
+export function findProductionHighlightRange(
+  source: string,
+  name: string,
+  side: HighlightSide,
+): SourceRange | null {
+  const production = parseProduction(source, name);
+  if (!production) return null;
+
+  const tokens = tokenize(source, production.start, production.end);
+  const arrowIdx = tokens.findIndex((token) => token.text === '==>');
+  if (arrowIdx < 0) return { start: production.start, end: production.end };
+
+  if (side === 'lhs') {
+    const first = production.lhs[0];
+    if (!first) return { start: production.start, end: production.end };
+    let end = tokens[arrowIdx]!.start;
+    while (end > first.actionStart && /\s/.test(source[end - 1]!)) end -= 1;
+    if (end <= first.actionStart) return { start: production.start, end: production.end };
+    return { start: first.actionStart, end };
+  }
+
+  const rhsTokens = tokens.slice(arrowIdx + 1);
+  if (rhsTokens.length === 0) return { start: production.start, end: production.end };
+  return {
+    start: rhsTokens[0]!.start,
+    end: rhsTokens[rhsTokens.length - 1]!.end,
+  };
+}
+
+export function highlightSideForView(view: DebugView): HighlightSide | null {
+  return view.highlightSide ?? (view.production ? (view.fired ? 'rhs' : 'lhs') : null);
 }
 
 export function hoverText(source: string, offset: number, view: DebugView): string | null {

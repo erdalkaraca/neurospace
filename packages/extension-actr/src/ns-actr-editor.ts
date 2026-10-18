@@ -345,7 +345,7 @@ export class NsActrEditor extends DocksPart {
     const uri = this.widgetRef.value?.getModel()?.uri.toString();
     if (!editor || !uri || !this.debugView) return;
     setActrDebugSession(uri, this.debugView);
-    applyProductionHighlight(editor, this.debugView.production);
+    applyProductionHighlight(editor, this.debugView);
   }
 
   private endDebugSession(): void {

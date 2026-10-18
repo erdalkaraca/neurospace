@@ -3,7 +3,10 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 import {
+  findLastHaltDetailsInConsole,
+  findProductionHighlightRange,
   findProductionRange,
+  highlightSideForView,
   hoverText,
   parseDebugSnapshot,
   reduceDebugView,
@@ -71,6 +74,38 @@ test('shouldHaltOnSnapshot matches selected event heads', () => {
   );
 });
 
+test('findLastHaltDetailsInConsole recovers PRODUCTION-SELECTED from a console chunk', () => {
+  const chunk = [
+    '0.000   PROCEDURAL             CONFLICT-RESOLUTION',
+    '0.000   PROCEDURAL             PRODUCTION-SELECTED START',
+    '0.000   ------                 Stopped because event limit reached',
+  ].join('\n');
+  assert.equal(
+    findLastHaltDetailsInConsole(chunk, new Set(['PRODUCTION-SELECTED'])),
+    'PRODUCTION-SELECTED START',
+  );
+  assert.equal(findLastHaltDetailsInConsole(chunk, new Set(['MODULE-REQUEST'])), null);
+});
+
+test('production selected sets lhs highlight side', () => {
+  const view = selected('INITIALIZE-ADDITION');
+  assert.equal(view.highlightSide, 'lhs');
+  assert.equal(highlightSideForView(view), 'lhs');
+  const fired = reduceDebugView(
+    view,
+    {
+      time: 0.05,
+      module: 'procedural',
+      details: 'PRODUCTION-FIRED INITIALIZE-ADDITION',
+      done: false,
+      buffers: goalBuffers,
+    },
+    addition,
+  );
+  assert.equal(fired.highlightSide, 'rhs');
+  assert.equal(highlightSideForView(fired), 'rhs');
+});
+
 test('finds a production nested inside define-model', () => {
   const range = findProductionRange(addition, 'initialize-addition');
   assert.ok(range);
@@ -78,6 +113,23 @@ test('finds a production nested inside define-model', () => {
   assert.match(text, /^\(P initialize-addition/);
   assert.doesNotMatch(text, /increment-count/);
   assert.equal(addition[range.end - 1], ')');
+});
+
+test('highlights only lhs when selected and only rhs when fired', () => {
+  const lhs = findProductionHighlightRange(count, 'start', 'lhs');
+  const rhs = findProductionHighlightRange(count, 'start', 'rhs');
+  assert.ok(lhs);
+  assert.ok(rhs);
+  const lhsText = count.slice(lhs.start, lhs.end);
+  const rhsText = count.slice(rhs.start, rhs.end);
+  assert.match(lhsText, /^=goal>/);
+  assert.match(lhsText, /count\s+nil/);
+  assert.doesNotMatch(lhsText, /\+/);
+  assert.doesNotMatch(lhsText, /==>/);
+  assert.match(rhsText, /^=goal>/);
+  assert.match(rhsText, /\+retrieval>/);
+  assert.doesNotMatch(rhsText, /count\s+nil/);
+  assert.ok(lhs.end <= rhs.start);
 });
 
 test('selection binds left-hand variables and hover shows buffer slots', () => {
