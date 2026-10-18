@@ -3,6 +3,7 @@ import { html } from '@eclipse-docks/core/externals/lit';
 
 import './actr-lisp-language';
 import './ns-actr-editor';
+import './actr-commands';
 import './actr-terminal-backend';
 import './actr-attribution';
 import './actr-catalog';

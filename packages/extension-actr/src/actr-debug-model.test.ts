@@ -7,6 +7,7 @@ import {
   hoverText,
   parseDebugSnapshot,
   reduceDebugView,
+  shouldHaltOnSnapshot,
   type DebugView,
   type StepBuffers,
 } from './actr-debug-model.ts';
@@ -44,6 +45,30 @@ test('parseDebugSnapshot reads a string-only mailbox payload', () => {
   assert.equal(snap.done, false);
   assert.equal(snap.buffers.goal?.arg1, 'five');
   assert.equal(snap.buffers.retrieval, null);
+});
+
+test('shouldHaltOnSnapshot matches selected event heads', () => {
+  const selected = {
+    time: 0,
+    module: 'procedural',
+    details: 'PRODUCTION-SELECTED START',
+    done: false,
+    buffers: {},
+  };
+  const conflict = {
+    time: 0,
+    module: 'procedural',
+    details: 'CONFLICT-RESOLUTION',
+    done: false,
+    buffers: {},
+  };
+  assert.equal(shouldHaltOnSnapshot(selected, new Set(['PRODUCTION-SELECTED'])), true);
+  assert.equal(shouldHaltOnSnapshot(conflict, new Set(['PRODUCTION-SELECTED'])), false);
+  assert.equal(shouldHaltOnSnapshot(conflict, new Set()), true);
+  assert.equal(
+    shouldHaltOnSnapshot(conflict, new Set(['PRODUCTION-SELECTED', 'CONFLICT-RESOLUTION'])),
+    true,
+  );
 });
 
 test('finds a production nested inside define-model', () => {

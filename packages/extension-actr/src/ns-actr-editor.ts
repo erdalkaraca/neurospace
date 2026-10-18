@@ -27,15 +27,28 @@ import {
 } from './actr-console-registry';
 import type { ActrProcess } from './actr-cheerpx-service';
 import { ACTR_TERMINAL_PROFILE_ID } from './actr-terminal-backend';
-import { reduceDebugView, type DebugView } from './actr-debug-model';
+import {
+  DEBUG_HALT_EVENTS,
+  DEFAULT_HALT_EVENTS,
+  reduceDebugView,
+  type DebugHaltEventId,
+  type DebugView,
+} from './actr-debug-model';
 import {
   applyProductionHighlight,
   clearActrDebugSession,
   clearProductionHighlight,
   setActrDebugSession,
 } from './actr-debug-monaco';
+import { actrIcon } from './actr-icons';
 
 export const ACTR_EDITOR_ID = 'actr-editor';
+
+export const ACTR_COMMAND = {
+  run: 'actr_run',
+  step: 'actr_step',
+  stop: 'actr_stop',
+} as const;
 
 @customElement('ns-actr-editor')
 export class NsActrEditor extends DocksPart {
@@ -74,6 +87,10 @@ export class NsActrEditor extends DocksPart {
 
   @state()
   private actrVersion = '';
+
+  /** Event detail heads Step should stop on. Empty = every event. */
+  @state()
+  private haltOnEvents: ReadonlySet<DebugHaltEventId> = DEFAULT_HALT_EVENTS;
 
   @state()
   private boundTerminalId: string | null = null;
@@ -149,8 +166,9 @@ export class NsActrEditor extends DocksPart {
     return parts[parts.length - 1] || 'ACT-R';
   }
 
-  private get canRun(): boolean {
+  get canRun(): boolean {
     return (
+      this.actrConnected &&
       this.language === 'actr-lisp' &&
       !this.running &&
       !this.stepping &&
@@ -160,8 +178,9 @@ export class NsActrEditor extends DocksPart {
     );
   }
 
-  private get canStep(): boolean {
+  get canStep(): boolean {
     return (
+      this.actrConnected &&
       this.language === 'actr-lisp' &&
       !this.running &&
       !this.stepping &&
@@ -169,6 +188,10 @@ export class NsActrEditor extends DocksPart {
       !this.loading &&
       !this.actrConnecting
     );
+  }
+
+  get canStop(): boolean {
+    return this.debugging && !this.stepping && !this.running;
   }
 
   private clearBinding(): void {
@@ -245,10 +268,10 @@ export class NsActrEditor extends DocksPart {
     }
   };
 
-  private onRun = async () => {
-    if (!this.canRun || !this.actrConnected || !this.boundProcess) return;
+  async run(): Promise<void> {
+    if (!this.canRun || !this.boundProcess) return;
 
-    const source = this.widgetRef.value?.getContent?.() ?? this.initialContent ?? '';
+    const source = this.editorSource();
     if (!source.trim()) {
       toastError('Nothing to run');
       return;
@@ -275,10 +298,10 @@ export class NsActrEditor extends DocksPart {
     } finally {
       this.running = false;
     }
-  };
+  }
 
-  private onStep = async () => {
-    if (!this.canStep || !this.actrConnected || !this.boundProcess) return;
+  async step(): Promise<void> {
+    if (!this.canStep || !this.boundProcess) return;
     const source = this.editorSource();
     if (!source.trim()) {
       toastError('Nothing to step');
@@ -294,7 +317,7 @@ export class NsActrEditor extends DocksPart {
         this.debugging = true;
         this.debugView = null;
       }
-      const snapshot = await process.debugStep();
+      const snapshot = await process.debugStep({ haltOn: this.haltOnEvents });
       this.debugDone = snapshot.done;
       this.debugView = reduceDebugView(this.debugView, snapshot, this.editorSource());
       this.showDebugView();
@@ -306,11 +329,12 @@ export class NsActrEditor extends DocksPart {
     } finally {
       this.stepping = false;
     }
-  };
+  }
 
-  private onStop = () => {
+  stop(): void {
+    if (!this.canStop) return;
     this.endDebugSession();
-  };
+  }
 
   private editorSource(): string {
     return this.widgetRef.value?.getContent?.() ?? this.initialContent ?? '';
@@ -369,42 +393,95 @@ export class NsActrEditor extends DocksPart {
         <wa-icon name="circle" label="ACT-R status" style=${styleMap({ color: iconColor })}></wa-icon>
         ${connectionText}
       </wa-button>
-      <wa-button
-        appearance="plain"
-        size="s"
-        ?disabled=${!this.actrConnected || !this.canRun}
+      <docks-command
+        cmd=${ACTR_COMMAND.run}
+        icon=${actrIcon('run')}
+        ?disabled=${!this.canRun}
         title="Load model into the attached ACT-R console and run for 10s"
-        @click=${this.onRun}
-      >
-        <wa-icon name="play" slot="prefix"></wa-icon>
-        ${this.running ? 'Running…' : 'Run'}
-      </wa-button>
-      <wa-button
-        appearance="plain"
-        size="s"
-        ?disabled=${!this.actrConnected || !this.canStep}
-        title=${this.debugDone
-          ? 'The model has finished. Stop to load it again.'
-          : this.debugging
-            ? 'Run the next scheduled event'
-            : 'Load the model and run one scheduled event'}
-        @click=${this.onStep}
-      >
-        <wa-icon name="forward-step" slot="prefix"></wa-icon>
-        ${this.stepping ? 'Stepping…' : 'Step'}
-      </wa-button>
-      <wa-button
-        appearance="plain"
-        size="s"
-        ?disabled=${!this.debugging || this.stepping || this.running}
+      >${this.running ? 'Running…' : 'Run'}</docks-command>
+      <docks-command
+        cmd=${ACTR_COMMAND.step}
+        icon=${actrIcon('step-over')}
+        ?disabled=${!this.canStep}
+        title=${this.stepTitle()}
+      >${this.stepping ? 'Stepping…' : 'Step'}</docks-command>
+      <docks-command
+        cmd=${ACTR_COMMAND.stop}
+        icon=${actrIcon('stop')}
+        ?disabled=${!this.canStop}
         title="Leave the step session and clear the highlight"
-        @click=${this.onStop}
+      >Stop</docks-command>
+      <wa-dropdown
+        style=${styleMap({ alignSelf: 'center' })}
+        @wa-select=${this.onHaltEventSelect}
       >
-        <wa-icon name="stop" slot="prefix"></wa-icon>
-        Stop
-      </wa-button>
+        <wa-button
+          slot="trigger"
+          appearance="plain"
+          size="s"
+          with-caret
+          ?disabled=${this.stepping || this.running}
+          title="Choose which ACT-R events Step should halt on"
+        >
+          Halt on
+        </wa-button>
+        ${DEBUG_HALT_EVENTS.map(
+          (event) => html`
+            <wa-dropdown-item
+              type="checkbox"
+              value=${event.id}
+              ?checked=${this.haltOnEvents.has(event.id)}
+            >
+              <span style=${styleMap({ display: 'flex', flexDirection: 'column', gap: '0.15em' })}>
+                <span>${event.label}</span>
+                <span
+                  style=${styleMap({
+                    fontSize: 'var(--wa-font-size-2xs, 0.6875rem)',
+                    lineHeight: '1.3',
+                    color: 'var(--wa-color-text-quiet)',
+                    fontWeight: 'normal',
+                  })}
+                >
+                  ${event.description}
+                </span>
+              </span>
+            </wa-dropdown-item>
+          `,
+        )}
+      </wa-dropdown>
     `;
   }
+
+  private stepTitle(): string {
+    if (this.debugDone) return 'The model has finished. Stop to load it again.';
+    if (this.haltOnEvents.size === 0) {
+      return this.debugging
+        ? 'Run the next scheduled event'
+        : 'Load the model and run one scheduled event';
+    }
+    if (this.haltOnEvents.size === 1 && this.haltOnEvents.has('PRODUCTION-SELECTED')) {
+      return this.debugging
+        ? 'Run until the next production is selected'
+        : 'Load the model and run until the first production is selected';
+    }
+    return this.debugging
+      ? 'Run until the next selected event type'
+      : 'Load the model and run until the first selected event type';
+  }
+
+  private onHaltEventSelect = (event: Event): void => {
+    event.preventDefault();
+    const item = (event as CustomEvent<{ item?: { value?: string; checked?: boolean } }>).detail
+      ?.item;
+    if (!item) return;
+    const id = item.value as DebugHaltEventId | undefined;
+    if (!id || !DEBUG_HALT_EVENTS.some((e) => e.id === id)) return;
+
+    const next = new Set(this.haltOnEvents);
+    if (item.checked) next.add(id);
+    else next.delete(id);
+    this.haltOnEvents = next;
+  };
 
   protected override doClose(): void {
     this.endDebugSession();

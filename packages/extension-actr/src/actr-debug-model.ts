@@ -106,6 +106,67 @@ function parseBuffers(value: unknown): StepBuffers {
   return buffers;
 }
 
+/** Trace event heads Step can halt on (first token of the details column). */
+export const DEBUG_HALT_EVENTS = [
+  {
+    id: 'PRODUCTION-SELECTED',
+    label: 'Production selected',
+    description: 'A matching production was chosen to fire',
+  },
+  {
+    id: 'PRODUCTION-FIRED',
+    label: 'Production fired',
+    description: 'The selected production begins its actions',
+  },
+  {
+    id: 'CONFLICT-RESOLUTION',
+    label: 'Conflict resolution',
+    description: 'Productions are matched against the buffers',
+  },
+  {
+    id: 'SET-BUFFER-CHUNK',
+    label: 'Set buffer chunk',
+    description: 'A chunk is placed into a buffer',
+  },
+  {
+    id: 'MOD-BUFFER-CHUNK',
+    label: 'Mod buffer chunk',
+    description: 'Slots of a buffer chunk are updated',
+  },
+  {
+    id: 'CLEAR-BUFFER',
+    label: 'Clear buffer',
+    description: 'A buffer is emptied',
+  },
+  {
+    id: 'MODULE-REQUEST',
+    label: 'Module request',
+    description: 'A request is sent to a module (e.g. retrieval)',
+  },
+] as const;
+
+export type DebugHaltEventId = (typeof DEBUG_HALT_EVENTS)[number]['id'];
+
+export const DEFAULT_HALT_EVENTS: ReadonlySet<DebugHaltEventId> = new Set([
+  'PRODUCTION-SELECTED',
+]);
+
+export function eventDetailHead(snap: StepSnapshot): string | null {
+  const details = (snap.details ?? '').trim();
+  if (!details) return null;
+  return details.split(/\s+/)[0]?.toUpperCase() ?? null;
+}
+
+/** True when Step should stop on this snapshot given the selected halt event types. */
+export function shouldHaltOnSnapshot(
+  snap: StepSnapshot,
+  haltOn: ReadonlySet<string>,
+): boolean {
+  if (haltOn.size === 0) return true;
+  const head = eventDetailHead(snap);
+  return head != null && haltOn.has(head);
+}
+
 export function reduceDebugView(
   prev: DebugView | null,
   snap: StepSnapshot,

@@ -3,7 +3,14 @@ import { createLogger } from '@eclipse-docks/core';
 import { createMailboxLogFilter } from './actr-console-filter';
 import { actrCheerpXImageBase } from './actr-cheerpx-image-paths';
 import { createMailboxClient, type ActrRpcResponse, type MailboxClient } from './mailbox-client';
-import { parseDebugSnapshot, type StepSnapshot } from './actr-debug-model';
+import {
+  parseDebugSnapshot,
+  shouldHaltOnSnapshot,
+  type StepSnapshot,
+} from './actr-debug-model';
+
+/** Cap when skipping events so a stuck model cannot spin forever. */
+const MAX_EVENTS_UNTIL_HALT = 2_000;
 
 const log = createLogger('ACT-R');
 
@@ -51,6 +58,14 @@ export type ActrRunResult = {
   console: string;
 };
 
+export type DebugStepOptions = {
+  /**
+   * Event detail heads to halt on (e.g. PRODUCTION-SELECTED).
+   * Empty set = halt on every event (single-step).
+   */
+  haltOn?: ReadonlySet<string>;
+};
+
 export type ActrProcess = {
   readonly id: ActrProcessId;
   readonly name: string;
@@ -59,7 +74,7 @@ export type ActrProcess = {
   onBatchEnd(cb: () => void): () => void;
   loadAndRun(source: string, opts?: ActrRunOptions): Promise<ActrRunResult>;
   loadModel(source: string): Promise<void>;
-  debugStep(): Promise<StepSnapshot>;
+  debugStep(opts?: DebugStepOptions): Promise<StepSnapshot>;
   evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse>;
   dispose(): Promise<void>;
 };
@@ -276,7 +291,6 @@ class ActrProcessImpl implements ActrProcess {
     return this.enqueue(async () => {
       this.ensureAlive();
       const globalBefore = this.service.globalConsoleLength();
-      this.service.beginConsoleCapture(this);
       try {
         await this.pollConsole();
         const consoleBefore = this.consoleOffset;
@@ -293,7 +307,7 @@ class ActrProcessImpl implements ActrProcess {
         const fromFile = (await this.mailbox.readConsoleText()).slice(consoleBefore);
         const fromGlobal = this.service.globalConsoleText().slice(globalBefore);
         const consoleText = fromFile.length >= fromGlobal.length ? fromFile : fromGlobal;
-        // IDB console mirror can lag; ensure listeners see the run output.
+        // IDB console mirror can lag behind CheerpX stdout; fill the gap once.
         if (fromGlobal.length > fromFile.length) {
           this.emitConsole(fromGlobal.slice(fromFile.length));
         }
@@ -307,7 +321,6 @@ class ActrProcessImpl implements ActrProcess {
         progress(onProgress, 'Done');
         return { version, load, run, console: consoleText };
       } finally {
-        this.service.endConsoleCapture(this);
         this.signalBatchEnd();
       }
     });
@@ -316,29 +329,41 @@ class ActrProcessImpl implements ActrProcess {
   async loadModel(source: string): Promise<void> {
     return this.enqueue(async () => {
       this.ensureAlive();
-      this.service.beginConsoleCapture(this);
       try {
         await this.pollConsole();
         await this.resetAndLoad(source);
         await this.pollConsole();
       } finally {
-        this.service.endConsoleCapture(this);
         this.signalBatchEnd();
       }
     });
   }
 
-  async debugStep(): Promise<StepSnapshot> {
+  async debugStep(opts: DebugStepOptions = {}): Promise<StepSnapshot> {
+    const haltOn = opts.haltOn ?? new Set<string>();
+    const skipOthers = haltOn.size > 0;
     return this.enqueue(async () => {
       this.ensureAlive();
-      this.service.beginConsoleCapture(this);
       try {
-        const response = await this.mailbox.call('debug-step');
-        assertOk('debug-step', response);
-        await this.pollConsole();
-        return parseDebugSnapshot(response.result?.[0]);
+        let snapshot: StepSnapshot | null = null;
+        const limit = skipOthers ? MAX_EVENTS_UNTIL_HALT : 1;
+        for (let i = 0; i < limit; i++) {
+          const response = await this.mailbox.call('debug-step');
+          assertOk('debug-step', response);
+          await this.pollConsole();
+          snapshot = parseDebugSnapshot(response.result?.[0]);
+          if (snapshot.done || shouldHaltOnSnapshot(snapshot, haltOn)) {
+            return snapshot;
+          }
+        }
+        if (!snapshot) throw new Error('debug-step returned no snapshot');
+        if (skipOthers && !shouldHaltOnSnapshot(snapshot, haltOn)) {
+          log.warn(
+            `no matching halt event within ${MAX_EVENTS_UNTIL_HALT} events; stopping on last event`,
+          );
+        }
+        return snapshot;
       } finally {
-        this.service.endConsoleCapture(this);
         this.signalBatchEnd();
       }
     });
@@ -359,13 +384,11 @@ class ActrProcessImpl implements ActrProcess {
   async evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse> {
     return this.enqueue(async () => {
       this.ensureAlive();
-      this.service.beginConsoleCapture(this);
       try {
         const response = await this.mailbox.evaluate(command, false, ...args);
         await this.pollConsole();
         return response;
       } finally {
-        this.service.endConsoleCapture(this);
         this.signalBatchEnd();
       }
     });
@@ -374,7 +397,6 @@ class ActrProcessImpl implements ActrProcess {
   async dispose(): Promise<void> {
     if (this.disposed) return;
     this.disposed = true;
-    this.service.endConsoleCapture(this);
     if (this.pollTimer) {
       clearInterval(this.pollTimer);
       this.pollTimer = undefined;
@@ -396,7 +418,6 @@ export class ActrCheerpXService {
   private readonly processes = new Map<ActrProcessId, ActrProcessImpl>();
   private processCounter = 0;
   private globalConsole = '';
-  private consoleCapture: ActrProcessImpl | null = null;
 
   public listProcesses(): ActrProcess[] {
     return [...this.processes.values()];
@@ -416,14 +437,6 @@ export class ActrCheerpXService {
 
   globalConsoleText(): string {
     return this.globalConsole;
-  }
-
-  beginConsoleCapture(proc: ActrProcessImpl): void {
-    this.consoleCapture = proc;
-  }
-
-  endConsoleCapture(proc: ActrProcessImpl): void {
-    if (this.consoleCapture === proc) this.consoleCapture = null;
   }
 
   public async ensureVm(onProgress?: ActrProgressReporter): Promise<void> {
@@ -447,7 +460,6 @@ export class ActrCheerpXService {
     this.ipcIn = undefined;
     this.ipcOut = undefined;
     this.globalConsole = '';
-    this.consoleCapture = null;
     for (const proc of this.processes.values()) {
       void proc.dispose();
     }
@@ -482,11 +494,12 @@ export class ActrCheerpXService {
 
     this.globalConsole = '';
     const decoder = new TextDecoder('utf-8');
+    // Accumulate CheerpX stdout for lag-fallback / diagnostics only.
+    // Terminal display uses the per-slot console file poll — broadcasting
+    // the same text here would duplicate every line (stdout + file mirror).
     cx.setCustomConsole(
       (buf) => {
-        const text = decoder.decode(buf);
-        this.globalConsole += text;
-        this.consoleCapture?.emitConsole(text);
+        this.globalConsole += decoder.decode(buf);
       },
       80,
       24,
