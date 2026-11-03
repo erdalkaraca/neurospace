@@ -3,7 +3,12 @@ import {
   TOOLBAR_MAIN,
   type HTMLContribution,
 } from '@eclipse-docks/core';
+import {
+  SYSTEM_CANVASES,
+  type CanvasContribution,
+} from '@eclipse-docks/extension-canvas/contribution';
 import { fetchReleases } from '@eclipse-docks/extension-github-service';
+import attentionalBlinkSource from './canvas/attentional-blink.canvas.js?raw';
 
 function assetUrl(path: string): string {
   return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
@@ -44,6 +49,14 @@ appLoaderService.registerApp(
             <span aria-label="neuro!space"><b style="font-weight: 700;">neuro!</b><i style="font-weight: 500; font-style: italic;">space</i></span>
           </span>`,
         } as HTMLContribution,
+        {
+          name: 'attentional-blink',
+          target: SYSTEM_CANVASES,
+          label: 'Attentional blink',
+          icon: 'eye',
+          settingsKey: 'canvas.neurospace.attentional-blink',
+          source: attentionalBlinkSource,
+        } as CanvasContribution,
       ],
     },
     extensions: [
@@ -60,6 +73,8 @@ appLoaderService.registerApp(
       '@eclipse-docks/extension-notebook',
       '@eclipse-docks/extension-dataviewer',
       '@eclipse-docks/extension-catalog',
+      '@eclipse-docks/extension-canvas',
+      '@eclipse-docks/extension-ai-system',
       '@kispace-io/extension-neuro-viewer',
       '@kispace-io/extension-snirf-viewer',
       '@kispace-io/extension-openneuro',
