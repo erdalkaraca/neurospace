@@ -7,6 +7,7 @@ import './actr-commands';
 import './actr-terminal-backend';
 import './actr-attribution';
 import './actr-catalog';
+import './actr-pyenv';
 import { ACTR_EDITOR_ID } from './ns-actr-editor';
 
 const isActrLispFile = (file: DocksFile): boolean =>

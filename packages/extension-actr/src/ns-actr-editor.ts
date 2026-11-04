@@ -19,14 +19,9 @@ import { terminalService, type Terminal } from '@eclipse-docks/extension-termina
 import '@eclipse-docks/extension-monaco-editor/widget';
 import type { DocksMonacoWidget } from '@eclipse-docks/extension-monaco-editor/widget';
 
-import {
-  ACTR_BIND_ENV,
-  attachActrTerminal,
-  detachActrTerminal,
-  waitActrBind,
-} from './actr-console-registry';
+import { detachActrTerminal } from './actr-console-registry';
+import { openActrConsole } from './actr-console';
 import type { ActrProcess } from './actr-cheerpx-service';
-import { ACTR_TERMINAL_PROFILE_ID } from './actr-terminal-backend';
 import {
   DEBUG_HALT_EVENTS,
   DEFAULT_HALT_EVENTS,
@@ -231,27 +226,14 @@ export class NsActrEditor extends DocksPart {
       this.clearBinding();
     }
 
-    const bindId = crypto.randomUUID();
-    const terminal = await terminalService.createTerminal({
-      profileId: ACTR_TERMINAL_PROFILE_ID,
-      name: this.modelLabel,
-      env: { [ACTR_BIND_ENV]: bindId },
+    const opened = await openActrConsole(this.modelLabel, (terminal) => {
+      this.boundTerminalId = terminal.id;
     });
-    if (!terminal) {
-      throw new Error('Failed to create ACT-R terminal');
-    }
-
-    // Show the console immediately; ACT-R continues booting inside the backend.
-    this.boundTerminalId = terminal.id;
-    terminal.show(true);
-
-    const process = await waitActrBind(bindId);
-    attachActrTerminal(terminal.id, process);
-    this.boundProcess = process;
+    this.boundTerminalId = opened.terminal.id;
+    this.boundProcess = opened.process;
     this.actrConnected = true;
-    this.actrVersion = process.version || 'ready';
-    terminal.show(true);
-    return { terminal, process };
+    this.actrVersion = opened.process.version || 'ready';
+    return opened;
   }
 
   private onConnect = async () => {

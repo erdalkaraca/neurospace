@@ -75,6 +75,10 @@
 (defparameter *poll-seconds* 0.05)
 (defparameter *next-req-id* 1)
 (defparameter *slot* cl-user::*actr-slot*)
+(defparameter *client-commands* (make-hash-table :test #'equalp))
+(defparameter *pending-callbacks* nil)
+(defparameter *command-monitors* nil)
+(defparameter *pending-windows* nil)
 
 (defun out-path (name)
   (cl-user::slot-out name))
@@ -504,6 +508,140 @@
     (error (e)
       (rpc-error id (condition-string e)))))
 
+(defun callback-value (value)
+  (cond ((null value) nil)
+        ((eq value t) t)
+        ((stringp value) value)
+        ((characterp value) (string value))
+        ((numberp value) value)
+        ((symbolp value) (string-downcase (symbol-name value)))
+        ((listp value) (mapcar #'callback-value value))
+        (t (princ-to-string value))))
+
+(defun command-name (params)
+  (let ((name (first params)))
+    (when (and (stringp name) (plusp (length name)))
+      name)))
+
+(defun handle-check (params id)
+  (let ((name (command-name params)))
+    (unless name
+      (return-from handle-check (rpc-error id "Invalid command name")))
+    (if (gethash name *client-commands*)
+        (rpc-ok id (list name "python"))
+        (rpc-ok id (list nil nil)))))
+
+(defun handle-add (params id)
+  (let ((name (command-name params))
+        (call-name (second params))
+        (documentation (third params)))
+    (unless name
+      (return-from handle-add (rpc-error id "Invalid command name")))
+    (handler-case
+        (let ((hook (if (stringp call-name) call-name name)))
+          (cl-user::add-act-r-command
+           name
+           (lambda (&rest args)
+             (push (list hook (mapcar #'callback-value args)) *pending-callbacks*)
+             t)
+           (if (stringp documentation)
+               documentation
+               "No documentation provided."))
+          (setf (gethash name *client-commands*) t)
+          (rpc-ok id (list t)))
+      (error (e)
+        (rpc-error id (condition-string e))))))
+
+(defun remember-monitor (watched watcher)
+  (when (and (stringp watched) (stringp watcher))
+    (push (cons watched watcher) *command-monitors*)))
+
+(defun forget-monitor (watched watcher)
+  (setf *command-monitors*
+        (remove-if (lambda (pair)
+                     (and (or (null watched) (string-equal (car pair) watched))
+                          (or (null watcher) (string-equal (cdr pair) watcher))))
+                   *command-monitors*)))
+
+(defun handle-monitor (params id)
+  (handler-case
+      (progn
+        (cl-user::monitor-act-r-command (first params) (second params))
+        (remember-monitor (first params) (second params))
+        (rpc-ok id (list t)))
+    (error (e)
+      (rpc-error id (condition-string e)))))
+
+(defun handle-remove-monitor (params id)
+  (handler-case
+      (progn
+        (cl-user::remove-act-r-command-monitor (first params) (second params))
+        (forget-monitor (first params) (second params))
+        (rpc-ok id (list t)))
+    (error (e)
+      (rpc-error id (condition-string e)))))
+
+(defun deliver-human-key (key)
+  (let ((before *pending-callbacks*))
+    (ignore-errors (actr-command "output-key" nil key))
+    (when (eq before *pending-callbacks*)
+      (dolist (pair *command-monitors*)
+        (when (string-equal (car pair) "output-key")
+          (push (list (cdr pair) (list nil key)) *pending-callbacks*))))))
+
+(defun handle-human-keys (params id)
+  (handler-case
+      (dolist (key params)
+        (unless (stringp key)
+          (error "Invalid key"))
+        (deliver-human-key key))
+    (error (e)
+      (return-from handle-human-keys (rpc-error id (condition-string e)))))
+  (ignore-errors (cl-user::process-events))
+  (rpc-ok id (list nil)))
+
+(defun handle-remove (params id)
+  (let ((name (command-name params)))
+    (unless name
+      (return-from handle-remove (rpc-error id "Invalid command name")))
+    (handler-case
+        (progn
+          (cl-user::remove-act-r-command name)
+          (remhash name *client-commands*)
+          (forget-monitor nil name)
+          (rpc-ok id (list t)))
+      (error (e)
+        (rpc-error id (condition-string e))))))
+
+(defun neurospace-window-handler (message)
+  (when (listp message)
+    (push (callback-value message) *pending-windows*))
+  t)
+
+(defun install-exp-window-handler ()
+  (handler-case
+      (progn
+        (cl-user::add-act-r-command
+         "neurospace-window"
+         #'neurospace-window-handler
+         "Neurospace visible experiment window")
+        (cl-user::add-virtual-window-handler "neurospace-window" t)
+        (format t "~%ACT-R mailbox[~a] experiment window handler installed~%" *slot*))
+    (error (e)
+      (format t "~%ACT-R mailbox[~a] window handler unavailable: ~a~%" *slot* e)))
+  (finish-output))
+
+(defun attach-callbacks (response)
+  (let ((callbacks (nreverse *pending-callbacks*))
+        (windows (nreverse *pending-windows*)))
+    (setf *pending-callbacks* nil
+          *pending-windows* nil)
+    (when callbacks
+      (setf response (acons :callbacks callbacks response)))
+    (when windows
+      (setf response (acons :windows windows response)))
+    response))
+
 (defun handle-request (message)
   (let* ((method (assoc-val :method message))
          (params (assoc-val :params message))
@@ -519,6 +657,18 @@
        (handle-debug-step params id))
       ((string-equal method "quit")
        (handle-quit params id))
+      ((string-equal method "check")
+       (handle-check params id))
+      ((string-equal method "add")
+       (handle-add params id))
+      ((string-equal method "monitor")
+       (handle-monitor params id))
+      ((string-equal method "remove-monitor")
+       (handle-remove-monitor params id))
+      ((string-equal method "remove")
+       (handle-remove params id))
+      ((string-equal method "human-keys")
+       (handle-human-keys params id))
       (t
        (rpc-error id
                   (format nil "unsupported method ~s"
@@ -554,11 +704,12 @@
               (assoc-val :id message))
       (finish-output)
       (ignore-errors (finish-output cl-user::*console-stream*))
-      (write-response (handle-request message))
+      (write-response (attach-callbacks (handle-request message)))
       (incf *next-req-id*)
       t)))
 
 (defun announce-ready ()
+  (install-exp-window-handler)
   (write-text (out-path "progress") "ready")
   (write-text (out-path "ready")
               (cl-user::act-r-version-string))

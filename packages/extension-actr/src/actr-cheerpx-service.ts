@@ -2,7 +2,12 @@ import { createLogger } from '@eclipse-docks/core';
 
 import { createMailboxLogFilter } from './actr-console-filter';
 import { actrCheerpXImageBase } from './actr-cheerpx-image-paths';
-import { createMailboxClient, type ActrRpcResponse, type MailboxClient } from './mailbox-client';
+import {
+  createMailboxClient,
+  mailboxResult,
+  type ActrRpcResponse,
+  type MailboxClient,
+} from './mailbox-client';
 import {
   findLastHaltDetailsInConsole,
   parseDebugSnapshot,
@@ -10,6 +15,8 @@ import {
   type StepSnapshot,
 } from './actr-debug-model';
 import { withDebugTraceDetail } from './actr-trace-format';
+import mailboxLisp from '../cheerpx/actr-mailbox.lisp?raw';
+import { showExpWindowMessages } from './exp-window';
 
 /** Cap when skipping events so a stuck model cannot spin forever. */
 const MAX_EVENTS_UNTIL_HALT = 2_000;
@@ -42,7 +49,7 @@ const RUN_OPTS_BASE = {
   gid: 1000,
 };
 
-const MAILBOX_SCRIPT = '/opt/actr-mailbox/actr-mailbox.sh';
+const MAILBOX_ECL = '/opt/ecl/bin/ecl';
 
 export type ActrProcessId = string;
 
@@ -78,6 +85,10 @@ export type ActrProcess = {
   loadModel(source: string): Promise<void>;
   debugStep(opts?: DebugStepOptions): Promise<StepSnapshot>;
   evaluate(command: string, ...args: unknown[]): Promise<ActrRpcResponse>;
+  /** Forward one remote call from the Python client. Returns the result list. */
+  call(method: string, params?: unknown[]): Promise<unknown[]>;
+  /** Command calls recorded during the last `call`, then cleared. */
+  takeCallbacks(): unknown[];
   dispose(): Promise<void>;
 };
 
@@ -182,6 +193,13 @@ function assertOk(label: string, response: ActrRpcResponse): void {
  * Unique names avoid CheerpX DataDevice overwrite failures ("Unable to add file").
  * (Chunked write-* RPC was only needed when embedding source inside small RPC JSON bodies.)
  */
+/** The image copy of the mailbox is stale until a rebuild, so each process loads this source. */
+async function stageMailboxLisp(ipcIn: MailboxInOutDevice, slot: string): Promise<string> {
+  const name = `${slot}-mailbox.lisp`;
+  await ipcIn.writeFile(`/${name}`, mailboxLisp);
+  return `${IPC_IN_MOUNT}/${name}`;
+}
+
 async function stageModelOnIpcIn(
   ipcIn: MailboxInOutDevice,
   slot: string,
@@ -212,6 +230,7 @@ class ActrProcessImpl implements ActrProcess {
   private operation: Promise<unknown> = Promise.resolve();
   private disposed = false;
   private mailboxExit: Error | null = null;
+  private pendingCallbacks: unknown[] = [];
 
   constructor(
     id: ActrProcessId,
@@ -411,6 +430,27 @@ class ActrProcessImpl implements ActrProcess {
     });
   }
 
+  async call(method: string, params: unknown[] = []): Promise<unknown[]> {
+    return this.enqueue(async () => {
+      this.ensureAlive();
+      try {
+        const response = await this.mailbox.call(method, params);
+        await this.pollConsole();
+        const result = mailboxResult(response);
+        this.pendingCallbacks = Array.isArray(response.callbacks) ? response.callbacks : [];
+        return result;
+      } finally {
+        this.signalBatchEnd();
+      }
+    });
+  }
+
+  takeCallbacks(): unknown[] {
+    const callbacks = this.pendingCallbacks;
+    this.pendingCallbacks = [];
+    return callbacks;
+  }
+
   async dispose(): Promise<void> {
     if (this.disposed) return;
     this.disposed = true;
@@ -553,11 +593,13 @@ export class ActrCheerpXService {
     const name = opts?.name?.trim() || `ACT-R ${id}`;
 
     progress(onProgress, `Starting ACT-R process ${id}…`);
+    const mailboxLispPath = await stageMailboxLisp(ipcIn, id);
     const mailbox = createMailboxClient({
       inDevice: ipcIn,
       outDevice: ipcOut,
       slot: id,
       timeoutMs: 180_000,
+      onResponse: (response) => showExpWindowMessages(response.windows),
     });
 
     const proc = new ActrProcessImpl(id, name, mailbox, ipcIn, this);
@@ -568,7 +610,7 @@ export class ActrCheerpXService {
       env: [...BASE_ENV, `ACTR_SLOT=${id}`],
     };
 
-    const mailboxRun = cx.run(MAILBOX_SCRIPT, [], runOpts);
+    const mailboxRun = cx.run(MAILBOX_ECL, ['-norc', '-load', mailboxLispPath], runOpts);
     mailboxRun.catch((error) => {
       const err = error instanceof Error ? error : new Error(String(error));
       log.error(`mailbox[${id}] exited: ${err.message}`);

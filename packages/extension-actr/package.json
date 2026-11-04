@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@eclipse-docks/core": "*",
+    "@eclipse-docks/extension-python-runtime": "*",
     "@eclipse-docks/extension-catalog": "*",
     "@eclipse-docks/extension-monaco-editor": "*",
     "@eclipse-docks/extension-terminal": "*"

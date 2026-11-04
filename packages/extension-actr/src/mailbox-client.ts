@@ -9,7 +9,18 @@ export type ActrRpcResponse = {
   result: unknown[] | null;
   error: { message?: string } | string | null;
   id: number | string | null;
+  callbacks?: unknown[];
+  windows?: unknown[];
 };
+
+export function mailboxResult(response: ActrRpcResponse): unknown[] {
+  if (!response.error) return response.result ?? [];
+  const message =
+    typeof response.error === 'string'
+      ? response.error
+      : (response.error.message ?? JSON.stringify(response.error));
+  throw new Error(message);
+}
 
 export type MailboxClient = {
   readonly slot: string;
@@ -36,12 +47,14 @@ export function createMailboxClient({
   slot = 'main',
   pollMs = 50,
   timeoutMs = 120_000,
+  onResponse,
 }: {
   inDevice: Pick<MailboxDevice, 'writeFile'>;
   outDevice: Pick<MailboxDevice, 'readFileAsBlob'>;
   slot?: string;
   pollMs?: number;
   timeoutMs?: number;
+  onResponse?: (response: ActrRpcResponse) => void;
 }): MailboxClient {
   let nextId = 1;
   const prefix = `${slot}.`;
@@ -99,7 +112,9 @@ export function createMailboxClient({
       if (ready === token) {
         const raw = await readOutText('res.json');
         if (!raw) throw new Error(`mailbox[${slot}]: res.ready present but res.json missing`);
-        return JSON.parse(raw) as ActrRpcResponse;
+        const response = JSON.parse(raw) as ActrRpcResponse;
+        onResponse?.(response);
+        return response;
       }
       await sleep(pollMs);
     }
