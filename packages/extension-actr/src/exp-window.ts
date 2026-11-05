@@ -1,3 +1,6 @@
+import type { DocksFloatingPanel } from '@eclipse-docks/core';
+import type { TemplateResult } from '@eclipse-docks/core/externals/lit';
+
 export type ExpItem =
   | { kind: 'text'; name: string; x: number; y: number; text: string; color: string; size: number }
   | { kind: 'button'; name: string; x: number; y: number; width: number; height: number; text: string; color: string }
@@ -17,14 +20,9 @@ export type ExpWindowState = {
   cursor?: ExpMarker;
 };
 
-type ExpPanel = HTMLElement & {
-  label: string;
-  width: number;
-  height: number;
-  place: (x: number, y: number) => void;
-};
+type ExpView = { slot: string; panel: DocksFloatingPanel; stage: HTMLElement };
 
-const views = new Map<number, { slot: string; panel: ExpPanel; stage: HTMLElement }>();
+const views = new Map<number, ExpView>();
 let nextWindowId = 1;
 
 function num(value: unknown, fallback = 0): number {
@@ -179,51 +177,75 @@ function escapeHtml(value: string): string {
     .replaceAll('>', '&gt;');
 }
 
-function ensureView(slot: string, state: ExpWindowState): { slot: string; panel: ExpPanel; stage: HTMLElement } {
+function layoutStage(stage: HTMLElement, state: ExpWindowState): void {
+  stage.style.position = 'relative';
+  stage.style.overflow = 'hidden';
+  stage.style.background = 'white';
+  stage.style.width = `${state.width}px`;
+  stage.style.height = `${state.height}px`;
+  stage.innerHTML = stageMarkup(state);
+}
+
+function ensureView(
+  slot: string,
+  state: ExpWindowState,
+  openPanel: (label: string) => DocksFloatingPanel,
+): ExpView {
   const existing = views.get(state.id);
   if (existing) return existing;
 
-  const panel = document.createElement('ns-exp-window') as ExpPanel;
-  panel.label = state.title;
-  panel.width = state.width;
-  panel.height = state.height;
+  const panel = openPanel(state.title);
   panel.dataset.expSlot = slot;
   panel.place(state.x, state.y);
-  panel.addEventListener('exp-close', onExpHide);
-  const stage = document.createElement('div');
-  panel.append(stage);
-  document.body.append(panel);
+  panel.addEventListener('floating-close', onExpHide);
+  const stage = panel.querySelector('.actr-exp-stage');
+  if (!(stage instanceof HTMLElement)) throw new Error('ACT-R experiment window has no stage');
   ensureKeyListener();
   const view = { slot, panel, stage };
   views.set(state.id, view);
   return view;
 }
 
-function paintExpWindows(slot: string, windows: ReadonlyMap<string, ExpWindowState>): void {
+function closePanel(panel: DocksFloatingPanel): void {
+  panel.dataset.expClosing = '1';
+  panel.dispatchEvent(new CustomEvent('floating-close', { bubbles: true }));
+}
+
+function paintExpWindows(
+  slot: string,
+  windows: ReadonlyMap<string, ExpWindowState>,
+  openPanel: (label: string) => DocksFloatingPanel,
+): void {
   const live = new Set<number>();
   for (const state of windows.values()) live.add(state.id);
 
   for (const [id, view] of views) {
     if (view.slot !== slot || live.has(id)) continue;
-    view.panel.dataset.expClosing = '1';
-    view.panel.remove();
+    closePanel(view.panel);
     views.delete(id);
   }
 
   for (const state of windows.values()) {
-    const view = ensureView(slot, state);
+    const view = ensureView(slot, state, openPanel);
     view.panel.label = state.title;
-    view.panel.width = state.width;
-    view.panel.height = state.height;
-    view.stage.style.width = `${state.width}px`;
-    view.stage.style.height = `${state.height}px`;
-    view.stage.innerHTML = stageMarkup(state);
+    layoutStage(view.stage, state);
   }
 }
 
 function renderExpWindows(slot: string, windows: ReadonlyMap<string, ExpWindowState>): void {
   if (typeof document === 'undefined') return;
-  void import('./ns-exp-window').then(() => paintExpWindows(slot, windows));
+  void Promise.all([
+    import('@eclipse-docks/core'),
+    import('@eclipse-docks/core/externals/lit'),
+  ]).then(([core, lit]) => {
+    const openPanel = (label: string): DocksFloatingPanel =>
+      core.floatingPanelService.open({
+        id: `actr-exp-${label}`,
+        label,
+        component: (): TemplateResult => lit.html`<div class="actr-exp-stage"></div>`,
+      });
+    paintExpWindows(slot, windows, openPanel);
+  });
 }
 
 const windowsBySlot = new Map<string, Map<string, ExpWindowState>>();
@@ -339,7 +361,6 @@ function onExpHide(event: Event): void {
   const slot = panel.dataset.expSlot;
   panel.dataset.expClosing = '1';
   if (slot) noteHumanDismiss(slot);
-  panel.remove();
   for (const [id, view] of views) {
     if (view.panel === panel) views.delete(id);
   }
