@@ -76,3 +76,20 @@ test('one process cannot draw the other process window', () => {
   assert.equal(expWindowsFor('p1')?.get('Letter recognition')?.items.length, 1);
   assert.equal(expWindowsFor('p2')?.get('Letter difference')?.items.length, 0);
 });
+
+test('the same title in two processes is two windows', () => {
+  showExpWindowMessages('same-a', [
+    ['open', 'Task', 0, 0, 300, 300],
+    ['text', 'Task', 'a', 1, 1, 'A', 'black', 12],
+  ]);
+  showExpWindowMessages('same-b', [
+    ['open', 'Task', 0, 0, 300, 300],
+    ['text', 'Task', 'b', 1, 1, 'B', 'black', 12],
+  ]);
+  const first = expWindowsFor('same-a')?.get('Task');
+  const second = expWindowsFor('same-b')?.get('Task');
+  assert.ok(first && second);
+  assert.notEqual(first.id, second.id);
+  assert.equal(first.items[0]?.kind === 'text' ? first.items[0].text : '', 'A');
+  assert.equal(second.items[0]?.kind === 'text' ? second.items[0].text : '', 'B');
+});

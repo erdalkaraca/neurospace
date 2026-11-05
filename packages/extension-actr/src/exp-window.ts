@@ -6,6 +6,7 @@ export type ExpItem =
 export type ExpMarker = { x: number; y: number; color: string };
 
 export type ExpWindowState = {
+  id: number;
   title: string;
   x: number;
   y: number;
@@ -23,11 +24,8 @@ type ExpPanel = HTMLElement & {
   place: (x: number, y: number) => void;
 };
 
-const views = new Map<string, { panel: ExpPanel; stage: HTMLElement }>();
-
-function viewKey(slot: string, title: string): string {
-  return `${slot}\0${title}`;
-}
+const views = new Map<number, { slot: string; panel: ExpPanel; stage: HTMLElement }>();
+let nextWindowId = 1;
 
 function num(value: unknown, fallback = 0): number {
   const parsed = Number(value);
@@ -43,10 +41,11 @@ function cssColor(value: unknown): string {
   return /^[#a-zA-Z0-9(),.%\s-]+$/.test(color) ? color : 'black';
 }
 
+/** Locate a window by the title ACT-R sends. That address is only unique inside one process. */
 function windowFor(windows: Map<string, ExpWindowState>, title: string): ExpWindowState {
   let state = windows.get(title);
   if (!state) {
-    state = { title, x: 0, y: 0, width: 300, height: 300, items: [] };
+    state = { id: nextWindowId++, title, x: 0, y: 0, width: 300, height: 300, items: [] };
     windows.set(title, state);
   }
   return state;
@@ -180,8 +179,8 @@ function escapeHtml(value: string): string {
     .replaceAll('>', '&gt;');
 }
 
-function ensureView(slot: string, state: ExpWindowState): { panel: ExpPanel; stage: HTMLElement } {
-  const existing = views.get(viewKey(slot, state.title));
+function ensureView(slot: string, state: ExpWindowState): { slot: string; panel: ExpPanel; stage: HTMLElement } {
+  const existing = views.get(state.id);
   if (existing) return existing;
 
   const panel = document.createElement('ns-exp-window') as ExpPanel;
@@ -195,20 +194,20 @@ function ensureView(slot: string, state: ExpWindowState): { panel: ExpPanel; sta
   panel.append(stage);
   document.body.append(panel);
   ensureKeyListener();
-  const view = { panel, stage };
-  views.set(viewKey(slot, state.title), view);
+  const view = { slot, panel, stage };
+  views.set(state.id, view);
   return view;
 }
 
 function paintExpWindows(slot: string, windows: ReadonlyMap<string, ExpWindowState>): void {
-  const prefix = `${slot}\0`;
-  for (const [key, view] of views) {
-    if (!key.startsWith(prefix)) continue;
-    const title = key.slice(prefix.length);
-    if (windows.has(title)) continue;
+  const live = new Set<number>();
+  for (const state of windows.values()) live.add(state.id);
+
+  for (const [id, view] of views) {
+    if (view.slot !== slot || live.has(id)) continue;
     view.panel.dataset.expClosing = '1';
     view.panel.remove();
-    views.delete(key);
+    views.delete(id);
   }
 
   for (const state of windows.values()) {
@@ -341,8 +340,8 @@ function onExpHide(event: Event): void {
   panel.dataset.expClosing = '1';
   if (slot) noteHumanDismiss(slot);
   panel.remove();
-  for (const [key, view] of views) {
-    if (view.panel === panel) views.delete(key);
+  for (const [id, view] of views) {
+    if (view.panel === panel) views.delete(id);
   }
 }
 
