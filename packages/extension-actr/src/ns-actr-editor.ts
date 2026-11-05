@@ -156,9 +156,12 @@ export class NsActrEditor extends DocksPart {
   }
 
   private get modelLabel(): string {
-    const path = this.uri ?? 'model.lisp';
-    const parts = path.split('/');
-    return parts[parts.length - 1] || 'ACT-R';
+    const data = this.input?.data;
+    if (data instanceof DocksFile) {
+      const name = data.getName().trim();
+      if (name) return name;
+    }
+    return 'ACT-R';
   }
 
   get canRun(): boolean {

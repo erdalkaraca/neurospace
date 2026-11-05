@@ -599,7 +599,7 @@ export class ActrCheerpXService {
       outDevice: ipcOut,
       slot: id,
       timeoutMs: 180_000,
-      onResponse: (response) => showExpWindowMessages(response.windows),
+      onResponse: (response) => showExpWindowMessages(id, response.windows),
     });
 
     const proc = new ActrProcessImpl(id, name, mailbox, ipcIn, this);

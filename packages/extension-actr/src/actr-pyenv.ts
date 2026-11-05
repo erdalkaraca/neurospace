@@ -1,4 +1,4 @@
-import { createLogger } from '@eclipse-docks/core';
+import { activeEditorSignal, createLogger } from '@eclipse-docks/core';
 import { PyEnv } from '@eclipse-docks/extension-python-runtime/api';
 
 import actrSource from './actr.py?raw';
@@ -18,12 +18,26 @@ const log = createLogger('ACT-R');
 const INSTALLED = Symbol.for('neurospace.actrDispatcher');
 
 const currentByWorker = new WeakMap<Worker, ActrProcess>();
+const pyenvByWorker = new WeakMap<Worker, PyEnv>();
+const editorNameByWorker = new WeakMap<Worker, string>();
+
+function owningEditorFileName(pyenv: PyEnv): string | undefined {
+  const editor = activeEditorSignal.get() as {
+    getPyEnv?: () => PyEnv | undefined;
+    input?: { data?: { getName?: () => string } };
+  } | null;
+  if (editor?.getPyEnv?.() !== pyenv) return undefined;
+  const name = editor.input?.data?.getName?.()?.trim();
+  return name || undefined;
+}
 
 async function consoleForModel(worker: Worker, logicalPath: string): Promise<ActrProcess> {
   const source = await readTutorialModel(logicalPath);
   let process = currentByWorker.get(worker);
   if (!process || !actrProcessAlive(process)) {
-    const opened = await openActrConsole('ACT-R');
+    const pyenv = pyenvByWorker.get(worker);
+    const name = (pyenv && owningEditorFileName(pyenv)) || editorNameByWorker.get(worker) || 'ACT-R';
+    const opened = await openActrConsole(name);
     process = opened.process;
     currentByWorker.set(worker, process);
   }
@@ -91,9 +105,10 @@ function attachWorker(worker: Worker): void {
           await consoleForModel(worker, logicalPath);
           response = { id: message.id, type: ACTR_RESPONSE, payload: { result: [true] } };
         } else if (isProcessEvents(message.payload.method, message.payload.params)) {
-          const keys = await waitForHumanKeys(0);
+          const process = currentProcess(worker);
+          const keys = await waitForHumanKeys(process.id, 0);
           response = keys.length
-            ? await answerActrRequest(currentProcess(worker), {
+            ? await answerActrRequest(process, {
                 ...message,
                 payload: { method: 'human-keys', params: keys },
               })
@@ -113,6 +128,9 @@ function attachWorker(worker: Worker): void {
 export async function attachActrDispatcher(pyenv: PyEnv): Promise<void> {
   const worker = (pyenv as unknown as { worker?: Worker }).worker;
   if (!worker) throw new Error('Python worker is not running');
+  pyenvByWorker.set(worker, pyenv);
+  const editorName = owningEditorFileName(pyenv);
+  if (editorName) editorNameByWorker.set(worker, editorName);
   attachWorker(worker);
   await pyenv.execCode(installScript());
 }

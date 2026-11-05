@@ -3,10 +3,13 @@ import { test } from 'node:test';
 
 import {
   actrKeyFromEvent,
+  beginHumanTrial,
+  expWindowsFor,
   isProcessEvents,
   noteHumanDismiss,
   queueHumanKey,
   reduceExpWindows,
+  showExpWindowMessages,
   waitForHumanKeys,
   type ExpWindowState,
 } from './exp-window.ts';
@@ -46,17 +49,30 @@ test('response keys use ACT-R names', () => {
   assert.equal(isProcessEvents('evaluate', ['run', 10]), false);
 });
 
-test('a key during the wait is delivered from anywhere', async () => {
-  const windows = new Map<string, ExpWindowState>();
-  reduceExpWindows(windows, [['open', 'Letter difference', 0, 0, 300, 300]]);
-  const pending = waitForHumanKeys(200);
-  queueHumanKey('b');
+test('a key during the wait is delivered to that process', async () => {
+  beginHumanTrial('keys');
+  const pending = waitForHumanKeys('keys', 200);
+  queueHumanKey('keys', 'b');
   assert.deepEqual(await pending, ['b']);
 });
 
-test('closing the window ends the next wait', async () => {
-  const windows = new Map<string, ExpWindowState>();
-  reduceExpWindows(windows, [['open', 'Letter difference', 0, 0, 300, 300]]);
-  noteHumanDismiss();
-  assert.deepEqual(await waitForHumanKeys(20), ['escape']);
+test('closing one window does not answer the other process', async () => {
+  beginHumanTrial('close-a');
+  beginHumanTrial('close-b');
+  noteHumanDismiss('close-a');
+  const other = waitForHumanKeys('close-b', 20);
+  assert.deepEqual(await waitForHumanKeys('close-a', 20), ['escape']);
+  assert.deepEqual(await other, []);
+});
+
+test('one process cannot draw the other process window', () => {
+  showExpWindowMessages('p1', [
+    ['open', 'Letter recognition', 0, 0, 300, 300],
+    ['text', 'Letter recognition', 't', 10, 10, 'A', 'black', 12],
+  ]);
+  showExpWindowMessages('p2', [['open', 'Letter difference', 0, 0, 300, 300]]);
+  assert.equal(expWindowsFor('p1')?.has('Letter difference'), false);
+  assert.equal(expWindowsFor('p2')?.has('Letter recognition'), false);
+  assert.equal(expWindowsFor('p1')?.get('Letter recognition')?.items.length, 1);
+  assert.equal(expWindowsFor('p2')?.get('Letter difference')?.items.length, 0);
 });

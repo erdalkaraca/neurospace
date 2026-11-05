@@ -25,6 +25,10 @@ type ExpPanel = HTMLElement & {
 
 const views = new Map<string, { panel: ExpPanel; stage: HTMLElement }>();
 
+function viewKey(slot: string, title: string): string {
+  return `${slot}\0${title}`;
+}
+
 function num(value: unknown, fallback = 0): number {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
@@ -68,7 +72,6 @@ export function reduceExpWindowMessage(windows: Map<string, ExpWindowState>, mes
   const state = windowFor(windows, title);
 
   if (kind === 'open') {
-    beginHumanTrial();
     state.x = num(message[2]);
     state.y = num(message[3]);
     state.width = num(message[4], 300);
@@ -177,14 +180,15 @@ function escapeHtml(value: string): string {
     .replaceAll('>', '&gt;');
 }
 
-function ensureView(state: ExpWindowState): { panel: ExpPanel; stage: HTMLElement } {
-  const existing = views.get(state.title);
+function ensureView(slot: string, state: ExpWindowState): { panel: ExpPanel; stage: HTMLElement } {
+  const existing = views.get(viewKey(slot, state.title));
   if (existing) return existing;
 
   const panel = document.createElement('ns-exp-window') as ExpPanel;
   panel.label = state.title;
   panel.width = state.width;
   panel.height = state.height;
+  panel.dataset.expSlot = slot;
   panel.place(state.x, state.y);
   panel.addEventListener('exp-close', onExpHide);
   const stage = document.createElement('div');
@@ -192,20 +196,23 @@ function ensureView(state: ExpWindowState): { panel: ExpPanel; stage: HTMLElemen
   document.body.append(panel);
   ensureKeyListener();
   const view = { panel, stage };
-  views.set(state.title, view);
+  views.set(viewKey(slot, state.title), view);
   return view;
 }
 
-function paintExpWindows(windows: ReadonlyMap<string, ExpWindowState>): void {
-  for (const [title, view] of views) {
+function paintExpWindows(slot: string, windows: ReadonlyMap<string, ExpWindowState>): void {
+  const prefix = `${slot}\0`;
+  for (const [key, view] of views) {
+    if (!key.startsWith(prefix)) continue;
+    const title = key.slice(prefix.length);
     if (windows.has(title)) continue;
     view.panel.dataset.expClosing = '1';
     view.panel.remove();
-    views.delete(title);
+    views.delete(key);
   }
 
   for (const state of windows.values()) {
-    const view = ensureView(state);
+    const view = ensureView(slot, state);
     view.panel.label = state.title;
     view.panel.width = state.width;
     view.panel.height = state.height;
@@ -215,37 +222,53 @@ function paintExpWindows(windows: ReadonlyMap<string, ExpWindowState>): void {
   }
 }
 
-/** Draw the current experiment windows. Safe to call after each mailbox reply. */
-export function renderExpWindows(windows: ReadonlyMap<string, ExpWindowState>): void {
+function renderExpWindows(slot: string, windows: ReadonlyMap<string, ExpWindowState>): void {
   if (typeof document === 'undefined') return;
-  void import('./ns-exp-window').then(() => paintExpWindows(windows));
+  void import('./ns-exp-window').then(() => paintExpWindows(slot, windows));
 }
 
-const expWindows = new Map<string, ExpWindowState>();
-const pendingKeys: string[] = [];
-let waiting = false;
-let dismissed = false;
-let notifyKey: (() => void) | null = null;
+const windowsBySlot = new Map<string, Map<string, ExpWindowState>>();
+
+type SlotInput = {
+  keys: string[];
+  dismissed: boolean;
+  waiting: boolean;
+  notify: (() => void) | null;
+};
+
+const inputBySlot = new Map<string, SlotInput>();
 let listening = false;
 
-function beginHumanTrial(): void {
-  dismissed = false;
-  pendingKeys.length = 0;
+function slotInput(slot: string): SlotInput {
+  let input = inputBySlot.get(slot);
+  if (!input) {
+    input = { keys: [], dismissed: false, waiting: false, notify: null };
+    inputBySlot.set(slot, input);
+  }
+  return input;
 }
 
-/** Queue a key while `process_events` is waiting. Focus does not have to be in the dialog. */
-export function queueHumanKey(key: string): void {
-  if (!waiting || !key) return;
-  pendingKeys.push(key);
-  const notify = notifyKey;
-  notifyKey = null;
+export function beginHumanTrial(slot: string): void {
+  const input = slotInput(slot);
+  input.dismissed = false;
+  input.keys.length = 0;
+}
+
+/** Queue a key for one ACT-R process that is waiting in `process_events`. */
+export function queueHumanKey(slot: string, key: string): void {
+  const input = slotInput(slot);
+  if (!input.waiting || !key) return;
+  input.keys.push(key);
+  const notify = input.notify;
+  input.notify = null;
   notify?.();
 }
 
-/** The person closed the experiment dialog. The next wait ends even if it already started. */
-export function noteHumanDismiss(): void {
-  dismissed = true;
-  queueHumanKey('escape');
+/** The person closed this process's experiment window. */
+export function noteHumanDismiss(slot: string): void {
+  const input = slotInput(slot);
+  input.dismissed = true;
+  queueHumanKey(slot, 'escape');
 }
 
 /** `evaluate("process-events", ...)` is the human-wait call from `actr.process_events`. */
@@ -262,49 +285,64 @@ export function actrKeyFromEvent(event: Pick<KeyboardEvent, 'key' | 'metaKey' | 
   return null;
 }
 
-function consumeDismiss(): string[] | null {
-  if (!dismissed) return null;
-  dismissed = false;
-  pendingKeys.length = 0;
+function consumeDismiss(input: SlotInput): string[] | null {
+  if (!input.dismissed) return null;
+  input.dismissed = false;
+  input.keys.length = 0;
   return ['escape'];
 }
 
-/** Wait until the person presses a key, closes the window, or the timeout elapses. */
-export function waitForHumanKeys(timeoutMs: number): Promise<string[]> {
-  const closed = consumeDismiss();
+/** Wait until the person presses a key for this process, closes its window, or the timeout elapses. */
+export function waitForHumanKeys(slot: string, timeoutMs: number): Promise<string[]> {
+  const input = slotInput(slot);
+  const closed = consumeDismiss(input);
   if (closed) return Promise.resolve(closed);
-  const ready = pendingKeys.splice(0);
+  const ready = input.keys.splice(0);
   if (ready.length) return Promise.resolve(ready);
-  waiting = true;
+  input.waiting = true;
   return new Promise((resolve) => {
     const finish = () => {
       if (timer) clearTimeout(timer);
-      notifyKey = null;
-      waiting = false;
-      resolve(consumeDismiss() ?? pendingKeys.splice(0));
+      input.notify = null;
+      input.waiting = false;
+      resolve(consumeDismiss(input) ?? input.keys.splice(0));
     };
     const timer = timeoutMs > 0 ? setTimeout(finish, timeoutMs) : undefined;
-    notifyKey = finish;
+    input.notify = finish;
   });
 }
 
+function waitingSlots(): string[] {
+  return [...inputBySlot.entries()].filter(([, input]) => input.waiting).map(([slot]) => slot);
+}
+
+function slotFromEvent(event: Event): string | null {
+  for (const node of event.composedPath()) {
+    if (node instanceof HTMLElement && node.dataset.expSlot) return node.dataset.expSlot;
+  }
+  const waiting = waitingSlots();
+  return waiting.length === 1 ? waiting[0] : null;
+}
+
 function onExpKeyDown(event: KeyboardEvent): void {
-  if (!waiting) return;
+  const slot = slotFromEvent(event);
+  if (!slot) return;
   const key = actrKeyFromEvent(event);
   if (!key) return;
   event.preventDefault();
   event.stopPropagation();
-  queueHumanKey(key);
+  queueHumanKey(slot, key);
 }
 
 function onExpHide(event: Event): void {
   const panel = event.currentTarget;
   if (!(panel instanceof HTMLElement) || panel.dataset.expClosing) return;
+  const slot = panel.dataset.expSlot;
   panel.dataset.expClosing = '1';
-  noteHumanDismiss();
+  if (slot) noteHumanDismiss(slot);
   panel.remove();
-  for (const [title, view] of views) {
-    if (view.panel === panel) views.delete(title);
+  for (const [key, view] of views) {
+    if (view.panel === panel) views.delete(key);
   }
 }
 
@@ -314,8 +352,21 @@ function ensureKeyListener(): void {
   document.addEventListener('keydown', onExpKeyDown, true);
 }
 
-export function showExpWindowMessages(messages: readonly unknown[] | undefined): void {
-  if (!messages?.length) return;
-  reduceExpWindows(expWindows, messages);
-  renderExpWindows(expWindows);
+/** Apply one process's window messages without changing any other process's display. */
+export function showExpWindowMessages(slot: string, messages: readonly unknown[] | undefined): void {
+  if (!slot || !messages?.length) return;
+  let windows = windowsBySlot.get(slot);
+  if (!windows) {
+    windows = new Map();
+    windowsBySlot.set(slot, windows);
+  }
+  if (messages.some((message) => Array.isArray(message) && message[0] === 'open')) {
+    beginHumanTrial(slot);
+  }
+  reduceExpWindows(windows, messages);
+  renderExpWindows(slot, windows);
+}
+
+export function expWindowsFor(slot: string): ReadonlyMap<string, ExpWindowState> | undefined {
+  return windowsBySlot.get(slot);
 }
