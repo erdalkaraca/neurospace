@@ -1,0 +1,1 @@
+var e=`system.canvases`;function t(e){let t=e;return typeof t.settingsKey==`string`&&t.settingsKey.length>0&&(typeof t.load==`function`||t.source!==void 0)}export{t as n,e as t};

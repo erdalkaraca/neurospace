@@ -1,1 +1,0 @@
-export{i as FileSysDirHandleResource}from"./fs-access-CrktZo-_-BSFAAzMi.js";

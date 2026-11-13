@@ -1,0 +1,1 @@
+import{r as e}from"./rolldown-runtime-BCiCTKAo.js";import{gn as t}from"./dist-Bn8DfJpU.js";var n=e({registerIconLibrary:()=>t});export{n as t};

@@ -1,1 +1,0 @@
-import{f as e}from"./pglite-opfs-worker-BR5YL-9f-QlxqpHzu.js";e();var t={name:`amcheck`,setup:async(e,t)=>({bundlePath:new URL(new URL(`/neurospace/assets/amcheck.tar-bkPYZsQP-bkPYZsQP.gz`,``+import.meta.url).href,``+import.meta.url)})};export{t as amcheck};

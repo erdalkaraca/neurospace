@@ -1,1 +1,0 @@
-var e={name:`pgtap`,setup:async(e,t)=>({emscriptenOpts:t,bundlePath:new URL(new URL(`/neurospace/assets/pgtap.tar-DoEIyOXh-DoEIyOXh.gz`,``+import.meta.url).href,``+import.meta.url)})};export{e as pgtap};

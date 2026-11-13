@@ -1,1 +1,0 @@
-import{f as e}from"./pglite-opfs-worker-BR5YL-9f-QlxqpHzu.js";e();var t={name:`bloom`,setup:async(e,t)=>({bundlePath:new URL(new URL(`/neurospace/assets/bloom.tar-DGGnUI4S-DGGnUI4S.gz`,``+import.meta.url).href,``+import.meta.url)})};export{t as bloom};

@@ -1,4 +1,138 @@
- _) {
+ prevention package.\n";
+}
+
+my $aliased_regex = '^(' . join('|', @aliased_dirs) . ')/';
+
+#
+# Get a list of all paths (including diversion) under the aliased dirs.
+#
+
+my @search_args;
+my %aliased_pathnames;
+foreach my $dir (@aliased_dirs) {
+    push @search_args, "$dir/*";
+}
+
+# We also need to track /usr/lib/modules to then be able to compute its
+# complement when looking for untracked kernel module files under aliased
+# dirs.
+my %usr_mod_pathnames;
+push @search_args, '/usr/lib/modules/*';
+
+open my $fh_paths, '-|', 'dpkg-query', '--search', @search_args
+    or fatal("cannot execute dpkg-query --search: $!");
+while (<$fh_paths>) {
+    if (m/^diversion by [^ ]+ from: .*$/) {
+        # Ignore.
+    } elsif (m/^diversion by [^ ]+ to: (.*)$/) {
+        if (-e $1) {
+            add_pathname($1, 'diverted pathname');
+        }
+    } elsif (m/^.*: (.*)$/) {
+        add_pathname($1, 'pathname');
+    }
+}
+close $fh_paths;
+
+#
+# Get a list of all update-alternatives under the aliased dirs.
+#
+
+my @selections = qx(update-alternatives --get-selections);
+foreach my $selection (@selections) {
+    my $name = (split(' ', $selection))[0];
+    my $slaves = 0;
+
+    open my $fh_alts, '-|', 'update-alternatives', '--query', $name
+        or fatal("cannot execute update-alternatives --query: $!");
+    while (<$fh_alts>) {
+        if (m/^\s*$/) {
+            last;
+        } elsif (m/^Link: (.*)$/) {
+            add_pathname($1, 'alternative link');
+        } elsif (m/^Slaves:\s*$/) {
+            $slaves = 1;
+        } elsif ($slaves and m/^\s\S+\s(\S+)$/) {
+            add_pathname($1, 'alternative slave');
+        } else {
+            $slaves = 0;
+        }
+    }
+    close $fh_alts;
+}
+
+#
+# Unfortunately we need to special case untracked kernel module files,
+# as these are required for system booting. To reduce potentially moving
+# undesired non-kernel module files (such as apache, python or ruby ones),
+# we only look for sub-dirs starting with a digit, which should match for
+# both Linux and kFreeBSD modules, and also for the modprobe.conf filename.
+#
+
+find({
+    no_chdir => 1,
+    wanted => sub {
+        my $path = $_;
+
+        if (exists $aliased_pathnames{$path}) {
+            # Ignore pathname already handled.
+        } elsif (exists $usr_mod_pathnames{"/usr$path"}) {
+            # Ignore pathname owned elsewhere.
+        } elsif ($path eq '/lib/modules' or
+                 $path eq '/lib/modules/modprobe.conf' or
+                 $path =~ m{^/lib/modules/[0-9]}) {
+            add_pathname($path, 'untracked modules');
+        }
+    },
+}, '/lib/modules');
+
+
+my $sroot = '/.usrunmess';
+my @relabel;
+
+#
+# Create a shadow hierarchy under / for the new unmessed dir:
+#
+
+debug("creating shadow dir = $sroot");
+mkdir $sroot
+    or sysfatal("cannot create directory $sroot");
+foreach my $dir (@aliased_dirs) {
+    debug("creating shadow dir = $sroot$dir");
+    mkdir "$sroot$dir"
+        or sysfatal("cannot create directory $sroot$dir");
+    chmod 0755, "$sroot$dir"
+        or sysfatal("cannot chmod 0755 $sroot$dir");
+    chown 0, 0, "$sroot$dir"
+        or sysfatal("cannot chown 0 0 $sroot$dir");
+    push @relabel, "$sroot$dir";
+}
+
+#
+# Populate the split dirs with hardlinks or copies of the objects from
+# their counter-parts in /usr.
+#
+
+foreach my $pathname (sort keys %aliased_pathnames) {
+    my (@meta) = lstat $pathname
+        or sysfatal("cannot lstat object $pathname for shadow hierarchy");
+
+    if (-d _) {
+        my $mode = $meta[2];
+        my ($uid, $gid) = @meta[4, 5];
+        my ($atime, $mtime, $ctime) = @meta[8, 9, 10];
+
+        debug("creating shadow dir = $sroot$pathname");
+        mkdir "$sroot$pathname"
+            or sysfatal("cannot mkdir $sroot$pathname");
+        chmod $mode, "$sroot$pathname"
+            or sysfatal("cannot chmod $mode $sroot$pathname");
+        chown $uid, $gid, "$sroot$pathname"
+            or sysfatal("cannot chown $uid $gid $sroot$pathname");
+        utime $atime, $mtime, "$sroot$pathname"
+            or sysfatal("cannot utime $atime $mtime $sroot$pathname");
+        push @relabel, "$sroot$pathname";
+    } elsif (-f _) {
         debug("creating shadow file = $sroot$pathname");
         copy("/usr$pathname", "$sroot$pathname");
     } elsif (-l _) {
@@ -925,4 +1059,4 @@ j ÿ0èøÿÿ‹•|şÿÿƒÄ‰B,éÓûÿÿÇ…0şÿÿ   éÄûÿÿ‹ƒô8  ‰…Lşÿÿ…À…  ‹…Xşÿÿ‹“¸  ‹µ|şÿÿƒ
   ‹…dşÿÿ‹•Lşÿÿƒìpşÿÿ‰Pşÿÿ‰PXQ‰ùèL.  ƒÄ‰Æ‹…dşÿÿ‹H8‰Xşÿÿ‹H<‰`şÿÿXşÿÿ…c  ö@(…Y  ö@%…O  ş·+”Àş˜·+”ÂĞuLş<·+tD…ö„U  †½HÔ€ƒø†
   ‹…Hşÿÿ‰µHşÿÿ‰…Xşÿÿƒ½ şÿÿ …Ú)  ‹…dşÿÿ‹xéX  ‰µˆşÿÿQÿµ<şÿÿjDÿµdşÿÿès4 ƒÄƒ½Hşÿÿ …  1Ò‰•ˆşÿÿ‹…pşÿÿö@
 …Œ   ƒx†_  …ö…  Pƒs-şÿjPj èÈÙÿÿƒÄ‰…`şÿÿ‹…dşÿÿ‹Pƒì:şÿ‰•XşÿÿjPj è Ùÿÿ‹`şÿÿ‹•XşÿÿQRPÿµdşÿÿè† ‹…dşÿÿƒÄ ‹H8‰şÿÿ‹H<‰şÿÿWÿpÿµpşÿÿPè; ƒÄƒ½pşÿÿ tƒìÿµPşÿÿèäÿÿƒÄƒìÿµPşÿÿ‹•Lşÿÿ‰ù‹…dşÿÿè¢,  ƒÄ‰Â…ö…+$  …À„#$  ƒ½pşÿÿ tƒì‰…XşÿÿÿµPşÿÿè°ãÿÿ‹•XşÿÿƒÄƒìRèŞáÿÿƒÄ‰Æ‹…dşÿÿ‹Pƒ;şÿ‰•XşÿÿjPj èºØÿÿ‹•XşÿÿV‹µdşÿÿRPVè¥ ƒÄƒ4;şÿ‰µdşÿÿ‹vjPj è‰ØÿÿƒÄV‹µdşÿÿPVèx ‹şÿÿ‰ğ‰N8‹şÿÿ‰N<Z‰ùÿµPşÿÿ‹•LşÿÿèĞ+  1ÉƒÄ‰ şÿÿ‰Æv †½HÔ€ƒø†á  …ö…Ïıÿÿ‹•dşÿÿ‹…pşÿÿ‹z$H   ‹H‰½Xşÿÿç   u`‹I¾   ƒìB@‰…XşÿÿÓæPVÿrèrèÿÿƒÄ‰…ˆşÿÿƒø„«  =P·+„¾  …À…  ‹…dşÿÿH$   …ÿ…ôùÿÿ‹…pşÿÿ‹dşÿÿ‹x‹‘P  ƒL‰‰P`‡°  ‹…dşÿÿ‹p…ö„Ì  ¶„ÒtAˆ•Xşÿÿèaèÿÿ¶•Xşÿÿ‰½Xşÿÿ‰Áf‹9¾ÂöDG u€ú:uÆ_¶VƒÆ„Òuá‹½Xşÿÿ‹…dşÿÿ‹@…Àt]‹dşÿÿ“©-şÿwhÿqRjPèsåÿÿ‰4$è;ßÿÿƒÄ…À„s  ‹…dşÿÿ€x ‹@…˜  ‹…dşÿÿÿpƒ­ZşÿjjPè”ÙÿÿƒÄ‹…pşÿÿƒìÿpèĞ/ ‹µpşÿÿƒÄ‹Fö@at÷…Lşÿÿ   …İ  ‹µdşÿÿ‹F…Àt!ƒìGhPèÚÿÿPƒ.şÿPjÿvèÓäÿÿƒÄ ‹…dşÿÿö@T„Ø  öG`tC‹µdşÿÿöF(„»  Pƒ8>şÿjPj è)ÖÿÿƒÄPƒ)şÿPVè ‹‹@‹P‰$ÿRƒÄ‹O\áÀáÿÿ‰(ÿÿÿ‹G`%!üÿ‰…,ÿÿÿ‹Wdâ„şÿ‰•0ÿÿÿ…É…e  	Ğ…]  öGbt‹…pşÿÿƒ¸Ä    „S!  ‹dşÿÿ‹A<A8t
-öA(„+  ƒìjè0Öÿÿ‹pşÿÿƒÄ…ÀN…şÿÿ‹q‰Â‰…şÿÿ¸  s  !s  "s  #s  $s  %s  &s  's  (s  )s  *s  +s  ,s  -s  .s  /s  0s  1s  2s  3s  4s  5s  6s  7s  8s  9s  :s  ;s  <s  =s  >s  ?s  @s  As  Bs  Cs  Ds  Es  Fs  Gs  Hs  Is  Js  Ks  Ls  Ms  Ns  Os  Ps  Qs  Rs  Ss  Ts  Us  Vs  Ws  Xs  Ys  Zs  [s  \s  ]s  ^s  _s  `s  as  bs  cs  ds  es  fs  gs  hs  is  js  ks  ls  ms  ns  os  ps  qs  rs  ss  ts  us  vs                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+öA(„+  ƒìjè0Öÿÿ‹pşÿÿƒÄ…ÀN…şÿÿ‹q‰Â‰…şÿÿ¸ 

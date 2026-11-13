@@ -1,1 +1,0 @@
-function e(e){return new Worker(new URL(`/neurospace/assets/pglite-opfs-worker-BR5YL-9f-QlxqpHzu.js`,``+import.meta.url).href,{type:`module`,name:e?.name})}export{e as default};

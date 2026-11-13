@@ -1,119 +1,4 @@
-                                                         (>= 'safe>=)
-                                                                                           (<= 'safe<=))
-                                                                                   :result t)))
-                                                     (if search
-                                                         (push-last condition search-other)
-                                                       (push-last condition others))
-                                                     
-                                                     (awhen (must-be implicit nil) (push-last it implicit))))))))))))))
-                               (#\?
-                                (dolist (slot-spec (act-r-chunk-spec-slots spec))
-                                  
-                                  (when (eq (act-r-slot-spec-name slot-spec) 'buffer)
-                                    (cond ((eq (act-r-slot-spec-value slot-spec) 'empty)
-                                           (if (eq '= (act-r-slot-spec-modifier slot-spec))
-                                               (setf (production-buffer-empty production) (logior (production-buffer-empty production) bm))
-                                             (setf (production-buffer-full production) (logior (production-buffer-full production) bm))))
-                                          ((eq (act-r-slot-spec-value slot-spec) 'full)
-                                           (if (eq '= (act-r-slot-spec-modifier slot-spec))
-                                               (setf (production-buffer-full production) (logior (production-buffer-full production) bm))
-                                             (setf (production-buffer-empty production) (logior (production-buffer-empty production) bm))))
-                                          ((eq (act-r-slot-spec-value slot-spec) 'failure)
-                                           (when (eq '= (act-r-slot-spec-modifier slot-spec)) ;; a test for failure requires the buffer be empty
-                                             (setf (production-buffer-empty production) (logior (production-buffer-empty production) bm)))))
-                                    (pushnew (cons buffer (buffer-mask buffer)) (production-buffer-list production) :key 'car))
-                                  
-                                  (let ((cr (make-cr-condition :type 'query :buffer buffer 
-                                                               :slot (act-r-slot-spec-name slot-spec) 
-                                                               :value (act-r-slot-spec-value slot-spec) 
-                                                               :test (define-chunk-spec-fct (list (act-r-slot-spec-name slot-spec) (act-r-slot-spec-value slot-spec)))
-                                                               :result (if (eq '= (act-r-slot-spec-modifier slot-spec)) t nil))))
-                                    
-                                    (if (act-r-slot-spec-variable slot-spec) 
-                                        (push-last cr search-other)
-                                      (push-last cr constants))))
-                                
-                                (push-last (list 'query-buffer buffer spec) selection))
-                               
-                               (t ;#\!
-                                (case buffer ;; (really the command)
-                                  ((eval safe-eval)
-                                   (push-last (make-cr-condition :type 'eval :value (first definition)) search-other))
-                                  
-                                  ((bind safe-bind)
-                                   
-                                   (setf unbound-vars (remove (first definition) unbound-vars))
-                                   
-                                   (push-last (cons
-                                               (assoc (first definition) dependencies)
-                                               (make-cr-condition :type 'bind :value (first definition) :result (second definition)))
-                                              binds))
-                                  (mv-bind
-                                   
-                                   (let ((bind-vars (first definition))
-                                         (depends nil))
-                                     
-                                     (dolist (x bind-vars)
-                                       (setf unbound-vars (remove x unbound-vars)))
-                                     
-                                     (dolist (x bind-vars)
-                                       (setf depends (append depends (cdr (assoc x dependencies)))))
-                                     
-                                     (push-last (cons
-                                                 (cons bind-vars (remove-duplicates depends))
-                                                 (make-cr-condition :type 'mv-bind :value bind-vars :result (second definition)))
-                                                binds))))))))
-                         
-                         
-                         ;;; sort the binding operations based on dependency
-                         
-                         (setf binds (sort-for-bind-order binds))
-                         
-                         ;; split the binds if any need search vars...
-                         
-                         (let ((split (position-if (lambda (x) 
-                                                     (some (lambda (y)
-                                                             (or (eq (gethash y var-table) 'search)
-                                                                 (eq (gethash y var-table) 'search-slot)))
-                                                           (cdr x))) 
-                                                   binds :key 'car)))
-                           
-                           (if split
-                               (progn
-                                 (setf search-bind (append search-bind (mapcar 'cdr (subseq binds split))))
-                                 (setf binds (mapcar 'cdr (subseq binds 0 split))))
-                             (setf binds (mapcar 'cdr binds))))
-                         
-                         ;;; Now set the production slots
-                         
-                         (setf (production-constants production) constants)
-                         (setf (production-binds production) (append vars var2s binds))
-                         (setf (production-others production) others)
-                         (setf (production-searches production) search)
-                         (setf (production-search-binds production) search-bind)
-                         (setf (production-search-others production) search-other)
-                         
-                         (setf (production-selection-code production) selection)
-                         (setf (production-implicit production) implicit))))
-                   
-                   (let ((rhs-binds nil))
-                     (dolist (action rhs)
-                       (let ((op (production-statement-op action))
-                             (target (production-statement-target action))
-                             (definition (production-statement-definition action))
-                             (spec (production-statement-spec action)))
-                         
-                         (case op
-                           (#\=
-                            (cond ((null definition)
-                                   ;; That's a dummy action to keep the
-                                   ;; buffer alive
-                                   )
-                                  ((= (length definition) 1) ;; it's a chunk so it won't need to extend
-                                   (push-last 
-                                    (lambda () 
-                                      (schedule-mod-buffer-chunk target (define-chunk-spec-fct 
-                                                                            (replace-variables definition (production-bindings production)))
+                                        (replace-variables definition (production-bindings production)))
                                                                  0
                                                                  :time-in-ms t
                                                                  :module 'procedural
@@ -1653,4 +1538,174 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 |#
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;;;  -*- mode: LISP; Syntax: COMMON-LISP;  Base: 10 -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Author      : Dan Bothell
+;;; Copyright   : (c) 2014 Dan Bothell
+;;; Availability: Covered by the GNU LGPL, see LGPL.txt
+;;; Address     : Department of Psychology 
+;;;             : Carnegie Mellon University
+;;;             : Pittsburgh, PA 15213-3890
+;;;             : db30@andrew.cmu.edu
+;;; 
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; Filename    : tutorial-trace.lisp
+;;; Version     : 1.0
+;;; 
+;;; Description : Hack to modify the model trace so it fits the page width for
+;;;             : the tutorial traces.
+;;; 
+;;; Bugs        : 
+;;;
+;;; To do       : 
+;;; 
+;;; ----- History -----
+;;; 2014.08.20 Dan 
+;;;             : * Why didn't I do something like this sooner?
+;;; 2017.06.22 Dan
+;;;             : * Protecting the meta-p-model-count and -model-name-len access.
+;;; 2018.02.05 Dan
+;;;             : * Use the underlying structure accessors instead of evt-.
+;;; 2018.02.07 Dan
+;;;             : * Don't print the dynamically adjusted and waiting for messages.
+;;;             : * Get the model name since the slot now holds the struct.
+;;; 2018.03.16 Dan
+;;;             : * Meta-p-schedule-lock is recursive.
+;;; 2018.05.07 Dan
+;;;             : * Updated with current format-event as the base.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Docs:
+;;; 
+;;; Call format-trace-for-tutorial providing the keyword parameters for the
+;;; number of columns to use for the seconds (time-cols) and columns for the
+;;; module names (module-cols).  
+;;;
+;;; To set things back to normal use restore-normal-trace.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Public API:
+;;;
+;;; Nothing public -- this is internal and use at your own risk stuff.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Design Choices:
+;;; 
+;;; Just smash the fdefinition of format-event instead of trying to redefine the
+;;; methods because that makes it easier to set back.  
+;;;
+;;; No real safety checks in this since it's not for general use.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 
+;;; The code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#+:packaged-actr (in-package :act-r)
+#+(and :clean-actr (not :packaged-actr) :ALLEGRO-IDE) (in-package :cg-user)
+#-(or (not :clean-actr) :packaged-actr :ALLEGRO-IDE) (in-package :cl-user)
+
+
+(defvar *time-cols* 1)
+(defvar *module-cols* 11)
+(defvar *tutorial-trace-on* nil)
+(defvar *saved-format-event* nil)
+
+(defun format-trace-for-tutorial (&key (time-cols 1) (module-cols 11))
+  (setf *time-cols* time-cols)
+  (setf *module-cols* module-cols)
+  (unless *saved-format-event*
+    (setf *saved-format-event* (fdefinition 'format-event)))
+  (setf (fdefinition 'format-event) (fdefinition 'tutorial-format-event)))
+
+(defun restore-normal-trace ()
+  (when *saved-format-event*
+    (setf (fdefinition 'format-event) *saved-format-event*)
+    (setf *saved-format-event* nil)))
+
+(defmethod tutorial-format-event ((event fixnum))
+  (aif (get-event-by-id event)
+       (tutorial-format-event it)
+       nil))
+
+(defmethod tutorial-format-event ((event act-r-event))
+  (let ((*print-pretty* nil)
+        (mp (current-mp)))
+    (let (mcount name-len)
+      (bt:with-lock-held ((meta-p-models-lock mp))
+        (setf mcount (meta-p-model-count mp)
+          name-len (meta-p-model-name-len mp)))
+      
+      (let ((time (bt:with-recursive-lock-held ((meta-p-schedule-lock (current-mp))) (act-r-event-mstime event))))
+        (multiple-value-bind (sec ms) (when (numberp time) (truncate time 1000))
+          (format nil "~:[~*~*~*~;~vd.~3,'0d~] ~:[~*~;~a ~] ~:[~2*~;~va ~] ~va ~:[~*~a~{ ~a~}~;~a~*~*~]"
+            
+            time
+            *time-cols*
+            sec ms
+            nil
+            (act-r-event-mp event)
+            
+            (< 1 mcount)
+            name-len
+            
+            
+            (if (act-r-model-p (act-r-event-model event))
+                (act-r-model-name (act-r-event-model event))
+              (act-r-event-model event))
+            
+            *module-cols*
+            (act-r-event-module event)
+            
+            (act-r-event-details event)
+            (act-r-event-details event)
+            (act-r-event-action event)
+            (when (act-r-event-output event) (act-r-event-params event))))))))
+
+
+(defmethod tutorial-format-event ((event act-r-break-event))
+  (let ((*print-pretty* nil)
+        (mp (current-mp)))
+    (let (mcount name-len)
+      (bt:with-lock-held ((meta-p-models-lock mp))
+        (setf mcount (meta-p-model-count mp)
+          name-len (meta-p-model-name-len mp)))
+      
+      (let ((time (bt:with-recursive-lock-held ((meta-p-schedule-lock (current-mp))) (act-r-event-mstime event))))
+        (multiple-value-bind (sec ms) (when (numberp time) (truncate time 1000))
+          (format nil "~:[~*~*~*~;~vd.~3,'0d~] ~:[~*~;~a ~] ~:[~2*~;~va ~] ~va BREAK-EVENT ~@[~a ~]"
+            
+            time
+            *time-cols*
+            sec ms
+            
+            nil
+            (act-r-event-mp event)
+            (< 1 mcount)
+            name-len
+            (subseq "------" 0 (min 6 name-len))
+            *module-cols*
+            (subseq "------" 0 (min 6 (max-module-name-length)))
+            (act-r-event-details event)))))))
+  
+  
+  
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

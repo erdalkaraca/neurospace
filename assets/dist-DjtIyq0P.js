@@ -1,1 +1,0 @@
-var e={name:`age`,setup:async(e,t)=>({emscriptenOpts:t,bundlePath:new URL(`/neurospace/assets/age.tar-DHXR14R_.gz`,``+import.meta.url)})};export{e as age};

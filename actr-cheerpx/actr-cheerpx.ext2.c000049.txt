@@ -1,142 +1,4 @@
- : * Make sure the marker-lock is held when calling set-current-
-;;;             :   marker because it doesn't grab it directly.
-;;; 2018.09.17 Dan
-;;;             : * Don't need the declaim since it color->name was moved to
-;;;             :   misc-utils.
-;;; 2018.09.18 Dan
-;;;             : * Notify the device when it's installed of the currently attended
-;;;             :   location if there is one.
-;;;             : * Generate a signal of "installing-visual-device" with the device
-;;;             :   for all installs.
-;;; 2018.09.19 Dan [7.3.2]
-;;;             : * Adding a hook function parameter for overriding the default
-;;;             :   encoding time :visual-encoding-hook.
-;;;             :   Only allow one command to be set and warn if changed.
-;;;             :   It will pass four parameters: the currently attended location 
-;;;             :   as an x,y list (if there is one) or nil if there is not,
-;;;             :   the new location as an x,y list, the feature chunk, and the
-;;;             :   scale.  There are 3 return value options:
-;;;             :    - nil
-;;;             :         this means use the normal operations
-;;;             :    - a number 
-;;;             :         this represents a time in seconds after which the encoding-
-;;;             :         complete will be scheduled
-;;;             :    - anything else
-;;;             :         this means do not schedule an encoding-complete and it
-;;;             :         is up to the hook function's mechanisms to do so using
-;;;             :         the schedule-encoding-complete command.
-;;;             : * Added the schedule-encoding-complete command which takes one
-;;;             :   parameter which is a delay time in seconds.  It schedules the
-;;;             :   encoding-complete action to occur after that delay based on
-;;;             :   the features during the last move-attention request.
-;;; 2018.09.20 Dan
-;;;             : * Fixed a bug with the device installation function.
-;;;             : * Added the "visual-clear" signal which gets called if a clear
-;;;             :   request is made.
-;;;             : * Changed the signal to installing-vision-device since that's
-;;;             :   the interface name.
-;;; 2018.09.21 Dan
-;;;             : * Update-attended-loc also needs to check the encoding-hook.
-;;; 2018.09.24 Dan
-;;;             : * Update-attended-loc can't hold the marker-lock when it calls
-;;;             :   the encoding-hook fn since that hook might want to call
-;;;             :   schedule-encoding-complete itself -- which also means that 
-;;;             :   the last-attention-params need to be set before calling the
-;;;             :   hook.
-;;; 2018.10.25 Dan
-;;;             : * Fixed a bug in the warning for approach-width.
-;;; 2018.11.01 Dan [7.3.3]
-;;;             : * Need to return the default width if approach-width fails 
-;;;             :   because a value of nil will likely lead to errors elsewhere.
-;;;             : * To get that, going to monitor the param.
-;;; 2018.12.06 Dan 
-;;;             : * Add a safety check to add-visicon-features to catch if a
-;;;             :   slot spec has a list with more than two values.
-;;; 2018.12.11 Dan
-;;;             : * Work around for a bug in format with ccl 1.12-dev.
-;;; 2019.02.22 Dan [8.0]
-;;;             : * Fix a bug in within-move when items have different z coords.
-;;;             :   Now it just calculates the angle without having to go to
-;;;             :   pixels.  In the 2D space, the previous one assumed a 
-;;;             :   calculation based on the points being equidistant from a
-;;;             :   center "viewing" position, but now the assumption is that
-;;;             :   it's the angle based on the "viewing axis" being through the
-;;;             :   given point along the z axis.  Both are simplifications to 
-;;;             :   avoid having to know head and eye geometry as well as head
-;;;             :   position.
-;;; 2019.03.22 Dan
-;;;             : * Changed add-visicon-features to not use valid-vis-loc-chunk
-;;;             :   since it can do the tests while processing other things and
-;;;             :   save the chunk lookups.
-;;; 2019.04.12 Dan 
-;;;             : * Changed set-default-vis-loc-slots to a macro and made a -fct
-;;;             :   and remote command for it, added some safety checks to attend-
-;;;             :   visual-coordinate, and made chunk-to-visual-position return
-;;;             :   just nil for 'bad' chunks.
-;;; 2019.04.15 Dan
-;;;             : * Depend on splice-into-position-des being destructive and 
-;;;             :   don't setf with the returned value.
-;;; 2019.05.21 Dan
-;;;             : * When checking to unstuff the vis-loc buffer, don't unstuff
-;;;             :   it if the chunk is being tracked.
-;;; 2020.01.10 Dan [8.1]
-;;;             : * Removed the #' and lambdas from the module interface 
-;;;             :   functions since that's not allowed in the general system
-;;;             :   now.
-;;; 2020.03.31 Dan
-;;;             : * Just changed some indenting for readability.
-;;; 2020.06.01 Dan [9.0]
-;;;             : * Moved the chunk-type and chunk definitions to the creation 
-;;;             :   function instead of the reset function.
-;;; 2020.07.06 Dan [9.1]
-;;;             : * Got rid of the find-loc-failure and no-visual-object-found
-;;;             :   dummy functions since can just schedule nil and have the
-;;;             :   details shown in the trace.
-;;; 2020.08.26 Dan
-;;;             : * Removed the path for require-compiled since it's not needed
-;;;             :   and results in warnings in SBCL.
-;;; 2021.03.10 Dan [9.2]
-;;;             : * Added a secondary reset function so that the visual-location
-;;;             :   buffer can be on the do-not-query list automatically.
-;;; 2021.06.08 Dan [10.0]
-;;;             : * Force the visual-location buffer to always copy the chunk
-;;;             :   since the name is used in the screen-pos slot of the object
-;;;             :   chunk.
-;;;             : * Updated update-tracking-mth so that it better handles things
-;;;             :   with respect to the visual buffer not always having a new 
-;;;             :   chunk name -- compare the chunk-visicon-entry of the chunk 
-;;;             :   in the buffer to tracked-obj.
-;;; 2021.09.23 Dan [10.1]
-;;;             : * Added the parameter :force-visual-commands which if set to
-;;;             :   t makes the add/delete/modify-visicon-features and the
-;;;             :   proc-display actions always happen through a command that
-;;;             :   can be monitored.  
-;;; 2021.10.07 Dan
-;;;             : * Since proc-display is passed the vision-module that's a 
-;;;             :   problem for remote monitoring with :force-visual-commands
-;;;             :   because the vision-module can't be comverted to JSON.
-;;;             :   Changed proc-display so it is optionally passed the module
-;;;             :   and don't pass it when using the command.
-;;; 2022.02.01 Dan
-;;;             : * To avoid potential problems with people calling proc-display
-;;;             :   directly just have that function print a warning and use a
-;;;             :   different function name internally but still show the 
-;;;             :   details as proc-display.
-;;; 2022.03.29 Dan
-;;;             : * The encoding-hook slot of the module object not having an
-;;;             :   initial value can be a problem when using EMMA since there's
-;;;             :   a potential ordering issue with parameter initialization.
-;;; 2023.05.08 Dan
-;;;             : * find-current-locs-with-spec was fixed to first check if 
-;;;             :   the current-marker has a chunk-visicon-entry instead of just
-;;;             :   using it's value automatically.  If it doesn't have a value
-;;;             :   then the current-marker chunk itself is used.  
-;;; 2023.05.16 Dan
-;;;             : * Use expt-coerced for the error handling.
-;;; 2024.11.13 Dan [11]
-;;;             : * To solve a problem that comes up sometimes adding a third
-;;;             :   possible attended status -- requested (used because the
-;;;             :   chunk already exists and makes sense).  When the visual
+kes sense).  When the visual
 ;;;             :   move-attention request is made the feature is marked as 
 ;;;             :   requested and then will be marked as t if successful as
 ;;;             :   before (if there's a failure it means the feature left the
@@ -2724,4 +2586,139 @@ Whenever there's a change to the display the buffers will be updated as follows:
                                                                      (setf has-y (numberp (second x)))))
                                                                  (list (first x) (second x))))
                                                        chunk-specs))
- 
+                                           (obj-spec (mapcan (lambda (x) 
+                                                               (unless (find (first x) loc-slots)
+                                                                 (if (and (third x) (= 3 (length x))) 
+                                                                     (list (first x) (third x))
+                                                                   (when (and (= (length x) 2) (second x))
+                                                                     (list (first x) (second x))))))
+                                                       chunk-specs))
+                                           (visicon-spec (mapcan (lambda (x) 
+                                                                   (unless (eq (first x) 'isa)
+                                                                     (list (first x) (or (third x) (second x))))) chunk-specs))
+                                           (loc-chunk (car (define-chunks-fct (list loc-spec))))
+                                           (visicon-chunk (car (define-chunks-fct (list (push (new-name "visicon-id") visicon-spec))))))
+                                      
+                                      
+                                      (if (and loc-chunk visicon-chunk has-x has-y)
+                                          
+                                          (progn
+                                            (setf (chunk-vis-loc-slots loc-chunk) loc-slots)
+                                            (setf (chunk-vis-loc-slots visicon-chunk) loc-slots)
+                                            
+                                            ;; set default distance and size if not provided as numbers
+                                            
+                                            (unless (numberp (fast-chunk-slot-value-fct loc-chunk (third loc-slots)))
+                                              (set-chunk-slot-value-fct loc-chunk (third loc-slots) view-dist))
+                                            (unless (numberp (fast-chunk-slot-value-fct visicon-chunk (third loc-slots)))
+                                              (set-chunk-slot-value-fct visicon-chunk (third loc-slots) view-dist))
+                                            
+                                            (unless (numberp (fast-chunk-slot-value-fct loc-chunk 'size))
+                                              (compute-vis-loc-size loc-chunk vis-mod))
+                                            (unless (numberp (fast-chunk-slot-value-fct visicon-chunk 'size))
+                                              (compute-vis-loc-size visicon-chunk vis-mod))
+                                            
+                                            
+                                            (setf (chunk-visual-loc visicon-chunk) loc-chunk)
+                                            (if (null obj-spec)
+                                                (setf (chunk-visual-obj-spec visicon-chunk) '(isa visual-object))
+                                              (setf (chunk-visual-obj-spec visicon-chunk) obj-spec))
+                                            
+                                            (setf (chunk-visicon-entry loc-chunk) visicon-chunk)
+                                            (setf (chunk-visicon-entry visicon-chunk) visicon-chunk)
+                                                                                        
+                                            (setf (chunk-visual-approach-width-fn loc-chunk) width-fct)
+                                            (setf (chunk-visual-approach-width-fn visicon-chunk) width-fct)
+                                            
+                                            (push-last visicon-chunk results))
+                                        (progn
+                                          (when (chunk-p-fct loc-chunk)
+                                            (delete-chunk-fct loc-chunk))
+                                          (when (chunk-p-fct visicon-chunk)
+                                            (delete-chunk-fct visicon-chunk))
+                                          (invalid-feature f)))))))
+                            (invalid-feature f)))))
+                  ((or error condition) (x)
+                   (push-last nil results)
+                   (model-warning "Visicon feature ~s produced error ~/print-error-message/ and was not created." f x)))
+              (invalid-feature f)))
+          
+          (bt:with-recursive-lock-held ((visicon-lock vis-mod))
+            (dolist (x results)
+              (when x
+                (push-last (cons :add x) (visicon-updates vis-mod)))))
+          
+          (schedule-proc-display vis-mod))))
+    results))
+
+(defun external-add-visicon-features (&rest feats)
+  (apply 'internal-add-visicon-features (cons (get-module :vision) (decode-string-names feats))))
+
+(add-act-r-command "add-visicon-features" 'external-add-visicon-features "Add visual features to the current model's visicon. Params: 'feature-spec'*.")
+
+(defun delete-visicon-features (&rest feats)
+  (let ((vis-mod (get-module :vision)))
+    (when vis-mod
+      (bt:with-recursive-lock-held ((param-lock vis-mod))
+        (if (force-commands vis-mod)
+            (dispatch-apply-list-names "delete-visicon-features" (encode-string-names feats))
+          (apply 'internal-delete-visicon-features (cons vis-mod feats)))))))
+
+(defun internal-delete-visicon-features (mod &rest feats)
+  (let ((results nil))
+    (when mod
+      (flet ((invalid-feature (bad)
+                              (model-warning "Feature ~s is not a valid feature name and cannot be removed." bad)
+                              (push-last nil results)))
+        (handler-case 
+              (bt:with-recursive-lock-held ((visicon-lock mod))
+                
+                (dolist (x feats)
+                  ;; actually determine if it's a valid feature because it
+                  ;; can't delay that if the feature goes away because of 
+                  ;; the window closing on reset -- can't guarantee the order
+                  ;; of reset and the chunks are already gone by that point
+                  ;; so it would always fail with the simple chunk-p test...
+                  
+                  (cond ((or (find x (visicon mod))
+                             (find-if (lambda (y) (and (eq (car y) :add) (eq (cdr y) x))) (visicon-updates mod)))
+                         (push-last x results))
+                        
+                        ;; why did I allow this? (and (chunk-p-fct x) (chunk-visicon-entry x) (find (chunk-visicon-entry x) (visicon mod)))
+                        ;; and should it come back?
+                        
+                        (t (invalid-feature x))))
+                
+                (dolist (x results)
+                  (when x
+                    (push-last (cons :delete x) (visicon-updates mod))))
+              
+              (schedule-proc-display mod))
+          
+          ((or error condition) (x)
+           (model-warning "Cannot delete visicon features because trying to build feature names from ~s produced error ~/print-error-message/." feats x)))))
+    results))
+
+(defun external-delete-visicon-features (&rest feats)
+  (apply 'internal-delete-visicon-features (cons (get-module :vision) (string->name-recursive feats))))
+
+(add-act-r-command "delete-visicon-features" 'external-delete-visicon-features "Remove visual features from the current model's visicon. Params: feature-name*.")
+
+
+(defun delete-all-visicon-features ()
+  (let ((mod (get-module :vision)))
+    (when mod
+      (bt:with-recursive-lock-held ((param-lock mod))
+        (if (force-commands mod)
+            (dispatch-apply "delete-all-visicon-features")
+          (internal-delete-all-visicon-features mod))))))
+      
+(defun internal-delete-all-visicon-features (mod)
+  (when mod
+    (bt:with-recursive-lock-held ((visicon-lock mod))
+      (push-last (cons :delete-all nil) (visicon-updates mod)))
+    (schedule-proc-display mod)
+    t))
+
+(defun external-delete-all-visicon-features ()
+  (internal

@@ -1,0 +1,1 @@
+export{a as FileSysDirHandleResource}from"./fs-access-CQjv2ahQ-DRM5ceXp.js";

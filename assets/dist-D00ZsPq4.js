@@ -1,1 +1,0 @@
-var e={name:`pg_hashids`,setup:async(e,t)=>({emscriptenOpts:t,bundlePath:new URL(`/neurospace/assets/pg_hashids.tar-BVVcQiqb.gz`,``+import.meta.url)})};export{e as pg_hashids};

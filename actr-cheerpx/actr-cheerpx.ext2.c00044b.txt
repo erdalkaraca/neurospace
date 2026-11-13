@@ -1,143 +1,4 @@
-namestr@GLIBC_2.1 2.1
- xdr_netobj@GLIBC_2.0 2.0
- xdr_opaque@GLIBC_2.0 2.0
- xdr_opaque_auth@GLIBC_2.0 2.0
- xdr_pmap@GLIBC_2.0 2.0
- xdr_pmaplist@GLIBC_2.0 2.0
- xdr_pointer@GLIBC_2.0 2.0
- xdr_quad_t@GLIBC_2.3.4 2.3.4
- xdr_reference@GLIBC_2.0 2.0
- xdr_rejected_reply@GLIBC_2.0 2.0
- xdr_replymsg@GLIBC_2.0 2.0
- xdr_rmtcall_args@GLIBC_2.0 2.0
- xdr_rmtcallres@GLIBC_2.0 2.0
- xdr_short@GLIBC_2.0 2.0
- xdr_sizeof@GLIBC_2.1 2.1
- xdr_string@GLIBC_2.0 2.0
- xdr_u_char@GLIBC_2.0 2.0
- xdr_u_hyper@GLIBC_2.1.1 2.1.1
- xdr_u_int@GLIBC_2.0 2.0
- xdr_u_long@GLIBC_2.0 2.0
- xdr_u_longlong_t@GLIBC_2.1.1 2.1.1
- xdr_u_quad_t@GLIBC_2.3.4 2.3.4
- xdr_u_short@GLIBC_2.0 2.0
- xdr_uint16_t@GLIBC_2.1 2.1
- xdr_uint32_t@GLIBC_2.1 2.1
- xdr_uint64_t@GLIBC_2.1.1 2.1.1
- xdr_uint8_t@GLIBC_2.1 2.1
- xdr_union@GLIBC_2.0 2.0
- xdr_unixcred@GLIBC_2.1 2.1
- xdr_vector@GLIBC_2.0 2.0
- xdr_void@GLIBC_2.0 2.0
- xdr_wrapstring@GLIBC_2.0 2.0
- xdrmem_create@GLIBC_2.0 2.0
- xdrrec_create@GLIBC_2.0 2.0
- xdrrec_endofrecord@GLIBC_2.0 2.0
- xdrrec_eof@GLIBC_2.0 2.0
- xdrrec_skiprecord@GLIBC_2.0 2.0
- xdrstdio_create@GLIBC_2.0 2.0
- xencrypt@GLIBC_2.0 2.0
- xprt_register@GLIBC_2.0 2.0
- xprt_unregister@GLIBC_2.0 2.0
-libc_malloc_debug.so.0 libc6 #MINVER#
-| libc6 (>> 2.36), libc6 (<< 2.37)
- GLIBC_2.0@GLIBC_2.0 2.0
- GLIBC_2.10@GLIBC_2.10 2.10
- GLIBC_2.16@GLIBC_2.16 2.16
- GLIBC_2.2@GLIBC_2.2 2.2
- GLIBC_2.33@GLIBC_2.33 2.33
- __free_hook@GLIBC_2.0 2.0
- __malloc_hook@GLIBC_2.0 2.0
- __memalign_hook@GLIBC_2.0 2.0
- __realloc_hook@GLIBC_2.0 2.0
- aligned_alloc@GLIBC_2.16 2.16
- calloc@GLIBC_2.0 2.0
- free@GLIBC_2.0 2.0
- mallinfo2@GLIBC_2.33 2.33
- mallinfo@GLIBC_2.0 2.0
- malloc@GLIBC_2.0 2.0
- malloc_get_state@GLIBC_2.0 2.0
- malloc_info@GLIBC_2.10 2.10
- malloc_set_state@GLIBC_2.0 2.0
- malloc_stats@GLIBC_2.0 2.0
- malloc_trim@GLIBC_2.0 2.0
- malloc_usable_size@GLIBC_2.0 2.0
- mallopt@GLIBC_2.0 2.0
- mcheck@GLIBC_2.0 2.0
- mcheck_check_all@GLIBC_2.2 2.2
- mcheck_pedantic@GLIBC_2.2 2.2
- memalign@GLIBC_2.0 2.0
- mprobe@GLIBC_2.0 2.0
- mtrace@GLIBC_2.0 2.0
- muntrace@GLIBC_2.0 2.0
- posix_memalign@GLIBC_2.2 2.2
- pvalloc@GLIBC_2.0 2.0
- realloc@GLIBC_2.0 2.0
- valloc@GLIBC_2.0 2.0
-libdl.so.2 libc6 #MINVER#
-| libc6 (>> 2.36), libc6 (<< 2.37)
- GLIBC_2.0@GLIBC_2.0 2.0
- GLIBC_2.1@GLIBC_2.1 2.1
- GLIBC_2.3.3@GLIBC_2.3.3 2.3.3
- GLIBC_2.3.4@GLIBC_2.3.4 2.3.4
- __libdl_version_placeholder@GLIBC_2.0 2.0
- __libdl_version_placeholder@GLIBC_2.1 2.1
- __libdl_version_placeholder@GLIBC_2.3.3 2.3.3
- __libdl_version_placeholder@GLIBC_2.3.4 2.3.4
-libm.so.6 libc6 #MINVER#
-| libc6 (>> 2.36), libc6 (<< 2.37)
- GLIBC_2.0@GLIBC_2.0 2.0
- GLIBC_2.15@GLIBC_2.15 2.15
- GLIBC_2.18@GLIBC_2.18 2.18
- GLIBC_2.1@GLIBC_2.1 2.1
- GLIBC_2.23@GLIBC_2.23 2.23
- GLIBC_2.24@GLIBC_2.24 2.24
- GLIBC_2.25@GLIBC_2.25 2.25
- GLIBC_2.26@GLIBC_2.26 2.26
- GLIBC_2.27@GLIBC_2.27 2.27
- GLIBC_2.28@GLIBC_2.28 2.28
- GLIBC_2.29@GLIBC_2.29 2.29
- GLIBC_2.2@GLIBC_2.2 2.2
- GLIBC_2.31@GLIBC_2.31 2.31
- GLIBC_2.32@GLIBC_2.32 2.32
- GLIBC_2.35@GLIBC_2.35 2.35
- GLIBC_2.4@GLIBC_2.4 2.4
- _LIB_VERSION@GLIBC_2.0 2.0
- __acos_finite@GLIBC_2.15 2.15
- __acosf128_finite@GLIBC_2.26 2.26
- __acosf_finite@GLIBC_2.15 2.15
- __acosh_finite@GLIBC_2.15 2.15
- __acoshf128_finite@GLIBC_2.26 2.26
- __acoshf_finite@GLIBC_2.15 2.15
- __acoshl_finite@GLIBC_2.15 2.15
- __acosl_finite@GLIBC_2.15 2.15
- __asin_finite@GLIBC_2.15 2.15
- __asinf128_finite@GLIBC_2.26 2.26
- __asinf_finite@GLIBC_2.15 2.15
- __asinl_finite@GLIBC_2.15 2.15
- __atan2_finite@GLIBC_2.15 2.15
- __atan2f128_finite@GLIBC_2.26 2.26
- __atan2f_finite@GLIBC_2.15 2.15
- __atan2l_finite@GLIBC_2.15 2.15
- __atanh_finite@GLIBC_2.15 2.15
- __atanhf128_finite@GLIBC_2.26 2.26
- __atanhf_finite@GLIBC_2.15 2.15
- __atanhl_finite@GLIBC_2.15 2.15
- __clog10@GLIBC_2.1 2.1
- __clog10f@GLIBC_2.1 2.1
- __clog10l@GLIBC_2.1 2.1
- __cosh_finite@GLIBC_2.15 2.15
- __coshf128_finite@GLIBC_2.26 2.26
- __coshf_finite@GLIBC_2.15 2.15
- __coshl_finite@GLIBC_2.15 2.15
- __exp10_finite@GLIBC_2.15 2.15
- __exp10f128_finite@GLIBC_2.26 2.26
- __exp10f_finite@GLIBC_2.15 2.15
- __exp10l_finite@GLIBC_2.15 2.15
- __exp2_finite@GLIBC_2.15 2.15
- __exp2f128_finite@GLIBC_2.26 2.26
- __exp2f_finite@GLIBC_2.15 2.15
- __exp2l_finite@GLIBC_2.15 2.15
+inite@GLIBC_2.15 2.15
  __exp_finite@GLIBC_2.15 2.15
  __expf128_finite@GLIBC_2.26 2.26
  __expf_finite@GLIBC_2.15 2.15
@@ -2096,7 +1957,7 @@ Description-nl.UTF-8: Herstarten van sommige diensten bij de opwaardering van GN
  .
  U dient deze diensten handmatig te herstarten via het commando 'invoke-rc.d <dienst> start'.
 Description-no.UTF-8: Noen tjenester kunne ikke restartes for GNU libc-oppgradering
- Følgende tjenestey�  z�  {�  |�  }�  ~�  �  ��  ��  ��  ��                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      r kunne ikke restartes for oppgradering av GNU libc-biblioteket:
+ Følgende tjenestex�  y�  z�  {�  |�  }�  ~�  �  ��  ��  ��                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      r kunne ikke restartes for oppgradering av GNU libc-biblioteket:
  .
  ${services}
  .
@@ -2266,4 +2127,16 @@ Description-nb.UTF-8: Skal tjenester restartes uten spørsmål under pakkeoppgra
 Description-nl.UTF-8: Diensten zonder vragen herstarten bij het opwaarderen van pakketten?
  Er zijn diensten op uw systeem geïnstalleerd die moeten worden herstart wanneer bepaalde bibliotheken, zoals libpam, libc en libssl, worden opgewaardeerd. Omdat deze herstarts dienstonderbrekingen op uw systeem kunnen veroorzaken, wordt u normaal gesproken bij elke opwaardering gevraagd welke diensten u wilt herstarten. Als u voor deze optie kiest wordt dit niet meer aan u gevraagd. In plaats daarvan worden alle noodzakelijke herstarts automatisch gedaan zodat u geen vragen krijgt bij elke opwaardering van een bibliotheek.
 Description-no.UTF-8: Skal tjenester restartes uten spørsmål under pakkeoppgraderinger?
- På systemet ditt finnes det tjenester som må startes på nytt når vi
+ På systemet ditt finnes det tjenester som må startes på nytt når visse biblioteker, slik som libpam, libc og libssl, oppgraderes. Slike omstarter kan avbryte tjenester på systemet, og normalt blir du spurt ved hver oppgradering om hvilke tjenester du vil starte på nytt. Du kan slå på dette valget for å slippe å bli spurt, da blir i stedet alle nødvendige omstarter gjort automatisk slik at du ikke får spørsmål ved hver biblioteksoppgradering.
+Description-pl.UTF-8: Zrestartować usługi podczas aktualizacji pakietu bez pytania?
+ Niektóre z zainstalowanych usług wymagają restartu, gdy są aktualizowane określone biblioteki (np. libpam, libc i libss1). Ponieważ restarty mogą spowodować przerwanie tych usług, użytkownik jest zwykle pytany podczas każdej aktualizacji o listę usług, które chce zrestartować. Można wybrać tę opcję, aby zapobiec takim pytaniom; wtedy wszystkie potrzebne restarty odbędą się automatycznie, a użytkownik uniknie pytania przy każdej aktualizacji biblioteki.
+Description-pt.UTF-8: Reiniciar serviços sem perguntar durante a actualização do pacote?
+ Há serviços instalados no seu sistema que necessitam de ser reiniciados quando são actualizadas certas bibliotecas, como libpam, libc e libssl. Uma vez que estes reinícios podem causar interrupção de serviços no sistema, é-lhe normalmente perguntado em cada actualização que serviços deseja reiniciar. Pode escolher esta opção para que os reinícios necessários sejam automaticamente tratados pelo processo de actualização em vez de lhe serem colocadas questões.
+Description-pt_BR.UTF-8: Reiniciar serviços durante a atualização de pacotes sem perguntar?
+ Existem serviços instalados no seu sistema que precisam ser reiniciados quando determinadas bibliotecas, tais como libpam, libc e libssl são atualizadas. Uma vez que essas reinicializações podem causar interrupções de serviços para o sistema, normalmente você terá que responder a cada atualização qual será a lista de serviços que quiser reiniciar. Você pode escolher esta opção para evitar novas solicitações; ao invés disso, todas as reinicializações necessárias serão realizadas automaticamente, para evitar que você responda a cada atualização de biblioteca.
+Description-ro.UTF-8: Doriți ca serviciile să fie repornite în timpul înnoirii pachetului fără să fiți întrebați?
+ Există servicii instalate pe sistemul dumneavoastră care trebuie repornite atunci când anumite biblioteci, cum ar fi „libpam”, „libc” și „libss”l, sunt actualizate. Deoarece aceste reporniri pot cauza întreruperi ale serviciilor pentru sistem, vi se va solicita în mod normal, la fiecare actualizare, lista de servicii pe care doriți să le reporniți. Puteți alege această opțiune pentru a evita să vi se solicite acordul pentru acest lucru; în schimb, toate repornirile necesare vor fi efectuate automat pentru dvs., astfel încât să puteți evita să vi se pună întrebări la fiecare actualizare a bibliotecii.
+Description-ru.UTF-8: Перезапускать службы при обновлении пакета без подтверждения?
+ В системе установлены службы, которые требуют перезапуска после обновления определённых библиотек (например, libpam, libc и libssl). Так как это может вызвать перерыв в работе службы, то обычно при каждом обновлении запрашивается подтверждение списка служб, которые нужно перезапустить. Чтобы этот вопрос не задавался, вы можете ответить утвердительно; в этом случае все необходимые службы будут перезапущены автоматически.
+Description-sk.UTF-8: Reštartovať služby počas aktualizácie balíka bez pýtania sa?
+ Na vašom systéme sú nainštalované služby, ktoré je potrebné reštartovať pri aktualizácii určitých knižn�

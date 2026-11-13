@@ -1,95 +1,4 @@
-are/zoneinfo/right/America/Blanc-Sablon
-/usr/share/zoneinfo/right/America/Boa_Vista
-/usr/share/zoneinfo/right/America/Bogota
-/usr/share/zoneinfo/right/America/Boise
-/usr/share/zoneinfo/right/America/Cambridge_Bay
-/usr/share/zoneinfo/right/America/Campo_Grande
-/usr/share/zoneinfo/right/America/Cancun
-/usr/share/zoneinfo/right/America/Caracas
-/usr/share/zoneinfo/right/America/Cayenne
-/usr/share/zoneinfo/right/America/Cayman
-/usr/share/zoneinfo/right/America/Chicago
-/usr/share/zoneinfo/right/America/Chihuahua
-/usr/share/zoneinfo/right/America/Ciudad_Juarez
-/usr/share/zoneinfo/right/America/Costa_Rica
-/usr/share/zoneinfo/right/America/Coyhaique
-/usr/share/zoneinfo/right/America/Creston
-/usr/share/zoneinfo/right/America/Cuiaba
-/usr/share/zoneinfo/right/America/Curacao
-/usr/share/zoneinfo/right/America/Danmarkshavn
-/usr/share/zoneinfo/right/America/Dawson
-/usr/share/zoneinfo/right/America/Dawson_Creek
-/usr/share/zoneinfo/right/America/Denver
-/usr/share/zoneinfo/right/America/Detroit
-/usr/share/zoneinfo/right/America/Dominica
-/usr/share/zoneinfo/right/America/Edmonton
-/usr/share/zoneinfo/right/America/Eirunepe
-/usr/share/zoneinfo/right/America/El_Salvador
-/usr/share/zoneinfo/right/America/Fort_Nelson
-/usr/share/zoneinfo/right/America/Fortaleza
-/usr/share/zoneinfo/right/America/Glace_Bay
-/usr/share/zoneinfo/right/America/Goose_Bay
-/usr/share/zoneinfo/right/America/Grand_Turk
-/usr/share/zoneinfo/right/America/Grenada
-/usr/share/zoneinfo/right/America/Guadeloupe
-/usr/share/zoneinfo/right/America/Guatemala
-/usr/share/zoneinfo/right/America/Guayaquil
-/usr/share/zoneinfo/right/America/Guyana
-/usr/share/zoneinfo/right/America/Halifax
-/usr/share/zoneinfo/right/America/Havana
-/usr/share/zoneinfo/right/America/Hermosillo
-/usr/share/zoneinfo/right/America/Indiana
-/usr/share/zoneinfo/right/America/Indiana/Indianapolis
-/usr/share/zoneinfo/right/America/Indiana/Knox
-/usr/share/zoneinfo/right/America/Indiana/Marengo
-/usr/share/zoneinfo/right/America/Indiana/Petersburg
-/usr/share/zoneinfo/right/America/Indiana/Tell_City
-/usr/share/zoneinfo/right/America/Indiana/Vevay
-/usr/share/zoneinfo/right/America/Indiana/Vincennes
-/usr/share/zoneinfo/right/America/Indiana/Winamac
-/usr/share/zoneinfo/right/America/Inuvik
-/usr/share/zoneinfo/right/America/Iqaluit
-/usr/share/zoneinfo/right/America/Jamaica
-/usr/share/zoneinfo/right/America/Juneau
-/usr/share/zoneinfo/right/America/Kentucky
-/usr/share/zoneinfo/right/America/Kentucky/Louisville
-/usr/share/zoneinfo/right/America/Kentucky/Monticello
-/usr/share/zoneinfo/right/America/La_Paz
-/usr/share/zoneinfo/right/America/Lima
-/usr/share/zoneinfo/right/America/Los_Angeles
-/usr/share/zoneinfo/right/America/Maceio
-/usr/share/zoneinfo/right/America/Managua
-/usr/share/zoneinfo/right/America/Manaus
-/usr/share/zoneinfo/right/America/Martinique
-/usr/share/zoneinfo/right/America/Matamoros
-/usr/share/zoneinfo/right/America/Mazatlan
-/usr/share/zoneinfo/right/America/Menominee
-/usr/share/zoneinfo/right/America/Merida
-/usr/share/zoneinfo/right/America/Metlakatla
-/usr/share/zoneinfo/right/America/Mexico_City
-/usr/share/zoneinfo/right/America/Miquelon
-/usr/share/zoneinfo/right/America/Moncton
-/usr/share/zoneinfo/right/America/Monterrey
-/usr/share/zoneinfo/right/America/Montevideo
-/usr/share/zoneinfo/right/America/Montserrat
-/usr/share/zoneinfo/right/America/Nassau
-/usr/share/zoneinfo/right/America/New_York
-/usr/share/zoneinfo/right/America/Nome
-/usr/share/zoneinfo/right/America/Noronha
-/usr/share/zoneinfo/right/America/North_Dakota
-/usr/share/zoneinfo/right/America/North_Dakota/Beulah
-/usr/share/zoneinfo/right/America/North_Dakota/Center
-/usr/share/zoneinfo/right/America/North_Dakota/New_Salem
-/usr/share/zoneinfo/right/America/Nuuk
-/usr/share/zoneinfo/right/America/Ojinaga
-/usr/share/zoneinfo/right/America/Panama
-/usr/share/zoneinfo/right/America/Paramaribo
-/usr/share/zoneinfo/right/America/Phoenix
-/usr/share/zoneinfo/right/America/Port-au-Prince
-/usr/share/zoneinfo/right/America/Port_of_Spain
-/usr/share/zoneinfo/right/America/Porto_Velho
-/usr/share/zoneinfo/right/America/Puerto_Rico
-/usr/share/zoneinfo/right/America/Punta_Arenas
+as
 /usr/share/zoneinfo/right/America/Rankin_Inlet
 /usr/share/zoneinfo/right/America/Recife
 /usr/share/zoneinfo/right/America/Regina
@@ -740,7 +649,7 @@ are/zoneinfo/right/America/Blanc-Sablon
 /usr/share/zoneinfo/right/US/Alaska
 /usr/share/zoneinfo/right/US/Aleutian
 /usr/share/zoneinfo/right/US/Arizona
-/usr/share/zoneinfo/right/US/Centraȋ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              l
+/usr/share/zoneinfo/right/US/Centraǋ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              l
 /usr/share/zoneinfo/right/US/East-Indiana
 /usr/share/zoneinfo/right/US/Eastern
 /usr/share/zoneinfo/right/US/Hawaii
@@ -754,8 +663,8 @@ are/zoneinfo/right/America/Blanc-Sablon
 /usr/share/zoneinfo/right/W-SU
 /usr/share/zoneinfo/right/Zulu
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            5461b4c9623a1657baf85fbc0c8576b6  usr/share/doc/tzdata/README.Debian
-63e8729c728b36ab67ae85355907ce03  usr/share/doc/tzdata/changelog.Debian.gz
-fafbc7abd108918e85189b352b29e0e7  usr/share/doc/tzdata/changelog.gz
+36a5e684895546a5f1f044901c5a8241  usr/share/doc/tzdata/changelog.Debian.gz
+05731029f218e92c8a95f4d14a7a64d8  usr/share/doc/tzdata/changelog.gz
 0c5496d68e312e8790956c352a9b181d  usr/share/doc/tzdata/copyright
 6b814b499e09a37e401d780a42f76a1e  usr/share/lintian/overrides/tzdata
 09a9397080948b96d97819d636775e33  usr/share/zoneinfo/Africa/Abidjan
@@ -810,11 +719,11 @@ c0aa37fd04a681b13e15536093234349  usr/share/zoneinfo/Africa/Sao_Tome
 0d0c2c0dc7945596f1b265c4f2b0e1e9  usr/share/zoneinfo/Africa/Tripoli
 77fb3690c96c1b75c3ea7b0f1f41e660  usr/share/zoneinfo/Africa/Tunis
 2d8f5df5c870229e2599cada6edfbda6  usr/share/zoneinfo/Africa/Windhoek
-f43102c06ca5450a97e9467f49bed36a  usr/share/zoneinfo/America/Adak
-c7bcde7e4632f9d1222a586049cabde6  usr/share/zoneinfo/America/Anchorage
+a1d80d9aea87a4f6a434c07e45c95858  usr/share/zoneinfo/America/Adak
+eaf8c4fc48428593d9c94cc6fae51251  usr/share/zoneinfo/America/Anchorage
 6c7bad7442fad2d731bd85848fb9a042  usr/share/zoneinfo/America/Anguilla
 d38daf7e799c6fe4d5e3402dacda9318  usr/share/zoneinfo/America/Antigua
-35ada100bdb86ae3bec784d431e63d74  usr/share/zoneinfo/America/Araguaina
+cdf5814185de2028e3e9734032bca26e  usr/share/zoneinfo/America/Araguaina
 ce005d374e17d360c39018cb56f3ceb5  usr/share/zoneinfo/America/Argentina/Buenos_Aires
 1342337c1ba29a36342c5f9f8df09898  usr/share/zoneinfo/America/Argentina/Catamarca
 6b5ab25d6c67149b565e4b62ea6d07bd  usr/share/zoneinfo/America/Argentina/Cordoba
@@ -830,17 +739,17 @@ a1ff7da02f10e3177827142286e8494e  usr/share/zoneinfo/America/Argentina/San_Luis
 b6ce1a4dd7b9987b17aaac725dc13af0  usr/share/zoneinfo/America/Aruba
 3dcdb557bf7733a5d7b4b8677e13bd1c  usr/share/zoneinfo/America/Asuncion
 775c926f99a096a3fbd1cd2545f15aa1  usr/share/zoneinfo/America/Atikokan
-1d5e3caf6ba24d2a9d998f9814a93d0b  usr/share/zoneinfo/America/Bahia
+b0c7ab67507db2f2d4787c53f0a441bc  usr/share/zoneinfo/America/Bahia
 98a2d41f2ee64e984073436951d7212d  usr/share/zoneinfo/America/Bahia_Banderas
 9c53b67f9c78d0d91fa5af29cfac7ee7  usr/share/zoneinfo/America/Barbados
-774abd8a790aeace1449d5723bb17495  usr/share/zoneinfo/America/Belem
+8c86aa77baf26d57a34ccaa7c671ce21  usr/share/zoneinfo/America/Belem
 da3145d79cba5f541dd261434e449173  usr/share/zoneinfo/America/Belize
 b66a708e81e188b174ca70eff9191c6e  usr/share/zoneinfo/America/Blanc-Sablon
-7996f235980d6bf1da7942dcb4324bc8  usr/share/zoneinfo/America/Boa_Vista
-28d53484ca7433de64d18c2cb5e42f29  usr/share/zoneinfo/America/Bogota
+834074f23b51d6953947c9e3cbf284f7  usr/share/zoneinfo/America/Boa_Vista
+e0492d1308f0d1c7660ded9d64646804  usr/share/zoneinfo/America/Bogota
 e91fdeda881f4d764a1c3231f4a747f9  usr/share/zoneinfo/America/Boise
 0213ccf19071fff3e4a582f1f0579636  usr/share/zoneinfo/America/Cambridge_Bay
-bc3e68837a45bc203903e6ecbd6aa6d7  usr/share/zoneinfo/America/Campo_Grande
+eed56988a0b71f8765bad668edc1513e  usr/share/zoneinfo/America/Campo_Grande
 7cae7505909bc956545c5d874da5f9f6  usr/share/zoneinfo/America/Cancun
 109d42f2ad3a43bfd4bde02cf0f42ef1  usr/share/zoneinfo/America/Caracas
 e2150e8f3a83cd9ef8a8b34b86a72a60  usr/share/zoneinfo/America/Cayenne
@@ -851,7 +760,7 @@ c114b78be399ca38b345bf5639f65b2a  usr/share/zoneinfo/America/Cayman
 90d69999868cae5a97ee84c988cf0b25  usr/share/zoneinfo/America/Costa_Rica
 7475d976c86ea075c72ea6a1357329d0  usr/share/zoneinfo/America/Coyhaique
 b63608c03f49d6057810acc5327ee240  usr/share/zoneinfo/America/Creston
-0d0741be12a018d43ed21a4b8f5d4a5b  usr/share/zoneinfo/America/Cuiaba
+a8b48bc30f67610fb1cc2a0a43e1b321  usr/share/zoneinfo/America/Cuiaba
 f7d96ffa48d76834052df27b661da008  usr/share/zoneinfo/America/Curacao
 20e68f0a941140b269efb3af346b1e34  usr/share/zoneinfo/America/Danmarkshavn
 923fa67f9f86dc799e702cfdbf1346bc  usr/share/zoneinfo/America/Dawson
@@ -860,10 +769,10 @@ f7d96ffa48d76834052df27b661da008  usr/share/zoneinfo/America/Curacao
 ae3ba6ed8738ceda9eef109c6c586736  usr/share/zoneinfo/America/Detroit
 da49514eb25de7f47472df1556f36f4b  usr/share/zoneinfo/America/Dominica
 b0311bb54fcd5e8896aca19e0bc5e744  usr/share/zoneinfo/America/Edmonton
-baac6d290becc63340483cfe80b846b5  usr/share/zoneinfo/America/Eirunepe
+13164fde1ed45c9dad1559f44c4b340f  usr/share/zoneinfo/America/Eirunepe
 55ae3521b8c6772551c7813ba81ffe97  usr/share/zoneinfo/America/El_Salvador
 a362c873b82d51c862b5065e5e164cd2  usr/share/zoneinfo/America/Fort_Nelson
-e30ee9e9c77ea9f80c60c29a246af052  usr/share/zoneinfo/America/Fortaleza
+cabea4c9de823d5049a84e6ddbe252e4  usr/share/zoneinfo/America/Fortaleza
 6ba1b7da532cefb6e32d083377b71303  usr/share/zoneinfo/America/Glace_Bay
 150f52dc50b25598b8f0963817a89e40  usr/share/zoneinfo/America/Goose_Bay
 7bd1c6104c23d9d9b2c3a7c50af4629b  usr/share/zoneinfo/America/Grand_Turk
@@ -873,7 +782,7 @@ e30ee9e9c77ea9f80c60c29a246af052  usr/share/zoneinfo/America/Fortaleza
 bb6497477ba745eed053850a426d756c  usr/share/zoneinfo/America/Guayaquil
 0f81fec39455737cbee554a7a0153b13  usr/share/zoneinfo/America/Guyana
 820f35f23d49a527ffe813e2d96c5da7  usr/share/zoneinfo/America/Halifax
-0f73e648aacfef75f13d8cf1b5cf12c5  usr/share/zoneinfo/America/Havana
+820e867ae68967f179c111daaa043814  usr/share/zoneinfo/America/Havana
 403777624fa98d990aad42a3a1d84f75  usr/share/zoneinfo/America/Hermosillo
 8ab9f9cfbb576566eabf9ef0c2835169  usr/share/zoneinfo/America/Indiana/Indianapolis
 6222edd349522509c7fb2b88c572b8d6  usr/share/zoneinfo/America/Indiana/Knox
@@ -883,24 +792,24 @@ ab0961e9e5b72ef85fa2722862af812a  usr/share/zoneinfo/America/Indiana/Petersburg
 cea6d116c6f308cdcf702436f3b2ac7e  usr/share/zoneinfo/America/Indiana/Vevay
 439190a03abcf789fd7964b6c7da5e55  usr/share/zoneinfo/America/Indiana/Vincennes
 1192580d27679922f8bcba36cd6d00d6  usr/share/zoneinfo/America/Indiana/Winamac
-5c34481b03b1bd1676035056833469ba  usr/share/zoneinfo/America/Inuvik
+5f4fbde5a4265e590f4f6241dd80b945  usr/share/zoneinfo/America/Inuvik
 5b7f499a0f00619c7ed9fdec7cf6012b  usr/share/zoneinfo/America/Iqaluit
 0041a22a05bf3b4a02e08a42a3bcf2cc  usr/share/zoneinfo/America/Jamaica
-2223d94ebc41480cd9cd71ab5122b883  usr/share/zoneinfo/America/Juneau
+85785aa59e8dca76ded678d97e5c2fd6  usr/share/zoneinfo/America/Juneau
 6e3f157f5f9ad164fe30711a98486c99  usr/share/zoneinfo/America/Kentucky/Louisville
 6d0a9c6e55341d4b468587cc1cfc4eba  usr/share/zoneinfo/America/Kentucky/Monticello
 ec740b53e4ef21d026b007f4bf52d692  usr/share/zoneinfo/America/La_Paz
 2ccd7cfa6d7cfd29999605032ebffdc6  usr/share/zoneinfo/America/Lima
 e60272a32baf6b5a8bcea5a11ca96535  usr/share/zoneinfo/America/Los_Angeles
-50fca6e2d3bd175e9fc9b580c5d44b5f  usr/share/zoneinfo/America/Maceio
+19e5807fddc9e1457fe976bb379e4da3  usr/share/zoneinfo/America/Maceio
 8c1cc5c69604e55e026a736f7ec00e57  usr/share/zoneinfo/America/Managua
-fa368bd59632d430a8e0d2df5540eda7  usr/share/zoneinfo/America/Manaus
+6779d12d6475abbaa83b6c6ae0cfabec  usr/share/zoneinfo/America/Manaus
 6ec1537859e4ab14c375f749d6f25b95  usr/share/zoneinfo/America/Martinique
 9388bcfe9355b71baa0af83be2a0f1a9  usr/share/zoneinfo/America/Matamoros
 d683a56e4dcd8b4540ffbb5f6468f855  usr/share/zoneinfo/America/Mazatlan
 c05fe82bf18256cc290872b05ffa14a5  usr/share/zoneinfo/America/Menominee
 0e280457c04039528dec875d0bf53404  usr/share/zoneinfo/America/Merida
-db9809944c8d6bc1ea1ea35d30a0b8c3  usr/share/zoneinfo/America/Metlakatla
+f660a44d81da8940eb8343c482b30f79  usr/share/zoneinfo/America/Metlakatla
 030aaab74b16f103f30dea4b6c7b8a70  usr/share/zoneinfo/America/Mexico_City
 275b5568a206a04280e715f3e7a11aac  usr/share/zoneinfo/America/Miquelon
 13241e88bc91163e9905b1e032f46c92  usr/share/zoneinfo/America/Moncton
@@ -909,8 +818,8 @@ aba142d6d05f7885a5809fc2bc700673  usr/share/zoneinfo/America/Monterrey
 6b9d1e78c07fd9ae78e0140e2aea7a9b  usr/share/zoneinfo/America/Montserrat
 1444a5132c9a26f350ebe705760215c7  usr/share/zoneinfo/America/Nassau
 1ef5d280a7e0c1d820d05205b042cce0  usr/share/zoneinfo/America/New_York
-c6d0b263c897ac1f4a27cad4f46d72b5  usr/share/zoneinfo/America/Nome
-cd7da9cfb80f725d3128ce0d0b6d83a8  usr/share/zoneinfo/America/Noronha
+be9cdafb06547234036878e76ad20420  usr/share/zoneinfo/America/Nome
+c4d16c3b8adf70eb2d70e3a7c603ad7d  usr/share/zoneinfo/America/Noronha
 d3d69a454dab40135223248f2abf4213  usr/share/zoneinfo/America/North_Dakota/Beulah
 4c9375fe24d0f13b2754d686e3dbf601  usr/share/zoneinfo/America/North_Dakota/Center
 aaadc03aa54a2e43222f6040587ae165  usr/share/zoneinfo/America/North_Dakota/New_Salem
@@ -921,20 +830,20 @@ e3053ce2fa36455e88168a36121c7c8b  usr/share/zoneinfo/America/Paramaribo
 1df060a4c94a0ebf762fcb59b7d80f36  usr/share/zoneinfo/America/Phoenix
 bef49be0677b9836edf529fa8aff6418  usr/share/zoneinfo/America/Port-au-Prince
 ea7e528e528955259af3e65d86ba8e49  usr/share/zoneinfo/America/Port_of_Spain
-bb8c292f2a6e8294d7f3bcb97cded14e  usr/share/zoneinfo/America/Porto_Velho
+c014871d3e840f7605e2133e4e4e0552  usr/share/zoneinfo/America/Porto_Velho
 adf95d436701b9774205f9315ec6e4a4  usr/share/zoneinfo/America/Puerto_Rico
 e9d30004e7af0a429178282f82cb32e1  usr/share/zoneinfo/America/Punta_Arenas
 e3d7506d726d99ec96ee4a2dfd5e462a  usr/share/zoneinfo/America/Rankin_Inlet
-58b15d0eeb6512eeacbc84a62378b050  usr/share/zoneinfo/America/Recife
+f86fe0cd9e0f01093b057c4e4bcc12b6  usr/share/zoneinfo/America/Recife
 cec6491b350dfbdb74732df745eb37d3  usr/share/zoneinfo/America/Regina
 fc8ef132d20be66baf2de28ebaf7a567  usr/share/zoneinfo/America/Resolute
-103eb03cddced65a327ace0ecaf78ef0  usr/share/zoneinfo/America/Rio_Branco
-0e424f0b499295bddad813ca4afa86cf  usr/share/zoneinfo/America/Santarem
+ea43228eda01d24f9d6178f16004177d  usr/share/zoneinfo/America/Rio_Branco
+ca018f1cc2fec1fa9c2764692fd9786c  usr/share/zoneinfo/America/Santarem
 b91736f2cbb5fc7a3236932d7d14695b  usr/share/zoneinfo/America/Santiago
 6b0942bdd0042fd925aa737b1e9b4e5e  usr/share/zoneinfo/America/Santo_Domingo
-17f0fe05c5df1c2949035825431b8848  usr/share/zoneinfo/America/Sao_Paulo
+1241c005a66e2ef65546e5300d6f1825  usr/share/zoneinfo/America/Sao_Paulo
 7f3ac51f8f4959b4bf9389b86a38abd6  usr/share/zoneinfo/America/Scoresbysund
-1ac29cff86232d191f280b7c217f6cf0  usr/share/zoneinfo/America/Sitka
+23b3f480472ab2713e245e1d16b8a0de  usr/share/zoneinfo/America/Sitka
 38c8ed2f1e3aa3c422672ca2f26249c5  usr/share/zoneinfo/America/St_Johns
 f74dd42b563de0f3718e6b7aedaccb91  usr/share/zoneinfo/America/St_Kitts
 e75452f876cc8883fa7171ec3d25294d  usr/share/zoneinfo/America/St_Lucia
@@ -948,8 +857,8 @@ ed1f7bfdc738ceff51af2f8ebcbc8358  usr/share/zoneinfo/America/Tijuana
 cdb1cc1ff794b288e07ebf1a417a7199  usr/share/zoneinfo/America/Tortola
 d61f0346eaf154f3fdbd3f1aca473f26  usr/share/zoneinfo/America/Vancouver
 c12d9db0a8dc4f432cdbf2ecfaff43fb  usr/share/zoneinfo/America/Whitehorse
-1cf382061df64010265f0869903fb6d8  usr/share/zoneinfo/America/Winnipeg
-401da653644fc1490c7e26bcc930f3a6  usr/share/zoneinfo/America/Yakutat
+7b148fcda814aec2bbe5b76a48fe30fc  usr/share/zoneinfo/America/Winnipeg
+53c796cc4329ec27fa7710ec76b0d7f8  usr/share/zoneinfo/America/Yakutat
 aae33160643e945d2a917c2835e5636a  usr/share/zoneinfo/Antarctica/Casey
 57c7f5a576acf9e0ac717149e2dd5ba3  usr/share/zoneinfo/Antarctica/Davis
 d5a55760f489b5613c0029668b6a9ac3  usr/share/zoneinfo/Antarctica/DumontDUrville
@@ -1030,7 +939,7 @@ de0d5a61aed3be40d9e31da91ca86206  usr/share/zoneinfo/Asia/Srednekolymsk
 474d8b0211b42185eea358aafafeb5a7  usr/share/zoneinfo/Asia/Taipei
 02e82bbf674eb1fbe2e0323f868ff56c  usr/share/zoneinfo/Asia/Tashkent
 90a1b7eadc6db66ce603a2b563ae6005  usr/share/zoneinfo/Asia/Tbilisi
-2ee8fa55c132b4ebdb44302939d4ff02  usr/share/zoneinfo/Asia/Tehran
+2187b61211e29d4aabbcd461d7faaec2  usr/share/zoneinfo/Asia/Tehran
 3f6fd838b3bdad31979b0aaa491557bd  usr/share/zoneinfo/Asia/Thimphu
 38620155fabd5572c5a4b1db051b3cc8  usr/share/zoneinfo/Asia/Tokyo
 180186e60da15fceb9e87030b2679ba4  usr/share/zoneinfo/Asia/Tomsk
@@ -1108,7 +1017,7 @@ d68f0be8c6a90db8bbd0052fab0205ae  usr/share/zoneinfo/Europe/Bucharest
 e16f6fc802dc2011572454e02567fa01  usr/share/zoneinfo/Europe/Budapest
 3edc5d4b4a5cfd8e9933b45104d645da  usr/share/zoneinfo/Europe/Chisinau
 8cb60c550f71fce75c48857369c92132  usr/share/zoneinfo/Europe/Copenhagen
-4fdb09e3889842e7fdfe310973ca5a60  usr/share/zoneinfo/Europe/Dublin
+39cc536674c1ed62c3c9b8772a8a4b71  usr/share/zoneinfo/Europe/Dublin
 101a6f261011f565dd7be88c2ce11641  usr/share/zoneinfo/Europe/Gibraltar
 27506af70925455d6a0e2dbbebbe3fc5  usr/share/zoneinfo/Europe/Guernsey
 a593351c8de80b7dede3f6507625d7a7  usr/share/zoneinfo/Europe/Helsinki
@@ -1207,7 +1116,7 @@ bdb73167013a1b194793645b70c402a6  usr/share/zoneinfo/Pacific/Wake
 15cbb27208296793c5022a1215bd4a6a  usr/share/zoneinfo/WET
 91757912f59320b46c195af4fcf7511b  usr/share/zoneinfo/iso3166.tab
 026074d5bb81bb0932bf3be9e01a58cc  usr/share/zoneinfo/leap-seconds.list
-ee3715cd695bb37483e4ce0cef7d1d30  usr/share/zoneinfo/leapseconds
+ca6e13dddcb6adc8be4ee16766d4cf9c  usr/share/zoneinfo/leapseconds
 f7255a5489a33c25cf941866653476cc  usr/share/zoneinfo/right/Africa/Abidjan
 bb7204f8b2155f359f34e9a26f394643  usr/share/zoneinfo/right/Africa/Accra
 62f886e805d2e1b9825178e06f26323a  usr/share/zoneinfo/right/Africa/Addis_Ababa
@@ -1260,11 +1169,11 @@ de4717452644d423d5ea953fe6b7ee20  usr/share/zoneinfo/right/Africa/Ouagadougou
 5a4cb64dd762034aacf31530f3e41f95  usr/share/zoneinfo/right/Africa/Tripoli
 bc80656ae35224ea1ae169113ec35b4e  usr/share/zoneinfo/right/Africa/Tunis
 e5a51007b369cbe6e20e344b25b1f5f3  usr/share/zoneinfo/right/Africa/Windhoek
-420c271b5bbcc1830c90d6cc0defd4f5  usr/share/zoneinfo/right/America/Adak
-c3519dd58f177e0cc5b8f537966030d5  usr/share/zoneinfo/right/America/Anchorage
+4ee36b7ad838a845284f9569a882df01  usr/share/zoneinfo/right/America/Adak
+6075b8663c30a196c62df7d6720c9dd0  usr/share/zoneinfo/right/America/Anchorage
 279768e6ccb3a907c5f8da52d6ee4118  usr/share/zoneinfo/right/America/Anguilla
 473a7083147a3a202acd02c9cc541fc4  usr/share/zoneinfo/right/America/Antigua
-546145a9a8c3f160e5807e07aae260b1  usr/share/zoneinfo/right/America/Araguaina
+da405050f81bd3d6e8b906a67b483f9c  usr/share/zoneinfo/right/America/Araguaina
 2073929905b58d2632f187c0d2387687  usr/share/zoneinfo/right/America/Argentina/Buenos_Aires
 9d9d08f5f0035877f541f377a32276e8  usr/share/zoneinfo/right/America/Argentina/Catamarca
 625195b713067144613ef3ca838f1061  usr/share/zoneinfo/right/America/Argentina/Cordoba
@@ -1280,17 +1189,17 @@ e51220224b98a4c45bd69c3135b85c81  usr/share/zoneinfo/right/America/Argentina/Ush
 c74b9292079b18fd64a5525708d4ecf7  usr/share/zoneinfo/right/America/Aruba
 6f1f86d1ced6cd946971f424e6f560f8  usr/share/zoneinfo/right/America/Asuncion
 054ecafc5f696ed2927f7c46021567cd  usr/share/zoneinfo/right/America/Atikokan
-b31bec6346b6b96c83d2d452d01091e9  usr/share/zoneinfo/right/America/Bahia
+4eab854d026fc24e888282c89b66fc0e  usr/share/zoneinfo/right/America/Bahia
 f6d2f7bc75e1d91311aa6a2beab10025  usr/share/zoneinfo/right/America/Bahia_Banderas
 455163105704904d7c6fa6851d692532  usr/share/zoneinfo/right/America/Barbados
-d49940eb1f61010cb87b978330be5fae  usr/share/zoneinfo/right/America/Belem
+32f6b599359b258c9c2c01a51f2b3562  usr/share/zoneinfo/right/America/Belem
 0a4ac49bb90fc4a806c64f6f94c149a0  usr/share/zoneinfo/right/America/Belize
 b2d2d777cf3c8baa45b2b61724e01e4f  usr/share/zoneinfo/right/America/Blanc-Sablon
-578f5f9e587d568bc65fcf087c9bb6ca  usr/share/zoneinfo/right/America/Boa_Vista
-841b18e0b7ae9bd686b91dd201bdb5d1  usr/share/zoneinfo/right/America/Bogota
+1b6c270012d2a6999359e58ae55fc334  usr/share/zoneinfo/right/America/Boa_Vista
+06280a8e84c0582c6103c8ab60ad3aa0  usr/share/zoneinfo/right/America/Bogota
 f0428cae8a95aa990ba4aa57790f3a09  usr/share/zoneinfo/right/America/Boise
 84ecee6cce512ef68580c1bcc3f0e286  usr/share/zoneinfo/right/America/Cambridge_Bay
-b92e868041619a9441acc1dfc7860fc4  usr/share/zoneinfo/right/America/Campo_Grande
+39203d78e1f6b0ffe551211751a36eb4  usr/share/zoneinfo/right/America/Campo_Grande
 f27fc10281cafcfe6532d7a3c36b8614  usr/share/zoneinfo/right/America/Cancun
 6088b6c80b8b79f73cf54ee4d740c845  usr/share/zoneinfo/right/America/Caracas
 4a8c0ab9886486564539731c849515fd  usr/share/zoneinfo/right/America/Cayenne
@@ -1301,7 +1210,7 @@ d792c00b1e12f4584e93b7c15b09144e  usr/share/zoneinfo/right/America/Cayman
 8c3e444ab72f6f26549404ba70b27b09  usr/share/zoneinfo/right/America/Costa_Rica
 eba0c8015f929528ef3fea094de6eb12  usr/share/zoneinfo/right/America/Coyhaique
 3f7fb49dac829674261ebec87ff968aa  usr/share/zoneinfo/right/America/Creston
-b71ad09ebd7e889f31d4e4adc98633ca  usr/share/zoneinfo/right/America/Cuiaba
+34ff7537fb3347c417e68941558c2726  usr/share/zoneinfo/right/America/Cuiaba
 7e8b2f563dd6f798eb33f44ca199f789  usr/share/zoneinfo/right/America/Curacao
 c5171a4827546a65b589e5edd4c77a49  usr/share/zoneinfo/right/America/Danmarkshavn
 f3d4f80ee1b12b35b99b2d6905a2fa4b  usr/share/zoneinfo/right/America/Dawson
@@ -1310,10 +1219,10 @@ c66c57c834297b6dc02648df3a1a85c0  usr/share/zoneinfo/right/America/Denver
 bed3109e22dfebfb420e2c26d2a53c3d  usr/share/zoneinfo/right/America/Detroit
 e041a4bd3a64a83355dea61a26a994dd  usr/share/zoneinfo/right/America/Dominica
 56e74bef4ee1d306379cff90f15042c4  usr/share/zoneinfo/right/America/Edmonton
-cc5d747438ce61d5c61fd82b29cba313  usr/share/zoneinfo/right/America/Eirunepe
+0dd0e15a817260915f05affbb6dd1f7c  usr/share/zoneinfo/right/America/Eirunepe
 fe73b5cbda754fb653bace7becb6be36  usr/share/zoneinfo/right/America/El_Salvador
 c5c7892cc174f5be7461f055c8af9eb5  usr/share/zoneinfo/right/America/Fort_Nelson
-ba4ce4d8b3de670c64c37867db03b5bd  usr/share/zoneinfo/right/America/Fortaleza
+e80a82a1e3631ae643047545a080e681  usr/share/zoneinfo/right/America/Fortaleza
 02605a231d4c8808a22cd74bda2a0425  usr/share/zoneinfo/right/America/Glace_Bay
 9600d7ab11ecbdbdc310df5849865477  usr/share/zoneinfo/right/America/Goose_Bay
 f27d8dd9e7cc9a4252f0ab0e4c43211c  usr/share/zoneinfo/right/America/Grand_Turk
@@ -1323,7 +1232,7 @@ a9f6d649b6953f370b75be710519900a  usr/share/zoneinfo/right/America/Guatemala
 136dbab669cd6c2a1c22e05ae4f2a664  usr/share/zoneinfo/right/America/Guayaquil
 bf9fb128dcc8e4c3049b20d4931ef9a0  usr/share/zoneinfo/right/America/Guyana
 1e9e5aa12edf32fd11a63d31000e660c  usr/share/zoneinfo/right/America/Halifax
-8378843f7becc8a801396ef9759a3fae  usr/share/zoneinfo/right/America/Havana
+07131ca18fea6265467d51966ce2594b  usr/share/zoneinfo/right/America/Havana
 0a2b64342a98f3370dd181fbb4819327  usr/share/zoneinfo/right/America/Hermosillo
 f98bf5dcfb059146f9164f7e2fdb7ddf  usr/share/zoneinfo/right/America/Indiana/Indianapolis
 81ab47770ff6dd7f1e1f2c92f2e39d6f  usr/share/zoneinfo/right/America/Indiana/Knox
@@ -1333,24 +1242,24 @@ f98bf5dcfb059146f9164f7e2fdb7ddf  usr/share/zoneinfo/right/America/Indiana/India
 a36b0959f1865a87b83550cf74eaa43e  usr/share/zoneinfo/right/America/Indiana/Vevay
 7504bbca05ee30a22b47dafdf85418f3  usr/share/zoneinfo/right/America/Indiana/Vincennes
 3f4c9dbd7c3c7b55fdeaddd634d6c6ad  usr/share/zoneinfo/right/America/Indiana/Winamac
-f07a6f5baefecccfbb8ebdd0354433cb  usr/share/zoneinfo/right/America/Inuvik
+387fdf477f14127088bd74317970cfb5  usr/share/zoneinfo/right/America/Inuvik
 af8eb750402b89108d76498e48206ba5  usr/share/zoneinfo/right/America/Iqaluit
 f20cac7f23644ec77e123f6da4db9d9c  usr/share/zoneinfo/right/America/Jamaica
-6aba901469eabfa54cc294d6a4002b0e  usr/share/zoneinfo/right/America/Juneau
+502ca170dec11b2223cc0c6a9d169380  usr/share/zoneinfo/right/America/Juneau
 4b0c28b2b9f9182542e82c7f2d8f6363  usr/share/zoneinfo/right/America/Kentucky/Louisville
 2bf0cbaf9fd016d2d33e846b53aee56e  usr/share/zoneinfo/right/America/Kentucky/Monticello
 15404012445d4e9633000a5ad476a8af  usr/share/zoneinfo/right/America/La_Paz
 80bb677e05425feb66262a5ae5af24fd  usr/share/zoneinfo/right/America/Lima
 df55299f3eda3631d43a4ad2974c2e59  usr/share/zoneinfo/right/America/Los_Angeles
-ef0a8e46e7a5ab68f395ffcd0167a2d3  usr/share/zoneinfo/right/America/Maceio
+87699ef7ad1a1273b12f0a7481d743cb  usr/share/zoneinfo/right/America/Maceio
 ebc362446f85478585c0ec8a312e4ca7  usr/share/zoneinfo/right/America/Managua
-dfb5d3c54539c081579a64928f5dcdba  usr/share/zoneinfo/right/America/Manaus
+d7d1c96f20f245dc7f86889671675305  usr/share/zoneinfo/right/America/Manaus
 f4a7e5d43d4f8e02dc7dcf783e36a473  usr/share/zoneinfo/right/America/Martinique
 5339c3a9fae3a5f232aaabe74008554e  usr/share/zoneinfo/right/America/Matamoros
 962c7d7a82b32e759f378327cfbf8b60  usr/share/zoneinfo/right/America/Mazatlan
 d79ac86ae0a7e987f286417c1ac7a193  usr/share/zoneinfo/right/America/Menominee
 8280328f24e52a3f712d7f67aa8a9149  usr/share/zoneinfo/right/America/Merida
-0c491630679cf86a5e3779c3e3a30ff5  usr/share/zoneinfo/right/America/Metlakatla
+f901a3c17f272851cc116e1d4c57a30d  usr/share/zoneinfo/right/America/Metlakatla
 44dcb5bf973024e702a3b03eaa2061db  usr/share/zoneinfo/right/America/Mexico_City
 21d42d07f47384be1adf8aceb316c326  usr/share/zoneinfo/right/America/Miquelon
 393419478c44e0ddb090d97388ccca84  usr/share/zoneinfo/right/America/Moncton
@@ -1359,8 +1268,8 @@ cc70c170550c75c3a3105b2ff1085784  usr/share/zoneinfo/right/America/Montevideo
 68570bef41fe2019150d64351179e2a5  usr/share/zoneinfo/right/America/Montserrat
 a3891f35e929f4cec883615a5d9996d0  usr/share/zoneinfo/right/America/Nassau
 925ec23c8cc9813a5d3ee84a7ab51be2  usr/share/zoneinfo/right/America/New_York
-03febe00396f8369db8da23d7e708588  usr/share/zoneinfo/right/America/Nome
-c63b63c4c66cd07f34ba55e608148cd5  usr/share/zoneinfo/right/America/Noronha
+859c3d3c3e46b5796c72bbd0bff55b35  usr/share/zoneinfo/right/America/Nome
+17d14a43967d7f0cc1f857112abf40cf  usr/share/zoneinfo/right/America/Noronha
 ef253e7161fbcb70c120f3b86c673d9c  usr/share/zoneinfo/right/America/North_Dakota/Beulah
 39baaa12a540759169b12b1ee15f514d  usr/share/zoneinfo/right/America/North_Dakota/Center
 befbc7ec17eaf835e6c5a4cd6f81cbc3  usr/share/zoneinfo/right/America/North_Dakota/New_Salem
@@ -1371,20 +1280,20 @@ a544a9c3c00ef9eceeaa5aff1e80faae  usr/share/zoneinfo/right/America/Paramaribo
 295462335d121fe0afd694347cf397f4  usr/share/zoneinfo/right/America/Phoenix
 9d919222a08c388f5344428bd6303229  usr/share/zoneinfo/right/America/Port-au-Prince
 c4b5c4ebc58676c51f70ca6532eef027  usr/share/zoneinfo/right/America/Port_of_Spain
-6d86d1d059a373a5260a020d52c50ad3  usr/share/zoneinfo/right/America/Porto_Velho
+4f9ecac55180399efa50c26afa783c06  usr/share/zoneinfo/right/America/Porto_Velho
 c714e7cd4ac39db45aafa6c6790a1b70  usr/share/zoneinfo/right/America/Puerto_Rico
 662c131749cd39a1f4eaa501c1a4ae10  usr/share/zoneinfo/right/America/Punta_Arenas
 e8d772d1ce7bea491609a6b33ca0e37a  usr/share/zoneinfo/right/America/Rankin_Inlet
-c3c4efafa6ae6c3e9f293d7fe6a4af9e  usr/share/zoneinfo/right/America/Recife
+e33c28da6fd9f28e9ab07aebbd9808c6  usr/share/zoneinfo/right/America/Recife
 b00fdb4da3450e2f155ffacffc4e7a06  usr/share/zoneinfo/right/America/Regina
 9ed54fe015c2fe605f39e3cfe0988f69  usr/share/zoneinfo/right/America/Resolute
-c5932de466f1e39cdcfd7fd4ae500f7c  usr/share/zoneinfo/right/America/Rio_Branco
-ab1d91c1a3567b974059ec8a528138d4  usr/share/zoneinfo/right/America/Santarem
+04c80f2227fa8cf54b0f0b324791443e  usr/share/zoneinfo/right/America/Rio_Branco
+a5e662a9a87b53654c3db05df1e71172  usr/share/zoneinfo/right/America/Santarem
 1ee4f251aa484584318c5fc09f2f573d  usr/share/zoneinfo/right/America/Santiago
 2043fe378f5bf0f8795ca33ca8076903  usr/share/zoneinfo/right/America/Santo_Domingo
-90c18ea7c7ac8d6f5a29600ca3417c23  usr/share/zoneinfo/right/America/Sao_Paulo
+294e28c0bc54b2d3e3b36e8f81307ca8  usr/share/zoneinfo/right/America/Sao_Paulo
 1d814b55a9b3028b3bfabf36d72ec18d  usr/share/zoneinfo/right/America/Scoresbysund
-e800ca5701914c931d0996ef7162bd1a  usr/share/zoneinfo/right/America/Sitka
+07f20d27467f0295657d30c1e3ffba40  usr/share/zoneinfo/right/America/Sitka
 3f5c7e6435ce424eaac91d4931257f42  usr/share/zoneinfo/right/America/St_Johns
 416c71b5564066082c7fd89afc03604e  usr/share/zoneinfo/right/America/St_Kitts
 b42fbfe9b2719c8f21e895d6e1955306  usr/share/zoneinfo/right/America/St_Lucia
@@ -1398,8 +1307,8 @@ e65b5f2d32d08c8d42d765d377a8cdb8  usr/share/zoneinfo/right/America/Tegucigalpa
 a8e6bfc59155a27d91b563732c2f82e8  usr/share/zoneinfo/right/America/Tortola
 da9ef14b4208a2b832913320457dc02a  usr/share/zoneinfo/right/America/Vancouver
 57c89a6e55610ae96b2c7187ab205ae8  usr/share/zoneinfo/right/America/Whitehorse
-809c63fc439d1610c44d2ec1afe68437  usr/share/zoneinfo/right/America/Winnipeg
-19506146bd150a9ba796e84d02ffda32  usr/share/zoneinfo/right/America/Yakutat
+6d3cb4be016333c3d02f2ba8a422ff8f  usr/share/zoneinfo/right/America/Winnipeg
+6a6a33e6c426e4731ca2bf482bfbfb7e  usr/share/zoneinfo/right/America/Yakutat
 e836baa0c23fc857e3fa6306443ef9e5  usr/share/zoneinfo/right/Antarctica/Casey
 ae030e0fd4fdc272f3288de167967525  usr/share/zoneinfo/right/Antarctica/Davis
 4be7f61dcc819d71e785cb288a065e0b  usr/share/zoneinfo/right/Antarctica/DumontDUrville
@@ -1442,7 +1351,7 @@ bb43fc0c9a082f3fb23bb94d35d82f39  usr/share/zoneinfo/right/Asia/Hong_Kong
 f1fae7205a7238c6c2afce287ce42c6e  usr/share/zoneinfo/right/Asia/Hovd
 9b7e4cfa9e3cd8397bff72bd58f86d2a  usr/share/zoneinfo/right/Asia/Irkutsk
 0a9c69df2859c227b9efc6e3c261f67f  usr/share/zoneinfo/right/Asia/Jakarta
-302ec702797d788db3878e8c2֋  ׋  ؋  ً                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  51149c7  usr/share/zoneinfo/right/Asia/Jayapura
+302ec702797d788db3878e8c2Ջ  ֋  ׋  ؋                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  51149c7  usr/share/zoneinfo/right/Asia/Jayapura
 9d6d7f4edd4bdb6456821a4a0ba52f33  usr/share/zoneinfo/right/Asia/Jerusalem
 740f6e83ced050ac9ba219e329addf1b  usr/share/zoneinfo/right/Asia/Kabul
 304685a4ab00b07a6d74a8d4ea05cd1b  usr/share/zoneinfo/right/Asia/Kamchatka
@@ -1480,7 +1389,7 @@ a63c2f35310c6e88298307162e2d00aa  usr/share/zoneinfo/right/Asia/Seoul
 e1f940871d13c79664df17b75ab221ed  usr/share/zoneinfo/right/Asia/Taipei
 9c24c730216a956aa062f8c6d4151c0d  usr/share/zoneinfo/right/Asia/Tashkent
 ae1648b34dc1d2be9ef54b9d154adcdb  usr/share/zoneinfo/right/Asia/Tbilisi
-09dd253e1fa8ec456875b5649a4cf907  usr/share/zoneinfo/right/Asia/Tehran
+f7f712adc2f4d6a348b7000fb39cc440  usr/share/zoneinfo/right/Asia/Tehran
 c6cae8b0b4affb73d65207a0bdf586a1  usr/share/zoneinfo/right/Asia/Thimphu
 db0892685fc862ce286ec42822c7a3aa  usr/share/zoneinfo/right/Asia/Tokyo
 38627924f53f8a75a85f84f7395d2b3d  usr/share/zoneinfo/right/Asia/Tomsk
@@ -1558,7 +1467,7 @@ a6979e898740556e9305ddb53dddf6e5  usr/share/zoneinfo/right/Europe/Bucharest
 a4fa44e0d5c0f4fc05387fe2421d114e  usr/share/zoneinfo/right/Europe/Budapest
 457e92cee3ce9b6f3bc72066d5e5b3a4  usr/share/zoneinfo/right/Europe/Chisinau
 58adf96b46b48c6bc977c8d3c2da29c3  usr/share/zoneinfo/right/Europe/Copenhagen
-58421582d3c648251f669521cd3c6ba0  usr/share/zoneinfo/right/Europe/Dublin
+1260d1e912048fd3b90a6f91e314e919  usr/share/zoneinfo/right/Europe/Dublin
 2623dd1c8e0590d40818bf8f10a314f1  usr/share/zoneinfo/right/Europe/Gibraltar
 6baafd58ede7c130489dd9622303970d  usr/share/zoneinfo/right/Europe/Guernsey
 5492c80764930bfadb773fbdc2ff460e  usr/share/zoneinfo/right/Europe/Helsinki
@@ -1655,9 +1564,9 @@ b9442957873038263a7ffe84a4afbb10  usr/share/zoneinfo/right/Pacific/Tarawa
 84b85de4bb12c65145adc7d1d4fa40c5  usr/share/zoneinfo/right/Pacific/Wake
 5ad737e8e52c3aa8be64e53fe8e0335c  usr/share/zoneinfo/right/Pacific/Wallis
 03bda8061811df8a4d6c61437e6b2c17  usr/share/zoneinfo/right/WET
-d3c1fa759d4fb49dac323b6519b396ad  usr/share/zoneinfo/tzdata.zi
-9cba4dc438c2d045ba858f330598e830  usr/share/zoneinfo/zone.tab
-3b5c353c0ed06b0eb8a48682c1de5039  usr/share/zoneinfo/zone1970.tab
+0ac370b0d676c9c0cf47a585f3884077  usr/share/zoneinfo/tzdata.zi
+be27c62a288faf4927ec98120aced7be  usr/share/zoneinfo/zone.tab
+43ea2d973d7d5423a874d66144dad1c2  usr/share/zoneinfo/zone1970.tab
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 #! /bin/sh
 set -e
 
@@ -1866,4 +1775,34 @@ Description-hu.UTF-8: Földrajzi terület:
  Válaszd ki a földrajzi területet, ahol élsz. Ezt követően kiválaszthatod a várost és a városhoz tartozó időzónát.
 Description-id.UTF-8: Area Geografis:
  Silakan pilih wilayah geografis tempat Anda berada. Beberapa pertanyaan selanjutnya akan mempersempit pilihan dengan menampilkan daftar kota, yang menggambarkan daerah waktu tempat kota tersebut berada.
-Description-it.UTF-8: Area 
+Description-it.UTF-8: Area geografica:
+ Scegliere l'area geografica in cui si vive. Successive domande restringeranno la lista presentando un elenco di città, che rappresentano i fusi orari nelle quali si trovano.
+Description-ja.UTF-8: 地理的領域:
+ あなたの居住する地理的領域を選んでください。続く設定質問で、位置する時間帯を表現する都市名のリストが表示されるので、これをより狭めていくことができます。
+Description-ko.UTF-8: 지리적 지역:
+ 거주하고 있는 지리적 지역을 선택하십시오. 이후의 설정 질문에서는 지역을 특정하려고 도시의 목록을 표시합니다. 표시하는 도시는 도시 위치의 표준 시간대를 나타냅니다.
+Description-nl.UTF-8: Geografisch gebied:
+ Wat is het geografisch gebied waarin u leeft? In de volgende vragen krijgt u een lijst van steden te zien die de verschillende tijdzones in dit gebied representeren.
+Description-pl.UTF-8: Obszar geograficzny:
+ Proszę wybrać swój obszar geograficzny. Kolejne pytania konfiguracyjne zawężą go, prezentując listę miast reprezentujących strefy czasowe w których są położone.
+Description-pt.UTF-8: Área geográfica:
+ Por favor escolha a área geográfica onde vive. Seguidamente haverão mais perguntas de configuração que irão diminuir isto até uma lista de cidades que representam o fuso horário em que estão localizadas.
+Description-pt_BR.UTF-8: Área geográfica:
+ Por favor, selecione a área geográfica na qual você vive. Perguntas de configuração subsequentes serão limitadas pela área geográfica selecionada, apresentando uma lista de cidades que representam os fusos horários nos quais elas estão localizadas.
+Description-ro.UTF-8: Zona geografică:
+ Vă rugăm să selectați zona geografică în care locuiți. Întrebările ulterioare de configurare vor restrânge acest lucru prin prezentarea unei liste de orașe, reprezentând fusurile orare în care sunt situate.
+Description-ru.UTF-8: Географический район:
+ Выберите географический район, в котором вы живёте. Далее вам предложат подробный список городов, которые расположены в часовых поясах того региона, в котором вы находитесь.
+Description-sk.UTF-8: Geografická oblasť:
+ Prosím, vyberte geografickú oblasť, kde žijete. Následné konfiguračné otázky zúžia výber a zobrazia vám iba zoznam miest reprezentujúcich časové pásma v ktorých sa nachádzajú.
+Description-sv.UTF-8: Geografiskt område:
+ Välj det geografiska område du bor i. Följande konfigurationsfrågor kommer att begränsa detta genom att presentera en lista med städer, som representerar de tidszoner i vilka de är placerade.
+Description-th.UTF-8: พื้นที่ภูมิศาสตร์
+ โปรดระบุพื้นที่ภูมิศาสตร์ที่คุณอยู่ คำถามถัดไปจะลดขอบเขตลงอีก โดยแสดงรายการชื่อเมืองที่เป็นตัวแทนเขตเวลาต่างๆ
+Description-tr.UTF-8: Coğrafi bölge:
+ Yaşadığınız coğrafi bölgeyi seçin. Sonraki yapılandırma soruları konumlandıkları saat dilimlerini temsil eden şehirlerin listesini sunarak bu seçiminizi daraltacak.
+
+Template: tzdata/Zones/Africa
+Type: select
+Choices: Abidjan, Accra, Addis_Ababa, Algiers, Asmara, Bamako, Bangui, Banjul, Bissau, Blantyre, Brazzaville, Bujumbura, Cairo, Casablanca, Ceuta, Conakry, Dakar, Dar_es_Salaam, Djibouti, Douala, El_Aaiun, Freetown, Gaborone, Harare, Johannesburg, Juba, Kampala, Khartoum, Kigali, Kinshasa, Lagos, Libreville, Lome, Luanda, Lubumbashi, Lusaka, Malabo, Maputo, Maseru, Mbabane, Mogadishu, Monrovia, Nairobi, Ndjamena, Niamey, Nouakchott, Ouagadougou, Porto-Novo, Sao_Tome, Timbuktu, Tripoli, Tunis, Windhoek
+Choices-be.UTF-8: Абіджан, Акра, Адыс-Абэба, Алжыр, Ас

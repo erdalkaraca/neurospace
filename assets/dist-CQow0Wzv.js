@@ -1,1 +1,0 @@
-var e={name:`pg_ivm`,setup:async(e,t)=>({emscriptenOpts:t,bundlePath:new URL(`/neurospace/assets/pg_ivm.tar-CGRyLt_v.gz`,``+import.meta.url)})};export{e as pg_ivm};

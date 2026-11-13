@@ -1,59 +1,4 @@
-i (Peeŋku), Lusaka, Malabo, Maputo, Maseru, Mbabane, Mogadishu, Monrovia, Nairobi, Njamena, Ñaame, Nuwaksoot, Wagadugu, Porto-Novo, Sao Tome, Tumbuktu, Tripoli, Toonus, Windhoek
-Description: Time zone:
-Description-ca.utf-8: Fus horari:
-Description-cs.utf-8: Časové pásmo:
-Description-da.utf-8: Tidszone:
-Description-de.utf-8: Zeitzone:
-Description-en.utf-8: Time zone:
-Description-es.utf-8: Zona horaria:
-Description-eu.utf-8: Ordu zonaldea:
-Description-fr.utf-8: Fuseau horaire :
-Description-gl.utf-8: Fuso horario:
-Description-gu.utf-8: સમય વિસ્તાર:
-Description-he.utf-8: אזור זמן:
-Description-hr.utf-8: Vremenska zona:
-Description-hu.utf-8: Időzóna:
-Description-id.utf-8: Daerah Waktu:
-Description-it.utf-8: Fuso orario:
-Description-ja.utf-8: 時間帯:
-Description-ko.utf-8: 표준 시간대:
-Description-nl.utf-8: Tijdzone:
-Description-pl.utf-8: Strefa czasowa:
-Description-pt.utf-8: Fuso horário:
-Description-pt_br.utf-8: Fuso horário:
-Description-ro.utf-8: Fus orar:
-Description-ru.utf-8: Часовой пояс:
-Description-sk.utf-8: Časové pásmo:
-Description-sv.utf-8: Tidszon:
-Description-th.utf-8: เขตเวลา:
-Description-tr.utf-8: Saat dilimi:
-Extended_description: Please select the city or region corresponding to your time zone.
-Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
-Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
-Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
-Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
-Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
-Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
-Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
-Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
-Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
-Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
-Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
-Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
-Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
-Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
-Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
-Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
-Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
-Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
-Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
-Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
-Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
-Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
-Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
-Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
-Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
-Extended_description-th.utf-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
+-8: โปรดระบุเมืองหรือภูมิภาคที่ตรงกับเขตเวลาของคุณ
 Extended_description-tr.utf-8: Saat diliminize karşılık gelen şehir ya da bölgeyi seçin.
 Type: select
 Owners: tzdata/Zones/Africa
@@ -369,4 +314,8 @@ Choices-hr.utf-8: Aden, Almaty, Aman, Anadyr, Aqtau, Aqtobe, Ashgabat, Atyrau, B
 Choices-hu.utf-8: Aden, Almati, Amman, Moszkva+10 - Bering-tenger, Akutau, Akutobe, Asgabat, Atyrau, Bagdad, Bahrain, Baku, Bangkok, Barnaul, Bejrút, Bishkek, Brunei, Chita, Csoibalszán, Csongqing, Colombo, Damaszkusz, Daka, Dili, Dubai, Dusanbe, Famagusta, Gáza, Harbin, Hebron, Ho Chi Minh, Hong Kong, Hovd, Moszkva+05 - Bajkál, Isztambul, Dzsakarta, Dzsajapura, Jeruzsálem, Kabul, Moszkva+09 - Kamcsatka, Karacsi, Kashgar, Katmandu, Khandyga, Kolkata, Moszkva+04 - Jenyiszej, Kuala Lumpur, Kuching, Kuwait, Makaó, Moszkva+08 - Magadán, Makasszár, Manila, Muscat, Nicosia, Novokuznyeck, Moszkva+03 - Novoszibirszk, Moszkva+03 - nyugat-Szibéria, Oral, Phnom Penh, Pontianak, Pyongyang, Katar, Qostanay, Kizilorda, Rijád, Moszkva+07 - Szahalin, Szamarkand, Szöul, Sanghaj, Szingapúr, Srednekolymsk, Tajpej, Taskent, Tbiliszi, Teherán, Tel Aviv, Thimphu, Tokió, Tomsk, Ulánbátor, Urumki, Ust-Nera, Vientiane, Moszkva+07 - Amur, Moszkva+06 - Léna, Rangoon, Moszkva+02 - Urál, Jereván
 Choices-id.utf-8: Aden, Almaty, Amman, Anadyr, Aqtau, Aqtobe, Ashgabat, Atyrau, Baghdad, Bahrain, Baku, Bangkok, Barnaul, Beirut, Bishek, Brunei, Chita, Choibalsan, Chongqing, Colombo, Damaskus, Dhaka, Dili, Dubai, Dushanbe, Famagusta, Gaza, Harbin, Hebron, Ho Chi Minh, Hongkong, Hovd, Irkutsk, Istambul, Jakarta, Jayapura, Jerusalem, Kabul, Kamchatka, Karachi, Kashgar, Katmandu, Khandyga, Kolkata, Krasnoyarsk, Kuala Lumpur, Kuching, Kuwait, Makau, Magadan, Makassar, Manila, Muscat, Nicosia, Novokuznetsk, Novosibirsk, Omsk-Siberia Barat, Oral, Phnom Penh, Pontianak, Pyongyang, Qatar, Qostanay, Qyzylorda, Riyadh, Kep. Sakhalin, Samarkandi, Seoul, Shanghai, Singapura, Srednekolymsk, Taipei, Tashkent, Tbilisi, Teheran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulaanbaatar, Urumqi, Ust-Nera, Vientiane, Vladivostok, Yakutsk, Rangoon, Yekaterinburg, Yerevan
 Choices-it.utf-8: Aden, Almaty, Amman, Anadyr', Aqtau, Aqtobe, Ashgabat, Atyrau, Baghdad, Bahrain, Baku, Bangkok, Barnaul, Beirut, Bishkek, Brunei, Chita, Choibalsan, Chongqing, Colombo, Damasco, Dacca, Dili, Dubai, Dušanbe, Famagusta, Gaza, Harbin, Hebron, Ho Chi Minh, Hong Kong, Hovd, Irkutsk, Istanbul, Giacarta, Jayapura, Gerusalemme, Kabul, Kamčatka, Karachi, Kashgar, Katmandu, Khandyga, Calcutta, Krasnojarsk, Kuala Lumpur, Kuching, Kuwait, Macao, Magadan, Makassar, Manila, Mascate, Nicosia, Novokuzneck, Novosibirsk, Omsk, Oral, Phnom Penh, Pontianak, Pyongyang, Qatar, Qostanay, Qyzylorda, Riyad, Sachalin, Samarcanda, Seul, Shanghai, Singapore, Srednekolymsk, Taipei, Tashkent, Tbilisi, Teheran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulan Bator, Ürümqi, Ust-Nera, Vientiane, Vladivostok, Jakutsk, Yangon, Ekaterinburg, Yerevan
-Choices-ja.utf-8: アデン, アルマトゥイ, アンマン, アナディル, アクタウ, アクトベ, アシガバード, アティラウ, バグダード, バーレーン, バクー, バンコク, バルナウル, ベイルート, ビシュケク, ブルネイ, チタ, チョイバルサン, 重慶, コロンボ, ダマスカス, ダッカ, ディリ, ドバイ, ドゥシャンベ, ファマグスタ, ガザ, ハルビン, ヘブロン, ホーチミン, 香港, ホブド, イルクーツク, イスタンブール, ジャカルタ, ジャヤプラ, エルサレム, カブール, カムチャッカ, カラチ, カシュガル, カトマンズ, ハンドゥイガ, コルコタ, クラスノヤルスク, クアラルンプール, クチン, クウェート, マカオ, マガダン, マカッサル, マニラ, マスカット, ニコシア, ノヴォクズネツク, ノヴォシビルスク, オムスク, ウラル, ブノンペン, ポンティアナク, 平壌, カタール, コスタナイ, キジルオルダ, リヤド, サハリン, サマルカンド, ソウル, 上海, シンガポール, スレドネコリムスク, 台北, タシケント, トビリシ, テヘラン, テルアビブ, ティンプー, 東京, トムスク, ウランバートル, ウルムチ, ウスチ=
+Choices-ja.utf-8: アデン, アルマトゥイ, アンマン, アナディル, アクタウ, アクトベ, アシガバード, アティラウ, バグダード, バーレーン, バクー, バンコク, バルナウル, ベイルート, ビシュケク, ブルネイ, チタ, チョイバルサン, 重慶, コロンボ, ダマスカス, ダッカ, ディリ, ドバイ, ドゥシャンベ, ファマグスタ, ガザ, ハルビン, ヘブロン, ホーチミン, 香港, ホブド, イルクーツク, イスタンブール, ジャカルタ, ジャヤプラ, エルサレム, カブール, カムチャッカ, カラチ, カシュガル, カトマンズ, ハンドゥイガ, コルコタ, クラスノヤルスク, クアラルンプール, クチン, クウェート, マカオ, マガダン, マカッサル, マニラ, マスカット, ニコシア, ノヴォクズネツク, ノヴォシビルスク, オムスク, ウラル, ブノンペン, ポンティアナク, 平壌, カタール, コスタナイ, キジルオルダ, リヤド, サハリン, サマルカンド, ソウル, 上海, シンガポール, スレドネコリムスク, 台北, タシケント, トビリシ, テヘラン, テルアビブ, ティンプー, 東京, トムスク, ウランバートル, ウルムチ, ウスチ=ネラ, ヴィエンチャン, ウラジオストック, ヤクーツク, ヤンゴン, エカテリンブルグ, エレヴァン
+Choices-ko.utf-8: 아덴, 알마티, 암만, 아나디르, 악타우, 아크토베, 아슈하바트, 아티라우, 바그다드, 바레인, 바쿠, 방콕, 바르나울, 베이루트, 비슈케크, 브루나이, 치타, 처이발상, 충칭, 콜롬보, 다마스커스, 다카, 딜리, 두바이, 두산베, 파마구스타, 가자, 하얼빈, 히브론, 호찌민, 홍콩, 허브드, 이르쿠츠크, 이스탄불, 자카르타, 자야푸라, 예루살렘, 카불, 캄차카, 카라치, 카슈가르, 카트만두, 한디가, 캘커타, 크라스노야르스크, 쿠알라룸푸르, 쿠칭, 쿠웨이트, 마카오, 마가단, 마카사르, 마닐라, 무스카트, 니코시아, 노보크즈네크, 노보시비르스크, 옴스크, 오랄, 프놈펜, 폰티아낙, 평양, 카타르, 코스타나이, 크즐로르다, 리야드, 사할린, 사마르칸트, 서울, 상하이, 싱가포르, 스레드네콜림스크, 타이페이, 타슈켄트, 트빌리시, 테헤란, 텔아비브, 팀부, 도쿄, 톰스크, 울란바토르, 우루무치, 우스네라, 비엔티안, 블라디보스토크, 야쿠츠크, 양곤, 예카테린부르크, 예레반
+Choices-ku.utf-8: Aden, Almaty, Amman, Anadyr, Aqtau, Aqtobe, Ashgabat, Atyrau, Bexda, Behreyn, Baku, Bangkok, Barnaul, Beyrût, Bîşkek, Brunei, Chita, Choibalsan, Chongqing, Colombo, Şam, Dhaka, Dili, Dubai, Dûşanbe, Famagusta, Xaza, Harbin, Hebron, Ho Şî Mîn, Hong Kong, Hovd, Irkutsk, Stenbol, Jakarta, Jayapura, Darûselam, Kabîl, Kamchatka, Karaçî, Kaşgar, Katmandu, Khandyga, Kolkata, Krasnoyarsk, Kuala Lumpur, Kuçîng, Kuweyt, Macau, Magadan, Makassar, Manila, Muscat, Nicosia, Novokuznetsk, Novosibirsk, Omsk, Oral, Phnom Penh, Pontianak, Pyongyang, Qatar, Qostanay, Qyzylorda, Riyad, Sakhalin, Semerqand, Seûl, Şangay, Sîngapûr, Srednekolymsk, Taipei, Taşkent, Tiblîs, Tehran, Tel Aviv, Thimphu, Tokyo, Tomsk, Ulaanbaatar, Urumqi, Ust-Nera, Vientiane, Vladivostok, Yakutsk, Rangoon, Yekaterinburg, Êrîvan
+Choices-lt.utf-8: Adenas, Almata, Amanas, Anadyrė, Aktau, Aktiubinskas, Ašchabadas, Atyrau, Bagdadas, Bahreinas, Baku, Bankokas, Barnaul, Beirutas, Biškekas, Brunėjus, Chita, Čoibalsanas, Čongčingas, Kolombas, Damaskas, Daka, Dilis, Dubajus, Dušanbė, Famagusta, Gaza, Harbinas, Hebron, Hošiminas, Honkongas, Houdas, Irkutskas, Stambulas, Džakarta, Džapura, Jeruzalė, Kabulas, Kamčatka, Karačis, Kašgaras, Katmandu, Khandyga, Kolkata, Krasnojarskas, Kuala Lumpūras, Kučingas, Kuveitas, Makao, Magadanas, Makasaras, Manila, Maskatas, Nikosija, Novokuznetsk, Novosibirskas, Omskas, Uralskas, Pnompenis, Pontianakas, Pchenjanas, Kataras, Qostanay, Kyzylorda, Rijadas, Sachalinas, Samarkandas, Seulas, Šanchajus, Singapūras, Srednekolymsk, Taipėjus, Taškentas, Tbilisis, Teheranas, Tel Avivas, Timpu, Tokijas, Tomsk, Ulanbatoras, Urumčis, Ust-Nera, Vientianas, Vladivostokas, Jakutskas, Rangūnas, Jakaterinburgas, Jerevanas
+Choices-ml.utf-8: ഏദന്‍, അല്മാട്ടി, അമ്മാന്‍, അനാഡിര്‍, അക്ടവു, അക്ടൊബെ, അഷ്കാര്ഡബത്, Atyrau, ബഗ്ദാദ്, ബഹറൈന്‍, ബാകു, ബാങ്കോക്ക്, Barnaul, ബെയ്റൂട്ട്, ബിഷ്കെക്ക്, ബ്രൂണൈ, Chita, ചൊയിബല്‍സാന്‍, ചോങ്ക്വിങ്, കൊളംബോ, ഡമാസ്കസ്, ദാക്ക, ദിലി, ദുബായ്, ദുഷാന്‍ബേ, Famagusta, ഗാസ, ഹാര്‍ബിന്‍, Hebron, ഹോ ചി മിന്‍, ഹോങ് കോങ്, ഹോവ്ഡ്, ഇര്‍കുത്സ്ക്, ഇസ്താംബുള്‍, ജക്കാര്‍ത്ത, ജയപുര, ജറുസലേം, കാബൂള്‍, കംചത്കാ, കറാച്ചി, കാഷ്ഗാര്‍, കാഠ്മണ്ടു, Khandyga, കൊല്‍ക�

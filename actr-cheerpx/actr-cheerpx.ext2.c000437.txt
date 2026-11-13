@@ -1,36 +1,4 @@
-�z yükseltmeden sonra sisteminize giriş yapamayacaklardır.\n\npam_tally yerine pam_faillock modülünü kullanmayı düşünebilirsiniz.
-Extended_description-zh_cn.utf-8: 请注意，pam_tally 和 pam_tally2 模块已从 PAM 中移除。您正在系统上 /etc/pam.d 中的配置文件中使用其中某个模块。在 PAM 更新之前，您必须移除对这些模块的使用；在升级后依旧于 PAM 配置中使用这些模块将导致用户无法使用该方式登录系统。\n\n请考虑使用 pam_faillock 模块作为 pam_tally 的替代。
-Type: error
-Owners: libpam-modules/deprecate-tally
-
-Name: libpam-modules/disable-screensaver
-Description: xscreensaver and xlockmore must be restarted before upgrading
-Description-bg.utf-8: xscreensaver и xlockmore трябва да бъдат рестартирани
-Description-ca.utf-8: Cal reiniciar «xscreensaver» i «xlockmore» abans de l'actualització
-Description-cs.utf-8: Programy xscreensaver a xlockmore musí být před aktualizací restartovány
-Description-da.utf-8: xscreensaver og xlockmore skal genstartes før opgradering
-Description-de.utf-8: Xscreensaver und Xlockmore müssen vor dem Upgrade neu gestartet werden
-Description-es.utf-8: Debe reiniciar xscreensaver y xlockmore antes de la actualización
-Description-eu.utf-8: xscreensaver eta xlockmore berrabiarazi egin behar dira bertsio-berritu aurretik
-Description-fi.utf-8: xscreensaver ja xlockmore täytyy käynnistää uudelleen ennen päivitystä
-Description-fr.utf-8: Redémarrage indispensable de xscreensaver et xlockmore avant la mise à niveau
-Description-gl.utf-8: xscreensaver e xlockmore deben ser reiniciados antes da actualización
-Description-it.utf-8: xscreensaver e xlockmore devono essere riavviati prima dell'aggiornamento
-Description-ja.utf-8: xscreensaver と xlockmore を更新前に再起動する必要があります
-Description-nl.utf-8: xscreensaver en xlockmore moeten worden herstart voor u kunt upgraden
-Description-pl.utf-8: xscreensaver i xlockmore muszą zostać zrestartowane przed aktualizacją
-Description-pt.utf-8: xscreensaver e xlockmore têm que ser reiniciados antes da actualização
-Description-pt_br.utf-8: xscreensaver e xlockmore devem ser reiniciados antes da atualização
-Description-ro.utf-8: xscreensaver și xlockmore trebuie repornite înainte de înnoire
-Description-ru.utf-8: Перед обновлением требуется перезапустить xscreensaver и xlockmore
-Description-sk.utf-8: je nutné reštartovať xscreensaver a xlockmore pred aktualizáciou
-Description-sv.utf-8: xscreensaver och xlockmore måste startas om innan uppgraderingen kan genomföras
-Description-tr.utf-8: Yükseltme işleminden önce xscreensaver ve xlockmore yeniden başlatılmalı
-Description-vi.utf-8: xscreensaver và xlockmore phải được khởi chạy lại trước khi nâng cấp
-Description-zh_cn.utf-8: 在升级前必须重新启动 xscreensaver 和 xlockmore
-Extended_description: One or more running instances of xscreensaver or xlockmore have been detected on this system.  Because of incompatible library changes, the upgrade of the libpam-modules package will leave you unable to authenticate to these programs.  You should arrange for these programs to be restarted or stopped before continuing this upgrade, to avoid locking your users out of their current sessions.
-Extended_description-bg.utf-8: Открити са работещи процеси xscreensaver или xlockmore. Поради несъвместими промени в библиотеката, обновяването на пакета libpam-modules ще направи невъзможно идентифицирането с тези програми. Трябва да осигурите рестартирането или спирането на xscreensaver и xlockmore за да избегнете проблеми с идентификацията при потребителите, които ги използват.
-Extended_description-ca.utf-8: S'han detectat una o més instàncies dels programes «xscreensaver» o «xlockmore». L'actualització del paquet «libpam-modules» podria impedir l'autenticació en aquests programes degut a canvis incompatibles en la biblioteca. Heu de procurar que aquests programes es reinicien o s'aturin abans de continuar amb l'actualització. Així evitareu que els usuaris quedin bloquejats i no puguin continuar les seves sessions actuals.
+screensaver» o «xlockmore». L'actualització del paquet «libpam-modules» podria impedir l'autenticació en aquests programes degut a canvis incompatibles en la biblioteca. Heu de procurar que aquests programes es reinicien o s'aturin abans de continuar amb l'actualització. Així evitareu que els usuaris quedin bloquejats i no puguin continuar les seves sessions actuals.
 Extended_description-cs.utf-8: Zdá se, že v systému běží jedna nebo více instancí programu xscreensaver resp. xlockmore. Z důvodu nekompatibilních změn v knihovnách se po aktualizaci balíku libpam-modules nebudete moci pomocí těchto programů autentizovat. To jinými slovy znamená, že se uživatelé nedostanou ke svým uzamčeným sezením. Abyste tomu předešli, měli byste před aktualizací zmíněné programy zastavit, nebo je ve vhodný čas restartovat.
 Extended_description-da.utf-8: En eller flere kørende instanser af xscreensaver eller xlockmore er blevet fundet på dette system. På grund af inkompatible biblioteksændringer vil opgradering af pakken libpam-modules gøre, at du ikke kan bekræfte ægtheden af disse programmer. Du skal sørge for at disse programmer bliver genstartet eller stoppet, før du fortsætter med opgraderingen, for at undgå låsning af dine brugere i deres aktuelle sessioner.
 Extended_description-de.utf-8: Eine oder mehrere laufende Instanzen von Xscreensaver oder Xlockmore sind auf diesem System entdeckt worden. Aufgrund inkompatibler Änderungen in Bibliotheken wird das Upgrade des libpam-modules-Paketes Sie außerstande setzen, sich gegenüber diesen Programmen zu authentifizieren. Sie sollten dafür sorgen, dass diese Programme neu gestartet oder beendet werden, bevor Sie dieses Upgrade fortsetzen, damit Ihre Benutzer nicht aus ihren laufenden Sitzungen ausgesperrt werden.
@@ -613,4 +581,59 @@ Choices-sv.utf-8: Abidjan, Accra, Addis Abeba, Alger, Asmara, Bamako, Bangui, Ba
 Choices-th.utf-8: อาบิดจัน, อักกรา, แอดดิสอาบาบา, แอลเจียร์, แอสมารา, บามาโก, บังกี, บันจูล, บิสเซา, Blantyre, บราซซาวิล, บูจุมบูรา, ไคโร, คาซาบลังกา, เซวตา, โกนากรี, ดาการ์, ดาร์-เอส-ซาลาม, จิบูตี, Douala, El_Aaiun, ฟรีทาวน์, กาโบโรเน, ฮาราเร, โจฮันเนสเบิร์ก, Juba, กัมปาลา, คาร์ทูม, คิกาลี, กินชาซา, ลากอส, ลีเบรอวิล, โลเม, ลูอันดา, ลูบูมบาชี, ลูซากา, มาลาโบ, มาปูโต, มาเซรู, อัมบาบาเน, โมกาดิชู, มันโรเวีย, ไนโรบี, เอ็นจาเมนา, นีอาเม, นูแอกชอต, วากาดูกู, ปอร์โต-โนโว, เซาตูเม, Timbuktu, ตริโปลี, ตูนิส, วินด์ฮุก
 Choices-tr.utf-8: Abidjan, Akra, Addis Ababa, Cezayir, Asmara, Bamako, Bangui, Banjul, Bissau, Blantyre, Brazavil, Bujumbura, Kahire, Kazablanka, Septe, Konakri, Dakar, Darüsselam, Cibuti, Duala, El Aaiun, Freetown, Gabaron, Harare, Johannesburg, Juba, Kampala, Hartum, Kigali, Kinşasa, Lagos, Libreville, Lome, Luanda, Lubumbasi, Lusaka, Malabo, Maputo, Maseru, Mbabane, Mogadişu, Monrovia, Nairobi, Ndjamena, Niamey, Nouakchott, Ouagadougou, Porto-Novo, Sao Tome, Timbuktu, Trablusgarp, Tunus, Windhoek
 Choices-vi.utf-8: Abidjan, Accra, Addis Ababa, An-giê-ri, Asmara, Bamako, Bangui, Banjul, Bi-xau, Blantyre, Brazzaville, Bujumbura, Cai-rô, Casablanca, Ceuta, Conakry, Dakar, Dar es Salaam, Djibouti, Douala, El Aaiun, Freetown, Gaborone, Harare, Johannesburg, Juba, Kampala, Khartoum, Kigali, Kinshasa, Lagos, Libreville, Lome, Luanda, Lubumbashi, Lusaka, Malabo, Maputo, Maseru, Mbabane, Mogadishu, Monrovia, Nairobi, Ndjamena, Niamey, Nouakchott, Ouagadougou, Porto-Novo, Sao Tome, Timbuktu, Tripoli, Tunis, Windhoek
-Choices-wo.utf-8: Abijaan, Akra, Addis Ababa, Aljer, Asmara, Bamako, Baŋgi, Banjul, Bissau, Blantyre, Brazzaville, Bujumbura, Keer, Kaasablaŋka, Ceuta et Melilla, Konaakiri, Dakaar, Dar es Salaam, Jibuti, Duwaala, El Aaiun, Freetown, Gaborone, Harare, Johannesburg, Juba, Kampala, Xartuum, Kigali, Kinshasa (Sowwu), Lagos, Libreville, Lome, Luanda, Lubumbash
+Choices-wo.utf-8: Abijaan, Akra, Addis Ababa, Aljer, Asmara, Bamako, Baŋgi, Banjul, Bissau, Blantyre, Brazzaville, Bujumbura, Keer, Kaasablaŋka, Ceuta et Melilla, Konaakiri, Dakaar, Dar es Salaam, Jibuti, Duwaala, El Aaiun, Freetown, Gaborone, Harare, Johannesburg, Juba, Kampala, Xartuum, Kigali, Kinshasa (Sowwu), Lagos, Libreville, Lome, Luanda, Lubumbashi (Peeŋku), Lusaka, Malabo, Maputo, Maseru, Mbabane, Mogadishu, Monrovia, Nairobi, Njamena, Ñaame, Nuwaksoot, Wagadugu, Porto-Novo, Sao Tome, Tumbuktu, Tripoli, Toonus, Windhoek
+Description: Time zone:
+Description-ca.utf-8: Fus horari:
+Description-cs.utf-8: Časové pásmo:
+Description-da.utf-8: Tidszone:
+Description-de.utf-8: Zeitzone:
+Description-en.utf-8: Time zone:
+Description-es.utf-8: Zona horaria:
+Description-eu.utf-8: Ordu zonaldea:
+Description-fr.utf-8: Fuseau horaire :
+Description-gl.utf-8: Fuso horario:
+Description-gu.utf-8: સમય વિસ્તાર:
+Description-he.utf-8: אזור זמן:
+Description-hr.utf-8: Vremenska zona:
+Description-hu.utf-8: Időzóna:
+Description-id.utf-8: Daerah Waktu:
+Description-it.utf-8: Fuso orario:
+Description-ja.utf-8: 時間帯:
+Description-ko.utf-8: 표준 시간대:
+Description-nl.utf-8: Tijdzone:
+Description-pl.utf-8: Strefa czasowa:
+Description-pt.utf-8: Fuso horário:
+Description-pt_br.utf-8: Fuso horário:
+Description-ro.utf-8: Fus orar:
+Description-ru.utf-8: Часовой пояс:
+Description-sk.utf-8: Časové pásmo:
+Description-sv.utf-8: Tidszon:
+Description-th.utf-8: เขตเวลา:
+Description-tr.utf-8: Saat dilimi:
+Extended_description: Please select the city or region corresponding to your time zone.
+Extended_description-ca.utf-8: Si us plau, seleccioneu la ciutat o regió corresponent al vostre fus horari.
+Extended_description-cs.utf-8: Zvolte prosím město nebo oblast odpovídající vašemu časovému pásmu.
+Extended_description-da.utf-8: Vælg venligst den by eller region der svarer til din tidszone.
+Extended_description-de.utf-8: Bitte wählen Sie die Stadt oder Region aus, die zu Ihrer Zeitzone passt.
+Extended_description-en.utf-8: Please select the city or region corresponding to your time zone.
+Extended_description-es.utf-8: Por favor, elija la ciudad o región correspondiente a su zona horaria.
+Extended_description-eu.utf-8: Hautatu zure ordu-zonari dagokion herri edo estatua.
+Extended_description-fr.utf-8: Veuillez choisir la ville ou la région correspondant à votre fuseau horaire.
+Extended_description-gl.utf-8: Escolla a cidade ou rexión que corresoponda ao seu fuso horario.
+Extended_description-gu.utf-8: મહેરબાની કરી તમારા સમય વિસ્તારને અનુરુપ શહેર અથવા વિસ્તાર પસંદ કરો.
+Extended_description-he.utf-8: בחר בבקשה את העיר או האזור שמתאימים לאזור הזמן שלך.
+Extended_description-hr.utf-8: Molim odaberite grad ili regiju koja odgovara vašoj vremenskoj zoni.
+Extended_description-hu.utf-8: Kérlek, válaszd ki a városnak/régiónak megfelelő időzónát:
+Extended_description-id.utf-8: Silakan pilih kota atau daerah waktu yang bersesuaian dengan daerah waktu Anda.
+Extended_description-it.utf-8: Selezionare la città o la regione corrispondente al proprio fuso orario.
+Extended_description-ja.utf-8: あなたの時間帯に一致する都市または地域を選択してください。
+Extended_description-ko.utf-8: 자기 표준 시간대에 해당하는 도시 또는 지역을 선택하십시오.
+Extended_description-nl.utf-8: Wat is de stad of regio die overeenkomt met uw tijdzone?
+Extended_description-pl.utf-8: Proszę wybrać miasto lub region odpowiadający właściwej strefie czasowej.
+Extended_description-pt.utf-8: Por favor escolha a cidade ou região correspondente ao seu fuso horário.
+Extended_description-pt_br.utf-8: Por favor, selecione a cidade ou região correspondente ao seu fuso horário.
+Extended_description-ro.utf-8: Vă rugăm să selectați orașul sau regiunea care corespunde fusului dvs. orar.
+Extended_description-ru.utf-8: Выберите город или область, соответствующие вашему часовому поясу.
+Extended_description-sk.utf-8: Prosím, vyberte mesto alebo oblasť zodpovedajúce vášmu časovému pásmu.
+Extended_description-sv.utf-8: Välj den stad eller region som motsvarar din tidszon.
+Extended_description-th.utf

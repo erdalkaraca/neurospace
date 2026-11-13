@@ -1,146 +1,4 @@
-h the ACL IDE
-;;;             :   because it errors if you try to use the created macros in the
-;;;             :   Debug window saying that the macros created aren't macros or
-;;;             :   functions, but if you use them from the console window or
-;;;             :   in code that's loaded they work fine.
-;;; 2017.12.14 Dan
-;;;             : * Added some saftey checks to the dispatch-apply-* functions
-;;;             :   to avoid errors for non-function values.
-;;;             : * Have the local-or-... tester return t or nil instead of a
-;;;             :   generalized boolean result from the or.
-;;; 2017.12.19 Dan
-;;;             : * Fixed the dispatch-* functions so that they return multiple
-;;;             :   values when appropriate.
-;;;             : * Added a version of each dispatch-* called dispatch-*-names
-;;;             :   which applies decode-string to the results before returning
-;;;             :   them.
-;;;             : * Added a Lisp function for load-act-r-code.
-;;; 2017.12.19 Dan
-;;;             : * Removed some of the condition clauses from the handler-case
-;;;             :   calls because they were tripping on trivial issues when loading
-;;;             :   a file remotely (like from the Environment).
-;;; 2017.12.20 Dan
-;;;             : * Fixed a bug with dispatch-eval because it could be passed a
-;;;             :   non-list value.
-;;; 2018.01.02 Dan
-;;;             : * Fixed a bug that could lead to repeated output in Lisp from
-;;;             :   echo-act-r-output and turn-off-act-r-output.
-;;; 2018.01.24 Dan
-;;;             : * Echo the output by default now if it's not the standalone.
-;;; 2018.03.14 Dan
-;;;             : * Added a command for getting a new command name.  It keeps
-;;;             :   track of those it's provided so it can guarantee that they're
-;;;             :   not used and clears them when added.  That command is called
-;;;             :   "get-new-command-name" or get-new-command-name for Lisp.
-;;; 2018.03.19 Dan
-;;;             : * A ~ in the json result to send caused an error with format,
-;;;             :   but fixed that now.
-;;; 2018.04.05 Dan [2.1]
-;;;             : * For the standalone, if it fails to open the default port it
-;;;             :   will try incrementing until it can.  Once it does it will 
-;;;             :   print the port used and write that number to a file in the
-;;;             :   current home directory: ~/act-r-port-num.txt.
-;;;             : * Loading from sources will also increment port until success
-;;;             :   and also writes the port num file.
-;;; 2018.04.06 Dan
-;;;             : * Switch to using the "real" ip address so that external connections
-;;;             :   can be allowed (but default to not by *allow-external-connections*).
-;;;             : * Also writes the address to a file now too so that cleints can
-;;;             :   connect appropriately (since one could still use 127.0.0.1
-;;;             :   explicitly).
-;;; 2018.04.24 Dan
-;;;             : * Added a flag and access function to test whether a load is
-;;;             :   coming through the dispatcher since error handlers can't
-;;;             :   invoke the debugger from a background thread.
-;;;             : * Turns out some systems might not get the "real" address and
-;;;             :   end up with something like 127.0.1.1 which won't match the
-;;;             :   incoming so also test for 127.0.0.1 and localhost directly
-;;;             :   when checking for local connection.
-;;; 2018.06.07 Dan
-;;;             : * Added encode-string-names which is the recursive version of
-;;;             :   encode-string. 
-;;; 2018.06.11 Dan
-;;;             : * Have decode-string-names use decode-string for consistency.
-;;; 2018.06.12 Dan
-;;;             : * Added a process-options-list function for internal use.
-;;; 2018.06.13 Dan
-;;;             : * Updated the command doc strings to match current spec.
-;;; 2018.06.15 Dan
-;;;             : * Added convert-options-list-items to post-process a valid
-;;;             :   options list result and convert ind cated values with either
-;;;             :   string->name-recursive or decode-string-names.
-;;; 2018.06.28 Dan
-;;;             : * Fixed a bug with convert-options-list-items because it needs
-;;;             :   to return nil not a list of nil when there are no options.
-;;; 2018.07.11 Dan
-;;;             : * In addition to writing out the port and address in the home
-;;;             :   directory write out a config file for the environment 
-;;;             :   explicitly to override the defaults for when it can't read
-;;;             :   the files (not sure why that happens, but seems to be an
-;;;             :   issue on one of the Summer School student's machines).
-;;; 2018.08.29 Dan
-;;;             : * Stop-des needs to kill all of the worker threads too, and only
-;;;             :   close the socket if it's actually open.
-;;; 2018.08.30 Dan
-;;;             : * usocket-p isn't external in usocket so need to use usocket::.
-;;;             : * Also need to check all the threads before trying to kill them.
-;;; 2018.11.09 Dan [3.0]
-;;;             : * Fix a typo in the error for a check action.
-;;;             : * Adding two new operations:
-;;;             :    - list-connections : return details of all connections
-;;;             :    - set-name : provide a name for the connection.
-;;; 2018.11.14 Dan
-;;;             : * More work towards the new operations.
-;;; 2018.11.15 Dan
-;;;             : * Finished off the two new commands.
-;;; 2018.11.16 Dan [3.1]
-;;;             : * Update the docs since set-name can be used repeatedly.
-;;;             : * Internal status info returns the connection address, and
-;;;             :   store the port in a global like the address.
-;;; 2019.01.08 Dan
-;;;             : * Cleaned up the IP address initialization because it had a
-;;;             :   bad assumption.
-;;;             : * Use the usocket:ip= instead of equalp when testing for the
-;;;             :   connection comming from same machine.
-;;; 2019.02.05 Dan
-;;;             : * Adjustments because meta-p-models is now an alist.
-;;; 2019.02.14 Dan
-;;;             : * When defaulting to 127.0.0.1 set *allow-external-connections*
-;;;             :   to true since locals may show the real address and externals
-;;;             :   can't access the loopback address.
-;;;             : * Before defaulting to 127.0.0.1 try looking up "localhost"
-;;;             :   since it should be available and might not be 127.0.0.1.
-;;; 2019.02.15 Dan
-;;;             : * Added a switch to force it to use the local address, and
-;;;             :   going to set that in the standalones because public wifi
-;;;             :   networks often block machine-to-machine which can also 
-;;;             :   block machine to itself.  So, have the standalones default
-;;;             :   to that since external access is likely going to be rarely
-;;;             :   used.
-;;; 2019.03.22 Dan
-;;;             : * Reorder dispatch-apply-list since it's called frequently
-;;;             :   with function names...
-;;; 2019.03.26 Dan
-;;;             : * Don't create names for the locks in send-des-action.  Has a
-;;;             :   huge perform hit (3% faster without in zbrodoff test).
-;;; 2019.03.27 Dan
-;;;             : * Removing all the names for dynamically created locks and
-;;;             :   condition variables.
-;;; 2019.04.09 Dan
-;;;             : * Added support for the :single-threaded-act-r flag which
-;;;             :   results in the dispatcher not starting any threads (thus no 
-;;;             :   external connections possible) and all the locks being 
-;;;             :   ignored.  
-;;; 2019.04.10 Dan
-;;;             : * Actually put the flags on start-des, init-des, and stop-des
-;;;             :   as well to prevent anyone trying to start it in the single-
-;;;             :   threaded build.
-;;; 2019.05.28 Dan
-;;;             : * Switch to using jsown to decode incoming messages and reworked
-;;;             :   the message parser a little.
-;;; 2019.05.30 Dan
-;;;             : * Switch back to cl-json from jsown since jsown doesn't keep
-;;;             :   the same number types as provided e.g. 1.0 --> 1 which is
+ number types as provided e.g. 1.0 --> 1 which is
 ;;;             :   an issue for things like act-r-random.
 ;;; 2019.06.17 Dan
 ;;;             : * Add a hack so that CCL's GUI sends all the output to the
@@ -560,7 +418,9 @@ h the ACL IDE
   (lock (bt:make-lock))
   (cv (bt:make-condition-variable))
   (started-cv (bt:make-condition-variable))
-  (started-lock (bt:maI
+  (started-lock (bt:maG
+  H
+  I
   J
   K
   L
@@ -582,8 +442,6 @@ h the ACL IDE
   \
   ]
   ^
-  _
-  `
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ke-lock))
   thread 
   handler 
@@ -2335,4 +2193,91 @@ h the ACL IDE
                            nil))
                      convert))
           (res (list item) (push-last (if (and (not name) convert)
-                
+                                          (if (eq convert :string)
+                                              (string->name-recursive item)
+                                            (decode-string-names item))
+                                        item) res)))
+         ((null (cdr items)) res))))
+
+
+
+;;;;;; Here's a test which can be used to detect real functions or valid dispatch functions
+
+(defun local-or-remote-function-p (function?)
+  (and
+   function? ;; just incase someone binds a function to nil!
+   (or #+:single-threaded-act-r (functionp function?) 
+       (and (symbolp function?) (fboundp function?))
+       (and (stringp function?) (check-act-r-command function?)))
+   t))
+
+
+(defun local-or-remote-function-or-nil (function?)
+  (and 
+   (or (null function?)
+       #+:single-threaded-act-r (functionp function?) 
+       (and (symbolp function?) (fboundp function?))
+       (and (stringp function?) (check-act-r-command function?)))
+   t))
+
+(defun local-or-remote-function-or-remove (value)
+  (and 
+   (or
+    (local-or-remote-function-or-nil value)
+    (and (listp value) (= 2 (length value)) (eq (car value) :remove)))
+   t))
+    
+;;;;;; This is the 'user' command which should be used if calling from a model defintion
+
+(defun call-act-r-command (command &rest rest)
+  (handle-evaluate-results (apply 'evaluate-act-r-command (cons command rest))))
+  
+;;;;;;; This needs to be here for running the human version of the tutorial experiments ;;;;;;;
+
+(defun process-events ()
+  (bt:thread-yield))
+
+
+;;;; Add a command for getting the ACT-R version string
+
+(defun act-r-version-string ()
+  *actr-version-string*)
+
+(add-act-r-command "act-r-version" 'act-r-version-string "Returns the current ACT-R version string. No params." nil)
+
+;;; Actually echo the output by default now if it's not the standalone.
+
+#-:standalone (echo-act-r-output)
+
+;;; The single-threaded code currently sets :standalone mode
+;;; to avoid starting the dispatcher so need to handle that too.
+
+#+:single-threaded-act-r (echo-act-r-output)
+
+
+;;; add the commands for switching to the piped connection
+
+(add-act-r-command "start-pipe-connection" 'start-pipe-connection "Attempt to switch a connection to using pipes returns true if pipe connection available. Params: id.")
+(add-act-r-command "connect-pipe-to-actr" 'connect-pipe-in "After start-pipe-connection call this.  Params: id path_of_pipe.")
+(add-act-r-command "connect-pipe-from-actr" 'connect-pipe-out "After start-pipe-connection call this. Params: id path_of_pipe.")
+(add-act-r-command "pipe-to-actr-result" nil "Signal from ACT-R indicating success of the connect-pipe-to-actr attempt.  Params: id result")
+(add-act-r-command "pipe-from-actr-result" nil "Signal from ACT-R indicating success of the connect-pipe-from-actr attempt.  Params: id result")
+(add-act-r-command "finish-pipe-connection" 'finish-pipe-connection "After connecting the to and from pipes call this to complete the process. Params: id.")
+
+
+#|
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+|#
+                                                                                                                                                                                                                                                                                                                                                                                                                                                         (#Y(si::bytecodes nil nil (15 0 15 1 15 2 15 3 19 4 4 15 0 14 5 77 15 6 19 4 4 15 0 1 16 12 19 2 17 1 0 73 29) #1=#A(t (268) (common-lisp-user::evt-time ext::location (defun common-lisp-user::evt-time) (#2=#P"/opt/actr/actr7.x/framework/events.lisp" . 0) ext::annotate :lambda-list (common-lisp-user::event) common-lisp-user::event common-lisp-user::get-event-by-id common-lisp-user::it common-lisp-user::act-r-event-mstime time numberp 0.001 * t #Y(common-lisp-user::evt-time nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 34 13 0 19 1 10 45 11 10 0 16 12 39 10 13 0 15 13 19 2 14 38 3 75 73 12 43 1 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 0) si::fset common-lisp-user::evt-mstime (defun common-lisp-user::evt-mstime) (#2# . 7102) (common-lisp-user::event) #Y(common-lisp-user::evt-mstime nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 10 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 7102) common-lisp-user::evt-priority (defun common-lisp-user::evt-priority) (#2# . 7296) (common-lisp-user::event) common-lisp-user::act-r-event-max common-lisp-user::act-r-event-min common-lisp-user::act-r-event-priority #Y(common-lisp-user::evt-priority nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 29 13 0 19 1 27 73 40 14 13 0 19 1 28 73 40 6 13 0 19 1 29 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 7296) common-lisp-user::evt-action (defun common-lisp-user::evt-action) (#2# . 7713) (common-lisp-user::event) common-lisp-user::act-r-event-action #Y(common-lisp-user::evt-action nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 35 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 7713) common-lisp-user::evt-model (defun common-lisp-user::evt-model) (#2# . 7839) (common-lisp-user::event) common-lisp-user::act-r-event-model common-lisp-user::act-r-model-p common-lisp-user::act-r-model-name #Y(common-lisp-user::evt-model nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 32 13 0 19 1 41 12 19 1 42 39 12 13 0 19 1 41 12 19 1 43 38 3 75 73 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 7839) common-lisp-user::evt-module (defun common-lisp-user::evt-module) (#2# . 8081) (common-lisp-user::event) common-lisp-user::act-r-event-module #Y(common-lisp-user::evt-module nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 49 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 8081) common-lisp-user::evt-destination (defun common-lisp-user::evt-destination) (#2# . 8207) (common-lisp-user::event) common-lisp-user::act-r-event-destination #Y(common-lisp-user::evt-destination nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 55 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 8207) common-lisp-user::evt-params (defun common-lisp-user::evt-params) (#2# . 8343) (common-lisp-user::event) common-lisp-user::act-r-event-params #Y(common-lisp-user::evt-params nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 61 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 8343) common-lisp-user::evt-details (defun common-lisp-user::evt-details) (#2# . 8469) (common-lisp-user::event) common-lisp-user::act-r-event-details #Y(common-lisp-user::evt-details nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 67 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 8469) common-lisp-user::evt-output (defun common-lisp-user::evt-output) (#2# . 8597) (common-lisp-user::event) common-lisp-user::act-r-event-output #Y(common-lisp-user::evt-output nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 13 13 0 19 1 73 12 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 8597) common-lisp-user::external-evt-action (defun common-lisp-user::external-evt-action) (#2# . 8723) (common-lisp-user::event) common-lisp-user::action stringp string "'" "'" concatenate #Y(common-lisp-user::external-evt-action nil nil (24 45 7 26 13 0 19 1 8 45 9 10 0 39 39 13 0 19 1 35 45 79 10 0 16 80 39 14 15 81 15 82 13 0 15 83 19 4 84 38 4 10 0 73 12 43 1 14 15 72 2 38 5 77 77 72 2 43 1 29) #1# #2# 8723) common-lisp-user::external-evt-params (defun common-lisp-user::external-evt-params) (#2# . 8974) (common-lisp-user::event) common-lisp-user::encode-string-names #Y(common-lisp-user::external-evt-params nil nil (24 45 7
