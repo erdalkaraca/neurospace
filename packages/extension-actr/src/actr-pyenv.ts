@@ -1,5 +1,6 @@
 import { activeEditorSignal, createLogger } from '@eclipse-docks/core';
 import { PyEnv } from '@eclipse-docks/extension-python-runtime/api';
+import type { Terminal } from '@eclipse-docks/extension-terminal/api';
 
 import actrSource from './actr.py?raw';
 import { actrProcessAlive, openActrConsole, readTutorialModel } from './actr-console';
@@ -18,8 +19,26 @@ const log = createLogger('ACT-R');
 const INSTALLED = Symbol.for('neurospace.actrDispatcher');
 
 const currentByWorker = new WeakMap<Worker, ActrProcess>();
+const terminalByWorker = new WeakMap<Worker, Terminal>();
 const pyenvByWorker = new WeakMap<Worker, PyEnv>();
 const editorNameByWorker = new WeakMap<Worker, string>();
+const closedWorkers = new WeakSet<Worker>();
+
+function sessionWorker(pyenv: PyEnv): Worker | undefined {
+  return (pyenv as unknown as { worker?: Worker }).worker;
+}
+
+function releaseActrSession(pyenv: PyEnv): void {
+  const worker = sessionWorker(pyenv);
+  if (!worker) return;
+  closedWorkers.add(worker);
+  const terminal = terminalByWorker.get(worker);
+  terminalByWorker.delete(worker);
+  currentByWorker.delete(worker);
+  pyenvByWorker.delete(worker);
+  editorNameByWorker.delete(worker);
+  void terminal?.dispose({ confirm: false });
+}
 
 function owningEditorFileName(pyenv: PyEnv): string | undefined {
   const editor = activeEditorSignal.get() as {
@@ -38,8 +57,13 @@ async function consoleForModel(worker: Worker, logicalPath: string): Promise<Act
     const pyenv = pyenvByWorker.get(worker);
     const name = (pyenv && owningEditorFileName(pyenv)) || editorNameByWorker.get(worker) || 'ACT-R';
     const opened = await openActrConsole(name);
+    if (closedWorkers.has(worker)) {
+      void opened.terminal.dispose({ confirm: false });
+      throw new Error('Python session closed');
+    }
     process = opened.process;
     currentByWorker.set(worker, process);
+    terminalByWorker.set(worker, opened.terminal);
   }
   await process.loadModel(source);
   return process;
@@ -126,7 +150,7 @@ function attachWorker(worker: Worker): void {
 }
 
 export async function attachActrDispatcher(pyenv: PyEnv): Promise<void> {
-  const worker = (pyenv as unknown as { worker?: Worker }).worker;
+  const worker = sessionWorker(pyenv);
   if (!worker) throw new Error('Python worker is not running');
   pyenvByWorker.set(worker, pyenv);
   const editorName = owningEditorFileName(pyenv);
@@ -146,6 +170,11 @@ export function installActrDispatcherHook(): void {
     } catch (error) {
       log.error(error instanceof Error ? error.message : String(error));
     }
+  };
+  const originalClose = PyEnv.prototype.close;
+  PyEnv.prototype.close = function (this: PyEnv) {
+    releaseActrSession(this);
+    originalClose.call(this);
   };
   (PyEnv.prototype.init as typeof init)[INSTALLED] = true;
 }
